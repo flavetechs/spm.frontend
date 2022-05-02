@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 //admin
 import RoleList from '../components/spm-permissions/role-list';
+import RoleEdit from '../components/spm-permissions/role-edit';
 import { dashboardLocations, permissionLocations } from './spm-path-locations';
 
 const DashboardRouter = () => {
@@ -16,6 +17,7 @@ const DashboardRouter = () => {
 
                     {/* permissions */}
                     <Route path={permissionLocations.roleList} exact component={RoleList} />
+                    <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
