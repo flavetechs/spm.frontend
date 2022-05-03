@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Row, Col, Image, Button, ListGroup, } from 'react-bootstrap'
+import React,{useEffect} from 'react'
+import { Row, Col, Image, ListGroup, } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
@@ -22,7 +22,7 @@ const SignIn = () => {
     const state = useSelector((state) => state); 
     const {message } = state.auth;
     var token = localStorage.getItem('token');
-    React.useEffect(() => {
+    useEffect(() => {
         if(token){
             history.push('/dashboard')
         }

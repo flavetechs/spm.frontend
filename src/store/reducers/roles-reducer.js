@@ -15,7 +15,7 @@ export const rolesReducer = (state = _state, { type, payload }) => {
             return {
                 ...state,
                 loading: false,
-                roles: payload, 
+                roles: payload,
                 isSuccessful: true,
             }
         case actions.ROLE_REQUEST_FAILED:
@@ -63,12 +63,42 @@ export const rolesReducer = (state = _state, { type, payload }) => {
                 isSuccessful: true,
             }
         }
-        case actions.RETURN_LIST :{
-            return{
+        case actions.RETURN_LIST: {
+            return {
                 ...state,
                 roles: payload,
             }
         }
+        case actions.FETCH_SINGLE_ROLE_LOADING: {
+            return {
+                ...state,
+                loading: true,
+            }
+        }
+        case actions.FETCH_SINGLE_ROLE_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                selectedRole: payload
+            }
+        }
+        case actions.FETCH_SINGLE_ROLE_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                selectedRole: null
+            }
+        }
+        case actions.UPDATE_ROLE_ACTIVITY_STATE:
+            return {
+                ...state,
+                selectedRole: payload
+            }
+        case actions.UPDATE_ROLE_NAME_STATE:
+            return {
+                ...state,
+                selectedRole: payload
+            }
         default:
             return state
     }

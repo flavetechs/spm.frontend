@@ -24,6 +24,7 @@ function CustomToggle({ children, eventKey, onClick }) {
 const VerticalNav = () => {
     const [activeMenu, setActiveMenu] = useState(false)
     //location
+    console.log(activeMenu);
     let location = useLocation();
     return (
         <>
