@@ -1,6 +1,6 @@
 export const permissionLocations = {
     roleList : '/dashboard/spm-permissions/role-list',
-    edit:'/dashboard/spm-permissions/role-edit'
+    roleEdit:"/dashboard/spm-permissions/role-edit"
 }
 
 export const dashboardLocations = {
