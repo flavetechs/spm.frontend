@@ -13,7 +13,7 @@ export const activityReducer = (state = _state, { type, payload }) => {
                     activities: payload,
                     loading: false
                 }
-        case actions.FETCH_APP_ACTIVITIES_SUCCESS:
+        case actions.FETCH_APP_ACTIVITIES_FAILED:
             return {
                 ...state, 
                 loading: false
