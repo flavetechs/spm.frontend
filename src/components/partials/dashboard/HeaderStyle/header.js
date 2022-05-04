@@ -3,6 +3,7 @@ import { Navbar,Container,Nav,Dropdown} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
 import {bindActionCreators} from "redux"
+import {loginOutUser} from '../../../../store/actions/auth-actions'
 
 //img
 import flag1 from '../../../../assets/images/Flag/flag001.png'
@@ -27,7 +28,8 @@ import Logo from '../../components/logo'
 
 // store
 import {NavbarstyleAction, getDirMode, SchemeDirAction,  getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../../../store/setting/setting'
-import {connect} from "react-redux"
+import {connect, useDispatch} from "react-redux"
+import { authLocations, permissionLocations } from '../../../../router/spm-path-locations'
 
 const mapStateToProps = (state) => {
     return {
@@ -54,6 +56,8 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Header = (props) => {
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
          // navbarstylemode
@@ -102,7 +106,7 @@ const Header = (props) => {
                     </Navbar.Toggle>
                     <Navbar.Collapse  id="navbarSupportedContent">
                         <Nav as="ul" className="mb-2 ms-auto navbar-list mb-lg-0">
-                            <Dropdown as="li" className="nav-item">
+                            {/* <Dropdown as="li" className="nav-item">
                                 <Dropdown.Toggle as={CustomToggle}   variant="search-toggle nav-link">
                                     <img src={flag1} className="img-fluid rounded-circle" alt="user" style={{height: "30px", minWidth: "30px", width: "30px",}}/>
                                     <span className="bg-primary"></span>
@@ -265,7 +269,7 @@ const Header = (props) => {
                                         </div>
                                     </div>
                                 </Dropdown.Menu>
-                            </Dropdown>
+                            </Dropdown> */}
                             <Dropdown as="li" className="nav-item">
                                 <Dropdown.Toggle as={CustomToggle} variant=" nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src={avatars1} alt="User-Profile" className="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded"/>
@@ -280,10 +284,12 @@ const Header = (props) => {
                                     </div>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu  className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/dashboard/app/user-profile">Profile</Dropdown.Item>
-                                    <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/dashboard/app/user-privacy-setting">Privacy Setting</Dropdown.Item>
+                                    <Dropdown.Item href="/">Profile</Dropdown.Item>
+                                    {/* <Dropdown.Item href="/">Privacy Setting</Dropdown.Item> */}
                                     <Dropdown.Divider />
-                                    <Dropdown.Item href="https://templates.iqonic.design/hope-ui/react/build/auth/sign-in">Logout</Dropdown.Item>
+                                    <Dropdown.Item href={authLocations.login} onClick={()=> {
+                                        dispatch(loginOutUser());
+                                    }}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Nav>

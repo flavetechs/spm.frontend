@@ -1,9 +1,33 @@
 export const _state = {
-    loading : false,
+    loading: false,
     roles: [],
+    selectedRole: {
+        name: '', roleId: '', activities: [
+            {
+                activityId: "",
+                canCreate: true,
+                canUpdate: true,
+                canDelete: true,
+                canImport: true,
+                canExport: true
+            }
+        ]
+    },
+    newRole: {
+        name: '', roleId: '', activities: [
+            {
+                activityId: "",
+                canCreate: false,
+                canUpdate: false,
+                canDelete: false,
+                canImport: false,
+                canExport: false
+            }
+        ]
+    },
     message: '',
     isSuccessful: false,
-    roleId:'',
-    name:'',
-    selectedIds:[]
+    roleId: '',
+    name: '',
+    selectedIds: []
 }
