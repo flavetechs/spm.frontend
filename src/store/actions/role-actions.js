@@ -20,7 +20,7 @@ export const getAllRoles = () => (dispatch) => {
         });
 }
 
-export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
+export const createUpdateRole = ({ roleId, name  }) => (dispatch) => {
     dispatch({
         type: actions.ROLES_LOADING
     });
@@ -223,4 +223,133 @@ export const updateModifiedRole = (role) => dispatch => {
                 payload: err.response.message.friendlyMessage
             })
         });
+<<<<<<< HEAD
+=======
+}
+
+export const addNewState = (id, value, newRole, action) => dispatch => {
+    const otherActivities = newRole.activities.filter(e => e.activityId !== id);
+    let targetActivity = newRole.activities.find(e => e.activityId === id);
+    if (targetActivity) {
+        switch (action) {
+            case 'canCreate':
+                targetActivity.canCreate = value;
+                break;
+            case 'canUpdate':
+                targetActivity.canUpdate = value;
+                break;
+            case 'canDelete':
+                targetActivity.canDelete = value;
+                break;
+            case 'canImport':
+                targetActivity.canImport = value;
+                break;
+            case 'canExport':
+                targetActivity.canExport = value;
+                break;
+            default:
+                break;
+        }
+
+        if (!targetActivity.canCreate && !targetActivity.canUpdate && !targetActivity.canDelete && !targetActivity.canImport && !targetActivity.canExport) {
+            newRole.activities = [...otherActivities];
+        } else {
+            newRole.activities = [...otherActivities, targetActivity];
+        }
+        dispatch({
+            type: actions.CREATE_ROLE_STATE,
+            payload: newRole
+        });
+    } else {
+
+        const newActivity = addition(id, value, action)
+        newRole.activities = [...otherActivities, newActivity];
+        dispatch({
+            type: actions.CREATE_ROLE_STATE,
+            payload: newRole
+        });
+    }
+}
+
+const addition= (id, value, action) => {
+    const activityId = id;
+    let canCreate = false;
+    let canUpdate = false;
+    let canDelete = false;
+    let canImport = false;
+    let canExport = false;
+    switch (action) {
+        case 'canCreate':
+            canCreate = value;
+            break;
+        case 'canUpdate':
+            canUpdate = value;
+            break;
+        case 'canDelete':
+            canDelete = value;
+            break;
+        case 'canImport':
+            canImport = value;
+            break;
+        case 'canExport':
+            canExport = value;
+            break;
+        default:
+            break;
+    }
+
+    return {
+        activityId,
+        canCreate,
+        canUpdate,
+        canDelete,
+        canImport,
+        canExport
+    };
+}
+
+
+
+
+
+
+
+export const createNewName = (newName, newRole) => dispatch => {
+    newRole.name = newName;
+    dispatch({
+        type: actions.CREATE_ROLE_NAME_STATE,
+        payload: newRole,
+    });
+
+
+}
+
+
+
+
+
+
+
+
+
+
+export const addNewRole = (role) => dispatch => {
+    dispatch({
+        type: actions.ADD_NEW_ROLE_LOADING
+    });
+
+    console.log('role', role);
+    axiosInstance.post('/role/api/v1/create', role)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_NEW_ROLE_LOADING,
+                payload: res.data.message.friendlyMessage
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_NEW_ROLE_LOADING,
+                payload: err.response.message.friendlyMessage
+            })
+        });
+>>>>>>> 2908d646c067a96a3454e2bd391dc0ba485029ec
 }
