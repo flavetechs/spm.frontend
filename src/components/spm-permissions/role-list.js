@@ -1,7 +1,8 @@
-import React from "react";
-import { Row, Col, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Card from "../Card";
+import React, { useRef, useState } from 'react'
+import { Row, Col, Image, Toast, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import Card from '../Card'
+
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
@@ -14,6 +15,7 @@ import { fetchSingleRole, getAllRoles } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { useHistory } from "react-router-dom";
+import { Alert } from '../partials/components/toaster/alert'
 
 const RoleList = () => {
   let history = useHistory();
@@ -24,6 +26,7 @@ const RoleList = () => {
   React.useEffect(() => {
     getAllRoles()(dispatch);
   }, [100]);
+
 
   return (
     <>

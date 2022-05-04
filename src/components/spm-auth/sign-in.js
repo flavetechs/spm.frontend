@@ -12,7 +12,7 @@ import google from '../../assets/images/brands/gm.svg'
 import instagram from '../../assets/images/brands/im.svg'
 import linkedin from '../../assets/images/brands/li.svg'
 import auth1 from '../../assets/images/auth/01.png'
-import { dashboardLocations } from '../../router/spm-path-locations';
+import { authLocations, dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
 
@@ -22,12 +22,10 @@ const SignIn = () => {
     const state = useSelector((state) => state); 
     const {message } = state.auth;
     var token = localStorage.getItem('token');
-    useEffect(() => {
-        if(token){
-            history.push('/dashboard')
-        }
-    }, [token])
-
+    if(token){
+        history.push(dashboardLocations.dashboard);
+    }
+    
     const validation = Yup.object().shape({
         userName: Yup.string()
             .min(2, 'Username Too Short!')

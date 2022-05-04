@@ -19,7 +19,6 @@ const IndexRouters = () => {
                 <Route exact path="/" component={Default}></Route>
                 <Route  path="/dashboard" component={Default}></Route>
                 <Route  path={authLocations.login} component={SignIn}></Route>
-                <Route  path="/auth" component={Simple}></Route>
                 <Route  path="/errors" component={Simple}></Route>
             </Switch>
         </>

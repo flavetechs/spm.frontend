@@ -42,7 +42,8 @@
     "webpack": "4.44.2",
     "axios": "^0.26.0",
     "yup": "^0.32.11",
-    "formik": "^2.2.9"
+    "formik": "^2.2.9",
+    "react-error-overlay": "6.0.9"
   },
   "scripts": {
     "start": "react-scripts start",
