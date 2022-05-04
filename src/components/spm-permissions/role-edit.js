@@ -3,7 +3,14 @@ import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllActivities } from "../../store/actions/activity-actions";
-import { fetchSingleRole, updateModifiedRole, updateRoleActivityState, updateRoleNameState } from "../../store/actions/role-actions";
+import { permissionLocations } from "../../router/spm-path-locations";
+import {Link} from 'react-router-dom'
+import {
+  fetchSingleRole,
+  updateModifiedRole,
+  updateRoleActivityState,
+  updateRoleNameState,
+} from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
 import { showAlertInfoToast } from "../../store/actions/toaster-actions";
 
@@ -219,6 +226,7 @@ const RoleEdit = () => {
             </div>
         </>
     );
+ 
 };
 
 export default RoleEdit;

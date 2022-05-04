@@ -13,6 +13,18 @@ export const _state = {
             }
         ]
     },
+    newRole: {
+        name: '', roleId: '', activities: [
+            {
+                activityId: "",
+                canCreate: false,
+                canUpdate: false,
+                canDelete: false,
+                canImport: false,
+                canExport: false
+            }
+        ]
+    },
     message: '',
     isSuccessful: false,
     roleId: '',
