@@ -1,7 +1,7 @@
 import axios from 'axios';
-//  http://sub.vendtechsl.com/',
+//  'https://localhost:44373/',
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:44373/',
+    baseURL: 'http://sub.vendtechsl.com/',
     headers: {
         Authorization: '',
     },
