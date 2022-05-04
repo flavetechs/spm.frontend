@@ -1,23 +1,22 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { addRole, addNewRole } from "../../store/actions/newrole-actions";
 
-
 const RoleAdd = () => {
-    const dispatch = useDispatch();
-    const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
   const { activities } = state.activities;
-    useEffect(() => {
+  useEffect(() => {
     addRole()(dispatch);
-    }, [123])
+  }, [123]);
 
-    const onSubmit = () => {
-   addNewRole()(dispatch);
-    }
+  const onSubmit = () => {
+    addNewRole()(dispatch);
+  };
   return (
     <>
       <div>
@@ -56,45 +55,45 @@ const RoleAdd = () => {
                         </tr>
                       </thead>
                       <tbody>
-                      {activities.map((item, idx) => (
+                        {activities.map((item, idx) => (
                           <tr key={idx}>
-                          <td className="text-uppercase">{item.name}</td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="canCreate"
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="canUpdate"
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="canDelete"
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="canImport"
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id="canExport"
-                            />
-                          </td>
-                        </tr>
+                            <td className="text-uppercase">{item.name}</td>
+                            <td className="text-center">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="canCreate"
+                              />
+                            </td>
+                            <td className="text-center">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="canUpdate"
+                              />
+                            </td>
+                            <td className="text-center">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="canDelete"
+                              />
+                            </td>
+                            <td className="text-center">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="canImport"
+                              />
+                            </td>
+                            <td className="text-center">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="canExport"
+                              />
+                            </td>
+                          </tr>
                         ))}
                       </tbody>
                     </table>
@@ -103,7 +102,7 @@ const RoleAdd = () => {
                         <button
                           type="button"
                           className="btn btn-primary mr-5"
-                          style={{ cursor:"pointer"}}
+                          style={{ cursor: "pointer" }}
                         >
                           Back
                         </button>
