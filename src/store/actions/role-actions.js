@@ -223,8 +223,6 @@ export const updateModifiedRole = (role) => dispatch => {
                 payload: err.response.message.friendlyMessage
             })
         });
-<<<<<<< HEAD
-=======
 }
 
 export const addNewState = (id, value, newRole, action) => dispatch => {
@@ -351,5 +349,4 @@ export const addNewRole = (role) => dispatch => {
                 payload: err.response.message.friendlyMessage
             })
         });
->>>>>>> 2908d646c067a96a3454e2bd391dc0ba485029ec
 }

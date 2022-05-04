@@ -13,8 +13,6 @@ export const _state = {
             }
         ]
     },
-<<<<<<< HEAD
-=======
     newRole: {
         name: '', roleId: '', activities: [
             {
@@ -27,7 +25,6 @@ export const _state = {
             }
         ]
     },
->>>>>>> 2908d646c067a96a3454e2bd391dc0ba485029ec
     message: '',
     isSuccessful: false,
     roleId: '',
