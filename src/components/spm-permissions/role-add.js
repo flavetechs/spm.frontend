@@ -1,21 +1,78 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
-import { addRole, addNewRole } from "../../store/actions/newrole-actions";
+import { getAllActivities } from "../../store/actions/activity-actions";
+import { addNewRole, createNewName, addNewState } from "../../store/actions/role-actions";
 
 const RoleAdd = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { activities } = state.activities;
-  useEffect(() => {
-    addRole()(dispatch);
+  const [newName, setNewName] = React.useState("");
+  const { newRole } = state.roles;
+
+  React.useEffect(() => {
+    getAllActivities()(dispatch);
   }, [123]);
+//const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
+
+
+const handleCanCreateCheckBox = (event) => {
+ const checkBoxValue = event.target.checked;
+    addNewState(
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+    
+  };
+  const handleCanUpdateCheckBox = (event) => {
+    const checkBoxValue = event.target.checked;
+    addNewState(
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  
+  const handleCanDeleteCheckBox = (event) => {
+    const checkBoxValue = event.target.checked;
+    addNewState(
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  
+  const handleCanImportCheckBox = (event) => {
+    const checkBoxValue = event.target.checked;
+    addNewState(
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  const handleCanExportCheckBox = (event) => {
+    const checkBoxValue = event.target.checked;
+    addNewState(
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+
+
+
 
   const onSubmit = () => {
-    addNewRole()(dispatch);
+    addNewRole(newRole)(dispatch);
+    createNewName(newName,newRole)(dispatch);
+  };
+ const handleValue = (e) => {
+setNewName(e.target.value)
   };
   return (
     <>
@@ -31,6 +88,7 @@ const RoleAdd = () => {
                       className=""
                       id="role-name"
                       placeholder="Enter Role Name"
+                      value=""
                     />
                   </Form.Group>
                 </div>
@@ -63,6 +121,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canCreate"
+                                onChange={handleCanCreateCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -70,6 +129,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canUpdate"
+                                onChange={handleCanUpdateCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -77,6 +137,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canDelete"
+                                onChange={handleCanDeleteCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -84,6 +145,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canImport"
+                                onChange={handleCanImportCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -91,6 +153,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canExport"
+                                onChange={handleCanExportCheckBox}
                               />
                             </td>
                           </tr>
