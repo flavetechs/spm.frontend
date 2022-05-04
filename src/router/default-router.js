@@ -9,10 +9,12 @@ import RoleEdit from '../components/spm-permissions/role-edit';
 import { dashboardLocations, permissionLocations } from './spm-path-locations';
 
 const DashboardRouter = () => {
+
     return (
         <TransitionGroup>
             <CSSTransition classNames="fadein" timeout={300}>
                 <Switch>
+                    {/* dashboard */}
                     <Route path={dashboardLocations.dashboard} exact component={Index} />
 
                     {/* permissions */}

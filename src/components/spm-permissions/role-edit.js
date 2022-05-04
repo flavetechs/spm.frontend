@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllActivities } from "../../store/actions/activity-actions";
 import { fetchSingleRole, updateModifiedRole, updateRoleActivityState, updateRoleNameState } from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
+import { showAlertInfoToast } from "../../store/actions/toaster-actions";
 
 const RoleEdit = () => {
     const locations = useLocation();
@@ -19,7 +20,20 @@ const RoleEdit = () => {
         if (!roleId) return;
         fetchSingleRole(roleId)(dispatch);
         getAllActivities()(dispatch);
+
     }, [123]);
+
+    // activities.forEach((appActivity, index) => {
+    //     const selectedActivity = selectedRole.activities.find(d => d.activityId == appActivity.activityId);
+    //     if(!selectedActivity){
+    //         anotherArry = newActivityList;
+    //         setNewList(anotherArry.filter(e => e.activityId !== appActivity));
+    //     }
+    //     console.log(appActivity, selectedActivity);
+    //   });
+
+    // activities.push(selectedRole.activities)
+
 
     const handleCanCreateCheckBox = (event) => {
         const activityId = event.target.id.replace('canCreate_', '');
@@ -49,8 +63,46 @@ const RoleEdit = () => {
 
     const handleRoleNameOnChange = (event) => {
         const roleName = event.target.value;
-        if(roleName.length === 0) return;
+        if (roleName.length === 0) return;
         updateRoleNameState(roleName, selectedRole)(dispatch);
+    }
+
+    const checkCanCreate = (activityId) => {
+        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+        if (roleActivity && roleActivity.canCreate) {
+            return true;
+        }
+        return false;
+
+    }
+
+    const checkCanUpdate = (activityId) => {
+        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+        if (roleActivity && roleActivity.canUpdate) {
+            return true;
+        }
+        return false;
+    }
+    const checkCanDelete = (activityId) => {
+        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+        if (roleActivity && roleActivity.canDelete) {
+            return true;
+        }
+        return false;
+    }
+    const checkCanImport = (activityId) => {
+        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+        if (roleActivity && roleActivity.canImport) {
+            return true;
+        }
+        return false;
+    }
+    const checkCanExport = (activityId) => {
+        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+        if (roleActivity && roleActivity.canExport) {
+            return true;
+        }
+        return false;
     }
 
     return (
@@ -61,14 +113,10 @@ const RoleEdit = () => {
                         <Card>
                             <Card.Header className="d-flex justify-content-between">
                                 <div className="header-title">
-                                    {/* <div class="form-group">
-                                        <label class="form-label font-weight-bold" for="roleName">Role Name:</label>
-                                        <input placeholder="Role Name" type="text"  value={selectedRole.name} className="form-control font-weight-bold" />
-                                    </div> */}
                                     <Form.Group className="form-group">
-                                          <Form.Label htmlFor="role-name" className="">Role Name</Form.Label>
-                                          <Form.Control onChange={handleRoleNameOnChange} type="text" className="" defaultValue={selectedRole.name} id="role-name" placeholder="Role name"/>
-                                       </Form.Group>
+                                        <Form.Label htmlFor="role-name" className="">Role Name</Form.Label>
+                                        <Form.Control onChange={handleRoleNameOnChange} type="text" className="" defaultValue={selectedRole?.name} id="role-name" placeholder="Role name" />
+                                    </Form.Group>
                                 </div>
                             </Card.Header>
                             <Card.Body className="px-0">
@@ -98,9 +146,9 @@ const RoleEdit = () => {
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"
-                                                            checked={item.canCreate}
+                                                            checked={item?.canCreate}
                                                             id={'canCreate_' + item.activityId}
-                                                            onChange={handleCanCreateCheckBox}
+                                                            onChange={handleCanCreateCheckBox} 
                                                         />
 
                                                     </td>
@@ -108,7 +156,7 @@ const RoleEdit = () => {
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"
-                                                            checked={item.canUpdate}
+                                                            checked={item?.canUpdate}
                                                             id={'canUpdate_' + item.activityId}
                                                             onChange={handleCanUpdateCheckBox}
                                                         />
@@ -118,7 +166,7 @@ const RoleEdit = () => {
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"
-                                                            checked={item.canDelete}
+                                                            checked={item?.canDelete}
                                                             id={'canDelete_' + item.activityId}
                                                             onChange={handleCanDeleteCheckBox}
                                                         />
@@ -129,7 +177,7 @@ const RoleEdit = () => {
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"
-                                                            checked={item.canImport}
+                                                            checked={item?.canImport}
                                                             id={'canImport_' + item.activityId}
                                                             onChange={handleCanImportCheckBox}
                                                         />
@@ -140,7 +188,7 @@ const RoleEdit = () => {
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"
-                                                            checked={item.canExport}
+                                                            checked={item?.canExport}
                                                             id={'canExport_' + item.activityId}
                                                             onChange={handleCanExportCheckBox}
                                                         />
@@ -154,6 +202,7 @@ const RoleEdit = () => {
                                         <button
                                             onClick={() => {
                                                 updateModifiedRole(selectedRole)(dispatch)
+                                                showAlertInfoToast('Successful')(dispatch)
                                             }}
                                             type="button"
                                             className="btn btn-primary"

@@ -211,7 +211,6 @@ export const updateModifiedRole = (role) => dispatch => {
     dispatch({
         type: actions.UPDATE_ROLE_LOADING
     });
-    console.log('role', role);
     axiosInstance.post('/role/api/v1/update', role)
         .then((res) => {
             dispatch({
