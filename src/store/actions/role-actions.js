@@ -351,6 +351,17 @@ export const deleteEachRole = (id, deleteRole) => dispatch => {
         payload: deleteRole,
     });
 }
+
+export const deleteSelectedRole = (id, value, deleteRole) => dispatch => {
+    const newId = id.split(" ")
+    const trueValue = value.filter(e=> e === true);
+       deleteRole.items = [...newId]
+    dispatch({
+        type: actions.DELETE_SELECTED_ROLE_STATE,
+        payload: deleteRole,
+    });
+}
+
 export const deleteRoles = (id) => dispatch => {
     dispatch({
         type: actions.DELETE_ROLES_LOADING

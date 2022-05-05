@@ -169,7 +169,7 @@ const RoleEdit = () => {
                     <tbody>
                       {activities.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="text-uppercase">{item.name}</td>
+                          <td className="text-uppercase text-center">{item.name}</td>
                           <td className="text-center">
                             <input
                               className="form-check-input"
