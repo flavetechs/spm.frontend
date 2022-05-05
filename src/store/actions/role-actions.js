@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance"
 import { actions } from "../action-types/roles-action-types";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllRoles = () => (dispatch) => {
     dispatch({
@@ -217,15 +218,17 @@ export const updateModifiedRole = (role) => dispatch => {
                 type: actions.UPDATE_ROLE_LOADING,
                 payload: res.data.message.friendlyMessage
             });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_ROLE_LOADING,
-                payload: err.response.message.friendlyMessage
-            })
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
-export const addNewState = (id, value, newRole, action) => dispatch => {
+export const addToState = (id, value, newRole, action) => dispatch => {
     const otherActivities = newRole.activities.filter(e => e.activityId !== id);
     let targetActivity = newRole.activities.find(e => e.activityId === id);
     if (targetActivity) {
@@ -269,7 +272,7 @@ export const addNewState = (id, value, newRole, action) => dispatch => {
     }
 }
 
-const addition= (id, value, action) => {
+const addition = (id, value, action) => {
     const activityId = id;
     let canCreate = false;
     let canUpdate = false;
@@ -343,10 +346,12 @@ export const addNewRole = (role) => dispatch => {
                 type: actions.ADD_NEW_ROLE_LOADING,
                 payload: res.data.message.friendlyMessage
             });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.ADD_NEW_ROLE_LOADING,
-                payload: err.response.message.friendlyMessage
-            })
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }

@@ -5,74 +5,78 @@ import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import { getAllActivities } from "../../store/actions/activity-actions";
-import { addNewRole, createNewName, addNewState } from "../../store/actions/role-actions";
+import { addNewRole, createNewName, addToState } from "../../store/actions/role-actions";
 
 const RoleAdd = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { activities } = state.activities;
-  const [newName, setNewName] = React.useState("");
   const { newRole } = state.roles;
 
   React.useEffect(() => {
     getAllActivities()(dispatch);
-  }, [123]);
-//const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
+  }, []);
+  //const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
 
 
-const handleCanCreateCheckBox = (event) => {
- const checkBoxValue = event.target.checked;
-    addNewState(
+  const handleCanCreateCheckBox = (event) => {
+    const activityId = event.target.id;
+    const checkBoxValue = event.target.checked;
+    addToState(
+      activityId,
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
-    
   };
   const handleCanUpdateCheckBox = (event) => {
+    const activityId = event.target.id
     const checkBoxValue = event.target.checked;
-    addNewState(
+    addToState(
+      activityId,
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
   };
-  
   const handleCanDeleteCheckBox = (event) => {
+    const activityId = event.target.id
     const checkBoxValue = event.target.checked;
-    addNewState(
+    addToState(
+      activityId,
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
   };
-  
   const handleCanImportCheckBox = (event) => {
+    const activityId = event.target.id;
     const checkBoxValue = event.target.checked;
-    addNewState(
+    addToState(
+      activityId,
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
   };
   const handleCanExportCheckBox = (event) => {
+    const activityId = event.target.id;
     const checkBoxValue = event.target.checked;
-    addNewState(
+    addToState(
+      activityId,
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
   };
-
-
-
+  const handleNewName = (event) => {
+    const newName = event.target.value;
+    if (newName.length === 0) return;
+    createNewName(newName, newRole)(dispatch);
+  };
 
   const onSubmit = () => {
     addNewRole(newRole)(dispatch);
-    createNewName(newName,newRole)(dispatch);
-  };
- const handleValue = (e) => {
-setNewName(e.target.value)
   };
   return (
     <>
@@ -82,13 +86,17 @@ setNewName(e.target.value)
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <Form.Group className="form-group">
+                <Form.Group className="form-group">
+                    <Form.Label htmlFor="role-name" className="">
+                      Role Name
+                    </Form.Label>
                     <Form.Control
+                      onChange={handleNewName}
                       type="text"
                       className=""
+                      value={newRole.name}
                       id="role-name"
-                      placeholder="Enter Role Name"
-                      value=""
+                      placeholder="Role name"
                     />
                   </Form.Group>
                 </div>
@@ -104,7 +112,7 @@ setNewName(e.target.value)
                     >
                       <thead>
                         <tr className="ligth">
-                          <th width="300px"> </th>
+                          <th  className="text-center" width="300px">Activities</th>
                           <th className="text-center">Create</th>
                           <th className="text-center">Update</th>
                           <th className="text-center">Delete</th>
@@ -173,6 +181,7 @@ setNewName(e.target.value)
                       <button
                         type="button"
                         className="btn btn-primary"
+                        style={{ cursor: "pointer" }}
                         onClick={onSubmit}
                       >
                         Save
