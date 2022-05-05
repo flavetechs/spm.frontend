@@ -228,7 +228,7 @@ export const updateModifiedRole = (role) => dispatch => {
         });
 }
 
-export const addNewState = (id, value, newRole, action) => dispatch => {
+export const addToState = (id, value, newRole, action) => dispatch => {
     const otherActivities = newRole.activities.filter(e => e.activityId !== id);
     let targetActivity = newRole.activities.find(e => e.activityId === id);
     if (targetActivity) {
@@ -346,10 +346,12 @@ export const addNewRole = (role) => dispatch => {
                 type: actions.ADD_NEW_ROLE_LOADING,
                 payload: res.data.message.friendlyMessage
             });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.ADD_NEW_ROLE_LOADING,
-                payload: err.response.message.friendlyMessage
-            })
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
