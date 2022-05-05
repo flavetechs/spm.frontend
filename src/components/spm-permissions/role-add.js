@@ -16,18 +16,17 @@ const RoleAdd = () => {
 
   React.useEffect(() => {
     getAllActivities()(dispatch);
-  }, [123]);
-//const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
+  }, []);
+  //const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
 
 
-const handleCanCreateCheckBox = (event) => {
- const checkBoxValue = event.target.checked;
+  const handleCanCreateCheckBox = (event) => {
+    const checkBoxValue = event.target.checked;
     addNewState(
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
-    
   };
   const handleCanUpdateCheckBox = (event) => {
     const checkBoxValue = event.target.checked;
@@ -37,7 +36,6 @@ const handleCanCreateCheckBox = (event) => {
       "canCreate"
     )(dispatch);
   };
-  
   const handleCanDeleteCheckBox = (event) => {
     const checkBoxValue = event.target.checked;
     addNewState(
@@ -46,7 +44,6 @@ const handleCanCreateCheckBox = (event) => {
       "canCreate"
     )(dispatch);
   };
-  
   const handleCanImportCheckBox = (event) => {
     const checkBoxValue = event.target.checked;
     addNewState(
@@ -64,15 +61,12 @@ const handleCanCreateCheckBox = (event) => {
     )(dispatch);
   };
 
-
-
-
   const onSubmit = () => {
     addNewRole(newRole)(dispatch);
-    createNewName(newName,newRole)(dispatch);
+    createNewName(newName, newRole)(dispatch);
   };
- const handleValue = (e) => {
-setNewName(e.target.value)
+  const handleValue = (e) => {
+    setNewName(e.target.value)
   };
   return (
     <>
@@ -88,7 +82,6 @@ setNewName(e.target.value)
                       className=""
                       id="role-name"
                       placeholder="Enter Role Name"
-                      value=""
                     />
                   </Form.Group>
                 </div>

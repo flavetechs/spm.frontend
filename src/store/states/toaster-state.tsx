@@ -3,5 +3,7 @@ export const _state = {
     showAlertInfoToast: false,
     showStickyErrorToast: false,
     showStickyAlertToast: false,
+    showSuccessToast: false,
+    showErrorToast: false,
     message: '',
 }
