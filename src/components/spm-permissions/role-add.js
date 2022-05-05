@@ -16,18 +16,31 @@ const RoleAdd = () => {
 
   React.useEffect(() => {
     getAllActivities()(dispatch);
+<<<<<<< HEAD
   }, [123]);
 //const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
 
 
 const handleCanCreateCheckBox = (event) => {
  const checkBoxValue = event.target.checked;
+=======
+  }, []);
+  //const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
+
+
+  const handleCanCreateCheckBox = (event) => {
+    const checkBoxValue = event.target.checked;
+>>>>>>> dfd75e87f2307727a317a01485ea8e2842af73d9
     addNewState(
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> dfd75e87f2307727a317a01485ea8e2842af73d9
   };
   const handleCanUpdateCheckBox = (event) => {
     const checkBoxValue = event.target.checked;
@@ -37,7 +50,11 @@ const handleCanCreateCheckBox = (event) => {
       "canCreate"
     )(dispatch);
   };
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> dfd75e87f2307727a317a01485ea8e2842af73d9
   const handleCanDeleteCheckBox = (event) => {
     const checkBoxValue = event.target.checked;
     addNewState(
@@ -46,7 +63,11 @@ const handleCanCreateCheckBox = (event) => {
       "canCreate"
     )(dispatch);
   };
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> dfd75e87f2307727a317a01485ea8e2842af73d9
   const handleCanImportCheckBox = (event) => {
     const checkBoxValue = event.target.checked;
     addNewState(
@@ -64,6 +85,7 @@ const handleCanCreateCheckBox = (event) => {
     )(dispatch);
   };
 
+<<<<<<< HEAD
 
 
 
@@ -74,6 +96,15 @@ const handleCanCreateCheckBox = (event) => {
 const handleValue = (e) => {
 setNewName(e.target.value)
   }
+=======
+  const onSubmit = () => {
+    addNewRole(newRole)(dispatch);
+    createNewName(newName, newRole)(dispatch);
+  };
+  const handleValue = (e) => {
+    setNewName(e.target.value)
+  };
+>>>>>>> dfd75e87f2307727a317a01485ea8e2842af73d9
   return (
     <>
       <div>
@@ -88,7 +119,10 @@ setNewName(e.target.value)
                       className=""
                       id="role-name"
                       placeholder="Enter Role Name"
+<<<<<<< HEAD
                       
+=======
+>>>>>>> dfd75e87f2307727a317a01485ea8e2842af73d9
                     />
                   </Form.Group>
                 </div>

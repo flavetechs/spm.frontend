@@ -12,3 +12,7 @@ export const authLocations = {
     login: '/smp/sign-in',
     signIn: ''
 }
+
+export const classLocations = {
+    classSetupList: '/dashboard/spm-class/setup-list'
+}

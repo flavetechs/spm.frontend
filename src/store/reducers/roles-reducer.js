@@ -116,6 +116,6 @@ export const rolesReducer = (state = _state, { type, payload }) => {
 
 function FilterSelectedIds(arr, value) {
   return arr.filter(function (ele) {
-    return ele != value;
+    return ele !== value;
   });
 }
