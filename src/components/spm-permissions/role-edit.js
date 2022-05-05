@@ -3,8 +3,6 @@ import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllActivities } from "../../store/actions/activity-actions";
-import { permissionLocations } from "../../router/spm-path-locations";
-import {Link} from 'react-router-dom'
 import {
   fetchSingleRole,
   updateModifiedRole,
@@ -12,7 +10,6 @@ import {
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
-import { showAlertInfoToast } from "../../store/actions/toaster-actions";
 
 const RoleEdit = () => {
     const locations = useLocation();
@@ -20,27 +17,15 @@ const RoleEdit = () => {
     const state = useSelector((state) => state);
     const { activities } = state.activities;
     const { selectedRole } = state.roles;
-    
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);
         const roleId = queryParams.get('roleId');
         if (!roleId) return;
         fetchSingleRole(roleId)(dispatch);
         getAllActivities()(dispatch);
-
-    }, [123]);
-
-    // activities.forEach((appActivity, index) => {
-    //     const selectedActivity = selectedRole.activities.find(d => d.activityId == appActivity.activityId);
-    //     if(!selectedActivity){
-    //         anotherArry = newActivityList;
-    //         setNewList(anotherArry.filter(e => e.activityId !== appActivity));
-    //     }
-    //     console.log(appActivity, selectedActivity);
-    //   });
-
-    // activities.push(selectedRole.activities)
-
+       console.log(roleId)
+    }, []);
+    
 
     const handleCanCreateCheckBox = (event) => {
         const activityId = event.target.id.replace('canCreate_', '');
@@ -74,43 +59,43 @@ const RoleEdit = () => {
         updateRoleNameState(roleName, selectedRole)(dispatch);
     }
 
-    const checkCanCreate = (activityId) => {
-        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-        if (roleActivity && roleActivity.canCreate) {
-            return true;
-        }
-        return false;
+    // const checkCanCreate = (activityId) => {
+    //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+    //     if (roleActivity && roleActivity.canCreate) {
+    //         return true;
+    //     }
+    //     return false;
 
-    }
+    // }
 
-    const checkCanUpdate = (activityId) => {
-        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-        if (roleActivity && roleActivity.canUpdate) {
-            return true;
-        }
-        return false;
-    }
-    const checkCanDelete = (activityId) => {
-        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-        if (roleActivity && roleActivity.canDelete) {
-            return true;
-        }
-        return false;
-    }
-    const checkCanImport = (activityId) => {
-        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-        if (roleActivity && roleActivity.canImport) {
-            return true;
-        }
-        return false;
-    }
-    const checkCanExport = (activityId) => {
-        var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-        if (roleActivity && roleActivity.canExport) {
-            return true;
-        }
-        return false;
-    }
+    // const checkCanUpdate = (activityId) => {
+    //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+    //     if (roleActivity && roleActivity.canUpdate) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // const checkCanDelete = (activityId) => {
+    //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+    //     if (roleActivity && roleActivity.canDelete) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // const checkCanImport = (activityId) => {
+    //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+    //     if (roleActivity && roleActivity.canImport) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // const checkCanExport = (activityId) => {
+    //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
+    //     if (roleActivity && roleActivity.canExport) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     return (
         <>
@@ -209,7 +194,6 @@ const RoleEdit = () => {
                                         <button
                                             onClick={() => {
                                                 updateModifiedRole(selectedRole)(dispatch)
-                                                showAlertInfoToast('Successful')(dispatch)
                                             }}
                                             type="button"
                                             className="btn btn-primary"

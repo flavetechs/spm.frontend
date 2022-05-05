@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 import { Navbar,Container,Nav,Dropdown} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
@@ -6,17 +6,17 @@ import {bindActionCreators} from "redux"
 import {loginOutUser} from '../../../../store/actions/auth-actions'
 
 //img
-import flag1 from '../../../../assets/images/Flag/flag001.png'
-import flag2 from '../../../../assets/images/Flag/flag-02.png'
-import flag3 from '../../../../assets/images/Flag/flag-03.png'
-import flag4 from '../../../../assets/images/Flag/flag-04.png'
-import flag5 from '../../../../assets/images/Flag/flag-05.png'
-import flag6 from '../../../../assets/images/Flag/flag-06.png'
-import shapes1 from '../../../../assets/images/shapes/01.png'
-import shapes2 from '../../../../assets/images/shapes/02.png'
-import shapes3 from '../../../../assets/images/shapes/03.png'
-import shapes4 from '../../../../assets/images/shapes/04.png'
-import shapes5 from '../../../../assets/images/shapes/05.png'
+// import flag1 from '../../../../assets/images/Flag/flag001.png'
+// import flag2 from '../../../../assets/images/Flag/flag-02.png'
+// import flag3 from '../../../../assets/images/Flag/flag-03.png'
+// import flag4 from '../../../../assets/images/Flag/flag-04.png'
+// import flag5 from '../../../../assets/images/Flag/flag-05.png'
+// import flag6 from '../../../../assets/images/Flag/flag-06.png'
+// import shapes1 from '../../../../assets/images/shapes/01.png'
+// import shapes2 from '../../../../assets/images/shapes/02.png'
+// import shapes3 from '../../../../assets/images/shapes/03.png'
+// import shapes4 from '../../../../assets/images/shapes/04.png'
+// import shapes5 from '../../../../assets/images/shapes/05.png'
 import avatars1 from '../../../../assets/images/avatars/01.png'
 import avatars2 from '../../../../assets/images/avatars/avtar_1.png'
 import avatars3 from '../../../../assets/images/avatars/avtar_2.png'
@@ -29,7 +29,7 @@ import Logo from '../../components/logo'
 // store
 import {NavbarstyleAction, getDirMode, SchemeDirAction,  getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../../../store/setting/setting'
 import {connect, useDispatch} from "react-redux"
-import { authLocations, permissionLocations } from '../../../../router/spm-path-locations'
+import { authLocations } from '../../../../router/spm-path-locations'
 
 const mapStateToProps = (state) => {
     return {

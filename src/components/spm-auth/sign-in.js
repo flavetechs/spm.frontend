@@ -1,5 +1,4 @@
-import React,{useEffect} from 'react'
-import { Row, Col, Image, ListGroup, } from 'react-bootstrap'
+import { Row, Col, Image, } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
@@ -7,25 +6,21 @@ import Card from '../Card'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // img
-import facebook from '../../assets/images/brands/fb.svg'
-import google from '../../assets/images/brands/gm.svg'
-import instagram from '../../assets/images/brands/im.svg'
-import linkedin from '../../assets/images/brands/li.svg'
 import auth1 from '../../assets/images/auth/01.png'
-import { authLocations, dashboardLocations } from '../../router/spm-path-locations';
+import { dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
 
 const SignIn = () => {
     let history = useHistory();
     const dispatch = useDispatch();
-    const state = useSelector((state) => state); 
-    const {message } = state.auth;
+    const state = useSelector((state) => state);
+    const { message } = state.auth;
     var token = localStorage.getItem('token');
-    if(token){
+    if (token) {
         history.push(dashboardLocations.dashboard);
     }
-    
+
     const validation = Yup.object().shape({
         userName: Yup.string()
             .min(2, 'Username Too Short!')
@@ -79,17 +74,17 @@ const SignIn = () => {
 
                                                 <Form >
                                                     <Row>
-                                                    {message && <div className='text-danger'>{message}</div>}
+                                                        {message && <div className='text-danger'>{message}</div>}
                                                         <Col lg="12">
                                                             <div className="form-group">
-                                                                {(touched.userName && errors.userName || message) && <div className='text-danger'>{errors.userName}</div>}
+                                                                {((touched.userName && errors.userName) || message) && <div className='text-danger'>{errors.userName}</div>}
                                                                 <label htmlFor="userName" className="form-label">User Name</label>
                                                                 <Field type="userName" className="form-control" name="userName" id="userName" aria-describedby="userName" required placeholder=" " />
                                                             </div>
                                                         </Col>
                                                         <Col lg="12" className="">
                                                             <div className="form-group">
-                                                                {touched.password && errors.password && <div className='text-danger'>{errors.password}</div>}
+                                                                {(touched.password && errors.password) && <div className='text-danger'>{errors.password}</div>}
                                                                 <label htmlFor="password" className="form-label">Password</label>
                                                                 <Field type="password" required className="form-control" name="password" id="password" aria-describedby="password" placeholder=" " />
                                                             </div>
