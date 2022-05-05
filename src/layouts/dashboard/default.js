@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { bindActionCreators } from "redux"
 
-import { Button } from 'react-bootstrap'
 //header
 import Header from '../../components/partials/dashboard/HeaderStyle/header'
 //subheader
@@ -21,7 +20,7 @@ import { useHistory } from 'react-router-dom';
 import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
 import { connect } from "react-redux"
 import { authLocations } from '../../router/spm-path-locations'
-import { SMP_TOAST } from '../../components/partials/components/toaster/alert'
+import { ErrorToast, SuccessToast } from '../../components/partials/components/toaster/alert'
 
 const mapStateToProps = (state) => {
     return {
@@ -105,7 +104,8 @@ const Default = (props) => {
                 </div>
                 <div className="py-0 conatiner-fluid content-inner mt-n5">
 
-                    <SMP_TOAST/>
+                    <SuccessToast/>
+                    <ErrorToast />
                     <DashboardRouter />
                 </div>
                 <Footer />

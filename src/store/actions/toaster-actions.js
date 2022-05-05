@@ -14,6 +14,7 @@ export const hideStickyInfoToast = () => dispatch =>{
 }
 
 export const showAlertInfoToast = (message) => dispatch =>{
+    console.log('some toast');
     dispatch({
         type: actions.SHOW_ALERT_INFO_TOAST,
         payload: message
@@ -23,5 +24,30 @@ export const showAlertInfoToast = (message) => dispatch =>{
 export const hideAlertInfoToast = () => dispatch =>{
     dispatch({
         type: actions.HIDE_ALERT_INFO_TOAST
+    })
+}
+
+export const showSuccessToast = (message) => dispatch =>{
+    dispatch({
+        type: actions.SHOW_SUCCESS_TOAST,
+        payload: message
+    })
+}
+
+export const hideSuccessToast = () => dispatch =>{
+    dispatch({
+        type: actions.HIDE_SUCCESS_TOAST
+    })
+}
+export const showErrorToast = (message) => dispatch =>{
+    dispatch({
+        type: actions.SHOW_ERROR_TOAST,
+        payload: message
+    })
+}
+
+export const hideErrorToast = () => dispatch =>{
+    dispatch({
+        type: actions.HIDE_ERROR_TOAST
     })
 }

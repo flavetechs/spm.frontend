@@ -26,6 +26,31 @@ export const alertReducer = (state = _state, { type, payload }: any) => {
                 showAlertInfoToast: false,
                 message: ''
             }
+        case actions.SHOW_SUCCESS_TOAST:
+            return {
+                ...state,
+                showSuccessToast: true,
+                message: payload
+            }
+        case actions.HIDE_SUCCESS_TOAST:
+            return {
+                ...state,
+                showSuccessToast: false,
+                message: ''
+            }
+
+        case actions.SHOW_ERROR_TOAST:
+            return {
+                ...state,
+                showErrorToast: true,
+                message: payload
+            }
+        case actions.HIDE_ERROR_TOAST:
+            return {
+                ...state,
+                showErrorToast: false,
+                message: ''
+            }
         default:
             return state
     }

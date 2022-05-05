@@ -1,35 +1,36 @@
 
-import React, { useState } from 'react';
-import { Row, Col, Toast, ToastContainer, Button } from 'react-bootstrap'
-import { useSelector } from 'react-redux';
+import { Toast, ToastContainer } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
+import { hideAlertInfoToast, hideErrorToast, hideSuccessToast } from '../../../../store/actions/toaster-actions';
 
 
 export function SMP_TOAST() {
     const state = useSelector((state) => state);
-    const { showStickyInfoToast, showAlertInfoToast, message } = state.alert;
+    const { showAlertInfoToast, message } = state.alert;
     // 
     return <AlertInfoToast show={showAlertInfoToast} message={message} />
 }
 
-function AlertInfoToast(props) {
-    const [show, setShow] = useState(props.show);
+export function AlertInfoToast() {
+
+    const state = useSelector((state) => state);
+    const { showAlertInfoToast, message } = state.alert;
+    const dispatch = useDispatch();
 
     return (
-        <ToastContainer >
+        <ToastContainer>
             <div>
-                <Toast onClose={() => {
-                    setShow(false);
-                }} show={show} delay={6000} autohide >
+                <Toast className='border border-success' onClose={() => { hideAlertInfoToast()(dispatch); }} show={showAlertInfoToast} delay={6000} autohide >
                     <Toast.Header >
                         <img
                             src="holder.js/20x20?text=%20"
                             className="rounded me-2"
                             alt=""
                         />
-                        <strong className="me-auto">SMP</strong>
+                        <strong className="me-auto">success</strong>
                         {/* <small>11 mins ago</small> */}
                     </Toast.Header>
-                    <Toast.Body className=''>{props.message}</Toast.Body>
+                    <Toast.Body className=''>{message}</Toast.Body>
                 </Toast>
             </div>
 
@@ -38,67 +39,90 @@ function AlertInfoToast(props) {
     );
 }
 
-function StickyAlert(props) {
-    const [show, setShow] = useState(props.show);
+export function SuccessToast() {
 
-    const toggleShow = () => {
-        setShow(!show)
-    }
+    const state = useSelector((state) => state);
+    const { showSuccessToast, message } = state.alert;
+    const dispatch = useDispatch();
 
     return (
+        <ToastContainer>
+            <div>
+                <Toast className='border border-success' onClose={() => { hideSuccessToast()(dispatch); }} show={showSuccessToast} delay={6000} autohide >
+                    <Toast.Header >
+                        <img
+                            src="holder.js/20x20?text=%20"
+                            className="rounded me-2"
+                            alt=""
+                        />
+                        <strong className="me-auto">success</strong>
+                        {/* <small>11 mins ago</small> */}
+                    </Toast.Header>
+                    <Toast.Body className=''>{message}</Toast.Body>
+                </Toast>
+            </div>
 
-        <ToastContainer >
-            <Row >
-                <Col md={6} className="mb-2">
-                    <Toast show={show} onClose={toggleShow}>
-                        <Toast.Header>
-                            <img
-                                src="holder.js/20x20?text=%20"
-                                className="rounded me-2"
-                                alt=""
-                            />
-                            <strong className="me-auto">Notification</strong>
-                            {/* <small>11 mins ago</small> */}
-                        </Toast.Header>
-                        <Toast.Body>{props.message}</Toast.Body>
-                    </Toast>
-                </Col>
-            </Row>
         </ToastContainer>
-
 
     );
 }
 
-function Test() {
-    const [showA, setShowA] = useState(true);
-    const [showB, setShowB] = useState(true);
+export function ErrorToast() {
 
-    const toggleShowA = () => setShowA(!showA);
-    const toggleShowB = () => setShowB(!showB);
+    const state = useSelector((state) => state);
+    const { showErrorToast, message } = state.alert;
+    const dispatch = useDispatch();
 
     return (
-        <ToastContainer className='zindex-sticky'>
-            <Row>
-                <Col md={12} className="mb-2">
-                    <Button onClick={toggleShowA} className="mb-2">
-                        Toggle Toast <strong>with</strong> Animation
-                    </Button>
-                    <Toast show={showA} onClose={toggleShowA}>
-                        <Toast.Header>
-                            <img
-                                src="holder.js/20x20?text=%20"
-                                className="rounded me-2"
-                                alt=""
-                            />
-                            <strong className="me-auto">Bootstrap</strong>
-                            <small>11 mins ago</small>
-                        </Toast.Header>
-                        <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
-                    </Toast>
-                </Col>
-            </Row>
+        <ToastContainer>
+            <div>
+                <Toast className='border border-danger' onClose={() => { hideErrorToast()(dispatch); }} show={showErrorToast} delay={6000} autohide >
+                    <Toast.Header >
+                        <img
+                            src="holder.js/20x20?text=%20"
+                            className="rounded me-2"
+                            alt=""
+                        />
+                        <strong className="me-auto">error</strong>
+                        {/* <small>11 mins ago</small> */}
+                    </Toast.Header>
+                    <Toast.Body className=''>{message}</Toast.Body>
+                </Toast>
+            </div>
+
         </ToastContainer>
 
-    )
+    );
 }
+
+// function StickyAlert(props) {
+//     const [show, setShow] = useState(props.show);
+
+//     const toggleShow = () => {
+//         setShow(!show)
+//     }
+
+//     return (
+
+//         <ToastContainer >
+//             <Row >
+//                 <Col md={6} className="mb-2">
+//                     <Toast show={show} onClose={toggleShow}>
+//                         <Toast.Header>
+//                             <img
+//                                 src="holder.js/20x20?text=%20"
+//                                 className="rounded me-2"
+//                                 alt=""
+//                             />
+//                             <strong className="me-auto">Notification</strong>
+//                             {/* <small>11 mins ago</small> */}
+//                         </Toast.Header>
+//                         <Toast.Body>{props.message}</Toast.Body>
+//                     </Toast>
+//                 </Col>
+//             </Row>
+//         </ToastContainer>
+
+
+//     );
+// }

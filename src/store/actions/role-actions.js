@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance"
 import { actions } from "../action-types/roles-action-types";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllRoles = () => (dispatch) => {
     dispatch({
@@ -20,7 +21,7 @@ export const getAllRoles = () => (dispatch) => {
         });
 }
 
-export const createUpdateRole = ({ roleId, name  }) => (dispatch) => {
+export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
     dispatch({
         type: actions.ROLES_LOADING
     });
@@ -217,11 +218,13 @@ export const updateModifiedRole = (role) => dispatch => {
                 type: actions.UPDATE_ROLE_LOADING,
                 payload: res.data.message.friendlyMessage
             });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_ROLE_LOADING,
-                payload: err.response.message.friendlyMessage
-            })
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
@@ -269,7 +272,7 @@ export const addNewState = (id, value, newRole, action) => dispatch => {
     }
 }
 
-const addition= (id, value, action) => {
+const addition = (id, value, action) => {
     const activityId = id;
     let canCreate = false;
     let canUpdate = false;
