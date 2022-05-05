@@ -109,6 +109,12 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         ...state,
         newRole: payload,
       };
+
+      case actions.DELETE_ROLE_STATE:
+        return {
+          ...state,
+          deleteRole: payload,
+        };
     default:
       return state;
   }

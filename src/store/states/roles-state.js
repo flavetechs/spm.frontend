@@ -25,6 +25,12 @@ export const _state = {
             }
         ]
     },
+      
+    
+   deleteRole: {
+        items: []
+      },
+
     message: '',
     isSuccessful: false,
     roleId: '',

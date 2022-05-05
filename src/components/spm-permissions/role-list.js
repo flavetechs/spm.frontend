@@ -11,20 +11,26 @@ import shap1 from "../../assets/images/shapes/01.png";
 // import shap4 from '../../assets/images/shapes/04.png'
 // import shap5 from '../../assets/images/shapes/05.png'
 // import shap6 from '../../assets/images/shapes/06.png'
-import { getAllRoles } from "../../store/actions/role-actions";
+import { getAllRoles, deleteEachRole, deleteRoles } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 
 const RoleList = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { roles } = state.roles;
+  const { roles, deleteRole } = state.roles;
+
 
   React.useEffect(() => {
     getAllRoles()(dispatch);
   }, [100]);
 
+  const handleDelete = (e) => {
+    deleteRoles(deleteRole)(dispatch);
+    const values = e.currentTarget.dataset.tag;
+    deleteEachRole(values, deleteRole)(dispatch);
 
+  };
   return (
     <>
       <div>
@@ -194,6 +200,9 @@ const RoleList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
+                                data-tag={item.roleId}
+                                onClick={handleDelete}
+                                
                               >
                                 <span className="btn-inner">
                                   <svg

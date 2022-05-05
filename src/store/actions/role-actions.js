@@ -310,11 +310,6 @@ const addition = (id, value, action) => {
 }
 
 
-
-
-
-
-
 export const createNewName = (newName, newRole) => dispatch => {
     newRole.name = newName;
     dispatch({
@@ -324,14 +319,6 @@ export const createNewName = (newName, newRole) => dispatch => {
 
 
 }
-
-
-
-
-
-
-
-
 
 
 export const addNewRole = (role) => dispatch => {
@@ -350,6 +337,36 @@ export const addNewRole = (role) => dispatch => {
         }).catch((err) => {
             dispatch({
                 type: actions.ADD_NEW_ROLE_LOADING,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteEachRole = (id, deleteRole) => dispatch => {
+    const newId = id.split(" ")
+       deleteRole.items = [...newId]
+    dispatch({
+        type: actions.DELETE_ROLE_STATE,
+        payload: deleteRole,
+    });
+}
+export const deleteRoles = (id) => dispatch => {
+    dispatch({
+        type: actions.DELETE_ROLES_LOADING
+    });
+
+    console.log('id', id);
+    axiosInstance.post('/role/api/v1/delete', id)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_ROLES_LOADING,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_ROLES_LOADING,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
