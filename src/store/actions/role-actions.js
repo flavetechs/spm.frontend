@@ -21,7 +21,7 @@ export const getAllRoles = () => (dispatch) => {
         });
 }
 
-export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
+export const createUpdateRole = ({ roleId, name  }) => (dispatch) => {
     dispatch({
         type: actions.ROLES_LOADING
     });

@@ -1,4 +1,5 @@
-import { Row, Col, Image, } from 'react-bootstrap'
+import React,{useEffect} from 'react'
+import { Row, Col, Image, ListGroup, } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
@@ -6,6 +7,10 @@ import Card from '../Card'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // img
+import facebook from '../../assets/images/brands/fb.svg'
+import google from '../../assets/images/brands/gm.svg'
+import instagram from '../../assets/images/brands/im.svg'
+import linkedin from '../../assets/images/brands/li.svg'
 import auth1 from '../../assets/images/auth/01.png'
 import { dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,12 +19,14 @@ import { loginUser } from '../../store/actions/auth-actions';
 const SignIn = () => {
     let history = useHistory();
     const dispatch = useDispatch();
-    const state = useSelector((state) => state);
-    const { message } = state.auth;
+    const state = useSelector((state) => state); 
+    const {message } = state.auth;
     var token = localStorage.getItem('token');
-    if (token) {
-        history.push(dashboardLocations.dashboard);
-    }
+    useEffect(() => {
+        if(token){
+            history.push('/dashboard')
+        }
+    }, [token])
 
     const validation = Yup.object().shape({
         userName: Yup.string()
@@ -41,13 +48,13 @@ const SignIn = () => {
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
                                         <Link to={dashboardLocations.dashboard} className="navbar-brand d-flex align-items-center mb-3">
-                                            {/* <svg width="30" className="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg width="30" className="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
                                                 <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
                                                 <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                                                 <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-                                            </svg> */}
-                                            <h4 className="logo-title ms-3">SCHOOL MANAGEMENT PORTAL</h4>
+                                            </svg>
+                                            <h4 className="logo-title ms-3">Hope UI</h4>
                                         </Link>
                                         <h2 className="mb-2 text-center">Sign In</h2>
                                         <p className="text-center">Login to stay connected.</p>
@@ -74,17 +81,17 @@ const SignIn = () => {
 
                                                 <Form >
                                                     <Row>
-                                                        {message && <div className='text-danger'>{message}</div>}
+                                                    {message && <div className='text-danger'>{message}</div>}
                                                         <Col lg="12">
                                                             <div className="form-group">
-                                                                {((touched.userName && errors.userName) || message) && <div className='text-danger'>{errors.userName}</div>}
+                                                                {(touched.userName && errors.userName || message) && <div className='text-danger'>{errors.userName}</div>}
                                                                 <label htmlFor="userName" className="form-label">User Name</label>
                                                                 <Field type="userName" className="form-control" name="userName" id="userName" aria-describedby="userName" required placeholder=" " />
                                                             </div>
                                                         </Col>
                                                         <Col lg="12" className="">
                                                             <div className="form-group">
-                                                                {(touched.password && errors.password) && <div className='text-danger'>{errors.password}</div>}
+                                                                {touched.password && errors.password && <div className='text-danger'>{errors.password}</div>}
                                                                 <label htmlFor="password" className="form-label">Password</label>
                                                                 <Field type="password" required className="form-control" name="password" id="password" aria-describedby="password" placeholder=" " />
                                                             </div>
@@ -102,7 +109,7 @@ const SignIn = () => {
                                                             handleSubmit()
                                                         }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                                     </div>
-                                                    {/* <p className="text-center my-3">or sign in with other accounts?</p>
+                                                    <p className="text-center my-3">or sign in with other accounts?</p>
                                                     <div className="d-flex justify-content-center">
                                                         <ListGroup as="ul" className="list-group-horizontal list-group-flush">
                                                             <ListGroup.Item as="li" className="border-0 pb-0">
@@ -118,7 +125,7 @@ const SignIn = () => {
                                                                 <Link to="#"><Image src={linkedin} alt="li" /></Link>
                                                             </ListGroup.Item>
                                                         </ListGroup>
-                                                    </div> */}
+                                                    </div>
                                                     <p className="mt-3 text-center">
                                                         Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
                                                     </p>
