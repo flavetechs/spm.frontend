@@ -1,21 +1,82 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
-import { addRole, addNewRole } from "../../store/actions/newrole-actions";
+import { getAllActivities } from "../../store/actions/activity-actions";
+import { addNewRole, createNewName, addToState } from "../../store/actions/role-actions";
 
 const RoleAdd = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { activities } = state.activities;
-  useEffect(() => {
-    addRole()(dispatch);
-  }, [123]);
+  const { newRole } = state.roles;
+
+  React.useEffect(() => {
+    getAllActivities()(dispatch);
+  }, []);
+  //const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
+
+
+  const handleCanCreateCheckBox = (event) => {
+    const activityId = event.target.id;
+    const checkBoxValue = event.target.checked;
+    addToState(
+      activityId,
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  const handleCanUpdateCheckBox = (event) => {
+    const activityId = event.target.id
+    const checkBoxValue = event.target.checked;
+    addToState(
+      activityId,
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  const handleCanDeleteCheckBox = (event) => {
+    const activityId = event.target.id
+    const checkBoxValue = event.target.checked;
+    addToState(
+      activityId,
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  const handleCanImportCheckBox = (event) => {
+    const activityId = event.target.id;
+    const checkBoxValue = event.target.checked;
+    addToState(
+      activityId,
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  const handleCanExportCheckBox = (event) => {
+    const activityId = event.target.id;
+    const checkBoxValue = event.target.checked;
+    addToState(
+      activityId,
+      checkBoxValue,
+      newRole,
+      "canCreate"
+    )(dispatch);
+  };
+  const handleNewName = (event) => {
+    const newName = event.target.value;
+    if (newName.length === 0) return;
+    createNewName(newName, newRole)(dispatch);
+  };
 
   const onSubmit = () => {
-    addNewRole()(dispatch);
+    addNewRole(newRole)(dispatch);
   };
   return (
     <>
@@ -25,12 +86,17 @@ const RoleAdd = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <Form.Group className="form-group">
+                <Form.Group className="form-group">
+                    <Form.Label htmlFor="role-name" className="">
+                      Role Name
+                    </Form.Label>
                     <Form.Control
+                      onChange={handleNewName}
                       type="text"
                       className=""
+                      value={newRole.name}
                       id="role-name"
-                      placeholder="Enter Role Name"
+                      placeholder="Role name"
                     />
                   </Form.Group>
                 </div>
@@ -46,7 +112,7 @@ const RoleAdd = () => {
                     >
                       <thead>
                         <tr className="ligth">
-                          <th width="300px"> </th>
+                          <th  className="text-center" width="300px">Activities</th>
                           <th className="text-center">Create</th>
                           <th className="text-center">Update</th>
                           <th className="text-center">Delete</th>
@@ -63,6 +129,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canCreate"
+                                onChange={handleCanCreateCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -70,6 +137,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canUpdate"
+                                onChange={handleCanUpdateCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -77,6 +145,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canDelete"
+                                onChange={handleCanDeleteCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -84,6 +153,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canImport"
+                                onChange={handleCanImportCheckBox}
                               />
                             </td>
                             <td className="text-center">
@@ -91,6 +161,7 @@ const RoleAdd = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id="canExport"
+                                onChange={handleCanExportCheckBox}
                               />
                             </td>
                           </tr>
@@ -110,6 +181,7 @@ const RoleAdd = () => {
                       <button
                         type="button"
                         className="btn btn-primary"
+                        style={{ cursor: "pointer" }}
                         onClick={onSubmit}
                       >
                         Save

@@ -10,10 +10,12 @@ import RoleAdd from '../components/spm-permissions/role-add';
 import { dashboardLocations, permissionLocations } from './spm-path-locations';
 
 const DashboardRouter = () => {
+
     return (
         <TransitionGroup>
             <CSSTransition classNames="fadein" timeout={300}>
                 <Switch>
+                    {/* dashboard */}
                     <Route path={dashboardLocations.dashboard} exact component={Index} />
 
                     {/* permissions */}
