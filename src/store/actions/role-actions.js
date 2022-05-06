@@ -207,6 +207,7 @@ export const updateRoleNameState = (name, selectedRole) => dispatch => {
 
 
 }
+
 export const updateModifiedRole = (role) => dispatch => {
     dispatch({
         type: actions.UPDATE_ROLE_LOADING
