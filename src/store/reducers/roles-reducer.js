@@ -40,18 +40,18 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         name: payload.name,
       };
     case actions.REMOVE_ROLE_ID: {
-      var filteredIds = FilterSelectedIds(state.selectedIds, payload);
-      return {
-        ...state,
-        selectedIds: filteredIds,
-      };
+      var filteredIds = filterSelectedIds(state.selectedIds, payload)
+            return {
+                ...state,
+                selectedIds: filteredIds
+            }
     }
 
     case actions.PUSH_ROLE_ID: {
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload],
-      };
+        selectedIds: [...state.selectedIds, payload]
+    }
     }
 
     case actions.DELETE_SUCCESS: {
@@ -113,19 +113,15 @@ export const rolesReducer = (state = _state, { type, payload }) => {
       case actions.DELETE_ROLE_STATE:
         return {
           ...state,
-          deleteRole: payload,
-        };
-        case actions.DELETE_SELECTED_ROLE_STATE:
-        return {
-          ...state,
-          deleteRole: payload,
-        };
+          selectedIds: [...state.selectedIds, payload]
+      }
+       
     default:
       return state;
   }
 };
 
-function FilterSelectedIds(arr, value) {
+function filterSelectedIds(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;
   });

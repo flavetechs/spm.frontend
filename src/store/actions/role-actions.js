@@ -93,7 +93,7 @@ export const deleteItems = (roleIds) => (dispatch) => {
 
 export const returnList = (roles) => (dispatch) => {
     dispatch({
-        type: roles.RETURN_LIST,
+        type: actions.RETURN_LIST,
         payload: roles
     })
 }
@@ -343,32 +343,25 @@ export const addNewRole = (role) => dispatch => {
         });
 }
 
-export const deleteEachRole = (id, deleteRole) => dispatch => {
-    const newId = id.split(" ")
-       deleteRole.items = [...newId]
-    dispatch({
+export const deleteEachRole = (itemsId) => {
+    return{
         type: actions.DELETE_ROLE_STATE,
-        payload: deleteRole,
-    });
+        payload: itemsId
+    }
 }
 
-export const deleteSelectedRole = (id, value, deleteRole) => dispatch => {
-    const newId = id.split(" ")
-    const trueValue = value.filter(e=> e === true);
-       deleteRole.items = [...newId]
-    dispatch({
-        type: actions.DELETE_SELECTED_ROLE_STATE,
-        payload: deleteRole,
-    });
-}
 
 export const deleteRoles = (id) => dispatch => {
     dispatch({
         type: actions.DELETE_ROLES_LOADING
     });
 
-    console.log('id', id);
-    axiosInstance.post('/role/api/v1/delete', id)
+    const payload = {
+        items: id
+    }
+
+    console.log('id', payload);
+    axiosInstance.post('/role/api/v1/delete', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_ROLES_LOADING,

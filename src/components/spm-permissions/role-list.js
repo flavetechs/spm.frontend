@@ -14,7 +14,9 @@ import {
   getAllRoles,
   deleteEachRole,
   deleteRoles,
-  deleteSelectedRole
+  returnList,
+  pushId,
+  removeId,
 } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
@@ -22,31 +24,66 @@ import { permissionLocations } from "../../router/spm-path-locations";
 const RoleList = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { roles, deleteRole } = state.roles;
+  const { roles, selectedIds } = state.roles;
   const [onClick, setOnClick] = React.useState(false);
   const [display, setDisplay] = React.useState(false);
+  
 
   React.useEffect(() => {
     getAllRoles()(dispatch);
   }, [100]);
 
-  const handleDelete = (e) => {
-    deleteRoles(deleteRole)(dispatch);
-    const values = e.currentTarget.dataset.tag;
-    deleteEachRole(values, deleteRole)(dispatch);
+  const handleDelete = (roleId, selectedIds) => {
+    dispatch(deleteEachRole(roleId));
+    deleteRoles(selectedIds)(dispatch);
   };
-  /*target: filter checked values that are true and get ID */
-const handleCheck = (e) => {
-  const check = e.target.checked;
-  const id = e.target.id;
-if(check){
-  setDisplay(true)
-}else setDisplay(false);
-deleteSelectedRole(id, check, deleteRole)(dispatch);
+  const isNotToBeDeleted = (param) => {
+
+    if (param === 'STUDENT') {
+        return true;
+    } else if (param === 'SCHOOL_ADMIN') {
+        return true;
+    } else if (param === 'TEACHER') {
+        return true;
+    } else {
+        return false;
+    }
 }
-const handleDeleteSelected =() => {
-  setOnClick(!onClick)
-  deleteRoles(deleteRole)(dispatch);
+  const handleDeleteSelected = () => {
+    setOnClick(!onClick);
+    deleteRoles(selectedIds)(dispatch);
+  };
+  const checkSingleItem = (isChecked, roleId, roles) => {
+    roles.forEach(item => {
+        if (item.roleId === roleId) {
+            item.isChecked = isChecked
+        }
+    });
+    if (isChecked) {
+        dispatch(pushId(roleId));
+        setDisplay(true)
+    } else {
+        dispatch(removeId(roleId));
+        setDisplay(false)
+    }
+}
+   
+
+
+
+const checkAllItems = (isChecked, roles) => {
+  roles.forEach(item => {
+      if (!isNotToBeDeleted(item.name)) {
+          item.isChecked = isChecked
+      }
+
+      if (item.isChecked) {
+          dispatch(pushId(item.roleId))
+      } else {
+          dispatch(removeId(item.roleId))
+      }
+  });
+  returnList(roles)(dispatch)
 }
   return (
     <>
@@ -60,86 +97,85 @@ const handleDeleteSelected =() => {
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                {!display ?
-                <button
-                  type="button"
-                  className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                  onClick={() => setOnClick(!onClick)}
-                >
-                  <i className="btn-inner">
-                    <svg
-                      width="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      stroke="currentColor"
-                    >
-                      <path
-                        d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                      <path
-                        d="M20.708 6.23975H3.75"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                      <path
-                        d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                    </svg>
-                  </i>
-                  <span> Delete</span>
-                </button>
-                :
-                <button
-                type="button"
-                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                onClick={handleDeleteSelected}
-              >
-                <i className="btn-inner">
-                  <svg
-                    width="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="currentColor"
+                {!display ? (
+                  <button
+                    type="button"
+                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    onClick={() => setOnClick(!onClick)}
                   >
-                    <path
-                      d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                    <path
-                      d="M20.708 6.23975H3.75"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                    <path
-                      d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                  </svg>
-                </i>
-                <span> Delete Selected</span>
-              </button>
-
-}
+                    <i className="btn-inner">
+                      <svg
+                        width="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M20.708 6.23975H3.75"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </i>
+                    <span> Delete</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    onClick={handleDeleteSelected}
+                  >
+                    <i className="btn-inner">
+                      <svg
+                        width="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M20.708 6.23975H3.75"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </i>
+                    <span> Delete Selected</span>
+                  </button>
+                )}
                 <Link
                   to={permissionLocations.roleAdd}
                   className="d-flex justify-content-end"
@@ -178,7 +214,18 @@ const handleDeleteSelected =() => {
                   >
                     <thead>
                       <tr className="ligth">
-                        <th>Profile</th>
+                        {!onClick ? (
+                          <th>Profile</th>
+                        ) : (
+                          <th>
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                 checkAllItems(e.target.checked, roles);}}
+                            />
+                          </th>
+                        )}
                         <th>Name</th>
                         <th>ID</th>
                         <th>Status</th>
@@ -199,8 +246,8 @@ const handleDeleteSelected =() => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id={item.roleId}
-                                onChange={handleCheck}
+                                hidden={isNotToBeDeleted(item.name)} checked={item.isChecked || false}
+                                onChange={(e) => { checkSingleItem(e.target.checked, item.roleId, roles); }}
                               />
                             )}
                           </td>
@@ -311,8 +358,7 @@ const handleDeleteSelected =() => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-tag={item.roleId}
-                                onClick={handleDelete}
+                                onClick={(e) => {handleDelete(item.id,selectedIds); }}
                               >
                                 <span className="btn-inner">
                                   <svg
