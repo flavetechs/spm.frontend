@@ -33,10 +33,7 @@ const RoleList = () => {
     getAllRoles()(dispatch);
   }, [100]);
 
-  const handleDelete = (roleId, selectedIds) => {
-    dispatch(deleteEachRole(roleId));
-    deleteRoles(selectedIds)(dispatch);
-  };
+ 
   const isNotToBeDeleted = (param) => {
 
     if (param === 'STUDENT') {
@@ -49,10 +46,23 @@ const RoleList = () => {
         return false;
     }
 }
+
+const handleDelete = (e) => {
+  const roleId = e.currentTarget.dataset.id;
+  roles.forEach(item => {
+  if (!isNotToBeDeleted(item.name)) {
+  dispatch(deleteEachRole(roleId))
+  }});
+  deleteRoles(selectedIds)(dispatch);
+};
+
   const handleDeleteSelected = () => {
     setOnClick(!onClick);
     deleteRoles(selectedIds)(dispatch);
   };
+
+
+
   const checkSingleItem = (isChecked, roleId, roles) => {
     roles.forEach(item => {
         if (item.roleId === roleId) {
@@ -79,8 +89,10 @@ const checkAllItems = (isChecked, roles) => {
 
       if (item.isChecked) {
           dispatch(pushId(item.roleId))
+          setDisplay(true)
       } else {
           dispatch(removeId(item.roleId))
+          setDisplay(false)
       }
   });
   returnList(roles)(dispatch)
@@ -358,7 +370,8 @@ const checkAllItems = (isChecked, roles) => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                onClick={(e) => {handleDelete(item.id,selectedIds); }}
+                                data-id={item.roleId}
+                                onClick= {handleDelete}
                               >
                                 <span className="btn-inner">
                                   <svg

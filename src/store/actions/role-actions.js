@@ -54,6 +54,7 @@ export const editRole = (item) => {
     }
 }
 export const pushId = (itemId) => {
+    console.log('id', itemId);
     return {
         type: actions.PUSH_ROLE_ID,
         payload: itemId
@@ -76,19 +77,22 @@ export const deleteItems = (roleIds) => (dispatch) => {
     const payload = {
         items: roleIds
     }
-
+    console.log("id", roleIds)
+console.log("id", payload)
     axiosInstance.post('/role/api/v1/delete', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SUCCESS,
-                payload: res.data.result
+                payload: res.data.message.friendlyMessage
             });
-        }).catch((err) => {
-            dispatch({
-                type: actions.ROLE_REQUEST_FAILED,
-                payload: err.response.data.result
-            })
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+    }).catch((err) => {
+        dispatch({
+            type: actions.ROLE_REQUEST_FAILED,
+            payload: err.response.data.message.friendlyMessage
         });
+        showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+    });
 }
 
 export const returnList = (roles) => (dispatch) => {
@@ -344,12 +348,12 @@ export const addNewRole = (role) => dispatch => {
 }
 
 export const deleteEachRole = (itemsId) => {
-    return{
-        type: actions.DELETE_ROLE_STATE,
-        payload: itemsId
+        console.log('id', itemsId);
+        return {
+            type: actions.DELETE_ROLE_STATE,
+            payload: itemsId,
+        }
     }
-}
-
 
 export const deleteRoles = (id) => dispatch => {
     dispatch({
@@ -359,7 +363,7 @@ export const deleteRoles = (id) => dispatch => {
     const payload = {
         items: id
     }
-
+    console.log('id', id);
     console.log('id', payload);
     axiosInstance.post('/role/api/v1/delete', payload)
         .then((res) => {
