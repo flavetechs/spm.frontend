@@ -6,22 +6,15 @@ import Card from '../Card'
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
-// import shap2 from '../../assets/images/shapes/02.png'
-// import shap3 from '../../assets/images/shapes/03.png'
-// import shap4 from '../../assets/images/shapes/04.png'
-// import shap5 from '../../assets/images/shapes/05.png'
-// import shap6 from '../../assets/images/shapes/06.png'
-// import { getAllRoles } from "../../store/actions/role-actions";
 import { getAllClassList } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
 
 const ClassSetList = () => {
-  const dispatch = useDispatch();
   const state = useSelector((state) => state);
-//   const { roles } = state.roles;
-    const { classList } = state.class;
+  const { classList } = state.class;
 
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     getAllClassList()(dispatch);
@@ -40,28 +33,28 @@ const ClassSetList = () => {
                 </div>
               </Card.Header>
               <Link to={classLocations.classSetupAdd} className="d-flex justify-content-end">
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span>New Class Setup</span>
-                  </button>
+                <button
+                  type="button"
+                  className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                >
+                  <i className="btn-inner">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      ></path>
+                    </svg>
+                  </i>
+                  <span>New Class Setup</span>
+                </button>
               </Link>
               <Card.Body className="px-0">
                 <div className="table-responsive">

@@ -3,38 +3,39 @@ import { _state } from "../states/class-state"
 
 export const classListReducer = (state = _state, { type, payload }) => {
   switch (type) {
-    case actions.FETCH_CLASS_LOADING:
+    case actions.FETCH_CLASSLOOKUP_LOADING:
       return {
         ...state,
         loading: true
       };
-    case actions.FETCH_CLASS_SUCCESS:
+    case actions.FETCH_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
         loading: false,
         classList: payload,
-        isSuccessful: true
+        isSuccessful: false
       };
-    case actions.FETCH_CLASS_FAILED:
+    case actions.FETCH_CLASSLOOKUP_FAILED:
       return {
         ...state,
         loading: false,
         message: payload,
         isSuccessful: false
       };
-    case actions.CREATE_CLASS_LOADING:
+    case actions.CREATE_CLASSLOOKUP_LOADING:
       return {
         ...state, 
-        loading: true
+        loading: true,
+        isSuccessful : false
         };
-    case actions.CREATE_CLASS_SUCCESS:
+    case actions.CREATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state, 
         classList: payload,
         isSuccessful: true,
         loading: false
       };
-    case actions.CREATE_CLASS_FAILED:
+    case actions.CREATE_CLASSLOOKUP_FAILED:
       return {
         ...state,
         isSuccessful: false,
