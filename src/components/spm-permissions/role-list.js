@@ -32,7 +32,6 @@ const RoleList = () => {
 
   React.useEffect(() => {
     getAllRoles()(dispatch);
-   
   }, [100]);
 
   const isNotToBeDeleted = (param) => {
@@ -55,12 +54,11 @@ const RoleList = () => {
         dispatch(deleteEachRole(roleId));
       }
     });
-    
   };
   const handleYes = () => {
     setShowAlert(!showAlert);
     deleteRoles(selectedIds)(dispatch);
-    console.log("OnclickYes true")
+    console.log("OnclickYes true");
   };
 
   const handleDeleteSelected = () => {
@@ -82,7 +80,6 @@ const RoleList = () => {
       setDisplay(false);
     }
   };
-
 
   const checkAllItems = (isChecked, roles) => {
     roles.forEach((item) => {
@@ -111,14 +108,19 @@ const RoleList = () => {
                   <h4 className="card-title">User List</h4>
                 </div>
               </Card.Header>
-              {!showAlert ? 
-              <></> :
-              <div style={{position:"fixed", marginLeft:"15%"}}>
-                <Dialog handleYes={handleYes} 
-                showAlert={() => {setShowAlert(!showAlert); console.log("OnclickYes false")}}
-                />
+              {!showAlert ? (
+                <></>
+              ) : (
+                <div style={{ position: "fixed", marginLeft: "15%" }}>
+                  <Dialog
+                    handleYes={handleYes}
+                    showAlert={() => {
+                      setShowAlert(!showAlert);
+                      console.log("OnclickYes false");
+                    }}
+                  />
                 </div>
-}
+              )}
               <div className="d-flex justify-content-end">
                 {!display ? (
                   <button
