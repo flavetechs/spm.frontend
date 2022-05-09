@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
 
@@ -27,76 +27,78 @@ const RoleList = () => {
   const { roles, selectedIds } = state.roles;
   const [onClick, setOnClick] = React.useState(false);
   const [display, setDisplay] = React.useState(false);
-  
+  const [showAlert, setShowAlert] = React.useState(false);
 
   React.useEffect(() => {
     getAllRoles()(dispatch);
+   
   }, [100]);
 
- 
   const isNotToBeDeleted = (param) => {
-
-    if (param === 'STUDENT') {
-        return true;
-    } else if (param === 'SCHOOL_ADMIN') {
-        return true;
-    } else if (param === 'TEACHER') {
-        return true;
+    if (param === "STUDENT") {
+      return true;
+    } else if (param === "SCHOOL_ADMIN") {
+      return true;
+    } else if (param === "TEACHER") {
+      return true;
     } else {
-        return false;
+      return false;
     }
-}
+  };
 
-const handleDelete = (e) => {
-  const roleId = e.currentTarget.dataset.id;
-  roles.forEach(item => {
-  if (!isNotToBeDeleted(item.name)) {
-  dispatch(deleteEachRole(roleId))
-  }});
-  deleteRoles(selectedIds)(dispatch);
-};
+  const handleDelete = (e) => {
+    setShowAlert(!showAlert);
+    const roleId = e.currentTarget.id;
+    roles.forEach((item) => {
+      if (!isNotToBeDeleted(item.name)) {
+        dispatch(deleteEachRole(roleId));
+      }
+    });
+    
+  };
+  const handleYes = () => {
+    setShowAlert(!showAlert);
+    deleteRoles(selectedIds)(dispatch);
+  };
 
   const handleDeleteSelected = () => {
     setOnClick(!onClick);
     deleteRoles(selectedIds)(dispatch);
   };
 
-
-
   const checkSingleItem = (isChecked, roleId, roles) => {
-    roles.forEach(item => {
-        if (item.roleId === roleId) {
-            item.isChecked = isChecked
-        }
+    roles.forEach((item) => {
+      if (item.roleId === roleId) {
+        item.isChecked = isChecked;
+      }
     });
     if (isChecked) {
-        dispatch(pushId(roleId));
-        setDisplay(true)
+      dispatch(pushId(roleId));
+      setDisplay(true);
     } else {
-        dispatch(removeId(roleId));
-        setDisplay(false)
+      dispatch(removeId(roleId));
+      setDisplay(false);
     }
-}
-   
+  };
 
+  /*issues delete button working only when clicked twice, deleted roles with the same name cannot be deleted twice,checkall only deleting some*/
 
-
-const checkAllItems = (isChecked, roles) => {
-  roles.forEach(item => {
+  const checkAllItems = (isChecked, roles) => {
+    roles.forEach((item) => {
       if (!isNotToBeDeleted(item.name)) {
-          item.isChecked = isChecked
+        item.isChecked = isChecked;
       }
 
       if (item.isChecked) {
-          dispatch(pushId(item.roleId))
-          setDisplay(true)
+        dispatch(pushId(item.roleId));
+        setDisplay(true);
       } else {
-          dispatch(removeId(item.roleId))
-          setDisplay(false)
+        dispatch(removeId(item.roleId));
+        setDisplay(false);
       }
-  });
-  returnList(roles)(dispatch)
-}
+    });
+    returnList(roles)(dispatch);
+  };
   return (
     <>
       <div>
@@ -108,6 +110,40 @@ const checkAllItems = (isChecked, roles) => {
                   <h4 className="card-title">User List</h4>
                 </div>
               </Card.Header>
+              {!showAlert ? 
+              <></> :
+              <div style={{position:"fixed", marginLeft:"15%"}}>
+                <Alert variant="warning d-flex align-items-center ml-5" role="alert">
+                  <svg
+                    className="me-2"
+                    id="exclamation-triangle-fill"
+                    fill="currentColor"
+                    width="20"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                  </svg>
+                    Are you sure you want to delete this{" "}
+                    <div className="d-flex justify-content-center">
+                    <button
+                      className="btn btn-success mx-2"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleYes}
+                    >
+                      YES
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setShowAlert(!showAlert)}
+                    >
+                      {" "}
+                      NO
+                    </button>
+                    </div>
+                </Alert>
+                </div>
+}
               <div className="d-flex justify-content-end">
                 {!display ? (
                   <button
@@ -234,7 +270,8 @@ const checkAllItems = (isChecked, roles) => {
                               className="form-check-input"
                               type="checkbox"
                               onChange={(e) => {
-                                 checkAllItems(e.target.checked, roles);}}
+                                checkAllItems(e.target.checked, roles);
+                              }}
                             />
                           </th>
                         )}
@@ -258,8 +295,15 @@ const checkAllItems = (isChecked, roles) => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                hidden={isNotToBeDeleted(item.name)} checked={item.isChecked || false}
-                                onChange={(e) => { checkSingleItem(e.target.checked, item.roleId, roles); }}
+                                hidden={isNotToBeDeleted(item.name)}
+                                checked={item.isChecked || false}
+                                onChange={(e) => {
+                                  checkSingleItem(
+                                    e.target.checked,
+                                    item.roleId,
+                                    roles
+                                  );
+                                }}
                               />
                             )}
                           </td>
@@ -370,8 +414,8 @@ const checkAllItems = (isChecked, roles) => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-id={item.roleId}
-                                onClick= {handleDelete}
+                                id={item.roleId}
+                                onClick={handleDelete}
                               >
                                 <span className="btn-inner">
                                   <svg
