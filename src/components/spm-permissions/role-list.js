@@ -109,6 +109,16 @@ const RoleList = () => {
                   <h4 className="card-title">User List</h4>
                 </div>
               </Card.Header>
+              {!showAlert ? (
+                <></>
+              ) : (
+                <div style={{ position: "fixed", marginLeft: "15%" }}>
+                  <Dialog
+                    handleYesButton={handleYesButton}
+                    handleNoButton={handleNoButton}
+                  />
+                </div>
+              )}
               <div className="d-flex justify-content-end">
 
                 {showDeleteButton ? (
