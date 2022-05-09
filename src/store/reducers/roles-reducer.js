@@ -113,7 +113,7 @@ export const rolesReducer = (state = _state, { type, payload }) => {
       case actions.DELETE_ROLE_STATE:
          return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
+        selectedIds: [...payload]
     }
        
     default:

@@ -1,9 +1,8 @@
-
-import React from 'react'
-import { Row, Col, Image } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import Card from '../Card'
-
+import React from "react";
+import { Row, Col, Image, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Card from "../Card";
+import Dialog from "../Dialog";
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
@@ -29,76 +28,80 @@ const RoleList = () => {
   const { roles, selectedIds } = state.roles;
   const [onClick, setOnClick] = React.useState(false);
   const [display, setDisplay] = React.useState(false);
-  
+  const [showAlert, setShowAlert] = React.useState(false);
 
   React.useEffect(() => {
     getAllRoles()(dispatch);
   }, [100]);
 
- 
   const isNotToBeDeleted = (param) => {
-
-    if (param === 'STUDENT') {
-        return true;
-    } else if (param === 'SCHOOL_ADMIN') {
-        return true;
-    } else if (param === 'TEACHER') {
-        return true;
+    if (param === "STUDENT") {
+      return true;
+    } else if (param === "SCHOOL_ADMIN") {
+      return true;
+    } else if (param === "TEACHER") {
+      return true;
     } else {
-        return false;
+      return false;
     }
-}
+  };
 
-const handleDelete = (e) => {
-  const roleId = e.currentTarget.dataset.id;
-  roles.forEach(item => {
-  if (!isNotToBeDeleted(item.name)) {
-  dispatch(deleteEachRole(roleId))
-  }});
-  deleteRoles(selectedIds)(dispatch);
-};
+  const handleDelete = (e) => {
+    setShowAlert(!showAlert);
+    const roleId = e.currentTarget.id;
+    roles.forEach((item) => {
+      if (!isNotToBeDeleted(item.name)) {
+        dispatch(deleteEachRole(roleId));
+      }
+    });
+  };
+  const handleYesButton = () => {
+    setShowAlert(!showAlert);
+    deleteRoles(selectedIds)(dispatch);
+    console.log("OnclickYes true");
+  };
+
+  const handleNoButton = () => {
+    setShowAlert(!showAlert);
+    console.log("OnclickYes false");
+  };
 
   const handleDeleteSelected = () => {
     setOnClick(!onClick);
     deleteRoles(selectedIds)(dispatch);
   };
 
-
-
   const checkSingleItem = (isChecked, roleId, roles) => {
-    roles.forEach(item => {
-        if (item.roleId === roleId) {
-            item.isChecked = isChecked
-        }
+    roles.forEach((item) => {
+      if (item.roleId === roleId) {
+        item.isChecked = isChecked;
+      }
     });
     if (isChecked) {
-        dispatch(pushId(roleId));
-        setDisplay(true)
+      dispatch(pushId(roleId));
+      setDisplay(true);
     } else {
-        dispatch(removeId(roleId));
-        setDisplay(false)
+      dispatch(removeId(roleId));
+      setDisplay(false);
     }
-}
-   
+  };
 
-
-
-const checkAllItems = (isChecked, roles) => {
-  roles.forEach(item => {
+  const checkAllItems = (isChecked, roles) => {
+    roles.forEach((item) => {
       if (!isNotToBeDeleted(item.name)) {
-          item.isChecked = isChecked
+        item.isChecked = isChecked;
       }
 
       if (item.isChecked) {
-          dispatch(pushId(item.roleId))
-          setDisplay(true)
+        dispatch(pushId(item.roleId));
+        setDisplay(true);
       } else {
-          dispatch(removeId(item.roleId))
-          setDisplay(false)
+        dispatch(removeId(item.roleId));
+        setDisplay(false);
       }
-  });
-  returnList(roles)(dispatch)
-}
+    });
+    returnList(roles)(dispatch);
+  };
   return (
     <>
       <div>
@@ -110,6 +113,16 @@ const checkAllItems = (isChecked, roles) => {
                   <h4 className="card-title">User List</h4>
                 </div>
               </Card.Header>
+              {!showAlert ? (
+                <></>
+              ) : (
+                <div style={{ position: "fixed", marginLeft: "15%" }}>
+                  <Dialog
+                    handleYesButton={handleYesButton}
+                    handleNoButton={handleNoButton}
+                  />
+                </div>
+              )}
               <div className="d-flex justify-content-end">
                 {!display ? (
                   <button
@@ -236,7 +249,8 @@ const checkAllItems = (isChecked, roles) => {
                               className="form-check-input"
                               type="checkbox"
                               onChange={(e) => {
-                                 checkAllItems(e.target.checked, roles);}}
+                                checkAllItems(e.target.checked, roles);
+                              }}
                             />
                           </th>
                         )}
@@ -260,8 +274,15 @@ const checkAllItems = (isChecked, roles) => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                hidden={isNotToBeDeleted(item.name)} checked={item.isChecked || false}
-                                onChange={(e) => { checkSingleItem(e.target.checked, item.roleId, roles); }}
+                                hidden={isNotToBeDeleted(item.name)}
+                                checked={item.isChecked || false}
+                                onChange={(e) => {
+                                  checkSingleItem(
+                                    e.target.checked,
+                                    item.roleId,
+                                    roles
+                                  );
+                                }}
                               />
                             )}
                           </td>
@@ -372,8 +393,8 @@ const checkAllItems = (isChecked, roles) => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-id={item.roleId}
-                                onClick= {handleDelete}
+                                id={item.roleId}
+                                onClick={handleDelete}
                               >
                                 <span className="btn-inner">
                                   <svg
