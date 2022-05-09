@@ -349,6 +349,7 @@ export const addNewRole = (role) => dispatch => {
 
 export const deleteEachRole = (itemsId) => {
         console.log('id', itemsId);
+        itemsId = itemsId.split(" ")
         return {
             type: actions.DELETE_ROLE_STATE,
             payload: itemsId,
