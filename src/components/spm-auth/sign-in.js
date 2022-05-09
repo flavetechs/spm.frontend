@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // img
 import auth1 from '../../assets/images/auth/01.png'
-import { authLocations, dashboardLocations } from '../../router/spm-path-locations';
+import { dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
 
