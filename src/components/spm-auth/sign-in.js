@@ -1,4 +1,4 @@
-import { Row, Col, Image, } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
@@ -10,6 +10,7 @@ import auth1 from '../../assets/images/auth/01.png'
 import { dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
+import { useEffect } from 'react';
 
 const SignIn = () => {
     let history = useHistory();
@@ -104,7 +105,7 @@ const SignIn = () => {
                                                             handleSubmit()
                                                         }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                                     </div>
-                                                    <p className="text-center my-3">or sign in with other accounts?</p>
+                                                    {/* <p className="text-center my-3">or sign in with other accounts?</p>
                                                     <div className="d-flex justify-content-center">
                                                         <ListGroup as="ul" className="list-group-horizontal list-group-flush">
                                                             <ListGroup.Item as="li" className="border-0 pb-0">
@@ -120,7 +121,7 @@ const SignIn = () => {
                                                                 <Link to="#"><Image src={linkedin} alt="li" /></Link>
                                                             </ListGroup.Item>
                                                         </ListGroup>
-                                                    </div>
+                                                    </div> */}
                                                     <p className="mt-3 text-center">
                                                         Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
                                                     </p>

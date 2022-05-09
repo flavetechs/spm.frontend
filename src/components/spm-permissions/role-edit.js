@@ -12,6 +12,7 @@ import {
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
+import { resetScreen } from "../../store/actions/general-actions";
 
 const RoleEdit = () => {
 

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import { getAllActivities } from "../../store/actions/activity-actions";
-import { addNewRole, createNewName, addNewState } from "../../store/actions/role-actions";
+import { addNewRole, addToState, createNewName, } from "../../store/actions/role-actions";
 
 const RoleAdd = () => {
   const dispatch = useDispatch();
@@ -22,8 +22,10 @@ const RoleAdd = () => {
 
 
   const handleCanCreateCheckBox = (event) => {
+    const activityId = event.target.id
     const checkBoxValue = event.target.checked;
-    addNewState(
+    addToState(
+      activityId,
       checkBoxValue,
       newRole,
       "canCreate"
