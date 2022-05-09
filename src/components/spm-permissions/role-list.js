@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Card from '../Card'
@@ -7,100 +7,97 @@ import Card from '../Card'
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
-// import shap2 from '../../assets/images/shapes/02.png'
-// import shap3 from '../../assets/images/shapes/03.png'
-// import shap4 from '../../assets/images/shapes/04.png'
-// import shap5 from '../../assets/images/shapes/05.png'
-// import shap6 from '../../assets/images/shapes/06.png'
 import {
   getAllRoles,
-  deleteEachRole,
-  deleteRoles,
   returnList,
   pushId,
   removeId,
 } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
-import { useHistory } from "react-router-dom";
+import { resetScreen } from '../../store/actions/general-actions';
 
 const RoleList = () => {
-  let history = useHistory();
+  //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const [showDeleteButton, setDeleteButton] = useState(true);
+  const [showDeleteSeletecItemsButton, setDeleteSeletedItemsButton] = useState(false);
+  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  //VARIABLE DECLARATIONS
+
+
+  // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { roles, selectedIds } = state.roles;
-  const [onClick, setOnClick] = React.useState(false);
-  const [display, setDisplay] = React.useState(false);
-  
+  const { selectedIds, roles } = state.roles;
+  const { refreshScreen } = state.appState;
+  // ACCESSING STATE FROM REDUX STORE
+
 
   React.useEffect(() => {
+    //REFRESH SCREEN
+    resetScreen('true')(dispatch)
+    //REFRESH SCREEN
+
     getAllRoles()(dispatch);
-  }, [100]);
 
- 
-  const isNotToBeDeleted = (param) => {
-
-    if (param === 'STUDENT') {
-        return true;
-    } else if (param === 'SCHOOL_ADMIN') {
-        return true;
-    } else if (param === 'TEACHER') {
-        return true;
-    } else {
-        return false;
+    return () => {
+      //RESET SCREEN
+      resetScreen('false')(dispatch)
+      //RESET SCREEN
     }
-}
+  }, [refreshScreen]);
 
-const handleDelete = (e) => {
-  const roleId = e.currentTarget.dataset.id;
-  roles.forEach(item => {
-  if (!isNotToBeDeleted(item.name)) {
-  dispatch(deleteEachRole(roleId))
-  }});
-  deleteRoles(selectedIds)(dispatch);
-};
+  console.log('selectedIds', selectedIds)
 
-  const handleDeleteSelected = () => {
-    setOnClick(!onClick);
-    deleteRoles(selectedIds)(dispatch);
+  const isNotToBeDeleted = (param) => {
+    if (param === 'STUDENT') {
+      return true;
+    } else if (param === 'SCHOOL_ADMIN') {
+      return true;
+    } else if (param === 'TEACHER') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  const handleDelete = (e) => {
+    const roleId = e.currentTarget.dataset.id;
+    roles.forEach(item => {
+      if (!isNotToBeDeleted(item.name)) {
+      }
+    });
   };
-
-
 
   const checkSingleItem = (isChecked, roleId, roles) => {
     roles.forEach(item => {
-        if (item.roleId === roleId) {
-            item.isChecked = isChecked
-        }
+      if (item.roleId === roleId) {
+        item.isChecked = isChecked
+      }
     });
     if (isChecked) {
-        dispatch(pushId(roleId));
-        setDisplay(true)
+      dispatch(pushId(roleId));
     } else {
-        dispatch(removeId(roleId));
-        setDisplay(false)
+      dispatch(removeId(roleId));
     }
-}
-   
+  }
 
-
-
-const checkAllItems = (isChecked, roles) => {
-  roles.forEach(item => {
+  const checkAllItems = (isChecked, roles) => {
+    roles.forEach(item => {
       if (!isNotToBeDeleted(item.name)) {
-          item.isChecked = isChecked
+        item.isChecked = isChecked
       }
 
       if (item.isChecked) {
-          dispatch(pushId(item.roleId))
-          setDisplay(true)
+        dispatch(pushId(item.roleId))
       } else {
-          dispatch(removeId(item.roleId))
-          setDisplay(false)
+        dispatch(removeId(item.roleId))
       }
-  });
-  returnList(roles)(dispatch)
-}
+    });
+    returnList(roles)(dispatch)
+  }
+
+
   return (
     <>
       <div>
@@ -113,11 +110,16 @@ const checkAllItems = (isChecked, roles) => {
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                {!display ? (
+
+                {showDeleteButton ? (
                   <button
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => setOnClick(!onClick)}
+                    onClick={() => {
+                      setDeleteButton(!showDeleteButton)
+                      setShowCheckBoxes(!showCheckBoxes)
+                    }
+                    }
                   >
                     <i className="btn-inner">
                       <svg
@@ -156,7 +158,10 @@ const checkAllItems = (isChecked, roles) => {
                   <button
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={handleDeleteSelected}
+                    onClick={() => {
+                      setDeleteButton(!showDeleteButton)
+                      setShowCheckBoxes(!showCheckBoxes)
+                    }}
                   >
                     <i className="btn-inner">
                       <svg
@@ -230,18 +235,17 @@ const checkAllItems = (isChecked, roles) => {
                   >
                     <thead>
                       <tr className="ligth">
-                        {!onClick ? (
-                          <th>Profile</th>
-                        ) : (
-                          <th>
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                 checkAllItems(e.target.checked, roles);}}
-                            />
-                          </th>
-                        )}
+
+                        <th>
+                          {showCheckBoxes ? <input
+                            className="form-check-input"
+                            type="checkbox"
+                            onChange={(e) => {
+                              checkAllItems(e.target.checked, roles);
+                            }}
+                          /> : null}
+
+                        </th>
                         <th>Name</th>
                         <th>ID</th>
                         <th>Status</th>
@@ -251,20 +255,19 @@ const checkAllItems = (isChecked, roles) => {
                     <tbody>
                       {roles.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="text-center">
-                            {!onClick ? (
-                              <Image
-                                className="bg-soft-primary rounded img-fluid avatar-40 me-3"
-                                src={shap1}
-                                alt="profile"
-                              />
-                            ) : (
+                          <td className="">
+                            {showCheckBoxes ? (
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                hidden={isNotToBeDeleted(item.name)} checked={item.isChecked || false}
-                                onChange={(e) => { checkSingleItem(e.target.checked, item.roleId, roles); }}
+                                hidden={isNotToBeDeleted(item.name)}
+                                checked={item.isChecked || false}
+                                onChange={(e) => {
+                                  checkSingleItem(e.target.checked, item.roleId, roles);
+                                }}
                               />
+                            ) : (
+                              null
                             )}
                           </td>
                           <td>{item.name}</td>
@@ -375,7 +378,7 @@ const checkAllItems = (isChecked, roles) => {
                                 data-original-title="Delete"
                                 to="#"
                                 data-id={item.roleId}
-                                onClick= {handleDelete}
+                                onClick={handleDelete}
                               >
                                 <span className="btn-inner">
                                   <svg

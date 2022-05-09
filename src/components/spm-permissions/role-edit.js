@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllActivities } from "../../store/actions/activity-actions";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import {
@@ -18,13 +17,11 @@ const RoleEdit = () => {
 
   const locations = useLocation();
   const dispatch = useDispatch();
-  const [allActivities, concatActivities] = useState([]);
-
+  const [allActivites, setAllActivities] = useState([])
 
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { activities } = state.activities;
   const { selectedRole } = state.roles;
   const { refreshScreen } = state.appState;
   // ACCESSING STATE FROM REDUX STORE
@@ -38,43 +35,20 @@ const RoleEdit = () => {
     const queryParams = new URLSearchParams(locations.search);
     const roleId = queryParams.get("roleId");
     if (!roleId) return;
-
     fetchSingleRole(roleId)(dispatch);
-    getAllActivities()(dispatch);
+
+    
     return () => {
       //RESET SCREEN
       resetScreen('false')(dispatch)
       //RESET SCREEN
     }
-
   }, [refreshScreen]);
 
-
-  React.useEffect(() => {
-    concatActivities(...selectedRole.activities, [...activities]);
-  }, [activities.length]);
-
-
-  console.log('activies', allActivities);
-
-
   React.useLayoutEffect(() => {
-
-    var result = [];
-    if (selectedRole.activities.length > 0) {
-      result = allActivities.reduce((unique, o) => {
-        if (!unique.some(obj => obj.activityId === o.activityId)) {
-          unique.push(o);
-        }
-
-        console.log('activies', allActivities);
-        return unique;
-      }, []);
-      concatActivities(result);
-    }
-
-  }, [])
-
+    setAllActivities(selectedRole.activities);
+    console.log('res', selectedRole.activities);
+  }, []);
 
   const handleCanCreateCheckBox = (event) => {
     const activityId = event.target.id.replace("canCreate_", "");
@@ -161,6 +135,7 @@ const RoleEdit = () => {
                   </Form.Group>
                 </div>
               </Card.Header>
+
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -182,7 +157,7 @@ const RoleEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {allActivities.map((item, idx) => (
+                      {allActivites.map((item, idx) => (
                         <tr key={idx}>
                           <td className="text-uppercase">{item.name}</td>
                           <td className="text-center">
