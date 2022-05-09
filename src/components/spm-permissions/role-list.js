@@ -1,7 +1,9 @@
-import React from "react";
-import { Row, Col, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Card from "../Card";
+
+import React from 'react'
+import { Row, Col, Image } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import Card from '../Card'
+
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
