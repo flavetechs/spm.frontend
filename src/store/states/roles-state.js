@@ -7,6 +7,10 @@ export const _state = {
     newRole: {
         name: '', roleId: '', activities: []
     },
+      
+    
+   
+
     message: '',
     isSuccessful: false,
     roleId: '',
