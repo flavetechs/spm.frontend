@@ -54,6 +54,7 @@ export const editRole = (item) => {
     }
 }
 export const pushId = (itemId) => {
+    console.log('id', itemId);
     return {
         type: actions.PUSH_ROLE_ID,
         payload: itemId
@@ -76,24 +77,27 @@ export const deleteItems = (roleIds) => (dispatch) => {
     const payload = {
         items: roleIds
     }
-
+    console.log("id", roleIds)
+console.log("id", payload)
     axiosInstance.post('/role/api/v1/delete', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SUCCESS,
-                payload: res.data.result
+                payload: res.data.message.friendlyMessage
             });
-        }).catch((err) => {
-            dispatch({
-                type: actions.ROLE_REQUEST_FAILED,
-                payload: err.response.data.result
-            })
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+    }).catch((err) => {
+        dispatch({
+            type: actions.ROLE_REQUEST_FAILED,
+            payload: err.response.data.message.friendlyMessage
         });
+        showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+    });
 }
 
 export const returnList = (roles) => (dispatch) => {
     dispatch({
-        type: roles.RETURN_LIST,
+        type: actions.RETURN_LIST,
         payload: roles
     })
 }
@@ -310,11 +314,6 @@ const addition = (id, value, action) => {
 }
 
 
-
-
-
-
-
 export const createNewName = (newName, newRole) => dispatch => {
     newRole.name = newName;
     dispatch({
@@ -324,14 +323,6 @@ export const createNewName = (newName, newRole) => dispatch => {
 
 
 }
-
-
-
-
-
-
-
-
 
 
 export const addNewRole = (role) => dispatch => {
@@ -350,6 +341,40 @@ export const addNewRole = (role) => dispatch => {
         }).catch((err) => {
             dispatch({
                 type: actions.ADD_NEW_ROLE_LOADING,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteEachRole = (itemsId) => {
+        console.log('id', itemsId);
+        return {
+            type: actions.DELETE_ROLE_STATE,
+            payload: itemsId,
+        }
+    }
+
+export const deleteRoles = (id) => dispatch => {
+    dispatch({
+        type: actions.DELETE_ROLES_LOADING
+    });
+
+    const payload = {
+        items: id
+    }
+    console.log('id', id);
+    console.log('id', payload);
+    axiosInstance.post('/role/api/v1/delete', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_ROLES_LOADING,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_ROLES_LOADING,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
