@@ -1,3 +1,3 @@
 export const _state = {
-    refreshScreen: 'true'
+    refreshScreen: false
 }

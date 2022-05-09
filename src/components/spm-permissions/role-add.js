@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import { getAllActivities } from "../../store/actions/activity-actions";
-import { addNewRole, createNewName, addToState } from "../../store/actions/role-actions";
+import { addNewRole, createNewName, addNewState } from "../../store/actions/role-actions";
 
 const RoleAdd = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { activities } = state.activities;
+  const [newName, setNewName] = React.useState("");
   const { newRole } = state.roles;
 
   React.useEffect(() => {
@@ -19,15 +20,15 @@ const RoleAdd = () => {
   //const values={activityId, name, canCreate, canUpdate, canDelete, canImport, canExport}
 
 
+
   const handleCanCreateCheckBox = (event) => {
-    const activityId = event.target.id;
     const checkBoxValue = event.target.checked;
-    addToState(
-      activityId,
+    addNewState(
       checkBoxValue,
       newRole,
       "canCreate"
     )(dispatch);
+ 
   };
   const handleCanUpdateCheckBox = (event) => {
     const activityId = event.target.id
@@ -39,6 +40,7 @@ const RoleAdd = () => {
       "canCreate"
     )(dispatch);
   };
+
   const handleCanDeleteCheckBox = (event) => {
     const activityId = event.target.id
     const checkBoxValue = event.target.checked;
@@ -49,6 +51,7 @@ const RoleAdd = () => {
       "canCreate"
     )(dispatch);
   };
+
   const handleCanImportCheckBox = (event) => {
     const activityId = event.target.id;
     const checkBoxValue = event.target.checked;
@@ -75,8 +78,14 @@ const RoleAdd = () => {
     createNewName(newName, newRole)(dispatch);
   };
 
+
+
   const onSubmit = () => {
     addNewRole(newRole)(dispatch);
+    createNewName(newName,newRole)(dispatch);
+  };
+  const handleValue = (e) => {
+    setNewName(e.target.value)
   };
   return (
     <>

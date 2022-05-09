@@ -1,8 +1,7 @@
-import React from 'react'
-import { Row, Col, Image } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import Card from '../Card'
-
+import React from "react";
+import { Row, Col, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Card from "../Card";
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
@@ -11,11 +10,13 @@ import shap1 from "../../assets/images/shapes/01.png";
 // import shap4 from '../../assets/images/shapes/04.png'
 // import shap5 from '../../assets/images/shapes/05.png'
 // import shap6 from '../../assets/images/shapes/06.png'
-import { getAllRoles } from "../../store/actions/role-actions";
+import { fetchSingleRole, getAllRoles } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
+import { useHistory } from "react-router-dom";
 
 const RoleList = () => {
+  let history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { roles } = state.roles;
@@ -23,7 +24,6 @@ const RoleList = () => {
   React.useEffect(() => {
     getAllRoles()(dispatch);
   }, [100]);
-
 
   return (
     <>
