@@ -21,6 +21,7 @@ import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryM
 import { connect } from "react-redux"
 import { authLocations } from '../../router/spm-path-locations'
 import { ErrorToast, SuccessToast } from '../../components/partials/components/toaster/alert'
+import { SingleDeleteDialog } from '../../components/partials/components/toaster/DeleteDialogs'
 
 const mapStateToProps = (state) => {
     return {
@@ -94,8 +95,7 @@ const Default = (props) => {
 
     return (
         <>
-            <Loader />
-
+            <Loader /> 
             <Sidebar />
             <main className="main-content">
                 <div className="position-relative">
@@ -105,6 +105,7 @@ const Default = (props) => {
                 <div className="py-0 conatiner-fluid content-inner mt-n5">
 
                     <SuccessToast/>
+                    <SingleDeleteDialog />
                     <ErrorToast />
                     <DashboardRouter />
                 </div>
