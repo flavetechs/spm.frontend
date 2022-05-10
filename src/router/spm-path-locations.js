@@ -16,5 +16,8 @@ export const authLocations = {
 export const classLocations = {
     classSetupList: '/dashboard/spm-class/setup-list',
     classSetupEdit: '/dashboard/spm-class/setup-edit',
-    classSetupAdd: '/dashboard/spm-class/setup-add'
+    classSetupAdd: '/dashboard/spm-class/setup-add',
+    subjectSetupList: '/dashboard/spm-class/subject-setup-list',
+    editSubjectSetup: '/dashboard/spm-class/edit-subject',
+    addSubjectSetup: '/dashboard/spm-class/add-subject'
 }

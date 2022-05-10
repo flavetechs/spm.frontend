@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllActivities } from "../../store/actions/activity-actions";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import {
@@ -12,20 +11,43 @@ import {
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
+import { resetScreen } from "../../store/actions/general-actions";
 
 const RoleEdit = () => {
+
   const locations = useLocation();
   const dispatch = useDispatch();
+  const [allActivites, setAllActivities] = useState([])
+
+
+  // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { activities } = state.activities;
   const { selectedRole } = state.roles;
+  const { refreshScreen } = state.appState;
+  // ACCESSING STATE FROM REDUX STORE
+
+
   React.useEffect(() => {
+    //REFRESH SCREEN
+    resetScreen('true')(dispatch)
+    //REFRESH SCREEN
+
     const queryParams = new URLSearchParams(locations.search);
     const roleId = queryParams.get("roleId");
     if (!roleId) return;
     fetchSingleRole(roleId)(dispatch);
-    getAllActivities()(dispatch);
-    console.log(roleId);
+
+    
+    return () => {
+      //RESET SCREEN
+      resetScreen('false')(dispatch)
+      //RESET SCREEN
+    }
+  }, [refreshScreen]);
+
+  React.useLayoutEffect(() => {
+    setAllActivities(selectedRole.activities);
+    console.log('res', selectedRole.activities);
   }, []);
 
   const handleCanCreateCheckBox = (event) => {
@@ -38,6 +60,7 @@ const RoleEdit = () => {
       "canCreate"
     )(dispatch);
   };
+
   const handleCanUpdateCheckBox = (event) => {
     const activityId = event.target.id.replace("canUpdate_", "");
     const checkBoxValue = event.target.checked;
@@ -48,6 +71,7 @@ const RoleEdit = () => {
       "canUpdate"
     )(dispatch);
   };
+
   const handleCanDeleteCheckBox = (event) => {
     const activityId = event.target.id.replace("canDelete_", "");
     const checkBoxValue = event.target.checked;
@@ -58,6 +82,7 @@ const RoleEdit = () => {
       "canDelete"
     )(dispatch);
   };
+
   const handleCanImportCheckBox = (event) => {
     const activityId = event.target.id.replace("canImport_", "");
     const checkBoxValue = event.target.checked;
@@ -68,6 +93,7 @@ const RoleEdit = () => {
       "canImport"
     )(dispatch);
   };
+
   const handleCanExportCheckBox = (event) => {
     const activityId = event.target.id.replace("canExport_", "");
     const checkBoxValue = event.target.checked;
@@ -85,43 +111,6 @@ const RoleEdit = () => {
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
 
-  // const checkCanCreate = (activityId) => {
-  //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-  //     if (roleActivity && roleActivity.canCreate) {
-  //         return true;
-  //     }
-  //     return false;
-
-  // }
-
-  // const checkCanUpdate = (activityId) => {
-  //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-  //     if (roleActivity && roleActivity.canUpdate) {
-  //         return true;
-  //     }
-  //     return false;
-  // }
-  // const checkCanDelete = (activityId) => {
-  //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-  //     if (roleActivity && roleActivity.canDelete) {
-  //         return true;
-  //     }
-  //     return false;
-  // }
-  // const checkCanImport = (activityId) => {
-  //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-  //     if (roleActivity && roleActivity.canImport) {
-  //         return true;
-  //     }
-  //     return false;
-  // }
-  // const checkCanExport = (activityId) => {
-  //     var roleActivity = selectedRole.activities.find(ac => ac.activityId == activityId);
-  //     if (roleActivity && roleActivity.canExport) {
-  //         return true;
-  //     }
-  //     return false;
-  // }
 
   return (
     <>
@@ -146,6 +135,7 @@ const RoleEdit = () => {
                   </Form.Group>
                 </div>
               </Card.Header>
+
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -167,7 +157,7 @@ const RoleEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {activities.map((item, idx) => (
+                      {allActivites.map((item, idx) => (
                         <tr key={idx}>
                           <td className="text-uppercase">{item.name}</td>
                           <td className="text-center">

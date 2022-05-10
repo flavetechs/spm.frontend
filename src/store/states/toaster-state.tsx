@@ -6,4 +6,7 @@ export const _state = {
     showSuccessToast: false,
     showErrorToast: false,
     message: '',
+    showSingleDeleteDialog: false,
+    showMultipleDeleteDialog: false,
+    deleteDialogResponse: ''
 }
