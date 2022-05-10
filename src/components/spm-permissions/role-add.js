@@ -30,14 +30,14 @@ const RoleAdd = () => {
 
   React.useEffect(() => {
     //REFRESH SCREEN
-    resetScreen('true')(dispatch)
+    resetScreen(true)(dispatch)
     //REFRESH SCREEN
 
     getAllActivities()(dispatch);
 
     return () => {
       //RESET SCREEN
-      resetScreen('false')(dispatch)
+      resetScreen(false)(dispatch)
       //RESET SCREEN
     }
   }, [refreshScreen]);

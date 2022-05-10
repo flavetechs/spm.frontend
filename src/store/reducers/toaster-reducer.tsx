@@ -51,6 +51,22 @@ export const alertReducer = (state = _state, { type, payload }: any) => {
                 showErrorToast: false,
                 message: ''
             }
+        case actions.SHOW_SINGLE_DELETE_DIALOG:
+            return {
+                ...state,
+                showSingleDeleteDialog: payload,
+            }
+        case actions.SHOW_MULTIPLE_DELETE_DIALOG:
+            return {
+                ...state,
+                showMultipleDeleteDialog: payload
+            }
+
+        case actions.DELETE_DIALOG_RESPPONSE:
+            return {
+                ...state,
+                deleteDialogResponse: payload
+            }
         default:
             return state
     }

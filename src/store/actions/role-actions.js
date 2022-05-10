@@ -21,7 +21,7 @@ export const getAllRoles = () => (dispatch) => {
         });
 }
 
-export const createUpdateRole = ({ roleId, name  }) => (dispatch) => {
+export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
     dispatch({
         type: actions.ROLES_LOADING
     });
@@ -76,8 +76,7 @@ export const deleteItems = (roleIds) => (dispatch) => {
     const payload = {
         items: roleIds
     }
-    console.log("id", roleIds)
-console.log("id", payload)
+
     axiosInstance.post('/role/api/v1/delete', payload)
         .then((res) => {
             dispatch({
@@ -85,13 +84,13 @@ console.log("id", payload)
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
-    }).catch((err) => {
-        dispatch({
-            type: actions.ROLE_REQUEST_FAILED,
-            payload: err.response.data.message.friendlyMessage
+        }).catch((err) => {
+            dispatch({
+                type: actions.ROLE_REQUEST_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
-        showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
-    });
 }
 
 export const returnList = (roles) => (dispatch) => {
@@ -107,7 +106,7 @@ export const fetchSingleRole = (roleId) => dispatch => {
         type: actions.FETCH_SINGLE_ROLE_LOADING
     });
 
-    
+
     console.log('roleId', roleId)
     axiosInstance.get(`/role/api/v1/get/${roleId}?roldeId=${roleId}`)
         .then((res) => {
