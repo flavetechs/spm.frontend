@@ -84,6 +84,15 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
+
+    case actions.REMOVE_CLASS_ID: {
+      var filteredIds = filterSelectedIds(state.selectedIds, payload)
+        return {
+          ...state,
+          selectedIds: filteredIds
+      }
+    }
+
     case actions.GET_SINGLE_CLASS:{
       console.log('reducer classlist', state.classList)
       const selectedClass = state.classList.filter(d => d.lookupId == payload)[0];
@@ -95,9 +104,13 @@ export const classReducer = (state = _state, { type, payload }) => {
         }
       }
     }
-      
-
     default:
       return state;
   }
 };
+
+function filterSelectedIds(arr, value) {
+  return arr.filter(function (ele) {
+    return ele !== value;
+  });
+}

@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Image } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
-
-
 // img
 import shap1 from "../../assets/images/shapes/01.png";
-import { deleteClassItems, getAllClassList } from '../../store/actions/class-actions';
+import { deleteClassItems, getAllClassList, removeClassId } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
-import { deleteItems } from '../../store/actions/role-actions';
+import { resetScreen } from '../../store/actions/general-actions';
 
 const ClassSetList = () => {
-  
-  
+
+  //VARIABLE DECLARATIONS
+  const dispatch = useDispatch();
   const history = useHistory();
+  const [showDeleteButton, setDeleteButton] = useState(true);
+  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
@@ -24,8 +26,6 @@ const ClassSetList = () => {
     const { refreshScreen } = state.appState;
     const { deleteDialogResponse } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
-
-  const dispatch = useDispatch();
 
   React.useEffect(() => {
     getAllClassList()(dispatch);
@@ -37,7 +37,7 @@ const ClassSetList = () => {
     if (selectedIds.length === 0) {
       showErrorToast('No Item selected to be deleted')(dispatch);
     } else {
-      deleteItems(selectedIds)(dispatch);
+      deleteClassItems(selectedIds)(dispatch);
       setDeleteButton(!showDeleteButton)
       setShowCheckBoxes(false);
       respondToDeleteDialog('')(dispatch);
@@ -46,9 +46,9 @@ const ClassSetList = () => {
   } else {
     setDeleteButton(true)
     setShowCheckBoxes(false)
-    selectedIds.forEach(id => {
-      dispatch(removeId(id))
-    });
+    // selectedIds.forEach(id => {
+    //   dispatch(removeClassId(id))
+    // });
   }
   return () => {
     respondToDeleteDialog('')(dispatch);

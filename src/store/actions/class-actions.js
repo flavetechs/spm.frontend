@@ -80,7 +80,12 @@ export const updateClass = ({name, classId, isActive}) => (dispatch) => {
         });
 }
 
-
+export const removeClassId = (itemId) => {
+    return {
+        type: actions.REMOVE_CLASS_ID,
+        payload: itemId
+    }
+}
 
 
 
