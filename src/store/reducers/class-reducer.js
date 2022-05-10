@@ -1,7 +1,7 @@
 import { actions } from "../action-types/class-action-types";
 import { _state } from "../states/class-state"
 
-export const classListReducer = (state = _state, { type, payload }) => {
+export const classReducer = (state = _state, { type, payload }) => {
   switch (type) {
     case actions.FETCH_CLASSLOOKUP_LOADING:
       return {
