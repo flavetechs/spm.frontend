@@ -1,107 +1,120 @@
-import React from "react";
-import { Row, Col, Image, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Card from "../Card";
-import Dialog from "../Dialog";
+
+import React, { useState } from 'react'
+import { Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import Card from '../Card'
+
 
 // img
-import shap1 from "../../assets/images/shapes/01.png";
-// import shap2 from '../../assets/images/shapes/02.png'
-// import shap3 from '../../assets/images/shapes/03.png'
-// import shap4 from '../../assets/images/shapes/04.png'
-// import shap5 from '../../assets/images/shapes/05.png'
-// import shap6 from '../../assets/images/shapes/06.png'
 import {
   getAllRoles,
-  deleteEachRole,
-  deleteRoles,
   returnList,
   pushId,
   removeId,
+  deleteItems,
 } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
+import { resetScreen } from '../../store/actions/general-actions';
+import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
 const RoleList = () => {
+  //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const [showDeleteButton, setDeleteButton] = useState(true);
+  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  //VARIABLE DECLARATIONS
+
+
+  // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { roles, selectedIds } = state.roles;
-  const [onClick, setOnClick] = React.useState(false);
-  const [display, setDisplay] = React.useState(false);
-  const [showAlert, setShowAlert] = React.useState(false);
+  const { refreshScreen } = state.appState;
+  const { deleteDialogResponse } = state.alert;
+  // ACCESSING STATE FROM REDUX STORE
+
 
   React.useEffect(() => {
+    //REFRESH SCREEN
+    resetScreen(true)(dispatch)
+    //REFRESH SCREEN
+
     getAllRoles()(dispatch);
-  }, [100]);
+
+    return () => {
+      //RESET SCREEN
+      resetScreen(!refreshScreen)(dispatch)
+      //RESET SCREEN
+    }
+  }, [refreshScreen]);
+
+  //DELETE HANDLER
+  React.useEffect(() => {
+    if (deleteDialogResponse === 'continue') {
+      if (selectedIds.length === 0) {
+        showErrorToast('No Item selected to be deleted')(dispatch);
+      } else {
+        deleteItems(selectedIds)(dispatch);
+        setDeleteButton(!showDeleteButton)
+        setShowCheckBoxes(false);
+        respondToDeleteDialog('')(dispatch);
+        resetScreen(!refreshScreen)(dispatch);
+      }
+    } else {
+      setDeleteButton(true)
+      setShowCheckBoxes(false)
+      selectedIds.forEach(id => {
+        dispatch(removeId(id))
+      });
+    }
+    return () => {
+      respondToDeleteDialog('')(dispatch);
+    }
+  }, [deleteDialogResponse]);
+  //DELETE HANDLER
+
 
   const isNotToBeDeleted = (param) => {
-    if (param === "STUDENT") {
+    if (param === 'STUDENT') {
       return true;
-    } else if (param === "SCHOOL_ADMIN") {
+    } else if (param === 'SCHOOL_ADMIN') {
       return true;
-    } else if (param === "TEACHER") {
+    } else if (param === 'TEACHER') {
       return true;
     } else {
       return false;
     }
-  };
-
-  const handleDelete = (e) => {
-    setShowAlert(!showAlert);
-    const roleId = e.currentTarget.id;
-    roles.forEach((item) => {
-      if (!isNotToBeDeleted(item.name)) {
-        dispatch(deleteEachRole(roleId));
-      }
-    });
-  };
-  const handleYesButton = () => {
-    setShowAlert(!showAlert);
-    deleteRoles(selectedIds)(dispatch);
-    console.log("OnclickYes true");
-  };
-
-  const handleNoButton = () => {
-    setShowAlert(!showAlert);
-    console.log("OnclickYes false");
-  };
-
-  const handleDeleteSelected = () => {
-    setOnClick(!onClick);
-    deleteRoles(selectedIds)(dispatch);
-  };
+  }
 
   const checkSingleItem = (isChecked, roleId, roles) => {
-    roles.forEach((item) => {
+    roles.forEach(item => {
       if (item.roleId === roleId) {
-        item.isChecked = isChecked;
+        item.isChecked = isChecked
       }
     });
     if (isChecked) {
       dispatch(pushId(roleId));
-      setDisplay(true);
     } else {
       dispatch(removeId(roleId));
-      setDisplay(false);
     }
-  };
+  }
 
   const checkAllItems = (isChecked, roles) => {
-    roles.forEach((item) => {
+    roles.forEach(item => {
       if (!isNotToBeDeleted(item.name)) {
-        item.isChecked = isChecked;
+        item.isChecked = isChecked
       }
 
       if (item.isChecked) {
-        dispatch(pushId(item.roleId));
-        setDisplay(true);
+        dispatch(pushId(item.roleId))
       } else {
-        dispatch(removeId(item.roleId));
-        setDisplay(false);
+        dispatch(removeId(item.roleId))
       }
     });
-    returnList(roles)(dispatch);
-  };
+    returnList(roles)(dispatch)
+  }
+
+
   return (
     <>
       <div>
@@ -113,22 +126,16 @@ const RoleList = () => {
                   <h4 className="card-title">User List</h4>
                 </div>
               </Card.Header>
-              {!showAlert ? (
-                <></>
-              ) : (
-                <div style={{ position: "fixed", marginLeft: "15%" }}>
-                  <Dialog
-                    handleYesButton={handleYesButton}
-                    handleNoButton={handleNoButton}
-                  />
-                </div>
-              )}
               <div className="d-flex justify-content-end">
-                {!display ? (
+                {showDeleteButton ? (
                   <button
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => setOnClick(!onClick)}
+                    onClick={() => {
+                      setDeleteButton(!showDeleteButton)
+                      setShowCheckBoxes(!showCheckBoxes)
+                    }
+                    }
                   >
                     <i className="btn-inner">
                       <svg
@@ -167,7 +174,9 @@ const RoleList = () => {
                   <button
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={handleDeleteSelected}
+                    onClick={() => {
+                      showSingleDeleteDialog(true)(dispatch)
+                    }}
                   >
                     <i className="btn-inner">
                       <svg
@@ -241,19 +250,17 @@ const RoleList = () => {
                   >
                     <thead>
                       <tr className="ligth">
-                        {!onClick ? (
-                          <th>Profile</th>
-                        ) : (
-                          <th>
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                checkAllItems(e.target.checked, roles);
-                              }}
-                            />
-                          </th>
-                        )}
+
+                        <th>
+                          {showCheckBoxes ? <input
+                            className="form-check-input"
+                            type="checkbox"
+                            onChange={(e) => {
+                              checkAllItems(e.target.checked, roles);
+                            }}
+                          /> : null}
+
+                        </th>
                         <th>Name</th>
                         <th>ID</th>
                         <th>Status</th>
@@ -263,27 +270,19 @@ const RoleList = () => {
                     <tbody>
                       {roles.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="text-center">
-                            {!onClick ? (
-                              <Image
-                                className="bg-soft-primary rounded img-fluid avatar-40 me-3"
-                                src={shap1}
-                                alt="profile"
-                              />
-                            ) : (
+                          <td className="">
+                            {showCheckBoxes ? (
                               <input
                                 className="form-check-input"
                                 type="checkbox"
                                 hidden={isNotToBeDeleted(item.name)}
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(
-                                    e.target.checked,
-                                    item.roleId,
-                                    roles
-                                  );
+                                  checkSingleItem(e.target.checked, item.roleId, roles);
                                 }}
                               />
+                            ) : (
+                              null
                             )}
                           </td>
                           <td>{item.name}</td>
@@ -386,48 +385,56 @@ const RoleList = () => {
                                   </svg>
                                 </span>
                               </Link>{" "}
-                              <Link
-                                className="btn btn-sm btn-icon btn-danger"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title=""
-                                data-original-title="Delete"
-                                to="#"
-                                id={item.roleId}
-                                onClick={handleDelete}
-                              >
-                                <span className="btn-inner">
-                                  <svg
-                                    width="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                              {isNotToBeDeleted(item.name) ? (null) : (
+
+                                <Link
+                                  className="btn btn-sm btn-icon btn-danger"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Delete"
+                                  to="#"
+                                  data-id={item.roleId}
+                                  onClick={() => {
+                                    dispatch(pushId(item.roleId))
+                                    showSingleDeleteDialog(true)(dispatch)
+                                  }
+                                  }
+                                >
+                                  <span className="btn-inner">
+                                    <svg
+                                      width="20"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
                                       stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M20.708 6.23975H3.75"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                  </svg>
-                                </span>
-                              </Link>{" "}
+                                    >
+                                      <path
+                                        d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M20.708 6.23975H3.75"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                  </span>
+                                </Link>
+                              )}
+
                             </div>
                           </td>
                         </tr>

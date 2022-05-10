@@ -51,3 +51,24 @@ export const hideErrorToast = () => dispatch =>{
         type: actions.HIDE_ERROR_TOAST
     })
 }
+
+export const showSingleDeleteDialog = (value) => dispatch =>{
+    dispatch({
+        type: actions.SHOW_SINGLE_DELETE_DIALOG,
+        payload: value
+    })
+}
+
+export const showMultipleDeleteDialog = (value) => dispatch =>{
+    dispatch({
+        type: actions.SHOW_MULTIPLE_DELETE_DIALOG,
+        payload: value
+    })
+}
+
+export const respondToDeleteDialog = (value) => dispatch=> {
+    dispatch({
+        type: actions.DELETE_DIALOG_RESPPONSE,
+        payload: value
+    })
+}
