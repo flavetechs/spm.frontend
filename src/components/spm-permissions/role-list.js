@@ -1,11 +1,7 @@
-
 import React, { useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Card from '../Card'
-
-
-// img
 import {
   getAllRoles,
   returnList,
@@ -15,7 +11,6 @@ import {
 } from "../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
-import { resetScreen } from '../../store/actions/general-actions';
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
 const RoleList = () => {
@@ -29,24 +24,13 @@ const RoleList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { roles, selectedIds } = state.roles;
-  const { refreshScreen } = state.appState;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
 
   React.useEffect(() => {
-    //REFRESH SCREEN
-    resetScreen(true)(dispatch)
-    //REFRESH SCREEN
-
     getAllRoles()(dispatch);
-
-    return () => {
-      //RESET SCREEN
-      resetScreen(!refreshScreen)(dispatch)
-      //RESET SCREEN
-    }
-  }, [refreshScreen]);
+  }, []);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -58,7 +42,6 @@ const RoleList = () => {
         setDeleteButton(!showDeleteButton)
         setShowCheckBoxes(false);
         respondToDeleteDialog('')(dispatch);
-        resetScreen(!refreshScreen)(dispatch);
       }
     } else {
       setDeleteButton(true)
