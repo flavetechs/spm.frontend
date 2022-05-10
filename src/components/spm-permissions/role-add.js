@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,17 +6,13 @@ import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import {
   createNewRole,
-  updateModifiedRole,
   updateRoleActivityState,
   updateRoleNameState,
 } from "../../store/actions/role-actions";
-import { useLocation } from "react-router-dom";
-import { resetScreen } from "../../store/actions/general-actions";
 import { getAllActivities } from "../../store/actions/activity-actions";
 
 const RoleAdd = () => {
 
-  const locations = useLocation();
   const dispatch = useDispatch();
 
 
@@ -24,23 +20,12 @@ const RoleAdd = () => {
   const state = useSelector((state) => state);
   const { selectedRole } = state.roles;
   const { activities } = state.activities;
-  const { refreshScreen } = state.appState;
   // ACCESSING STATE FROM REDUX STORE
 
 
   React.useEffect(() => {
-    //REFRESH SCREEN
-    resetScreen(true)(dispatch)
-    //REFRESH SCREEN
-
     getAllActivities()(dispatch);
-
-    return () => {
-      //RESET SCREEN
-      resetScreen(false)(dispatch)
-      //RESET SCREEN
-    }
-  }, [refreshScreen]);
+  }, []);
 
   const handleCanCreateCheckBox = (event) => {
     const activityId = event.target.id.replace("canCreate_", "");

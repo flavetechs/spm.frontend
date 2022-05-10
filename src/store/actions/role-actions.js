@@ -79,6 +79,7 @@ export const deleteItems = (roleIds) => (dispatch) => {
 
     axiosInstance.post('/role/api/v1/delete', payload)
         .then((res) => {
+            getAllRoles()(dispatch);
             dispatch({
                 type: actions.DELETE_SUCCESS,
                 payload: res.data.message.friendlyMessage
