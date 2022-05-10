@@ -11,7 +11,6 @@ import {
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
-import { resetScreen } from "../../store/actions/general-actions";
 
 const RoleEdit = () => {
 
@@ -23,31 +22,18 @@ const RoleEdit = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedRole } = state.roles;
-  const { refreshScreen } = state.appState;
   // ACCESSING STATE FROM REDUX STORE
 
 
   React.useEffect(() => {
-    //REFRESH SCREEN
-    resetScreen('true')(dispatch)
-    //REFRESH SCREEN
-
     const queryParams = new URLSearchParams(locations.search);
     const roleId = queryParams.get("roleId");
     if (!roleId) return;
     fetchSingleRole(roleId)(dispatch);
-
-    
-    return () => {
-      //RESET SCREEN
-      resetScreen('false')(dispatch)
-      //RESET SCREEN
-    }
-  }, [refreshScreen]);
+  }, []);
 
   React.useLayoutEffect(() => {
     setAllActivities(selectedRole.activities);
-    console.log('res', selectedRole.activities);
   }, []);
 
   const handleCanCreateCheckBox = (event) => {

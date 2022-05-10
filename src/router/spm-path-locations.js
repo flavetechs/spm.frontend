@@ -10,7 +10,6 @@ export const dashboardLocations = {
 
 export const authLocations = {
     login: '/smp/sign-in',
-    signIn: ''
 }
 
 export const classLocations = {
