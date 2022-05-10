@@ -64,17 +64,6 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-
-
-    case actions.FETCH_CLASSLOOKUP_FAILED:
-      return {
-        ...state,
-        loading: false,
-        message: payload,
-        isSuccessful: false
-      };
-
-
     case actions.DELETE_CLASSLOOKUP_LOADING:
       return {
         ...state,

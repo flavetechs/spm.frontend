@@ -10,11 +10,20 @@ import shap1 from "../../assets/images/shapes/01.png";
 import { deleteClassItems, getAllClassList } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
+import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
+import { deleteItems } from '../../store/actions/role-actions';
 
 const ClassSetList = () => {
-  const state = useSelector((state) => state);
-  const { classList, isSuccessful, selectedIds } = state.class;
+  
+  
   const history = useHistory();
+
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { classList, isSuccessful, selectedIds } = state.class;
+    const { refreshScreen } = state.appState;
+    const { deleteDialogResponse } = state.alert;
+    // ACCESSING STATE FROM REDUX STORE
 
   const dispatch = useDispatch();
 
@@ -22,11 +31,30 @@ const ClassSetList = () => {
     getAllClassList()(dispatch);
   }, [100]);
 
-  const handleDelete = (selectedIds) => {
-    if(isSuccessful){
-      deleteClassItems(selectedIds)(dispatch)
+ //DELETE HANDLER
+ React.useEffect(() => {
+  if (deleteDialogResponse === 'continue') {
+    if (selectedIds.length === 0) {
+      showErrorToast('No Item selected to be deleted')(dispatch);
+    } else {
+      deleteItems(selectedIds)(dispatch);
+      setDeleteButton(!showDeleteButton)
+      setShowCheckBoxes(false);
+      respondToDeleteDialog('')(dispatch);
+      resetScreen(!refreshScreen)(dispatch);
     }
+  } else {
+    setDeleteButton(true)
+    setShowCheckBoxes(false)
+    selectedIds.forEach(id => {
+      dispatch(removeId(id))
+    });
   }
+  return () => {
+    respondToDeleteDialog('')(dispatch);
+  }
+}, [deleteDialogResponse]);
+//DELETE HANDLER
 
   return (
     <>
@@ -141,7 +169,11 @@ const ClassSetList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                onClick={handleDelete}
+                                onClick={() => {
+                                  showSingleDeleteDialog(true)(dispatch)
+                                  
+                                }
+                                }
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -174,7 +206,7 @@ const ClassSetList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </Link>{" "}
+                              </Link>
                             </div>
                           </td>
                         </tr>
