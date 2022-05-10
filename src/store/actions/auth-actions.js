@@ -14,6 +14,7 @@ export const loginUser = ({ userName, password }) => (dispatch) => {
 
     axiosInstance.post('user/api/v1/login', payload)
         .then((res) => {
+            // console.log('login info', res.data.result);
             dispatch({
                 type: actions.LOGIN_USER_SUCCESS,
                 payload: res.data.result

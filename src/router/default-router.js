@@ -5,17 +5,31 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 //admin
 import RoleList from '../components/spm-permissions/role-list';
-import { dashboardLocations, permissionLocations } from './spm-path-locations';
+import RoleEdit from '../components/spm-permissions/role-edit';
+import RoleAdd from '../components/spm-permissions/role-add';
+import { classLocations, dashboardLocations, permissionLocations } from './spm-path-locations';
+import ClassSetList from '../components/spm-class/class-setup-list';
+import ClassSetupAdd from '../components/spm-class/class-setup-add';
+import ClassSetupEdit from '../components/spm-class/class-setup-edit';
 
 const DashboardRouter = () => {
+
     return (
         <TransitionGroup>
             <CSSTransition classNames="fadein" timeout={300}>
                 <Switch>
+                    {/* dashboard */}
                     <Route path={dashboardLocations.dashboard} exact component={Index} />
 
                     {/* permissions */}
                     <Route path={permissionLocations.roleList} exact component={RoleList} />
+                    <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
+                    <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
+
+                    {/* class */}
+                    <Route path={classLocations.classSetupList} exact component={ClassSetList} />
+                    <Route path={classLocations.classSetupAdd} exact component={ClassSetupAdd} />
+                    <Route path={classLocations.classSetupEdit} exact component={ClassSetupEdit} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>

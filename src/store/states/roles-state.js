@@ -1,9 +1,12 @@
 export const _state = {
-    loading : false,
+    loading: false,
     roles: [],
+    selectedRole: {
+        name: '', roleId: '', activities: []
+    },
     message: '',
     isSuccessful: false,
-    roleId:'',
-    name:'',
-    selectedIds:[]
+    roleId: '',
+    name: '',
+    selectedIds: []
 }
