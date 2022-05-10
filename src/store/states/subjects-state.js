@@ -6,7 +6,5 @@ export const _state = {
     },
     message: '',
     isSuccessful: false,
-    lookupId: '',
-    name: '',
-    selectedIds: []
+    selectIds: []
 }

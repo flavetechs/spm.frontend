@@ -12,10 +12,9 @@ import {
   pushId,
   removeId,
   deleteSubjects,
-} from '../../store/actions/subject.actions';
+} from '../../store/actions/subject-actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { classLocations } from '../../router/spm-path-locations';
-import { resetScreen } from '../../store/actions/general-actions';
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
 const SubjectSetupList = () => {
@@ -28,43 +27,30 @@ const SubjectSetupList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const subjects = state.subjects;
-  const selectedIds = state.subjects;
-  const { refreshScreen } = state.appState;
+  const { selectIds, subjects } = state.subjects;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
 
   React.useEffect(() => {
-    //REFRESH SCREEN
-    resetScreen(true)(dispatch)
-    //REFRESH SCREEN
-
     getAllSubjects()(dispatch);
-
-    return () => {
-      //RESET SCREEN
-      resetScreen(!refreshScreen)(dispatch)
-      //RESET SCREEN
-    }
-  }, [refreshScreen]);
-
+  }, []);
   //DELETE HANDLER
+
   React.useEffect(() => {
     if (deleteDialogResponse === 'continue') {
-      if (selectedIds.length === 0) {
+      if (selectIds.length === 0) {
         showErrorToast('No Item selected to be deleted')(dispatch);
       } else {
-        deleteSubjects(selectedIds)(dispatch);
+        deleteSubjects(selectIds)(dispatch);
         setDeleteButton(!showDeleteButton)
         setShowCheckBoxes(false);
         respondToDeleteDialog('')(dispatch);
-        resetScreen(!refreshScreen)(dispatch);
       }
     } else {
       setDeleteButton(true)
       setShowCheckBoxes(false)
-      selectedIds.forEach(id => {
+      selectIds.forEach(id => {
         dispatch(removeId(id))
       });
     }

@@ -27,11 +27,11 @@ const DashboardRouter = () => {
                     <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
                     <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
 
-                      {/* class */}
-                     {/* <Route path={classLocations.classSetupList} exact component={ClassSetupList} />*/}
+                      {/* subject */}
                     <Route path={ classLocations.subjectSetupList} exact component={SubjectSetupList} />
                    {/* <Route path={classLocations.editSubjectSetup} exact component={EditSubjectSetup} />*/}
                     {/*<Route path={classLocations.addSubjectSetup} exact component={AddSubjectSetup} />*/}
+
                     {/* class */}
                     <Route path={classLocations.classSetupList} exact component={ClassSetList} />
                     <Route path={classLocations.classSetupAdd} exact component={ClassSetupAdd} />

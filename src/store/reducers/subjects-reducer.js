@@ -40,24 +40,24 @@ export const subjectsReducer = (state = _state, { type, payload }) => {
         name: payload.name,
       };
     case actions.REMOVE_SUBJECT_ID: {
-      var filteredIds = filterSelectedIds(state.selectedIds, payload)
-            return {
-                ...state,
-                selectedIds: filteredIds
-            }
+      var filteredIds = filterSelectedIds(state.selectIds, payload);
+      return {
+        ...state,
+        selectIds: filteredIds,
+      };
     }
 
     case actions.PUSH_SUBJECT_ID: {
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
-    }
+        selectIds: [...state.selectIds, payload],
+      };
     }
 
     case actions.DELETE_SUCCESS: {
       return {
         ...state,
-        selectedIds: [],
+        selectIds: [],
         message: "Successfuly deleted",
         isSuccessful: true,
       };
@@ -110,12 +110,12 @@ export const subjectsReducer = (state = _state, { type, payload }) => {
         newsubject: payload,
       };
 
-      case actions.DELETE_SUBJECT_STATE:
-         return {
+    case actions.DELETE_SUBJECT_STATE:
+      return {
         ...state,
-        selectedIds: [...payload]
-    }
-       
+        selectIds: [...payload],
+      };
+
     default:
       return state;
   }
