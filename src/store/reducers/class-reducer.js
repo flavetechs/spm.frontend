@@ -22,18 +22,20 @@ export const classListReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
+
     case actions.CREATE_CLASSLOOKUP_LOADING:
       return {
-        ...state, 
+        ...state,
         loading: true,
-        isSuccessful : false
-        };
+        isSuccessful: false
+      };
     case actions.CREATE_CLASSLOOKUP_SUCCESS:
       return {
-        ...state, 
+        ...state,
         classList: payload,
         isSuccessful: true,
-        loading: false
+        loading: false,
+        isActive: true
       };
     case actions.CREATE_CLASSLOOKUP_FAILED:
       return {
@@ -41,22 +43,71 @@ export const classListReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
         loading: false
       };
-      
-    case actions.UPDATE_CLASS_SUCCESS:
+
+    case actions.UPDATE_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        classId: payload.classId,
-        message: "",
-        name: payload.name,
+        loading: true
       };
-    case actions.DELETE_CLASS_SUCCESS: {
+    case actions.UPDATE_CLASSLOOKUP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: true
+      };
+    case actions.UPDATE_CLASSLOOKUP_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+
+
+
+    case actions.FETCH_CLASSLOOKUP_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+
+
+    case actions.DELETE_CLASSLOOKUP_LOADING:
+      return {
+        ...state,
+       loading: true
+      };
+    case actions.DELETE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
         selectedIds: [],
         message: "Successfuly deleted",
         isSuccessful: true,
-        };
+      };
+    case actions.DELETE_CLASSLOOKUP_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: "Successfuly deleted",
+        isSuccessful: false
+      };
+
+    case actions.GET_SINGLE_CLASS:{
+      console.log('reducer classlist', state.classList)
+      const selectedClass = state.classList.filter(d => d.lookupId == payload)[0];
+      console.log('selected class', selectedClass)
+      if(selectedClass){
+        return {
+          ...state,
+          selectedClass: selectedClass,
+        }
       }
+    }
+      
+
     default:
       return state;
   }

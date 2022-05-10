@@ -72,7 +72,7 @@ const ClassSetupAdd = () => {
                                             <Col lg="6" className="d-flex justify-content-between">
                                                             <div className="form-check mb-3 form-Check">
                                                                 <Field type="checkbox" id="customCheck1" className="form-check-input" />
-                                                                <label htmlFor="customCheck1" className='check-label'>Remember Me </label>
+                                                                <label htmlFor="customCheck1" className='check-label'>isActive </label>
                                                             </div>
                                                         </Col>
                                             <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}

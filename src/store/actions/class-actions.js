@@ -51,6 +51,39 @@ export const createClass = ({ name, isActive }) => (dispatch) => {
         });
 }
 
+
+
+export const updateClass = ({name, classId, isActive}) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_CLASSLOOKUP_LOADING
+    });
+    const payload = {
+        lookupId : classId,
+        name: name,
+        isActive: isActive
+    }
+    axiosInstance.post('/class/api/v1/update/class-lookup', payload)
+        .then((res) => {
+            console.log('update res: ', res)
+            dispatch({
+                type: actions.UPDATE_CLASSLOOKUP_SUCCESS,
+                payload: res.data.message.friendlyMessage.result
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            console.log('update error: ', err)
+            dispatch({
+                type: actions.UPDATE_CLASSLOOKUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+
+
+
  
 export const deleteClassItems = (classId) => (dispatch) => {
     dispatch({
@@ -60,8 +93,8 @@ export const deleteClassItems = (classId) => (dispatch) => {
     const payload = {
         items: classId
     }
-
-    axiosInstance.post('/class/api/v1/delete/class-lookup', payload)
+    const url = '/class/api/v1/delete/class-lookup'
+    axiosInstance.post(`${url}/${payload}`)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_CLASS_SUCCESS,
@@ -76,6 +109,14 @@ export const deleteClassItems = (classId) => (dispatch) => {
 }
 
 
+export const fetchSingleClass = (classId) => dispatch =>{
+        console.log('my fetchsingleclass', classId)
+    dispatch({
+        type: actions.GET_SINGLE_CLASS,
+        payload: classId
+    });
+
+}
 
 
 
