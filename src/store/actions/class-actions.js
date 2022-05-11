@@ -2,6 +2,7 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/class-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
+
 export const getAllClassList = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASSLOOKUP_LOADING
@@ -119,9 +120,170 @@ export const fetchSingleClass = (classId) => dispatch =>{
 }
 
 
+export const getAllSubjects = () => (dispatch) => {
+    dispatch({
+        type: actions.SUBJECTS_LOADING
+    });
+
+    axiosInstance.get('subject/api/v1/getall/subject')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.SUBJECT_REQUEST_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
 
+//CREATE SUBJECT
+export const createSubjectName = (name, selectedSubject) => dispatch => {
+    console.log("name", name)
+    selectedSubject.name = name;
+    dispatch({
+        type: actions.CREATE_SUBJECT_NAME,
+        payload: selectedSubject,
+    });
 
+
+}
+export const createStatus = (value, selectedSubject) => dispatch => {
+    console.log("value", value)
+    selectedSubject.isActive = value;
+    dispatch({
+        type: actions.CREATE_STATUS,
+        payload: selectedSubject,
+    });
+
+
+}
+
+
+export const createSubject = (subject) => (dispatch) => {
+console.log("subject", subject)
+    dispatch({
+        type: actions.CREATE_SUBJECT_LOADING
+    });
+
+
+    axiosInstance.post('/subject/api/v1/create/subject', subject)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_SUBJECT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_SUBJECT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+//Delete subject
+export const pushId = (itemId) => {
+    console.log("itemId", itemId)
+    return {
+        type: actions.PUSH_SUBJECT_ID,
+        payload: itemId
+    }
+}
+
+export const deleteSubject = (subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_SUBJECT_LOADING
+    });
+
+    console.log("subjectId", subjectId)
+    axiosInstance.post('/subject/api/v1/delete/subject', subjectId)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_SUBJECT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_SUBJECT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
+  //Update subject
+
+  export const fetchSingleSubject = (lookupId) => dispatch => {
+
+    dispatch({
+        type: actions.FETCH_SINGLE_SUBJECT_LOADING
+    });
+
+
+    console.log('subjectId', lookupId)
+    axiosInstance.get(`/subject/api/v1/get/${lookupId}?lookupId=${lookupId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SUBJECT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SUBJECT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const updateSubjectName = (name, selectedSubject) => dispatch => {
+    console.log("updatedName", name)
+    selectedSubject.name = name;
+    dispatch({
+        type: actions.CREATE_SUBJECT_NAME,
+        payload: selectedSubject,
+    });
+
+
+}
+export const updateStatus = (value, selectedSubject) => dispatch => {
+    console.log("value", value)
+    //selectedSubject.isActive = value;
+    dispatch({
+        type: actions.CREATE_STATUS,
+        payload: selectedSubject,
+    });
+
+
+}
+
+export const updateSubject = (updatedSubject) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_SUBJECT_LOADING
+    });
+    
+  console.log("updatedSubject", updatedSubject)
+    axiosInstance.post('/subject/api/v1/update/subject', updatedSubject)
+        .then((res) => {
+            console.log('update res: ', res)
+            dispatch({
+                type: actions.UPDATE_SUBJECT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            console.log('update error: ', err)
+            dispatch({
+                type: actions.UPDATE_SUBJECT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
 
 
 

@@ -3,5 +3,10 @@ export const _state = {
     classList: [],
     message: '',
     isSuccessful: false,
-    selectedClass: null
+    selectedClass: null,
+    subjects: [],
+    selectedSubject: {
+        name: '', lookupId: '', isActive: true,
+    },
+    selectedIds: '',
 }
