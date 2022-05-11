@@ -199,19 +199,25 @@ export const deleteSubject = (subjectId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SUBJECT_LOADING
     });
+    const payload = {
+        items: subjectId
+    }
 
     console.log("subjectId", subjectId)
-    axiosInstance.post('/subject/api/v1/delete/subject', subjectId)
+    console.log("payload", payload)
+    axiosInstance.post('/subject/api/v1/delete/subject', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SUBJECT_SUCCESS,
-                payload: res.data.result
+                payload: res.data.message.friendlyMessage
             });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.DELETE_SUBJECT_FAILED,
-                payload: err.response.data.result
-            })
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
@@ -219,26 +225,14 @@ export const deleteSubject = (subjectId) => (dispatch) => {
   //Update subject
 
   export const fetchSingleSubject = (lookupId) => dispatch => {
-
+    console.log('my fetchsingleclass', lookupId)
     dispatch({
-        type: actions.FETCH_SINGLE_SUBJECT_LOADING
+        type: actions.GET_SINGLE_SUBJECT,
+        payload: lookupId
     });
 
-
-    console.log('subjectId', lookupId)
-    axiosInstance.get(`/subject/api/v1/get/${lookupId}?lookupId=${lookupId}`)
-        .then((res) => {
-            dispatch({
-                type: actions.FETCH_SINGLE_SUBJECT_SUCCESS,
-                payload: res.data.result
-            });
-        }).catch(err => {
-            dispatch({
-                type: actions.FETCH_SINGLE_SUBJECT_FAILED,
-                payload: err.response.data.result
-            })
-        });
 }
+  
 
 export const updateSubjectName = (name, selectedSubject) => dispatch => {
     console.log("updatedName", name)

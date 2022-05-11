@@ -171,10 +171,10 @@ export const classReducer = (state = _state, { type, payload }) => {
           loading: false
         };
         case actions.PUSH_SUBJECT_ID: 
-          return {
-            ...state,
-            selectedIds: payload
-        }
+        return {
+          ...state,
+          selectedIds: [...state.selectedIds, payload]
+      }
         
       case actions.DELETE_SUBJECT_LOADING:
         return {
@@ -184,7 +184,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       case actions.DELETE_SUBJECT_SUCCESS:
         return {
           ...state,
-          selectedIds: payload,
+          selectedIds: [],
           message: "Successfuly deleted",
           isSuccessful: true,
         };
@@ -203,26 +203,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         }
         
 
-        case actions.FETCH_SINGLE_SUBJECT_LOADING: {
-          return {
-            ...state,
-            loading: true,
-          };
-        }
-        case actions.FETCH_SINGLE_SUBJECT_SUCCESS: {
-          return {
-            ...state,
-            loading: false,
-            selectedSubject: payload,
-          };
-        }
-        case actions.FETCH_SINGLE_SUBJECT_FAILED: {
-          return {
-            ...state,
-            loading: false,
-            selectedSubject: null,
-          };
-        }
+  
 
     case actions.UPDATE_SUBJECT_LOADING:
       return {

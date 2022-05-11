@@ -8,5 +8,5 @@ export const _state = {
     selectedSubject: {
         name: '', lookupId: '', isActive: true,
     },
-    selectedIds: '',
+    selectedIds: [],
 }
