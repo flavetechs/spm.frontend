@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Row,Col,Form,Button} from 'react-bootstrap'
 import Card from '../Card'
 import { useHistory } from 'react-router-dom'
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSingleClass, updateClass } from '../../store/actions/class-actions';
+import { fetchSingleClass, resetForm, updateClass } from '../../store/actions/class-actions';
 import { classLocations } from '../../router/spm-path-locations';
 import { useLocation } from "react-router-dom";
 
@@ -13,12 +13,24 @@ import { useLocation } from "react-router-dom";
 
 const ClassSetupEdit = () => {
 
+    //ACCESS STATE
     const locations = useLocation();
     let history = useHistory()
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { isSuccessful, message, selectedClass } = state.class;
     console.log('my selectedclass', selectedClass)
+
+
+    //VARAIABLES DECLARATION
+    const [initialValues, setInitialValues] = useState(
+        {
+            name: selectedClass?.name,
+            isActive : selectedClass?.isActive,
+            lookupId: selectedClass?.lookupId
+        }
+    )
+
 
     const validation = Yup.object().shape({
         name: Yup.string()
@@ -34,6 +46,14 @@ const ClassSetupEdit = () => {
         console.log('useeffect classID', classId);
         if (!classId) return;
         fetchSingleClass(classId)(dispatch);
+        return () => {
+            setInitialValues({
+                name: '',
+                isActive : true,
+                lookupId: ''
+            })
+            // resetForm()(dispatch)
+        }
       }, [100]);
 
       if(isSuccessful){
@@ -43,6 +63,8 @@ const ClassSetupEdit = () => {
     if(!selectedClass){
         history.push(classLocations.classSetupList)
     }
+
+
 
     return (
         <>
@@ -57,13 +79,9 @@ const ClassSetupEdit = () => {
                             </Card.Header>
                             <Card.Body>
                             <Formik
-                                    initialValues={{
-                                        name: selectedClass?.name,
-                                        isActive : selectedClass?.isActive,
-                                        classId: selectedClass?.lookUpId
-                                    }}
+                                    initialValues={initialValues}
                                     validationSchema={validation}
-                                    onSubmit={values => {
+                                    onSubmit={(values, {resetForm}) => {
                                         console.log(values);
                                         updateClass(values)(dispatch)
                                     }}

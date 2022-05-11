@@ -35,14 +35,17 @@ export const createClass = ({ name, isActive }) => (dispatch) => {
         isActive
     }
 
+    console.log('create res class', payload);
     axiosInstance.post('/class/api/v1/create/class-lookup', payload)
         .then((res) => {
+            
             dispatch({
                 type: actions.CREATE_CLASSLOOKUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
+            console.log('create err class', err);
             dispatch({
                 type: actions.CREATE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -53,12 +56,12 @@ export const createClass = ({ name, isActive }) => (dispatch) => {
 
 
 
-export const updateClass = ({name, classId, isActive}) => (dispatch) => {
+export const updateClass = ({name, lookupId, isActive}) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
     const payload = {
-        lookupId : classId,
+        lookupId : lookupId,
         name: name,
         isActive: isActive
     }
@@ -82,12 +85,24 @@ export const updateClass = ({name, classId, isActive}) => (dispatch) => {
 
 export const removeClassId = (itemId) => {
     return {
-        type: actions.REMOVE_CLASS_ID,
+        type: actions.REMOVE_CLASSLOOKUP_ID_SUCCESS,
         payload: itemId
     }
 }
 
+export const pushClassId = (itemId) => {
+    return {
+        type: actions.PUSH_CLASSLOOKPUP_ID_SUCCESS,
+        payload: itemId
+    }
+}
 
+export const returnClassList = (classList) => (dispatch) => {
+    dispatch({
+        type: actions.RETURN_CLASS_LIST_SUCCESS,
+        payload: classList
+    })
+}
 
  
 export const deleteClassItems = (classId) => (dispatch) => {
@@ -115,6 +130,12 @@ export const deleteClassItems = (classId) => (dispatch) => {
         });
 }
 
+
+export const resetForm = () => (dispatch) => {
+    dispatch({
+        type: actions.RESET_FORM,
+    });
+}
 
 export const fetchSingleClass = (classId) => dispatch =>{
         console.log('my fetchsingleclass', classId)

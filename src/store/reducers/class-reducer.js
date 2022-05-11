@@ -34,8 +34,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         classList: payload,
         isSuccessful: true,
-        loading: false,
-        isActive: true
+        loading: false
       };
     case actions.CREATE_CLASSLOOKUP_FAILED:
       return {
@@ -73,24 +72,44 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         selectedIds: [],
-        message: "Successfuly deleted",
+        message: payload,
         isSuccessful: true,
       };
     case actions.DELETE_CLASSLOOKUP_FAILED:
       return {
         ...state,
         loading: false,
-        message: "Successfuly deleted",
+        message: payload,
         isSuccessful: false
       };
 
 
-    case actions.REMOVE_CLASS_ID: {
+    case actions.REMOVE_CLASSLOOKUP_ID_SUCCESS: {
       var filteredIds = filterSelectedIds(state.selectedIds, payload)
         return {
           ...state,
           selectedIds: filteredIds
       }
+    }
+
+    case actions.PUSH_CLASSLOOKPUP_ID_SUCCESS: {
+      return {
+        ...state,
+        selectedIds: [...state.selectedIds, payload]
+    }
+    }
+
+    case actions.RETURN_CLASS_LIST_SUCCESS: {
+      return {
+        ...state,
+        classList: payload,
+      };
+    }
+    case actions.RESET_FORM: {
+      return {
+        ...state,
+        selectedClass: null,
+      };
     }
 
     case actions.GET_SINGLE_CLASS:{

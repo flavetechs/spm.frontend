@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import Card from '../Card'
 import { useHistory, Link } from 'react-router-dom'
@@ -15,6 +15,27 @@ const ClassSetupAdd = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { newClass, message, isSuccessful } = state.class;
+
+
+    
+    const [initialValues, setInitialValues] = useState(
+        {
+            name: '',
+            isActive : true
+        }
+    )
+
+
+
+    React.useEffect(() => {
+        return () => {
+            setInitialValues({
+                name: '',
+                isActive : true
+            })
+        }
+      }, []);
+    
 
     const validation = Yup.object().shape({
         name: Yup.string()
@@ -40,14 +61,12 @@ const ClassSetupAdd = () => {
                             <Card.Body>
 
                                 <Formik
-                                    initialValues={{
-                                        name: '',
-                                        isActive : true
-                                    }}
+                                    initialValues={initialValues}
                                     validationSchema={validation}
-                                    onSubmit={values => {
+                                    onSubmit={(values, {resetForm}) => {
                                         console.log(values);
                                         createClass(values)(dispatch)
+                                        resetForm()
                                     }}
                                 >
                                     {({
