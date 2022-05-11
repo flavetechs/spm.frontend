@@ -202,9 +202,20 @@ export const classReducer = (state = _state, { type, payload }) => {
             selectedIds: payload
         }
         
-
+        case actions.REMOVE_SUBJECT_ID: 
+          var filteredIds = filterSelectedIds(state.selectedIds, payload)
+                return {
+                    ...state,
+                    selectedIds: filteredIds
+                }
+        
   
-
+        case actions.RETURN_LIST: 
+          return {
+            ...state,
+            subjects: payload,
+          };
+        
     case actions.UPDATE_SUBJECT_LOADING:
       return {
         ...state,
@@ -229,3 +240,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return state;
   }
 };
+function filterSelectedIds(arr, value) {
+  return arr.filter(function (ele) {
+    return ele !== value;
+  });
+}

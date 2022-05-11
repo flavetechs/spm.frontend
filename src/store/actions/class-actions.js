@@ -172,6 +172,7 @@ console.log("subject", subject)
 
     axiosInstance.post('/subject/api/v1/create/subject', subject)
         .then((res) => {
+            
             dispatch({
                 type: actions.CREATE_SUBJECT_SUCCESS,
                 payload: res.data.message.friendlyMessage
@@ -193,6 +194,19 @@ export const pushId = (itemId) => {
         type: actions.PUSH_SUBJECT_ID,
         payload: itemId
     }
+}
+export const removeId = (itemId) => {
+    console.log("itemId", itemId)
+    return {
+        type: actions.REMOVE_SUBJECT_ID,
+        payload: itemId
+    }
+}
+export const returnList = (subjects) => (dispatch) => {
+    dispatch({
+        type: actions.RETURN_LIST,
+        payload: subjects
+    })
 }
 
 export const deleteSubject = (subjectId) => (dispatch) => {

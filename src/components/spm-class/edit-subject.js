@@ -3,7 +3,7 @@ import { Row, Col, Form, NavItem } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import {
 fetchSingleSubject,
   updateSubject,
@@ -12,25 +12,33 @@ fetchSingleSubject,
 } from "../../store/actions/class-actions";
 
 const EditSubjectSetup = () => {
+ //VARIABLE DECLARATIONS 
+   const history = useHistory();
     const locations = useLocation();
   const dispatch = useDispatch();
+  //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedSubject } = state.class;
+  const { selectedSubject,isSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
+
+ 
+
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
-    const subjectId = queryParams.get("lookupId");
+    const subjectId = queryParams.get("subjectId");
     if (!subjectId) return;
     fetchSingleSubject(subjectId)(dispatch);
+
   }, []);
   
   const handleStatusOnChange = (event) => {
     const statusValue = event.target.checked;
     updateStatus(statusValue, selectedSubject)(dispatch);
   };
+  
 
   const handleSubjectNameOnChange = (event) => {
     const subjectName = event.target.value;
@@ -38,12 +46,18 @@ const EditSubjectSetup = () => {
     updateSubjectName(subjectName, selectedSubject)(dispatch);
   };
 
+  const handleSubmit = () => {
+    if(isSuccessful){
+      history.push(classLocations.subjectSetupList)
+    }
+  }
+
   return (
     <>
-      <div>
+      <div className="col-8 mx-auto">
         <Row>
-          <Col sm="12">
-            <Card className="">
+          <Col sm="12" >
+            <Card>
                 <Card.Body>
               <form className="">
                 <div className="form-group">
@@ -68,14 +82,15 @@ const EditSubjectSetup = () => {
                   </div>
                 </div>
               <div className="d-flex justify-content-end">
-                <Link to={classLocations.subjectSetupList} className="mx-2">
-                  <button type="button" className="btn btn-danger">
+          
+                  <button type="button" className="btn btn-danger mx-2" onClick={() => history.push(classLocations.subjectSetupList)}>
                     Cancel
                   </button>
-                </Link>
+                
                 <button
                   onClick={() => {
                     updateSubject(selectedSubject)(dispatch);
+                    handleSubmit();
                   }}
                   type="button"
                   className="btn btn-primary"

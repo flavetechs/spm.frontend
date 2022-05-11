@@ -5,8 +5,10 @@ export const _state = {
     isSuccessful: false,
     selectedClass: null,
     subjects: [],
-    selectedSubject: {
+    //state dependent
+    selectedSubject:  {
         name: '', lookupId: '', isActive: true,
     },
+    //state dependent
     selectedIds: [],
 }

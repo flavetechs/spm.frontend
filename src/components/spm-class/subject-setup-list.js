@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 import {
   getAllSubjects,
   pushId,
+  removeId,
+  returnList,
   deleteSubject,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +15,7 @@ import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '.
 
 const SubjectSetupList = () => {
   //VARIABLE DECLARATIONS
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
@@ -21,7 +24,7 @@ const SubjectSetupList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { subjects, selectedIds } = state.class;
+  const { subjects, selectedIds, isSuccessful } = state.class;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -33,8 +36,21 @@ const SubjectSetupList = () => {
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === 'continue') {
+      if (selectedIds.length === 0) {
+        showErrorToast('No Item selected to be deleted')(dispatch);
+      } else {
         deleteSubject(selectedIds)(dispatch);
+        handleSubmit();
+        setDeleteButton(!showDeleteButton)
+        setShowCheckBoxes(false);
         respondToDeleteDialog('')(dispatch);
+      }
+    } else {
+      setDeleteButton(true)
+      setShowCheckBoxes(false)
+      selectedIds.forEach(id => {
+        dispatch(removeId(id))
+      });
       }
     return () => {
       respondToDeleteDialog('')(dispatch);
@@ -42,6 +58,38 @@ const SubjectSetupList = () => {
   }, [deleteDialogResponse]);
   //DELETE HANDLER
    
+  const checkSingleItem = (isChecked, lookupId, subjects) => {
+    subjects.forEach(item => {
+      if (item.lookupId === lookupId) {
+        item.isChecked = isChecked
+      }
+    });
+    if (isChecked) {
+      dispatch(pushId(lookupId));
+    } else {
+      dispatch(removeId(lookupId));
+    }
+  }
+  const checkAllItems = (isChecked, subjects) => {
+    subjects.forEach(item => {
+          item.isChecked = isChecked
+      if (item.isChecked) {
+        dispatch(pushId(item.lookupId))
+      } else {
+        dispatch(removeId(item.lookupId))
+      }
+    });
+    returnList(subjects)(dispatch)
+  }
+
+  const handleSubmit = () => {
+    if(isSuccessful){
+    setTimeout(()=>{
+      window.location.reload(false);
+  }, 500);
+    }
+  }
+
   return (
     <>
       <div>
@@ -177,6 +225,16 @@ const SubjectSetupList = () => {
                   >
                     <thead>
                       <tr className="ligth">
+                      <th>
+                          {showCheckBoxes ? <input
+                            className="form-check-input"
+                            type="checkbox"
+                            onChange={(e) => {
+                              checkAllItems(e.target.checked, subjects);
+                            }}
+                          /> : null}
+
+                        </th>
                         <th>Name</th>
                         <th>ID</th>
                         <th>Status</th>
@@ -186,6 +244,21 @@ const SubjectSetupList = () => {
                     <tbody>
                       {subjects.map((item, idx) => (
                         <tr key={idx}>
+                          <td className="">
+                            {showCheckBoxes ? (
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                              
+                                checked={item.isChecked || false}
+                                onChange={(e) => {
+                                  checkSingleItem(e.target.checked, item.lookupId, subjects);
+                                }}
+                              />
+                            ) : (
+                              null
+                            )}
+                          </td>
                           <td>{item.name}</td>
                           <td>{item.lookupId}</td>
                           <td>
@@ -201,7 +274,7 @@ const SubjectSetupList = () => {
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.editSubjectSetup}?lookupId=${item.lookupId}`}
+                                to={`${classLocations.editSubjectSetup}?subjectId=${item.lookupId}`}
                               >
                                 <span className="btn-inner">
                                   <svg
