@@ -70,7 +70,7 @@ const SubjectSetupEdit = () => {
 
                     <Form>
                       {message && <div className='text-danger'>{message}</div>}
-                      <Col lg="6">
+                      <Col lg="12">
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
                           <label htmlFor="name" className="form-label"> Name</label>
@@ -78,14 +78,16 @@ const SubjectSetupEdit = () => {
                         </div>
                       </Col>
 
-                      <Col lg="6" className="d-flex justify-content-between">
+                      <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
                           <Field type="checkbox" id="customCheck1" className="form-check-input" />
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
-                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.subjectSetupList) }}>Cancel</Button>{' '}
+                      <div className="d-flex justify-content-end">
+                      <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(classLocations.subjectSetupList) }}>Cancel</Button>{' '}
                       <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
+                      </div>
                     </Form>
                   )}
                 </Formik>
