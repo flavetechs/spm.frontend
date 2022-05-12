@@ -13,10 +13,13 @@ export const authLocations = {
 }
 
 export const classLocations = {
-    classSetupList: '/dashboard/spm-class/setup-list',
-    classSetupEdit: '/dashboard/spm-class/setup-edit',
-    classSetupAdd: '/dashboard/spm-class/setup-add',
-    subjectSetupList: '/dashboard/spm-class/subject-setup-list',
-    editSubjectSetup: '/dashboard/spm-class/subject-edit',
-    addSubjectSetup: '/dashboard/spm-class/subject-add'
+    classSetupList: '/dashboard/spm-class/setup',
+    classSetupEdit: '/dashboard/spm-class/edit-setup',
+    classSetupAdd: '/dashboard/spm-class/add-setup',
+    subjectSetupList: '/dashboard/spm-class/subject-setup',
+    editSubjectSetup: '/dashboard/spm-class/edit-subject',
+    addSubjectSetup: '/dashboard/spm-class/add-subject',
+    sessionClassList: '/dashboard/spm-class/session-class',
+    sessionClassEdit: '/dashboard/spm-class/edit-session-class',
+    sessionClassAdd: '/dashboard/spm-class/add-session-class'
 }
