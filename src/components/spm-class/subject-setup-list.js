@@ -30,7 +30,10 @@ const SubjectSetupList = () => {
 
 
   React.useEffect(() => {
-    getAllSubjects()(dispatch);
+    //refresh at 3seconds interval//
+    setInterval(()=>{
+      getAllSubjects()(dispatch);
+  }, 3000);
   }, []);
 
   //DELETE HANDLER
@@ -84,6 +87,7 @@ const SubjectSetupList = () => {
 
   const handleSubmit = () => {
     if(isSuccessful){
+      //reload on succcess//
     setTimeout(()=>{
       window.location.reload(false);
   }, 500);
