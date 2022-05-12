@@ -39,11 +39,13 @@ export const getAllClasses = () => (dispatch) => {
 
     axiosInstance.get('class/api/v1/getall/class-lookup')
         .then((res) => {
+            console.log('getall class res: ', res)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
+            console.log('getall class err: ', err)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_FAILED,
                 payload: err.response.data.result
@@ -56,12 +58,9 @@ export const createClass = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
-
-   
-
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
-            
+            console.log('create res', res);
             dispatch({
                 type: actions.CREATE_CLASSLOOKUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
@@ -77,7 +76,7 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({name, classId, isActive}) => (dispatch) => {
+export const updateClass = ({name, lookupId, isActive}) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });

@@ -54,30 +54,35 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
+
     case actions.CREATE_CLASSLOOKUP_LOADING:
       return {
         ...state,
         loading: true,
-        isSuccessful: false
+        isSuccessful: false,
+        message: ''
       };
     case actions.CREATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
-        itemList: payload,
         isSuccessful: true,
-        loading: false
+        loading: false,
+        message: payload
       };
     case actions.CREATE_CLASSLOOKUP_FAILED:
       return {
         ...state,
         isSuccessful: false,
-        loading: false
+        loading: false,
+        message: payload
       };
 
     case actions.UPDATE_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isSuccessful: false,
+        message: ''
       };
     case actions.UPDATE_CLASSLOOKUP_SUCCESS:
       return {
@@ -97,7 +102,8 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.DELETE_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isSuccessful: false
       };
     case actions.DELETE_CLASSLOOKUP_SUCCESS:
       return {
