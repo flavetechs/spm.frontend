@@ -3,6 +3,37 @@ import { _state } from "../states/class-state"
 
 export const classReducer = (state = _state, { type, payload }) => {
   switch (type) {
+
+
+    case actions.GET_SINGLE_ITEM: {
+      const selectedItem = state.itemList.find(d => d.lookupId == payload);
+      if (selectedItem) {
+        return {
+          ...state,
+          selectedItem
+        }
+      }
+    }
+    case actions.PUSH_ITEM_ID:
+      return {
+        ...state,
+        selectedIds: [...state.selectedIds, payload]
+      }
+    case actions.REMOVE_ITEM_ID:
+      var filteredIds = filterSelectedIds(state.selectedIds, payload)
+      return {
+        ...state,
+        selectedIds: filteredIds
+      }
+    case actions.RETURN_ITEM_LIST:
+      return {
+        ...state,
+        itemList: payload,
+      };
+
+
+    //CLASS ACTION REDUCERS
+
     case actions.FETCH_CLASSLOOKUP_LOADING:
       return {
         ...state,
@@ -12,7 +43,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        classList: payload,
+        itemList: payload,
         isSuccessful: false
       };
     case actions.FETCH_CLASSLOOKUP_FAILED:
@@ -32,7 +63,7 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.CREATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
-        classList: payload,
+        itemList: payload,
         isSuccessful: true,
         loading: false
       };
@@ -82,16 +113,10 @@ export const classReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
+    //CLASS ACTION REDUCERS
 
-    case actions.GET_SINGLE_CLASS: {
-      const selectedClass = state.classList.filter(d => d.lookupId == payload)[0];
-      if (selectedClass) {
-        return {
-          ...state,
-          selectedClass: selectedClass,
-        }
-      }
-    }
+
+
 
     //SUBJECT ACTION REDUCERS
     case actions.FETCH_SUBJECTS_LOADING:
@@ -105,7 +130,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        subjectList: payload,
+        itemList: payload,
       };
     case actions.FETCH_SUBJECT_FAILED:
       return {
@@ -159,22 +184,6 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-    case actions.GET_SINGLE_SUBJECT: {
-      const selectedSubject = state.subjectList.find(d => d.lookupId == payload);
-      if (selectedSubject) {
-        return {
-          ...state,
-          selectedItem: selectedSubject,
-        }
-      }
-    };
-
-    case actions.PUSH_SUBJECT_ID:
-      return {
-        ...state,
-        selectedIds: [...state.selectedIds, payload]
-      }
-
     case actions.DELETE_SUBJECT_LOADING:
       return {
         ...state,
@@ -195,32 +204,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
-
-
-
-    case actions.PUSH_SUBJECT_ID:
-      return {
-        ...state,
-        selectedIds: payload
-      }
-
-    case actions.REMOVE_SUBJECT_ID:
-      var filteredIds = filterSelectedIds(state.selectedIds, payload)
-      return {
-        ...state,
-        selectedIds: filteredIds
-      }
-
-    case actions.RETURN_LIST:
-      return {
-        ...state,
-        subjectList: payload,
-      };
-
     //SUBJECT ACTION REDUCERS
-
-
-
 
     default:
       return state;

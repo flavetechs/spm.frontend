@@ -3,12 +3,11 @@ import { Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Card from '../Card'
 
-import {
-   deleteClassItems, 
-   getAllClassList, 
-   pushClassId, 
-   removeClassId, 
-   returnClassList } from '../../store/actions/class-actions';
+
+
+// img
+import shap1 from "../../assets/images/shapes/01.png";
+import { deleteClassItems, getAllClasses } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
@@ -30,8 +29,8 @@ const ClassSetupList = () => {
 
 
   React.useEffect(() => {
-    getAllClassList()(dispatch);
-  }, []);
+    getAllClasses()(dispatch);
+  }, [100]);
 
   //DELETE HANDLER
   React.useEffect(() => {

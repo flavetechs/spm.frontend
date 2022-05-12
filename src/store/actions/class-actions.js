@@ -3,7 +3,36 @@ import { actions } from "../action-types/class-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
-export const getAllClassList = () => (dispatch) => {
+export const pushId = (itemId) => {
+    return {
+        type: actions.PUSH_ITEM_ID,
+        payload: itemId
+    }
+}
+export const removeId = (itemId) => {
+    return {
+        type: actions.REMOVE_ITEM_ID,
+        payload: itemId
+    }
+}
+export const returnList = (subjects) => (dispatch) => {
+    dispatch({
+        type: actions.RETURN_ITEM_LIST,
+        payload: subjects
+    })
+}
+
+export const fetchSingleItem = (lookupId) => dispatch => {
+    dispatch({
+        type: actions.GET_SINGLE_ITEM,
+        payload: lookupId
+    });
+
+}
+
+//CLASS ACTION HANDLERS
+
+export const getAllClasses = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASSLOOKUP_LOADING
     });
@@ -21,9 +50,6 @@ export const getAllClassList = () => (dispatch) => {
             })
         });
 }
-
-
-
 
 export const createClass = ({ name, isActive }) => (dispatch) => {
 
@@ -55,9 +81,7 @@ export const createClass = ({ name, isActive }) => (dispatch) => {
         });
 }
 
-
-
-export const updateClass = ({name, lookupId, isActive}) => (dispatch) => {
+export const updateClass = ({name, classId, isActive}) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
@@ -84,28 +108,6 @@ export const updateClass = ({name, lookupId, isActive}) => (dispatch) => {
         });
 }
 
-export const removeClassId = (itemId) => {
-    return {
-        type: actions.REMOVE_CLASSLOOKUP_ID_SUCCESS,
-        payload: itemId
-    }
-}
-
-export const pushClassId = (itemId) => {
-    return {
-        type: actions.PUSH_CLASSLOOKPUP_ID_SUCCESS,
-        payload: itemId
-    }
-}
-
-export const returnClassList = (classList) => (dispatch) => {
-    dispatch({
-        type: actions.RETURN_CLASS_LIST_SUCCESS,
-        payload: classList
-    })
-}
-
- 
 export const deleteClassItems = (classId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CLASSLOOKUP_LOADING
@@ -131,23 +133,17 @@ export const deleteClassItems = (classId) => (dispatch) => {
         });
 }
 
-
-export const resetForm = () => (dispatch) => {
-    dispatch({
-        type: actions.RESET_FORM,
-    });
-}
-
 export const fetchSingleClass = (classId) => dispatch =>{
-        console.log('my fetchsingleclass', classId)
     dispatch({
-        type: actions.GET_SINGLE_CLASS,
+        type: actions.GET_SINGLE_ITEM,
         payload: classId
     });
 
 }
+//CLASS ACTION HANDLERS
 
 
+//SUBJECT ACTION HANDLERS
 export const getAllSubjects = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_SUBJECTS_LOADING
@@ -167,30 +163,6 @@ export const getAllSubjects = () => (dispatch) => {
         });
 }
 
-
-//CREATE SUBJECT
-export const createSubjectName = (name, selectedSubject) => dispatch => {
-    console.log("name", name)
-    selectedSubject.name = name;
-    dispatch({
-        type: actions.CREATE_SUBJECT_NAME,
-        payload: selectedSubject,
-    });
-
-
-}
-export const createStatus = (value, selectedSubject) => dispatch => {
-    console.log("value", value)
-    selectedSubject.isActive = value;
-    dispatch({
-        type: actions.CREATE_STATUS,
-        payload: selectedSubject,
-    });
-
-
-}
-
-
 export const createSubject = (subject) => (dispatch) => {
     dispatch({
         type: actions.CREATE_SUBJECT_LOADING
@@ -209,26 +181,6 @@ export const createSubject = (subject) => (dispatch) => {
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
-}
-
-//Delete subject
-export const pushId = (itemId) => {
-    return {
-        type: actions.PUSH_SUBJECT_ID,
-        payload: itemId
-    }
-}
-export const removeId = (itemId) => {
-    return {
-        type: actions.REMOVE_SUBJECT_ID,
-        payload: itemId
-    }
-}
-export const returnList = (subjects) => (dispatch) => {
-    dispatch({
-        type: actions.RETURN_LIST,
-        payload: subjects
-    })
 }
 
 export const deleteSubject = (subjectId) => (dispatch) => {
@@ -255,16 +207,6 @@ export const deleteSubject = (subjectId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
-  //Update subject
-
-  export const fetchSingleSubject = (lookupId) => dispatch => {
-    dispatch({
-        type: actions.GET_SINGLE_SUBJECT,
-        payload: lookupId
-    });
-
-}
-  
 export const updateSubject = (updatedSubject) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SUBJECT_LOADING
@@ -285,6 +227,7 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+//SUBJECT ACTION HANDLERS
 
 
 

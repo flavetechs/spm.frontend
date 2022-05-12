@@ -1,9 +1,8 @@
 export const _state = {
     loading: false,
-    classList: [],
+    itemList: [],
+    selectedIds: [],
+    selectedItem: null,
     message: '',
     isSuccessful: false,
-    selectedItem: null,
-    subjectList: [],
-    selectedIds: [],
 }
