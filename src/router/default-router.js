@@ -11,6 +11,9 @@ import { classLocations, dashboardLocations, permissionLocations } from './spm-p
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
+import SubjectSetupList from '../components/spm-class/subject-setup-list';
+import SubjectSetupEdit from '../components/spm-class/subject-setup-edit';
+import SubjectSetupAdd from '../components/spm-class/subject-setup-add';
 
 const DashboardRouter = () => {
 
@@ -30,6 +33,10 @@ const DashboardRouter = () => {
                     <Route path={classLocations.classSetupList} exact component={ClassSetList} />
                     <Route path={classLocations.classSetupAdd} exact component={ClassSetupAdd} />
                     <Route path={classLocations.classSetupEdit} exact component={ClassSetupEdit} />
+                    <Route path={ classLocations.subjectSetupList} exact component={SubjectSetupList} />
+                   <Route path={classLocations.editSubjectSetup} exact component={SubjectSetupEdit} />
+                    <Route path={classLocations.addSubjectSetup} exact component={SubjectSetupAdd} />
+
                 </Switch>
             </CSSTransition>
         </TransitionGroup>

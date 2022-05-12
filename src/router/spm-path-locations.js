@@ -17,6 +17,6 @@ export const classLocations = {
     classSetupEdit: '/dashboard/spm-class/setup-edit',
     classSetupAdd: '/dashboard/spm-class/setup-add',
     subjectSetupList: '/dashboard/spm-class/subject-setup-list',
-    editSubjectSetup: '/dashboard/spm-class/edit-subject',
-    addSubjectSetup: '/dashboard/spm-class/add-subject'
+    editSubjectSetup: '/dashboard/spm-class/subject-edit',
+    addSubjectSetup: '/dashboard/spm-class/subject-add'
 }

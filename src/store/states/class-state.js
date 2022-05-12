@@ -3,6 +3,7 @@ export const _state = {
     classList: [],
     message: '',
     isSuccessful: false,
-    selectedClass: null,
-    selectedIds: []
+    selectedItem: null,
+    subjectList: [],
+    selectedIds: [],
 }
