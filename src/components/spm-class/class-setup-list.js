@@ -5,7 +5,6 @@ import Card from '../Card'
 
 
 
-// img
 import { deleteClassItems, getAllClasses } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
