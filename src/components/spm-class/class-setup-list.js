@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
 
 
-// img
-import shap1 from "../../assets/images/shapes/01.png";
 import { deleteClassItems, getAllClasses } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";

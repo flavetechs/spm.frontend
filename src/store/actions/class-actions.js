@@ -51,19 +51,15 @@ export const getAllClasses = () => (dispatch) => {
         });
 }
 
-export const createClass = ({ name, isActive }) => (dispatch) => {
+export const createClass = (form) => (dispatch) => {
 
     dispatch({
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
 
-    const payload = {
-        name,
-        isActive
-    }
+   
 
-    console.log('create res class', payload);
-    axiosInstance.post('/class/api/v1/create/class-lookup', payload)
+    axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
             
             dispatch({

@@ -8,7 +8,7 @@ import {
   removeId,
   returnList,
   deleteSubject,
-  fetchSingleSubject,
+  fetchSingleItem,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
@@ -262,7 +262,7 @@ const SubjectSetupList = () => {
                             <div className="flex align-items-center list-user-action">
                               <a
                                 onClick={() => {
-                                  fetchSingleSubject(item.lookupId)(dispatch)
+                                  fetchSingleItem(item.lookupId)(dispatch)
                                   history.push(classLocations.editSubjectSetup);
                                 }
                                 }

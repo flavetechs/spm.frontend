@@ -7,9 +7,6 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import {
-  fetchSingleSubject,
-  updateSubjectName,
-  updateStatus,
   updateSubject,
 } from "../../store/actions/class-actions";
 
@@ -37,7 +34,6 @@ const SubjectSetupEdit = () => {
     const queryParams = new URLSearchParams(locations.search);
     const subjectId = queryParams.get("subjectId");
     if (!subjectId) return;
-    fetchSingleSubject(subjectId)(dispatch);
   }, []);
 
   if (isSuccessful || !selectedItem) {
