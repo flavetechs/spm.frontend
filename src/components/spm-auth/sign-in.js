@@ -105,23 +105,6 @@ const SignIn = () => {
                                                             handleSubmit()
                                                         }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                                     </div>
-                                                    {/* <p className="text-center my-3">or sign in with other accounts?</p>
-                                                    <div className="d-flex justify-content-center">
-                                                        <ListGroup as="ul" className="list-group-horizontal list-group-flush">
-                                                            <ListGroup.Item as="li" className="border-0 pb-0">
-                                                                <Link to="#"><Image src={facebook} alt="fb" /></Link>
-                                                            </ListGroup.Item>
-                                                            <ListGroup.Item as="li" className="border-0 pb-0">
-                                                                <Link to="#"><Image src={google} alt="gm" /></Link>
-                                                            </ListGroup.Item>
-                                                            <ListGroup.Item as="li" className="border-0 pb-0">
-                                                                <Link to="#"><Image src={instagram} alt="im" /></Link>
-                                                            </ListGroup.Item>
-                                                            <ListGroup.Item as="li" className="border-0 pb-0">
-                                                                <Link to="#"><Image src={linkedin} alt="li" /></Link>
-                                                            </ListGroup.Item>
-                                                        </ListGroup>
-                                                    </div> */}
                                                     <p className="mt-3 text-center">
                                                         Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
                                                     </p>

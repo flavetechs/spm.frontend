@@ -25,8 +25,6 @@ const ClassSetupAdd = () => {
         }
     )
 
-
-
     React.useEffect(() => {
         return () => {
             setInitialValues({
@@ -36,7 +34,6 @@ const ClassSetupAdd = () => {
         }
       }, []);
     
-
     const validation = Yup.object().shape({
         name: Yup.string()
             .min(2, 'Class Name Too Short!')
@@ -51,7 +48,7 @@ const ClassSetupAdd = () => {
         <>
             <div>
                 <Row>
-                    <Col sm="12" lg="6">
+                    <Col sm="12" lg="6" >
                         <Card>
                             <Card.Header className="d-flex justify-content-between">
                                 <div className="header-title">
