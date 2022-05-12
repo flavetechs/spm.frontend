@@ -7,7 +7,7 @@ import Card from '../Card'
 
 // img
 import shap1 from "../../assets/images/shapes/01.png";
-import { deleteClassItems, getAllClassList } from '../../store/actions/class-actions';
+import { deleteClassItems, getAllClasses } from '../../store/actions/class-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
 
@@ -19,7 +19,7 @@ const ClassSetList = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    getAllClassList()(dispatch);
+    getAllClasses()(dispatch);
   }, [100]);
 
   const handleDelete = (selectedIds) => {

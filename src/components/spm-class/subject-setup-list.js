@@ -25,7 +25,7 @@ const SubjectSetupList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { subjectList, selectedIds } = state.class;
+  const { itemList, selectedIds } = state.class;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -222,7 +222,7 @@ const SubjectSetupList = () => {
                             className="form-check-input"
                             type="checkbox"
                             onChange={(e) => {
-                              checkAllItems(e.target.checked, subjectList);
+                              checkAllItems(e.target.checked, itemList);
                             }}
                           /> : null}
 
@@ -234,7 +234,7 @@ const SubjectSetupList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {subjectList.map((item, idx) => (
+                      {itemList.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">
                             {showCheckBoxes ? (
@@ -244,7 +244,7 @@ const SubjectSetupList = () => {
 
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.lookupId, subjectList);
+                                  checkSingleItem(e.target.checked, item.lookupId, itemList);
                                 }}
                               />
                             ) : (
