@@ -39,11 +39,13 @@ export const getAllClasses = () => (dispatch) => {
 
     axiosInstance.get('class/api/v1/getall/class-lookup')
         .then((res) => {
+            console.log('getall class res: ', res)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
+            console.log('getall class err: ', err)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_FAILED,
                 payload: err.response.data.result
@@ -51,14 +53,12 @@ export const getAllClasses = () => (dispatch) => {
         });
 }
 
-export const createClass = (form) => (dispatch) => {
 
+
+export const createClass = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
-
-   
-
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
             dispatch({
@@ -75,53 +75,52 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({name, classId, isActive}) => (dispatch) => {
+
+export const updateClass = (updatedClass) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
-    const payload = {
-        lookupId : classId,
-        name: name,
-        isActive: isActive
-    }
-    axiosInstance.post('/class/api/v1/update/class-lookup', payload)
+    
+    axiosInstance.post('/class/api/v1/update/class-lookup', updatedClass)
         .then((res) => {
-            console.log('update res: ', res)
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_SUCCESS,
-                payload: res.data.message.friendlyMessage.result
+                payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('update error: ', err)
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
-            })
+            });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
 export const deleteClassItems = (classId) => (dispatch) => {
     dispatch({
-        type: actions.DELETE_CLASS_LOADING
+        type: actions.DELETE_CLASSLOOKUP_LOADING
     });
-
     const payload = {
         items: classId
     }
-    const url = '/class/api/v1/delete/class-lookup'
-    axiosInstance.post(`${url}/${payload}`)
+
+    axiosInstance.post('/class/api/v1/delete/class-lookup', payload)
         .then((res) => {
+            console.log('delete class res: ', res)
             dispatch({
-                type: actions.DELETE_CLASS_SUCCESS,
-                payload: res.data.result
+                type: actions.DELETE_CLASSLOOKUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
             });
+            getAllClasses()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
+            console.log('delete class err: ', err)
             dispatch({
-                type: actions.DELETE_CLASS_FAILED,
-                payload: err.response.data.result
-            })
+                type: actions.DELETE_CLASSLOOKUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
