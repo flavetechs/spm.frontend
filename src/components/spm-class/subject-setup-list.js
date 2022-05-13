@@ -56,7 +56,6 @@ const SubjectSetupList = () => {
     }
   }, [deleteDialogResponse]);
   //DELETE HANDLER
-
   const checkSingleItem = (isChecked, lookupId, subjects) => {
     subjects.forEach(item => {
       if (item.lookupId === lookupId) {
