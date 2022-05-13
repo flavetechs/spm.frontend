@@ -6,7 +6,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 import {
-    createClass,
+  createClass,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 
@@ -50,7 +50,7 @@ const ClassSetupAdd = () => {
                   validationSchema={validation}
                   onSubmit={values => {
                     console.log(values);
-                     createClass(values)(dispatch)
+                      createClass(values)(dispatch)
                   }}
                 >
                   {({

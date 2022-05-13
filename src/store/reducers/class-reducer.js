@@ -37,7 +37,8 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.FETCH_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        message: ''
       };
     case actions.FETCH_CLASSLOOKUP_SUCCESS:
       return {
@@ -87,9 +88,9 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.UPDATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
+        isSuccessful: true,
         loading: false,
-        message: payload,
-        isSuccessful: true
+        message: payload
       };
     case actions.UPDATE_CLASSLOOKUP_FAILED:
       return {
@@ -103,7 +104,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        isSuccessful: false
+        isSuccessful: false,
+        message: ''
       };
     case actions.DELETE_CLASSLOOKUP_SUCCESS:
       return {
@@ -120,8 +122,6 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
     //CLASS ACTION REDUCERS
-
-
 
 
     //SUBJECT ACTION REDUCERS
@@ -194,7 +194,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        isSuccessful: false
+        isSuccessful: false,
+        message: ''
       };
     case actions.DELETE_SUBJECT_SUCCESS:
       return {

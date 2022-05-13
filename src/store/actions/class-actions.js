@@ -53,21 +53,20 @@ export const getAllClasses = () => (dispatch) => {
         });
 }
 
-export const createClass = (form) => (dispatch) => {
 
+
+export const createClass = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
-            console.log('create res', res);
             dispatch({
                 type: actions.CREATE_CLASSLOOKUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('create err class', err);
             dispatch({
                 type: actions.CREATE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -76,29 +75,24 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({name, lookupId, isActive}) => (dispatch) => {
+
+export const updateClass = (updatedClass) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
-    const payload = {
-        lookupId : lookupId,
-        name: name,
-        isActive: isActive
-    }
-    axiosInstance.post('/class/api/v1/update/class-lookup', payload)
+    
+    axiosInstance.post('/class/api/v1/update/class-lookup', updatedClass)
         .then((res) => {
-            console.log('update res: ', res)
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_SUCCESS,
-                payload: res.data.message.friendlyMessage.result
+                payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('update error: ', err)
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
-            })
+            });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
@@ -107,23 +101,25 @@ export const deleteClassItems = (classId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CLASSLOOKUP_LOADING
     });
-
     const payload = {
         items: classId
     }
+
     axiosInstance.post('/class/api/v1/delete/class-lookup', payload)
         .then((res) => {
+            console.log('delete class res: ', res)
             dispatch({
                 type: actions.DELETE_CLASSLOOKUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllClasses()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('delete error: ', err)
+            console.log('delete class err: ', err)
             dispatch({
                 type: actions.DELETE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
-            })
+            });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }

@@ -37,7 +37,7 @@ const ClassSetupEdit = () => {
   }, []);
 
   if (isSuccessful || !selectedItem) {
-    history.push(classLocations.classSetupEdit)
+    history.push(classLocations.classSetupList)
   }
 
   return (
