@@ -3,6 +3,37 @@ import { _state } from "../states/class-state"
 
 export const classReducer = (state = _state, { type, payload }) => {
   switch (type) {
+
+
+    case actions.GET_SINGLE_ITEM: {
+      const selectedItem = state.itemList.find(d => d.lookupId == payload);
+      if (selectedItem) {
+        return {
+          ...state,
+          selectedItem
+        }
+      }
+    }
+    case actions.PUSH_ITEM_ID:
+      return {
+        ...state,
+        selectedIds: [...state.selectedIds, payload]
+      }
+    case actions.REMOVE_ITEM_ID:
+      var filteredIds = filterSelectedIds(state.selectedIds, payload)
+      return {
+        ...state,
+        selectedIds: filteredIds
+      }
+    case actions.RETURN_ITEM_LIST:
+      return {
+        ...state,
+        itemList: payload,
+      };
+
+
+    //CLASS ACTION REDUCERS
+
     case actions.FETCH_CLASSLOOKUP_LOADING:
       return {
         ...state,
@@ -12,7 +43,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        classList: payload,
+        itemList: payload,
         isSuccessful: false
       };
     case actions.FETCH_CLASSLOOKUP_FAILED:
@@ -32,7 +63,7 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.CREATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
-        classList: payload,
+        itemList: payload,
         isSuccessful: true,
         loading: false,
         isActive: true
@@ -64,21 +95,10 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-
-
-    case actions.FETCH_CLASSLOOKUP_FAILED:
-      return {
-        ...state,
-        loading: false,
-        message: payload,
-        isSuccessful: false
-      };
-
-
     case actions.DELETE_CLASSLOOKUP_LOADING:
       return {
         ...state,
-       loading: true
+        loading: true
       };
     case actions.DELETE_CLASSLOOKUP_SUCCESS:
       return {
@@ -94,19 +114,13 @@ export const classReducer = (state = _state, { type, payload }) => {
         message: "Successfuly deleted",
         isSuccessful: false
       };
+    //CLASS ACTION REDUCERS
 
-    case actions.GET_SINGLE_CLASS:{
-      console.log('reducer classlist', state.classList)
-      const selectedClass = state.classList.filter(d => d.lookupId == payload)[0];
-      console.log('selected class', selectedClass)
-      if(selectedClass){
-        return {
-          ...state,
-          selectedClass: selectedClass,
-        }
-      }
-    }
-      case actions.SUBJECTS_LOADING:
+
+
+
+    //SUBJECT ACTION REDUCERS
+    case actions.FETCH_SUBJECTS_LOADING:
       return {
         ...state,
         loading: true,
@@ -117,109 +131,44 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        subjects: payload,
-        isSuccessful: true,
+        itemList: payload,
       };
-      
-    case actions.SUBJECT_REQUEST_FAILED:
+    case actions.FETCH_SUBJECT_FAILED:
       return {
         ...state,
         loading: false,
         message: payload,
         isSuccessful: false,
       };
-      case actions.GET_SINGLE_SUBJECT:{
-        console.log('reducer subjects', state.subjects)
-        const selectedSubject = state.subjects.filter(d => d.lookupId == payload)[0];
-        console.log('selected subject', selectedSubject)
-        if(selectedSubject){
-          return {
-            ...state,
-            selectedSubject: selectedSubject,
-          }
-        }
+
+    case actions.CREATE_SUBJECT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
+    case actions.CREATE_SUBJECT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload
+      };
+    case actions.CREATE_SUBJECT_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload
       };
 
-      case actions.CREATE_SUBJECT_NAME:
-        return {
-          ...state,
-          newSubject: payload,
-        };
-        case actions.CREATE_STATUS:
-          return {
-            ...state,
-            newStatus: payload,
-          };
-      case actions.CREATE_SUBJECT_LOADING:
-        return {
-          ...state,
-          loading: true,
-          isSuccessful: false
-        };
-      case actions.CREATE_SUBJECT_SUCCESS:
-        return {
-          ...state,
-          subjects: payload,
-          isSuccessful: true,
-          loading: false,
-          isActive: true
-        };
-      case actions.CREATE_SUBJECT_FAILED:
-        return {
-          ...state,
-          isSuccessful: false,
-          loading: false
-        };
-        case actions.PUSH_SUBJECT_ID: 
-        return {
-          ...state,
-          selectedIds: [...state.selectedIds, payload]
-      }
-        
-      case actions.DELETE_SUBJECT_LOADING:
-        return {
-          ...state,
-         loading: true
-        };
-      case actions.DELETE_SUBJECT_SUCCESS:
-        return {
-          ...state,
-          selectedIds: [],
-          message: "Successfuly deleted",
-          isSuccessful: true,
-        };
-      case actions.DELETE_SUBJECT_FAILED:
-        return {
-          ...state,
-          loading: false,
-          message: "Successfuly deleted",
-          isSuccessful: false
-        };
-    
-        case actions.PUSH_SUBJECT_ID: 
-          return {
-            ...state,
-            selectedIds: payload
-        }
-        
-        case actions.REMOVE_SUBJECT_ID: 
-          var filteredIds = filterSelectedIds(state.selectedIds, payload)
-                return {
-                    ...state,
-                    selectedIds: filteredIds
-                }
-        
-  
-        case actions.RETURN_LIST: 
-          return {
-            ...state,
-            subjects: payload,
-          };
-        
     case actions.UPDATE_SUBJECT_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isSuccessful: false,
+        message: ''
       };
     case actions.UPDATE_SUBJECT_SUCCESS:
       return {
@@ -235,6 +184,28 @@ export const classReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
+
+    case actions.DELETE_SUBJECT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false
+      };
+    case actions.DELETE_SUBJECT_SUCCESS:
+      return {
+        ...state,
+        selectedIds: [],
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.DELETE_SUBJECT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+    //SUBJECT ACTION REDUCERS
 
     default:
       return state;
