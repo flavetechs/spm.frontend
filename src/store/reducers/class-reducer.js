@@ -213,6 +213,140 @@ export const classReducer = (state = _state, { type, payload }) => {
       };
     //SUBJECT ACTION REDUCERS
 
+    //SESSION_CLASS ACTION REDUCERS
+    case actions.FETCH_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        itemList: payload,
+      };
+    case actions.FETCH_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.CREATE_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
+    case actions.CREATE_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload
+      };
+    case actions.CREATE_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload
+      };
+
+    case actions.UPDATE_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
+    case actions.UPDATE_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: true
+      };
+    case actions.UPDATE_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+
+    case actions.DELETE_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false
+      };
+    case actions.DELETE_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        selectedIds: [],
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.DELETE_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+    //SESSION_CLASS ACTION REDUCERS
+
+//GET TEACHER ACTION REDUCER
+case actions.FETCH_TEACHERS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_TEACHERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        teacherList: payload,
+      };
+    case actions.FETCH_TEACHERS_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload
+      };
+//GET TEACHER ACTION REDUCER
+
+//GET ACTIVE SUBJECTS REDUCER
+case actions.FETCH_ACTIVE_SUBJECTS_LOADING:
+  return {
+    ...state,
+    loading: true,
+    message: "",
+    isSuccessful: false,
+  };
+case actions.FETCH_ACTIVE_SUBJECTS_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    activeSubjects: payload,
+  };
+case actions.FETCH_ACTIVE_SUBJECTS_FAILED:
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
+  };
+  //GET ACTIVE SUBJECTS REDUCER
+
     default:
       return state;
   }
