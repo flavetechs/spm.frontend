@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import {
   createSessionClass,
   getAllClasses,
-  getAllSubjects,
+  getAllActiveSubjects,
   getAllTeachers,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
@@ -30,16 +30,30 @@ const SessionClassAdd = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message, itemList, teacherList } = state.class;
+  const { isSuccessful, message, itemList, teacherList, activeSubjects } =
+    state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllClasses()(dispatch);
+    getAllTeachers()(dispatch);
+    getAllActiveSubjects()(dispatch);
   }, []);
 
   if (isSuccessful) {
     history.push(classLocations.sessionClassList);
   }
+
+  const [disableSubjectSelect, setDisableSubjectSelect] = useState( new Array(activeSubjects.length).fill(false));
+
+  const checkSingleSubject = (position) => {
+    const updatedCheckedState = disableSubjectSelect.map((item, index) =>
+      index === position ? !item : item
+    );
+    setDisableSubjectSelect(updatedCheckedState)
+  }
+ 
+    
 
   return (
     <>
@@ -51,7 +65,7 @@ const SessionClassAdd = () => {
                 <Formik
                   initialValues={{
                     startDate: itemList.name,
-                    endDate: itemList.lookupId,
+                    endDate: teacherList.lastName,
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
@@ -81,17 +95,16 @@ const SessionClassAdd = () => {
                             {" "}
                             Class
                           </label>
-                          <select
-                            className="form-select"
-                            id="exampleFormControlSelect1"
-                          >
-                            <option disabled selected>
+                          <Form.Control as="select" id="formControlSelect2">
+                            <option selected value="">
                               Select Class
                             </option>
-                            {itemList.map((item) => (
-                              <option>{item.name}</option>
+                            {itemList.map((item, idx) => (
+                              <option key={idx} value={item.name}>
+                                {item.name}
+                              </option>
                             ))}
-                          </select>
+                          </Form.Control>
                         </div>
                       </Col>
 
@@ -104,39 +117,62 @@ const SessionClassAdd = () => {
                             {" "}
                             Form Teacher
                           </label>
-                          <select
-                            className="form-select"
-                            id="exampleFormControlSelect1"
-                          ><option disabled selected>
-                          Select Teacher
-                        </option>
-                        {teacherList.map((item) => (
-                              <option>{item.firstName} {item.lastName}</option>
+                          <Form.Control as="select" id="formControlSelect2">
+                            <option selected value="">
+                              Select Teacher
+                            </option>
+                            {teacherList.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={`${item.firstName} ${item.lastName}`}
+                              >
+                                {item.firstName} {item.lastName}
+                              </option>
                             ))}
-                          </select>
+                          </Form.Control>
                         </div>
                       </Col>
-
-                      <Col lg="12">
-                        <div className="form-group">
-                          {touched.name && errors.name && (
-                            <div className="text-danger">{errors.name}</div>
-                          )}
-                          <label htmlFor="name" className="form-label">
-                            {" "}
-                            Subject
-                          </label>
-                          <Field
-                            type="text"
-                            className="form-control"
-                            name="name"
-                            id="name"
-                            aria-describedby="name"
-                            required
-                            placeholder=" "
-                          />
-                        </div>
-                      </Col>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Subject</th>
+                            <th>Subject Teacher</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {activeSubjects.map((item, idx) => (
+                            <tr key={idx}>
+                              <td>
+                                {" "}
+                                <input
+                                  type="checkbox"
+                                  id="customCheck1"
+                                  className="form-check-input"
+                                  checked={disableSubjectSelect[idx]}
+                                  onChange={() => {
+                                    checkSingleSubject(idx)
+                                  }}
+                                />
+                                {" "}{item.name}
+                              </td>
+                              <td><select className="form-select" id={item.lookupId} disabled={disableSubjectSelect[idx]?false : true}>
+                              <option selected value="">
+                                Select Teacher
+                              </option>
+                              {teacherList.map((i, idx) => (
+                                <option
+                                  key={idx}
+                                  value={`${i.firstName} ${i.lastName}`}
+                                >
+                                  {i.firstName} {i.lastName}
+                                </option>
+                                ))}
+                                  </select>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
 
                       <div className="d-flex justify-content-end">
                         <Button

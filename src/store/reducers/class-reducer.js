@@ -318,6 +318,29 @@ case actions.FETCH_TEACHERS_LOADING:
       };
 //GET TEACHER ACTION REDUCER
 
+//GET ACTIVE SUBJECTS REDUCER
+case actions.FETCH_ACTIVE_SUBJECTS_LOADING:
+  return {
+    ...state,
+    loading: true,
+    message: "",
+    isSuccessful: false,
+  };
+case actions.FETCH_ACTIVE_SUBJECTS_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    activeSubjects: payload,
+  };
+case actions.FETCH_ACTIVE_SUBJECTS_FAILED:
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
+  };
+  //GET ACTIVE SUBJECTS REDUCER
+
     default:
       return state;
   }
