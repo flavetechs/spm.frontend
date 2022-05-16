@@ -1,7 +1,7 @@
 export const permissionLocations = {
-    roleList : '/dashboard/spm-permissions/role-list',
-    roleEdit:"/dashboard/spm-permissions/role-edit",
-    roleAdd:"/dashboard/spm-permissions/role-add"
+    roleList : '/dashboard/smp-permissions/role-list',
+    roleEdit:"/dashboard/smp-permissions/role-edit",
+    roleAdd:"/dashboard/smp-permissions/role-add"
 }
 
 export const dashboardLocations = {
@@ -13,13 +13,20 @@ export const authLocations = {
 }
 
 export const classLocations = {
-    classSetupList: '/dashboard/spm-class/setup',
-    classSetupEdit: '/dashboard/spm-class/edit-setup',
-    classSetupAdd: '/dashboard/spm-class/add-setup',
-    subjectSetupList: '/dashboard/spm-class/subject-setup',
-    editSubjectSetup: '/dashboard/spm-class/edit-subject',
-    addSubjectSetup: '/dashboard/spm-class/add-subject',
-    sessionClassList: '/dashboard/spm-class/session-class',
-    sessionClassEdit: '/dashboard/spm-class/edit-session-class',
-    sessionClassAdd: '/dashboard/spm-class/add-session-class'
+    classSetupList: '/dashboard/smp-class/setup',
+    classSetupEdit: '/dashboard/smp-class/edit-setup',
+    classSetupAdd: '/dashboard/smp-class/add-setup',
+    subjectSetupList: '/dashboard/smp-class/subject-setup',
+    editSubjectSetup: '/dashboard/smp-class/edit-subject',
+    addSubjectSetup: '/dashboard/smp-class/add-subject',
+    sessionClassList: '/dashboard/smp-class/session-class',
+    sessionClassEdit: '/dashboard/smp-class/edit-session-class',
+    sessionClassAdd: '/dashboard/smp-class/add-session-class'
+}
+
+export const sessionLocations = {
+    sessionList: '/dashboard/smp-session/setup',
+    sessionEdit: '/dashboard/smp-session/edit-setup',
+    sessionAdd: '/dashboard/smp-session/add-setup',
+    promotionSetup: '/dashboard/smp-session/promotion-setup'
 }
