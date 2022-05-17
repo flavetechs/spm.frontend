@@ -353,7 +353,7 @@ case actions.FETCH_ACTIVE_CLASSES_SUCCESS:
   return {
     ...state,
     loading: false,
-    itemList: payload,
+    activeClasses: payload,
   };
 case actions.FETCH_ACTIVE_CLASSES_FAILED:
   return {
@@ -364,6 +364,14 @@ case actions.FETCH_ACTIVE_CLASSES_FAILED:
   };
   //GET ACTIVE CLASSES REDUCER
 
+  //CLASS SUBJECT IDS//
+case actions.CLASS_SUBJECT_ID:
+  return{
+      ...state,
+      classSubjects: payload
+  };
+  //CLASS SUBJECT IDS//
+  
     default:
       return state;
   }

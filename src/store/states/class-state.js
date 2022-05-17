@@ -8,4 +8,11 @@ export const _state = {
   message: "",
   isSuccessful: false,
   activeSubjects: [],
+  activeClasses: [],
+  classSubjects: [
+    {
+      subjectId: "",
+      subjectTeacherId: "",
+    },
+  ],
 };

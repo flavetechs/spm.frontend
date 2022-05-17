@@ -369,3 +369,15 @@ export const getAllActiveClasses = () => (dispatch) => {
         });
 }
 //GET ACTIVE CLASSES ACTION  HANDLER
+
+//CLASS SUBJECT IDS//
+export const classSubjectsIds = (subjectId, subjectTeacherId, classSubjects) => (dispatch) => {
+classSubjects.subjectId = subjectId;
+classSubjects.subjectTeacherId = subjectTeacherId;
+    console.log("classSubjects", classSubjects)
+    dispatch({
+        type: actions.CLASS_SUBJECT_ID,
+        payload: classSubjects
+    })
+}
+//CLASS SUBJECT IDS//

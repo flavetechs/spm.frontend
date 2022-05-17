@@ -8,9 +8,11 @@ import * as Yup from "yup";
 
 import {
   createSessionClass,
+  classSubjectsIds,
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllTeachers,
+  getAllSessionClasses,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 
@@ -22,24 +24,32 @@ const SessionClassAdd = () => {
 
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    classId: Yup.string()
-      .required('Class is required'),
-    sessionId: Yup.string()
-      .required('Session is required'),
+    classId: Yup.string().required("Class is required"),
+    // subjectId: Yup.string()
+    // .required('Subject is required'),
   });
   //VALIDATIONS SCHEMA
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message, itemList, teacherList, activeSubjects, classSubjects } =
-    state.class;
+  const {
+    isSuccessful,
+    message,
+    itemList,
+    teacherList,
+    activeSubjects,
+    activeClasses,
+    classSubjects,
+  } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   //USE STATE VARIABLE DECLARATION
-  const [disableSubjectSelect, setDisableSubjectSelect] = useState(new Array(activeSubjects.length).fill(false));
+  const [disableSubjectSelect, setDisableSubjectSelect] = useState(
+    new Array(activeSubjects.length).fill(false)
+  );
   //USE STATE VARIABLE  DECLARATION
-
   React.useEffect(() => {
+    getAllSessionClasses()(dispatch);
     getAllActiveClasses()(dispatch);
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
@@ -49,9 +59,8 @@ const SessionClassAdd = () => {
     setDisableSubjectSelect(new Array(activeSubjects.length).fill(false));
   }, [activeSubjects]);
 
-  console.log("active:", activeSubjects)
-  console.log("activity:", disableSubjectSelect)
-
+  console.log("active:", activeSubjects);
+  console.log("activity:", disableSubjectSelect);
   if (isSuccessful) {
     history.push(classLocations.sessionClassList);
   }
@@ -62,10 +71,20 @@ const SessionClassAdd = () => {
     );
     setDisableSubjectSelect(updatedCheckedState);
   };
-  const matchCheckBox = (subjectTeacherId, value) => {
-    console.log("sub", value)
+  const getSubjectId = (subjectId,classSubjects) => {
+    const subjectTeacherId = "";
+    classSubjectsIds(subjectId,subjectTeacherId,classSubjects)(dispatch);
+    console.log("subjectid",subjectTeacherId, subjectId);
+  };
+  const getSubjectTeacherId = (subjectId, subjectTeacherId, classSubjects) => {
+classSubjects.find(item => {
+  if (item.subjectId === subjectId) {
+    item.subjectTeacherId = subjectTeacherId;
   }
-
+});
+    classSubjectsIds(subjectId, subjectTeacherId, classSubjects)(dispatch);
+    console.log("classSubjectidd", subjectId, subjectTeacherId, classSubjects);
+  };
 
   return (
     <>
@@ -76,20 +95,20 @@ const SessionClassAdd = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionId: '',
-                    classId: '',
-                    formTeacherId: '',
-                    classSubjects: [
+                    sessionId: "",
+                    classId: "",
+                    formTeacherId: "",
+                    /*  classSubjects: [
                       {
                         subjectId: '',
-                        subjectTeacherId: ''
-                      }
-                    ]
+                    subjectTeacherId:''
+                     }
+                   ]*/
                   }}
                   // validationSchema={validation}
                   onSubmit={(values) => {
                     console.log("values", values);
-                    values.classSubjects = classSubjects
+                    values.classSubjects = classSubjects;
                     // createSessionClass(values)(dispatch);
                   }}
                 >
@@ -102,30 +121,51 @@ const SessionClassAdd = () => {
                     errors,
                     isValid,
                   }) => (
-
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <Col lg="12">
                         <div className="form-group">
-                          <label htmlFor="sessionId" className="form-label"> Session </label>
-                          <Field type="text" className="form-control" name="sessionId" id="sessionId" aria-describedby="sessionId" value="2021/2022" readOnly />
+                          <label htmlFor="sessionId" className="form-label">
+                            {" "}
+                            Session{" "}
+                          </label>
+                          {itemList.map((item, idx) => (
+                            <Field
+                              type="text"
+                              className="form-control"
+                              name="sessionId"
+                              id="sessionId"
+                              aria-describedby="sessionId"
+                              value="2021/2022"
+                              readOnly
+                            />
+                          ))}
                         </div>
                       </Col>
-
 
                       <div className="d-flex row justify-content-between">
                         <Col lg="6">
                           <div className="form-group">
-                            <label htmlFor="class" className="form-label">
+                            {touched.classId && errors.classId && (
+                              <div className="text-danger">
+                                {errors.classId}
+                              </div>
+                            )}
+                            <label htmlFor="classId" className="form-label">
                               {" "}
                               Class
                             </label>
-                            <Field as="select" name="classId" className="form-select" id="classId">
+                            <Field
+                              as="select"
+                              name="classId"
+                              className="form-select"
+                              id="classId"
+                            >
                               <option defaultValue="Select Class">
                                 Select Class
                               </option>
-                              {itemList.map((item, idx) => (
-                                <option key={idx} value={item.name}>
+                              {activeClasses.map((item, idx) => (
+                                <option key={idx} value={item.lookupId}>
                                   {item.name}
                                 </option>
                               ))}
@@ -135,11 +175,19 @@ const SessionClassAdd = () => {
 
                         <Col lg="6">
                           <div className="form-group">
-                            <label htmlFor="teacher" className="form-label">
+                            <label
+                              htmlFor="formTeacherId"
+                              className="form-label"
+                            >
                               {" "}
                               Form Teacher
                             </label>
-                            <Field as="select" name="formTeacherId" className="form-select" id="formTeacherId">
+                            <Field
+                              as="select"
+                              name="formTeacherId"
+                              className="form-select"
+                              id="formTeacherId"
+                            >
                               <option defaultValue="Select Teacher">
                                 Select Teacher
                               </option>
@@ -147,7 +195,7 @@ const SessionClassAdd = () => {
                                 <option
                                   id={item.userAccountId}
                                   key={idx}
-                                  value={item.userName}
+                                  value={item.userAccountId}
                                 >
                                   {item.userName}
                                 </option>
@@ -157,6 +205,9 @@ const SessionClassAdd = () => {
                         </Col>
                       </div>
 
+                      {touched.classId && errors.subjectId && (
+                        <div className="text-danger">{errors.subjectId}</div>
+                      )}
                       <table className="table table-bordered">
                         <thead>
                           <tr>
@@ -171,38 +222,54 @@ const SessionClassAdd = () => {
                                 {" "}
                                 <Field
                                   type="checkbox"
-                                  id={item.lookupId}
+                                  id="subjectId"
                                   name="subjectId"
                                   className="form-check-input"
                                   checked={disableSubjectSelect[idx]}
                                   onChange={() => {
                                     checkSingleSubject(idx);
+                                    getSubjectId(item.lookupId,classSubjects);
                                   }}
                                 />{" "}
                                 {item.name}
                               </td>
                               <td>
-                                <select name="subjectTeacherId"
+                                <select
+                                  name="subjectTeacherId"
                                   className="form-select"
                                   id="subjectTeacherId"
-                                  value={values.subjectTeacherId}
                                   disabled={
                                     disableSubjectSelect[idx] ? false : true
                                   }
                                 >
-                                  <option defaultValue="Select Teacher">
+                                  <option value="Select Teacher">
                                     Select Teacher
                                   </option>
-                                  {teacherList.map((item, id) => (
+                                  {teacherList.map((i, id) => (
                                     <option
                                       key={id}
-                                      id={item.userAccountId}
-                                      value={item.email}
-                                      onChange={(e) => {
-                                        matchCheckBox(e.target.id, e.target.value);
+                                      id={i.userAccountId}
+                                      value={i.userAccountId}
+                                      selected={
+                                        disableSubjectSelect[idx]
+                                          ? i.userName
+                                          : null
+                                      }
+                                      onChange={() => {
+                                        getSubjectTeacherId(
+                                          item.lookupId,
+                                          i.userAccountId,
+                                          classSubjects
+                                        );
+                                        console.log(
+                                          "checkSubjectIds",
+                                          item.lookupId,
+                                          i.userAccountId,
+                                          classSubjects
+                                        );
                                       }}
                                     >
-                                      {item.email}
+                                      {i.userName}
                                     </option>
                                   ))}
                                 </select>
@@ -225,7 +292,10 @@ const SessionClassAdd = () => {
                         <Button
                           type="button"
                           variant="btn btn-primary"
-                          onClick={handleSubmit}
+                          onClick={() => {
+                            handleSubmit();
+                            alert("ok");
+                          }}
                         >
                           Submit
                         </Button>
