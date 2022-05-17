@@ -134,7 +134,7 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         return {
             ...state,
             loading: false,
-            sessionList: payload,
+            activeSession: payload,
         };
 
     case actions.FETCH_ACTIVE_SESSION_FAILED:

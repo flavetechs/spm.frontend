@@ -132,13 +132,12 @@ export const getActiveSession = () => (dispatch) => {
 
     axiosInstance.get('/session/api/v1/get-active')
         .then((res) => {
-            console.log('getall class res: ', res)
+            console.log('session', res.data);
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_SUCCESS,
                 payload: res.data.result
         })
         }).catch((err) => {
-            console.log('getall class err: ', err)
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_FAILED,
                 payload: err.data.result

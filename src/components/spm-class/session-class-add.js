@@ -35,7 +35,6 @@ const SessionClassAdd = () => {
   const {
     isSuccessful,
     message,
-    itemList,
     teacherList,
     activeSubjects,
     activeClasses,
@@ -45,7 +44,6 @@ const SessionClassAdd = () => {
 const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log("classSubjects", activeSession);
 
   //USE STATE VARIABLE DECLARATION
   const [disableSubjectSelect, setDisableSubjectSelect] = useState(
@@ -56,7 +54,7 @@ const { activeSession } = state.session;
     getAllActiveClasses()(dispatch);
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
-    getActiveSession()(dispatch)
+    getActiveSession()(dispatch);
   }, []);
 
   React.useLayoutEffect(() => {
@@ -104,16 +102,18 @@ const { activeSession } = state.session;
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionId: "e65465r6fb6tgt6yhbnh",
+                    sessionId: activeSession?.session,
                     classId: "",
                     formTeacherId: "",
-                    sbj: "",
+                    InSession: true
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
                     values.classSubjects = classSubjects;
+                    values.sessionId = activeSession?.sessionId
                     console.log("values", values);
-                    //createSessionClass(values)(dispatch)
+
+                    createSessionClass(values)(dispatch)
                   }}
                 >
                   {({

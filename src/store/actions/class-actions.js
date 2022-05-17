@@ -235,6 +235,7 @@ export const getAllSessionClasses = () => (dispatch) => {
 
     axiosInstance.get('/class/api/v1/get-all/session-classes')
         .then((res) => {
+    console.log('list', res.data);
             dispatch({
                 type: actions.FETCH_SESSION_CLASS_SUCCESS,
                 payload: res.data.result
@@ -389,7 +390,7 @@ export const getAllTeachers = () => (dispatch) => {
         type: actions.FETCH_TEACHERS_LOADING
     });
 
-    axiosInstance.get(/*'/user/api/v1/getall/teachers'*/'/')
+    axiosInstance.get('/user/api/v1/getall/teachers')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_TEACHERS_SUCCESS,
@@ -410,7 +411,7 @@ export const getAllActiveSubjects = () => (dispatch) => {
         type: actions.FETCH_ACTIVE_SUBJECTS_LOADING
     });
 
-    axiosInstance.get('/')
+    axiosInstance.get('/subject/api/v1/getall/active-subject')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SUBJECTS_SUCCESS,
