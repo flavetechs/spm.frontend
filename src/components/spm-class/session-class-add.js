@@ -22,45 +22,47 @@ const SessionClassAdd = () => {
 
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    name: Yup.string()
-      .required('Input is required')
+    classId: Yup.string()
+      .required('Class is required'),
+    sessionId: Yup.string()
+      .required('Session is required'),
   });
   //VALIDATIONS SCHEMA
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message, itemList, teacherList, activeSubjects } =
+  const { isSuccessful, message, itemList, teacherList, activeSubjects, classSubjects } =
     state.class;
   // ACCESSING STATE FROM REDUX STORE
 
-//USE STATE VARIABLE DECLARATION
-const [disableSubjectSelect, setDisableSubjectSelect] = useState(
-  new Array(activeSubjects.length).fill(false))
-;
-//USE STATE VARIABLE  DECLARATION
+  //USE STATE VARIABLE DECLARATION
+  const [disableSubjectSelect, setDisableSubjectSelect] = useState(new Array(activeSubjects.length).fill(false));
+  //USE STATE VARIABLE  DECLARATION
+
   React.useEffect(() => {
     getAllActiveClasses()(dispatch);
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
   }, []);
+
   React.useLayoutEffect(() => {
     setDisableSubjectSelect(new Array(activeSubjects.length).fill(false));
   }, [activeSubjects]);
 
-console.log("active:", activeSubjects)
-console.log("activity:", disableSubjectSelect)
+  console.log("active:", activeSubjects)
+  console.log("activity:", disableSubjectSelect)
+
   if (isSuccessful) {
     history.push(classLocations.sessionClassList);
   }
 
-
- const checkSingleSubject = (position) => {
+  const checkSingleSubject = (position) => {
     const updatedCheckedState = disableSubjectSelect.map((item, index) =>
       index === position ? !item : item
     );
     setDisableSubjectSelect(updatedCheckedState);
   };
-  const matchCheckBox =(subjectTeacherId,value) =>{
+  const matchCheckBox = (subjectTeacherId, value) => {
     console.log("sub", value)
   }
 
@@ -74,20 +76,21 @@ console.log("activity:", disableSubjectSelect)
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionId:'',
+                    sessionId: '',
                     classId: '',
                     formTeacherId: '',
                     classSubjects: [
                       {
                         subjectId: '',
-                    subjectTeacherId:''
-                     }
-                   ]
+                        subjectTeacherId: ''
+                      }
+                    ]
                   }}
-                  validationSchema={validation}
+                  // validationSchema={validation}
                   onSubmit={(values) => {
                     console.log("values", values);
-                    createSessionClass(values)(dispatch);
+                    values.classSubjects = classSubjects
+                    // createSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -101,57 +104,57 @@ console.log("activity:", disableSubjectSelect)
                   }) => (
 
                     <Form>
-                     {message && <div className="text-danger">{message}</div>}
-                     <Col lg="12">
+                      {message && <div className="text-danger">{message}</div>}
+                      <Col lg="12">
                         <div className="form-group">
                           <label htmlFor="sessionId" className="form-label"> Session </label>
-                          <Field type="text" className="form-control" name="sessionId" id="sessionId" aria-describedby="sessionId" value="2021/2022"  readOnly />
+                          <Field type="text" className="form-control" name="sessionId" id="sessionId" aria-describedby="sessionId" value="2021/2022" readOnly />
                         </div>
                       </Col>
 
 
                       <div className="d-flex row justify-content-between">
-                      <Col lg="6">
-                        <div className="form-group">
-                          <label htmlFor="class" className="form-label">
-                            {" "}
-                            Class
-                          </label>
-                          <Field as="select" name="classId" className="form-select" id="classId">
-                            <option defaultValue="Select Class">
-                              Select Class
-                            </option>
-                            {itemList.map((item, idx) => (
-                              <option key={idx} value={item.name}>
-                                {item.name}
+                        <Col lg="6">
+                          <div className="form-group">
+                            <label htmlFor="class" className="form-label">
+                              {" "}
+                              Class
+                            </label>
+                            <Field as="select" name="classId" className="form-select" id="classId">
+                              <option defaultValue="Select Class">
+                                Select Class
                               </option>
-                            ))}
-                          </Field>
-                        </div>
-                      </Col>
+                              {itemList.map((item, idx) => (
+                                <option key={idx} value={item.name}>
+                                  {item.name}
+                                </option>
+                              ))}
+                            </Field>
+                          </div>
+                        </Col>
 
-                      <Col lg="6">
-                        <div className="form-group">
-                          <label htmlFor="teacher" className="form-label">
-                            {" "}
-                            Form Teacher
-                          </label>
-                          <Field as="select" name="formTeacherId"className="form-select" id="formTeacherId">
-                            <option  defaultValue="Select Teacher">
-                              Select Teacher
-                            </option>
-                            {teacherList.map((item, idx) => (
-                              <option
-                              id={item.userAccountId}
-                                key={idx}
-                                value={item.userName}
-                              >
-                                {item.userName}
+                        <Col lg="6">
+                          <div className="form-group">
+                            <label htmlFor="teacher" className="form-label">
+                              {" "}
+                              Form Teacher
+                            </label>
+                            <Field as="select" name="formTeacherId" className="form-select" id="formTeacherId">
+                              <option defaultValue="Select Teacher">
+                                Select Teacher
                               </option>
-                            ))}
-                          </Field>
-                        </div>
-                      </Col>
+                              {teacherList.map((item, idx) => (
+                                <option
+                                  id={item.userAccountId}
+                                  key={idx}
+                                  value={item.userName}
+                                >
+                                  {item.userName}
+                                </option>
+                              ))}
+                            </Field>
+                          </div>
+                        </Col>
                       </div>
 
                       <table className="table table-bordered">
@@ -179,12 +182,12 @@ console.log("activity:", disableSubjectSelect)
                                 {item.name}
                               </td>
                               <td>
-                                <select  name="subjectTeacherId"
+                                <select name="subjectTeacherId"
                                   className="form-select"
                                   id="subjectTeacherId"
                                   value={values.subjectTeacherId}
                                   disabled={
-                                  disableSubjectSelect[idx] ? false : true
+                                    disableSubjectSelect[idx] ? false : true
                                   }
                                 >
                                   <option defaultValue="Select Teacher">
@@ -196,7 +199,7 @@ console.log("activity:", disableSubjectSelect)
                                       id={item.userAccountId}
                                       value={item.email}
                                       onChange={(e) => {
-                                        matchCheckBox(e.target.id,e.target.value);
+                                        matchCheckBox(e.target.id, e.target.value);
                                       }}
                                     >
                                       {item.email}
@@ -222,10 +225,7 @@ console.log("activity:", disableSubjectSelect)
                         <Button
                           type="button"
                           variant="btn btn-primary"
-                          onClick={()=>{
-                            handleSubmit()
-                          alert("ok")
-                          }}
+                          onClick={handleSubmit}
                         >
                           Submit
                         </Button>
