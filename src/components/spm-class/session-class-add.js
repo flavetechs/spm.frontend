@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 import {
   createSessionClass,
-  getAllClasses,
+  getAllActiveClasses,
   getAllActiveSubjects,
   getAllTeachers,
 } from "../../store/actions/class-actions";
@@ -23,8 +23,7 @@ const SessionClassAdd = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     name: Yup.string()
-      .min(2, "Input is Too Short!")
-      .required("Input is required"),
+      .required('Input is required')
   });
   //VALIDATIONS SCHEMA
 
@@ -34,26 +33,37 @@ const SessionClassAdd = () => {
     state.class;
   // ACCESSING STATE FROM REDUX STORE
 
+//USE STATE VARIABLE DECLARATION
+const [disableSubjectSelect, setDisableSubjectSelect] = useState(
+  new Array(activeSubjects.length).fill(false))
+;
+//USE STATE VARIABLE  DECLARATION
   React.useEffect(() => {
-    getAllClasses()(dispatch);
+    getAllActiveClasses()(dispatch);
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
   }, []);
+  React.useLayoutEffect(() => {
+    setDisableSubjectSelect(new Array(activeSubjects.length).fill(false));
+  }, [activeSubjects]);
 
+console.log("active:", activeSubjects)
+console.log("activity:", disableSubjectSelect)
   if (isSuccessful) {
     history.push(classLocations.sessionClassList);
   }
 
-  const [disableSubjectSelect, setDisableSubjectSelect] = useState( new Array(activeSubjects.length).fill(false));
 
-  const checkSingleSubject = (position) => {
+ const checkSingleSubject = (position) => {
     const updatedCheckedState = disableSubjectSelect.map((item, index) =>
       index === position ? !item : item
     );
-    setDisableSubjectSelect(updatedCheckedState)
+    setDisableSubjectSelect(updatedCheckedState);
+  };
+  const matchCheckBox =(subjectTeacherId,value) =>{
+    console.log("sub", value)
   }
- 
-    
+
 
   return (
     <>
@@ -64,12 +74,19 @@ const SessionClassAdd = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    startDate: itemList.name,
-                    endDate: teacherList.lastName,
+                    sessionId:'',
+                    classId: '',
+                    formTeacherId: '',
+                    classSubjects: [
+                      {
+                        subjectId: '',
+                    subjectTeacherId:''
+                     }
+                   ]
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
-                    console.log(values);
+                    console.log("values", values);
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -82,21 +99,26 @@ const SessionClassAdd = () => {
                     errors,
                     isValid,
                   }) => (
+
                     <Form>
-                      {message && <div className="text-danger">{message}</div>}
-                      <Col lg="12">
+                     {message && <div className="text-danger">{message}</div>}
+                     <Col lg="12">
                         <div className="form-group">
-                          {touched.startDate && errors.startDate && (
-                            <div className="text-danger">
-                              {errors.startDate}
-                            </div>
-                          )}
-                          <label htmlFor="name" className="form-label">
+                          <label htmlFor="sessionId" className="form-label"> Session </label>
+                          <Field type="text" className="form-control" name="sessionId" id="sessionId" aria-describedby="sessionId" value="2021/2022"  readOnly />
+                        </div>
+                      </Col>
+
+
+                      <div className="d-flex row justify-content-between">
+                      <Col lg="6">
+                        <div className="form-group">
+                          <label htmlFor="class" className="form-label">
                             {" "}
                             Class
                           </label>
-                          <Form.Control as="select" id="formControlSelect2">
-                            <option selected value="">
+                          <Field as="select" name="classId" className="form-select" id="classId">
+                            <option defaultValue="Select Class">
                               Select Class
                             </option>
                             {itemList.map((item, idx) => (
@@ -104,35 +126,35 @@ const SessionClassAdd = () => {
                                 {item.name}
                               </option>
                             ))}
-                          </Form.Control>
+                          </Field>
                         </div>
                       </Col>
 
-                      <Col lg="12">
+                      <Col lg="6">
                         <div className="form-group">
-                          {touched.endDate && errors.endDate && (
-                            <div className="text-danger">{errors.endDate}</div>
-                          )}
-                          <label htmlFor="name" className="form-label">
+                          <label htmlFor="teacher" className="form-label">
                             {" "}
                             Form Teacher
                           </label>
-                          <Form.Control as="select" id="formControlSelect2">
-                            <option selected value="">
+                          <Field as="select" name="formTeacherId"className="form-select" id="formTeacherId">
+                            <option  defaultValue="Select Teacher">
                               Select Teacher
                             </option>
                             {teacherList.map((item, idx) => (
                               <option
+                              id={item.userAccountId}
                                 key={idx}
-                                value={`${item.firstName} ${item.lastName}`}
+                                value={item.userName}
                               >
-                                {item.firstName} {item.lastName}
+                                {item.userName}
                               </option>
                             ))}
-                          </Form.Control>
+                          </Field>
                         </div>
                       </Col>
-                      <table class="table table-bordered">
+                      </div>
+
+                      <table className="table table-bordered">
                         <thead>
                           <tr>
                             <th>Subject</th>
@@ -144,30 +166,43 @@ const SessionClassAdd = () => {
                             <tr key={idx}>
                               <td>
                                 {" "}
-                                <input
+                                <Field
                                   type="checkbox"
-                                  id="customCheck1"
+                                  id={item.lookupId}
+                                  name="subjectId"
                                   className="form-check-input"
                                   checked={disableSubjectSelect[idx]}
                                   onChange={() => {
-                                    checkSingleSubject(idx)
+                                    checkSingleSubject(idx);
                                   }}
-                                />
-                                {" "}{item.name}
+                                />{" "}
+                                {item.name}
                               </td>
-                              <td><select className="form-select" id={item.lookupId} disabled={disableSubjectSelect[idx]?false : true}>
-                              <option selected value="">
-                                Select Teacher
-                              </option>
-                              {teacherList.map((i, idx) => (
-                                <option
-                                  key={idx}
-                                  value={`${i.firstName} ${i.lastName}`}
+                              <td>
+                                <select  name="subjectTeacherId"
+                                  className="form-select"
+                                  id="subjectTeacherId"
+                                  value={values.subjectTeacherId}
+                                  disabled={
+                                  disableSubjectSelect[idx] ? false : true
+                                  }
                                 >
-                                  {i.firstName} {i.lastName}
-                                </option>
-                                ))}
-                                  </select>
+                                  <option defaultValue="Select Teacher">
+                                    Select Teacher
+                                  </option>
+                                  {teacherList.map((item, id) => (
+                                    <option
+                                      key={id}
+                                      id={item.userAccountId}
+                                      value={item.email}
+                                      onChange={(e) => {
+                                        matchCheckBox(e.target.id,e.target.value);
+                                      }}
+                                    >
+                                      {item.email}
+                                    </option>
+                                  ))}
+                                </select>
                               </td>
                             </tr>
                           ))}
@@ -187,7 +222,10 @@ const SessionClassAdd = () => {
                         <Button
                           type="button"
                           variant="btn btn-primary"
-                          onClick={handleSubmit}
+                          onClick={()=>{
+                            handleSubmit()
+                          alert("ok")
+                          }}
                         >
                           Submit
                         </Button>

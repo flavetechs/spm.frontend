@@ -20,20 +20,20 @@ const SessionClassEdit = () => {
     //VALIDATIONS SCHEMA
     const validation = Yup.object().shape({
       name: Yup.string()
-        .min(2, 'Session Class Name Too Short!')
         .required('Session Class is required')
     });
     //VALIDATIONS SCHEMA
   
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { selectedItem, isSuccessful, message } = state.class;
+    const { isSuccessful, message, selectedItem, itemList, teacherList, activeSubjects } =
+    state.class;
     // ACCESSING STATE FROM REDUX STORE
   
     React.useEffect(() => {
       const queryParams = new URLSearchParams(locations.search);
-      const SessionClassId = queryParams.get("SessionClassId");
-      if (!SessionClassId) return;
+      const sessionClassId = queryParams.get("sessionClassId");
+      if (!sessionClassId) return;
     }, []);
   
     if (isSuccessful || !selectedItem) {
@@ -49,9 +49,17 @@ const SessionClassEdit = () => {
                 <Card.Body>
                   <Formik
                     initialValues={{
-                      name: selectedItem?.name,
-                      isActive: selectedItem?.isActive,
-                      lookupId: selectedItem?.lookupId
+                      sessionClassId: selectedItem?.sessionClassId,
+                      sessionId: selectedItem?.sessionId,
+                      classId: selectedItem?.classId,
+                      formTeacherId: selectedItem?.formTeacherId, 
+                      classSubjects: [
+                        {
+                          subjectId: selectedItem?.subjectId,
+                      subjectTeacherId:selectedItem?.subjectTeacherId
+                        }
+                      ]
+
                     }}
                     validationSchema={validation}
                     onSubmit={values => {
@@ -68,27 +76,133 @@ const SessionClassEdit = () => {
                       errors,
                       isValid }) => (
   
-                      <Form>
-                        {message && <div className='text-danger'>{message}</div>}
+                        <Form>
+                        {message && <div className="text-danger">{message}</div>}
                         <Col lg="12">
-                          <div className="form-group">
-                            {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
-                            <label htmlFor="name" className="form-label"> Name</label>
-                            <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" " />
-                          </div>
-                        </Col>
-  
-                        <Col lg="12" className="d-flex justify-content-between">
-                          <div className="form-check mb-3 form-Check">
-                            <Field type="checkbox" id="customCheck1" className="form-check-input" />
-                            <label htmlFor="customCheck1" className='check-label'>isActive </label>
-                          </div>
-                        </Col>
-                        <div className="d-flex justify-content-end">
-                        <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(classLocations.sessionClassList) }}>Cancel</Button>{' '}
-                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
-                        </div>
-                      </Form>
+                           <div className="form-group">
+                             <label htmlFor="sessionId" className="form-label"> Session </label>
+                             <Field type="text" className="form-control" name="sessionId" id="sessionId" aria-describedby="sessionId" value="2021/2022"  readOnly />
+                           </div>
+                         </Col>
+   
+   
+                         <div className="d-flex row justify-content-between">
+                         <Col lg="6">
+                           <div className="form-group">
+                             <label htmlFor="class" className="form-label">
+                               {" "}
+                               Class
+                             </label>
+                             <Field as="select" name="classId" className="form-select" id="classId">
+                               <option defaultValue="Select Class">
+                                 Select Class
+                               </option>
+                               {itemList.map((item, idx) => (
+                                 <option key={idx} value={item.name}>
+                                   {item.name}
+                                 </option>
+                               ))}
+                             </Field>
+                           </div>
+                         </Col>
+   
+                         <Col lg="6">
+                           <div className="form-group">
+                             <label htmlFor="teacher" className="form-label">
+                               {" "}
+                               Form Teacher
+                             </label>
+                             <Field as="select" name="formTeacherId"className="form-select" id="formTeacherId">
+                               <option  defaultValue="Select Teacher">
+                                 Select Teacher
+                               </option>
+                               {teacherList.map((item, idx) => (
+                                 <option
+                                 id={item.userAccountId}
+                                   key={idx}
+                                   value={item.userName}
+                                 >
+                                   {item.userName}
+                                 </option>
+                               ))}
+                             </Field>
+                           </div>
+                         </Col>
+                         </div>
+   
+                         <table className="table table-bordered">
+                           <thead>
+                             <tr>
+                               <th>Subject</th>
+                               <th>Subject Teacher</th>
+                             </tr>
+                           </thead>
+                           <tbody>
+                             {activeSubjects.map((item, idx) => (
+                               <tr key={idx}>
+                                 <td>
+                                   {" "}
+                                   <Field
+                                     type="checkbox"
+                                     id={item.lookupId}
+                                     name="subjectId"
+                                     className="form-check-input"
+                                     //checked={disableSubjectSelect[idx]}
+                                     onChange={() => {
+                                       //checkSingleSubject(idx);
+                                     }}
+                                   />{" "}
+                                   {item.name}
+                                 </td>
+                                 <td>
+                                   <Field as="select" name="subjectTeacherId"
+                                     className="form-select"
+                                     id="subjectTeacherId"
+                                    // disabled={
+                                    // disableSubjectSelect[idx] ? false : true
+                                    // }
+                                   >
+                                     <option defaultValue="Select Teacher">
+                                       Select Teacher
+                                     </option>
+                                     {teacherList.map((item, id) => (
+                                       <option
+                                         key={id}
+                                         id={item.userAccountId}
+                                         value={item.email}
+                                         onChange={(e) => {
+                                           //matchCheckBox(e.target.id,e.target.value);
+                                         }}
+                                       >
+                                         {item.email}
+                                       </option>
+                                     ))}
+                                   </Field>
+                                 </td>
+                               </tr>
+                             ))}
+                           </tbody>
+                         </table>
+   
+                         <div className="d-flex justify-content-end">
+                           <Button
+                             type="button"
+                             variant="btn btn-danger mx-2"
+                             onClick={() => {
+                               history.push(classLocations.sessionClassList);
+                             }}
+                           >
+                             Cancel
+                           </Button>{" "}
+                           <Button
+                             type="button"
+                             variant="btn btn-primary"
+                             onClick={handleSubmit}
+                           >
+                             Submit
+                           </Button>
+                         </div>
+                       </Form>
                     )}
                   </Formik>
   

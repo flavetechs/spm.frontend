@@ -227,7 +227,7 @@ export const getAllSessionClasses = () => (dispatch) => {
         type: actions.FETCH_SESSION_CLASS_LOADING
     });
 
-    axiosInstance.get('/session/api/v1/getall')
+    axiosInstance.get('/class/api/v1/get-all/session-classes')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SESSION_CLASS_SUCCESS,
@@ -245,7 +245,7 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
     dispatch({
         type: actions.CREATE_SESSION_CLASS_LOADING
     });
-    axiosInstance.post('/session/api/v1/create', sessionClass)
+    axiosInstance.post('/class/api/v1/create/session-class', sessionClass)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_SESSION_CLASS_SUCCESS,
@@ -290,7 +290,7 @@ export const updateSessionClass = (updatedSessionClass) => (dispatch) => {
         type: actions.UPDATE_SESSION_CLASS_LOADING
     });
     
-    axiosInstance.post('/session/api/v1/update', updatedSessionClass)
+    axiosInstance.post('/class/api/v1/update/session-class', updatedSessionClass)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SESSION_CLASS_SUCCESS,
@@ -313,7 +313,7 @@ export const getAllTeachers = () => (dispatch) => {
         type: actions.FETCH_TEACHERS_LOADING
     });
 
-    axiosInstance.get(/*'/user/api/v1/getall/teachers'*/'/')
+    axiosInstance.get('/user/api/v1/getall/teachers')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_TEACHERS_SUCCESS,
@@ -334,7 +334,7 @@ export const getAllActiveSubjects = () => (dispatch) => {
         type: actions.FETCH_ACTIVE_SUBJECTS_LOADING
     });
 
-    axiosInstance.get('/')
+    axiosInstance.get('/subject/api/v1/getall/active-subject')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SUBJECTS_SUCCESS,
@@ -348,3 +348,24 @@ export const getAllActiveSubjects = () => (dispatch) => {
         });
 }
 //GET ACTIVE SUBJECT ACTION  HANDLER
+
+//GET ACTIVE CLASSES ACTION  HANDLER
+export const getAllActiveClasses = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ACTIVE_CLASSES_LOADING
+    });
+
+    axiosInstance.get('/class/api/v1/get-all/active-classes')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_CLASSES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_CLASSES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+//GET ACTIVE CLASSES ACTION  HANDLER

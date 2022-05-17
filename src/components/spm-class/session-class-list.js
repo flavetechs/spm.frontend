@@ -58,25 +58,25 @@ const SessionClassList = () => {
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
-  const checkSingleItem = (isChecked, lookupId, sessionClasses) => {
+  const checkSingleItem = (isChecked, sessionClassId, sessionClasses) => {
     sessionClasses.forEach(item => {
-      if (item.lookupId === lookupId) {
+      if (item.sessionClassId === sessionClassId) {
         item.isChecked = isChecked
       }
     });
     if (isChecked) {
-      dispatch(pushId(lookupId));
+      dispatch(pushId(sessionClassId));
     } else {
-      dispatch(removeId(lookupId));
+      dispatch(removeId(sessionClassId));
     }
   }
   const checkAllItems = (isChecked, sessionClasses) => {
     sessionClasses.forEach(item => {
       item.isChecked = isChecked
       if (item.isChecked) {
-        dispatch(pushId(item.lookupId))
+        dispatch(pushId(item.sessionClassId))
       } else {
-        dispatch(removeId(item.lookupId))
+        dispatch(removeId(item.sessionClassId))
       }
     });
     returnList(sessionClasses)(dispatch)
@@ -228,7 +228,7 @@ const SessionClassList = () => {
                           /> : "S/No"}
 
                         </th>
-                        <th>ID</th>
+                        <th>Session</th>
                         <th>Class</th>
                         <th>Form Teacher</th>
                         <th min-width="100px">Action</th>
@@ -245,24 +245,24 @@ const SessionClassList = () => {
 
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.lookupId, itemList);
+                                  checkSingleItem(e.target.checked, item.sessionClassId, itemList);
                                 }}
                               />
                             ) : (
                                 idx + 1
                             )}
                           </td>
-                          <td>{item.sessionId}</td>
-                          <td>{item.startDate}</td>
+                          <td>{item.session}</td>
+                          <td>{item.class}</td>
                           <td>
-                            {item.endDate}
+                            {item.formTeacher}
                           </td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
                               <a
                                 onClick={() => {
-                                  fetchSingleItem(item.sessionId)(dispatch)
+                                  fetchSingleItem(item.sessionClassId)(dispatch)
                                   history.push(classLocations.sessionClassEdit);
                                 }
                                 }
@@ -271,7 +271,7 @@ const SessionClassList = () => {
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionId}`}
+                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -314,9 +314,9 @@ const SessionClassList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-id={item.lookupId}
+                                data-id={item.sessionClassId}
                                 onClick={() => {
-                                  dispatch(pushId(item.lookupId))
+                                  dispatch(pushId(item.sessionClassId))
                                   showSingleDeleteDialog(true)(dispatch)
                                 }
                                 }

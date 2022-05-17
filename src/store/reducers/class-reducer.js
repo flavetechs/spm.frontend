@@ -341,6 +341,29 @@ case actions.FETCH_ACTIVE_SUBJECTS_FAILED:
   };
   //GET ACTIVE SUBJECTS REDUCER
 
+//GET ACTIVE CLASSES REDUCER
+case actions.FETCH_ACTIVE_CLASSES_LOADING:
+  return {
+    ...state,
+    loading: true,
+    message: "",
+    isSuccessful: false,
+  };
+case actions.FETCH_ACTIVE_CLASSES_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    itemList: payload,
+  };
+case actions.FETCH_ACTIVE_CLASSES_FAILED:
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
+  };
+  //GET ACTIVE CLASSES REDUCER
+
     default:
       return state;
   }
