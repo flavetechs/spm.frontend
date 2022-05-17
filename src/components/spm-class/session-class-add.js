@@ -54,6 +54,7 @@ const SessionClassAdd = () => {
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
   }, []);
+
   React.useLayoutEffect(() => {
     setDisableSubjectSelect(new Array(activeSubjects.length).fill(false));
   }, [activeSubjects]);
@@ -104,7 +105,7 @@ classSubjects.find(item => {
                      }
                    ]*/
                   }}
-                  validationSchema={validation}
+                  // validationSchema={validation}
                   onSubmit={(values) => {
                     console.log("values", values);
                     values.classSubjects = classSubjects;
