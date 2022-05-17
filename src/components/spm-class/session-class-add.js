@@ -12,9 +12,9 @@ import {
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllTeachers,
-  getAllSessionClasses,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
+import { getActiveSession } from "../../store/actions/session-actions";
 
 const SessionClassAdd = () => {
   //VARIABLE DECLARATIONS
@@ -42,10 +42,10 @@ const SessionClassAdd = () => {
     classSubjects,
   } = state.class;
 
-  // const { itemList: sessions } = state.session;
+const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log("classSubjects", classSubjects);
+  console.log("classSubjects", activeSession);
 
   //USE STATE VARIABLE DECLARATION
   const [disableSubjectSelect, setDisableSubjectSelect] = useState(
@@ -53,10 +53,10 @@ const SessionClassAdd = () => {
   );
   //USE STATE VARIABLE  DECLARATION
   React.useEffect(() => {
-    getAllSessionClasses()(dispatch);
     getAllActiveClasses()(dispatch);
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
+    getActiveSession()(dispatch)
   }, []);
 
   React.useLayoutEffect(() => {
@@ -134,17 +134,15 @@ const SessionClassAdd = () => {
                             {" "}
                             Session{" "}
                           </label>
-                          {itemList.map((session, idx) => (
-                            <Field
+                          <Field
                               type="text"
                               className="form-control"
                               name="sessionId"
                               id="sessionId"
                               aria-describedby="sessionId"
-                              value="2021/2022"
+                              value={activeSession?.session}
                               readOnly
                             />
-                          ))}
                         </div>
                       </Col>
 

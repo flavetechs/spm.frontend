@@ -267,15 +267,15 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
         });
 }
 
-export const deleteSessionClass = (sessionClassId) => (dispatch) => {
+export const deleteSessionClass = (selectedIds) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_CLASS_LOADING
     });
     const payload = {
-        items: sessionClassId
+        items: selectedIds[0]
     }
 
-    axiosInstance.post('/session/api/v1/delete', payload)
+    axiosInstance.post('/class/api/v1/delete-session-class', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SESSION_CLASS_SUCCESS,

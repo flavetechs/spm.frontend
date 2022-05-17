@@ -6,5 +6,6 @@ export const _state = {
     sessionId: '',
     name: '',
     selectedIds: [],
-    selectedItem: null
+    selectedItem: null,
+    activeSession: null,
 }
