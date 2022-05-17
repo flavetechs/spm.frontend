@@ -198,6 +198,7 @@ export const deleteSubject = (subjectId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
 export const updateSubject = (updatedSubject) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SUBJECT_LOADING
