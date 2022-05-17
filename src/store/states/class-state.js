@@ -9,10 +9,5 @@ export const _state = {
   isSuccessful: false,
   activeSubjects: [],
   activeClasses: [],
-  classSubjects: [
-    {
-      subjectId: "",
-      subjectTeacherId: "",
-    },
-  ],
+  classSubjects: [],
 };

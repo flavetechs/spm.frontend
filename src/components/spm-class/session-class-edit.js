@@ -8,7 +8,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import {
   updateSessionClass,
-  classSubjectsIds,
+  buildClassSubjectArray,
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllTeachers,
@@ -68,7 +68,7 @@ const [disableSubjectSelect, setDisableSubjectSelect] = React.useState(
       setDisableSubjectSelect(updatedCheckedState);
     };
     const checkSubjectIds =(subjectId,subjectTeacherId,classSubjects) =>{
-      classSubjectsIds(subjectId,subjectTeacherId,classSubjects)(dispatch)
+      buildClassSubjectArray(subjectId,subjectTeacherId,classSubjects)(dispatch)
       console.log("classSubjectidd", subjectId,subjectTeacherId,classSubjects)
     }
   

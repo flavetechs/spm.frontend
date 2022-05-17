@@ -365,7 +365,7 @@ case actions.FETCH_ACTIVE_CLASSES_FAILED:
   //GET ACTIVE CLASSES REDUCER
 
   //CLASS SUBJECT IDS//
-case actions.CLASS_SUBJECT_ID:
+case actions.PUSH_CLASS_SUBJECT_ID:
   return{
       ...state,
       classSubjects: payload

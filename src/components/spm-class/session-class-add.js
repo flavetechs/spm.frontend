@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Dropdown } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 import {
   createSessionClass,
-  classSubjectsIds,
+  buildClassSubjectArray,
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllTeachers,
@@ -41,7 +41,11 @@ const SessionClassAdd = () => {
     activeClasses,
     classSubjects,
   } = state.class;
+
+  // const { itemList: sessions } = state.session;
   // ACCESSING STATE FROM REDUX STORE
+
+  console.log("classSubjects", classSubjects);
 
   //USE STATE VARIABLE DECLARATION
   const [disableSubjectSelect, setDisableSubjectSelect] = useState(
@@ -59,32 +63,32 @@ const SessionClassAdd = () => {
     setDisableSubjectSelect(new Array(activeSubjects.length).fill(false));
   }, [activeSubjects]);
 
-  console.log("active:", activeSubjects);
-  console.log("activity:", disableSubjectSelect);
+
   if (isSuccessful) {
     history.push(classLocations.sessionClassList);
   }
 
-  const checkSingleSubject = (position) => {
+  //HANDLER FUNCTIONS
+  const handleSubjectCheckAndTeacherSelect = (position) => {
     const updatedCheckedState = disableSubjectSelect.map((item, index) =>
       index === position ? !item : item
     );
     setDisableSubjectSelect(updatedCheckedState);
   };
-  const getSubjectId = (subjectId,classSubjects) => {
-    const subjectTeacherId = "";
-    classSubjectsIds(subjectId,subjectTeacherId,classSubjects)(dispatch);
-    console.log("subjectid",subjectTeacherId, subjectId);
+
+  const getSubjectId = (event, subjectId) => {
+    const checkBoxValue = event.target.checked;
+    buildClassSubjectArray(subjectId, "", classSubjects, checkBoxValue)(dispatch);
   };
-  const getSubjectTeacherId = (subjectId, subjectTeacherId, classSubjects) => {
-classSubjects.find(item => {
-  if (item.subjectId === subjectId) {
-    item.subjectTeacherId = subjectTeacherId;
-  }
-});
-    classSubjectsIds(subjectId, subjectTeacherId, classSubjects)(dispatch);
-    console.log("classSubjectidd", subjectId, subjectTeacherId, classSubjects);
+
+  const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
+    buildClassSubjectArray(subjectId, subjectTeacherId, classSubjects)(dispatch);
   };
+
+  //HANDLER FUNCTIONS
+
+
+
 
   return (
     <>
@@ -95,27 +99,22 @@ classSubjects.find(item => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionId: "",
+                    sessionId: "e65465r6fb6tgt6yhbnh",
                     classId: "",
                     formTeacherId: "",
-                    /*  classSubjects: [
-                      {
-                        subjectId: '',
-                    subjectTeacherId:''
-                     }
-                   ]*/
+                    sbj: ''
                   }}
                   // validationSchema={validation}
                   onSubmit={(values) => {
-                    console.log("values", values);
                     values.classSubjects = classSubjects;
-                    // createSessionClass(values)(dispatch);
+                    console.log("values", values);
                   }}
                 >
                   {({
                     handleChange,
                     handleBlur,
                     handleSubmit,
+                    setFieldValue,
                     values,
                     touched,
                     errors,
@@ -129,7 +128,7 @@ classSubjects.find(item => {
                             {" "}
                             Session{" "}
                           </label>
-                          {itemList.map((item, idx) => (
+                          {itemList.map((session, idx) => (
                             <Field
                               type="text"
                               className="form-control"
@@ -165,7 +164,9 @@ classSubjects.find(item => {
                                 Select Class
                               </option>
                               {activeClasses.map((item, idx) => (
-                                <option key={idx} value={item.lookupId}>
+                                <option key={idx}
+                                  name={values.classId}
+                                  value={item.lookupId}>
                                   {item.name}
                                 </option>
                               ))}
@@ -188,13 +189,14 @@ classSubjects.find(item => {
                               className="form-select"
                               id="formTeacherId"
                             >
-                              <option defaultValue="Select Teacher">
-                                Select Teacher
+                              <option defaultValue="">
+                                Select form teacher
                               </option>
                               {teacherList.map((item, idx) => (
                                 <option
                                   id={item.userAccountId}
                                   key={idx}
+                                  name={values.formTeacherId}
                                   value={item.userAccountId}
                                 >
                                   {item.userName}
@@ -216,7 +218,7 @@ classSubjects.find(item => {
                           </tr>
                         </thead>
                         <tbody>
-                          {activeSubjects.map((item, idx) => (
+                          {activeSubjects.map((subject, idx) => (
                             <tr key={idx}>
                               <td>
                                 {" "}
@@ -226,14 +228,16 @@ classSubjects.find(item => {
                                   name="subjectId"
                                   className="form-check-input"
                                   checked={disableSubjectSelect[idx]}
-                                  onChange={() => {
-                                    checkSingleSubject(idx);
-                                    getSubjectId(item.lookupId,classSubjects);
+                                  onChange={(e) => {
+                                    handleSubjectCheckAndTeacherSelect(idx);
+                                    getSubjectId(e, subject.lookupId);
                                   }}
                                 />{" "}
-                                {item.name}
+                                {subject.name}
                               </td>
                               <td>
+
+
                                 <select
                                   name="subjectTeacherId"
                                   className="form-select"
@@ -241,37 +245,26 @@ classSubjects.find(item => {
                                   disabled={
                                     disableSubjectSelect[idx] ? false : true
                                   }
+                                  onChange={(e) => {
+                                    getSubjectTeacherId(subject.lookupId, e.target.value)
+                                  }
+                                  }
                                 >
                                   <option value="Select Teacher">
                                     Select Teacher
                                   </option>
-                                  {teacherList.map((i, id) => (
-                                    <option
-                                      key={id}
-                                      id={i.userAccountId}
-                                      value={i.userAccountId}
-                                      selected={
-                                        disableSubjectSelect[idx]
-                                          ? i.userName
-                                          : null
-                                      }
-                                      onChange={() => {
-                                        getSubjectTeacherId(
-                                          item.lookupId,
-                                          i.userAccountId,
-                                          classSubjects
-                                        );
-                                        console.log(
-                                          "checkSubjectIds",
-                                          item.lookupId,
-                                          i.userAccountId,
-                                          classSubjects
-                                        );
-                                      }}
-                                    >
-                                      {i.userName}
-                                    </option>
-                                  ))}
+
+                                  {
+                                    teacherList.map((teacher, id) => (
+                                      <option
+                                        key={id}
+                                        id={teacher.userAccountId}
+                                        value={teacher.userAccountId}
+                                      >
+                                        {teacher.userName}
+                                      </option>
+                                    ))
+                                  }
                                 </select>
                               </td>
                             </tr>
@@ -294,7 +287,6 @@ classSubjects.find(item => {
                           variant="btn btn-primary"
                           onClick={() => {
                             handleSubmit();
-                            alert("ok");
                           }}
                         >
                           Submit

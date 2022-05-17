@@ -371,12 +371,27 @@ export const getAllActiveClasses = () => (dispatch) => {
 //GET ACTIVE CLASSES ACTION  HANDLER
 
 //CLASS SUBJECT IDS//
-export const classSubjectsIds = (subjectId, subjectTeacherId, classSubjects) => (dispatch) => {
-classSubjects.subjectId = subjectId;
-classSubjects.subjectTeacherId = subjectTeacherId;
-    console.log("classSubjects", classSubjects)
+export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
+
+    var existingCassSubject = classSubjects.find(er => er.subjectId === subjectId);
+    var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
+    if(existingCassSubject){
+        if(checkBoxValue){
+            existingCassSubject.subjectId = subjectId;
+            existingCassSubject.subjectTeacherId = subjectTeacherId;
+            classSubjects = [...otherClassSubject, existingCassSubject]
+        }else{
+            classSubjects = [...otherClassSubject]
+        }
+    }else{
+        let newClassSubject = {
+            subjectId,
+            subjectTeacherId
+        }
+        classSubjects = [...classSubjects, newClassSubject]
+    }
     dispatch({
-        type: actions.CLASS_SUBJECT_ID,
+        type: actions.PUSH_CLASS_SUBJECT_ID,
         payload: classSubjects
     })
 }
