@@ -4,6 +4,7 @@ import { authReducer } from './reducers/auth-reducer'
 import { classReducer } from './reducers/class-reducer'
 import { generalReducer } from './reducers/general-reducers'
 import { rolesReducer } from './reducers/roles-reducer'
+import { sessionReducer } from './reducers/session-reducer'
 import { alertReducer } from './reducers/toaster-reducer'
 import Mode from './setting/setting'
 export default createStore(
@@ -14,6 +15,7 @@ export default createStore(
         activities: activityReducer,
         alert: alertReducer,
         appState: generalReducer,
-        class: classReducer
+        class: classReducer,
+        session: sessionReducer
     })
 )
