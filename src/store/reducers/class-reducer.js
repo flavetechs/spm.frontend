@@ -371,7 +371,42 @@ case actions.PUSH_CLASS_SUBJECT_ID:
       classSubjects: payload
   };
   //CLASS SUBJECT IDS//
-  
+
+  //GET SINGLE SESSIONCLASS
+  /* case actions.GET_SINGLE_SESSION_CLASS: 
+   const selectedItem = state.itemList.find(d => d.sessionClassId == payload);
+    if (selectedItem) {
+      return {
+        ...state,
+        selectedItem
+      }
+    }
+  */
+
+  //GET SINGLE SESSION CLASS
+
+  case actions.FETCH_SINGLE_SESSION_CLASS_LOADING: {
+    return {
+      ...state,
+      loading: true,
+    };
+  }
+  case actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS: {
+    return {
+      ...state,
+      loading: false,
+      selectedItem: payload,
+    };
+  }
+  case actions.FETCH_SINGLE_SESSION_CLASS_FAILED: {
+    return {
+      ...state,
+      loading: false,
+      selectedItem: null,
+    };
+  }
+ //GET SINGLE SESSION CLASS
+
     default:
       return state;
   }

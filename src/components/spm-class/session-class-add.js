@@ -25,8 +25,8 @@ const SessionClassAdd = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     classId: Yup.string().required("Class is required"),
-    // subjectId: Yup.string()
-    // .required('Subject is required'),
+    //subjectId: Yup.string()
+    //.required('Subject is required'),
   });
   //VALIDATIONS SCHEMA
 
@@ -63,7 +63,6 @@ const SessionClassAdd = () => {
     setDisableSubjectSelect(new Array(activeSubjects.length).fill(false));
   }, [activeSubjects]);
 
-
   if (isSuccessful) {
     history.push(classLocations.sessionClassList);
   }
@@ -78,17 +77,23 @@ const SessionClassAdd = () => {
 
   const getSubjectId = (event, subjectId) => {
     const checkBoxValue = event.target.checked;
-    buildClassSubjectArray(subjectId, "", classSubjects, checkBoxValue)(dispatch);
+    buildClassSubjectArray(
+      subjectId,
+      "",
+      classSubjects,
+      checkBoxValue
+    )(dispatch);
   };
 
   const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
-    buildClassSubjectArray(subjectId, subjectTeacherId, classSubjects)(dispatch);
+    buildClassSubjectArray(
+      subjectId,
+      subjectTeacherId,
+      classSubjects
+    )(dispatch);
   };
 
   //HANDLER FUNCTIONS
-
-
-
 
   return (
     <>
@@ -102,12 +107,13 @@ const SessionClassAdd = () => {
                     sessionId: "e65465r6fb6tgt6yhbnh",
                     classId: "",
                     formTeacherId: "",
-                    sbj: ''
+                    sbj: "",
                   }}
-                  // validationSchema={validation}
+                  validationSchema={validation}
                   onSubmit={(values) => {
                     values.classSubjects = classSubjects;
                     console.log("values", values);
+                    //createSessionClass(values)(dispatch)
                   }}
                 >
                   {({
@@ -164,9 +170,11 @@ const SessionClassAdd = () => {
                                 Select Class
                               </option>
                               {activeClasses.map((item, idx) => (
-                                <option key={idx}
+                                <option
+                                  key={idx}
                                   name={values.classId}
-                                  value={item.lookupId}>
+                                  value={item.lookupId}
+                                >
                                   {item.name}
                                 </option>
                               ))}
@@ -190,7 +198,7 @@ const SessionClassAdd = () => {
                               id="formTeacherId"
                             >
                               <option defaultValue="">
-                                Select form teacher
+                                Select Form Teacher
                               </option>
                               {teacherList.map((item, idx) => (
                                 <option
@@ -236,8 +244,6 @@ const SessionClassAdd = () => {
                                 {subject.name}
                               </td>
                               <td>
-
-
                                 <select
                                   name="subjectTeacherId"
                                   className="form-select"
@@ -246,25 +252,30 @@ const SessionClassAdd = () => {
                                     disableSubjectSelect[idx] ? false : true
                                   }
                                   onChange={(e) => {
-                                    getSubjectTeacherId(subject.lookupId, e.target.value)
-                                  }
-                                  }
+                                    getSubjectTeacherId(
+                                      subject.lookupId,
+                                      e.target.value
+                                    );
+                                  }}
                                 >
                                   <option value="Select Teacher">
                                     Select Teacher
                                   </option>
 
-                                  {
-                                    teacherList.map((teacher, id) => (
-                                      <option
-                                        key={id}
-                                        id={teacher.userAccountId}
-                                        value={teacher.userAccountId}
-                                      >
-                                        {teacher.userName}
-                                      </option>
-                                    ))
-                                  }
+                                  {teacherList.map((teacher, id) => (
+                                    <option
+                                      key={id}
+                                      id={teacher.userAccountId}
+                                      value={teacher.userAccountId}
+                                      selected={
+                                        disableSubjectSelect[idx]
+                                          ? teacher.userName
+                                          : null
+                                      }
+                                    >
+                                      {teacher.userName}
+                                    </option>
+                                  ))}
                                 </select>
                               </td>
                             </tr>

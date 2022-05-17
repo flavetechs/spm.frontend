@@ -396,3 +396,26 @@ export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubject
     })
 }
 //CLASS SUBJECT IDS//
+
+//GET SINGLE SESSION CLASS
+export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
+    dispatch({
+        type: actions.FETCH_SINGLE_SESSION_CLASS_LOADING,
+        payload: sessionClassId
+    });
+        axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch(err => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+
+}
+//GET SINGLE SESSION CLASS
+

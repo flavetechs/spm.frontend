@@ -1,19 +1,22 @@
-import React, { useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-import Card from '../Card'
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import Card from "../Card";
 import {
   getAllSessionClasses,
   pushId,
   removeId,
   returnList,
   deleteSessionClass,
-  fetchSingleItem,
+  fetchSingleSessionClass,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
-import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
-
+import {
+  respondToDeleteDialog,
+  showErrorToast,
+  showSingleDeleteDialog,
+} from "../../store/actions/toaster-actions";
 
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
@@ -22,7 +25,6 @@ const SessionClassList = () => {
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
-
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -36,32 +38,32 @@ const SessionClassList = () => {
 
   //DELETE HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === 'continue') {
+    if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
-        showErrorToast('No Item selected to be deleted')(dispatch);
+        showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         deleteSessionClass(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton)
+        setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
-        respondToDeleteDialog('')(dispatch);
+        respondToDeleteDialog("")(dispatch);
       }
     } else {
-      setDeleteButton(true)
-      setShowCheckBoxes(false)
-      selectedIds.forEach(id => {
-        dispatch(removeId(id))
+      setDeleteButton(true);
+      setShowCheckBoxes(false);
+      selectedIds.forEach((id) => {
+        dispatch(removeId(id));
       });
     }
     return () => {
-      respondToDeleteDialog('')(dispatch);
-    }
+      respondToDeleteDialog("")(dispatch);
+    };
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
   const checkSingleItem = (isChecked, sessionClassId, sessionClasses) => {
-    sessionClasses.forEach(item => {
+    sessionClasses.forEach((item) => {
       if (item.sessionClassId === sessionClassId) {
-        item.isChecked = isChecked
+        item.isChecked = isChecked;
       }
     });
     if (isChecked) {
@@ -69,19 +71,18 @@ const SessionClassList = () => {
     } else {
       dispatch(removeId(sessionClassId));
     }
-  }
+  };
   const checkAllItems = (isChecked, sessionClasses) => {
-    sessionClasses.forEach(item => {
-      item.isChecked = isChecked
+    sessionClasses.forEach((item) => {
+      item.isChecked = isChecked;
       if (item.isChecked) {
-        dispatch(pushId(item.sessionClassId))
+        dispatch(pushId(item.sessionClassId));
       } else {
-        dispatch(removeId(item.sessionClassId))
+        dispatch(removeId(item.sessionClassId));
       }
     });
-    returnList(sessionClasses)(dispatch)
-  }
-
+    returnList(sessionClasses)(dispatch);
+  };
 
   return (
     <>
@@ -100,10 +101,9 @@ const SessionClassList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      setDeleteButton(!showDeleteButton)
-                      setShowCheckBoxes(!showCheckBoxes)
-                    }
-                    }
+                      setDeleteButton(!showDeleteButton);
+                      setShowCheckBoxes(!showCheckBoxes);
+                    }}
                   >
                     <i className="btn-inner">
                       <svg
@@ -143,7 +143,7 @@ const SessionClassList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch)
+                      showSingleDeleteDialog(true)(dispatch);
                     }}
                   >
                     <i className="btn-inner">
@@ -219,14 +219,17 @@ const SessionClassList = () => {
                     <thead>
                       <tr className="ligth">
                         <th>
-                          {showCheckBoxes ? <input
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkAllItems(e.target.checked, itemList);
-                            }}
-                          /> : "S/No"}
-
+                          {showCheckBoxes ? (
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                checkAllItems(e.target.checked, itemList);
+                              }}
+                            />
+                          ) : (
+                            "S/No"
+                          )}
                         </th>
                         <th>Session</th>
                         <th>Class</th>
@@ -242,36 +245,40 @@ const SessionClassList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.sessionClassId, itemList);
+                                  checkSingleItem(
+                                    e.target.checked,
+                                    item.sessionClassId,
+                                    itemList
+                                  );
                                 }}
                               />
                             ) : (
-                                idx + 1
+                              idx + 1
                             )}
                           </td>
                           <td>{item.session}</td>
                           <td>{item.class}</td>
-                          <td>
-                            {item.formTeacher}
-                          </td>
+                          <td>{item.formTeacher}</td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
                               <a
                                 onClick={() => {
-                                  fetchSingleItem(item.sessionClassId)(dispatch)
-                                  history.push(classLocations.sessionClassEdit);
-                                }
-                                }
+                                  fetchSingleSessionClass(item.sessionClassId)(
+                                    dispatch
+                                  );
+                                  history.push(
+                                    `${classLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`
+                                  );
+                                }}
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
+                                href="#"
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -306,7 +313,6 @@ const SessionClassList = () => {
                                   </svg>
                                 </span>
                               </a>{" "}
-
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -316,10 +322,9 @@ const SessionClassList = () => {
                                 to="#"
                                 data-id={item.sessionClassId}
                                 onClick={() => {
-                                  dispatch(pushId(item.sessionClassId))
-                                  showSingleDeleteDialog(true)(dispatch)
-                                }
-                                }
+                                  dispatch(pushId(item.sessionClassId));
+                                  showSingleDeleteDialog(true)(dispatch);
+                                }}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -353,7 +358,6 @@ const SessionClassList = () => {
                                   </svg>
                                 </span>
                               </Link>
-
                             </div>
                           </td>
                         </tr>
