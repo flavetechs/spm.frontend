@@ -57,7 +57,7 @@ export const createClass = (form) => (dispatch) => {
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
 
-   
+
 
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
@@ -75,12 +75,12 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({name, classId, isActive}) => (dispatch) => {
+export const updateClass = ({ name, classId, isActive }) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
     const payload = {
-        lookupId : classId,
+        lookupId: classId,
         name: name,
         isActive: isActive
     }
@@ -125,7 +125,7 @@ export const deleteClassItems = (classId) => (dispatch) => {
         });
 }
 
-export const fetchSingleClass = (classId) => dispatch =>{
+export const fetchSingleClass = (classId) => dispatch => {
     dispatch({
         type: actions.GET_SINGLE_ITEM,
         payload: classId
@@ -203,7 +203,7 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SUBJECT_LOADING
     });
-    
+
     axiosInstance.post('/subject/api/v1/update/subject', updatedSubject)
         .then((res) => {
             dispatch({
@@ -289,7 +289,7 @@ export const updateSessionClass = (updatedSessionClass) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SESSION_CLASS_LOADING
     });
-    
+
     axiosInstance.post('/class/api/v1/update/session-class', updatedSessionClass)
         .then((res) => {
             dispatch({
