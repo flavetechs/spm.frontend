@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
@@ -9,7 +10,6 @@ import * as Yup from 'yup';
 import { useHistory } from "react-router-dom";
 import { createSession } from "../../store/actions/session-actions";
 import { getAllTeachers } from "../../store/actions/class-actions";
-
 const SessionAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -18,6 +18,7 @@ const SessionAdd = () => {
 
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
+    
     startDate: Yup.string()
       .required('Session Year is required'),
     endDate: Yup.string()
@@ -43,7 +44,6 @@ const SessionAdd = () => {
   if (isSuccessful) {
     history.push(sessionLocations.sessionList);
   }
-
 
   return (
     <>

@@ -32,7 +32,6 @@ const SessionList = () => {
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log('selectedIds', selectedIds);
   React.useEffect(() => {
     getAllSession()(dispatch)
   }, []);
