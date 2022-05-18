@@ -25,8 +25,6 @@ const SessionClassAdd = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     classId: Yup.string().required("Class is required"),
-    //subjectId: Yup.string()
-    //.required('Subject is required'),
   });
   //VALIDATIONS SCHEMA
 
@@ -41,9 +39,8 @@ const SessionClassAdd = () => {
     classSubjects,
   } = state.class;
 
-const { activeSession } = state.session;
+  const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
-
 
   //USE STATE VARIABLE DECLARATION
   const [disableSubjectSelect, setDisableSubjectSelect] = useState(
@@ -105,15 +102,15 @@ const { activeSession } = state.session;
                     sessionId: activeSession?.session,
                     classId: "",
                     formTeacherId: "",
-                    InSession: true
+                    InSession: true,
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
                     values.classSubjects = classSubjects;
-                    values.sessionId = activeSession?.sessionId
+                    values.sessionId = activeSession?.sessionId;
                     console.log("values", values);
 
-                    createSessionClass(values)(dispatch)
+                    createSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -135,14 +132,14 @@ const { activeSession } = state.session;
                             Session{" "}
                           </label>
                           <Field
-                              type="text"
-                              className="form-control"
-                              name="sessionId"
-                              id="sessionId"
-                              aria-describedby="sessionId"
-                              value={activeSession?.session}
-                              readOnly
-                            />
+                            type="text"
+                            className="form-control"
+                            name="sessionId"
+                            id="sessionId"
+                            aria-describedby="sessionId"
+                            value={activeSession?.session}
+                            readOnly
+                          />
                         </div>
                       </Col>
 
@@ -265,11 +262,11 @@ const { activeSession } = state.session;
                                       key={id}
                                       id={teacher.userAccountId}
                                       value={teacher.userAccountId}
-                                      selected={
+                                      /*selected={
                                         disableSubjectSelect[idx]
                                           ? teacher.userName
                                           : null
-                                      }
+                                      }*/
                                     >
                                       {teacher.userName}
                                     </option>

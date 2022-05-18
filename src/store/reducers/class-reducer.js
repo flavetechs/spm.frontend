@@ -288,7 +288,7 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.DELETE_SESSION_CLASS_SUCCESS:
       return {
         ...state,
-        selectedIds: [],
+        selectedIds: "",
         message: payload,
         isSuccessful: true,
       };
@@ -376,20 +376,7 @@ case actions.PUSH_CLASS_SUBJECT_ID:
       ...state,
       classSubjects: payload
   };
-  //CLASS SUBJECT IDS//
-
-  //GET SINGLE SESSIONCLASS
-  /* case actions.GET_SINGLE_SESSION_CLASS: 
-   const selectedItem = state.itemList.find(d => d.sessionClassId == payload);
-    if (selectedItem) {
-      return {
-        ...state,
-        selectedItem
-      }
-    }
-  */
-
-  //GET SINGLE SESSION CLASS
+  
 
   case actions.FETCH_SINGLE_SESSION_CLASS_LOADING: {
     return {

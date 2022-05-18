@@ -22,8 +22,6 @@ const SessionClassList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const [showDeleteButton, setDeleteButton] = useState(true);
-  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -43,46 +41,13 @@ const SessionClassList = () => {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         deleteSessionClass(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton);
-        setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);
       }
-    } else {
-      setDeleteButton(true);
-      setShowCheckBoxes(false);
-      selectedIds.forEach((id) => {
-        dispatch(removeId(id));
-      });
     }
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
   }, [deleteDialogResponse]);
-  //DELETE HANDLER
-
-  const checkSingleItem = (isChecked, sessionClassId, sessionClasses) => {
-    sessionClasses.forEach((item) => {
-      if (item.sessionClassId === sessionClassId) {
-        item.isChecked = isChecked;
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(sessionClassId));
-    } else {
-      dispatch(removeId(sessionClassId));
-    }
-  };
-  const checkAllItems = (isChecked, sessionClasses) => {
-    sessionClasses.forEach((item) => {
-      item.isChecked = isChecked;
-      if (item.isChecked) {
-        dispatch(pushId(item.sessionClassId));
-      } else {
-        dispatch(removeId(item.sessionClassId));
-      }
-    });
-    returnList(sessionClasses)(dispatch);
-  };
 
   return (
     <>
@@ -96,90 +61,6 @@ const SessionClassList = () => {
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                {showDeleteButton ? (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      setDeleteButton(!showDeleteButton);
-                      setShowCheckBoxes(!showCheckBoxes);
-                    }}
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M20.708 6.23975H3.75"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Delete</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch);
-                    }}
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M20.708 6.23975H3.75"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Delete Selected</span>
-                  </button>
-                )}
                 <Link
                   to={classLocations.sessionClassAdd}
                   className="d-flex justify-content-end"
@@ -218,19 +99,7 @@ const SessionClassList = () => {
                   >
                     <thead>
                       <tr className="ligth">
-                        <th>
-                          {showCheckBoxes ? (
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                checkAllItems(e.target.checked, itemList);
-                              }}
-                            />
-                          ) : (
-                            "S/No"
-                          )}
-                        </th>
+                        <th>S/No</th>
                         <th>Session</th>
                         <th>Class</th>
                         <th>Form Teacher</th>
@@ -240,45 +109,20 @@ const SessionClassList = () => {
                     <tbody>
                       {itemList.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="">
-                            {showCheckBoxes ? (
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                checked={item.isChecked || false}
-                                onChange={(e) => {
-                                  checkSingleItem(
-                                    e.target.checked,
-                                    item.sessionClassId,
-                                    itemList
-                                  );
-                                }}
-                              />
-                            ) : (
-                              idx + 1
-                            )}
-                          </td>
+                          <td className="">{idx + 1}</td>
                           <td>{item.session}</td>
                           <td>{item.class}</td>
                           <td>{item.formTeacher}</td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
-                              <a
-                                onClick={() => {
-                                  fetchSingleSessionClass(item.sessionClassId)(
-                                    dispatch
-                                  );
-                                  history.push(
-                                    `${classLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`
-                                  );
-                                }}
+                              <Link
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                href="#"
+                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -312,7 +156,7 @@ const SessionClassList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </a>{" "}
+                              </Link>{" "}
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"

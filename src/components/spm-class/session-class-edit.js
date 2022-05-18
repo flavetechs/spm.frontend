@@ -13,7 +13,9 @@ import {
   getAllActiveSubjects,
   getAllTeachers,
   getAllSessionClasses,
+  fetchSingleSessionClass,
 } from "../../store/actions/class-actions";
+import { getActiveSession } from "../../store/actions/session-actions";
 
 const SessionClassEdit = () => {
   //VARIABLE DECLARATIONS
@@ -25,8 +27,6 @@ const SessionClassEdit = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     classId: Yup.string().required("Class is required"),
-    // subjectId: Yup.string()
-    // .required('Subject is required'),
   });
   //VALIDATIONS SCHEMA
 
@@ -35,14 +35,13 @@ const SessionClassEdit = () => {
   const {
     isSuccessful,
     message,
-    itemList,
     selectedItem,
     teacherList,
     activeSubjects,
     activeClasses,
     classSubjects,
-    fetchSingleSessionClass,
   } = state.class;
+  const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   //USE STATE VARIABLE DECLARATION
@@ -50,14 +49,15 @@ const SessionClassEdit = () => {
     new Array(activeSubjects.length).fill(false)
   );
   //USE STATE VARIABLE  DECLARATION
-
-  console.log("classSubjects", classSubjects);
-  console.log("select", selectedItem);
+  const selectedObject = selectedItem//[0];
+  console.log("selectedItem", selectedObject);
+  console.log("activeSession", selectedItem);
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const sessionClassId = queryParams.get("sessionClassId");
     if (!sessionClassId) return;
+    fetchSingleSessionClass(sessionClassId)(dispatch);
   }, []);
 
   React.useEffect(() => {
@@ -65,6 +65,7 @@ const SessionClassEdit = () => {
     getAllActiveClasses()(dispatch);
     getAllTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
+    getActiveSession()(dispatch);
   }, []);
 
   React.useLayoutEffect(() => {
@@ -75,6 +76,7 @@ const SessionClassEdit = () => {
     history.push(classLocations.sessionClassList);
   }
 
+  
   //HANDLER FUNCTIONS
   const handleSubjectCheckAndTeacherSelect = (position) => {
     const updatedCheckedState = disableSubjectSelect.map((item, index) =>
@@ -111,15 +113,17 @@ const SessionClassEdit = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionId: selectedItem?.sessionId,
-                    classId: selectedItem?.classId,
-                    formTeacherId: selectedItem?.formTeacherId,
+                    sessionId: activeSession?.session,
+                    classId: selectedObject?.class,
+                    formTeacherId: selectedObject?.formTeacher,
+                    InSession: true,
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
                     values.classSubjects = classSubjects;
+                    values.sessionId = activeSession?.sessionId;
                     console.log("values", values);
-                    // updateSessionClass(values)(dispatch);
+                    //updateSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -140,17 +144,15 @@ const SessionClassEdit = () => {
                             {" "}
                             Session{" "}
                           </label>
-                          {itemList.map((session, idx) => (
-                            <Field
-                              type="text"
-                              className="form-control"
-                              name="sessionId"
-                              id="sessionId"
-                              aria-describedby="sessionId"
-                              value="2021/2022"
-                              readOnly
-                            />
-                          ))}
+                          <Field
+                            type="text"
+                            className="form-control"
+                            name="sessionId"
+                            id="sessionId"
+                            aria-describedby="sessionId"
+                            value={activeSession?.session}
+                            readOnly
+                          />
                         </div>
                       </Col>
 
@@ -172,14 +174,13 @@ const SessionClassEdit = () => {
                               className="form-select"
                               id="classId"
                             >
-                              <option defaultValue="Select Teacher">
-                                Select Class
+                              <option value={selectedObject?.classId}>
+                                {selectedObject?.class}
                               </option>
                               {activeClasses.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.classId}
-                                  selected={selectedItem?.classId}
                                   value={item.lookupId}
                                   id={item.lookupId}
                                 >
@@ -205,8 +206,8 @@ const SessionClassEdit = () => {
                               className="form-select"
                               id="formTeacherId"
                             >
-                              <option defaultValue="">
-                                Select Form Teacher
+                              <option value={selectedObject?.formTeacherId}>
+                                {selectedObject?.formTeacher}
                               </option>
                               {teacherList.map((item, idx) => (
                                 <option
@@ -214,7 +215,6 @@ const SessionClassEdit = () => {
                                   key={idx}
                                   name={values.formTeacherId}
                                   value={item.userAccountId}
-                                  selected={selectedItem?.formTeacherId}
                                 >
                                   {item.userName}
                                 </option>
@@ -244,7 +244,12 @@ const SessionClassEdit = () => {
                                   id="subjectId"
                                   name="subjectId"
                                   className="form-check-input"
-                                  checked={disableSubjectSelect[idx]}
+                                  checked={
+                                    selectedObject?.subjectId ===
+                                    subject.lookupId
+                                      ? true
+                                      : disableSubjectSelect[idx]
+                                  }
                                   onChange={(e) => {
                                     handleSubjectCheckAndTeacherSelect(idx);
                                     getSubjectId(e, subject.lookupId);
@@ -278,7 +283,7 @@ const SessionClassEdit = () => {
                                       value={teacher.userAccountId}
                                       selected={
                                         disableSubjectSelect[idx]
-                                          ? teacher.userName
+                                          ? selectedObject?.subjectTeacherId
                                           : null
                                       }
                                     >
