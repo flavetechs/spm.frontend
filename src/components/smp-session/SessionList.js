@@ -32,6 +32,7 @@ const SessionList = () => {
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
+  console.log('selectedIds', selectedIds);
   React.useEffect(() => {
     getAllSession()(dispatch)
   }, []);
@@ -59,31 +60,6 @@ const SessionList = () => {
     }
   }, [deleteDialogResponse]);
   //DELETE HANDLER
-
-  const checkSingleItem = (isChecked, sessionId, sessions) => {
-    sessions.forEach(item => {
-      if (item.sessionId === sessionId) {
-        item.isChecked = isChecked
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(sessionId));
-    } else {
-      dispatch(removeId(sessionId));
-    }
-  }
-  const checkAllItems = (isChecked, sessions) => {
-    sessions.forEach(item => {
-      item.isChecked = isChecked
-      if (item.isChecked) {
-        dispatch(pushId(item.sessionId))
-      } else {
-        dispatch(removeId(item.sessionId))
-      }
-    });
-    returnList(sessions)(dispatch)
-  }
-
 
   return (
     <>
@@ -136,13 +112,7 @@ const SessionList = () => {
                     <thead>
                       <tr className="ligth">
                         <th>
-                          {showCheckBoxes ? <input
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkAllItems(e.target.checked, sessionList);
-                            }}
-                          /> : "S/No"}
+                          {showCheckBoxes ? null : "S/No"}
 
                         </th>
                         <th>Principal</th>
@@ -157,16 +127,7 @@ const SessionList = () => {
                         <tr key={idx}>
                           <td className="">
                             {showCheckBoxes ? (
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-
-                                checked={item.isChecked || false}
-                                onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.sessionId, SessionList);
-                                }}
-                              />
-                            ) : (
+                              null) : (
                               idx + 1
                             )}
                           </td>

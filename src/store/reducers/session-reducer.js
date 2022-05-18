@@ -44,7 +44,6 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         return {
             ...state,
             loading: false,
-            // isSuccessful: true,
             sessionList: payload,
         };
 
@@ -110,7 +109,7 @@ export const sessionReducer = (state = _state, { type, payload }) => {
     case actions.DELETE_SESSION_SUCCESS:
       return {
         ...state,
-        selectedIds: {},
+        selectedIds: [],
         message: payload,
         isSuccessful: true,
       };
