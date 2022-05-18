@@ -49,9 +49,8 @@ const SessionClassEdit = () => {
     new Array(activeSubjects.length).fill(false)
   );
   //USE STATE VARIABLE  DECLARATION
-  const selectedObject = selectedItem//[0];
-  console.log("selectedItem", selectedObject);
-  console.log("activeSession", selectedItem);
+  console.log("selectedItem", selectedItem);
+  
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -102,6 +101,7 @@ const SessionClassEdit = () => {
     )(dispatch);
   };
 
+
   //HANDLER FUNCTIONS
 
   return (
@@ -114,8 +114,8 @@ const SessionClassEdit = () => {
                 <Formik
                   initialValues={{
                     sessionId: activeSession?.session,
-                    classId: selectedObject?.class,
-                    formTeacherId: selectedObject?.formTeacher,
+                    classId: selectedItem?.class,
+                    formTeacherId: selectedItem?.formTeacher,
                     InSession: true,
                   }}
                   validationSchema={validation}
@@ -123,7 +123,7 @@ const SessionClassEdit = () => {
                     values.classSubjects = classSubjects;
                     values.sessionId = activeSession?.sessionId;
                     console.log("values", values);
-                    //updateSessionClass(values)(dispatch);
+                    updateSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -174,8 +174,8 @@ const SessionClassEdit = () => {
                               className="form-select"
                               id="classId"
                             >
-                              <option value={selectedObject?.classId}>
-                                {selectedObject?.class}
+                              <option selected={true} disabled value={selectedItem?.classId}>
+                                {selectedItem?.class}
                               </option>
                               {activeClasses.map((item, idx) => (
                                 <option
@@ -206,8 +206,8 @@ const SessionClassEdit = () => {
                               className="form-select"
                               id="formTeacherId"
                             >
-                              <option value={selectedObject?.formTeacherId}>
-                                {selectedObject?.formTeacher}
+                              <option selected={true} disabled value={selectedItem?.formTeacherId}>
+                                {selectedItem?.formTeacher}
                               </option>
                               {teacherList.map((item, idx) => (
                                 <option
@@ -216,7 +216,7 @@ const SessionClassEdit = () => {
                                   name={values.formTeacherId}
                                   value={item.userAccountId}
                                 >
-                                  {item.userName}
+                                  {item.fullName}
                                 </option>
                               ))}
                             </Field>
@@ -245,8 +245,7 @@ const SessionClassEdit = () => {
                                   name="subjectId"
                                   className="form-check-input"
                                   checked={
-                                    selectedObject?.subjectId ===
-                                    subject.lookupId
+                                    selectedItem?.classSubjects.find(item=>item.subjectId === subject.lookupId) 
                                       ? true
                                       : disableSubjectSelect[idx]
                                   }
@@ -283,11 +282,12 @@ const SessionClassEdit = () => {
                                       value={teacher.userAccountId}
                                       selected={
                                         disableSubjectSelect[idx]
-                                          ? selectedObject?.subjectTeacherId
-                                          : null
+                                       ? teacher.fullName
+                                         : null
                                       }
+                                       
                                     >
-                                      {teacher.userName}
+                                      {teacher.fullName}
                                     </option>
                                   ))}
                                 </select>

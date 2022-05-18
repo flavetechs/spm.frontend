@@ -262,11 +262,14 @@ const SessionClassAdd = () => {
                                       key={id}
                                       id={teacher.userAccountId}
                                       value={teacher.userAccountId}
-                                      /*selected={
+                                      selected={
                                         disableSubjectSelect[idx]
                                           ? teacher.userName
                                           : null
-                                      }*/
+                                      }
+                                      disabled={(e)=>disableSubjectSelect[idx]
+                                        ? e.target.selected
+                                        : null}
                                     >
                                       {teacher.userName}
                                     </option>

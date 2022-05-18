@@ -288,7 +288,7 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.DELETE_SESSION_CLASS_SUCCESS:
       return {
         ...state,
-        selectedIds: "",
+        selectedSessionId:'',
         message: payload,
         isSuccessful: true,
       };

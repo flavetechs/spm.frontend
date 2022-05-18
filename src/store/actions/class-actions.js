@@ -371,6 +371,7 @@ export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
     });
         axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
             .then((res) => {
+                console.log("res", res.data)
                 dispatch({
                     type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
                     payload: res.data.result
