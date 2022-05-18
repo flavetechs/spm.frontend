@@ -17,7 +17,7 @@ const ClassSetupEdit = () => {
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS 
-  const [isChecked, setIsChecked] = useState(selectedItem.isActive)
+  const [isChecked, setIsChecked] = useState(selectedItem?.isActive)
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const ClassSetupEdit = () => {
 
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-6 mx-auto">
         <Row>
           <Col sm="12" >
             <Card>
@@ -74,7 +74,7 @@ const ClassSetupEdit = () => {
 
                     <Form>
                       {message && <div className='text-danger'>{message}</div>}
-                      <Col lg="6">
+                      <Col lg="12">
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
                           <label htmlFor="name" className="form-label"> Name</label>
@@ -93,8 +93,10 @@ const ClassSetupEdit = () => {
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
-                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
+                      <div className="d-flex justify-content-end">
+                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{'  '}
                       <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
+                      </div>
                     </Form>
                   )}
                 </Formik>
