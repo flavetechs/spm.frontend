@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,11 +7,17 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import {
-    updateClass,
+  updateClass,
 } from "../../store/actions/class-actions";
 
 const ClassSetupEdit = () => {
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { selectedItem, isSuccessful, message } = state.class;
+  // ACCESSING STATE FROM REDUX STORE
+
   //VARIABLE DECLARATIONS 
+  const [isChecked, setIsChecked] = useState(selectedItem.isActive)
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
@@ -25,10 +31,7 @@ const ClassSetupEdit = () => {
   });
   //VALIDATIONS SCHEMA
 
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { selectedItem, isSuccessful, message } = state.class;
-  // ACCESSING STATE FROM REDUX STORE
+
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -56,6 +59,7 @@ const ClassSetupEdit = () => {
                   validationSchema={validation}
                   onSubmit={values => {
                     console.log(values);
+                    values.isActive = isChecked
                     updateClass(values)(dispatch)
                   }}
                 >
@@ -80,7 +84,12 @@ const ClassSetupEdit = () => {
 
                       <Col lg="6" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <Field type="checkbox" id="customCheck1" className="form-check-input" />
+                          <Field type="checkbox" id="customCheck1" className="form-check-input"
+                            checked={isChecked}
+                            onChange={(e) => {
+                              setIsChecked(!isChecked)
+                            }}
+                          />
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
