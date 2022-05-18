@@ -4,11 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Card from "../Card";
 import {
   getAllSessionClasses,
-  pushId,
-  removeId,
-  returnList,
   deleteSessionClass,
-  fetchSingleSessionClass,
   pushSessionClassId,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +23,7 @@ const SessionClassList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList, selectedIds } = state.class;
+  const { itemList, selectedSessionId } = state.class;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -38,10 +34,10 @@ const SessionClassList = () => {
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
-      if (selectedIds.length === 0) {
+      if (selectedSessionId === '') {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteSessionClass(selectedIds)(dispatch);
+        deleteSessionClass(selectedSessionId)(dispatch);
         respondToDeleteDialog("")(dispatch);
       }
     }

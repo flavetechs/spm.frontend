@@ -202,7 +202,7 @@ const SessionClassAdd = () => {
                                   name={values.formTeacherId}
                                   value={item.userAccountId}
                                 >
-                                  {item.userName}
+                                  {item.fullName}
                                 </option>
                               ))}
                             </Field>
@@ -264,14 +264,14 @@ const SessionClassAdd = () => {
                                       value={teacher.userAccountId}
                                       selected={
                                         disableSubjectSelect[idx]
-                                          ? teacher.userName
+                                          ? teacher.fullName
                                           : null
                                       }
                                       disabled={(e)=>disableSubjectSelect[idx]
                                         ? e.target.selected
                                         : null}
                                     >
-                                      {teacher.userName}
+                                      {teacher.fullName}
                                     </option>
                                   ))}
                                 </select>

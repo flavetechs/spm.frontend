@@ -101,6 +101,7 @@ const SessionClassEdit = () => {
     )(dispatch);
   };
 
+  
 
   //HANDLER FUNCTIONS
 
@@ -246,7 +247,7 @@ const SessionClassEdit = () => {
                                   className="form-check-input"
                                   checked={
                                     selectedItem?.classSubjects.find(item=>item.subjectId === subject.lookupId) 
-                                      ? true
+                                      ? !disableSubjectSelect[idx]
                                       : disableSubjectSelect[idx]
                                   }
                                   onChange={(e) => {
