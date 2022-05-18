@@ -44,7 +44,6 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         return {
             ...state,
             loading: false,
-            // isSuccessful: true,
             sessionList: payload,
         };
 
