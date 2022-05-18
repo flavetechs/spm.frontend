@@ -42,7 +42,7 @@ const SubjectSetupEdit = () => {
 
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-6 mx-auto">
         <Row>
           <Col sm="12" >
             <Card>
