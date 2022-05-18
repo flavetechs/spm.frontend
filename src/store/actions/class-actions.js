@@ -15,10 +15,10 @@ export const removeId = (itemId) => {
         payload: itemId
     }
 }
-export const returnList = (subjects) => (dispatch) => {
+export const returnList = (items) => (dispatch) => {
     dispatch({
         type: actions.RETURN_ITEM_LIST,
-        payload: subjects
+        payload: items
     })
 }
 
@@ -39,11 +39,13 @@ export const getAllClasses = () => (dispatch) => {
 
     axiosInstance.get('class/api/v1/getall/class-lookup')
         .then((res) => {
+            console.log('getall class res: ', res)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
+            console.log('getall class err: ', err)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_FAILED,
                 payload: err.response.data.result
@@ -51,14 +53,12 @@ export const getAllClasses = () => (dispatch) => {
         });
 }
 
-export const createClass = (form) => (dispatch) => {
 
+
+export const createClass = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
-
-   
-
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
             dispatch({
@@ -75,53 +75,52 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({name, classId, isActive}) => (dispatch) => {
+
+export const updateClass = (updatedClass) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
-    const payload = {
-        lookupId : classId,
-        name: name,
-        isActive: isActive
-    }
-    axiosInstance.post('/class/api/v1/update/class-lookup', payload)
+    
+    axiosInstance.post('/class/api/v1/update/class-lookup', updatedClass)
         .then((res) => {
-            console.log('update res: ', res)
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_SUCCESS,
-                payload: res.data.message.friendlyMessage.result
+                payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('update error: ', err)
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
-            })
+            });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
 export const deleteClassItems = (classId) => (dispatch) => {
     dispatch({
-        type: actions.DELETE_CLASS_LOADING
+        type: actions.DELETE_CLASSLOOKUP_LOADING
     });
-
     const payload = {
         items: classId
     }
-    const url = '/class/api/v1/delete/class-lookup'
-    axiosInstance.post(`${url}/${payload}`)
+
+    axiosInstance.post('/class/api/v1/delete/class-lookup', payload)
         .then((res) => {
+            console.log('delete class res: ', res)
             dispatch({
-                type: actions.DELETE_CLASS_SUCCESS,
-                payload: res.data.result
+                type: actions.DELETE_CLASSLOOKUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
             });
+            getAllClasses()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
+            console.log('delete class err: ', err)
             dispatch({
-                type: actions.DELETE_CLASS_FAILED,
-                payload: err.response.data.result
-            })
+                type: actions.DELETE_CLASSLOOKUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
@@ -199,6 +198,7 @@ export const deleteSubject = (subjectId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
 export const updateSubject = (updatedSubject) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SUBJECT_LOADING
@@ -221,5 +221,130 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
 }
 //SUBJECT ACTION HANDLERS
 
+//SESSION CLASS ACTION HANDLERS
+export const getAllSessionClasses = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SESSION_CLASS_LOADING
+    });
 
+    axiosInstance.get('/session/api/v1/getall')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SESSION_CLASS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SESSION_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
+export const createSessionClass = (sessionClass) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_SESSION_CLASS_LOADING
+    });
+    axiosInstance.post('/session/api/v1/create', sessionClass)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_SESSION_CLASS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_SESSION_CLASS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteSessionClass = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_SESSION_CLASS_LOADING
+    });
+    const payload = {
+        items: sessionClassId
+    }
+
+    axiosInstance.post('/session/api/v1/delete', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_SESSION_CLASS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllSessionClasses()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_SESSION_CLASS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+export const updateSessionClass = (updatedSessionClass) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_SESSION_CLASS_LOADING
+    });
+    
+    axiosInstance.post('/session/api/v1/update', updatedSessionClass)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_SESSION_CLASS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_SESSION_CLASS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+//SESSION CLASS ACTION HANDLERS
+
+//GET TEACHERS ACTION HANDLER
+export const getAllTeachers = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_TEACHERS_LOADING
+    });
+
+    axiosInstance.get(/*'/user/api/v1/getall/teachers'*/'/')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_TEACHERS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_TEACHERS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+//GET TEACHERS ACTION HANDLER
+
+//GET ACTIVE SUBJECT ACTION  HANDLER
+export const getAllActiveSubjects = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ACTIVE_SUBJECTS_LOADING
+    });
+
+    axiosInstance.get('/')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_SUBJECTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+//GET ACTIVE SUBJECT ACTION  HANDLER

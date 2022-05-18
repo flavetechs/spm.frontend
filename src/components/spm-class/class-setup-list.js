@@ -1,30 +1,86 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
-
-
-
-import { deleteClassItems, getAllClasses } from '../../store/actions/class-actions';
+import {
+  getAllClasses,
+  pushId,
+  removeId,
+  returnList,
+  deleteClassItems,
+  fetchSingleItem,
+} from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
+import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
-const ClassSetList = () => {
-  const state = useSelector((state) => state);
-  const { classList, isSuccessful, selectedIds } = state.class;
-  const history = useHistory();
-
+const ClassSetupList = () => {
+  //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const history = useHistory();
+  const [showDeleteButton, setDeleteButton] = useState(true);
+  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  //VARIABLE DECLARATIONS
+
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { itemList, selectedIds } = state.class;
+  const { deleteDialogResponse } = state.alert;
+  // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllClasses()(dispatch);
-  }, [100]);
+  }, []);
 
-  const handleDelete = (selectedIds) => {
-    if(isSuccessful){
-      deleteClassItems(selectedIds)(dispatch)
+  //DELETE HANDLER
+  React.useEffect(() => {
+    if (deleteDialogResponse === 'continue') {
+      if (selectedIds.length === 0) {
+        showErrorToast('No Item selected to be deleted')(dispatch);
+      } else {
+        deleteClassItems(selectedIds)(dispatch);
+        setDeleteButton(!showDeleteButton)
+        setShowCheckBoxes(false);
+        respondToDeleteDialog('')(dispatch);
+      }
+    } else {
+      setDeleteButton(true)
+      setShowCheckBoxes(false)
+      selectedIds.forEach(id => {
+        dispatch(removeId(id))
+      });
+    }
+    return () => {
+      respondToDeleteDialog('')(dispatch);
+    }
+  }, [deleteDialogResponse]);
+  //DELETE HANDLER
+
+  const checkSingleItem = (isChecked, lookupId, classes) => {
+    classes.forEach(item => {
+      if (item.lookupId === lookupId) {
+        item.isChecked = isChecked
+      }
+    });
+    if (isChecked) {
+      dispatch(pushId(lookupId));
+    } else {
+      dispatch(removeId(lookupId));
     }
   }
+  const checkAllItems = (isChecked, classes) => {
+    classes.forEach(item => {
+      item.isChecked = isChecked
+      if (item.isChecked) {
+        dispatch(pushId(item.lookupId))
+      } else {
+        dispatch(removeId(item.lookupId))
+      }
+    });
+    returnList(classes)(dispatch)
+  }
+
 
   return (
     <>
@@ -37,30 +93,120 @@ const ClassSetList = () => {
                   <h4 className="card-title">Class Setup List</h4>
                 </div>
               </Card.Header>
-              <Link to={classLocations.classSetupAdd} className="d-flex justify-content-end">
-                <button
-                  type="button"
-                  className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+              <div className="d-flex justify-content-end">
+                {showDeleteButton ? (
+                  <button
+                    type="button"
+                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    onClick={() => {
+                      setDeleteButton(!showDeleteButton)
+                      setShowCheckBoxes(!showCheckBoxes)
+                    }
+                    }
+                  >
+                    <i className="btn-inner">
+                      <svg
+                        width="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M20.708 6.23975H3.75"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </i>
+                    <span> Delete</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    onClick={() => {
+                      showSingleDeleteDialog(true)(dispatch)
+                    }}
+                  >
+                    <i className="btn-inner">
+                      <svg
+                        width="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M20.708 6.23975H3.75"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </i>
+                    <span> Delete Selected</span>
+                  </button>
+                )}
+                <Link
+                  to={classLocations.classSetupAdd}
+                  className="d-flex justify-content-end"
                 >
-                  <i className="btn-inner">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      ></path>
-                    </svg>
-                  </i>
-                  <span>New Class Setup</span>
-                </button>
-              </Link>
+                  <button
+                    type="button"
+                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                  >
+                    <i className="btn-inner">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        ></path>
+                      </svg>
+                    </i>
+                    <span>New Class</span>
+                  </button>
+                </Link>
+              </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -71,32 +217,58 @@ const ClassSetList = () => {
                   >
                     <thead>
                       <tr className="ligth">
-                        {/* <th>Profile</th> */}
+                        <th>
+                          {showCheckBoxes ? <input
+                            className="form-check-input"
+                            type="checkbox"
+                            onChange={(e) => {
+                              checkAllItems(e.target.checked, itemList);
+                            }}
+                          /> : null}
+
+                        </th>
                         <th>Class Name</th>
-                        {/* <th>ID</th> */}
                         <th>Status</th>
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {classList.map((item, idx) => (
+                      {itemList.map((item, idx) => (
                         <tr key={idx}>
+                          <td className="">
+                            {showCheckBoxes ? (
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+
+                                checked={item.isChecked || false}
+                                onChange={(e) => {
+                                  checkSingleItem(e.target.checked, item.lookupId, itemList);
+                                }}
+                              />
+                            ) : (
+                              null
+                            )}
+                          </td>
                           <td>{item.name}</td>
                           <td>
-                            <span className={`badge ${"bg-primary"}`}>
-                              {"Active"}
+                            <span className={item.isActive ? `badge bg-primary` : `badge bg-danger`}>
+                              {item.isActive ? "Active" : "inactive"}
                             </span>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
-                              <Link
+                              <a
+                                onClick={() => {
+                                  fetchSingleItem(item.lookupId)(dispatch)
+                                  history.push(classLocations.classSetupEdit);
+                                }
+                                }
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                // onClick={() => {history.push(`${classLocations.classSetupEdit}?classId=${item.lookupId}`)}}
-                                // to={classLocations.classSetupEdit}
                                 to={`${classLocations.classSetupEdit}?classId=${item.lookupId}`}
                               >
                                 <span className="btn-inner">
@@ -131,7 +303,8 @@ const ClassSetList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </Link>{" "}
+                              </a>{" "}
+
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -139,7 +312,12 @@ const ClassSetList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                onClick={handleDelete}
+                                data-id={item.lookupId}
+                                onClick={() => {
+                                  dispatch(pushId(item.lookupId))
+                                  showSingleDeleteDialog(true)(dispatch)
+                                }
+                                }
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -172,7 +350,8 @@ const ClassSetList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </Link>{" "}
+                              </Link>
+
                             </div>
                           </td>
                         </tr>
@@ -189,4 +368,4 @@ const ClassSetList = () => {
   );
 };
 
-export default ClassSetList;
+export default ClassSetupList;

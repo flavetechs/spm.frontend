@@ -37,7 +37,8 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.FETCH_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        message: ''
       };
     case actions.FETCH_CLASSLOOKUP_SUCCESS:
       return {
@@ -54,38 +55,42 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
+
     case actions.CREATE_CLASSLOOKUP_LOADING:
       return {
         ...state,
         loading: true,
-        isSuccessful: false
+        isSuccessful: false,
+        message: ''
       };
     case actions.CREATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
-        itemList: payload,
         isSuccessful: true,
         loading: false,
-        isActive: true
+        message: payload
       };
     case actions.CREATE_CLASSLOOKUP_FAILED:
       return {
         ...state,
         isSuccessful: false,
-        loading: false
+        loading: false,
+        message: payload
       };
 
     case actions.UPDATE_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isSuccessful: false,
+        message: ''
       };
     case actions.UPDATE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
+        isSuccessful: true,
         loading: false,
-        message: payload,
-        isSuccessful: true
+        message: payload
       };
     case actions.UPDATE_CLASSLOOKUP_FAILED:
       return {
@@ -98,25 +103,25 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.DELETE_CLASSLOOKUP_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+        isSuccessful: false,
+        message: ''
       };
     case actions.DELETE_CLASSLOOKUP_SUCCESS:
       return {
         ...state,
         selectedIds: [],
-        message: "Successfuly deleted",
+        message: payload,
         isSuccessful: true,
       };
     case actions.DELETE_CLASSLOOKUP_FAILED:
       return {
         ...state,
         loading: false,
-        message: "Successfuly deleted",
+        message: payload,
         isSuccessful: false
       };
     //CLASS ACTION REDUCERS
-
-
 
 
     //SUBJECT ACTION REDUCERS
@@ -189,7 +194,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        isSuccessful: false
+        isSuccessful: false,
+        message: ''
       };
     case actions.DELETE_SUBJECT_SUCCESS:
       return {
@@ -206,6 +212,140 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
     //SUBJECT ACTION REDUCERS
+
+    //SESSION_CLASS ACTION REDUCERS
+    case actions.FETCH_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        itemList: payload,
+      };
+    case actions.FETCH_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.CREATE_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
+    case actions.CREATE_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload
+      };
+    case actions.CREATE_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload
+      };
+
+    case actions.UPDATE_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
+    case actions.UPDATE_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: true
+      };
+    case actions.UPDATE_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+
+    case actions.DELETE_SESSION_CLASS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false
+      };
+    case actions.DELETE_SESSION_CLASS_SUCCESS:
+      return {
+        ...state,
+        selectedIds: [],
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.DELETE_SESSION_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+    //SESSION_CLASS ACTION REDUCERS
+
+//GET TEACHER ACTION REDUCER
+case actions.FETCH_TEACHERS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_TEACHERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        teacherList: payload,
+      };
+    case actions.FETCH_TEACHERS_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload
+      };
+//GET TEACHER ACTION REDUCER
+
+//GET ACTIVE SUBJECTS REDUCER
+case actions.FETCH_ACTIVE_SUBJECTS_LOADING:
+  return {
+    ...state,
+    loading: true,
+    message: "",
+    isSuccessful: false,
+  };
+case actions.FETCH_ACTIVE_SUBJECTS_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    activeSubjects: payload,
+  };
+case actions.FETCH_ACTIVE_SUBJECTS_FAILED:
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
+  };
+  //GET ACTIVE SUBJECTS REDUCER
 
     default:
       return state;
