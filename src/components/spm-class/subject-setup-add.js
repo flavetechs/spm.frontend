@@ -37,7 +37,7 @@ const SubjectSetupAdd = () => {
   
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-6 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -68,13 +68,13 @@ const SubjectSetupAdd = () => {
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
                           <label htmlFor="name" className="form-label"> Name</label>
-                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" " />
+                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder="Enter subject name e.g english " />
                         </div>
                       </Col>
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <Field type="checkbox" id="customCheck1" className="form-check-input" />
+                          <input type="checkbox" id="customCheck1" className="form-check-input" defaultChecked={true} />
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
