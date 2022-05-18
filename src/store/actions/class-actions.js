@@ -426,3 +426,10 @@ export const getAllActiveSubjects = () => (dispatch) => {
         });
 }
 //GET ACTIVE SUBJECT ACTION  HANDLER
+
+export const pushSessionClassId = (itemId) => {
+    return {
+        type: actions.PUSH_SESSION_CLASS_ID,
+        payload: itemId
+    }
+}

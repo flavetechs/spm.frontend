@@ -9,6 +9,7 @@ import {
   returnList,
   deleteSessionClass,
   fetchSingleSessionClass,
+  pushSessionClassId,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
@@ -166,7 +167,7 @@ const SessionClassList = () => {
                                 to="#"
                                 data-id={item.sessionClassId}
                                 onClick={() => {
-                                  dispatch(pushId(item.sessionClassId));
+                                  dispatch(pushSessionClassId(item.sessionClassId));
                                   showSingleDeleteDialog(true)(dispatch);
                                 }}
                               >

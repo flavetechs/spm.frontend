@@ -400,6 +400,12 @@ case actions.PUSH_CLASS_SUBJECT_ID:
   }
  //GET SINGLE SESSION CLASS
 
+ case actions.PUSH_SESSION_CLASS_ID:
+      return {
+        ...state,
+        selectedIds: payload
+      }
+
     default:
       return state;
   }
