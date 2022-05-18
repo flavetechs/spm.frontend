@@ -275,7 +275,7 @@ export const deleteSessionClass = (selectedIds) => (dispatch) => {
     const payload = {
         items: selectedIds
     }
-
+console.log('payload', payload)
     axiosInstance.post('/class/api/v1/delete-session-class', payload)
         .then((res) => {
             dispatch({
