@@ -80,7 +80,7 @@ const SubjectSetupEdit = () => {
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <Field type="checkbox" id="customCheck1" className="form-check-input" />
+                          <Field type="checkbox" id="customCheck1" className="form-check-input" defaultChecked={true} />
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
