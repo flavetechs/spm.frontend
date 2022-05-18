@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ const SubjectSetupEdit = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedItem, isSuccessful, message } = state.class;
+  const [isChecked, setIsChecked] = useState(selectedItem?.isActive)
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -80,7 +81,10 @@ const SubjectSetupEdit = () => {
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <Field type="checkbox" id="customCheck1" className="form-check-input" defaultChecked={true} />
+                          <Field type="checkbox" id="customCheck1" className="form-check-input"  checked={isChecked}
+                            onChange={(e) => {
+                              setIsChecked(!isChecked)
+                            }}/>
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>

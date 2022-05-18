@@ -1,4 +1,5 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { useState } from "react";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
@@ -12,6 +13,7 @@ import { useHistory } from "react-router-dom";
 
 const SubjectSetupAdd = () => {
   //VARIABLE DECLARATIONS
+  const [isChecked, setIsChecked] = useState(true)
   const history = useHistory();
   const dispatch = useDispatch();
   //VARIABLE DECLARATIONS
@@ -74,7 +76,10 @@ const SubjectSetupAdd = () => {
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <input type="checkbox" id="customCheck1" className="form-check-input" defaultChecked={true} />
+                          <input type="checkbox" id="customCheck1" className="form-check-input"  checked={isChecked}
+                            onChange={(e) => {
+                              setIsChecked(!isChecked)
+                            }} />
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
