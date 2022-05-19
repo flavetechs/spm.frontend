@@ -1,0 +1,139 @@
+import { actions } from "../action-types/student-action-types";
+import { _state } from "../states/student-state";
+
+export const studentReducer = (state = _state, { type, payload }) => {
+  switch (type) {
+    case actions.PUSH_STUDENT_ID:
+        return {
+          ...state,
+          selectedIds: [...state.selectedIds, payload]
+        }
+      case actions.REMOVE_STUDENT_ID:
+        var filteredIds = filterSelectedIds(state.selectedIds, payload)
+        return {
+          ...state,
+          selectedIds: filteredIds
+        }
+      case actions.RETURN_STUDENT_LIST:
+        return {
+            ...state,
+            studentList: payload,
+          };
+
+    case actions.FETCH_STUDENTS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_STUDENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        studentList: payload,
+      };
+    case actions.FETCH_STUDENTS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.CREATE_STUDENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.CREATE_STUDENT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.CREATE_STUDENT_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+      };
+
+    case actions.UPDATE_STUDENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPDATE_STUDENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.UPDATE_STUDENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.DELETE_STUDENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.DELETE_STUDENT_SUCCESS:
+      return {
+        ...state,
+        selectedIds: [],
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.DELETE_STUDENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.FETCH_SINGLE_STUDENT_LOADING: 
+      return {
+        ...state,
+        loading: true,
+      }; 
+    case actions.FETCH_SINGLE_STUDENT_SUCCESS: 
+      return {
+        ...state,
+        loading: false,
+        selectedStudent: payload,
+      };
+    case actions.FETCH_SINGLE_STUDENT_FAILED: 
+      return {
+        ...state,
+        loading: false,
+        selectedStudent: null,
+      };
+    
+
+    default:
+      return state;
+  }
+};
+
+function filterSelectedIds(arr, value) {
+    return arr.filter(function (ele) {
+      return ele !== value;
+    });
+  }
+  

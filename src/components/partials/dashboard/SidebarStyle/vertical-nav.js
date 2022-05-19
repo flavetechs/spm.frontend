@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
-import { classLocations, permissionLocations, sessionLocations, staffLocations } from '../../../../router/spm-path-locations';
+import { classLocations, permissionLocations, sessionLocations, staffLocations, studentsLocations } from '../../../../router/spm-path-locations';
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -266,7 +266,7 @@ const VerticalNav = () => {
                     <Accordion.Collapse eventKey="sidebar-student">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === staffLocations.staffList ? 'active' : ''} nav-link`} to={staffLocations.staffList}>
+                                <Link className={`${location.pathname === studentsLocations.studentList ? 'active' : ''} nav-link`} to={studentsLocations.studentList}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
