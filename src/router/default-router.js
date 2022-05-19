@@ -19,6 +19,7 @@ import SessionClassEdit from '../components/spm-class/session-class-edit';
 import SessionClassAdd from '../components/spm-class/session-class-add';
 import SessionList from '../components/smp-session/SessionList';
 import SessionAdd from '../components/smp-session/SessionAdd';
+import SessionEdit from '../components/smp-session/SessionEdit';
 
 const DashboardRouter = () => {
 
@@ -48,7 +49,7 @@ const DashboardRouter = () => {
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
-                    {/* <Route path={permissionLocations.roleAdd} exact component={RoleAdd} /> */}
+                    <Route path={sessionLocations.sessionEdit} exact component={SessionEdit} />
 
                 </Switch>
             </CSSTransition>

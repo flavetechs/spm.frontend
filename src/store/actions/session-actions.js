@@ -43,7 +43,7 @@ export const getAllSession = () => (dispatch) => {
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
                 payload: res.data.result
-        })
+            })
         }).catch((err) => {
             console.log('getall class err: ', err)
             dispatch({
@@ -103,13 +103,12 @@ export const deleteSession = (session) => (dispatch) => {
 }
 
 
-
 export const updateSession = (updatedSession) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SESSION_LOADING
     });
-    
-    axiosInstance.post('/session/api/v1/delete', updatedSession)
+
+    axiosInstance.post('', updatedSession)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SESSION_SUCCESS,
