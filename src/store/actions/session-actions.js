@@ -75,12 +75,12 @@ export const createSession = (form) => (dispatch) => {
         });
 }
 
-export const deleteSession = (sessionId) => (dispatch) => {
+export const deleteSession = (session) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_LOADING
     });
     const payload = {
-        item: sessionId
+        item: session[0]
     }
 
     axiosInstance.post('/session/api/v1/delete', payload)
