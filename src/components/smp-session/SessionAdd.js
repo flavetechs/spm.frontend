@@ -2,7 +2,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations, sessionLocations } from "../../router/spm-path-locations";
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 // import {
@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import { useHistory } from "react-router-dom";
 import { createSession } from "../../store/actions/session-actions";
 import { getAllActiveTeachers } from "../../store/actions/class-actions";
+import React from "react";
 const SessionAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -39,7 +40,7 @@ const SessionAdd = () => {
   
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message } = state.session;
+  const { isSuccessful, message, teacherList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   

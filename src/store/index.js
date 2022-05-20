@@ -19,7 +19,7 @@ export default createStore(
         appState: generalReducer,
         class: classReducer,
         session: sessionReducer,
-        staff: staffReducer
+        staff: staffReducer,
         student: studentReducer
     })
 )
