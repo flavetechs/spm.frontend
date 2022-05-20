@@ -334,8 +334,6 @@ const StudentAdd = () => {
                             type="date"
                             id="dob"
                             name="dob"
-                            min="1987-01-01"
-                            max="2090-12-31"
                             className="form-control"
                           />
                         </div>

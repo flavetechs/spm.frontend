@@ -78,7 +78,7 @@ const StudentEdit = () => {
           middleName: selectedStudent?.middleName,
           phone: selectedStudent?.phone,
           dob: selectedStudent?.dob,
-          email:  "notyet",//selectedStudent?.email,
+          email:  "notyet@gmail.com",//selectedStudent?.email,
           homePhone: selectedStudent?.homePhone,
           emergencyPhone: selectedStudent?.emergencyPhone,
           parentOrGuardianName: selectedStudent?.parentOrGuardianName,
