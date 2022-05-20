@@ -172,13 +172,13 @@ const StudentAdd = () => {
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
                           <span>Only</span>{" "}
-                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                          <a href="#">
                             .jpg
                           </a>{" "}
-                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                          <a href="#">
                             .png
                           </a>{" "}
-                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                          <a href="#">
                             .jpeg
                           </a>
                           <span> allowed</span>
