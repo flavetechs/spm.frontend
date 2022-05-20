@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations } from './spm-path-locations';
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
@@ -16,6 +16,10 @@ import SubjectSetupEdit from '../components/spm-class/subject-setup-edit';
 import SubjectSetupAdd from '../components/spm-class/subject-setup-add';
 import SessionList from '../components/smp-session/SessionList';
 import SessionAdd from '../components/smp-session/SessionAdd';
+import StudentList from '../components/smp-students/student-list';
+import StudentAdd from '../components/smp-students/student-add';
+import StudentEdit from '../components/smp-students/student-edit';
+import StudentDetails from '../components/smp-students/student-details';
 
 const DashboardRouter = () => {
 
@@ -43,7 +47,12 @@ const DashboardRouter = () => {
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
-                    {/* <Route path={permissionLocations.roleAdd} exact component={RoleAdd} /> */}
+
+                    {/* students */}
+                    <Route path={studentsLocations.studentList} exact component={StudentList} />
+                   <Route path={studentsLocations.studentAdd} exact component={StudentAdd} />
+                    <Route path={studentsLocations.studentEdit} exact component={StudentEdit} />
+                    <Route path={studentsLocations.studentDetails} exact component={StudentDetails} />
 
                 </Switch>
             </CSSTransition>
