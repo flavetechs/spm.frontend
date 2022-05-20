@@ -356,6 +356,7 @@ export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubject
         }
         classSubjects = [...classSubjects, newClassSubject]
     }
+
     dispatch({
         type: actions.PUSH_CLASS_SUBJECT_ID,
         payload: classSubjects
@@ -386,20 +387,20 @@ export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
 }
 
 //GET TEACHERS ACTION HANDLER
-export const getAllTeachers = () => (dispatch) => {
+export const getAllActiveTeachers = () => (dispatch) => {
     dispatch({
-        type: actions.FETCH_TEACHERS_LOADING
+        type: actions.FETCH_ACTIVE_TEACHERS_LOADING
     });
 
-    axiosInstance.get('/user/api/v1/getall/teachers')
+    axiosInstance.get('/tercher/api/v1/getall/active-teachers')
         .then((res) => {
             dispatch({
-                type: actions.FETCH_TEACHERS_SUCCESS,
+                type: actions.FETCH_ACTIVE_TEACHERS_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
             dispatch({
-                type: actions.FETCH_TEACHERS_FAILED,
+                type: actions.FETCH_ACTIVE_TEACHERS_FAILED,
                 payload: err.response.data.result
             })
         });
