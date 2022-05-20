@@ -5,6 +5,7 @@ import { classReducer } from './reducers/class-reducer'
 import { generalReducer } from './reducers/general-reducers'
 import { rolesReducer } from './reducers/roles-reducer'
 import { sessionReducer } from './reducers/session-reducer'
+import { staffReducer } from './reducers/staff-reducers'
 import { studentReducer } from './reducers/student-reducers'
 import { alertReducer } from './reducers/toaster-reducer'
 import Mode from './setting/setting'
@@ -18,6 +19,7 @@ export default createStore(
         appState: generalReducer,
         class: classReducer,
         session: sessionReducer,
+        staff: staffReducer
         student: studentReducer
     })
 )

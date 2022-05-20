@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations } from './spm-path-locations';
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
@@ -16,6 +16,9 @@ import SubjectSetupEdit from '../components/spm-class/subject-setup-edit';
 import SubjectSetupAdd from '../components/spm-class/subject-setup-add';
 import SessionList from '../components/smp-session/SessionList';
 import SessionAdd from '../components/smp-session/SessionAdd';
+import StaffList from '../components/smp-staff/StaffList';
+import StaffAdd from '../components/smp-staff/StaffAdd';
+import StaffEdit from '../components/smp-staff/StaffEdit';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -53,6 +56,11 @@ const DashboardRouter = () => {
                    <Route path={studentsLocations.studentAdd} exact component={StudentAdd} />
                     <Route path={studentsLocations.studentEdit} exact component={StudentEdit} />
                     <Route path={studentsLocations.studentDetails} exact component={StudentDetails} />
+
+                     {/* staff */}
+                     <Route path={staffLocations.staffList} exact component={StaffList} />
+                    <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
+                    <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
 
                 </Switch>
             </CSSTransition>

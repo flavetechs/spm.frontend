@@ -81,12 +81,10 @@ const SessionAdd = () => {
                       {(touched.endDate && errors.endDate) && <div className='text-danger'>{errors.endDate}</div>}
                       <div className="row">
                         <Form.Group className="col-md-6 form-group">
-
                           <label htmlFor="startDate" className="form-label"> Start Year:</label>
                           <Field type="text" className="form-control" name="startDate" id="name" aria-describedby="name" required placeholder="Start Year" />
                         </Form.Group>
                         <Form.Group className="col-md-6 form-group">
-
                           <label htmlFor="endYear" className="form-label">End Year:</label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
