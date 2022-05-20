@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
@@ -7,18 +6,24 @@ import { sessionLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
-import { useHistory } from "react-router-dom";
-import { createSession } from "../../store/actions/session-actions";
+import { useHistory, useLocation } from "react-router-dom";
+import { createSession, updateSession } from "../../store/actions/session-actions";
 import { getAllTeachers } from "../../store/actions/class-actions";
-const SessionAdd = () => {
-  //VARIABLE DECLARATIONS
+
+const SessionEdit = () => {
+  //VARIABLE DECLARATIONS 
   const history = useHistory();
+  const locations = useLocation();
   const dispatch = useDispatch();
   //VARIABLE DECLARATIONS
 
+
+  React.useEffect(() => {
+    getAllTeachers()(dispatch)
+  }, []);
+
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    
     startDate: Yup.string()
       .required('Session Year is required'),
     endDate: Yup.string()
@@ -28,21 +33,22 @@ const SessionAdd = () => {
   });
   //VALIDATIONS SCHEMA
 
-  React.useEffect(() => {
-    getAllTeachers()(dispatch)
-  }, []);
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message } = state.session;
-  const { teacherList } = state.class;
+  const { isSuccessful, message, selectedItem } = state.session;
+  const {teacherList } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log('teacherList', teacherList);
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const sessionId = queryParams.get("sessionId");
+    if (!sessionId) return;
+  }, []);
 
-
-  if (isSuccessful) {
-    history.push(sessionLocations.sessionList);
+  if (isSuccessful || !selectedItem) {
+    history.push(sessionLocations.sessionList)
   }
+  
 
   return (
     <>
@@ -53,16 +59,17 @@ const SessionAdd = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    startDate: '',
-                    endDate: '',
-                    terms: '3',
-                    headTeacherId: '7457e078-07b6-4d2d-474e-08da373808c4'
+                    startDate: selectedItem?.startDate,
+                    endDate: selectedItem?.endDate,
+                    terms: selectedItem?.terms,
+                    headTeacherId: '7457e078-07b6-4d2d-474e-08da373808c4',
+                    headTeacherId: selectedItem?.headTeacherId
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
                     console.log(values);
                     values.headTeacherId = '7457e078-07b6-4d2d-474e-08da373808c4';
-                    createSession(values)(dispatch)
+                    updateSession(values)(dispatch)
                   }}
                 >
                   {({
@@ -80,14 +87,17 @@ const SessionAdd = () => {
                       {(touched.endDate && errors.endDate) && <div className='text-danger'>{errors.endDate}</div>}
                       <div className="row">
                         <Form.Group className="col-md-6 form-group">
-
                           <label htmlFor="startDate" className="form-label"> Start Year:</label>
                           <Field type="text" className="form-control" name="startDate" id="name" aria-describedby="name" required placeholder="Start Year" />
                         </Form.Group>
                         <Form.Group className="col-md-6 form-group">
-
                           <label htmlFor="endYear" className="form-label">End Year:</label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
+                        </Form.Group>
+
+                        <Form.Group className="col-md-6 form-group">
+                          <label htmlFor="headTeacherId" className="form-label"> Principal Name:</label>
+                          <Field type="text" className="form-control" name="headTeacherId" id="name" aria-describedby="name" required placeholder="" />
                         </Form.Group>
 
                         <Form.Group className="col-sm-6 form-group">
@@ -133,4 +143,4 @@ const SessionAdd = () => {
     </>
   );
 };
-export default SessionAdd;
+export default SessionEdit;
