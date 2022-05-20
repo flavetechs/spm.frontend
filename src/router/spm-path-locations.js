@@ -30,11 +30,3 @@ export const sessionLocations = {
     sessionAdd: '/dashboard/smp-session/add-setup',
     promotionSetup: '/dashboard/smp-session/promotion-setup'
 }
-
-export const staffLocations = {
-    staffList: '/dashboard/smp-staff/staff-list',
-}
-
-export const studentsLocations = {
-    studentList: '/dashboard/smp-student/student-list',
-}

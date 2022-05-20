@@ -75,12 +75,12 @@ export const createSession = (form) => (dispatch) => {
         });
 }
 
-export const deleteSession = (session) => (dispatch) => {
+export const deleteSession = (sessionId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_LOADING
     });
     const payload = {
-        item: session[0]
+        item: sessionId
     }
 
     axiosInstance.post('/session/api/v1/delete', payload)
@@ -93,7 +93,6 @@ export const deleteSession = (session) => (dispatch) => {
             getAllSession()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('delete session err: ', err)
             dispatch({
                 type: actions.DELETE_SESSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
