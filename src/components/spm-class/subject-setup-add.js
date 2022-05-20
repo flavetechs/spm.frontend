@@ -51,8 +51,9 @@ const SubjectSetupAdd = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
-                    console.log(values);
+                    values.isActive = isChecked;
                      createSubject(values)(dispatch)
+                    console.log(values);
                   }}
                 >
                   {({
@@ -80,7 +81,7 @@ const SubjectSetupAdd = () => {
                             onChange={(e) => {
                               setIsChecked(!isChecked)
                             }} />
-                          <label htmlFor="customCheck1" className='check-label'>isActive </label>
+                          <label htmlFor="" className='check-label'>isActive </label>
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">

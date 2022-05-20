@@ -11,10 +11,18 @@ import {
 } from "../../store/actions/class-actions";
 
 const SubjectSetupEdit = () => {
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { selectedItem, isSuccessful, message } = state.class;
+  // ACCESSING STATE FROM REDUX STORE
+
+
   //VARIABLE DECLARATIONS 
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(selectedItem?.isActive)
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -24,12 +32,6 @@ const SubjectSetupEdit = () => {
       .required('Subject is required')
   });
   //VALIDATIONS SCHEMA
-
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { selectedItem, isSuccessful, message } = state.class;
-  const [isChecked, setIsChecked] = useState(selectedItem?.isActive)
-  // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -56,6 +58,7 @@ const SubjectSetupEdit = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
+                    values.isActive = isChecked;
                     console.log(values);
                     updateSubject(values)(dispatch)
                   }}
