@@ -295,7 +295,7 @@ const StudentAdd = () => {
                           />
                         </div>
                         <Row>
-                          <div classname="col-md-12">
+                          <div className="col-md-12">
                             {touched.email && errors.email && (
                               <div className="text-danger">{errors.email}</div>
                             )}

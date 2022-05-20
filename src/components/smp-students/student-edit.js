@@ -63,7 +63,7 @@ const StudentEdit = () => {
     getAllActiveClasses()(dispatch);
   }, []);
 
-  if (isSuccessful || !selectedStudent) {
+  if (isSuccessful) {
     history.push(studentsLocations.studentList);
   }
   
@@ -98,6 +98,7 @@ const StudentEdit = () => {
           //values.email = values.email;
           updateStudent(values)(dispatch);
         }}
+        enableReinitialize={true}
       >
         {({
           handleChange,
@@ -239,7 +240,6 @@ const StudentEdit = () => {
                             First Name:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.firstName}
                             type="text"
                             id="firstName"
                             name="firstName"
@@ -251,7 +251,6 @@ const StudentEdit = () => {
                             Last Name:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.lastName}
                             type="text"
                             id="lastName"
                             name="lastName"
@@ -263,7 +262,6 @@ const StudentEdit = () => {
                             Middle Name:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.middleName}
                             type="text"
                             name="middleName"
                             id="middleName"
@@ -275,7 +273,6 @@ const StudentEdit = () => {
                             Mobile Number:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.phone}
                             type="text"
                             name="phone"
                             id="phone"
@@ -287,7 +284,6 @@ const StudentEdit = () => {
                             Home Phone Number:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.homePhone}
                             type="text"
                             name="homePhone"
                             id="homePhone"
@@ -302,7 +298,6 @@ const StudentEdit = () => {
                             Emergency Phone Number:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.emergencyPhone}
                             type="text"
                             name="emergencyPhone"
                             id="emergencyPhone"
@@ -310,7 +305,7 @@ const StudentEdit = () => {
                           />
                         </div>
                         <Row>
-                          <div classname="col-md-12">
+                          <div className="col-md-12">
                             {touched.email && errors.email && (
                               <div className="text-danger">{errors.email}</div>
                             )}
@@ -321,7 +316,6 @@ const StudentEdit = () => {
                             Email Address:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.email}
                             type="email"
                             id="email"
                             name="email"
@@ -333,7 +327,6 @@ const StudentEdit = () => {
                             Home Address:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.homeAddress}
                             type="text"
                             id="homeAddress"
                             name="homeAddress"
@@ -345,7 +338,6 @@ const StudentEdit = () => {
                             Date Of Birth:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.dob}
                             type="date"
                             id="dob"
                             name="dob"
@@ -359,7 +351,6 @@ const StudentEdit = () => {
                             Class:
                           </label>
                           <Field
-                            //defaultValue={selectedStudent?.classId}
                             as="select"
                             // name="classId"
                             className="form-select"
@@ -381,7 +372,6 @@ const StudentEdit = () => {
                             City:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.cityId}
                             as="select"
                             name="cityId"
                             className="form-select"
@@ -400,7 +390,6 @@ const StudentEdit = () => {
                             State:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.stateId}
                             as="select"
                             name="stateId"
                             className="form-select"
@@ -419,7 +408,6 @@ const StudentEdit = () => {
                             Country:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.countryId}
                             as="select"
                             name="countryId"
                             className="form-select"
@@ -445,7 +433,6 @@ const StudentEdit = () => {
                             Zip Code:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.zipCode}
                             type="text"
                             id="zipCode"
                             name="zipCode"
@@ -474,7 +461,6 @@ const StudentEdit = () => {
                             Name:
                           </label>
                           <Field
-                            defaultValue={selectedStudent?.parentOrGuardianName}
                             type="text"
                             name="parentOrGuardianName"
                             id="parentOrGuardianName"
@@ -507,9 +493,6 @@ const StudentEdit = () => {
                             Relationship:
                           </label>
                           <Field
-                            defaultValue={
-                              selectedStudent?.parentOrGuardianRelationship
-                            }
                             type="text"
                             name="parentOrGuardianRelationship"
                             id="parentOrGuardianRelationship"
@@ -524,9 +507,6 @@ const StudentEdit = () => {
                             Mobile Number:
                           </label>
                           <Field
-                            defaultValue={
-                              selectedStudent?.parentOrGuardianPhone
-                            }
                             type="text"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
@@ -551,9 +531,6 @@ const StudentEdit = () => {
                             Email Address:
                           </label>
                           <Field
-                            defaultValue={
-                              selectedStudent?.parentOrGuardianEmail
-                            }
                             type="email"
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
