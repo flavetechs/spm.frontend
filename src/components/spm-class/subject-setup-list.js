@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-import Card from '../Card'
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import Card from "../Card";
 import {
   getAllSubjects,
   pushId,
@@ -12,7 +12,11 @@ import {
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
-import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
+import {
+  respondToDeleteDialog,
+  showErrorToast,
+  showSingleDeleteDialog,
+} from "../../store/actions/toaster-actions";
 
 const SubjectSetupList = () => {
   //VARIABLE DECLARATIONS
@@ -21,7 +25,6 @@ const SubjectSetupList = () => {
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
-
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -35,31 +38,31 @@ const SubjectSetupList = () => {
 
   //DELETE HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === 'continue') {
+    if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
-        showErrorToast('No Item selected to be deleted')(dispatch);
+        showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         deleteSubject(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton)
+        setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
-        respondToDeleteDialog('')(dispatch);
+        respondToDeleteDialog("")(dispatch);
       }
     } else {
-      setDeleteButton(true)
-      setShowCheckBoxes(false)
-      selectedIds.forEach(id => {
-        dispatch(removeId(id))
+      setDeleteButton(true);
+      setShowCheckBoxes(false);
+      selectedIds.forEach((id) => {
+        dispatch(removeId(id));
       });
     }
     return () => {
-      respondToDeleteDialog('')(dispatch);
-    }
+      respondToDeleteDialog("")(dispatch);
+    };
   }, [deleteDialogResponse]);
   //DELETE HANDLER
-  const checkSingleItem = (isChecked, lookupId, subjects) => {
-    subjects.forEach(item => {
+  const checkSingleItem = (isChecked, lookupId, itemList) => {
+    itemList.forEach((item) => {
       if (item.lookupId === lookupId) {
-        item.isChecked = isChecked
+        item.isChecked = isChecked;
       }
     });
     if (isChecked) {
@@ -67,19 +70,18 @@ const SubjectSetupList = () => {
     } else {
       dispatch(removeId(lookupId));
     }
-  }
-  const checkAllItems = (isChecked, subjects) => {
-    subjects.forEach(item => {
-      item.isChecked = isChecked
+  };
+  const checkAllItems = (isChecked, itemList) => {
+    itemList.forEach((item) => {
+      item.isChecked = isChecked;
       if (item.isChecked) {
-        dispatch(pushId(item.lookupId))
+        dispatch(pushId(item.lookupId));
       } else {
-        dispatch(removeId(item.lookupId))
+        dispatch(removeId(item.lookupId));
       }
     });
-    returnList(subjects)(dispatch)
-  }
-
+    returnList(itemList)(dispatch);
+  };
 
   return (
     <>
@@ -98,10 +100,9 @@ const SubjectSetupList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      setDeleteButton(!showDeleteButton)
-                      setShowCheckBoxes(!showCheckBoxes)
-                    }
-                    }
+                      setDeleteButton(!showDeleteButton);
+                      setShowCheckBoxes(!showCheckBoxes);
+                    }}
                   >
                     <i className="btn-inner">
                       <svg
@@ -141,7 +142,7 @@ const SubjectSetupList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch)
+                      showSingleDeleteDialog(true)(dispatch);
                     }}
                   >
                     <i className="btn-inner">
@@ -217,17 +218,17 @@ const SubjectSetupList = () => {
                     <thead>
                       <tr className="ligth">
                         <th>
-                          {showCheckBoxes ? <input
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkAllItems(e.target.checked, itemList);
-                            }}
-                          /> : null}
-
+                          {showCheckBoxes ? (
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                checkAllItems(e.target.checked, itemList);
+                              }}
+                            />
+                          ) : null}
                         </th>
                         <th>Name</th>
-                        <th>ID</th>
                         <th>Status</th>
                         <th min-width="100px">Action</th>
                       </tr>
@@ -240,20 +241,26 @@ const SubjectSetupList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.lookupId, itemList);
+                                  checkSingleItem(
+                                    e.target.checked,
+                                    item.lookupId,
+                                    itemList
+                                  );
                                 }}
                               />
-                            ) : (
-                              null
-                            )}
+                            ) : null}
                           </td>
                           <td>{item.name}</td>
-                          <td>{item.lookupId}</td>
                           <td>
-                            <span className={item.isActive ? `badge bg-primary` : `badge bg-danger`}>
+                            <span
+                              className={
+                                item.isActive
+                                  ? `badge bg-primary`
+                                  : `badge bg-danger`
+                              }
+                            >
                               {item.isActive ? "Active" : "inactive"}
                             </span>
                           </td>
@@ -261,10 +268,9 @@ const SubjectSetupList = () => {
                             <div className="flex align-items-center list-user-action">
                               <a
                                 onClick={() => {
-                                  fetchSingleItem(item.lookupId)(dispatch)
+                                  fetchSingleItem(item.lookupId)(dispatch);
                                   history.push(classLocations.editSubjectSetup);
-                                }
-                                }
+                                }}
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
@@ -305,7 +311,6 @@ const SubjectSetupList = () => {
                                   </svg>
                                 </span>
                               </a>{" "}
-
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -315,10 +320,9 @@ const SubjectSetupList = () => {
                                 to="#"
                                 data-id={item.lookupId}
                                 onClick={() => {
-                                  dispatch(pushId(item.lookupId))
-                                  showSingleDeleteDialog(true)(dispatch)
-                                }
-                                }
+                                  dispatch(pushId(item.lookupId));
+                                  showSingleDeleteDialog(true)(dispatch);
+                                }}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -352,7 +356,6 @@ const SubjectSetupList = () => {
                                   </svg>
                                 </span>
                               </Link>
-
                             </div>
                           </td>
                         </tr>

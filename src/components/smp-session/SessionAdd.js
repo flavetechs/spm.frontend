@@ -31,7 +31,6 @@ const SessionAdd = () => {
   React.useEffect(() => {
     getAllTeachers()(dispatch)
   }, []);
-
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { isSuccessful, message } = state.session;

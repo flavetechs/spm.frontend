@@ -93,7 +93,6 @@ export const deleteSession = (session) => (dispatch) => {
             getAllSession()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('delete session err: ', err)
             dispatch({
                 type: actions.DELETE_SESSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -121,5 +120,24 @@ export const updateSession = (updatedSession) => (dispatch) => {
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const getActiveSession = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ACTIVE_SESSION_LOADING
+    });
+
+    axiosInstance.get('/session/api/v1/get-active')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_SESSION_SUCCESS,
+                payload: res.data.result
+        })
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_SESSION_FAILED,
+                payload: err.data.result
+            })
         });
 }

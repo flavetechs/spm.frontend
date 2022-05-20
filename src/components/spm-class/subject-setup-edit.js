@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,10 +11,18 @@ import {
 } from "../../store/actions/class-actions";
 
 const SubjectSetupEdit = () => {
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { selectedItem, isSuccessful, message } = state.class;
+  // ACCESSING STATE FROM REDUX STORE
+
+
   //VARIABLE DECLARATIONS 
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(selectedItem?.isActive)
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -24,11 +32,6 @@ const SubjectSetupEdit = () => {
       .required('Subject is required')
   });
   //VALIDATIONS SCHEMA
-
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { selectedItem, isSuccessful, message } = state.class;
-  // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -42,7 +45,7 @@ const SubjectSetupEdit = () => {
 
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-6 mx-auto">
         <Row>
           <Col sm="12" >
             <Card>
@@ -55,6 +58,7 @@ const SubjectSetupEdit = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
+                    values.isActive = isChecked;
                     console.log(values);
                     updateSubject(values)(dispatch)
                   }}
@@ -80,7 +84,10 @@ const SubjectSetupEdit = () => {
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <Field type="checkbox" id="customCheck1" className="form-check-input" />
+                          <Field type="checkbox" id="customCheck1" className="form-check-input"  checked={isChecked}
+                            onChange={(e) => {
+                              setIsChecked(!isChecked)
+                            }}/>
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>

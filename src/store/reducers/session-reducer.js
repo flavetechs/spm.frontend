@@ -120,6 +120,30 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
+
+      case actions.FETCH_ACTIVE_SESSION_LOADING:
+        return {
+            ...state,
+            loading: true,
+            message: '',
+            isSuccessful: false
+        };
+
+    case actions.FETCH_ACTIVE_SESSION_SUCCESS:
+        return {
+            ...state,
+            loading: false,
+            activeSession: payload,
+        };
+
+    case actions.FETCH_ACTIVE_SESSION_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload
+    };
+
           //SESSION ACTION REDUCERS
 
         default:
@@ -131,4 +155,3 @@ function filterSelectedIds(arr, value) {
       return ele !== value;
     });
   }
-  

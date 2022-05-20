@@ -1,4 +1,5 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { useState } from "react";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
@@ -12,6 +13,7 @@ import { useHistory } from "react-router-dom";
 
 const SubjectSetupAdd = () => {
   //VARIABLE DECLARATIONS
+  const [isChecked, setIsChecked] = useState(true)
   const history = useHistory();
   const dispatch = useDispatch();
   //VARIABLE DECLARATIONS
@@ -37,7 +39,7 @@ const SubjectSetupAdd = () => {
   
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-6 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -49,8 +51,9 @@ const SubjectSetupAdd = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
-                    console.log(values);
+                    values.isActive = isChecked;
                      createSubject(values)(dispatch)
+                    console.log(values);
                   }}
                 >
                   {({
@@ -68,14 +71,17 @@ const SubjectSetupAdd = () => {
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
                           <label htmlFor="name" className="form-label"> Name</label>
-                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" " />
+                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder="Enter subject name e.g english " />
                         </div>
                       </Col>
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <Field type="checkbox" id="customCheck1" className="form-check-input" />
-                          <label htmlFor="customCheck1" className='check-label'>isActive </label>
+                          <input type="checkbox" id="customCheck1" className="form-check-input"  checked={isChecked}
+                            onChange={(e) => {
+                              setIsChecked(!isChecked)
+                            }} />
+                          <label htmlFor="" className='check-label'>isActive </label>
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">
