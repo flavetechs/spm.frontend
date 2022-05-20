@@ -61,12 +61,12 @@ export const createStudent = (student) => (dispatch) => {
         });
 }
 
-export const updateStudent = (studentAccountId) => (dispatch) => {
+export const updateStudent = (updatedStudent) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_STUDENT_LOADING
     });
 
-    axiosInstance.post('/student/api/v1/update/student', studentAccountId)
+    axiosInstance.post('/student/api/v1/update/student', updatedStudent)
         .then((res) => {
             console.log("updateRes", res)
             dispatch({
