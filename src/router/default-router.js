@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, staffLocations } from './spm-path-locations';
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
@@ -19,6 +19,9 @@ import SessionClassEdit from '../components/spm-class/session-class-edit';
 import SessionClassAdd from '../components/spm-class/session-class-add';
 import SessionList from '../components/smp-session/SessionList';
 import SessionAdd from '../components/smp-session/SessionAdd';
+import StaffList from '../components/smp-staff/StaffList';
+import StaffAdd from '../components/smp-staff/StaffAdd';
+import StaffEdit from '../components/smp-staff/StaffEdit';
 
 const DashboardRouter = () => {
 
@@ -49,6 +52,11 @@ const DashboardRouter = () => {
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
                     {/* <Route path={permissionLocations.roleAdd} exact component={RoleAdd} /> */}
+
+                     {/* staff */}
+                     <Route path={staffLocations.staffList} exact component={StaffList} />
+                    <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
+                    <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
 
                 </Switch>
             </CSSTransition>

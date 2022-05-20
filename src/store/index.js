@@ -5,6 +5,7 @@ import { classReducer } from './reducers/class-reducer'
 import { generalReducer } from './reducers/general-reducers'
 import { rolesReducer } from './reducers/roles-reducer'
 import { sessionReducer } from './reducers/session-reducer'
+import { staffReducer } from './reducers/staff-reducers'
 import { alertReducer } from './reducers/toaster-reducer'
 import Mode from './setting/setting'
 export default createStore(
@@ -16,6 +17,7 @@ export default createStore(
         alert: alertReducer,
         appState: generalReducer,
         class: classReducer,
-        session: sessionReducer
+        session: sessionReducer,
+        staff: staffReducer
     })
 )

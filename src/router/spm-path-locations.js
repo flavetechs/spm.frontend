@@ -33,6 +33,8 @@ export const sessionLocations = {
 
 export const staffLocations = {
     staffList: '/dashboard/smp-staff/staff-list',
+    staffAdd: '/dashboard/smp-staff/add-setup',
+    staffEdit: '/dashboard/smp-staff/edit-setup',
 }
 
 export const studentsLocations = {
