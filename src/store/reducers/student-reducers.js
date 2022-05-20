@@ -125,7 +125,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         selectedStudent: null,
       };
     
-
+     
     default:
       return state;
   }

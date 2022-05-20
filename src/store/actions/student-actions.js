@@ -61,19 +61,21 @@ export const createStudent = (student) => (dispatch) => {
         });
 }
 
-export const updateStudent = (updatedStudent) => (dispatch) => {
+export const updateStudent = (studentAccountId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_STUDENT_LOADING
     });
 
-    axiosInstance.post('/student/api/v1/update/student', updatedStudent)
+    axiosInstance.post('/student/api/v1/update/student', studentAccountId)
         .then((res) => {
+            console.log("updateRes", res)
             dispatch({
                 type: actions.UPDATE_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
+            console.log("updateErr", err)
             dispatch({
                 type: actions.UPDATE_STUDENT_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -126,3 +128,4 @@ export const fetchSingleStudent = (studentAccountId) => dispatch => {
             });
 
 }
+

@@ -22,11 +22,23 @@ const StudentAdd = () => {
 
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    firstName: Yup.string().min(2, "First Name Too Short!").required("First Name is required"),
-    lastName: Yup.string().min(2, "Last Name Too Short!").required("Last Name is required"),
-    parentOrGuardianName: Yup.string().min(2, "Name Too Short!").required("Parent/Guardian name is required"),
-    parentOrGuardianRelationship: Yup.string().required("Parent/Guardian relationship is required"),
-    parentOrGuardianPhone: Yup.string().min(2, "Number Too Short!").required("Parent/Guardian phone number is required"),
+    firstName: Yup.string()
+      .min(2, "First Name Too Short!")
+      .required("First Name is required"),
+    lastName: Yup.string()
+      .min(2, "Last Name Too Short!")
+      .required("Last Name is required"),
+    email: Yup.string().email("Invalid email format"),
+    parentOrGuardianName: Yup.string()
+      .min(2, "Name Too Short!")
+      .required("Parent/Guardian name is required"),
+    parentOrGuardianRelationship: Yup.string().required(
+      "Parent/Guardian relationship is required"
+    ),
+    parentOrGuardianPhone: Yup.string()
+      .min(2, "Number Too Short!")
+      .required("Parent/Guardian phone number is required"),
+    parentOrGuardianEmail: Yup.string().email("Invalid email format"),
   });
   //VALIDATIONS SCHEMA
 
@@ -46,154 +58,169 @@ const StudentAdd = () => {
 
   return (
     <>
-    <Formik
-                  initialValues={{
-                    firstName: "",
-                    lastName: "",
-                    middleName: "",
-                    phone: "",
-                    dob: "",
-                    email: "",
-                    homePhone: "",
-                    emergencyPhone: "",
-                    parentOrGuardianName: "",
-                    parentOrGuardianRelationship: "",
-                    parentOrGuardianPhone: "",
-                    parentOrGuardianEmail: "",
-                    homeAddress: "",
-                    cityId: "",
-                    stateId: "",
-                    countryId: "",
-                    zipCode: "",
-                    photo: "",
-                  }}
-                  validationSchema={validation}
-                  onSubmit={(values) => {
-                    console.log("values", values);
-                    createStudent(values)(dispatch)
-                  }}
-                >
-                  {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    values,
-                    touched,
-                    errors,
-                    isValid,
-                    setFieldValue,
-                  }) => (
-      <Row>
-      
-        <Col>
-          <Card>
-            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
-              <div className="header-title">
-                <h4 className="card-title">Add New Student</h4>
-              </div>
-            </div>
-            <div className="card-body ">
-              <Form className="">
-                <div className="form-group">
-                  <div className="profile-img-edit position-relative">
-                    <img
-                      src={avatars1}
-                      alt="User-Profile"
-                      className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                    />
-                    <img
-                      src={avatars2}
-                      alt="User-Profile"
-                      className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                    />
-                    <img
-                      src={avatars3}
-                      alt="User-Profile"
-                      className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                    />
-                    <img
-                      src={avatars5}
-                      alt="User-Profile"
-                      className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                    />
-                    <img
-                      src={avatars6}
-                      alt="User-Profile"
-                      className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                    />
-                    <img
-                      src={avatars4}
-                      alt="User-Profile"
-                      className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                    />
-                    <div className="upload-icone bg-primary">
-                      <label htmlFor="photo">
-                        <svg
-                          className="upload-button"
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="#ffffff"
-                            d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
-                          ></path>
-                        </svg>
-                        <input
-                          type="file"
-                          id="photo"
-                          style={{ display: "none", cursor:"pointer" }}
-                          name="photo"
-                          accept="image/jpeg,image/jpg,image/png"
-                          className="file-upload form-control"
-                          data-original-title="upload photos"
-                          onChange={(event) => {
-                            setFieldValue("file", event.currentTarget.files[0]);
-                          }}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  <div className="img-extension mt-3">
-                    <div className="d-inline-block align-items-center">
-                      <span>Only</span>{" "}
-                      <a href="/hope-ui/react/build/dashboard/app/user-add">
-                        .jpg
-                      </a>{" "}
-                      <a href="/hope-ui/react/build/dashboard/app/user-add">
-                        .png
-                      </a>{" "}
-                      <a href="/hope-ui/react/build/dashboard/app/user-add">
-                        .jpeg
-                      </a>
-                      <span> allowed</span>
-                    </div>
+      <Formik
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          middleName: "",
+          phone: "",
+          dob: "",
+          email: "",
+          homePhone: "",
+          emergencyPhone: "",
+          parentOrGuardianName: "",
+          parentOrGuardianRelationship: "",
+          parentOrGuardianPhone: "",
+          parentOrGuardianEmail: "",
+          homeAddress: "",
+          cityId: "",
+          stateId: "",
+          countryId: "",
+          zipCode: "",
+          photo: "",
+        }}
+        validationSchema={validation}
+        onSubmit={(values) => {
+          // values.dob=values.dob.replace("-","/");
+          console.log("values", values);
+          createStudent(values)(dispatch);
+        }}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          touched,
+          errors,
+          isValid,
+          setFieldValue,
+        }) => (
+          <Row>
+            <Col>
+              <Card>
+                <div className="card-header d-flex justify-content-between d-flex justify-content-between">
+                  <div className="header-title">
+                    <h4 className="card-title">Add New Student</h4>
                   </div>
                 </div>
-              </Form>
-            </div>
-          </Card>
-        </Col>
-        <div className="col-xl-9 col-lg-8">
-          <div className="card ">
-            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
-              {" "}
-              <div className="header-title">
-                <h4 className="card-title">New Student Information</h4>
-              </div>{" "}
-            </div>
-            <Card.Body>
-              {" "}
-              <div className="new-user-info">
+                <div className="card-body ">
+                  <Form className="">
+                    <div className="form-group">
+                      <div className="profile-img-edit position-relative">
+                        <img
+                          src={avatars1}
+                          alt="User-Profile"
+                          className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                        />
+                        <img
+                          src={avatars2}
+                          alt="User-Profile"
+                          className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                        />
+                        <img
+                          src={avatars3}
+                          alt="User-Profile"
+                          className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                        />
+                        <img
+                          src={avatars5}
+                          alt="User-Profile"
+                          className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                        />
+                        <img
+                          src={avatars6}
+                          alt="User-Profile"
+                          className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                        />
+                        <img
+                          src={avatars4}
+                          alt="User-Profile"
+                          className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                        />
+                        <div className="upload-icone bg-primary">
+                          <label htmlFor="photo">
+                            <svg
+                              className="upload-button"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              style={{ cursor: "pointer" }}
+                            >
+                              <path
+                                fill="#ffffff"
+                                d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                              ></path>
+                            </svg>
+                            <input
+                              type="file"
+                              id="photo"
+                              style={{ display: "none" }}
+                              name="photo"
+                              accept="image/jpeg,image/jpg,image/png"
+                              className="file-upload form-control"
+                              data-original-title="upload photos"
+                              onChange={(event) => {
+                                setFieldValue(
+                                  "file",
+                                  event.currentTarget.files[0]
+                                );
+                              }}
+                            />
+                          </label>
+                        </div>
+                      </div>
+                      <div className="img-extension mt-3">
+                        <div className="d-inline-block align-items-center">
+                          <span>Only</span>{" "}
+                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                            .jpg
+                          </a>{" "}
+                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                            .png
+                          </a>{" "}
+                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                            .jpeg
+                          </a>
+                          <span> allowed</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Form>
+                </div>
+              </Card>
+            </Col>
+            <div className="col-xl-9 col-lg-8">
+              <div className="card ">
+                <div className="card-header d-flex justify-content-between d-flex justify-content-between">
+                  {" "}
+                  <div className="header-title">
+                    <h4 className="card-title">New Student Information</h4>
+                  </div>{" "}
+                </div>
+                <Card.Body>
+                  {" "}
+                  <div className="new-user-info">
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <div className="row">
+                        <Row>
+                          <div className="col-md-6">
+                            {touched.firstName && errors.firstName && (
+                              <div className="text-danger">
+                                {errors.firstName}
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-md-6">
+                            {touched.lastName && errors.lastName && (
+                              <div className="text-danger">
+                                {errors.lastName}
+                              </div>
+                            )}
+                          </div>
+                        </Row>
                         <div className="col-md-6 form-group">
-                          {touched.firstName && errors.firstName && (
-                            <div className="text-danger">
-                              {errors.firstName}
-                            </div>
-                          )}
                           <label className="form-label" htmlFor="firstName">
                             First Name:
                           </label>
@@ -207,11 +234,6 @@ const StudentAdd = () => {
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="lastName">
-                            {touched.lastName && errors.lastName && (
-                              <div className="text-danger">
-                                {errors.lastName}
-                              </div>
-                            )}
                             Last Name:
                           </label>
                           <Field
@@ -245,8 +267,8 @@ const StudentAdd = () => {
                             id="phone"
                             className="form-control"
                           />
-                          </div>
-                          <div className="col-md-6 form-group">
+                        </div>
+                        <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="homePhone">
                             Home Phone Number:
                           </label>
@@ -257,10 +279,13 @@ const StudentAdd = () => {
                             id="homePhone"
                             className="form-control"
                           />
-                          </div>
-                          <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="emergencyPhone">
-                             Emergency Phone Number:
+                        </div>
+                        <div className="col-md-6 form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="emergencyPhone"
+                          >
+                            Emergency Phone Number:
                           </label>
                           <Field
                             placeholder="Emergency Phone Number"
@@ -270,6 +295,13 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
+                        <Row>
+                          <div classname="col-md-12">
+                            {touched.email && errors.email && (
+                              <div className="text-danger">{errors.email}</div>
+                            )}
+                          </div>
+                        </Row>
                         <div className="col-md-12 form-group">
                           <label className="form-label" htmlFor="email">
                             Email Address:
@@ -318,9 +350,7 @@ const StudentAdd = () => {
                             className="form-select"
                             id="classId"
                           >
-                            <option defaultValue="Select Class">
-                              Select Class
-                            </option>
+                            <option value="Select Class">Select Class</option>
                             {activeClasses.map((item, idx) => (
                               <option
                                 key={idx}
@@ -334,39 +364,69 @@ const StudentAdd = () => {
                         </div>
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="cityId">
-                            City ID:
+                            City:
                           </label>
                           <Field
-                            placeholder="City ID"
-                            type="text"
-                            id="cityId"
+                            as="select"
                             name="cityId"
-                            className="form-control"
-                          />
+                            className="form-select"
+                            id="cityId"
+                          >
+                            <option value="Select City">Select City</option>
+                            <option value="Lagos">Lagos</option>
+                            <option value="Ibadan">Ibadan</option>
+                            <option value="Port-harcourt">Port-harcourt</option>
+                            <option value="Benin City">Benin City</option>
+                            <option value="Kano">Kano</option>
+                            <option value="Plateau">Plateau</option>
+                          </Field>
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="stateId">
-                            State ID:
+                            State:
                           </label>
                           <Field
-                            placeholder="State ID"
-                            type="text"
-                            id="stateId"
+                            as="select"
                             name="stateId"
-                            className="form-control"
-                          />
+                            className="form-select"
+                            id="stateId"
+                          >
+                            <option value="Select State">Select State</option>
+                            <option value="Lagos">Lagos</option>
+                            <option value="Oyo">Oyo</option>
+                            <option value="Rivers">Rivers</option>
+                            <option value="Edo">Edo</option>
+                            <option value="Kano">Kano</option>
+                            <option value="Jos">Jos</option>
+                          </Field>
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="countryId">
-                            Country ID:
+                            Country:
                           </label>
                           <Field
-                            placeholder="Country ID"
-                            type="text"
-                            id="countryId"
+                            as="select"
                             name="countryId"
-                            className="form-control"
-                          />
+                            className="form-select"
+                            id="countryId"
+                          >
+                            <option value="Select Country">
+                              Select Country
+                            </option>
+                            <option value="Afganistan">Nigeria</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="American Samoa">
+                              American Samoa
+                            </option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Anguilla">Anguilla</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Aruba">Aruba</option>
+                            <option value="Australia">Australia</option>
+                          </Field>
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="zipCode">
@@ -384,14 +444,22 @@ const StudentAdd = () => {
                       <hr />
                       <h5 className="mb-3">Parent/Guardian(s) Information</h5>
                       <div className="row">
+                        <Row>
+                          <div className="col-md-12">
+                            {touched.parentOrGuardianName &&
+                              errors.parentOrGuardianName && (
+                                <div className="text-danger">
+                                  {errors.parentOrGuardianName}
+                                </div>
+                              )}
+                          </div>
+                        </Row>
                         <div className="col-md-12 form-group">
-                        {touched.parentOrGuardianName && errors.parentOrGuardianName && (
-                              <div className="text-danger">
-                                {errors.parentOrGuardianName}
-                              </div>
-                            )}
-                          <label className="form-label" htmlFor="parentOrGuardianName">
-                          Name:
+                          <label
+                            className="form-label"
+                            htmlFor="parentOrGuardianName"
+                          >
+                            Name:
                           </label>
                           <Field
                             placeholder="Full Name"
@@ -401,14 +469,30 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
+                        <Row>
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianRelationship &&
+                              errors.parentOrGuardianRelationship && (
+                                <div className="text-danger">
+                                  {errors.parentOrGuardianRelationship}
+                                </div>
+                              )}
+                          </div>
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianPhone &&
+                              errors.parentOrGuardianPhone && (
+                                <div className="text-danger">
+                                  {errors.parentOrGuardianPhone}
+                                </div>
+                              )}
+                          </div>
+                        </Row>
                         <div className="col-md-6 form-group">
-                        {touched.parentOrGuardianRelationship && errors.parentOrGuardianRelationship && (
-                              <div className="text-danger">
-                                {errors.parentOrGuardianRelationship}
-                              </div>
-                            )}
-                          <label className="form-label" htmlFor="parentOrGuardianRelationship">
-                          Relationship:
+                          <label
+                            className="form-label"
+                            htmlFor="parentOrGuardianRelationship"
+                          >
+                            Relationship:
                           </label>
                           <Field
                             placeholder="Parent/Guardian Relationship"
@@ -419,12 +503,10 @@ const StudentAdd = () => {
                           />
                         </div>
                         <div className="col-md-6 form-group">
-                        {touched.parentOrGuardianPhone && errors.parentOrGuardianPhone && (
-                              <div className="text-danger">
-                                {errors.parentOrGuardianPhone}
-                              </div>
-                            )}
-                          <label className="form-label" htmlFor="parentOrGuardianPhone">
+                          <label
+                            className="form-label"
+                            htmlFor="parentOrGuardianPhone"
+                          >
                             Mobile Number:
                           </label>
                           <Field
@@ -435,8 +517,21 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
+                        <Row>
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianEmail &&
+                              errors.parentOrGuardianEmail && (
+                                <div className="text-danger">
+                                  {errors.parentOrGuardianEmail}
+                                </div>
+                              )}
+                          </div>
+                        </Row>
                         <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="parentOrGuardianEmail">
+                          <label
+                            className="form-label"
+                            htmlFor="parentOrGuardianEmail"
+                          >
                             Email Address:
                           </label>
                           <Field
@@ -449,17 +544,31 @@ const StudentAdd = () => {
                         </div>
                       </div>
                       <div className="d-flex justify-content-end">
-                      <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(studentsLocations.studentList) }}>Cancel</Button>{' '}
-                      <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Add New User</Button>
+                        <Button
+                          type="button"
+                          variant="btn btn-danger mx-2"
+                          onClick={() => {
+                            history.push(studentsLocations.studentList);
+                          }}
+                        >
+                          Cancel
+                        </Button>{" "}
+                        <Button
+                          type="button"
+                          variant="btn btn-primary"
+                          onClick={handleSubmit}
+                        >
+                          Add New User
+                        </Button>
                       </div>
                     </Form>
-              </div>{" "}
-            </Card.Body>{" "}
-          </div>
-        </div>
-      </Row>
-      )}
-                </Formik>
+                  </div>{" "}
+                </Card.Body>{" "}
+              </div>
+            </div>
+          </Row>
+        )}
+      </Formik>
     </>
   );
 };

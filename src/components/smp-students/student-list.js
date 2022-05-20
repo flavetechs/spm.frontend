@@ -89,7 +89,7 @@ const StudentList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Session Class List</h4>
+                  <h4 className="card-title">Students List</h4>
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
@@ -262,8 +262,8 @@ const StudentList = () => {
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
-                                data-original-title="Delete"
-                                to={studentsLocations.studentDetails}
+                                data-original-title="Details"
+                                to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
                               >
                                 <span className="btn-inner">
                                     <svg
@@ -273,27 +273,27 @@ const StudentList = () => {
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
                                         d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
                                         stroke="currentColor"
-                                        stroke-width="1.5"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                       ></path>
                                       <path
                                         d="M11.9946 16V12"
                                         stroke="currentColor"
-                                        stroke-width="1.5"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                       ></path>
                                       <path
                                         d="M11.9896 8.2041H11.9996"
                                         stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                       ></path>
                                     </svg>
                                 </span>
