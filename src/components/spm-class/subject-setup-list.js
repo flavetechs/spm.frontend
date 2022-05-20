@@ -59,8 +59,8 @@ const SubjectSetupList = () => {
     };
   }, [deleteDialogResponse]);
   //DELETE HANDLER
-  const checkSingleItem = (isChecked, lookupId, subjects) => {
-    subjects.forEach((item) => {
+  const checkSingleItem = (isChecked, lookupId, itemList) => {
+    itemList.forEach((item) => {
       if (item.lookupId === lookupId) {
         item.isChecked = isChecked;
       }
@@ -71,8 +71,8 @@ const SubjectSetupList = () => {
       dispatch(removeId(lookupId));
     }
   };
-  const checkAllItems = (isChecked, subjects) => {
-    subjects.forEach((item) => {
+  const checkAllItems = (isChecked, itemList) => {
+    itemList.forEach((item) => {
       item.isChecked = isChecked;
       if (item.isChecked) {
         dispatch(pushId(item.lookupId));
@@ -80,7 +80,7 @@ const SubjectSetupList = () => {
         dispatch(removeId(item.lookupId));
       }
     });
-    returnList(subjects)(dispatch);
+    returnList(itemList)(dispatch);
   };
 
   return (

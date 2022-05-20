@@ -9,8 +9,7 @@ import * as Yup from 'yup';
 
 import { useHistory } from "react-router-dom";
 import { createSession } from "../../store/actions/session-actions";
-import { getAllTeachers } from "../../store/actions/class-actions";
-
+import { getAllActiveTeachers } from "../../store/actions/class-actions";
 const SessionAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -30,7 +29,7 @@ const SessionAdd = () => {
   //VALIDATIONS SCHEMA
 
   React.useEffect(() => {
-    getAllTeachers()(dispatch)
+    getAllActiveTeachers()(dispatch)
   }, []);
 
   // ACCESSING STATE FROM REDUX STORE

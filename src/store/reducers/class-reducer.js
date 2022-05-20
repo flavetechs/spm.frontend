@@ -288,7 +288,7 @@ export const classReducer = (state = _state, { type, payload }) => {
     case actions.DELETE_SESSION_CLASS_SUCCESS:
       return {
         ...state,
-        selectedIds: [],
+        selectedSessionId:'',
         message: payload,
         isSuccessful: true,
       };
@@ -302,20 +302,20 @@ export const classReducer = (state = _state, { type, payload }) => {
     //SESSION_CLASS ACTION REDUCERS
 
 //GET TEACHER ACTION REDUCER
-case actions.FETCH_TEACHERS_LOADING:
+case actions.FETCH_ACTIVE_TEACHERS_LOADING:
       return {
         ...state,
         loading: true,
         message: "",
         isSuccessful: false,
       };
-    case actions.FETCH_TEACHERS_SUCCESS:
+    case actions.FETCH_ACTIVE_TEACHERS_SUCCESS:
       return {
         ...state,
         loading: false,
-        teacherList: payload,
+        activeTeachers: payload,
       };
-    case actions.FETCH_TEACHERS_FAILED:
+    case actions.FETCH_ACTIVE_TEACHERS_FAILED:
       return {
         ...state,
         isSuccessful: false,
@@ -346,6 +346,66 @@ case actions.FETCH_ACTIVE_SUBJECTS_FAILED:
     message: payload
   };
   //GET ACTIVE SUBJECTS REDUCER
+
+//GET ACTIVE CLASSES REDUCER
+case actions.FETCH_ACTIVE_CLASSES_LOADING:
+  return {
+    ...state,
+    loading: true,
+    message: "",
+    isSuccessful: false,
+  };
+case actions.FETCH_ACTIVE_CLASSES_SUCCESS:
+  return {
+    ...state,
+    loading: false,
+    activeClasses: payload,
+  };
+case actions.FETCH_ACTIVE_CLASSES_FAILED:
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
+  };
+  //GET ACTIVE CLASSES REDUCER
+
+  //CLASS SUBJECT IDS//
+case actions.PUSH_CLASS_SUBJECT_ID:
+  return{
+      ...state,
+      classSubjects: payload
+  };
+  
+
+  case actions.FETCH_SINGLE_SESSION_CLASS_LOADING: {
+    return {
+      ...state,
+      loading: true,
+    };
+  }
+  case actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS: {
+    return {
+      ...state,
+      loading: false,
+      selectedItem: payload,
+      classSubjects: payload.classSubjects
+    };
+  }
+  case actions.FETCH_SINGLE_SESSION_CLASS_FAILED: {
+    return {
+      ...state,
+      loading: false,
+      selectedItem: null,
+    };
+  }
+ //GET SINGLE SESSION CLASS
+
+ case actions.PUSH_SESSION_CLASS_ID:
+      return {
+        ...state,
+        selectedSessionId: payload
+      }
 
     default:
       return state;

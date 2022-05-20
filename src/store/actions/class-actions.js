@@ -59,6 +59,9 @@ export const createClass = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
+
+
+
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
             dispatch({
@@ -75,13 +78,16 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-
-export const updateClass = (updatedClass) => (dispatch) => {
+export const updateClass = ({ name, classId, isActive }) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
-    
-    axiosInstance.post('/class/api/v1/update/class-lookup', updatedClass)
+    const payload = {
+        lookupId: classId,
+        name: name,
+        isActive: isActive
+    }
+    axiosInstance.post('/class/api/v1/update/class-lookup', payload)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_SUCCESS,
@@ -124,7 +130,7 @@ export const deleteClassItems = (classId) => (dispatch) => {
         });
 }
 
-export const fetchSingleClass = (classId) => dispatch =>{
+export const fetchSingleClass = (classId) => dispatch => {
     dispatch({
         type: actions.GET_SINGLE_ITEM,
         payload: classId
@@ -203,7 +209,7 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SUBJECT_LOADING
     });
-    
+
     axiosInstance.post('/subject/api/v1/update/subject', updatedSubject)
         .then((res) => {
             dispatch({
@@ -227,8 +233,9 @@ export const getAllSessionClasses = () => (dispatch) => {
         type: actions.FETCH_SESSION_CLASS_LOADING
     });
 
-    axiosInstance.get('/session/api/v1/getall')
+    axiosInstance.get('/class/api/v1/get-all/session-classes')
         .then((res) => {
+    console.log('list', res.data);
             dispatch({
                 type: actions.FETCH_SESSION_CLASS_SUCCESS,
                 payload: res.data.result
@@ -245,7 +252,7 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
     dispatch({
         type: actions.CREATE_SESSION_CLASS_LOADING
     });
-    axiosInstance.post('/session/api/v1/create', sessionClass)
+    axiosInstance.post('/class/api/v1/create/session-class', sessionClass)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_SESSION_CLASS_SUCCESS,
@@ -261,15 +268,15 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
         });
 }
 
-export const deleteSessionClass = (sessionClassId) => (dispatch) => {
+export const deleteSessionClass = (selectedIds) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_CLASS_LOADING
     });
     const payload = {
-        items: sessionClassId
+        items: selectedIds
     }
-
-    axiosInstance.post('/session/api/v1/delete', payload)
+console.log('payload', payload)
+    axiosInstance.post('/class/api/v1/delete-session-class', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SESSION_CLASS_SUCCESS,
@@ -289,8 +296,8 @@ export const updateSessionClass = (updatedSessionClass) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SESSION_CLASS_LOADING
     });
-    
-    axiosInstance.post('/session/api/v1/update', updatedSessionClass)
+
+    axiosInstance.post('/class/api/v1/update/session-class', updatedSessionClass)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SESSION_CLASS_SUCCESS,
@@ -307,21 +314,93 @@ export const updateSessionClass = (updatedSessionClass) => (dispatch) => {
 }
 //SESSION CLASS ACTION HANDLERS
 
-//GET TEACHERS ACTION HANDLER
-export const getAllTeachers = () => (dispatch) => {
+
+//GET ACTIVE CLASSES ACTION  HANDLER
+export const getAllActiveClasses = () => (dispatch) => {
     dispatch({
-        type: actions.FETCH_TEACHERS_LOADING
+        type: actions.FETCH_ACTIVE_CLASSES_LOADING
     });
 
-    axiosInstance.get(/*'/user/api/v1/getall/teachers'*/'/')
+    axiosInstance.get('/class/api/v1/get-all/active-classes')
         .then((res) => {
             dispatch({
-                type: actions.FETCH_TEACHERS_SUCCESS,
+                type: actions.FETCH_ACTIVE_CLASSES_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
             dispatch({
-                type: actions.FETCH_TEACHERS_FAILED,
+                type: actions.FETCH_ACTIVE_CLASSES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+//GET ACTIVE CLASSES ACTION  HANDLER
+
+//CLASS SUBJECT IDS//
+export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
+
+    var existingCassSubject = classSubjects.find(er => er.subjectId === subjectId);
+    var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
+    if(existingCassSubject){
+        if(checkBoxValue){
+            existingCassSubject.subjectId = subjectId;
+            existingCassSubject.subjectTeacherId = subjectTeacherId;
+            classSubjects = [...otherClassSubject, existingCassSubject]
+        }else{
+            classSubjects = [...otherClassSubject]
+        }
+    }else{
+        let newClassSubject = {
+            subjectId,
+            subjectTeacherId
+        }
+        classSubjects = [...classSubjects, newClassSubject]
+    }
+
+    dispatch({
+        type: actions.PUSH_CLASS_SUBJECT_ID,
+        payload: classSubjects
+    })
+}
+//CLASS SUBJECT IDS//
+
+//GET SINGLE SESSION CLASS
+export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
+    dispatch({
+        type: actions.FETCH_SINGLE_SESSION_CLASS_LOADING,
+        payload: sessionClassId
+    });
+        axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
+            .then((res) => {
+                console.log("res", res.data)
+                dispatch({
+                    type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch(err => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+
+}
+
+//GET TEACHERS ACTION HANDLER
+export const getAllActiveTeachers = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ACTIVE_TEACHERS_LOADING
+    });
+
+    axiosInstance.get('/tercher/api/v1/getall/active-teachers')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_TEACHERS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_TEACHERS_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -334,7 +413,7 @@ export const getAllActiveSubjects = () => (dispatch) => {
         type: actions.FETCH_ACTIVE_SUBJECTS_LOADING
     });
 
-    axiosInstance.get('/')
+    axiosInstance.get('/subject/api/v1/getall/active-subject')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SUBJECTS_SUCCESS,
@@ -348,3 +427,10 @@ export const getAllActiveSubjects = () => (dispatch) => {
         });
 }
 //GET ACTIVE SUBJECT ACTION  HANDLER
+
+export const pushSessionClassId = (itemId) => {
+    return {
+        type: actions.PUSH_SESSION_CLASS_ID,
+        payload: itemId
+    }
+}

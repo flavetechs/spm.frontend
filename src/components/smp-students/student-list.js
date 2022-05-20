@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-import Card from '../Card'
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import Card from "../Card";
 import {
-  getAllSessionClasses,
+  getAllStudents,
   pushId,
   removeId,
   returnList,
-  deleteSessionClass,
-  fetchSingleItem,
-} from "../../store/actions/class-actions";
+  deleteStudent,
+} from "../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
-import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
-
-
-const SessionClassList = () => {
+import { studentsLocations } from "../../router/spm-path-locations";
+import {
+    respondToDeleteDialog,
+    showErrorToast,
+    showSingleDeleteDialog,
+  } from "../../store/actions/toaster-actions";
+const StudentList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
@@ -23,65 +24,62 @@ const SessionClassList = () => {
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
 
-
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList, selectedIds } = state.class;
+  const { studentList, selectedIds } = state.student;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllSessionClasses()(dispatch);
+    getAllStudents()(dispatch);
   }, []);
 
   //DELETE HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === 'continue') {
+    if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
-        showErrorToast('No Item selected to be deleted')(dispatch);
+        showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteSessionClass(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton)
+        deleteStudent(selectedIds)(dispatch);
+        setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
-        respondToDeleteDialog('')(dispatch);
+        respondToDeleteDialog("")(dispatch);
       }
     } else {
-      setDeleteButton(true)
-      setShowCheckBoxes(false)
-      selectedIds.forEach(id => {
-        dispatch(removeId(id))
+      setDeleteButton(true);
+      setShowCheckBoxes(false);
+      selectedIds.forEach((id) => {
+        dispatch(removeId(id));
       });
     }
     return () => {
-      respondToDeleteDialog('')(dispatch);
-    }
+      respondToDeleteDialog("")(dispatch);
+    };
   }, [deleteDialogResponse]);
   //DELETE HANDLER
-
-  const checkSingleItem = (isChecked, lookupId, sessionClasses) => {
-    sessionClasses.forEach(item => {
-      if (item.lookupId === lookupId) {
-        item.isChecked = isChecked
+  const checkSingleItem = (isChecked, userAccountId, studentList) => {
+    studentList.forEach((item) => {
+      if (item.userAccountId === userAccountId) {
+        item.isChecked = isChecked;
       }
     });
     if (isChecked) {
-      dispatch(pushId(lookupId));
+      dispatch(pushId(userAccountId));
     } else {
-      dispatch(removeId(lookupId));
+      dispatch(removeId(userAccountId));
     }
-  }
-  const checkAllItems = (isChecked, sessionClasses) => {
-    sessionClasses.forEach(item => {
-      item.isChecked = isChecked
+  };
+  const checkAllItems = (isChecked, studentList) => {
+    studentList.forEach((item) => {
+      item.isChecked = isChecked;
       if (item.isChecked) {
-        dispatch(pushId(item.lookupId))
+        dispatch(pushId(item.userAccountId));
       } else {
-        dispatch(removeId(item.lookupId))
+        dispatch(removeId(item.userAccountId));
       }
     });
-    returnList(sessionClasses)(dispatch)
-  }
-
+    returnList(studentList)(dispatch);
+  };
 
   return (
     <>
@@ -91,21 +89,20 @@ const SessionClassList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Session Class List</h4>
+                  <h4 className="card-title">Students List</h4>
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                {showDeleteButton ? (
+              {showDeleteButton ? (
                   <button
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      setDeleteButton(!showDeleteButton)
-                      setShowCheckBoxes(!showCheckBoxes)
-                    }
-                    }
+                      setDeleteButton(!showDeleteButton);
+                      setShowCheckBoxes(!showCheckBoxes);
+                    }}
                   >
-                    <i className="btn-inner">
+                      <i className="btn-inner">
                       <svg
                         width="20"
                         viewBox="0 0 24 24"
@@ -143,7 +140,7 @@ const SessionClassList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch)
+                      showSingleDeleteDialog(true)(dispatch);
                     }}
                   >
                     <i className="btn-inner">
@@ -179,9 +176,9 @@ const SessionClassList = () => {
                     </i>
                     <span> Delete Selected</span>
                   </button>
-                )}
+                )} 
                 <Link
-                  to={classLocations.sessionClassAdd}
+                  to={studentsLocations.studentAdd}
                   className="d-flex justify-content-end"
                 >
                   <button
@@ -204,7 +201,7 @@ const SessionClassList = () => {
                         ></path>
                       </svg>
                     </i>
-                    <span>New Session Class</span>
+                    <span>New Student</span>
                   </button>
                 </Link>
               </div>
@@ -219,59 +216,95 @@ const SessionClassList = () => {
                     <thead>
                       <tr className="ligth">
                         <th>
-                          {showCheckBoxes ? <input
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkAllItems(e.target.checked, itemList);
-                            }}
-                          /> : "S/No"}
-
+                          {showCheckBoxes ? (
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                checkAllItems(e.target.checked, studentList);
+                              }}
+                            />
+                          ) : "S/No"}
                         </th>
-                        <th>ID</th>
-                        <th>Class</th>
-                        <th>Form Teacher</th>
+                        <th>Full Name</th>
+                        <th>Registration No</th>
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {itemList.map((item, idx) => (
+                      {studentList.map((student, idx) => (
                         <tr key={idx}>
                           <td className="">
-                            {showCheckBoxes ? (
+                          {showCheckBoxes ? (
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-
-                                checked={item.isChecked || false}
+                                checked={student.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.lookupId, itemList);
+                                  checkSingleItem(
+                                    e.target.checked,
+                                    student.userAccountId,
+                                    studentList
+                                  );
                                 }}
                               />
-                            ) : (
-                                idx + 1
-                            )}
-                          </td>
-                          <td>{item.sessionId}</td>
-                          <td>{item.startDate}</td>
+                            ) : idx + 1}</td>
                           <td>
-                            {item.endDate}
+                            {student.firstName}{" "}{student.middleName}{" "}
+                            {student.lastName}
                           </td>
+                          <td>{student.registrationNumber}</td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
-                              <a
-                                onClick={() => {
-                                  fetchSingleItem(item.sessionId)(dispatch)
-                                  history.push(classLocations.sessionClassEdit);
-                                }
-                                }
+                              <Link
+                                className="btn btn-sm btn-icon btn-success"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="Details"
+                                to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
+                              >
+                                <span className="btn-inner">
+                                    <svg
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9946 16V12"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9896 8.2041H11.9996"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                </span>
+                              </Link>{" "}
+                              <Link
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionId}`}
+                                to={`${studentsLocations.studentEdit}?studentAccountId=${student.studentAccountId}`}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -305,8 +338,7 @@ const SessionClassList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </a>{" "}
-
+                              </Link>{" "}
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -314,12 +346,11 @@ const SessionClassList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-id={item.lookupId}
+                                data-id={student.userAccountId}
                                 onClick={() => {
-                                  dispatch(pushId(item.lookupId))
-                                  showSingleDeleteDialog(true)(dispatch)
-                                }
-                                }
+                                  dispatch(pushId(student.userAccountId));
+                                  showSingleDeleteDialog(true)(dispatch);
+                                }}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -353,7 +384,6 @@ const SessionClassList = () => {
                                   </svg>
                                 </span>
                               </Link>
-
                             </div>
                           </td>
                         </tr>
@@ -370,4 +400,4 @@ const SessionClassList = () => {
   );
 };
 
-export default SessionClassList;
+export default StudentList;
