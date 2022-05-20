@@ -78,12 +78,11 @@ const StudentEdit = () => {
           middleName: selectedStudent?.middleName,
           phone: selectedStudent?.phone,
           dob: selectedStudent?.dob,
-          email: selectedStudent?.email,
+          email:  "notyet",//selectedStudent?.email,
           homePhone: selectedStudent?.homePhone,
           emergencyPhone: selectedStudent?.emergencyPhone,
           parentOrGuardianName: selectedStudent?.parentOrGuardianName,
-          parentOrGuardianRelationship:
-            selectedStudent?.parentOrGuardianRelationship,
+          parentOrGuardianRelationship:selectedStudent?.parentOrGuardianRelationship,
           parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone,
           parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail,
           homeAddress: selectedStudent?.homeAddress,
@@ -96,7 +95,7 @@ const StudentEdit = () => {
         validationSchema={validation}
         onSubmit={(values) => {
           //values.dob=values.dob.replace("-","/");
-          values.email = values.email;
+          //values.email = values.email;
           console.log("values", values);
           updateStudent(values)(dispatch);
         }}
