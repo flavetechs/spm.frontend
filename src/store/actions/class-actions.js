@@ -235,7 +235,6 @@ export const getAllSessionClasses = () => (dispatch) => {
 
     axiosInstance.get('/class/api/v1/get-all/session-classes')
         .then((res) => {
-    console.log('list', res.data);
             dispatch({
                 type: actions.FETCH_SESSION_CLASS_SUCCESS,
                 payload: res.data.result
@@ -273,9 +272,8 @@ export const deleteSessionClass = (selectedIds) => (dispatch) => {
         type: actions.DELETE_SESSION_CLASS_LOADING
     });
     const payload = {
-        items: selectedIds
+        item: selectedIds[0]
     }
-console.log('payload', payload)
     axiosInstance.post('/class/api/v1/delete-session-class', payload)
         .then((res) => {
             dispatch({
@@ -372,7 +370,6 @@ export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
     });
         axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
             .then((res) => {
-                console.log("res", res.data)
                 dispatch({
                     type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
                     payload: res.data.result
