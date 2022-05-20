@@ -37,7 +37,6 @@ const SessionAdd = () => {
   const { teacherList } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log('teacherList', teacherList);
 
 
   if (isSuccessful) {
