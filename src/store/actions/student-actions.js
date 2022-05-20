@@ -68,14 +68,12 @@ export const updateStudent = (updatedStudent) => (dispatch) => {
 
     axiosInstance.post('/student/api/v1/update/student', updatedStudent)
         .then((res) => {
-            console.log("updateRes", res)
             dispatch({
                 type: actions.UPDATE_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log("updateErr", err)
             dispatch({
                 type: actions.UPDATE_STUDENT_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -115,7 +113,6 @@ export const fetchSingleStudent = (studentAccountId) => dispatch => {
     });
         axiosInstance.get(`/student/api/v1/get-single/${studentAccountId}`)
             .then((res) => {
-                console.log("res", res.data)
                 dispatch({
                     type: actions.FETCH_SINGLE_STUDENT_SUCCESS,
                     payload: res.data.result

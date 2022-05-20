@@ -66,7 +66,7 @@ const StudentEdit = () => {
   if (isSuccessful || !selectedStudent) {
     history.push(studentsLocations.studentList);
   }
-  console.log("selectedStudent", selectedStudent);
+  
   return (
     <>
       <Formik
@@ -96,7 +96,6 @@ const StudentEdit = () => {
         onSubmit={(values) => {
           //values.dob=values.dob.replace("-","/");
           //values.email = values.email;
-          console.log("values", values);
           updateStudent(values)(dispatch);
         }}
       >

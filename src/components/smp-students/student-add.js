@@ -82,7 +82,6 @@ const StudentAdd = () => {
         validationSchema={validation}
         onSubmit={(values) => {
           // values.dob=values.dob.replace("-","/");
-          console.log("values", values);
           createStudent(values)(dispatch);
         }}
       >
