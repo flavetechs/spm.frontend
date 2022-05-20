@@ -11,7 +11,7 @@ import {
   buildClassSubjectArray,
   getAllActiveClasses,
   getAllActiveSubjects,
-  getAllTeachers,
+  getAllActiveTeachers,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 import { getActiveSession } from "../../store/actions/session-actions";
@@ -33,7 +33,7 @@ const SessionClassAdd = () => {
   const {
     isSuccessful,
     message,
-    teacherList,
+    activeTeachers,
     activeSubjects,
     activeClasses,
     classSubjects,
@@ -49,7 +49,7 @@ const SessionClassAdd = () => {
   //USE STATE VARIABLE  DECLARATION
   React.useEffect(() => {
     getAllActiveClasses()(dispatch);
-    getAllTeachers()(dispatch);
+    getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
     getActiveSession()(dispatch);
   }, []);
@@ -89,7 +89,6 @@ const SessionClassAdd = () => {
   };
 
   //HANDLER FUNCTIONS
-
   return (
     <>
       <div className="col-8 mx-auto">
@@ -108,9 +107,7 @@ const SessionClassAdd = () => {
                   onSubmit={(values) => {
                     values.classSubjects = classSubjects;
                     values.sessionId = activeSession?.sessionId;
-                    console.log("values", values);
-
-                    createSessionClass(values)(dispatch);
+                     createSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -125,6 +122,11 @@ const SessionClassAdd = () => {
                   }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
+                      {touched.classId && errors.classId && (
+                        <div className="text-danger">
+                          {errors.classId}
+                        </div>
+                      )}
                       <Col lg="12">
                         <div className="form-group">
                           <label htmlFor="sessionId" className="form-label">
@@ -146,31 +148,23 @@ const SessionClassAdd = () => {
                       <div className="d-flex row justify-content-between">
                         <Col lg="6">
                           <div className="form-group">
-                            {touched.classId && errors.classId && (
-                              <div className="text-danger">
-                                {errors.classId}
-                              </div>
-                            )}
-                            <label htmlFor="classId" className="form-label">
-                              {" "}
-                              Class
-                            </label>
+                            <label htmlFor="classId" className="form-label"> Class </label>
                             <Field
                               as="select"
                               name="classId"
                               className="form-select"
                               id="classId"
+                              onChange={(event) => setFieldValue('classId', event.target.value)}
                             >
-                              <option defaultValue="Select Class">
+                              <option value={''} defaultValue={''} >
                                 Select Class
                               </option>
-                              {activeClasses.map((item, idx) => (
+                              {activeClasses.map((classLookup, idx) => (
                                 <option
                                   key={idx}
-                                  name={values.classId}
-                                  value={item.lookupId}
+                                  value={classLookup.lookupId}
                                 >
-                                  {item.name}
+                                  {classLookup.name}
                                 </option>
                               ))}
                             </Field>
@@ -183,7 +177,6 @@ const SessionClassAdd = () => {
                               htmlFor="formTeacherId"
                               className="form-label"
                             >
-                              {" "}
                               Form Teacher
                             </label>
                             <Field
@@ -191,18 +184,17 @@ const SessionClassAdd = () => {
                               name="formTeacherId"
                               className="form-select"
                               id="formTeacherId"
+                              onChange={(event) => setFieldValue('formTeacherId', event.target.value)}
                             >
-                              <option defaultValue="">
+                              <option value={''} defaultValue="">
                                 Select Form Teacher
                               </option>
-                              {teacherList.map((item, idx) => (
+                              {activeTeachers.map((teacher, idx) => (
                                 <option
-                                  id={item.userAccountId}
                                   key={idx}
-                                  name={values.formTeacherId}
-                                  value={item.userAccountId}
+                                  value={teacher.teacherAccountId}
                                 >
-                                  {item.fullName}
+                                  {teacher.fullName}
                                 </option>
                               ))}
                             </Field>
@@ -243,9 +235,7 @@ const SessionClassAdd = () => {
                                   name="subjectTeacherId"
                                   className="form-select"
                                   id="subjectTeacherId"
-                                  disabled={
-                                    disableSubjectSelect[idx] ? false : true
-                                  }
+                                  disabled={disableSubjectSelect[idx] ? false : true}
                                   onChange={(e) => {
                                     getSubjectTeacherId(
                                       subject.lookupId,
@@ -253,23 +243,14 @@ const SessionClassAdd = () => {
                                     );
                                   }}
                                 >
-                                  <option value="Select Teacher">
+                                  <option value="">
                                     Select Teacher
                                   </option>
 
-                                  {teacherList.map((teacher, id) => (
+                                  {activeTeachers.map((teacher, id) => (
                                     <option
                                       key={id}
-                                      id={teacher.userAccountId}
-                                      value={teacher.userAccountId}
-                                      selected={
-                                        disableSubjectSelect[idx]
-                                          ? teacher.fullName
-                                          : null
-                                      }
-                                      disabled={(e)=>disableSubjectSelect[idx]
-                                        ? e.target.selected
-                                        : null}
+                                      value={teacher.teacherAccountId}                                
                                     >
                                       {teacher.fullName}
                                     </option>

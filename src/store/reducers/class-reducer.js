@@ -302,20 +302,20 @@ export const classReducer = (state = _state, { type, payload }) => {
     //SESSION_CLASS ACTION REDUCERS
 
 //GET TEACHER ACTION REDUCER
-case actions.FETCH_TEACHERS_LOADING:
+case actions.FETCH_ACTIVE_TEACHERS_LOADING:
       return {
         ...state,
         loading: true,
         message: "",
         isSuccessful: false,
       };
-    case actions.FETCH_TEACHERS_SUCCESS:
+    case actions.FETCH_ACTIVE_TEACHERS_SUCCESS:
       return {
         ...state,
         loading: false,
-        teacherList: payload,
+        activeTeachers: payload,
       };
-    case actions.FETCH_TEACHERS_FAILED:
+    case actions.FETCH_ACTIVE_TEACHERS_FAILED:
       return {
         ...state,
         isSuccessful: false,
@@ -389,6 +389,7 @@ case actions.PUSH_CLASS_SUBJECT_ID:
       ...state,
       loading: false,
       selectedItem: payload,
+      classSubjects: payload.classSubjects
     };
   }
   case actions.FETCH_SINGLE_SESSION_CLASS_FAILED: {

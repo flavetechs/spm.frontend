@@ -1,7 +1,7 @@
 export const _state = {
   loading: false,
   itemList: [],
-  teacherList: [],
+  activeTeachers: [],
 
   selectedIds: [],
   selectedSessionId:'',
