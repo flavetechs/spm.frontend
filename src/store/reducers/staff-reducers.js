@@ -1,11 +1,12 @@
-import { actions } from "../action-types/session-action-types";
-import { _state } from "../states/session-state";
+import { actions } from "../action-types/staff-action-types";
+import { _state } from "../states/staff-state";
 
-export const sessionReducer = (state = _state, { type, payload }) => {
+
+export const staffReducer = (state = _state, { type, payload }) => {
   switch (type) {
 
     case actions.GET_SINGLE_ITEM: {
-        const selectedItem = state.sessionList.find(d => d.sessionId == payload);
+        const selectedItem = state.staffList.find(d => d.teacherAccountId == payload);
         if (selectedItem) {
           return {
             ...state,
@@ -27,12 +28,12 @@ export const sessionReducer = (state = _state, { type, payload }) => {
       case actions.RETURN_ITEM_LIST:
         return {
           ...state,
-          sessionList: payload,
+          staffList: payload,
         };
   
 
-        //SESSION FETCH
-    case actions.FETCH_SESSION_LOADING:
+        //STAFF FETCH
+    case actions.FETCH_STAFFACCOUNT_LOADING:
         return {
             ...state,
             loading: true,
@@ -40,15 +41,14 @@ export const sessionReducer = (state = _state, { type, payload }) => {
             isSuccessful: false
         };
 
-    case actions.FETCH_SESSION_SUCCESS:
+    case actions.FETCH_STAFFACCOUNT_SUCCESS:
         return {
             ...state,
             loading: false,
-            // isSuccessful: true,
-            sessionList: payload,
+            staffList: payload,
         };
 
-    case actions.FETCH_SESSION_FAILED:
+    case actions.FETCH_STAFFACCOUNT_FAILED:
         return {
             ...state,
             loading: false,
@@ -56,21 +56,21 @@ export const sessionReducer = (state = _state, { type, payload }) => {
             message: payload
         };
 
-    case actions.CREATE_SESSION_LOADING:
+    case actions.CREATE_STAFFACCOUNT_LOADING:
             return {
               ...state,
               loading: true,
               isSuccessful: false,
               message: ''
             };
-    case actions.CREATE_SESSION_SUCCESS:
+    case actions.CREATE_STAFFACCOUNT_SUCCESS:
             return {
               ...state,
               isSuccessful: true,
               loading: false,
               message: payload
             };
-    case actions.CREATE_SESSION_FAILED:
+    case actions.CREATE_STAFFACCOUNT_FAILED:
             return {
               ...state,
               isSuccessful: false,
@@ -78,43 +78,43 @@ export const sessionReducer = (state = _state, { type, payload }) => {
               message: ''
             };
       
-          case actions.UPDATE_SESSION_LOADING:
+    case actions.UPDATE_STAFFACCOUNT_LOADING:
             return {
               ...state,
               loading: true,
               isSuccessful: false,
               message: ''
             };
-          case actions.UPDATE_SESSION_SUCCESS:
-            return {
-              ...state,
-              isSuccessful: true,
-              loading: false,
-              message: payload
+    case actions.UPDATE_STAFFACCOUNT_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            loading: false,
+            message: payload
             };
-          case actions.UPDATE_SESSION_FAILED:
-            return {
-              ...state,
-              loading: false,
-              message: payload,
-              isSuccessful: false
+    case actions.UPDATE_STAFFACCOUNT_FAILED:
+        return {
+            ...state,
+            loading: false,
+            message: '',
+            isSuccessful: false
             };
       
-    case actions.DELETE_SESSION_LOADING:
+    case actions.DELETE_STAFFACCOUNT_LOADING:
       return {
         ...state,
         loading: true,
         isSuccessful: false,
         message: ''
       };
-    case actions.DELETE_SESSION_SUCCESS:
+    case actions.DELETE_STAFFACCOUNT_SUCCESS:
       return {
         ...state,
         selectedIds: [],
         message: payload,
         isSuccessful: true,
       };
-    case actions.DELETE_SESSION_FAILED:
+    case actions.DELETE_STAFFACCOUNT_FAILED:
       return {
         ...state,
         loading: false,
@@ -122,30 +122,24 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-      case actions.FETCH_ACTIVE_SESSION_LOADING:
-        return {
-            ...state,
-            loading: true,
-            message: '',
-            isSuccessful: false
-        };
-
-    case actions.FETCH_ACTIVE_SESSION_SUCCESS:
-        return {
-            ...state,
-            loading: false,
-            activeSession: payload,
-        };
-
-    case actions.FETCH_ACTIVE_SESSION_FAILED:
+      case actions.FETCH_SINGLE_STAFF_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.FETCH_SINGLE_STAFF_SUCCESS:
       return {
         ...state,
         loading: false,
-        isSuccessful: false,
-        message: payload
-    };
-
-          //SESSION ACTION REDUCERS
+        selectedItem: payload,
+      };
+    case actions.FETCH_SINGLE_STAFF_FAILED:
+      return {
+        ...state,
+        loading: false,
+        selectedItem: null,
+      };
+          //STAFF ACTION REDUCERS
 
         default:
             return state;
@@ -156,3 +150,4 @@ function filterSelectedIds(arr, value) {
       return ele !== value;
     });
   }
+  

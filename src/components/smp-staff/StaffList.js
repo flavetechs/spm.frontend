@@ -1,24 +1,22 @@
-import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import Card from "../Card";
-import {
-  getAllSubjects,
-  pushId,
-  removeId,
-  returnList,
-  deleteSubject,
-  fetchSingleItem,
-} from "../../store/actions/class-actions";
+import React, { useState } from 'react'
+import { Row, Col } from 'react-bootstrap'
+import { Link, useHistory } from 'react-router-dom'
+import Card from '../Card'
+import { 
+  deleteStaffAccount, 
+  fetchSingleItem, 
+  getAllStaffAccount,
+   pushId, 
+   removeId, 
+   returnList 
+  } from '../../store/actions/staff-actions';
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
-import {
-  respondToDeleteDialog,
-  showErrorToast,
-  showSingleDeleteDialog,
-} from "../../store/actions/toaster-actions";
+import { staffLocations } from "../../router/spm-path-locations";
+import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
-const SubjectSetupList = () => {
+
+
+const StaffList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
@@ -26,62 +24,65 @@ const SubjectSetupList = () => {
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
 
+
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList, selectedIds } = state.class;
+  const { staffList, selectedIds } = state.staff;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllSubjects()(dispatch);
+    getAllStaffAccount()(dispatch);
   }, []);
 
   //DELETE HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === "continue") {
+    if (deleteDialogResponse === 'continue') {
       if (selectedIds.length === 0) {
-        showErrorToast("No Item selected to be deleted")(dispatch);
+        showErrorToast('No Item selected to be deleted')(dispatch);
       } else {
-        deleteSubject(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton);
+        deleteStaffAccount(selectedIds)(dispatch);
+        setDeleteButton(!showDeleteButton)
         setShowCheckBoxes(false);
-        respondToDeleteDialog("")(dispatch);
+        respondToDeleteDialog('')(dispatch);
       }
     } else {
-      setDeleteButton(true);
-      setShowCheckBoxes(false);
-      selectedIds.forEach((id) => {
-        dispatch(removeId(id));
+      setDeleteButton(true)
+      setShowCheckBoxes(false)
+      selectedIds.forEach(id => {
+        dispatch(removeId(id))
       });
     }
     return () => {
-      respondToDeleteDialog("")(dispatch);
-    };
+      respondToDeleteDialog('')(dispatch);
+    }
   }, [deleteDialogResponse]);
   //DELETE HANDLER
-  const checkSingleItem = (isChecked, lookupId, itemList) => {
-    itemList.forEach((item) => {
-      if (item.lookupId === lookupId) {
-        item.isChecked = isChecked;
+
+  const checkSingleItem = (isChecked, teacherAccountId, stafflists) => {
+    stafflists.forEach(item => {
+      if (item.teacherAccountId === teacherAccountId) {
+        item.isChecked = isChecked
       }
     });
     if (isChecked) {
-      dispatch(pushId(lookupId));
+      dispatch(pushId(teacherAccountId));
     } else {
-      dispatch(removeId(lookupId));
+      dispatch(removeId(teacherAccountId));
     }
-  };
-  const checkAllItems = (isChecked, itemList) => {
-    itemList.forEach((item) => {
-      item.isChecked = isChecked;
+  }
+  const checkAllItems = (isChecked, stafflists) => {
+    stafflists.forEach(item => {
+      item.isChecked = isChecked
       if (item.isChecked) {
-        dispatch(pushId(item.lookupId));
+        dispatch(pushId(item.teacherAccountId))
       } else {
-        dispatch(removeId(item.lookupId));
+        dispatch(removeId(item.teacherAccountId))
       }
     });
-    returnList(itemList)(dispatch);
-  };
+    returnList(stafflists)(dispatch)
+  }
+
 
   return (
     <>
@@ -91,7 +92,7 @@ const SubjectSetupList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Subject List</h4>
+                  <h4 className="card-title">Staff List</h4>
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
@@ -100,9 +101,10 @@ const SubjectSetupList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      setDeleteButton(!showDeleteButton);
-                      setShowCheckBoxes(!showCheckBoxes);
-                    }}
+                      setDeleteButton(!showDeleteButton)
+                      setShowCheckBoxes(!showCheckBoxes)
+                    }
+                    }
                   >
                     <i className="btn-inner">
                       <svg
@@ -142,7 +144,7 @@ const SubjectSetupList = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch);
+                      showSingleDeleteDialog(true)(dispatch)
                     }}
                   >
                     <i className="btn-inner">
@@ -180,7 +182,7 @@ const SubjectSetupList = () => {
                   </button>
                 )}
                 <Link
-                  to={classLocations.addSubjectSetup}
+                  to={staffLocations.staffAdd}
                   className="d-flex justify-content-end"
                 >
                   <button
@@ -203,7 +205,7 @@ const SubjectSetupList = () => {
                         ></path>
                       </svg>
                     </i>
-                    <span>New Subject</span>
+                    <span>New Staff List</span>
                   </button>
                 </Link>
               </div>
@@ -218,65 +220,60 @@ const SubjectSetupList = () => {
                     <thead>
                       <tr className="ligth">
                         <th>
-                          {showCheckBoxes ? (
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              onChange={(e) => {
-                                checkAllItems(e.target.checked, itemList);
-                              }}
-                            />
-                          ) : null}
+                          {showCheckBoxes ? <input
+                            className="form-check-input"
+                            type="checkbox"
+                            onChange={(e) => {
+                              checkAllItems(e.target.checked, staffList);
+                            }}
+                          /> : "S/No"}
+
                         </th>
-                        <th>Name</th>
-                        <th>Status</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>MIddle Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {itemList.map((item, idx) => (
+                      {staffList.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">
                             {showCheckBoxes ? (
                               <input
                                 className="form-check-input"
                                 type="checkbox"
+
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(
-                                    e.target.checked,
-                                    item.lookupId,
-                                    itemList
-                                  );
+                                  checkSingleItem(e.target.checked, item.teacherAccountId, staffList);
                                 }}
                               />
-                            ) : null}
+                            ) : (
+                                idx + 1
+                            )}
                           </td>
-                          <td>{item.name}</td>
-                          <td>
-                            <span
-                              className={
-                                item.isActive
-                                  ? `badge bg-primary`
-                                  : `badge bg-danger`
-                              }
-                            >
-                              {item.isActive ? "Active" : "inactive"}
-                            </span>
-                          </td>
+                          <td>{item.firstName}</td>
+                          <td>{item.lastName}</td>
+                          <td>{item.middleName} </td>
+                          <td>{item.email} </td>
+                          <td>{item.phone} </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
                               <a
                                 onClick={() => {
-                                  fetchSingleItem(item.lookupId)(dispatch);
-                                  history.push(classLocations.editSubjectSetup);
-                                }}
+                                  fetchSingleItem(item.teacherAccountId)(dispatch)
+                                  history.push(`${staffLocations.staffEdit}?teacherAccountId=${item.teacherAccountId}`);
+                                }
+                                }
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.editSubjectSetup}?subjectId=${item.lookupId}`}
+                               
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -311,6 +308,7 @@ const SubjectSetupList = () => {
                                   </svg>
                                 </span>
                               </a>{" "}
+
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -318,11 +316,12 @@ const SubjectSetupList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-id={item.lookupId}
+                                data-id={item.teacherUserAccountId}
                                 onClick={() => {
-                                  dispatch(pushId(item.lookupId));
-                                  showSingleDeleteDialog(true)(dispatch);
-                                }}
+                                  dispatch(pushId(item.teacherUserAccountId))
+                                  showSingleDeleteDialog(true)(dispatch)
+                                }
+                                }
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -356,6 +355,7 @@ const SubjectSetupList = () => {
                                   </svg>
                                 </span>
                               </Link>
+
                             </div>
                           </td>
                         </tr>
@@ -372,4 +372,4 @@ const SubjectSetupList = () => {
   );
 };
 
-export default SubjectSetupList;
+export default StaffList;
