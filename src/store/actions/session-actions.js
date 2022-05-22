@@ -27,7 +27,6 @@ export const fetchSingleItem = (sessionId) => dispatch => {
         type: actions.GET_SINGLE_ITEM,
         payload: sessionId
     });
-
 }
 
 

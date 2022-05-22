@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { createSession, updateSession } from "../../store/actions/session-actions";
-import { getAllTeachers } from "../../store/actions/class-actions";
+import { getAllActiveTeachers } from "../../store/actions/class-actions";
 
 const SessionEdit = () => {
   //VARIABLE DECLARATIONS 
@@ -19,7 +19,7 @@ const SessionEdit = () => {
 
 
   React.useEffect(() => {
-    getAllTeachers()(dispatch)
+    getAllActiveTeachers()(dispatch)
   }, []);
 
   //VALIDATIONS SCHEMA
@@ -36,9 +36,9 @@ const SessionEdit = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { isSuccessful, message, selectedItem } = state.session;
-  const {teacherList } = state.class;
+  const {activeTeachers } = state.class;
   // ACCESSING STATE FROM REDUX STORE
-
+  
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const sessionId = queryParams.get("sessionId");
@@ -62,13 +62,12 @@ const SessionEdit = () => {
                     startDate: selectedItem?.startDate,
                     endDate: selectedItem?.endDate,
                     terms: selectedItem?.terms,
-                    headTeacherId: '7457e078-07b6-4d2d-474e-08da373808c4',
                     headTeacherId: selectedItem?.headTeacherId
                   }}
+                  enableReinitialize={true}
                   validationSchema={validation}
                   onSubmit={values => {
                     console.log(values);
-                    values.headTeacherId = '7457e078-07b6-4d2d-474e-08da373808c4';
                     updateSession(values)(dispatch)
                   }}
                 >
@@ -103,7 +102,7 @@ const SessionEdit = () => {
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="terms" className="form-label">Head of School</label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
-                            {teacherList.map((teacher, idx) => {
+                            {activeTeachers.map((teacher, idx) => {
                               return (
                                 <option key={idx} value={teacher.userAccountId}>
                                   {teacher.firstName} {teacher.lastName}
