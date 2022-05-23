@@ -117,7 +117,7 @@ const StudentAdd = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-                        {!image ? (
+      
                           <div>
                             <img
                               src={avatars1}
@@ -150,14 +150,8 @@ const StudentAdd = () => {
                               className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
                             />{" "}
                           </div>
-                        ) : (
-                          <img
-                            className=" img-fluid avatar avatar-100 avatar-rounded-100"
-                            id="displayImg"
-                            src={image}
-                            alt="profile image"
-                          />
-                        )}
+                        
+                        
                         <div className="upload-icone bg-primary">
                           <label htmlFor="photo">
                             <svg
@@ -191,6 +185,12 @@ const StudentAdd = () => {
                           </label>
                         </div>
                       </div>
+                      <img
+                            className=" img-fluid avatar avatar-100 avatar-rounded-100"
+                            id="displayImg"
+                            src={image}
+                            alt="."
+                          />
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
                           <span>Only</span> <a href="#">.jpg</a>{" "}
