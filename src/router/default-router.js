@@ -27,6 +27,7 @@ import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
 import StudentDetails from '../components/smp-students/student-details';
 import SessionEdit from '../components/smp-session/SessionEdit';
+import SessionClassDetails from '../components/spm-class/session-class-details';
 
 const DashboardRouter = () => {
 
@@ -52,6 +53,7 @@ const DashboardRouter = () => {
                     <Route path={ classLocations.sessionClassList} exact component={SessionClassList} />
                    <Route path={classLocations.sessionClassEdit} exact component={SessionClassEdit} />
                     <Route path={classLocations.sessionClassAdd} exact component={SessionClassAdd} />
+                    <Route path={classLocations.sessionClassDetails} exact component={SessionClassDetails} />
 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
