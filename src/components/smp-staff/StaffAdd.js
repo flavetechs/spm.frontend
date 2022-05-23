@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Image, Form, Button } from 'react-bootstrap'
 import Card from '../Card'
 import { Formik, Field } from 'formik';
@@ -23,6 +23,8 @@ const StaffAdd = () => {
    //VARIABLE DECLARATIONS
    const history = useHistory();
    const dispatch = useDispatch();
+   const [images, setImages] = useState([])
+   const [imageURLs, setImageURLs] = useState([])
    //VARIABLE DECLARATIONS
 
    //VALIDATIONS SCHEMA
@@ -37,7 +39,7 @@ const StaffAdd = () => {
          .email('Must be a valid email'),
       phone: Yup.string().required("Please enter phone Number"),
       dob: Yup.string().required("Please enter date of birth"),
-      photo: Yup.string().required("Please enter date of birth")
+      // photo: Yup.string().required("Please enter date of birth")
    });
    //VALIDATIONS SCHEMA
 
@@ -54,6 +56,18 @@ const StaffAdd = () => {
    if (isSuccessful) {
       history.push(staffLocations.staffList);
    }
+
+   React.useEffect(() => {
+      if(images.length < 1) return;
+      const newImageUrls = [];
+      images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
+      setImageURLs(newImageUrls)
+   }, [images])
+
+   function onImageChanges(e) {
+      setImages([...e.target.files])
+   }
+   
 
 
    return (
@@ -111,13 +125,19 @@ const StaffAdd = () => {
                                        </div>
                                     </div>
                                     <div className="img-extension mt-3">
-                                       <div className="d-inline-block align-items-center">
+                                       <div className="d-inline-block align-items-center">s
                                           <span>Only</span>{' '}
                                           <Link to="#">.jpg</Link>{' '}
                                           <Link to="#">.png</Link>{' '}
                                           <Link to="#">.jpeg</Link>{' '}
                                           <span>allowed</span>
-                                          <Field type="file" id="customFile1" name='photo' />
+                                          <Field type="file" id="customFile1" name='photo'  onChange={onImageChanges}/>
+                                          {imageURLs.map((imageSrc, index) => {
+                                             return (
+                                                <img key={index} src={imageSrc} style={{ width: 350, height:300, borderRadius: 10, marginTop: 15}}/>
+                                             )
+                                          })}
+                                          {/* {imageURLs.map(imageSrc => <img key={imageSrc.index} src={imageSrc} style={{ width: 350, height:300, borderRadius: 10, marginTop: 15}}/>)} */}
                                        </div>
                                     </div>
                                  </Form.Group>
