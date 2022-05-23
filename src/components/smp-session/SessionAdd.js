@@ -9,8 +9,7 @@ import * as Yup from 'yup';
 
 import { useHistory } from "react-router-dom";
 import { createSession } from "../../store/actions/session-actions";
-import { getAllTeachers } from "../../store/actions/class-actions";
-
+import { getAllActiveTeachers } from "../../store/actions/class-actions";
 const SessionAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -30,16 +29,14 @@ const SessionAdd = () => {
   //VALIDATIONS SCHEMA
 
   React.useEffect(() => {
-    getAllTeachers()(dispatch)
+    getAllActiveTeachers()(dispatch)
   }, []);
-
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { isSuccessful, message } = state.session;
-  const { teacherList } = state.class;
+  const { activeTeachers } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log('teacherList', teacherList);
 
 
   if (isSuccessful) {
@@ -93,7 +90,7 @@ const SessionAdd = () => {
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="terms" className="form-label">Head of School</label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
-                            {teacherList.map((teacher, idx) => {
+                            {activeTeachers.map((teacher, idx) => {
                               return (
                                 <option key={idx} value={teacher.userAccountId}>
                                   {teacher.firstName} {teacher.lastName}

@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-import Card from '../Card'
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import Card from "../Card";
 import {
   getAllSessionClasses,
-  pushId,
-  removeId,
-  returnList,
   deleteSessionClass,
-  fetchSingleItem,
+  pushSessionClassId,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
-import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
-
+import {
+  respondToDeleteDialog,
+  showErrorToast,
+  showSingleDeleteDialog
+} from "../../store/actions/toaster-actions";
+import { removeId } from "../../store/actions/session-actions";
 
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
@@ -22,7 +23,6 @@ const SessionClassList = () => {
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
-
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -33,7 +33,7 @@ const SessionClassList = () => {
   React.useEffect(() => {
     getAllSessionClasses()(dispatch);
   }, []);
-
+console.log('selectedIds', selectedIds);
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === 'continue') {
@@ -58,31 +58,8 @@ const SessionClassList = () => {
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
-  const checkSingleItem = (isChecked, lookupId, sessionClasses) => {
-    sessionClasses.forEach(item => {
-      if (item.lookupId === lookupId) {
-        item.isChecked = isChecked
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(lookupId));
-    } else {
-      dispatch(removeId(lookupId));
-    }
-  }
-  const checkAllItems = (isChecked, sessionClasses) => {
-    sessionClasses.forEach(item => {
-      item.isChecked = isChecked
-      if (item.isChecked) {
-        dispatch(pushId(item.lookupId))
-      } else {
-        dispatch(removeId(item.lookupId))
-      }
-    });
-    returnList(sessionClasses)(dispatch)
-  }
 
-
+console.log(itemList);
   return (
     <>
       <div>
@@ -95,91 +72,6 @@ const SessionClassList = () => {
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                {showDeleteButton ? (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      setDeleteButton(!showDeleteButton)
-                      setShowCheckBoxes(!showCheckBoxes)
-                    }
-                    }
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M20.708 6.23975H3.75"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Delete</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch)
-                    }}
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M20.708 6.23975H3.75"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Delete Selected</span>
-                  </button>
-                )}
                 <Link
                   to={classLocations.sessionClassAdd}
                   className="d-flex justify-content-end"
@@ -218,60 +110,36 @@ const SessionClassList = () => {
                   >
                     <thead>
                       <tr className="ligth">
-                        <th>
-                          {showCheckBoxes ? <input
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkAllItems(e.target.checked, itemList);
-                            }}
-                          /> : "S/No"}
-
-                        </th>
-                        <th>ID</th>
+                        <th>S/No</th>
+                        <th>Session</th>
                         <th>Class</th>
                         <th>Form Teacher</th>
+                        <th>Exam Score</th>
+                        <th>Assesment</th>
+                        <th>Pass mark</th>
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {itemList.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="">
-                            {showCheckBoxes ? (
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-
-                                checked={item.isChecked || false}
-                                onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.lookupId, itemList);
-                                }}
-                              />
-                            ) : (
-                                idx + 1
-                            )}
-                          </td>
-                          <td>{item.sessionId}</td>
-                          <td>{item.startDate}</td>
-                          <td>
-                            {item.endDate}
-                          </td>
+                          <td className="">{idx + 1}</td>
+                          <td>{item.session}</td>
+                          <td>{item.class}</td>
+                          <td>{item.formTeacher}</td>
+                          <td>{item.examScore}</td>
+                          <td>{item.assessmentScore}</td>
+                          <td>{item.passMark}</td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
-                              <a
-                                onClick={() => {
-                                  fetchSingleItem(item.sessionId)(dispatch)
-                                  history.push(classLocations.sessionClassEdit);
-                                }
-                                }
+                              <Link
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionId}`}
+                                to={`${classLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -305,8 +173,7 @@ const SessionClassList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </a>{" "}
-
+                              </Link>{" "}
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -314,12 +181,11 @@ const SessionClassList = () => {
                                 title=""
                                 data-original-title="Delete"
                                 to="#"
-                                data-id={item.lookupId}
+                                data-id={item.sessionClassId}
                                 onClick={() => {
-                                  dispatch(pushId(item.lookupId))
-                                  showSingleDeleteDialog(true)(dispatch)
-                                }
-                                }
+                                  dispatch(pushSessionClassId(item.sessionClassId));
+                                  showSingleDeleteDialog(true)(dispatch);
+                                }}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -353,7 +219,6 @@ const SessionClassList = () => {
                                   </svg>
                                 </span>
                               </Link>
-
                             </div>
                           </td>
                         </tr>

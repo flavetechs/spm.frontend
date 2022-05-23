@@ -27,7 +27,6 @@ export const fetchSingleItem = (sessionId) => dispatch => {
         type: actions.GET_SINGLE_ITEM,
         payload: sessionId
     });
-
 }
 
 
@@ -43,7 +42,7 @@ export const getAllSession = () => (dispatch) => {
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
                 payload: res.data.result
-        })
+            })
         }).catch((err) => {
             console.log('getall class err: ', err)
             dispatch({
@@ -93,7 +92,6 @@ export const deleteSession = (session) => (dispatch) => {
             getAllSession()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('delete session err: ', err)
             dispatch({
                 type: actions.DELETE_SESSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -103,13 +101,12 @@ export const deleteSession = (session) => (dispatch) => {
 }
 
 
-
 export const updateSession = (updatedSession) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SESSION_LOADING
     });
-    
-    axiosInstance.post('/session/api/v1/delete', updatedSession)
+
+    axiosInstance.post('', updatedSession)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SESSION_SUCCESS,
@@ -122,5 +119,24 @@ export const updateSession = (updatedSession) => (dispatch) => {
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const getActiveSession = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ACTIVE_SESSION_LOADING
+    });
+
+    axiosInstance.get('/session/api/v1/get-active')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_SESSION_SUCCESS,
+                payload: res.data.result
+        })
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_ACTIVE_SESSION_FAILED,
+                payload: err.data.result
+            })
         });
 }
