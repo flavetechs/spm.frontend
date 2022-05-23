@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { showErrorToast } from "../../store/actions/toaster-actions";
-import { fetchSingleSessionClass } from "../../store/actions/class-actions";
+import { fetchSingleSessionClass, getAllActiveSubjects } from "../../store/actions/class-actions";
 import { getAllStudents } from "../../store/actions/student-actions";
 
 const SessionClassDetails = () => {
@@ -28,6 +28,7 @@ const SessionClassDetails = () => {
     if (!sessionClassId) return;
     fetchSingleSessionClass(sessionClassId)(dispatch);
     getAllStudents()(dispatch);
+    getAllActiveSubjects()(dispatch);
   }, []);
 
   console.log("selectedItem", studentList);
@@ -125,7 +126,7 @@ const SessionClassDetails = () => {
                         {studentList.map((student, idx)=>
                       <tr key={idx}>
                         <td>{student.firstName}{" "}{student.lastName}</td>
-                        <td>yre</td>
+                        <td>{student.registrationNumber}</td>
                       </tr>
                       )}
                     </tbody>
