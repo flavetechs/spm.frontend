@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,11 +13,12 @@ import avatars3 from "../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
-import { getAllActiveClasses } from "../../store/actions/class-actions";
+import { getAllSessionClasses } from "../../store/actions/class-actions";
 const StudentAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
+  const [image, setImage] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -39,22 +40,29 @@ const StudentAdd = () => {
       .min(2, "Number Too Short!")
       .required("Parent/Guardian phone number is required"),
     parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    sessionClassId: Yup.string().required("Class name is required"),
   });
   //VALIDATIONS SCHEMA
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { isSuccessful, message } = state.student;
-  const { activeClasses } = state.class;
+  const { itemList } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllActiveClasses()(dispatch);
+    getAllSessionClasses()(dispatch);
   }, []);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
   }
+
+  const ImageDisplay = (event) => {
+    if (event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
 
   return (
     <>
@@ -78,10 +86,12 @@ const StudentAdd = () => {
           countryId: "",
           zipCode: "",
           photo: "",
+          sessionClassId: "",
         }}
         validationSchema={validation}
         onSubmit={(values) => {
           // values.dob=values.dob.replace("-","/");
+          console.log("values", values);
           createStudent(values)(dispatch);
         }}
       >
@@ -107,36 +117,47 @@ const StudentAdd = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-                        <img
-                          src={avatars1}
-                          alt="User-Profile"
-                          className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars2}
-                          alt="User-Profile"
-                          className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars3}
-                          alt="User-Profile"
-                          className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars5}
-                          alt="User-Profile"
-                          className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars6}
-                          alt="User-Profile"
-                          className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars4}
-                          alt="User-Profile"
-                          className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
+                        {!image ? (
+                          <div>
+                            <img
+                              src={avatars1}
+                              alt="User-Profile"
+                              className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars2}
+                              alt="User-Profile"
+                              className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars3}
+                              alt="User-Profile"
+                              className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars5}
+                              alt="User-Profile"
+                              className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars6}
+                              alt="User-Profile"
+                              className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars4}
+                              alt="User-Profile"
+                              className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />{" "}
+                          </div>
+                        ) : (
+                          <img
+                            className=" img-fluid avatar avatar-100 avatar-rounded-100"
+                            id="displayImg"
+                            src={image}
+                            alt="profile image"
+                          />
+                        )}
                         <div className="upload-icone bg-primary">
                           <label htmlFor="photo">
                             <svg
@@ -161,9 +182,10 @@ const StudentAdd = () => {
                               data-original-title="upload photos"
                               onChange={(event) => {
                                 setFieldValue(
-                                  "file",
+                                  "photo",
                                   event.currentTarget.files[0]
                                 );
+                                ImageDisplay(event);
                               }}
                             />
                           </label>
@@ -171,16 +193,8 @@ const StudentAdd = () => {
                       </div>
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
-                          <span>Only</span>{" "}
-                          <a href="#">
-                            .jpg
-                          </a>{" "}
-                          <a href="#">
-                            .png
-                          </a>{" "}
-                          <a href="#">
-                            .jpeg
-                          </a>
+                          <span>Only</span> <a href="#">.jpg</a>{" "}
+                          <a href="#">.png</a> <a href="#">.jpeg</a>
                           <span> allowed</span>
                         </div>
                       </div>
@@ -203,6 +217,38 @@ const StudentAdd = () => {
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <div className="row">
+                      <Row>
+                          <div className="col-md-12">
+                            {touched.sessionClassId && errors.sessionClassId && (
+                              <div className="text-danger">{errors.sessionClassId}</div>
+                            )}
+                          </div>
+                        </Row>
+                        <div className="col-md-12  form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="sessionClassId"
+                          >
+                            Class:
+                          </label>
+                          <Field
+                            as="select"
+                            name="sessionClassId"
+                            className="form-select"
+                            id="sessionClassId"
+                          >
+                            <option value="Select Class">Select Class</option>
+                            {itemList.map((item, idx) => (
+                              <option
+                                key={idx}
+                                name={values.sessionClassId}
+                                value={item.sessionClassId}
+                              >
+                                {item.class}
+                              </option>
+                            ))}
+                          </Field>
+                        </div>
                         <Row>
                           <div className="col-md-6">
                             {touched.firstName && errors.firstName && (
@@ -295,13 +341,13 @@ const StudentAdd = () => {
                           />
                         </div>
                         <Row>
-                          <div className="col-md-12">
+                          <div className="col-md-6">
                             {touched.email && errors.email && (
                               <div className="text-danger">{errors.email}</div>
                             )}
                           </div>
                         </Row>
-                        <div className="col-md-12 form-group">
+                        <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="email">
                             Email Address:
                           </label>
@@ -310,18 +356,6 @@ const StudentAdd = () => {
                             type="email"
                             id="email"
                             name="email"
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="col-sm-12 form-group">
-                          <label htmlFor="homeAddress" className="form-label">
-                            Home Address:
-                          </label>
-                          <Field
-                            placeholder="Home Address"
-                            type="text"
-                            id="homeAddress"
-                            name="homeAddress"
                             className="form-control"
                           />
                         </div>
@@ -337,28 +371,19 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-6  form-group">
-                          <label className="form-label" htmlFor="classId">
-                            Class:
+                        <div className="col-sm-12 form-group">
+                          <label htmlFor="homeAddress" className="form-label">
+                            Home Address:
                           </label>
                           <Field
-                            as="select"
-                            name="classId"
-                            className="form-select"
-                            id="classId"
-                          >
-                            <option value="Select Class">Select Class</option>
-                            {activeClasses.map((item, idx) => (
-                              <option
-                                key={idx}
-                                name={values.classId}
-                                value={item.lookupId}
-                              >
-                                {item.name}
-                              </option>
-                            ))}
-                          </Field>
+                            placeholder="Home Address"
+                            type="text"
+                            id="homeAddress"
+                            name="homeAddress"
+                            className="form-control"
+                          />
                         </div>
+
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="cityId">
                             City:

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,12 +16,13 @@ import avatars3 from "../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
-import { getAllActiveClasses } from "../../store/actions/class-actions";
+import { getAllSessionClasses } from "../../store/actions/class-actions";
 const StudentEdit = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
+  const [image, setImage] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -43,13 +44,14 @@ const StudentEdit = () => {
       .min(2, "Number Too Short!")
       .required("Parent/Guardian phone number is required"),
     parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    sessionClassId: Yup.string().required("Class name is required"),
   });
   //VALIDATIONS SCHEMA
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedStudent, isSuccessful, message } = state.student;
-  const { activeClasses } = state.class;
+  const { itemList } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -60,13 +62,17 @@ const StudentEdit = () => {
   }, []);
 
   React.useEffect(() => {
-    getAllActiveClasses()(dispatch);
+    getAllSessionClasses()(dispatch);
   }, []);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
   }
-  
+  const ImageDisplay = (event) => {
+    if (event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
   return (
     <>
       <Formik
@@ -78,11 +84,12 @@ const StudentEdit = () => {
           middleName: selectedStudent?.middleName,
           phone: selectedStudent?.phone,
           dob: selectedStudent?.dob,
-          email:  "notyet@gmail.com",//selectedStudent?.email,
+          email: selectedStudent?.userName,
           homePhone: selectedStudent?.homePhone,
           emergencyPhone: selectedStudent?.emergencyPhone,
           parentOrGuardianName: selectedStudent?.parentOrGuardianName,
-          parentOrGuardianRelationship:selectedStudent?.parentOrGuardianRelationship,
+          parentOrGuardianRelationship:
+            selectedStudent?.parentOrGuardianRelationship,
           parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone,
           parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail,
           homeAddress: selectedStudent?.homeAddress,
@@ -91,11 +98,12 @@ const StudentEdit = () => {
           countryId: selectedStudent?.countryId,
           zipCode: selectedStudent?.zipCode,
           photo: selectedStudent?.photo,
+          sessionClassId: selectedStudent?.sessionClassId,
         }}
         validationSchema={validation}
         onSubmit={(values) => {
           //values.dob=values.dob.replace("-","/");
-          //values.email = values.email;
+          console.log("values", values);
           updateStudent(values)(dispatch);
         }}
         enableReinitialize={true}
@@ -122,36 +130,47 @@ const StudentEdit = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-                        <img
-                          src={avatars1}
-                          alt="User-Profile"
-                          className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars2}
-                          alt="User-Profile"
-                          className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars3}
-                          alt="User-Profile"
-                          className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars5}
-                          alt="User-Profile"
-                          className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars6}
-                          alt="User-Profile"
-                          className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
-                        <img
-                          src={avatars4}
-                          alt="User-Profile"
-                          className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                        />
+                        {!image ? (
+                          <div>
+                            <img
+                              src={avatars1}
+                              alt="User-Profile"
+                              className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars2}
+                              alt="User-Profile"
+                              className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars3}
+                              alt="User-Profile"
+                              className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars5}
+                              alt="User-Profile"
+                              className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars6}
+                              alt="User-Profile"
+                              className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />
+                            <img
+                              src={avatars4}
+                              alt="User-Profile"
+                              className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            />{" "}
+                          </div>
+                        ) : (
+                          <img
+                            className=" img-fluid avatar avatar-100 avatar-rounded-100"
+                            id="displayImg"
+                            src={image}
+                            alt="profile image"
+                          />
+                        )}
                         <div className="upload-icone bg-primary">
                           <label htmlFor="photo">
                             <svg
@@ -174,12 +193,12 @@ const StudentEdit = () => {
                               accept="image/jpeg,image/jpg,image/png"
                               className="file-upload form-control"
                               data-original-title="upload photos"
-                              defaultValue={selectedStudent?.photo}
                               onChange={(event) => {
                                 setFieldValue(
-                                  "file",
+                                  "photo",
                                   event.currentTarget.files[0]
-                                );
+                                ); 
+                                ImageDisplay(event);
                               }}
                             />
                           </label>
@@ -219,6 +238,38 @@ const StudentEdit = () => {
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <div className="row">
+                      <Row>
+                          <div className="col-md-12">
+                            {touched.sessionClassId && errors.sessionClassId && (
+                              <div className="text-danger">{errors.sessionClassId}</div>
+                            )}
+                          </div>
+                        </Row>
+                      <div className="col-md-12  form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="sessionClassId"
+                          >
+                            Class:
+                          </label>
+                          <Field
+                            as="select"
+                            name="sessionClassId"
+                            className="form-select"
+                            id="sessionClassId"
+                          >
+                            <option value="Select Class">Select Class</option>
+                            {itemList.map((item, idx) => (
+                              <option
+                                key={idx}
+                                name={values.sessionClassId}
+                                value={item.sessionClassId}
+                              >
+                                {item.class}
+                              </option>
+                            ))}
+                          </Field>
+                        </div>
                         <Row>
                           <div className="col-md-6">
                             {touched.firstName && errors.firstName && (
@@ -305,13 +356,13 @@ const StudentEdit = () => {
                           />
                         </div>
                         <Row>
-                          <div className="col-md-12">
+                          <div className="col-md-6">
                             {touched.email && errors.email && (
                               <div className="text-danger">{errors.email}</div>
                             )}
                           </div>
                         </Row>
-                        <div className="col-md-12 form-group">
+                        <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="email">
                             Email Address:
                           </label>
@@ -319,17 +370,6 @@ const StudentEdit = () => {
                             type="email"
                             id="email"
                             name="email"
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="col-sm-12 form-group">
-                          <label htmlFor="homeAddress" className="form-label">
-                            Home Address:
-                          </label>
-                          <Field
-                            type="text"
-                            id="homeAddress"
-                            name="homeAddress"
                             className="form-control"
                           />
                         </div>
@@ -344,27 +384,18 @@ const StudentEdit = () => {
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-6  form-group">
-                          <label className="form-label" htmlFor="classId">
-                            Class:
+                        <div className="col-sm-12 form-group">
+                          <label htmlFor="homeAddress" className="form-label">
+                            Home Address:
                           </label>
                           <Field
-                            as="select"
-                            // name="classId"
-                            className="form-select"
-                            id="classId"
-                          >
-                            {activeClasses.map((item, idx) => (
-                              <option
-                                key={idx}
-                                name={values.classId}
-                                value={item.lookupId}
-                              >
-                                {item.name}
-                              </option>
-                            ))}
-                          </Field>
+                            type="text"
+                            id="homeAddress"
+                            name="homeAddress"
+                            className="form-control"
+                          />
                         </div>
+    
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="cityId">
                             City:
