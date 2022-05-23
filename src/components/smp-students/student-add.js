@@ -185,12 +185,13 @@ const StudentAdd = () => {
                           </label>
                         </div>
                       </div>
+                      {image?
                       <img
                             className=" img-fluid avatar avatar-100 avatar-rounded-100"
                             id="displayImg"
                             src={image}
-                            alt="."
-                          />
+                            alt="profile image"
+                          />: null}
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
                           <span>Only</span> <a href="#">.jpg</a>{" "}
