@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Row, Col, Image, Form, Button } from 'react-bootstrap'
 // import Card from '../../../components/Card'
 import Card from '../Card'
@@ -25,6 +25,8 @@ const StaffEdit = () => {
    const history = useHistory();
    const dispatch = useDispatch();
    const locations = useLocation();
+   const [images, setImages] = useState([])
+   const [imageURLs, setImageURLs] = useState([])
    //VARIABLE DECLARATIONS
 
    //VALIDATIONS SCHEMA
@@ -59,6 +61,17 @@ const StaffEdit = () => {
 
    if (isSuccessful) {
       history.push(staffLocations.staffList);
+   }
+
+   React.useEffect(() => {
+      if(images.length < 1) return;
+      const newImageUrls = [];
+      images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
+      setImageURLs(newImageUrls)
+   }, [images])
+
+   function onImageChanges(e) {
+      setImages([...e.target.files])
    }
 
    return (
@@ -113,9 +126,7 @@ const StaffEdit = () => {
                                           <svg className="upload-button" width="14" height="14" viewBox="0 0 24 24">
                                              <path fill="#ffffff" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
                                           </svg>
-                                          {/* <Form.Label  className="custom-file-input">Choose file</Form.Label> */}
-                                          {/* <Form.Control  type="file" id="customFile1" name='photo'/> */}
-                                          {/* <Form.Control id="customFile1" className="file-upload" type="file" accept="image/*" /> */}
+               
                                        </div>
                                     </div>
                                     <div className="img-extension mt-3">
@@ -125,7 +136,13 @@ const StaffEdit = () => {
                                           <Link to="#">.png</Link>{' '}
                                           <Link to="#">.jpeg</Link>{' '}
                                           <span>allowed</span>
-                                          <Form.Control type="file" id="customFile1" name='photo' />
+                                          {/* <Form.Control type="file" id="customFile1" name='photo' /> */}
+                                          <Field type="file" id="customFile1" name='photo'  onChange={onImageChanges}/>
+                                          {imageURLs.map((imageSrc, index) => {
+                                             return (
+                                                <img key={index} src={imageSrc} style={{ width: 350, height:300, borderRadius: 10, marginTop: 15}}/>
+                                             )
+                                          })}
                                        </div>
                                     </div>
                                  </Form.Group>

@@ -59,25 +59,25 @@ const StaffList = () => {
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
-  const checkSingleItem = (isChecked, teacherAccountId, stafflists) => {
+  const checkSingleItem = (isChecked, teacherUserAccountId, stafflists) => {
     stafflists.forEach(item => {
-      if (item.teacherAccountId === teacherAccountId) {
+      if (item.teacherUserAccountId === teacherUserAccountId) {
         item.isChecked = isChecked
       }
     });
     if (isChecked) {
-      dispatch(pushId(teacherAccountId));
+      dispatch(pushId(teacherUserAccountId));
     } else {
-      dispatch(removeId(teacherAccountId));
+      dispatch(removeId(teacherUserAccountId));
     }
   }
   const checkAllItems = (isChecked, stafflists) => {
     stafflists.forEach(item => {
       item.isChecked = isChecked
       if (item.isChecked) {
-        dispatch(pushId(item.teacherAccountId))
+        dispatch(pushId(item.teacherUserAccountId))
       } else {
-        dispatch(removeId(item.teacherAccountId))
+        dispatch(removeId(item.teacherUserAccountId))
       }
     });
     returnList(stafflists)(dispatch)
@@ -248,7 +248,7 @@ const StaffList = () => {
 
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.teacherAccountId, staffList);
+                                  checkSingleItem(e.target.checked, item.teacherUserAccountId, staffList);
                                 }}
                               />
                             ) : (
