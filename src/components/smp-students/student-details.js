@@ -13,7 +13,7 @@ import avatars3 from "../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
-import { getAllActiveClasses } from "../../store/actions/class-actions";
+import { getAllSessionClasses } from "../../store/actions/class-actions";
 
 const StudentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -35,7 +35,7 @@ const StudentDetails = () => {
   }, []);
 
   React.useEffect(() => {
-    getAllActiveClasses()(dispatch);
+    getAllSessionClasses()(dispatch);
   }, []);
 
 
@@ -107,6 +107,9 @@ const StudentDetails = () => {
                 <Form>
                   {message && <div className="text-danger">{message}</div>}
                   <div className="row">
+                  <div className="col-md-12  form-group">
+                      <p>Class: {selectedStudent?.sessionClass}</p>
+                    </div>
                     <div className="col-md-6 form-group">
                       <p>First Name: {selectedStudent?.firstName}</p>
                     </div>
@@ -131,14 +134,11 @@ const StudentDetails = () => {
                     <div className="col-md-6 form-group">
                       <p>Email Address: {selectedStudent?.userName}</p>
                     </div>
-                    <div className="col-sm-6 form-group">
-                      <p>Home Address: {selectedStudent?.homeAddress}</p>
-                    </div>
                     <div className="col-md-6  form-group">
                       <p>Date Of Birth: {selectedStudent?.dob}</p>
                     </div>
-                    <div className="col-md-6  form-group">
-                      <p>Class: {selectedStudent?.classId}</p>
+                    <div className="col-sm-6 form-group">
+                      <p>Home Address: {selectedStudent?.homeAddress}</p>
                     </div>
                     <div className="col-md-6  form-group">
                       <p>City: {selectedStudent?.cityId}</p>

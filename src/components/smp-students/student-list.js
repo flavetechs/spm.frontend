@@ -227,6 +227,7 @@ const StudentList = () => {
                           ) : "S/No"}
                         </th>
                         <th>Full Name</th>
+                        <th>Session Class</th>
                         <th>Registration No</th>
                         <th min-width="100px">Action</th>
                       </tr>
@@ -253,6 +254,7 @@ const StudentList = () => {
                             {student.firstName}{" "}{student.middleName}{" "}
                             {student.lastName}
                           </td>
+                          <td>{student.sessionClass}</td>
                           <td>{student.registrationNumber}</td>
 
                           <td>

@@ -68,11 +68,6 @@ const DashboardRouter = () => {
                     <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
                     <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
 
-                     {/* staff */}
-                     <Route path={staffLocations.staffList} exact component={StaffList} />
-                    <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
-                    <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
-
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
