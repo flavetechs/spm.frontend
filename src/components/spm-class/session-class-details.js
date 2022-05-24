@@ -11,7 +11,7 @@ import {
   fetchSingleSessionClass,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  updateSessionClass,
+  getAllClassStudents,
 } from "../../store/actions/class-actions";
 import { getAllStudents } from "../../store/actions/student-actions";
 
@@ -43,6 +43,7 @@ const SessionClassDetails = () => {
     getAllStudents()(dispatch);
     getAllActiveSubjects()(dispatch);
     getAllActiveTeachers()(dispatch);
+    getAllClassStudents()(dispatch);
   }, []);
 
   const subjectInClass = activeSubjects.filter((activeSubject) => {
