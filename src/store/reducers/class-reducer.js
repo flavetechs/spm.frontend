@@ -404,7 +404,7 @@ case actions.PUSH_CLASS_SUBJECT_ID:
  case actions.PUSH_SESSION_CLASS_ID:
       return {
         ...state,
-        selectedSessionId: payload
+        selectedIds: [payload]
       }
 
     default:

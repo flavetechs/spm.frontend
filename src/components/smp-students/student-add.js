@@ -383,7 +383,6 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
-
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="cityId">
                             City:

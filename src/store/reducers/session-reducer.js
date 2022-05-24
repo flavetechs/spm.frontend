@@ -77,21 +77,21 @@ export const sessionReducer = (state = _state, { type, payload }) => {
               message: ''
             };
       
-          case actions.UPDATE_SESSION_LOADING:
+    case actions.UPDATE_SESSION_LOADING:
             return {
               ...state,
               loading: true,
               isSuccessful: false,
               message: ''
             };
-          case actions.UPDATE_SESSION_SUCCESS:
+    case actions.UPDATE_SESSION_SUCCESS:
             return {
               ...state,
-              isSuccessful: true,
               loading: false,
-              message: payload
+              message: payload,
+              isSuccessful: true
             };
-          case actions.UPDATE_SESSION_FAILED:
+    case actions.UPDATE_SESSION_FAILED:
             return {
               ...state,
               loading: false,
@@ -155,4 +155,3 @@ function filterSelectedIds(arr, value) {
       return ele !== value;
     });
   }
-  

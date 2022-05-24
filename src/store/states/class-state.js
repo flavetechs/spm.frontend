@@ -4,7 +4,6 @@ export const _state = {
   activeTeachers: [],
 
   selectedIds: [],
-  selectedSessionId:'',
   selectedItem: null,
   message: "",
   isSuccessful: false,

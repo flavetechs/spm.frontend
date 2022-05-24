@@ -10,7 +10,7 @@ import Card from '../Card'
 //   deleteSessionClass,
 //   fetchSingleItem,
 // } from "../../store/actions/class-actions";
-import { deleteSession, getAllSession, pushId, removeId, returnList } from '../../store/actions/session-actions';
+import { deleteSession, fetchSingleItem, getAllSession, pushId, removeId, returnList } from '../../store/actions/session-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
@@ -145,8 +145,6 @@ const SessionList = () => {
                                     }>
                                       <Link to="#" className="iq-media-1">
                                         <div className={" icon iq-icon-box-3 rounded-pill text-white bg-success"}>{term.termName}</div>
-
-
                                       </Link>
                                     </OverlayTrigger>
                                   )
@@ -159,8 +157,6 @@ const SessionList = () => {
                                     }>
                                       <Link to="#" className="iq-media-1" key={idx} >
                                         <div className={" icon iq-icon-box-3 rounded-pill text-white bg-primary"}>{term.termName}</div>
-
-
                                       </Link>
                                     </OverlayTrigger>
                                   )
@@ -172,6 +168,8 @@ const SessionList = () => {
                           <td>{item.isActive ? <span className="badge bg-success">Isactive</span> : <span className="badge bg-primary">inactive</span>}</td>
                           <td>
                             <div className="flex align-items-center list-user-action">
+                         
+
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
