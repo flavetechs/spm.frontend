@@ -88,37 +88,6 @@ const SessionClassDetails = () => {
                     </tbody>
                   </Table>
                 </div>
-                {/* <div className="d-flex pt-3">
-                        <div className="py-3">
-                          <h6
-                            style={{ cursor: "pointer" }}
-                            onClick={() => setDisplayStudentsTable(false)}
-                          >
-                            Subjects in class
-                          </h6>
-                          {!displayStudentsTable ? (
-                            <div
-                              className="border-primary"
-                              style={{ border: "1px solid" }}
-                            ></div>
-                          ) : null}
-                        </div>
-                        <div className="py-3 mx-4">
-                          <h6
-                            style={{ cursor: "pointer" }}
-                            onClick={() => setDisplayStudentsTable(true)}
-                          >
-                            Students in class
-                          </h6>
-                          {displayStudentsTable ? (
-                            <div
-                              className="border-primary"
-                              style={{ border: "1px solid" }}
-                            ></div>
-                          ) : null}
-                        </div>
-                      </div>
-                      {!displayStudentsTable ? ( */}
                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                   <li className="nav-item" role="presentation">
                     <button
