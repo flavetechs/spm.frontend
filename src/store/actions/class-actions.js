@@ -407,7 +407,7 @@ export const getAllActiveTeachers = () => (dispatch) => {
 //GET ACTIVE SUBJECT ACTION  HANDLER
 export const getAllActiveSubjects = () => (dispatch) => {
     dispatch({
-        type: actions.FETCH_ACTIVE_SUBJECTS_LOADING
+        type: actions.FETCH_ACTIVE_SUBJECTS_LOADING,
     });
 
     axiosInstance.get('/subject/api/v1/getall/active-subject')
@@ -416,7 +416,7 @@ export const getAllActiveSubjects = () => (dispatch) => {
                 type: actions.FETCH_ACTIVE_SUBJECTS_SUCCESS,
                 payload: res.data.result
             });
-        }).catch(err => {
+        }).catch((err) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SUBJECTS_FAILED,
                 payload: err.response.data.result
