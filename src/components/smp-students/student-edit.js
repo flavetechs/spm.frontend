@@ -73,6 +73,7 @@ const StudentEdit = () => {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
   };
+  
   return (
     <>
       <Formik
@@ -98,11 +99,10 @@ const StudentEdit = () => {
           countryId: selectedStudent?.countryId,
           zipCode: selectedStudent?.zipCode,
           //photo: selectedStudent?.photo,
-          sessionClassId: selectedStudent?.sessionClassId,
+          sessionClassId: selectedStudent?.sessionClassID,
         }}
         validationSchema={validation}
         onSubmit={(values) => {
-          console.log("values", values);
           updateStudent(values)(dispatch);
         }}
         enableReinitialize={true}
@@ -256,11 +256,10 @@ const StudentEdit = () => {
                             className="form-select"
                             id="sessionClassId"
                           >
-                            <option value="Select Class">Select Class</option>
+                            <option value="">pick</option>
                             {itemList.map((item, idx) => (
                               <option
                                 key={idx}
-                                name={values.sessionClassId}
                                 value={item.sessionClassId}
                               >
                                 {item.class}
@@ -382,27 +381,6 @@ const StudentEdit = () => {
                             className="form-control"
                           />
                         </div>
-
-                        <div className="bd-example">
-    <div className="input-group">
-        <input type="text" className="form-control vanila-datepicker" placeholder="Date Picker"/>
-    </div>
-</div>  
-<div className="bd-example">
-    <div className="form-group vanila-daterangepicker d-flex flex-row">
-        <input type="text" name="start" className="form-control" placeholder="From Date"/>
-        <span className="flex-grow-0">
-            <span className="btn">To</span>
-        </span>
-        <input type="text" name="end" className="form-control" placeholder="From Date"/>
-    </div>
-</div>
-<div className="bd-example">
-    <div className="input-group">
-        <div className="vanila-datepicker"></div>
-    </div>
-</div>
-
 
                         <div className="col-sm-12 form-group">
                           <label htmlFor="homeAddress" className="form-label">

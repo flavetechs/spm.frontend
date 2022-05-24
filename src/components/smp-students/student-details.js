@@ -108,7 +108,7 @@ const StudentDetails = () => {
                   {message && <div className="text-danger">{message}</div>}
                   <div className="row">
                   <div className="col-md-12  form-group">
-                      <p>Class: {selectedStudent?.sessionClassId}</p>
+                      <p>Class: {selectedStudent?.sessionClass}</p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>First Name: {selectedStudent?.firstName}</p>
