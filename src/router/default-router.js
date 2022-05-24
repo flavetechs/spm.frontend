@@ -55,7 +55,7 @@ const DashboardRouter = () => {
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
-                    <Route path={sessionLocations.sessionEdit} exact component={SessionEdit} />
+                    {/* <Route path={sessionLocations.sessionEdit} exact component={SessionEdit} /> */}
 
                     {/* students */}
                     <Route path={studentsLocations.studentList} exact component={StudentList} />

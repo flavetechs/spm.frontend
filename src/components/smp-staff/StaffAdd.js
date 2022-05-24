@@ -68,8 +68,6 @@ const StaffAdd = () => {
       setImages([...e.target.files])
    }
    
-
-
    return (
       <>
          <div>
