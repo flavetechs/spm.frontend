@@ -10,4 +10,5 @@ export const _state = {
   activeSubjects: [],
   activeClasses: [],
   classSubjects: [],
+  classStudents: null,
 };
