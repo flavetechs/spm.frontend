@@ -97,12 +97,11 @@ const StudentEdit = () => {
           stateId: selectedStudent?.stateId,
           countryId: selectedStudent?.countryId,
           zipCode: selectedStudent?.zipCode,
-          photo: selectedStudent?.photo,
+          //photo: selectedStudent?.photo,
           sessionClassId: selectedStudent?.sessionClassId,
         }}
         validationSchema={validation}
         onSubmit={(values) => {
-          //values.dob=values.dob.replace("-","/");
           console.log("values", values);
           updateStudent(values)(dispatch);
         }}
@@ -130,7 +129,6 @@ const StudentEdit = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-                        {!image ? (
                           <div>
                             <img
                               src={avatars1}
@@ -163,14 +161,7 @@ const StudentEdit = () => {
                               className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
                             />{" "}
                           </div>
-                        ) : (
-                          <img
-                            className=" img-fluid avatar avatar-100 avatar-rounded-100"
-                            id="displayImg"
-                            src={image}
-                            alt="profile image"
-                          />
-                        )}
+                        
                         <div className="upload-icone bg-primary">
                           <label htmlFor="photo">
                             <svg
@@ -219,6 +210,13 @@ const StudentEdit = () => {
                           <span> allowed</span>
                         </div>
                       </div>
+                      {image?
+                      <img
+                            className=" img-fluid mt-4"
+                            id="displayImg"
+                            src={image}
+                            alt="profile image"
+                          />: null}
                     </div>
                   </Form>
                 </div>
@@ -384,6 +382,28 @@ const StudentEdit = () => {
                             className="form-control"
                           />
                         </div>
+
+                        <div className="bd-example">
+    <div className="input-group">
+        <input type="text" className="form-control vanila-datepicker" placeholder="Date Picker"/>
+    </div>
+</div>  
+<div className="bd-example">
+    <div className="form-group vanila-daterangepicker d-flex flex-row">
+        <input type="text" name="start" className="form-control" placeholder="From Date"/>
+        <span className="flex-grow-0">
+            <span className="btn">To</span>
+        </span>
+        <input type="text" name="end" className="form-control" placeholder="From Date"/>
+    </div>
+</div>
+<div className="bd-example">
+    <div className="input-group">
+        <div className="vanila-datepicker"></div>
+    </div>
+</div>
+
+
                         <div className="col-sm-12 form-group">
                           <label htmlFor="homeAddress" className="form-label">
                             Home Address:

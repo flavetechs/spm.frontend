@@ -85,12 +85,11 @@ const StudentAdd = () => {
           stateId: "",
           countryId: "",
           zipCode: "",
-          photo: "",
+          //photo: "",
           sessionClassId: "",
         }}
         validationSchema={validation}
         onSubmit={(values) => {
-          // values.dob=values.dob.replace("-","/");
           console.log("values", values);
           createStudent(values)(dispatch);
         }}
@@ -185,13 +184,6 @@ const StudentAdd = () => {
                           </label>
                         </div>
                       </div>
-                      {image?
-                      <img
-                            className=" img-fluid avatar avatar-100 avatar-rounded-100"
-                            id="displayImg"
-                            src={image}
-                            alt="profile image"
-                          />: null}
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
                           <span>Only</span> <a href="#">.jpg</a>{" "}
@@ -199,6 +191,13 @@ const StudentAdd = () => {
                           <span> allowed</span>
                         </div>
                       </div>
+                      {image?
+                      <img
+                            className=" img-fluid mt-4"
+                            id="displayImg"
+                            src={image}
+                            alt="profile image"
+                          />: null}
                     </div>
                   </Form>
                 </div>
