@@ -43,3 +43,8 @@ export const studentsLocations = {
   studentEdit: "/dashboard/smp-student/edit-student",
   studentDetails: "/dashboard/smp-student/student-details",
 };
+
+export const enrollment = {
+  enrolledStudents: "/dashboard/smp-enrollment/enrollment",
+  unenrolledStudents: "/dashboard/smp-enrollment/unenrollment",
+}
