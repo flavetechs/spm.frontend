@@ -22,6 +22,7 @@ export const classLocations = {
   sessionClassList: "/dashboard/smp-class/session-class",
   sessionClassEdit: "/dashboard/smp-class/edit-session-class",
   sessionClassAdd: "/dashboard/smp-class/add-session-class",
+  sessionClassDetail: "/dashboard/smp-class/details",
 };
 
 export const sessionLocations = {
