@@ -22,11 +22,23 @@ export const returnList = (items) => (dispatch) => {
     })
 }
 
-export const fetchSingleItem = (sessionId) => dispatch => {
+
+export const fetchSingleSession = (sessionId) => dispatch => {
     dispatch({
-        type: actions.GET_SINGLE_ITEM,
-        payload: sessionId
+        type: actions.FETCH_SINGLE_SESSION_LOADING,
     });
+        axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_SESSION_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch(err => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_SESSION_FAILED,
+                    payload: err.response.data.result
+                })
+            });
 }
 
 
@@ -38,13 +50,13 @@ export const getAllSession = () => (dispatch) => {
 
     axiosInstance.get('session/api/v1/getall')
         .then((res) => {
-            console.log('getall class res: ', res)
+            console.log('getall session res: ', res)
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
                 payload: res.data.result
             })
         }).catch((err) => {
-            console.log('getall class err: ', err)
+            console.log('getall session err: ', err)
             dispatch({
                 type: actions.FETCH_SESSION_FAILED,
                 payload: err.data.result

@@ -4,101 +4,95 @@ import { _state } from "../states/session-state";
 export const sessionReducer = (state = _state, { type, payload }) => {
   switch (type) {
 
-    case actions.GET_SINGLE_ITEM: {
-        const selectedItem = state.sessionList.find(d => d.sessionId == payload);
-        if (selectedItem) {
-          return {
-            ...state,
-            selectedItem
-          }
-        }
+
+    case actions.PUSH_ITEM_ID:
+      return {
+        ...state,
+        selectedIds: [...state.selectedIds, payload]
       }
-      case actions.PUSH_ITEM_ID:
-        return {
-          ...state,
-          selectedIds: [...state.selectedIds, payload]
-        }
-      case actions.REMOVE_ITEM_ID:
-        var filteredIds = filterSelectedIds(state.selectedIds, payload)
-        return {
-          ...state,
-          selectedIds: filteredIds
-        }
-      case actions.RETURN_ITEM_LIST:
-        return {
-          ...state,
-          sessionList: payload,
-        };
+    case actions.REMOVE_ITEM_ID:
+      var filteredIds = filterSelectedIds(state.selectedIds, payload)
+      return {
+        ...state,
+        selectedIds: filteredIds
+      }
+    case actions.RETURN_ITEM_LIST:
+      return {
+        ...state,
+        sessionList: payload,
+      };
+
   
 
-        //SESSION FETCH
+
+    //SESSION FETCH
     case actions.FETCH_SESSION_LOADING:
-        return {
-            ...state,
-            loading: true,
-            message: '',
-            isSuccessful: false
-        };
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
 
     case actions.FETCH_SESSION_SUCCESS:
-        return {
-            ...state,
-            loading: false,
-            sessionList: payload,
-        };
+      return {
+        ...state,
+        loading: false,
+        sessionList: payload,
+      };
 
     case actions.FETCH_SESSION_FAILED:
-        return {
-            ...state,
-            loading: false,
-            isSuccessful: false,
-            message: payload
-        };
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload
+      };
 
     case actions.CREATE_SESSION_LOADING:
-            return {
-              ...state,
-              loading: true,
-              isSuccessful: false,
-              message: ''
-            };
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
     case actions.CREATE_SESSION_SUCCESS:
-            return {
-              ...state,
-              isSuccessful: true,
-              loading: false,
-              message: payload
-            };
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload
+      };
     case actions.CREATE_SESSION_FAILED:
-            return {
-              ...state,
-              isSuccessful: false,
-              loading: false,
-              message: ''
-            };
-      
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: ''
+      };
+
     case actions.UPDATE_SESSION_LOADING:
-            return {
-              ...state,
-              loading: true,
-              isSuccessful: false,
-              message: ''
-            };
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
     case actions.UPDATE_SESSION_SUCCESS:
-            return {
-              ...state,
-              loading: false,
-              message: payload,
-              isSuccessful: true
-            };
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: true
+      };
     case actions.UPDATE_SESSION_FAILED:
-            return {
-              ...state,
-              loading: false,
-              message: payload,
-              isSuccessful: false
-            };
-      
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
+
     case actions.DELETE_SESSION_LOADING:
       return {
         ...state,
@@ -121,20 +115,20 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-      case actions.FETCH_ACTIVE_SESSION_LOADING:
-        return {
-            ...state,
-            loading: true,
-            message: '',
-            isSuccessful: false
-        };
+    case actions.FETCH_ACTIVE_SESSION_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
 
     case actions.FETCH_ACTIVE_SESSION_SUCCESS:
-        return {
-            ...state,
-            loading: false,
-            activeSession: payload,
-        };
+      return {
+        ...state,
+        loading: false,
+        activeSession: payload,
+      };
 
     case actions.FETCH_ACTIVE_SESSION_FAILED:
       return {
@@ -142,16 +136,34 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         loading: false,
         isSuccessful: false,
         message: payload
-    };
+      };
 
-          //SESSION ACTION REDUCERS
+    case actions.FETCH_SINGLE_SESSION_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.FETCH_SINGLE_SESSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        selectedItem: payload,
+      };
+    case actions.FETCH_SINGLE_SESSION_FAILED:
+      return {
+        ...state,
+        loading: false,
+        selectedItem: null,
+      };
 
-        default:
-            return state;
-    }
+    //SESSION ACTION REDUCERS
+
+    default:
+      return state;
+  }
 }
 function filterSelectedIds(arr, value) {
-    return arr.filter(function (ele) {
-      return ele !== value;
-    });
-  }
+  return arr.filter(function (ele) {
+    return ele !== value;
+  });
+}

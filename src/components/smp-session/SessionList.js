@@ -2,14 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
-// import {
-//   getAllSessionClasses,
-//   pushId,
-//   removeId,
-//   returnList,
-//   deleteSessionClass,
-//   fetchSingleItem,
-// } from "../../store/actions/class-actions";
+
 import { deleteSession, fetchSingleItem, getAllSession, pushId, removeId, returnList } from '../../store/actions/session-actions';
 import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../router/spm-path-locations";
@@ -28,7 +21,7 @@ const SessionList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { sessionList, selectedIds } = state.session;
+  const { sessionList, selectedIds,selectedItem } = state.session;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -114,8 +107,8 @@ const SessionList = () => {
                           {showCheckBoxes ? null : "S/No"}
 
                         </th>
-                        <th>Principal</th>
                         <th>Session Year</th>
+                        <th>Principal</th>
                         <th>Terms</th>
                         <th>Status</th>
                         <th min-width="100px">Action</th>
@@ -130,8 +123,8 @@ const SessionList = () => {
                               idx + 1
                             )}
                           </td>
+                          <td><b>{item.startDate}/{item.endDate}</b></td>
                           <td>{item.headTeacherName}</td>
-                          <td>{item.startDate}/{item.endDate}</td>
                           <td>
                             <div className="iq-media-group iq-media-group-1">
                               {item.terms.map((term, idx) => {
@@ -168,7 +161,52 @@ const SessionList = () => {
                           <td>{item.isActive ? <span className="badge bg-success">Isactive</span> : <span className="badge bg-primary">inactive</span>}</td>
                           <td>
                             <div className="flex align-items-center list-user-action">
-                         
+                            <Link
+                                className="btn btn-sm btn-icon btn-success"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="Details"
+                                // onClick={() => {
+                                //   fetchSingleItem(item.sessionId)(dispatch)
+                                //   history.push(`${sessionLocations.sessionDetails}?sessionId=${item.sessionId}`);
+                                // }
+                                // }
+                                to={`${sessionLocations.sessionDetails}?sessionId=${item.sessionId}`}
+                              >
+                                <span className="btn-inner">
+                                    <svg
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9946 16V12"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9896 8.2041H11.9996"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                </span>
+                              </Link>{" "}
 
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
