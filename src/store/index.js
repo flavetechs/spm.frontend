@@ -22,6 +22,6 @@ export default createStore(
         session: sessionReducer,
         staff: staffReducer,
         student: studentReducer,
-        errollment: enrollmentReducer
+        enrollment: enrollmentReducer
     })
 )
