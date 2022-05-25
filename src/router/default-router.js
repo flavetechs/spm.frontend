@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment } from './spm-path-locations';
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
@@ -26,8 +26,10 @@ import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
 import StudentDetails from '../components/smp-students/student-details';
+import SessionDetails from '../components/smp-session/SessionDetails';
 import SessionEdit from '../components/smp-session/SessionEdit';
 import SessionClassDetails from '../components/spm-class/session-class-details';
+import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
 
 const DashboardRouter = () => {
 
@@ -59,6 +61,7 @@ const DashboardRouter = () => {
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
                     {/* <Route path={sessionLocations.sessionEdit} exact component={SessionEdit} /> */}
+                    <Route path={sessionLocations.sessionDetails} exact component={SessionDetails} />
 
                     {/* students */}
                     <Route path={studentsLocations.studentList} exact component={StudentList} />
@@ -70,6 +73,9 @@ const DashboardRouter = () => {
                      <Route path={staffLocations.staffList} exact component={StaffList} />
                     <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
                     <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
+
+                     {/* enrollment */}
+                     <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
 
                 </Switch>
             </CSSTransition>
