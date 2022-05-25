@@ -256,7 +256,6 @@ const StudentEdit = () => {
                             className="form-select"
                             id="sessionClassId"
                           >
-                            <option value="">pick</option>
                             {itemList.map((item, idx) => (
                               <option
                                 key={idx}

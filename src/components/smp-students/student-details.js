@@ -181,7 +181,7 @@ const StudentDetails = () => {
                       type="button"
                       variant="btn btn-danger mx-2"
                       onClick={() => {
-                        history.push(studentsLocations.studentList);
+                        history.goBack();
                       }}
                     >
                       Cancel
