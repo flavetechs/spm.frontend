@@ -8,4 +8,5 @@ export const _state = {
     selectedIds: [],
     selectedItem: null,
     activeSession: null,
+    terms: []
 }
