@@ -7,6 +7,5 @@ export const _state = {
     name: '',
     selectedIds: [],
     selectedItem: null,
-    activeSession: null,
-    terms: []
+    activeSession: null
 }
