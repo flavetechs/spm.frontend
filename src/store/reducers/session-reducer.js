@@ -138,7 +138,7 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         message: payload
       };
 
-    case actions.FETCH_SINGLE_SESSION_SUCCESS:
+    case actions.FETCH_SINGLE_SESSION_LOADING:
       return {
         ...state,
         loading: true,
@@ -148,7 +148,6 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         selectedItem: payload,
-        terms: payload.terms
       };
     case actions.FETCH_SINGLE_SESSION_FAILED:
       return {

@@ -55,12 +55,11 @@ const SessionAdd = () => {
                     startDate: '',
                     endDate: '',
                     terms: '3',
-                    headTeacherId: '7457e078-07b6-4d2d-474e-08da373808c4'
+                    headTeacherId: ''
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
                     console.log(values);
-                    values.headTeacherId = '7457e078-07b6-4d2d-474e-08da373808c4';
                     createSession(values)(dispatch)
                   }}
                 >
@@ -77,6 +76,7 @@ const SessionAdd = () => {
                       {message && <div className='text-danger'>{message}</div>}
                       {(touched.startDate && errors.startDate) && <div className='text-danger'>{errors.startDate}</div>}
                       {(touched.endDate && errors.endDate) && <div className='text-danger'>{errors.endDate}</div>}
+                      {(touched.headTeacherId && errors.headTeacherId) && <div className='text-danger'>{errors.headTeacherId}</div>}
                       <div className="row">
                         <Form.Group className="col-md-6 form-group">
                           <label htmlFor="startDate" className="form-label"> Start Year:</label>

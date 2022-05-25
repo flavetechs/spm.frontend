@@ -3,34 +3,28 @@ import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { Link, useLocation } from 'react-router-dom'
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations, sessionLocations } from "../../router/spm-path-locations";
-import { Formik, Field } from "formik";
-import * as Yup from "yup";
+import { sessionLocations } from "../../router/spm-path-locations";
 
 import { useHistory } from "react-router-dom";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
-import { fetchSingleItem, fetchSingleSession, getAllSession } from "../../store/actions/session-actions";
-// import { getActiveSession } from "../../store/actions/session-actions";
-// import { showErrorToast } from "../../store/actions/toaster-actions";
+import { fetchSingleSession, getAllSession } from "../../store/actions/session-actions";
 
 const SessionDetails = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
     const locations = useLocation();
+    const [displaySubjectsTable, setDisplaySubjectsTable] = useState(true);
+    const [displayStudentsTable, setDisplayStudentsTable] = useState(false);
     //VARIABLE DECLARATIONS
 
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { selectedItem, terms } = state.session;
-    console.log('this is Last selectedItem details', selectedItem);
-    const { itemList } = state.class;
-    console.log('itemlist now', itemList);
-    const { deleteDialogResponse } = state.alert;
-    const [displaySubjectsTable, setDisplaySubjectsTable] = useState(true);
-    const [displayStudentsTable, setDisplayStudentsTable] = useState(false);
+    const { selectedItem } = state.session;
     // ACCESSING STATE FROM REDUX STORE
+
+    
+    console.log('selectedItem', selectedItem);
 
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);
@@ -39,18 +33,6 @@ const SessionDetails = () => {
         fetchSingleSession(sessionId)(dispatch)
     }, []);
 
-
-    React.useEffect(() => {
-        getAllSession()(dispatch);
-    }, []);
-
-    React.useEffect(() => {
-        getAllSessionClasses()(dispatch);
-    }, []);
-
-    // React.useEffect(() => {
-    //     getAllSession()(dispatch)
-    //   }, []);
 
     //HANDLER FUNCTIONS
     return (
@@ -144,7 +126,7 @@ const SessionDetails = () => {
                                                     <th>Form Teacher</th>
                                                     <th>Actions</th>
                                                 </tr>
-                                                {itemList.map((item, idx) =>
+                                                {selectedItem?.sessionClasses.map((item, idx) =>
                                                     <tr key={idx}>
                                                         <td>{item.class}</td>
                                                         <td>{item.formTeacher}</td>
@@ -209,19 +191,7 @@ const SessionDetails = () => {
                                                     <th>Terms</th>
                                                     <th>Status</th>
                                                 </tr>
-                                                {/* {selectedItem.map((item, idx) =>
-                                                    <tr key={idx}>
-                                                        <td>
-                                                            {item.terms.map((term, idx) => (
-                                                                <tr>
-                                                                    <td>{term.termName}</td>
-                                                                </tr>
-                                                            ))}
-                                                        </td>
-                                                        <td>{item.isActive ? <span className="badge bg-success">Isactive</span> : <span className="badge bg-primary">inactive</span>}</td>
-                                                    </tr>
-                                                )} */}
-                                                {selectedItem.terms.map((term, idx) => (
+                                                {selectedItem?.terms.map((term, idx) => (
                                                     <tr key={idx}>
                                                         <td>{term.termName}</td>
                                                         <td>{term.isActive}</td>
