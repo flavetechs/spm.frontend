@@ -22,6 +22,7 @@ export const classLocations = {
   sessionClassList: "/dashboard/smp-class/session-class",
   sessionClassEdit: "/dashboard/smp-class/edit-session-class",
   sessionClassAdd: "/dashboard/smp-class/add-session-class",
+  sessionClassDetail: "/dashboard/smp-class/details",
 };
 
 export const sessionLocations = {
@@ -44,3 +45,8 @@ export const studentsLocations = {
   studentEdit: "/dashboard/smp-student/edit-student",
   studentDetails: "/dashboard/smp-student/student-details",
 };
+
+export const enrollment = {
+  enrolledStudents: "/dashboard/smp-enrollment/enrollment",
+  unenrolledStudents: "/dashboard/smp-enrollment/unenrollment",
+}

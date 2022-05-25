@@ -407,6 +407,27 @@ case actions.PUSH_CLASS_SUBJECT_ID:
         selectedIds: [payload]
       }
 
+      case actions.FETCH_CLASS_STUDENTS_LOADING: {
+        return {
+          ...state,
+          loading: true,
+        };
+      }
+      case actions.FETCH_CLASS_STUDENTS_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          classStudents: payload,
+        };
+      }
+      case actions.FETCH_CLASS_STUDENTS_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          classStudents: null,
+        };
+      }
+
     default:
       return state;
   }
