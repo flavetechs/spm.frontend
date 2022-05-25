@@ -194,7 +194,7 @@ const SessionDetails = () => {
                                                 {selectedItem?.terms.map((term, idx) => (
                                                     <tr key={idx}>
                                                         <td>{term.termName}</td>
-                                                        <td>{term.isActive}</td>
+                                                        <td>{term.isActive ? <span className="badge bg-success">Isactive</span> : <span className="badge bg-primary">inactive</span>}</td>
                                                     </tr>
                                                 ))}
 
@@ -211,7 +211,7 @@ const SessionDetails = () => {
                                             history.push(sessionLocations.sessionList);
                                         }}
                                     >
-                                        Back
+                                        Cancel
                                     </Button>{" "}
                                 </div>
                             </Card.Body>
