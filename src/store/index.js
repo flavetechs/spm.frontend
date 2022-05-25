@@ -2,6 +2,7 @@ import {createStore, combineReducers} from 'redux'
 import { activityReducer } from './reducers/activity-reducer'
 import { authReducer } from './reducers/auth-reducer'
 import { classReducer } from './reducers/class-reducer'
+import { enrollmentReducer } from './reducers/enrollment-reducer'
 import { generalReducer } from './reducers/general-reducers'
 import { rolesReducer } from './reducers/roles-reducer'
 import { sessionReducer } from './reducers/session-reducer'
@@ -20,6 +21,7 @@ export default createStore(
         class: classReducer,
         session: sessionReducer,
         staff: staffReducer,
-        student: studentReducer
+        student: studentReducer,
+        errollment: enrollmentReducer
     })
 )

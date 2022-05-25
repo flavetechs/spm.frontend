@@ -407,7 +407,7 @@ export const getAllActiveTeachers = () => (dispatch) => {
 //GET ACTIVE SUBJECT ACTION  HANDLER
 export const getAllActiveSubjects = () => (dispatch) => {
     dispatch({
-        type: actions.FETCH_ACTIVE_SUBJECTS_LOADING
+        type: actions.FETCH_ACTIVE_SUBJECTS_LOADING,
     });
 
     axiosInstance.get('/subject/api/v1/getall/active-subject')
@@ -416,7 +416,7 @@ export const getAllActiveSubjects = () => (dispatch) => {
                 type: actions.FETCH_ACTIVE_SUBJECTS_SUCCESS,
                 payload: res.data.result
             });
-        }).catch(err => {
+        }).catch((err) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SUBJECTS_FAILED,
                 payload: err.response.data.result
@@ -424,6 +424,28 @@ export const getAllActiveSubjects = () => (dispatch) => {
         });
 }
 //GET ACTIVE SUBJECT ACTION  HANDLER
+//GET ACTIVE SUBJECT ACTION  HANDLER
+export const getAllClassStudents = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CLASS_STUDENTS_LOADING,
+        payload: sessionClassId
+    });
+
+    axiosInstance.get(`/class/api/v1/get-students/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CLASS_STUDENTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CLASS_STUDENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+//GET ACTIVE SUBJECT ACTION  HANDLER
+
 
 export const pushSessionClassId = (itemId) => {
     return {
