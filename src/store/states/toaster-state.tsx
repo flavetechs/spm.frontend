@@ -8,5 +8,8 @@ export const _state = {
     message: '',
     showSingleDeleteDialog: false,
     showMultipleDeleteDialog: false,
-    deleteDialogResponse: ''
+    deleteDialogResponse: '',
+    showSingleUnenrollDialog: false,
+    showMultipleUnenrollDialog: false,
+    UnenrollDialogResponse: ''
 }

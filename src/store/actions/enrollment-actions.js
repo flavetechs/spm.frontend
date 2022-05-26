@@ -60,3 +60,54 @@ export const enrollStudent = (values) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+export const getAllenrolledStudents = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ENROLLED_STUDENTS_LOADING
+    });
+
+    axiosInstance.get('/errollment/api/v1/getall/enrolled')
+        .then((res) => {
+            console.log('enrolled res', res);
+            dispatch({
+                type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            console.log('enrolled err', err);
+            dispatch({
+                type: actions.FETCH_ENROLLED_STUDENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const unEnrollStudent = (studentContactId) => (dispatch) => {
+    dispatch({
+        type: actions.UNENROLL_STUDENTS_LOADING
+    });
+    const payload = {
+        studentContactIds: studentContactId
+    }
+    axiosInstance.post('/errollment/api/v1/unenroll/students', payload)
+        .then((res) => {
+            console.log('unenrolled res', res);
+            dispatch({
+                type: actions.UNENROLL_STUDENTS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllenrolledStudents()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            console.log('unenrolled err', err);
+            dispatch({
+                type: actions.UNENROLL_STUDENTS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+
+
