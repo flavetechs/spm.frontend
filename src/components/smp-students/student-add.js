@@ -434,7 +434,7 @@ const StudentAdd = () => {
                             <option value="Select Country">
                               Select Country
                             </option>
-                            <option value="Afganistan">Nigeria</option>
+                            <option value="Nigeria">Nigeria</option>
                             <option value="Albania">Albania</option>
                             <option value="Algeria">Algeria</option>
                             <option value="American Samoa">
