@@ -60,7 +60,7 @@ const SessionDetails = () => {
                                                 <span>No. of Students</span>
                                             </td>
                                             <td>
-                                                <span>25</span>
+                                            <span className="badge bg-primary">25</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -68,7 +68,7 @@ const SessionDetails = () => {
                                                 <span>No. of subject</span>
                                             </td>
                                             <td>
-                                                <span>25</span>
+                                                <span className="badge bg-primary">25</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -76,7 +76,7 @@ const SessionDetails = () => {
                                                 <span>No. of classes</span>
                                             </td>
                                             <td>
-                                                <span>25</span>
+                                                <span className="badge bg-primary">25</span>
                                             </td>
                                         </tr>
                                         <tr>
