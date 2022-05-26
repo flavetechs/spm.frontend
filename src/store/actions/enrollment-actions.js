@@ -2,22 +2,22 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/enrollment-action-types"
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
-export const pushId = (unenrolledStudentId) => {
+export const pushId = (studentId) => {
     return {
-        type: actions.PUSH_UNENROLLED_STUDENT_ID,
-        payload: unenrolledStudentId
+        type: actions.PUSH_STUDENT_ID,
+        payload: studentId
     }
 }
-export const removeId = (unenrolledStudentId) => {
+export const removeId = (studentId) => {
     return {
-        type: actions.REMOVE_UNENROLLED_STUDENT_ID,
-        payload: unenrolledStudentId
+        type: actions.REMOVE_STUDENT_ID,
+        payload: studentId
     }
 }
-export const returnList = (unenrolledStudents) => (dispatch) => {
+export const returnList = (students) => (dispatch) => {
     dispatch({
         type: actions.RETURN_UNENROLLED_STUDENT_LIST,
-        payload: unenrolledStudents
+        payload: students
     })
 }
 
