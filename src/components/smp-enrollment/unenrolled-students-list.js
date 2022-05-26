@@ -68,6 +68,7 @@ const UnenrolledStudentsList = () => {
     }
   }, []);
   //ENROLL HANDLER
+  
   const checkSingleItem = (isChecked, studentContactId, unenrolledStudents) => {
     unenrolledStudents.forEach((item) => {
       if (item.studentContactId === studentContactId) {
@@ -99,7 +100,6 @@ const UnenrolledStudentsList = () => {
 setViewModal(false);
   }
   
-
   return (
     <>
       <div>
@@ -329,6 +329,7 @@ setViewModal(false);
                                   e.target.checked,
                                   unenrolledStudents
                                 );
+                               
                               }}
                             />
                           ) : (
@@ -355,6 +356,7 @@ setViewModal(false);
                                     student.studentContactId,
                                     unenrolledStudents
                                   );
+
                                 }}
                               />
                             ) : (
