@@ -46,7 +46,7 @@ const UnenrolledStudentsList = () => {
   React.useEffect(() => {
     getAllUnenrolledStudents()(dispatch);
     getAllSessionClasses()(dispatch);
-  }, []);
+  }, [showCheckBoxes]);
 
   
   //ENROLL HANDLER
