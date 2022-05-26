@@ -52,44 +52,43 @@ const SessionClassDetails = () => {
           <Col sm="12">
             <Card className="">
               <Card.Body>
-                <h4>Session Class Details</h4>
+                <h4>Class Details</h4>
                 <div className="pt-3">
-                  <h6 className="py-3">Class Details</h6>
                   <Table bordered size="sm">
                     <tbody>
                       <tr>
-                        <th>Class</th>
+                        <th><span className="h6">Class</span></th>
                         <td>{selectedItem?.class}</td>
                       </tr>
                       <tr>
-                        <th>Form Teacher</th>
+                        <th><span className="h6">Form Teacher</span></th>
                         <td>{selectedItem?.formTeacher}</td>
                       </tr>
                       <tr>
-                        <th>No of Students</th>
-                        <td>{selectedItem?.studentCount}</td>
+                        <th><span className="h6">No of Students</span></th>
+                        <td><span className="badge bg-primary">{selectedItem?.studentCount}</span></td>
                       </tr>
                       <tr>
-                        <th>No of Subjects</th>
-                        <td>{selectedItem?.subjectCount}</td>
+                        <th><span className="h6">No of Subjects</span></th>
+                        <td><span className="badge bg-primary">{selectedItem?.subjectCount}</span></td>
                       </tr>
                       <tr>
-                        <th>Assessment Score</th>
-                        <td>{selectedItem?.assessmentScore}</td>
+                        <th><span className="h6">Assessment Score</span></th>
+                        <td><span className="badge bg-primary">{selectedItem?.assessmentScore}</span></td>
                       </tr>
                       <tr>
-                        <th>Exam Score</th>
-                        <td>{selectedItem?.examScore}</td>
+                        <th><span className="h6">Exam Score</span></th>
+                        <td><span className="badge bg-primary">{selectedItem?.examScore}</span></td>
                       </tr>
                       <tr>
-                        <th>Pass Mark</th>
-                        <td>{selectedItem?.passMark}</td>
+                        <th><span className="h6">Pass Mark</span></th>
+                        <td><span className="badge bg-primary">{selectedItem?.passMark}</span></td>
                       </tr>
                     </tbody>
                   </Table>
                 </div>
                 
-                <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <ul className="nav nav-pills mt-4 mb-2" id="pills-tab" role="tablist">
                   <li className="nav-item" role="presentation">
                     <button
                       className={!displayStudentsTable ? "nav-link active" : "nav-link"}
@@ -119,18 +118,18 @@ const SessionClassDetails = () => {
                     <Table bordered size="sm">
                           <tbody>
                             <tr>
-                              <th>Subject Name</th>
-                              <th>Teacher</th>
-                              <th>Exam Score</th>
-                              <th>Assessment</th>
+                              <th><span className="h6">Subject Name</span></th>
+                              <th><span className="h6">Teacher</span></th>
+                              <th><span className="h6">Exam Score</span></th>
+                              <th><span className="h6">Assessment</span></th>
                             </tr>
                              {classSubjects?.map((classSubject, id)=>
                               <tr key={id}>
                                  
                                 <td>{classSubject.subjectName}</td>
                                 <td>{classSubject.subjectTeacherName}</td>
-                                <td>{classSubject.examSCore}</td>
-                                <td>{classSubject.assessment}</td>
+                                <td><span className="badge bg-primary">{classSubject.examSCore}</span></td>
+                                <td><span className="badge bg-primary">{classSubject.assessment}</span></td>
                               </tr>
                               )}
                           </tbody>
@@ -144,8 +143,8 @@ const SessionClassDetails = () => {
                      <Table bordered size="sm">
                     <tbody>
                       <tr>
-                        <th>Student(s) Name</th>
-                        <th>Registration No</th>
+                        <th><span className="h6">Student(s) Name</span></th>
+                        <th><span className="h6">Registration No</span></th>
                       </tr>
                       {classStudents?.map((student, idx) => (
                         <tr key={idx}>

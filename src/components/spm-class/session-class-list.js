@@ -139,7 +139,7 @@ console.log(itemList);
                                 data-placement="top"
                                 title=""
                                 data-original-title="Details"
-                                to={`${classLocations.sessionClassDetails}?sessionClassId=${item.sessionClassId}`}
+                                to={`${classLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
                               >
                                 <span className="btn-inner">
                                     <svg
