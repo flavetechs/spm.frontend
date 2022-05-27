@@ -89,14 +89,7 @@ const SessionAdd = () => {
                           <label htmlFor="endYear" className="form-label">End Year:</label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
-                        <Form.Group className="col-sm-3 form-group">
-                          <label htmlFor="terms" className="form-label">No. of Terms</label><br />
-                          <Field as='select' id='terms' name='terms' className="form-control" data-style="py-0">
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                          </Field>
-                        </Form.Group>
+                      
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="headTeacherId" className="form-label">Head of School</label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
@@ -109,11 +102,15 @@ const SessionAdd = () => {
                               )
 
                             })}
+                          </Field>
+                        </Form.Group>
 
-
-                            {/* <option key={idx} name={values.headTeacherId} value={teacher.userAccountId}>
-                            {teacher.fullName}
-                            </option> */}
+                        <Form.Group className="col-sm-3 form-group">
+                          <label htmlFor="terms" className="form-label">No. of Terms</label><br />
+                          <Field as='select' id='terms' name='terms' className="form-control" data-style="py-0">
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
                           </Field>
                         </Form.Group>
 
