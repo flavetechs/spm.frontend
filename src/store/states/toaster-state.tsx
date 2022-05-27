@@ -9,7 +9,5 @@ export const _state = {
     showSingleDeleteDialog: false,
     showMultipleDeleteDialog: false,
     deleteDialogResponse: '',
-    showSingleUnenrollDialog: false,
-    showMultipleUnenrollDialog: false,
-    UnenrollDialogResponse: ''
+    dialogShow: false
 }

@@ -8,6 +8,7 @@ import { studentsLocations } from "../../router/spm-path-locations";
 import {
   respondToDeleteDialog,
   showErrorToast,
+  showHideDialog,
   showSingleDeleteDialog,
 } from "../../store/actions/toaster-actions";
 import { getAllenrolledStudents, pushId, removeId, returnList, unEnrollStudent } from "../../store/actions/enrollment-actions";
@@ -17,7 +18,7 @@ const EnrolledStudents = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const [showDeleteButton, setDeleteButton] = useState(true);
+  const [showUnenrollButton, setUnenrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
 
@@ -31,19 +32,20 @@ const EnrolledStudents = () => {
     getAllenrolledStudents()(dispatch);
   }, []);
 
-  //DELETE HANDLER
+  //UNENROLL HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         unEnrollStudent(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton);
+        showHideDialog(false, null)(dispatch)
+        setUnenrollButton(!showUnenrollButton);
         setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);
       }
     } else {
-      setDeleteButton(true);
+      setUnenrollButton(true);
       setShowCheckBoxes(false);
       selectedIds.forEach((id) => {
         dispatch(removeId(id));
@@ -53,7 +55,9 @@ const EnrolledStudents = () => {
       respondToDeleteDialog("")(dispatch);
     };
   }, [deleteDialogResponse]);
-  //DELETE HANDLER
+
+  console.log('selectedIds', selectedIds)
+  //UNENROLL HANDLER
   const checkSingleItem = (isChecked, studentContactId, enrolledStudents) => {
     enrolledStudents.forEach((item) => {
       if (item.studentContactId === studentContactId) {
@@ -89,12 +93,12 @@ const EnrolledStudents = () => {
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                {showDeleteButton ? (
+                {showUnenrollButton ? (
                   <button
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      setDeleteButton(!showDeleteButton);
+                      setUnenrollButton(!showUnenrollButton);
                       setShowCheckBoxes(!showCheckBoxes);
                     }}
                   >
@@ -136,7 +140,7 @@ const EnrolledStudents = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch);
+                      showHideDialog(true, 'Are you sure to unenroll student (s) ?')(dispatch);
                     }}
                   >
                     <i className="btn-inner">
@@ -223,7 +227,7 @@ const EnrolledStudents = () => {
                             {student.studentName}
                           </td>
                           <td>{student.studentRegNumber}</td>
-                          <td>{student.status}</td>
+                          <td>{student.class}</td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
@@ -271,56 +275,28 @@ const EnrolledStudents = () => {
                                       ></path>
                                     </svg>
                                   </span>
-                                </Link></OverlayTrigger>,{" "}
-                                <OverlayTrigger
+                                </Link></OverlayTrigger>{" "}
+                              <OverlayTrigger
                                 placement="top"
                                 overlay={<Tooltip id="button-tooltip-2">Unenroll Student</Tooltip>}
                               >
-                              <Link
-                                className="btn btn-sm btn-icon btn-danger"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title=""
-                                data-original-title="Delete"
-                                to="#"
-                                data-id={student.userAccountId}
-                                onClick={() => {
-                                  dispatch(pushId(student.studentContactId));
-                                  showSingleDeleteDialog(true)(dispatch);
-                                }}
-                              >
-                                <span className="btn-inner">
-                                  <svg
-                                    width="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      d='M9.89535 11.23C9.45785 11.23 9.11192 11.57 9.11192 12C9.11192 12.42 9.45785 12.77 9.89535 12.77H16V17.55C16 20 13.9753 22 11.4724 22H6.51744C4.02471 22 2 20.01 2 17.56V6.45C2 3.99 4.03488 2 6.52762 2H11.4927C13.9753 2 16 3.99 16 6.44V11.23H9.89535ZM19.6302 8.5402L22.5502 11.4502C22.7002 11.6002 22.7802 11.7902 22.7802 12.0002C22.7802 12.2002 22.7002 12.4002 22.5502 12.5402L19.6302 15.4502C19.4802 15.6002 19.2802 15.6802 19.0902 15.6802C18.8902 15.6802 18.6902 15.6002 18.5402 15.4502C18.2402 15.1502 18.2402 14.6602 18.5402 14.3602L20.1402 12.7702H16.0002V11.2302H20.1402L18.5402 9.6402C18.2402 9.3402 18.2402 8.8502 18.5402 8.5502C18.8402 8.2402 19.3302 8.2402 19.6302 8.5402Z'
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M20.708 6.23975H3.75"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d='M9.89535 11.23C9.45785 11.23 9.11192 11.57 9.11192 12C9.11192 12.42 9.45785 12.77 9.89535 12.77H16V17.55C16 20 13.9753 22 11.4724 22H6.51744C4.02471 22 2 20.01 2 17.56V6.45C2 3.99 4.03488 2 6.52762 2H11.4927C13.9753 2 16 3.99 16 6.44V11.23H9.89535ZM19.6302 8.5402L22.5502 11.4502C22.7002 11.6002 22.7802 11.7902 22.7802 12.0002C22.7802 12.2002 22.7002 12.4002 22.5502 12.5402L19.6302 15.4502C19.4802 15.6002 19.2802 15.6802 19.0902 15.6802C18.8902 15.6802 18.6902 15.6002 18.5402 15.4502C18.2402 15.1502 18.2402 14.6602 18.5402 14.3602L20.1402 12.7702H16.0002V11.2302H20.1402L18.5402 9.6402C18.2402 9.3402 18.2402 8.8502 18.5402 8.5502C18.8402 8.2402 19.3302 8.2402 19.6302 8.5402Z'
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                  </svg>
-                                </span>
-                              </Link>
+                                <Link
+                                  className="btn btn-sm btn-icon btn-danger"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Delete"
+                                  to="#"
+                                  data-id={student.userAccountId}
+                                  onClick={() => {
+                                    dispatch(pushId(student.studentContactId));
+                                    showHideDialog(true, 'Are you sure to unenroll student (s) ?')(dispatch);
+                                  }}
+                                >
+                                  <span className="btn-inner">
+                                    <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0545 15.26C14.3416 14.97 14.3416 14.5 14.0545 14.21L12.8465 12.99L14.0545 11.77C14.3416 11.48 14.3416 11.01 14.0545 10.72C13.7673 10.42 13.2921 10.42 13.005 10.72L11.797 11.94L10.5891 10.72C10.302 10.42 9.83663 10.42 9.5495 10.72C9.26238 11.01 9.26238 11.48 9.5495 11.77L10.7574 12.99L9.5495 14.21C9.26238 14.5 9.26238 14.97 9.5495 15.26C9.68812 15.41 9.87624 15.48 10.0644 15.48C10.2525 15.48 10.4505 15.41 10.5891 15.26L11.797 14.04L13.005 15.26C13.1535 15.41 13.3416 15.48 13.5297 15.48C13.7178 15.48 13.9059 15.41 14.0545 15.26ZM19.3354 9.02557C19.5686 9.02289 19.8209 9.02 20.0446 9.02C20.302 9.02 20.5 9.22 20.5 9.47V17.51C20.5 19.99 18.5099 22 16.0446 22H8.17327C5.58911 22 3.5 19.89 3.5 17.29V6.51C3.5 4.03 5.5 2 7.96535 2H13.2525C13.5 2 13.7079 2.21 13.7079 2.46V5.68C13.7079 7.51 15.203 9.01 17.0149 9.02C17.4333 9.02 17.8077 9.02318 18.1346 9.02595C18.3878 9.02809 18.6125 9.03 18.8069 9.03C18.9488 9.03 19.135 9.02786 19.3354 9.02557ZM19.6056 7.5662C18.7918 7.5692 17.8334 7.5662 17.1433 7.5592C16.0482 7.5592 15.1462 6.6482 15.1462 5.5422V2.9062C15.1462 2.4752 15.6641 2.2612 15.9591 2.5722C16.7215 3.37207 17.8885 4.59784 18.8749 5.63398C19.2746 6.05384 19.6447 6.44257 19.9462 6.7592C20.2344 7.0622 20.0235 7.5652 19.6056 7.5662Z" fill="currentColor"></path></svg>
+                                  </span>
+                                </Link>
                               </OverlayTrigger>
                             </div>
                           </td>
