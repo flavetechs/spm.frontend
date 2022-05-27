@@ -18,7 +18,6 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         ...state,
         unenrolledStudents: payload,
       };
-   
       case actions.RETURN_ENROLLED_STUDENT_LIST:
         return {
             ...state,
@@ -45,7 +44,6 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
       };
-      
 
     case actions.ENROLL_STUDENT_LOADING:
       return {
@@ -76,14 +74,12 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         message: '',
         isSuccessful: false
       };
-
     case actions.FETCH_ENROLLED_STUDENTS_SUCCESS:
       return {
         ...state,
         loading: false,
         enrolledStudents: payload,
       };
-
     case actions.FETCH_ENROLLED_STUDENTS_FAILED:
       return {
         ...state,
