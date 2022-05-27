@@ -28,8 +28,6 @@ const SessionClassDetails = () => {
   const {
     message,
     selectedItem,
-    activeSubjects,
-    activeTeachers,
     classSubjects,
     classStudents,
   } = state.class;
@@ -44,7 +42,6 @@ const SessionClassDetails = () => {
     getAllActiveTeachers()(dispatch);
     getAllClassStudents(sessionClassId)(dispatch);
   }, []);
-
   return (
     <>
       <div className="col-8 mx-auto">

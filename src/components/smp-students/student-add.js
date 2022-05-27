@@ -91,6 +91,11 @@ const StudentAdd = () => {
         validationSchema={validation}
         onSubmit={(values) => {
           console.log("values", values);
+          values.phone = values.phone.toString();
+          values.homePhone = values.homePhone.toString();
+          values.emergencyPhone = values.emergencyPhone.toString();
+          values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
+          values.zipCode = values.zipCode.toString();
           createStudent(values)(dispatch);
         }}
       >
@@ -455,7 +460,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Zip Code"
-                            type="text"
+                            type="number"
                             id="zipCode"
                             name="zipCode"
                             className="form-control"
