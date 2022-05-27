@@ -20,8 +20,8 @@ import {
   enrollStudent,
 } from "../../store/actions/enrollment-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
-import { showErrorToast } from "../../store/actions/toaster-actions";
+import { enrollment, studentsLocations } from "../../router/spm-path-locations";
+import { showErrorToast, showSuccessToast } from "../../store/actions/toaster-actions";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
 const UnenrolledStudentsList = () => {
   //VARIABLE DECLARATIONS
@@ -34,7 +34,7 @@ const UnenrolledStudentsList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { unenrolledStudents, selectedIds, successful } = state.enrollment;
+  const { unenrolledStudents, selectedIds, isSuccessful, message } = state.enrollment;
   const { itemList } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -66,6 +66,7 @@ const UnenrolledStudentsList = () => {
         dispatch(removeId(id));
       });
     }
+    
   }, []);
   //ENROLL HANDLER
   
@@ -96,9 +97,6 @@ const UnenrolledStudentsList = () => {
       showErrorToast("No Student selected to be enrolled")(dispatch);
        setViewModal(false);
 }
-  if (successful) {
-setViewModal(false);
-  }
   
   return (
     <>
@@ -118,8 +116,9 @@ setViewModal(false);
                 }}
                 validationSchema={validation}
                 onSubmit={(values) => {
-                  console.log("values", values);
-                  console.log('selectedIds', selectedIds)
+                  setViewModal(false);
+                  setEnrollButton(true);
+                  setShowCheckBoxes(false);
                   values.studentContactIds = selectedIds;
                   enrollStudent(values)(dispatch);
                 }}
@@ -138,6 +137,7 @@ setViewModal(false);
                         id="viewModal"
                         centered
                       >
+                        {message && <div className="text-danger py-2 px-4">{message}</div>}
                             <Modal.Header closeButton>
                               <Modal.Title className="h5">
                                 Enroll Student(s)
