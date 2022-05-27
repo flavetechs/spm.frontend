@@ -307,7 +307,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Mobile Number"
-                            type="text"
+                            type="number"
                             name="phone"
                             id="phone"
                             className="form-control"
@@ -319,7 +319,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Home Phone Number"
-                            type="text"
+                            type="number"
                             name="homePhone"
                             id="homePhone"
                             className="form-control"
@@ -334,7 +334,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Emergency Phone Number"
-                            type="text"
+                            type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
                             className="form-control"
@@ -532,7 +532,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Mobile Number"
-                            type="text"
+                            type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
                             className="form-control"

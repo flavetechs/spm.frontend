@@ -151,7 +151,7 @@ const SessionClassDetails = () => {
                           <td>
                             {student.firstName} {student.lastName}
                           </td>
-                          <td>{student.registrationNumber}</td>
+                          <td><span className="badge bg-primary">{student.registrationNumber}</span></td>
                         </tr>
                       ))}
                     </tbody>
