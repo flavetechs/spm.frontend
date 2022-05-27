@@ -22,6 +22,7 @@ import { connect } from "react-redux"
 import { authLocations } from '../../router/spm-path-locations'
 import { ErrorToast, SuccessToast } from '../../components/partials/components/toaster/alert'
 import { SingleDeleteDialog } from '../../components/partials/components/toaster/DeleteDialogs'
+import { DecisionDialog } from '../../components/partials/components/toaster/DecisionDialog'
 
 const mapStateToProps = (state) => {
     return {
@@ -95,7 +96,7 @@ const Default = (props) => {
 
     return (
         <>
-            <Loader /> 
+            <Loader />
             <Sidebar />
             <main className="main-content">
                 <div className="position-relative">
@@ -104,7 +105,8 @@ const Default = (props) => {
                 </div>
                 <div className="py-0 conatiner-fluid content-inner mt-n5">
 
-                    <SuccessToast/>
+                    <DecisionDialog />
+                    <SuccessToast />
                     <SingleDeleteDialog />
                     <ErrorToast />
                     <DashboardRouter />

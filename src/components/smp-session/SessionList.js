@@ -167,11 +167,6 @@ const SessionList = () => {
                                 data-placement="top"
                                 title=""
                                 data-original-title="Details"
-                                // onClick={() => {
-                                //   fetchSingleItem(item.sessionId)(dispatch)
-                                //   history.push(`${sessionLocations.sessionDetails}?sessionId=${item.sessionId}`);
-                                // }
-                                // }
                                 to={`${sessionLocations.sessionDetails}?sessionId=${item.sessionId}`}
                               >
                                 <span className="btn-inner">
