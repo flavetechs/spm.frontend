@@ -18,13 +18,13 @@ const SessionAdd = () => {
 
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    
+
     startDate: Yup.string()
       .required('Session Year is required'),
     endDate: Yup.string()
       .required('Session Year is required'),
     terms: Yup.string().required("Please select Term"),
-    headTeacherId: Yup.string().required("Please select Term")
+    headTeacherId: Yup.string().required("Please select Head Teacher")
   });
   //VALIDATIONS SCHEMA
 
@@ -35,6 +35,9 @@ const SessionAdd = () => {
   const state = useSelector((state) => state);
   const { isSuccessful, message } = state.session;
   const { activeTeachers } = state.class;
+  const { staffList } = state.staff;
+  console.log('stafflist', staffList);
+  console.log('activeTeachers', activeTeachers);
   // ACCESSING STATE FROM REDUX STORE
 
 
@@ -86,13 +89,20 @@ const SessionAdd = () => {
                           <label htmlFor="endYear" className="form-label">End Year:</label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
-
+                        <Form.Group className="col-sm-3 form-group">
+                          <label htmlFor="terms" className="form-label">No. of Terms</label><br />
+                          <Field as='select' id='terms' name='terms' className="form-control" data-style="py-0">
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                          </Field>
+                        </Form.Group>
                         <Form.Group className="col-sm-6 form-group">
-                          <label htmlFor="terms" className="form-label">Head of School</label><br />
+                          <label htmlFor="headTeacherId" className="form-label">Head of School</label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
                             {activeTeachers.map((teacher, idx) => {
                               return (
-                                <option key={idx} value={teacher.userAccountId}>
+                                <option key={idx} value={teacher.teacherAccountId}>
                                   {teacher.firstName} {teacher.lastName}
                                 </option>
 
@@ -106,14 +116,7 @@ const SessionAdd = () => {
                             </option> */}
                           </Field>
                         </Form.Group>
-                        <Form.Group className="col-sm-3 form-group">
-                          <label htmlFor="terms" className="form-label">No. of Terms</label><br />
-                          <Field as='select' id='terms' name='terms' className="form-control" data-style="py-0">
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                          </Field>
-                        </Form.Group>
+
                       </div>
                       <div className="d-flex justify-content-end">
                         <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(sessionLocations.sessionList) }}>Cancel</Button>{' '}

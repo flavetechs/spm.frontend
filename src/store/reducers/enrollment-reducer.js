@@ -18,6 +18,12 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         ...state,
         unenrolledStudents: payload,
       };
+   
+      case actions.RETURN_ENROLLED_STUDENT_LIST:
+        return {
+            ...state,
+            enrolledStudents: payload,
+          };
 
     case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
       return {
@@ -39,6 +45,7 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
       };
+      
 
     case actions.ENROLL_STUDENT_LOADING:
       return {
@@ -61,13 +68,59 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
       };
+   
+    case actions.FETCH_ENROLLED_STUDENTS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
+
+    case actions.FETCH_ENROLLED_STUDENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        enrolledStudents: payload,
+      };
+
+    case actions.FETCH_ENROLLED_STUDENTS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload
+      };
+
+    case actions.UNENROLL_STUDENTS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: ''
+      };
+    case actions.UNENROLL_STUDENTS_SUCCESS:
+      return {
+        ...state,
+        selectedIds: [],
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.UNENROLL_STUDENTS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false
+      };
 
     default:
-      return state;
+      return state
   }
-};
+}
 function filterSelectedIds(arr, value) {
   return arr.filter(function (ele) {
     return ele !== value;
   });
 }
+
