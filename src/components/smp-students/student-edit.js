@@ -103,6 +103,11 @@ const StudentEdit = () => {
         }}
         validationSchema={validation}
         onSubmit={(values) => {
+          values.phone = values.phone.toString();
+          values.homePhone = values.homePhone.toString();
+          values.emergencyPhone = values.emergencyPhone.toString();
+          values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
+          values.zipCode = values.zipCode.toString();
           updateStudent(values)(dispatch);
         }}
         enableReinitialize={true}
@@ -320,7 +325,7 @@ const StudentEdit = () => {
                             Mobile Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="phone"
                             id="phone"
                             className="form-control"
@@ -331,7 +336,7 @@ const StudentEdit = () => {
                             Home Phone Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="homePhone"
                             id="homePhone"
                             className="form-control"
@@ -345,7 +350,7 @@ const StudentEdit = () => {
                             Emergency Phone Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
                             className="form-control"
@@ -459,7 +464,7 @@ const StudentEdit = () => {
                             Zip Code:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             id="zipCode"
                             name="zipCode"
                             className="form-control"
@@ -533,7 +538,7 @@ const StudentEdit = () => {
                             Mobile Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
                             className="form-control"

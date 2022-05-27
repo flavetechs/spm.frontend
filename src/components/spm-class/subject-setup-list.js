@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Card from "../Card";
 import {
@@ -266,6 +266,10 @@ const SubjectSetupList = () => {
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
+                              >
                               <a
                                 onClick={() => {
                                   fetchSingleItem(item.lookupId)(dispatch);
@@ -310,7 +314,11 @@ const SubjectSetupList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </a>{" "}
+                              </a></OverlayTrigger> {" "}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2"> delete</Tooltip>}
+                              >
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -356,6 +364,7 @@ const SubjectSetupList = () => {
                                   </svg>
                                 </span>
                               </Link>
+                              </OverlayTrigger>
                             </div>
                           </td>
                         </tr>
