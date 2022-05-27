@@ -11,7 +11,7 @@ import {
   showHideDialog,
   showSingleDeleteDialog,
 } from "../../store/actions/toaster-actions";
-import { getAllenrolledStudents, pushId, removeId, returnList, unEnrollStudent } from "../../store/actions/enrollment-actions";
+import { getAllenrolledStudents, pushId, removeId, returnListEnrolled, unEnrollStudent } from "../../store/actions/enrollment-actions";
 
 
 const EnrolledStudents = () => {
@@ -79,7 +79,7 @@ const EnrolledStudents = () => {
         dispatch(removeId(item.studentContactId));
       }
     });
-    returnList(enrolledStudents)(dispatch);
+    returnListEnrolled(enrolledStudents)(dispatch);
   };
   return (
     <>
