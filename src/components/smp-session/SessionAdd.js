@@ -36,8 +36,6 @@ const SessionAdd = () => {
   const { isSuccessful, message } = state.session;
   const { activeTeachers } = state.class;
   const { staffList } = state.staff;
-  console.log('stafflist', staffList);
-  console.log('activeTeachers', activeTeachers);
   // ACCESSING STATE FROM REDUX STORE
 
 
