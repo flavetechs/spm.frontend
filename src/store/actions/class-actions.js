@@ -424,7 +424,8 @@ export const getAllActiveSubjects = () => (dispatch) => {
         });
 }
 //GET ACTIVE SUBJECT ACTION  HANDLER
-//GET ACTIVE SUBJECT ACTION  HANDLER
+
+//GET CLASS STUDENTS ACTION  HANDLER
 export const getAllClassStudents = (sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_STUDENTS_LOADING,
@@ -444,7 +445,7 @@ export const getAllClassStudents = (sessionClassId) => (dispatch) => {
             })
         });
 }
-//GET ACTIVE SUBJECT ACTION  HANDLER
+//GET CLASS STUDENTS ACTION  HANDLER
 
 
 export const pushSessionClassId = (itemId) => {
