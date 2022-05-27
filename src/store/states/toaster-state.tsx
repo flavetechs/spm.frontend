@@ -8,5 +8,6 @@ export const _state = {
     message: '',
     showSingleDeleteDialog: false,
     showMultipleDeleteDialog: false,
-    deleteDialogResponse: ''
+    deleteDialogResponse: '',
+    dialogShow: false
 }
