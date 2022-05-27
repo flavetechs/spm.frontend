@@ -108,71 +108,71 @@ const StudentDetails = () => {
                   {message && <div className="text-danger">{message}</div>}
                   <div className="row">
                   <div className="col-md-12  form-group">
-                      <p>Class: {selectedStudent?.sessionClass}</p>
+                      <p>Class: <span className="h6">{selectedStudent?.sessionClass}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>First Name: {selectedStudent?.firstName}</p>
+                      <p>First Name: <span className="h6">{selectedStudent?.firstName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Last Name: {selectedStudent?.lastName}</p>
+                      <p>Last Name: <span className="h6">{selectedStudent?.lastName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Middle Name: {selectedStudent?.middleName}</p>
+                      <p>Middle Name: <span className="h6">{selectedStudent?.middleName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Mobile Number: {selectedStudent?.phone}</p>
+                      <p>Mobile Number: <span className="h6">{selectedStudent?.phone}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Home Phone Number: {selectedStudent?.homePhone}</p>
+                      <p>Home Phone Number: <span className="h6">{selectedStudent?.homePhone}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>
                         Emergency Phone Number:{" "}
-                        {selectedStudent?.emergencyPhone}
+                        <span className="h6">{selectedStudent?.emergencyPhone}</span>
                       </p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Email Address: {selectedStudent?.userName}</p>
+                      <p>Email Address: <span className="h6">{selectedStudent?.userName}</span></p>
                     </div>
                     <div className="col-md-6  form-group">
-                      <p>Date Of Birth: {selectedStudent?.dob}</p>
+                      <p>Date Of Birth: <span className="h6">{selectedStudent?.dob}</span></p>
                     </div>
                     <div className="col-sm-6 form-group">
-                      <p>Home Address: {selectedStudent?.homeAddress}</p>
+                      <p>Home Address: <span className="h6">{selectedStudent?.homeAddress}</span></p>
                     </div>
                     <div className="col-md-6  form-group">
-                      <p>City: {selectedStudent?.cityId}</p>
+                      <p>City: <span className="h6">{selectedStudent?.cityId}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>State: {selectedStudent?.stateId}</p>
+                      <p>State: <span className="h6">{selectedStudent?.stateId}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Country: {selectedStudent?.countryId}</p>
+                      <p>Country: <span className="h6">{selectedStudent?.countryId}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Zip Code: {selectedStudent?.zipCode}</p>
+                      <p>Zip Code: <span className="h6">{selectedStudent?.zipCode}</span></p>
                     </div>
                   </div>
                   <hr />
                   <h5 className="mb-3">Parent/Guardian(s) Information</h5>
                   <div className="row">
                     <div className="col-md-6 form-group">
-                      <p>Name: {selectedStudent?.parentOrGuardianName}</p>
+                      <p>Name: <span className="h6">{selectedStudent?.parentOrGuardianName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>
                         Relationship:{" "}
-                        {selectedStudent?.parentOrGuardianRelationship}
+                        <span className="h6">{selectedStudent?.parentOrGuardianRelationship}</span>
                       </p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>
-                        Mobile Number: {selectedStudent?.parentOrGuardianPhone}
+                        Mobile Number: <span className="h6">{selectedStudent?.parentOrGuardianPhone}</span>
                       </p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>
-                        Email Address: {selectedStudent?.parentOrGuardianEmail}
+                        Email Address: <span className="h6">{selectedStudent?.parentOrGuardianEmail}</span>
                       </p>
                     </div>
                   </div>

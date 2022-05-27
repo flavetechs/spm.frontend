@@ -1,23 +1,52 @@
 import { _state } from "../states/enrollment-state";
 import { actions } from "../action-types/enrollment-action-types"
 export const enrollmentReducer = (state = _state, { type, payload }) => {
-  switch (type) {
-    case actions.PUSH_UNENROLLED_STUDENT_ID:
-      return {
-        ...state,
-        selectedIds: [...state.selectedIds, payload]
-      }
-    case actions.REMOVE_UNENROLLED_STUDENT_ID:
-      var filteredIds = filterSelectedIds(state.selectedIds, payload)
-      return {
-        ...state,
-        selectedIds: filteredIds
-      }
-    case actions.RETURN_UNENROLLED_STUDENT_LIST:
-      return {
-        ...state,
-        unenrolledStudents: payload,
-      };
+    switch (type) {
+      case actions.PUSH_STUDENT_ID:
+        return {
+          ...state,
+          selectedIds: [...state.selectedIds, payload]
+        }
+      case actions.REMOVE_STUDENT_ID:
+        var filteredIds = filterSelectedIds(state.selectedIds, payload)
+        return {
+          ...state,
+          selectedIds: filteredIds
+        }
+      case actions.RETURN_UNENROLLED_STUDENT_LIST:
+        return {
+            ...state,
+            unenrolledStudents: payload,
+          };
+      case actions.RETURN_ENROLLED_STUDENT_LIST:
+        return {
+            ...state,
+            enrolledStudents: payload,
+          };
+
+        case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
+          return {
+            ...state,
+            loading: true,
+            message: "",
+            isSuccessful: false,
+          };
+        case actions.FETCH_UNENROLLED_STUDENTS_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            unenrolledStudents: payload,
+          };
+        case actions.FETCH_UNENROLLED_STUDENTS_FAILED:
+          return {
+            ...state,
+            loading: false,
+            message: payload,
+            isSuccessful: false,
+          };
+    
+        
+        
 
     case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
       return {

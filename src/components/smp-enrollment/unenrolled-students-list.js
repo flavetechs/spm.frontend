@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Form,
+  Tooltip,
+  OverlayTrigger,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Card from "../Card";
 import { Formik, Field } from "formik";
@@ -26,7 +34,7 @@ const UnenrolledStudentsList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { unenrolledStudents, selectedIds } = state.enrollment;
+  const { unenrolledStudents, selectedIds, successful } = state.enrollment;
   const { itemList } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -40,6 +48,7 @@ const UnenrolledStudentsList = () => {
     getAllSessionClasses()(dispatch);
   }, []);
 
+  
   //ENROLL HANDLER
   React.useEffect(() => {
     if (viewModal) {
@@ -59,6 +68,7 @@ const UnenrolledStudentsList = () => {
     }
   }, []);
   //ENROLL HANDLER
+  
   const checkSingleItem = (isChecked, studentContactId, unenrolledStudents) => {
     unenrolledStudents.forEach((item) => {
       if (item.studentContactId === studentContactId) {
@@ -82,7 +92,14 @@ const UnenrolledStudentsList = () => {
     });
     returnList(unenrolledStudents)(dispatch);
   };
-
+  const handleSubmitError=()=>{
+      showErrorToast("No Student selected to be enrolled")(dispatch);
+       setViewModal(false);
+}
+  if (successful) {
+setViewModal(false);
+  }
+  
   return (
     <>
       <div>
@@ -102,6 +119,7 @@ const UnenrolledStudentsList = () => {
                 validationSchema={validation}
                 onSubmit={(values) => {
                   console.log("values", values);
+                  console.log('selectedIds', selectedIds)
                   values.studentContactIds = selectedIds;
                   enrollStudent(values)(dispatch);
                 }}
@@ -116,30 +134,16 @@ const UnenrolledStudentsList = () => {
                   isValid,
                 }) => (
                   <div>
-                    {viewModal && (
-                      <Form
-                        role="dialog"
-                        aria-modal="true"
-                        className="fade modal show"
-                        tabIndex="-1"
-                        style={{ display: "block" }}
+                      <Modal show={viewModal} onHide={()=>setViewModal(false)}
+                        id="viewModal"
+                        centered
                       >
-                        <div className="modal-dialog">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <div className="modal-title h5">
+                            <Modal.Header closeButton>
+                              <Modal.Title className="h5">
                                 Enroll Student(s)
-                              </div>
-                              <button
-                                type="button"
-                                className="btn-close"
-                                aria-label="Close"
-                                onClick={() => {
-                                  setViewModal(false);
-                                }}
-                              ></button>
-                            </div>
-                            <div className="modal-body">
+                              </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
                               <div className="mb-3">
                                 {touched.sessionClassId &&
                                   errors.sessionClassId && (
@@ -148,7 +152,7 @@ const UnenrolledStudentsList = () => {
                                     </div>
                                   )}
                                 <label
-                                  className="form-label"
+                                  className="form-label text-dark h6"
                                   htmlFor="sessionClassId"
                                 >
                                   Class:
@@ -172,8 +176,8 @@ const UnenrolledStudentsList = () => {
                               </div>
                               <div className="d-flex justify-content-end">
                                 <Button
-                                  type="button"
-                                  className="btn btn-danger mx-2"
+                                  variant="danger"
+                                  className="mx-2"
                                   onClick={() => {
                                     setViewModal(false);
                                     setEnrollButton(true);
@@ -183,18 +187,17 @@ const UnenrolledStudentsList = () => {
                                   Cancel
                                 </Button>
                                 <Button
-                                  type="button"
-                                  className="btn btn-primary"
-                                  onClick={handleSubmit}
+                                  variant="primary"
+                                  className=""
+                                  onClick={()=>selectedIds.length === 0 ? handleSubmitError() : handleSubmit()}
                                 >
                                   Confirm Enroll
-                                </Button>{" "}
+                                </Button>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Form>
-                    )}
+                            </Modal.Body>
+                          
+                        
+                      </Modal>
                   </div>
                 )}
               </Formik>
@@ -202,7 +205,7 @@ const UnenrolledStudentsList = () => {
                 {showEnrollButton ? (
                   <button
                     type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary "
                     onClick={() => {
                       setEnrollButton(!showEnrollButton);
                       setShowCheckBoxes(!showCheckBoxes);
@@ -254,9 +257,11 @@ const UnenrolledStudentsList = () => {
                 ) : (
                   <button
                     type="button"
+                    data-toggle="modal" 
+                    data-target="#viewModal"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      setViewModal(true);
+                       setViewModal(true);
                     }}
                   >
                     <i className="btn-inner">
@@ -324,6 +329,7 @@ const UnenrolledStudentsList = () => {
                                   e.target.checked,
                                   unenrolledStudents
                                 );
+                               
                               }}
                             />
                           ) : (
@@ -350,6 +356,7 @@ const UnenrolledStudentsList = () => {
                                     student.studentContactId,
                                     unenrolledStudents
                                   );
+
                                 }}
                               />
                             ) : (
@@ -361,47 +368,56 @@ const UnenrolledStudentsList = () => {
 
                           <td>
                             <div className="flex align-items-center list-user-action">
-                              <Link
-                                className="btn btn-sm btn-icon btn-success"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title=""
-                                data-original-title="Details"
-                                to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentContactId}`}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2"> details</Tooltip>}
                               >
-                                <span className="btn-inner">
-                                  <svg
-                                    width="32"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M11.9946 16V12"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M11.9896 8.2041H11.9996"
-                                      stroke="currentColor"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                  </svg>
-                                </span>
-                              </Link>{" "}
+                                <Link
+                                  className="btn btn-sm btn-icon btn-success"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title=""
+                                  data-original-title="Details"
+                                  to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentContactId}`}
+                                >
+                                  <span className="btn-inner">
+                                    <svg
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9946 16V12"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9896 8.2041H11.9996"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                  </span>
+                                </Link>
+                              </OverlayTrigger>{" "}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2"> enroll</Tooltip>}
+                              >
                               <Link
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
@@ -460,6 +476,7 @@ const UnenrolledStudentsList = () => {
                                   </svg>
                                 </span>
                               </Link>
+                              </OverlayTrigger>
                             </div>
                           </td>
                         </tr>
