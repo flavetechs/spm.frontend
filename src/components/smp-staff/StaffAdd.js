@@ -43,9 +43,7 @@ const StaffAdd = () => {
    });
    //VALIDATIONS SCHEMA
 
-   //   React.useEffect(() => {
-   //     getAllTeachers()(dispatch)
-   //   }, []);
+
 
    // ACCESSING STATE FROM REDUX STORE
    const state = useSelector((state) => state);
@@ -101,7 +99,7 @@ const StaffAdd = () => {
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Add New User</h4>
+                                 <h4 className="card-title">Add Staff Photo</h4>
                               </div>
                            </Card.Header>
                            <Card.Body>
@@ -160,6 +158,7 @@ const StaffAdd = () => {
                                     {(touched.middleName && errors.middleName) && <div className='text-danger'>{errors.middleName}</div>}
                                     {(touched.email && errors.email) && <div className='text-danger'>{errors.email}</div>}
                                     {(touched.phone && errors.phone) && <div className='text-danger'>{errors.phone}</div>}
+                                    {(touched.dob && errors.dob) && <div className='text-danger'>{errors.dob}</div>}
                                     <div className="row">
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="firstName" className="form-label"> First Name:</label>

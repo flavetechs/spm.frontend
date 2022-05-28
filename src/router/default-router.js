@@ -31,6 +31,7 @@ import SessionEdit from '../components/smp-session/SessionEdit';
 import SessionClassDetails from '../components/spm-class/session-class-details';
 import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
 import EnrolledStudents from '../components/smp-enrollment/enrolled-student-list';
+import StaffDetails from '../components/smp-staff/StaffDetails';
 
 const DashboardRouter = () => {
 
@@ -74,6 +75,7 @@ const DashboardRouter = () => {
                      <Route path={staffLocations.staffList} exact component={StaffList} />
                     <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
                     <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
+                    <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
 
                      {/* enrollment */}
                      <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
