@@ -21,10 +21,9 @@ const SessionDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { selectedItem } = state.session;
+    console.log('staff single  selectedItem', selectedItem);
     // ACCESSING STATE FROM REDUX STORE
 
-
-    console.log('selectedItem', selectedItem);
 
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);

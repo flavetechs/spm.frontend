@@ -39,7 +39,8 @@ const StaffEdit = () => {
          .min(2, 'Name Too Short!'),
       email: Yup.string().required("Please Enter Email")
          .email('Must be a valid email'),
-      phone: Yup.string().required("Please enter phone Number")
+      phone: Yup.string().required("Please enter phone Number"),
+      dob: Yup.string().required("Please enter date of birth"),
    });
    //VALIDATIONS SCHEMA
 
@@ -87,7 +88,7 @@ const StaffEdit = () => {
                   phone: selectedItem?.phone,
                   photo: selectedItem?.photo,
                   teacherUserAccountId: selectedItem?.teacherUserAccountId,
-                  dob: selectedItem?.dob
+                  dob: selectedItem?.dob,
                }}
                validationSchema={validation}
                onSubmit={values => {
@@ -108,7 +109,7 @@ const StaffEdit = () => {
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Add New User</h4>
+                                 <h4 className="card-title">Edit Staff Photo</h4>
                               </div>
                            </Card.Header>
                            <Card.Body>
@@ -167,6 +168,7 @@ const StaffEdit = () => {
                                     {(touched.middleName && errors.middleName) && <div className='text-danger'>{errors.middleName}</div>}
                                     {(touched.email && errors.email) && <div className='text-danger'>{errors.email}</div>}
                                     {(touched.phone && errors.phone) && <div className='text-danger'>{errors.phone}</div>}
+                                    {(touched.dob && errors.dob) && <div className='text-danger'>{errors.dob}</div>}
                                     <div className="row">
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="firstName" className="form-label"> First Name:</label>
