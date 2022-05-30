@@ -78,12 +78,12 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({ name, classId, isActive }) => (dispatch) => {
+export const updateClass = ({ name, lookupId, isActive }) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
     const payload = {
-        lookupId: classId,
+        lookupId: lookupId,
         name: name,
         isActive: isActive
     }
@@ -228,12 +228,12 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
 //SUBJECT ACTION HANDLERS
 
 //SESSION CLASS ACTION HANDLERS
-export const getAllSessionClasses = () => (dispatch) => {
+export const getAllSessionClasses = (sessionId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SESSION_CLASS_LOADING
     });
 
-    axiosInstance.get('/class/api/v1/get-all/session-classes')
+    axiosInstance.get(`/class/api/v1/get-all/session-classes${sessionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SESSION_CLASS_SUCCESS,
@@ -339,15 +339,15 @@ export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubject
 
     var existingCassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
-    if(existingCassSubject){
-        if(checkBoxValue){
+    if (existingCassSubject) {
+        if (checkBoxValue) {
             existingCassSubject.subjectId = subjectId;
             existingCassSubject.subjectTeacherId = subjectTeacherId;
             classSubjects = [...otherClassSubject, existingCassSubject]
-        }else{
+        } else {
             classSubjects = [...otherClassSubject]
         }
-    }else{
+    } else {
         let newClassSubject = {
             subjectId,
             subjectTeacherId
@@ -368,18 +368,18 @@ export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
         type: actions.FETCH_SINGLE_SESSION_CLASS_LOADING,
         payload: sessionClassId
     });
-        axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
-            .then((res) => {
-                dispatch({
-                    type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
-                    payload: res.data.result
-                });
-            }).catch(err => {
-                dispatch({
-                    type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
-                    payload: err.response.data.result
-                })
+    axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
+                payload: res.data.result
             });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
 
 }
 

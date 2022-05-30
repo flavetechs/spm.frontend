@@ -71,7 +71,22 @@ export const alertReducer = (state = _state, { type, payload }: any) => {
             return {
                 ...state,
                 dialogShow: payload[0],
-                message: payload[1] == null? state.message : payload[1]
+                dialogMessage: payload[1]
+            }
+        case actions.RESPOND_DECISION_DIALOG:
+            return {
+                ...state,
+                dialogResponse: payload
+            }
+        case actions.SHOW_HIDE_MODAL:
+            return {
+                ...state,
+                showModal: payload
+            }
+            case actions.RESPOND_MODAL:
+            return {
+                ...state,
+                modalResponse: payload
             }
         default:
             return state
