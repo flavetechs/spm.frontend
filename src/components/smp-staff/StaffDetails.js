@@ -170,7 +170,7 @@ const StaffDetails = () => {
                                                 {(touched.phone && errors.phone) && <div className='text-danger'>{errors.phone}</div>}
                                                 <div className="row">
                                                     <Form.Group className="col-md-6 form-group">
-                                                        <label htmlFor="firstName" className="form-label"> First Name:</label>
+                                                        <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
                                                         <Field type="text"
                                                             className="form-control"
                                                             name="firstName" id="firstName"
@@ -181,7 +181,7 @@ const StaffDetails = () => {
                                                             placeholder="First Name" />
                                                     </Form.Group>
                                                     <Form.Group className="col-md-6 form-group">
-                                                        <label htmlFor="lastName" className="form-label"> Last Name:</label>
+                                                        <label htmlFor="lastName" className="form-label"> <b>Last Name:</b></label>
                                                         <Field type="text"
                                                             className="form-control"
                                                             name="lastName" id="lastName"
@@ -191,7 +191,7 @@ const StaffDetails = () => {
                                                             required placeholder="Last Name" />
                                                     </Form.Group>
                                                     <Form.Group className="col-md-6 form-group">
-                                                        <label htmlFor="middleName" className="form-label"> Middle Name:</label>
+                                                        <label htmlFor="middleName" className="form-label"> <b>Middle Name:</b></label>
                                                         <Field type="text"
                                                             className="form-control"
                                                             name="middleName" id="middleName"
@@ -201,7 +201,7 @@ const StaffDetails = () => {
                                                             placeholder="Middle Name" />
                                                     </Form.Group>
                                                     <Form.Group className="col-md-6 form-group">
-                                                        <label htmlFor="email" className="form-label"> Email:</label>
+                                                        <label htmlFor="email" className="form-label"> <b>Email:</b></label>
                                                         <Field type="text"
                                                             className="form-control"
                                                             name="email" id="email"
@@ -211,8 +211,8 @@ const StaffDetails = () => {
                                                             readOnly
                                                             placeholder="Email e.g schoolmgt@yahoo.com" />
                                                     </Form.Group>
-                                                    <Form.Group className="col-md-3  form-group">
-                                                        <label htmlFor="phone" className="form-label"> Phone No.</label>
+                                                    <Form.Group className="col-md-6  form-group">
+                                                        <label htmlFor="phone" className="form-label"><b>Phone No.</b> </label>
                                                         <input
                                                             type="text"
                                                             className="form-control"
@@ -224,7 +224,7 @@ const StaffDetails = () => {
                                                             placeholder="Phone No. e.g 08222222" />
                                                     </Form.Group>
                                                     <Form.Group className="col-md-3  form-group">
-                                                        <label htmlFor="dob" className="form-label"> Date of Birth.</label>
+                                                        <label htmlFor="dob" className="form-label"> <b>Date of Birth:</b></label>
                                                         <Field type="date"
                                                             className="form-control"
                                                             name="dob" id="dob"

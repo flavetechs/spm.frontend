@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 import {
@@ -261,6 +261,8 @@ const ClassSetupList = () => {
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
+                            <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Edit Class</Tooltip>}
+                              >
                               <a
                                 onClick={() => {
                                   fetchSingleItem(item.lookupId)(dispatch)
@@ -306,8 +308,11 @@ const ClassSetupList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </a>{" "}
-
+                              </a>
+                              </OverlayTrigger>
+                              {" "}
+                              <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Delete Class</Tooltip>}
+                              >
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
                                 data-toggle="tooltip"
@@ -354,7 +359,7 @@ const ClassSetupList = () => {
                                   </svg>
                                 </span>
                               </Link>
-
+                              </OverlayTrigger>
                             </div>
                           </td>
                         </tr>

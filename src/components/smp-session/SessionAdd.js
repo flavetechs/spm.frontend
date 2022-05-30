@@ -20,9 +20,9 @@ const SessionAdd = () => {
   const validation = Yup.object().shape({
 
     startDate: Yup.string()
-      .required('Session Year is required'),
+      .required('Start Year is required'),
     endDate: Yup.string()
-      .required('Session Year is required'),
+      .required('End Year is required'),
     terms: Yup.string().required("Please select Term"),
     headTeacherId: Yup.string().required("Please select Head Teacher")
   });
@@ -50,6 +50,11 @@ const SessionAdd = () => {
         <Row>
           <Col sm="12">
             <Card className="">
+              <Card.Header className="d-flex justify-content-between">
+                <div className="header-title">
+                  <h4 className="card-title">Add New Session</h4>
+                </div>
+              </Card.Header>
               <Card.Body>
                 <Formik
                   initialValues={{
@@ -77,18 +82,19 @@ const SessionAdd = () => {
                       {(touched.startDate && errors.startDate) && <div className='text-danger'>{errors.startDate}</div>}
                       {(touched.endDate && errors.endDate) && <div className='text-danger'>{errors.endDate}</div>}
                       {(touched.headTeacherId && errors.headTeacherId) && <div className='text-danger'>{errors.headTeacherId}</div>}
+                      {(touched.terms && errors.terms) && <div className='text-danger'>{errors.terms}</div>}
                       <div className="row">
                         <Form.Group className="col-md-6 form-group">
-                          <label htmlFor="startDate" className="form-label"> Start Year:</label>
+                          <label htmlFor="startDate" className="form-label"> <b>Start Year:</b></label>
                           <Field type="text" className="form-control" name="startDate" id="name" aria-describedby="name" required placeholder="Start Year" />
                         </Form.Group>
                         <Form.Group className="col-md-6 form-group">
-                          <label htmlFor="endYear" className="form-label">End Year:</label>
+                          <label htmlFor="endYear" className="form-label"><b>End Year:</b></label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
 
                         <Form.Group className="col-sm-6 form-group">
-                          <label htmlFor="headTeacherId" className="form-label">Head of School</label><br />
+                          <label htmlFor="headTeacherId" className="form-label"><b>Head of School:</b></label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
                             <option value={''}>Select head of school</option>
                             {activeTeachers.map((teacher, idx) => {
@@ -104,7 +110,7 @@ const SessionAdd = () => {
                         </Form.Group>
 
                         <Form.Group className="col-sm-3 form-group">
-                          <label htmlFor="terms" className="form-label">No. of Terms</label><br />
+                          <label htmlFor="terms" className="form-label"><b>No. of Terms</b></label><br />
                           <Field as='select' id='terms' name='terms' className="form-control" data-style="py-0">
                             <option value='1'>1</option>
                             <option value='2'>2</option>

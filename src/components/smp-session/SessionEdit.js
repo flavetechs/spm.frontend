@@ -7,7 +7,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 import { useHistory, useLocation } from "react-router-dom";
-import { createSession, updateSession } from "../../store/actions/session-actions";
+import {  updateSession } from "../../store/actions/session-actions";
 import { getAllActiveTeachers } from "../../store/actions/class-actions";
 
 const SessionEdit = () => {

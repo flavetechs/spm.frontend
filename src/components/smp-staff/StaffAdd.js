@@ -37,9 +37,10 @@ const StaffAdd = () => {
          .min(2, 'Name Too Short!'),
       email: Yup.string().required("Please Enter Email")
          .email('Must be a valid email'),
-      phone: Yup.string().required("Please enter phone Number"),
       dob: Yup.string().required("Please enter date of birth"),
-      // photo: Yup.string().required("Please enter date of birth")
+      phone: Yup.number()
+         .min(10, "Must be more than 10 characters")
+         .required("Phone Number is required")
    });
    //VALIDATIONS SCHEMA
 
@@ -56,7 +57,7 @@ const StaffAdd = () => {
    }
 
    React.useEffect(() => {
-      if(images.length < 1) return;
+      if (images.length < 1) return;
       const newImageUrls = [];
       images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
       setImageURLs(newImageUrls)
@@ -65,7 +66,7 @@ const StaffAdd = () => {
    function onImageChanges(e) {
       setImages([...e.target.files])
    }
-   
+
    return (
       <>
          <div>
@@ -127,13 +128,12 @@ const StaffAdd = () => {
                                           <Link to="#">.png</Link>{' '}
                                           <Link to="#">.jpeg</Link>{' '}
                                           <span>allowed</span>
-                                          <Field type="file" id="customFile1" name='photo'  onChange={onImageChanges}/>
+                                          <Field type="file" id="customFile1" name='photo' onChange={onImageChanges} />
                                           {imageURLs.map((imageSrc, index) => {
                                              return (
-                                                <img key={index} src={imageSrc} style={{ width: 350, height:300, borderRadius: 10, marginTop: 15}}/>
+                                                <img key={index} src={imageSrc} style={{ width: 350, height: 300, borderRadius: 10, marginTop: 15 }} />
                                              )
                                           })}
-                                          {/* {imageURLs.map(imageSrc => <img key={imageSrc.index} src={imageSrc} style={{ width: 350, height:300, borderRadius: 10, marginTop: 15}}/>)} */}
                                        </div>
                                     </div>
                                  </Form.Group>
@@ -161,27 +161,27 @@ const StaffAdd = () => {
                                     {(touched.dob && errors.dob) && <div className='text-danger'>{errors.dob}</div>}
                                     <div className="row">
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="firstName" className="form-label"> First Name:</label>
+                                          <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
                                           <Field type="text" className="form-control" name="firstName" id="firstName" aria-describedby="name" required placeholder="First Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="lastName" className="form-label"> Last Name:</label>
+                                          <label htmlFor="lastName" className="form-label"><b>Last Name:</b></label>
                                           <Field type="text" className="form-control" name="lastName" id="lastName" aria-describedby="name" required placeholder="Last Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="middleName" className="form-label"> Middle Name:</label>
+                                          <label htmlFor="middleName" className="form-label"><b>Middle Name:</b></label>
                                           <Field type="text" className="form-control" name="middleName" id="middleName" aria-describedby="name" placeholder="Middle Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="email" className="form-label"> Email:</label>
+                                          <label htmlFor="email" className="form-label"><b>Email:</b></label>
                                           <Field type="email" className="form-control" name="email" id="email" aria-describedby="name" required placeholder="Email e.g schoolmgt@yahoo.com" />
                                        </Form.Group>
-                                       <Form.Group className="col-md-3  form-group">
-                                          <label htmlFor="phone" className="form-label"> Phone No.</label>
-                                          <Field type="text" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
+                                       <Form.Group className="col-md-6  form-group">
+                                          <label htmlFor="phone" className="form-label"><b>Phone No.</b></label>
+                                          <Field type="tel" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
                                        </Form.Group>
                                        <Form.Group className="col-md-3  form-group">
-                                          <label htmlFor="dob" className="form-label"> Date of Birth.</label>
+                                          <label htmlFor="dob" className="form-label"> <b>Date of Birth:</b></label>
                                           <Field type="date" className="form-control" name="dob" id="dob" aria-describedby="name" required placeholder="Enter Date of Birth" />
                                        </Form.Group>
                                     </div>
@@ -190,14 +190,14 @@ const StaffAdd = () => {
                                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                                     </div>
                                  </div>
-                             
-                           </div>
-                        </Card.Body>
-                     </Card>
-                  </Col>
-            </Row>
-             )}
-             </Formik>
+
+                              </div>
+                           </Card.Body>
+                        </Card>
+                     </Col>
+                  </Row>
+               )}
+            </Formik>
          </div>
       </>
    )

@@ -39,8 +39,10 @@ const StaffEdit = () => {
          .min(2, 'Name Too Short!'),
       email: Yup.string().required("Please Enter Email")
          .email('Must be a valid email'),
-      phone: Yup.string().required("Please enter phone Number"),
       dob: Yup.string().required("Please enter date of birth"),
+      phone: Yup.number()
+         .min(10, "Must be more than 10 characters")
+         .required("Phone Number is required")
    });
    //VALIDATIONS SCHEMA
 
@@ -155,7 +157,7 @@ const StaffEdit = () => {
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">New Staff Information</h4>
+                                 <h4 className="card-title">Edit Staff Details</h4>
                               </div>
                            </Card.Header>
                            <Card.Body>
@@ -171,27 +173,27 @@ const StaffEdit = () => {
                                     {(touched.dob && errors.dob) && <div className='text-danger'>{errors.dob}</div>}
                                     <div className="row">
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="firstName" className="form-label"> First Name:</label>
+                                          <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
                                           <Field type="text" className="form-control" name="firstName" id="firstName" aria-describedby="name" required placeholder="First Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="lastName" className="form-label"> Last Name:</label>
+                                          <label htmlFor="lastName" className="form-label"> <b>Last Name:</b></label>
                                           <Field type="text" className="form-control" name="lastName" id="lastName" aria-describedby="name" required placeholder="Last Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="middleName" className="form-label"> Middle Name:</label>
+                                          <label htmlFor="middleName" className="form-label"> <b>Middle Name:</b></label>
                                           <Field type="text" className="form-control" name="middleName" id="middleName" aria-describedby="name" placeholder="Middle Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
-                                          <label htmlFor="email" className="form-label"> Email:</label>
+                                          <label htmlFor="email" className="form-label"><b>Email:</b> </label>
                                           <Field type="text" className="form-control" name="email" id="email" aria-describedby="name" required placeholder="Email e.g schoolmgt@yahoo.com" />
                                        </Form.Group>
-                                       <Form.Group className="col-md-3  form-group">
-                                          <label htmlFor="phone" className="form-label"> Phone No.</label>
+                                       <Form.Group className="col-md-6  form-group">
+                                          <label htmlFor="phone" className="form-label"> <b>Phone No.</b></label>
                                           <Field type="text" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
                                        </Form.Group>
                                        <Form.Group className="col-md-3  form-group">
-                                          <label htmlFor="dob" className="form-label"> Date of Birth.</label>
+                                          <label htmlFor="dob" className="form-label"><b>Date of Birth:</b> </label>
                                           <Field type="date" className="form-control" name="dob" id="dob" aria-describedby="name" required placeholder="Enter Date of Birth" />
                                        </Form.Group>
                                     </div>
