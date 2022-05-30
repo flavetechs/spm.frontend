@@ -227,7 +227,7 @@ console.log(itemList);
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> details</Tooltip>}
+                                overlay={<Tooltip id="button-tooltip-2"> delete</Tooltip>}
                               >
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
