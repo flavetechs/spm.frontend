@@ -32,6 +32,7 @@ import SessionClassDetails from '../components/spm-class/session-class-details';
 import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
 import EnrolledStudents from '../components/smp-enrollment/enrolled-student-list';
 import StaffDetails from '../components/smp-staff/StaffDetails';
+import PromotionSetup from '../components/smp-session/PromotionSetup';
 
 const DashboardRouter = () => {
 
@@ -81,6 +82,9 @@ const DashboardRouter = () => {
                      {/* enrollment */}
                      <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
                      <Route path={enrollment.enrolledStudents} exact component={EnrolledStudents} />
+
+                     {/* {promotioon} */}
+                     <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
 
                 </Switch>
             </CSSTransition>

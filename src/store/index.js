@@ -4,6 +4,7 @@ import { authReducer } from './reducers/auth-reducer'
 import { classReducer } from './reducers/class-reducer'
 import { enrollmentReducer } from './reducers/enrollment-reducer'
 import { generalReducer } from './reducers/general-reducers'
+import { promotionReducer } from './reducers/promotion-reducer'
 import { rolesReducer } from './reducers/roles-reducer'
 import { sessionReducer } from './reducers/session-reducer'
 import { staffReducer } from './reducers/staff-reducers'
@@ -22,6 +23,7 @@ export default createStore(
         session: sessionReducer,
         staff: staffReducer,
         student: studentReducer,
-        enrollment: enrollmentReducer
+        enrollment: enrollmentReducer,
+        promotion: promotionReducer
     })
 )
