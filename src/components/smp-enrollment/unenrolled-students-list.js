@@ -68,7 +68,6 @@ const UnenrolledStudentsList = () => {
   }, [modalResponse]);
   //ENROLL HANDLER
 
-  console.log('modalResponse', modalResponse);
 
   const checkSingleItem = (isChecked, studentContactId, unenrolledStudents) => {
     unenrolledStudents.forEach((item) => {
