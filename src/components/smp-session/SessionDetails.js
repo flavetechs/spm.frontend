@@ -3,7 +3,7 @@ import { Row, Col, Form, Button, Table, OverlayTrigger, Tooltip } from "react-bo
 import { Link, useLocation } from 'react-router-dom'
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../router/spm-path-locations";
+import { classLocations, sessionLocations } from "../../router/spm-path-locations";
 
 import { useHistory } from "react-router-dom";
 import { fetchSingleSession, getAllSession } from "../../store/actions/session-actions";
@@ -21,7 +21,7 @@ const SessionDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { selectedItem } = state.session;
-    console.log('staff single  selectedItem', selectedItem);
+    
     // ACCESSING STATE FROM REDUX STORE
 
 
@@ -59,7 +59,7 @@ const SessionDetails = () => {
                                                 <span>No. of Students</span>
                                             </td>
                                             <td>
-                                            <span className="badge bg-primary">25</span>
+                                                <span className="badge bg-primary">{selectedItem?.noOfStudents}</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -67,7 +67,7 @@ const SessionDetails = () => {
                                                 <span>No. of subject</span>
                                             </td>
                                             <td>
-                                                <span className="badge bg-primary">25</span>
+                                                <span className="badge bg-primary">{selectedItem?.noOfSubjects}</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -75,7 +75,7 @@ const SessionDetails = () => {
                                                 <span>No. of classes</span>
                                             </td>
                                             <td>
-                                                <span className="badge bg-primary">25</span>
+                                                <span className="badge bg-primary">{selectedItem?.noOfClasses}</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -83,7 +83,7 @@ const SessionDetails = () => {
                                                 <span>Principal Name</span>
                                             </td>
                                             <td>
-                                                <span>Temple Ejiofor</span>
+                                                <span>{selectedItem?.headTeacherName}</span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -141,7 +141,7 @@ const SessionDetails = () => {
                                                                         data-placement="top"
                                                                         title=""
                                                                         data-original-title="Details"
-                                                                        to={`${sessionLocations.sessionDetails}?studentAccountId=${item.sessionId}`}
+                                                                        to={`${classLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
                                                                     >
                                                                         <span className="btn-inner">
                                                                             <svg
@@ -212,7 +212,7 @@ const SessionDetails = () => {
                                         type="button"
                                         variant="btn btn-danger mx-2"
                                         onClick={() => {
-                                            history.push(sessionLocations.sessionList);
+                                            history.goBack();
                                         }}
                                     >
                                         Cancel

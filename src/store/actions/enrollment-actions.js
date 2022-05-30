@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/enrollment-action-types"
-import { showErrorToast, showSuccessToast } from "./toaster-actions";
+import { respondModal, showErrorToast, showHideModal, showSuccessToast } from "./toaster-actions";
 
 export const pushId = (studentId) => {
     return {
@@ -57,6 +57,8 @@ export const enrollStudent = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             getAllUnenrolledStudents()(dispatch);
+            showHideModal(false)(dispatch)
+            respondModal('cancel')(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -113,6 +115,8 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+
 
 
 

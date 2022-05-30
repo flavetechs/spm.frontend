@@ -51,3 +51,7 @@ export const enrollment = {
   enrolledStudents: "/dashboard/smp-enrollment/enrollment",
   unenrolledStudents: "/dashboard/smp-enrollment/unenrollment",
 }
+
+export const gradeSetting = {
+  setting: "/dashboard/smp-grade/setting"
+}

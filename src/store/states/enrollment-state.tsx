@@ -1,9 +1,11 @@
 export const _state = {
     loading: false,
-    selectedItem:null,
+    selectedItem: null,
     message: '',
-    enrolledStudents:[],
-    unenrolledStudents:[],
+    enrolledStudents: [],
+    unenrolledStudents: [],
     isSuccessful: false,
-    selectedIds: []
+    selectedIds: [],
+    showModal: false,
+    modalResponse:''
 }

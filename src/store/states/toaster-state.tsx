@@ -9,5 +9,9 @@ export const _state = {
     showSingleDeleteDialog: false,
     showMultipleDeleteDialog: false,
     deleteDialogResponse: '',
-    dialogShow: false
+    dialogShow: false,
+    dialogResponse: '',
+    dialogMessage:'',
+    showModal: false,
+    modalResponse : ''
 }

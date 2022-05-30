@@ -1,3 +1,4 @@
 export const _state = {
-    refreshScreen: false
+    refreshScreen: false,
+    activeSession: null
 }

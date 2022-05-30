@@ -162,7 +162,7 @@ const SessionClassDetails = () => {
                     type="button"
                     variant="btn btn-danger mx-2"
                     onClick={() => {
-                      history.push(classLocations.sessionClassList);
+                      history.goBack();
                     }}
                   >
                     Cancel

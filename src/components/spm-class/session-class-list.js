@@ -15,6 +15,7 @@ import {
   showSingleDeleteDialog
 } from "../../store/actions/toaster-actions";
 import { removeId } from "../../store/actions/session-actions";
+import { getGeneralActiveSession } from "../../store/actions/general-actions";
 
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
@@ -28,12 +29,18 @@ const SessionClassList = () => {
   const state = useSelector((state) => state);
   const { itemList, selectedIds } = state.class;
   const { deleteDialogResponse } = state.alert;
+  const { activeSession } = state.appState;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllSessionClasses()(dispatch);
+    getGeneralActiveSession()(dispatch);
   }, []);
-console.log('selectedIds', selectedIds);
+
+  React.useEffect(() => {
+    getAllSessionClasses(activeSession?.sessionId)(dispatch);
+  }, [activeSession]);
+  
+
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === 'continue') {
@@ -111,7 +118,7 @@ console.log(itemList);
                     <thead>
                       <tr className="ligth">
                         <th>S/No</th>
-                        <th>Session</th>
+                        {/* <th>Session</th> */}
                         <th>Class</th>
                         <th>Form Teacher</th>
                         <th>Exam Score</th>
@@ -124,8 +131,8 @@ console.log(itemList);
                       {itemList.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">{idx + 1}</td>
-                          <td>{item.session}</td>
-                          <td>{item.class}</td>
+                          {/* <td>{item.session}</td> */}
+                          <td><strong>{item.class}</strong> </td>
                           <td>{item.formTeacher}</td>
                           <td>{item.examScore}</td>
                           <td>{item.assessmentScore}</td>
@@ -227,7 +234,7 @@ console.log(itemList);
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> details</Tooltip>}
+                                overlay={<Tooltip id="button-tooltip-2"> delete</Tooltip>}
                               >
                               <Link
                                 className="btn btn-sm btn-icon btn-danger"
