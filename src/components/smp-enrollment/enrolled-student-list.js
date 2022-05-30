@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "../Card";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,6 @@ import {
   respondToDeleteDialog,
   showErrorToast,
   showHideDialog,
-  showSingleDeleteDialog,
 } from "../../store/actions/toaster-actions";
 import { getAllenrolledStudents, pushId, removeId, returnListEnrolled, unEnrollStudent } from "../../store/actions/enrollment-actions";
 
@@ -17,7 +16,6 @@ import { getAllenrolledStudents, pushId, removeId, returnListEnrolled, unEnrollS
 const EnrolledStudents = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const history = useHistory();
   const [showUnenrollButton, setUnenrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS

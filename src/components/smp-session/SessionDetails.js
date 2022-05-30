@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col,Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useLocation } from 'react-router-dom'
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../router/spm-path-locations";
+import { classLocations, sessionLocations } from "../../router/spm-path-locations";
 
 import { useHistory } from "react-router-dom";
-import { fetchSingleSession, getAllSession } from "../../store/actions/session-actions";
+import { fetchSingleSession } from "../../store/actions/session-actions";
 
 const SessionDetails = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
     const locations = useLocation();
-    const [displaySubjectsTable, setDisplaySubjectsTable] = useState(true);
+    const [ setDisplaySubjectsTable] = useState(true);
     const [displayStudentsTable, setDisplayStudentsTable] = useState(false);
     //VARIABLE DECLARATIONS
 
@@ -21,7 +21,7 @@ const SessionDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { selectedItem } = state.session;
-    console.log('staff single  selectedItem', selectedItem);
+    console.log('session single  selectedItem', selectedItem);
     // ACCESSING STATE FROM REDUX STORE
 
 
@@ -43,7 +43,7 @@ const SessionDetails = () => {
                             <Card.Body>
                                 <Card.Header className="d-flex justify-content-between">
                                     <div className="header-title">
-                                        <h5><b>{selectedItem?.startDate}/{selectedItem?.endDate}</b></h5>
+                                        <h5><b>{selectedItem?.startDate}/{selectedItem?.endDate} Session</b></h5>
                                     </div>
                                 </Card.Header>
                                 <table className="table table-bordered">
@@ -59,7 +59,7 @@ const SessionDetails = () => {
                                                 <span>No. of Students</span>
                                             </td>
                                             <td>
-                                            <span className="badge bg-primary">25</span>
+                                                <span className="badge bg-primary">25</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -140,8 +140,8 @@ const SessionDetails = () => {
                                                                         data-toggle="tooltip"
                                                                         data-placement="top"
                                                                         title=""
-                                                                        data-original-title="Details"
-                                                                        to={`${sessionLocations.sessionDetails}?studentAccountId=${item.sessionId}`}
+                                                                    // to={`${classLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
+                                                                    to={classLocations.sessionClassDetail}
                                                                     >
                                                                         <span className="btn-inner">
                                                                             <svg

@@ -44,18 +44,23 @@ const ClassSetupAdd = () => {
   //   }
   // }
 
-  
+
   if (isSuccessful) {
     history.push(classLocations.classSetupList);
   }
 
-  
+
   return (
     <>
       <div className="col-6 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
+              <Card.Header className="d-flex justify-content-between">
+                <div className="header-title">
+                  <h4 className="card-title">Add New Class</h4>
+                </div>
+              </Card.Header>
               <Card.Body>
                 <Formik
                   initialValues={{
@@ -66,7 +71,7 @@ const ClassSetupAdd = () => {
                   onSubmit={values => {
                     console.log(values);
                     values.isActive = isChecked
-                      createClass(values)(dispatch)
+                    createClass(values)(dispatch)
                   }}
                 >
                   {({
@@ -83,7 +88,7 @@ const ClassSetupAdd = () => {
                       <Col lg="12">
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
-                          <label htmlFor="name" className="form-label"> Name</label>
+                          <label htmlFor="name" className="form-label"> <b>Name</b></label>
                           <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" Enter class name e.g SS1" />
                         </div>
                       </Col>
@@ -91,17 +96,18 @@ const ClassSetupAdd = () => {
                       <Col lg="6" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
                           <Field type="checkbox" id="customCheck1" className="form-check-input"
-                          checked={isChecked}
-                          onChange={(e) => {
-                            setIsChecked(!isChecked)
-                          }} 
+                            checked={isChecked}
+                            onChange={(e) => {
+                              setIsChecked(!isChecked)
+                            }}
                           />
                           <label htmlFor="customCheck1" className='check-label'>isActive </label>
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">
-                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
-                      <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
+                        <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
+
+                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                       </div>
                     </Form>
                   )}
