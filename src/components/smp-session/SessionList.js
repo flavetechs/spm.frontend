@@ -267,6 +267,10 @@ const SessionList = () => {
                           <td>{item.isActive ? <span className="badge bg-success">Isactive</span> : <span className="badge bg-primary">inactive</span>}</td>
                           <td>
                             <div className="flex align-items-center list-user-action">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2">Session Details</Tooltip>}
+                              >
                               <Link
                                 className="btn btn-sm btn-icon btn-success"
                                 data-toggle="tooltip"
@@ -307,7 +311,8 @@ const SessionList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </Link>{" "}
+                              </Link>
+                              </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
                                 overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}
