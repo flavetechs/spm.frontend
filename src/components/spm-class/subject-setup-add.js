@@ -53,7 +53,6 @@ const SubjectSetupAdd = () => {
                   onSubmit={values => {
                     values.isActive = isChecked;
                      createSubject(values)(dispatch)
-                    console.log(values);
                   }}
                 >
                   {({
