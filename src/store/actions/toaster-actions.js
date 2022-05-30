@@ -73,9 +73,29 @@ export const respondToDeleteDialog = (value) => dispatch=> {
     })
 }
 
+export const respondDialog = (value) => dispatch=> {
+    dispatch({
+        type: actions.RESPOND_DECISION_DIALOG,
+        payload: value
+    })
+}
 export const showHideDialog = (value, message) => dispatch=> {
     dispatch({
         type: actions.SHOW_DECISION_DIALOG,
         payload: [value, message]
+    })
+}
+
+export const showHideModal = (value) => (dispatch) => {
+    dispatch({
+        type: actions.SHOW_HIDE_MODAL,
+        payload: value
+    });
+}
+
+export const respondModal = (message) => dispatch=> {
+    dispatch({
+        type: actions.RESPOND_MODAL,
+        payload: message
     })
 }

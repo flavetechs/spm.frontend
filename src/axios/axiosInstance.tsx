@@ -1,5 +1,5 @@
 import axios from 'axios';
-// 'https://localhost:44373/',
+// https://localhost:44373/,
 const axiosInstance = axios.create({
     baseURL: 'http://flavetech-001-site1.etempurl.com/',
     headers: {

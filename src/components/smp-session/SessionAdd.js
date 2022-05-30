@@ -65,7 +65,6 @@ const SessionAdd = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
-                    console.log(values);
                     createSession(values)(dispatch)
                   }}
                 >
@@ -97,6 +96,7 @@ const SessionAdd = () => {
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="headTeacherId" className="form-label"><b>Head of School:</b></label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
+                            <option value={''}>Select head of school</option>
                             {activeTeachers.map((teacher, idx) => {
                               return (
                                 <option key={idx} value={teacher.teacherAccountId}>
@@ -115,13 +115,34 @@ const SessionAdd = () => {
                             <option value='1'>1</option>
                             <option value='2'>2</option>
                             <option value='3'>3</option>
+                            <option value='4'>4</option>
+                            <option value='5'>5</option>
+                            <option value='6'>6</option>
+                            <option value='7'>7</option>
+                            <option value='8'>8</option>
                           </Field>
                         </Form.Group>
 
                       </div>
-                      <div className="d-flex justify-content-end">
-                        <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(sessionLocations.sessionList) }}>Cancel</Button>{' '}
-                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
+                      <div className="d-flex justify-content-end ">
+                        <Button
+                          type="button"
+                          variant="btn btn-danger mx-2"
+                          onClick={() => {
+                            history.goBack();
+                          }}
+                        >
+                          Cancel
+                        </Button>{" "}
+                        <Button
+                          type="button"
+                          variant="btn btn-primary"
+                          onClick={() => {
+                            handleSubmit();
+                          }}
+                        >
+                          Submit
+                        </Button>
                       </div>
                     </Form>
                   )}

@@ -40,6 +40,7 @@ const DashboardRouter = () => {
             <CSSTransition classNames="fadein" timeout={300}>
                 <Switch>
                     {/* dashboard */}
+                    <Route exact path="/" component={Index}></Route>
                     <Route path={dashboardLocations.dashboard} exact component={Index} />
 
                     {/* permissions */}

@@ -6,7 +6,7 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
 import {
-  respondToDeleteDialog,
+  respondDialog,
   showErrorToast,
   showHideDialog,
 } from "../../store/actions/toaster-actions";
@@ -23,7 +23,7 @@ const EnrolledStudents = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { enrolledStudents, selectedIds } = state.enrollment;
-  const { deleteDialogResponse } = state.alert;
+  const { dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -32,15 +32,16 @@ const EnrolledStudents = () => {
 
   //UNENROLL HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === "continue") {
+    if (dialogResponse === "continue") {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         unEnrollStudent(selectedIds)(dispatch);
-        showHideDialog(false, null)(dispatch)
         setUnenrollButton(!showUnenrollButton);
         setShowCheckBoxes(false);
-        respondToDeleteDialog("")(dispatch);
+        
+        showHideDialog(false, null)(dispatch)
+        respondDialog("")(dispatch);
       }
     } else {
       setUnenrollButton(true);
@@ -50,12 +51,11 @@ const EnrolledStudents = () => {
       });
     }
     return () => {
-      respondToDeleteDialog("")(dispatch);
+      respondDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
-
-  console.log('selectedIds', selectedIds)
+  }, [dialogResponse]);
   //UNENROLL HANDLER
+
   const checkSingleItem = (isChecked, studentContactId, enrolledStudents) => {
     enrolledStudents.forEach((item) => {
       if (item.studentContactId === studentContactId) {
@@ -138,7 +138,8 @@ const EnrolledStudents = () => {
                     type="button"
                     className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                     onClick={() => {
-                      showHideDialog(true, 'Are you sure to unenroll student (s) ?')(dispatch);
+                      const message = selectedIds.length === 1 ? `Are you sure to unenroll student ?` : `Are you sure to unenroll students ?`;
+                      showHideDialog(true, message)(dispatch);
                     }}
                   >
                     <i className="btn-inner">
@@ -288,7 +289,8 @@ const EnrolledStudents = () => {
                                   data-id={student.userAccountId}
                                   onClick={() => {
                                     dispatch(pushId(student.studentContactId));
-                                    showHideDialog(true, 'Are you sure to unenroll student (s) ?')(dispatch);
+                                    const message = selectedIds.length === 1 ? `Are you sure to unenroll student ?` : `Are you sure to unenroll students ?`;
+                                    showHideDialog(true, message)(dispatch);
                                   }}
                                 >
                                   <span className="btn-inner">

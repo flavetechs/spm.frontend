@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/session-action-types";
+import { getGeneralActiveSession }  from "./general-actions";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
@@ -27,23 +28,24 @@ export const fetchSingleSession = (sessionId) => dispatch => {
     dispatch({
         type: actions.FETCH_SINGLE_SESSION_LOADING,
     });
-        axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
-            .then((res) => {
-                dispatch({
-                    type: actions.FETCH_SINGLE_SESSION_SUCCESS,
-                    payload: res.data.result
-                });
-            }).catch(err => {
-                dispatch({
-                    type: actions.FETCH_SINGLE_SESSION_FAILED,
-                    payload: err.response.data.result
-                })
+    axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_SUCCESS,
+                payload: res.data.result
             });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_FAILED,
+                payload: err.response.data.result
+            })
+        });
 }
 
 
 //SESSION FETCH
 export const getAllSession = () => (dispatch) => {
+
     dispatch({
         type: actions.FETCH_SESSION_LOADING
     });
@@ -135,6 +137,7 @@ export const updateSession = (updatedSession) => (dispatch) => {
 }
 
 export const getActiveSession = () => (dispatch) => {
+
     dispatch({
         type: actions.FETCH_ACTIVE_SESSION_LOADING
     });
@@ -144,11 +147,42 @@ export const getActiveSession = () => (dispatch) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_SUCCESS,
                 payload: res.data.result
-        })
+            })
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_FAILED,
                 payload: err.data.result
             })
+        });
+}
+
+
+
+export const switchTerm = (term) => (dispatch) => {
+    if(term === undefined || term === null){
+        showErrorToast('Error occurred!! reload page if error persists')(dispatch);
+        return
+    }
+
+    dispatch({
+        type: actions.SWITCH_TERM_LOADING
+    });
+
+    axiosInstance.post('/session/api/v1/activate-term', { sessionTermId: term.sessionTermId })
+        .then((res) => {
+            dispatch({
+                type: actions.SWITCH_TERM_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getActiveSession()(dispatch);
+            getGeneralActiveSession()(dispatch)
+            getAllSession()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SWITCH_TERM_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
