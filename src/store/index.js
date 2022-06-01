@@ -9,6 +9,7 @@ import { sessionReducer } from './reducers/session-reducer'
 import { staffReducer } from './reducers/staff-reducers'
 import { studentReducer } from './reducers/student-reducers'
 import { alertReducer } from './reducers/toaster-reducer'
+import { gradeReducer } from './reducers/grade-setting-reducer'
 import Mode from './setting/setting'
 export default createStore(
     combineReducers({
@@ -22,6 +23,7 @@ export default createStore(
         session: sessionReducer,
         staff: staffReducer,
         student: studentReducer,
-        enrollment: enrollmentReducer
+        enrollment: enrollmentReducer,
+        grade: gradeReducer
     })
 )
