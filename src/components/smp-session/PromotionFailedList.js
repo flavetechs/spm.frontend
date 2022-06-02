@@ -186,7 +186,7 @@ const PromotionFailedList = () => {
                     type="button"
                     variant="btn btn-danger mx-2"
                     onClick={() => {
-                      history.goBack();
+                      history.go(-2);
                     }}
                   >
                     Cancel
