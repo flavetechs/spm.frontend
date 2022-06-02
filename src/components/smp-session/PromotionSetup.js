@@ -11,7 +11,7 @@ import {
     returnList
 } from '../../store/actions/staff-actions';
 import { useDispatch, useSelector } from "react-redux";
-import { staffLocations } from "../../router/spm-path-locations";
+import { sessionLocations, staffLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
 
@@ -22,6 +22,14 @@ const PromotionSetup = () => {
     const history = useHistory();
     const [showDeleteButton, setDeleteButton] = useState(true);
     const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+    const [promoteList, SetPromoteList] = useState([
+        { prevclass: 'JSS1', NoPrevClass: '80', passedStudent: '74', failedStudent: '6', promoteNumber: '80' },
+        { prevclass: 'JSS2', NoPrevClass: '60', passedStudent: '54', failedStudent: '6', promoteNumber: '60' },
+        { prevclass: 'JSS3', NoPrevClass: '40', passedStudent: '34', failedStudent: '6', promoteNumber: '40' },
+        { prevclass: 'SSS1', NoPrevClass: '20', passedStudent: '14', failedStudent: '6', promoteNumber: '20' },
+        { prevclass: 'SSS2', NoPrevClass: '80', passedStudent: '74', failedStudent: '6', promoteNumber: '80' },
+        { prevclass: 'SSS3', NoPrevClass: '60', passedStudent: '54', failedStudent: '6', promoteNumber: '60' }
+    ]);
     //VARIABLE DECLARATIONS
 
 
@@ -99,11 +107,12 @@ const PromotionSetup = () => {
                                 <div className="table-responsive">
                                     <table
                                         id="role-list-table"
-                                        className="table table-striped"
+                                        className="table table-striped table-bordered"
                                         role="grid"
                                         data-toggle="data-table"
+
                                     >
-                                        <thead>
+                                        <thead className='text-dark'>
                                             <tr className="ligth">
                                                 <th>
                                                     {showCheckBoxes ? <input
@@ -115,55 +124,76 @@ const PromotionSetup = () => {
                                                     /> : "S/No"}
 
                                                 </th>
-                                                <th>Previous Class</th>
-                                                <th>Total Student <br /> in prev class</th>
-                                                <th>total student with <br />passmark of prev class</th>
-                                                <th>total student <br /> that failed</th>
-                                                <th>total number <br />to be promoted</th>
-                                                <th>next class <br /> to be promote</th>
+                                                <th className='text-center'>Previous Class</th>
+                                                <th className='text-center'>Total Student <br /> in prev class</th>
+                                                <th className='text-center'>total student with <br />passmark of prev class</th>
+                                                <th className='text-center'>total student <br /> that failed</th>
+                                                <th className='text-center'>total number <br />to be promoted</th>
+                                                <th className='text-center'>next class <br /> to be promote</th>
                                                 <th min-width="100px">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {staffList.map((item, idx) => (
+                                            {promoteList.map((item, idx) => (
                                                 <tr key={idx}>
-                                                    <td className="">
-                                                        {showCheckBoxes ? (
-                                                            <input
-                                                                className="form-check-input"
-                                                                type="checkbox"
-
-                                                            // checked={item.isChecked || false}
-                                                            // onChange={(e) => {
-                                                            //   checkSingleItem(e.target.checked, item.teacherUserAccountId, staffList);
-                                                            // }}
-                                                            />
-                                                        ) : (
+                                                    <td className="h4">
+                                                        {
                                                             idx + 1
-                                                        )}
+                                                        }
                                                     </td>
-                                                    <td><Badge bg="primary">JSS1</Badge></td>
-                                                    <td><Badge bg="primary">40</Badge></td>
-                                                    <td>
+                                                    <td className='h5 text-center'>{item.prevclass}</td>
+                                                    <td className='h4 text-center'>{item.NoPrevClass}</td>
+                                                    <td className='h2 text-center'>
                                                         <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">View Student List</Tooltip>}
                                                         >
-                                                            <Badge bg="success">34</Badge>
+                                                            <Link
+                                                                className="btn btn-sm btn-icon btn-success h2"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title=""
+                                                                data-original-title="Details"
+                                                                to='#'
+                                                                onClick={() => {
+                                                                    history.push(sessionLocations.promotionPassedList);
+                                                                }}
+                                                            >
+                                                                <Badge bg="success">{item.passedStudent}</Badge>
+                                                            </Link>
+
                                                         </OverlayTrigger>
                                                     </td>
-                                                    <td>
+                                                    <td className='h4 text-center'>
                                                         <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">View Student List</Tooltip>}
                                                         >
-                                                            <Badge bg="danger">6</Badge>
+                                                            <Link
+                                                                className="btn btn-sm btn-icon btn-danger"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title=""
+                                                                data-original-title="Details"
+                                                                to='#'
+                                                                onClick={() => {
+                                                                    history.push(sessionLocations.promotionFailedList);
+                                                                }}
+                                                            >
+                                                                <Badge bg="danger">{item.failedStudent}</Badge>
+                                                            </Link>
                                                         </OverlayTrigger>
                                                     </td>
-                                                    <td><Badge bg="primary">40</Badge> </td>
-                                                    <td>
-                                                        <form><Form.Select aria-label="Default select example">
-                                                            <option value="1">JSS1</option>
-                                                            <option value="2">JSS2</option>
-                                                            <option value="3">SS1</option>
-                                                            <option value="3">SS2</option>
-                                                        </Form.Select>
+                                                    <td className='h4 text-center'>{item.promoteNumber}</td>
+                                                    <td className='h5 text-center'>
+                                                        <form>
+                                                            <Form.Select aria-label="Default select example">
+                                                                {promoteList.map((item, idx) => {
+                                                                    console.log('item.prevclass', item.prevclass);
+                                                                   if(item.prevclass == 'JSS1'){
+                                                                       console.log('without jss1');
+                                                                       const JSS1 = item.prevclass[0];
+                                                                   }else{
+                                                                       console.log('without jss1');
+                                                                   }
+                                                                })}
+                                                            </Form.Select>
                                                         </form>
                                                     </td>
                                                     <td>
@@ -176,7 +206,7 @@ const PromotionSetup = () => {
                                                                     data-placement="top"
                                                                     title=""
                                                                     data-original-title="Details"
-                                                                //   to={`${staffLocations.staffDetails}?teacherAccountId=${item.teacherAccountId}`}
+                                                                    to='#'
                                                                 >
                                                                     <span className="btn-inner">
                                                                         <svg
@@ -212,55 +242,6 @@ const PromotionSetup = () => {
                                                                     </span>
                                                                 </Link>
                                                             </OverlayTrigger>{" "}
-                                                            {/* <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Delete Staff</Tooltip>}
-                              >
-                                <Link
-                                  className="btn btn-sm btn-icon btn-danger"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title=""
-                                  data-original-title="Delete"
-                                  to="#"
-                                  data-id={item.teacherUserAccountId}
-                                  onClick={() => {
-                                    dispatch(pushId(item.teacherUserAccountId))
-                                    showSingleDeleteDialog(true)(dispatch)
-                                  }
-                                  }
-                                >
-                                  <span className="btn-inner">
-                                    <svg
-                                      width="20"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        d="M20.708 6.23975H3.75"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                    </svg>
-                                  </span>
-                                </Link>
-                              </OverlayTrigger> */}
                                                         </div>
                                                     </td>
                                                 </tr>
