@@ -64,7 +64,7 @@ export const gradeValueArray = (gradeInput) => (dispatch) => {
         type: actions.PUSH_GRADE_VALUES,
         payload: gradeInput
     })
-    console.log('here',gradeInput)
+    
 }
 
 export const editGradeValues = (index, gradeGroupId, prevGradesList) => (dispatch) => {

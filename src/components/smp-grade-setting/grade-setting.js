@@ -52,9 +52,14 @@ const GradeSetting = () => {
   //VALIDATIONS SCHEMA
 
   React.useEffect(() => {
+    if (isSuccessful) {
+      setGradeInput(!gradeInput);
+    setOkButton(false);
+      setSaveButton(true);
+  }
     getAllGradeClasses()(dispatch);
-    getPreviousGrades()(dispatch);
-  }, []);
+    getPreviousGrades()(dispatch); 
+  }, [isSuccessful]);
 
   const getGradeValues = (e) => {
     setGradeInput((prevValues) => {
@@ -87,7 +92,7 @@ const GradeSetting = () => {
     //  if(!formErrors.upperLimit && !formErrors.lowerLimit && !formErrors.gradeName){
     setOkButton(true);
 
-    gradeValueArray(gradeInput)(dispatch);
+    gradeValueArray(gradeInput, getGradesArray)(dispatch);
 
     // }
   };
@@ -110,7 +115,7 @@ const GradeSetting = () => {
       remark: getGradesArray.map((res) => res[0].remark)?.toString(),
     });
   };
-  console.log("list", isSuccessful);
+  console.log("list", gradeInput);
   return (
     <>
       <div>
@@ -135,13 +140,6 @@ const GradeSetting = () => {
                     // } else {
                     createGradeSetting(values)(dispatch);
                     // }
-
-                    if (isSuccessful) { //Tables seen only when clicked twice
-                      setGradeInput(!gradeInput);
-                      setOkButton(false);
-                      setSaveButton(true);
-                      return;
-                    }
                   }}
                 >
                   {({
@@ -412,7 +410,7 @@ const GradeSetting = () => {
                                 ))}
                                 {grades.map((input, idx) => (
                                   <tr key={idx} className="text-center mt-1">
-                                      <td className="">
+                                    <td className="">
                                       {innerEdit.status &&
                                       innerEdit.rowKey === idx ? (
                                         <Field
@@ -527,81 +525,80 @@ const GradeSetting = () => {
                                   {grades.map((input, idx) => (
                                     <tr key={idx} className="text-center mt-1">
                                       <td className="">
-                                      {innerEdit.status &&
-                                      innerEdit.rowKey === idx ? (
-                                        <Field
-                                          type="number"
-                                          name="upperLimit"
-                                          className="border-0 text-center px-1 w-75"
-                                          defaultValue={input.upperLimit}
-                                          onChange={(e) => {
-                                            getGradeValues(e);
-                                          }}
-                                        />
-                                      ) : (
-                                        <span className="fw-bold">
-                                          {input.upperLimit}
-                                        </span>
-                                      )}
-                                    </td>
+                                        {innerEdit.status &&
+                                        innerEdit.rowKey === idx ? (
+                                          <Field
+                                            type="number"
+                                            name="upperLimit"
+                                            className="border-0 text-center px-1 w-75"
+                                            defaultValue={input.upperLimit}
+                                            onChange={(e) => {
+                                              getGradeValues(e);
+                                            }}
+                                          />
+                                        ) : (
+                                          <span className="fw-bold">
+                                            {input.upperLimit}
+                                          </span>
+                                        )}
+                                      </td>
 
-                                    <td className="">
-                                      {innerEdit.status &&
-                                      innerEdit.rowKey === idx ? (
-                                        <Field
-                                          type="number"
-                                          name="lowerLimit"
-                                          className="border-0 text-center px-1 w-75"
-                                          defaultValue={input.lowerLimit}
-                                          onChange={(e) => {
-                                            getGradeValues(e);
-                                          }}
-                                        />
-                                      ) : (
-                                        <span className="fw-bold">
-                                          {input.lowerLimit}
-                                        </span>
-                                      )}
-                                    </td>
+                                      <td className="">
+                                        {innerEdit.status &&
+                                        innerEdit.rowKey === idx ? (
+                                          <Field
+                                            type="number"
+                                            name="lowerLimit"
+                                            className="border-0 text-center px-1 w-75"
+                                            defaultValue={input.lowerLimit}
+                                            onChange={(e) => {
+                                              getGradeValues(e);
+                                            }}
+                                          />
+                                        ) : (
+                                          <span className="fw-bold">
+                                            {input.lowerLimit}
+                                          </span>
+                                        )}
+                                      </td>
 
-                                    <td className="">
-                                      {innerEdit.status &&
-                                      innerEdit.rowKey === idx ? (
-                                        <Field
-                                          type="text"
-                                          name="gradeName"
-                                          className="border-0 text-center w-75"
-                                          defaultValue={input.gradeName}
-                                          onChange={(e) => {
-                                            getGradeValues(e);
-                                          }}
-                                        />
-                                      ) : (
-                                        <span className="fw-bold">
-                                          {input.gradeName}
-                                        </span>
-                                      )}
-                                    </td>
+                                      <td className="">
+                                        {innerEdit.status &&
+                                        innerEdit.rowKey === idx ? (
+                                          <Field
+                                            type="text"
+                                            name="gradeName"
+                                            className="border-0 text-center w-75"
+                                            defaultValue={input.gradeName}
+                                            onChange={(e) => {
+                                              getGradeValues(e);
+                                            }}
+                                          />
+                                        ) : (
+                                          <span className="fw-bold">
+                                            {input.gradeName}
+                                          </span>
+                                        )}
+                                      </td>
 
-                                    <td className="">
-                                      {innerEdit.status &&
-                                      innerEdit.rowKey === idx ? (
-                                        <Field
-                                          type="text"
-                                          name="remark"
-                                          className="border-0 w-75"
-                                          defaultValue={input.remark}
-                                          onChange={(e) => {
-                                            getGradeValues(e);
-                                          }}
-                                        />
-                                      ) : (
-                                        <span className="fw-bold">
-                                          {input.remark}
-                                        </span>
-                                      )}
-                                    </td>
-
+                                      <td className="">
+                                        {innerEdit.status &&
+                                        innerEdit.rowKey === idx ? (
+                                          <Field
+                                            type="text"
+                                            name="remark"
+                                            className="border-0 w-75"
+                                            defaultValue={input.remark}
+                                            onChange={(e) => {
+                                              getGradeValues(e);
+                                            }}
+                                          />
+                                        ) : (
+                                          <span className="fw-bold">
+                                            {input.remark}
+                                          </span>
+                                        )}
+                                      </td>
 
                                       <td>
                                         <div
