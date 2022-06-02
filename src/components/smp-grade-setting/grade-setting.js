@@ -11,12 +11,9 @@ import {
   getAllGradeClasses,
   getPreviousGrades,
   gradeValueArray,
-  selectedItem,
   updateFetchClass,
-  updateGradesState,
-  updateGradeValues,
+  chooseEdit,
 } from "../../store/actions/grade-setting-actions";
-import RoleEdit from "../spm-permissions/role-edit";
 
 const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
@@ -34,7 +31,9 @@ const GradeSetting = () => {
 
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const [editButton, setEditButton] = useState(false);
+  const getGradesArray = gradesEdit.map((edit) => edit.grades);
+  const [innerEdit, setInnerEdit] = useState({ status: false, rowKey: null });
+  const [outerEditButton, setOuterEditButton] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [saveButton, setSaveButton] = useState(false);
   const [okButton, setOkButton] = useState(false);
@@ -49,9 +48,6 @@ const GradeSetting = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     gradeGroupName: Yup.string().required("Grade group is required"),
-    // gradeName: Yup.string().required("Grade is required"),
-    // upperLimit: Yup.string().required("upper limit is required"),
-    // lowerLimit: Yup.string().required("lower limit is required"),
   });
   //VALIDATIONS SCHEMA
 
@@ -87,20 +83,34 @@ const GradeSetting = () => {
   };
 
   const handleOkButtonSubmit = () => {
-    // if(!formErrors){
-    setOkButton(true);
-    gradeValueArray(gradeInput)(dispatch);
-    // }
     setFormErrors(validate(gradeInput));
+    //  if(!formErrors.upperLimit && !formErrors.lowerLimit && !formErrors.gradeName){
+    setOkButton(true);
+
+    gradeValueArray(gradeInput)(dispatch);
+
+    // }
   };
   const handleGeneralEdit = (index, gradeGroupId) => {
-      updateFetchClass(index, gradeGroupId, prevGradesList)(dispatch)
-    updateGradesState(index, gradeGroupId, prevGradesList)(dispatch);
+    setOuterEditButton(true);
+    updateFetchClass(index, gradeGroupId, prevGradesList)(dispatch);
+    chooseEdit(index, gradeGroupId, prevGradesList)(dispatch);
     editGradeValues(index, gradeGroupId, prevGradesList)(dispatch);
   };
-
-  
-  console.log("list", classList );
+  const handleInnerEdit = (id) => {
+    setInnerEdit({ status: !innerEdit.status, rowKey: id });
+    setGradeInput({
+      upperLimit: Number(
+        getGradesArray.map((res) => res[0].upperLimit)?.toString()
+      ),
+      lowerLimit: Number(
+        getGradesArray.map((res) => res[0].lowerLimit)?.toString()
+      ),
+      gradeName: getGradesArray.map((res) => res[0].gradeName)?.toString(),
+      remark: getGradesArray.map((res) => res[0].remark)?.toString(),
+    });
+  };
+  console.log("list", isSuccessful);
   return (
     <>
       <div>
@@ -110,16 +120,23 @@ const GradeSetting = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    gradeGroupName: gradesEdit?.gradeGroupName,
+                    gradeGroupName: gradesEdit
+                      .map((edit) => edit.gradeGroupName)
+                      ?.toString(),
                   }}
                   enableReinitialize
                   //validationSchema={validation}
                   onSubmit={(values) => {
                     console.log("values", values);
-                    values.grades = editButton ? gradesEdit : grades;
+                    values.grades = grades;
                     values.classes = classes;
-                    //createGradeSetting(values)(dispatch)
-                    if (!isSuccessful) {
+                    // if (outerEditButton) {
+                    //updateGradeSetting(values)(dispatch)
+                    // } else {
+                    createGradeSetting(values)(dispatch);
+                    // }
+
+                    if (isSuccessful) { //Tables seen only when clicked twice
                       setGradeInput(!gradeInput);
                       setOkButton(false);
                       setSaveButton(true);
@@ -138,7 +155,7 @@ const GradeSetting = () => {
                   }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
-                      <Row className="border border-secondary border-1 p-3 px-5 d-lg-flex  text-dark">
+                      <Row className="border border-secondary border-1 p-3 px-4 d-lg-flex  text-dark">
                         <Col className="w-md-100 w-sm-100">
                           {touched.gradeGroupName && errors.gradeGroupName && (
                             <div className="text-danger">
@@ -203,11 +220,11 @@ const GradeSetting = () => {
                               <Field
                                 type="number"
                                 name="upperLimit"
+                                className="form-control w-75 px-1 border-secondary text-secondary"
                                 value={gradeInput.upperLimit}
                                 onChange={(e) => {
                                   getGradeValues(e);
                                 }}
-                                className="form-control w-75 px-1 border-secondary text-secondary"
                               />
                             </div>
                             <div className="form-group">
@@ -262,19 +279,12 @@ const GradeSetting = () => {
                                 className="form-control w-75 border-secondary text-secondary"
                               />
                             </div>
-                            <Button
-                              className="h-25 mt-2 btn-sm"
-                              onClick={() => {
-                                handleOkButtonSubmit();
-                              }}
-                            >
-                              ok
-                            </Button>
                           </div>
 
                           <div className="border border-secondary my-3"></div>
+
                           <table className="table table-bordered table-responsive border-secondary table-sm">
-                            {editButton ? (
+                            {outerEditButton ? (
                               <tbody>
                                 <tr className="text-center">
                                   <td className="text-uppercase h6">
@@ -295,38 +305,194 @@ const GradeSetting = () => {
                                 {gradesEdit.map((edit, index) => (
                                   <tr key={index} className="text-center mt-1">
                                     <td className="">
-                                      <span className="fw-bold">
-                                        {edit.grades.map(
-                                          (res) => res.upperLimit
-                                        )}
-                                      </span>
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === edit.gradeGroupId ? (
+                                        <input
+                                          type="number"
+                                          name="upperLimit"
+                                          className="border-0 text-center w-50"
+                                          defaultValue={Number(
+                                            getGradesArray
+                                              .map((res) => res[0].upperLimit)
+                                              ?.toString()
+                                          )}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {edit.grades.map(
+                                            (res) => res.upperLimit
+                                          )}
+                                        </span>
+                                      )}
                                     </td>
 
                                     <td className="">
-                                      <span className="fw-bold">
-                                        {edit.grades.map(
-                                          (res) => res.lowerLimit
-                                        )}
-                                      </span>
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === edit.gradeGroupId ? (
+                                        <input
+                                          type="number"
+                                          name="lowerLimit"
+                                          className="border-0 text-center w-50"
+                                          defaultValue={Number(
+                                            getGradesArray
+                                              .map((res) => res[0].lowerLimit)
+                                              ?.toString()
+                                          )}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {edit.grades.map(
+                                            (res) => res.lowerLimit
+                                          )}
+                                        </span>
+                                      )}
                                     </td>
 
                                     <td className="">
-                                      <span className="fw-bold ml-5">
-                                        {edit.grades.map(
-                                          (res) => res.gradeName
-                                        )}
-                                      </span>
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === edit.gradeGroupId ? (
+                                        <input
+                                          type="text"
+                                          name="gradeName"
+                                          className="border-0 text-center w-50"
+                                          defaultValue={getGradesArray
+                                            .map((res) => res[0].gradeName)
+                                            ?.toString()}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold ml-5">
+                                          {edit.grades.map(
+                                            (res) => res.gradeName
+                                          )}
+                                        </span>
+                                      )}
                                     </td>
 
                                     <td>
-                                      <span className="fw-bold">
-                                        {edit.grades.map((res) => res.remark)}
-                                      </span>
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === edit.gradeGroupId ? (
+                                        <input
+                                          type="text"
+                                          name="remark"
+                                          className="border-0 w-75"
+                                          defaultValue={getGradesArray
+                                            .map((res) => res[0].remark)
+                                            ?.toString()}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {edit.grades.map((res) => res.remark)}
+                                        </span>
+                                      )}
                                     </td>
                                     <td>
                                       <div
                                         style={{ cursor: "pointer" }}
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                          handleInnerEdit(edit.gradeGroupId);
+                                        }}
+                                        className="badge bg-primary"
+                                      >
+                                        Edit
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                                {grades.map((input, idx) => (
+                                  <tr key={idx} className="text-center mt-1">
+                                      <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="number"
+                                          name="upperLimit"
+                                          className="border-0 text-center px-1 w-75"
+                                          defaultValue={input.upperLimit}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {input.upperLimit}
+                                        </span>
+                                      )}
+                                    </td>
+
+                                    <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="number"
+                                          name="lowerLimit"
+                                          className="border-0 text-center px-1 w-75"
+                                          defaultValue={input.lowerLimit}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {input.lowerLimit}
+                                        </span>
+                                      )}
+                                    </td>
+
+                                    <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="text"
+                                          name="gradeName"
+                                          className="border-0 text-center w-75"
+                                          defaultValue={input.gradeName}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {input.gradeName}
+                                        </span>
+                                      )}
+                                    </td>
+
+                                    <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="text"
+                                          name="remark"
+                                          className="border-0 w-75"
+                                          defaultValue={input.remark}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
+                                          {input.remark}
+                                        </span>
+                                      )}
+                                    </td>
+                                    <td>
+                                      <div
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                          handleInnerEdit(idx);
+                                        }}
                                         className="badge bg-primary"
                                       >
                                         Edit
@@ -361,32 +527,88 @@ const GradeSetting = () => {
                                   {grades.map((input, idx) => (
                                     <tr key={idx} className="text-center mt-1">
                                       <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="number"
+                                          name="upperLimit"
+                                          className="border-0 text-center px-1 w-75"
+                                          defaultValue={input.upperLimit}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
                                         <span className="fw-bold">
                                           {input.upperLimit}
                                         </span>
-                                      </td>
+                                      )}
+                                    </td>
 
-                                      <td className="">
+                                    <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="number"
+                                          name="lowerLimit"
+                                          className="border-0 text-center px-1 w-75"
+                                          defaultValue={input.lowerLimit}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
                                         <span className="fw-bold">
                                           {input.lowerLimit}
                                         </span>
-                                      </td>
+                                      )}
+                                    </td>
 
-                                      <td className="">
-                                        <span className="fw-bold ml-5">
+                                    <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="text"
+                                          name="gradeName"
+                                          className="border-0 text-center w-75"
+                                          defaultValue={input.gradeName}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="fw-bold">
                                           {input.gradeName}
                                         </span>
-                                      </td>
+                                      )}
+                                    </td>
 
-                                      <td>
+                                    <td className="">
+                                      {innerEdit.status &&
+                                      innerEdit.rowKey === idx ? (
+                                        <Field
+                                          type="text"
+                                          name="remark"
+                                          className="border-0 w-75"
+                                          defaultValue={input.remark}
+                                          onChange={(e) => {
+                                            getGradeValues(e);
+                                          }}
+                                        />
+                                      ) : (
                                         <span className="fw-bold">
                                           {input.remark}
                                         </span>
-                                      </td>
+                                      )}
+                                    </td>
+
+
                                       <td>
                                         <div
                                           style={{ cursor: "pointer" }}
-                                          onClick={() => {}}
+                                          onClick={() => {
+                                            handleInnerEdit(idx);
+                                          }}
                                           className="badge bg-primary"
                                         >
                                           Edit
@@ -405,9 +627,20 @@ const GradeSetting = () => {
                                 handleSubmit();
                               }}
                             >
-                              save
+                              submit
                             </Button>
                           </div>
+                        </Col>
+
+                        <Col className="col-md-1 mt-5">
+                          <Button
+                            className="mt-4 btn-sm"
+                            onClick={() => {
+                              handleOkButtonSubmit();
+                            }}
+                          >
+                            Save
+                          </Button>
                         </Col>
                       </Row>
                     </Form>
@@ -427,7 +660,6 @@ const GradeSetting = () => {
                               className="text-capitalize badge bg-primary"
                               onClick={() => {
                                 handleGeneralEdit(index, list.gradeGroupId);
-                                setEditButton(true);
                               }}
                             >
                               Edit

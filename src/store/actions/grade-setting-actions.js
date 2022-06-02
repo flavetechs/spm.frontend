@@ -64,6 +64,7 @@ export const gradeValueArray = (gradeInput) => (dispatch) => {
         type: actions.PUSH_GRADE_VALUES,
         payload: gradeInput
     })
+    console.log('here',gradeInput)
 }
 
 export const editGradeValues = (index, gradeGroupId, prevGradesList) => (dispatch) => {
@@ -76,13 +77,13 @@ if(existingGradeGroup){
         payload: prevGradesList
     })
 }
-export const updateGradesState = (index, gradeGroupId, prevGradesList) => (dispatch) => {
+export const chooseEdit = (index, gradeGroupId, prevGradesList) => (dispatch) => {
     var existingGradeGroup = prevGradesList.find(er => er.gradeGroupId === gradeGroupId);
 if(existingGradeGroup){
     var cutGradeGroup = prevGradesList.slice(index, index + 1);
 }
     dispatch({
-        type: actions.UPDATE_GRADES_STATE,
+        type: actions.CHOOSE_EDIT,
         payload: cutGradeGroup
     })
 }
@@ -113,7 +114,7 @@ export const updateFetchClass = (index, gradeGroupId, prevGradesList) => (dispat
         type: actions.UPDATE_FETCH_CLASS,
         payload: classToAdd
     })
-    console.log('selected', classToAdd )
+    
 }
 
 export const buildClassArray = (checked, sessionClassId, classes) => (dispatch) => {

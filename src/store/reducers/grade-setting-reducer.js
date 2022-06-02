@@ -77,7 +77,7 @@ export const gradeReducer = (state = _state, { type, payload }) => {
           prevGradesList: payload
         }
 
-        case actions.UPDATE_GRADES_STATE:
+        case actions.CHOOSE_EDIT:
         return {
           ...state,
           gradesEdit: payload
