@@ -91,7 +91,6 @@ const GradeSetting = () => {
     setFormErrors(validate(gradeInput));
     //  if(!formErrors.upperLimit && !formErrors.lowerLimit && !formErrors.gradeName){
     setOkButton(true);
-
     gradeValueArray(gradeInput, getGradesArray)(dispatch);
 
     // }
@@ -130,7 +129,7 @@ const GradeSetting = () => {
                       ?.toString(),
                   }}
                   enableReinitialize
-                  //validationSchema={validation}
+                  validationSchema={validation}
                   onSubmit={(values) => {
                     console.log("values", values);
                     values.grades = grades;
