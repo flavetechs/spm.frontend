@@ -22,28 +22,28 @@ export const gradeReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
       };
-      case actions.FETCH_PREVIOUS_GRADES_LOADING:
-        return {
-          ...state,
-          loading: true,
-          message: "",
-          isSuccessful: false,
-        };
-      case actions.FETCH_PREVIOUS_GRADES_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          prevGradesList: payload
-        };
-      case actions.FETCH_PREVIOUS_GRADES_FAILED:
-        return {
-          ...state,
-          loading: false,
-          message: payload,
-          isSuccessful: false,
-        };
+    case actions.FETCH_PREVIOUS_GRADES_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_PREVIOUS_GRADES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        prevGradesList: payload,
+      };
+    case actions.FETCH_PREVIOUS_GRADES_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
 
-        case actions.CREATE_GRADE_LOADING:
+    case actions.CREATE_GRADE_LOADING:
       return {
         ...state,
         loading: true,
@@ -64,38 +64,53 @@ export const gradeReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
       };
-    
-      case actions.PUSH_GRADE_VALUES:
-        return {
-          ...state,
-          grades: [...state.grades, payload]
-        }
 
-        case actions.EDIT_GRADE_VALUES:
-        return {
-          ...state,
-          prevGradesList: payload
-        }
+    case actions.UPDATE_GRADE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPDATE_GRADE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_GRADE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+      };
 
-        case actions.CHOOSE_EDIT:
+      case actions.NEW_CLASS_STATE:
         return {
           ...state,
-          gradesEdit: payload
-        }
-        case actions.UPDATE_FETCH_CLASS:
-        return {
-          ...state,
-          classList: [...state.classList, payload]
-        }
-  
-        case actions.PUSH_CLASSES_ID:
-          return{
-            ...state,
-            classes: payload
+          newClassList: [...state.newClassList, payload]
         };
-        
+  
+
+    case actions.UPDATE_CLASS_STATE:{
+      var updatedClassList = filterClasses(state.newClassList, payload)
+      return {
+        ...state,
+        newClassList: updatedClassList
+      };
+    }
+
     default:
-      return state
+      return state;
+  }
+};
+function filterClasses(arr, value) {
+  let prevClasses = arr.map((list) => list.className);
+  if (prevClasses !== value) {
+    return arr.splice(arr.length - 1, 1);
+  } else{
+    return arr
   }
 }
-

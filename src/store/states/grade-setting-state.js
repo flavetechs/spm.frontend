@@ -4,7 +4,5 @@ export const _state = {
   classList: [],
   isSuccessful: false,
   prevGradesList:[],
-  gradesEdit: [],
-  grades: [],
-  classes: [],
+  newClassList: [],
 };
