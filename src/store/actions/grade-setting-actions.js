@@ -1,9 +1,7 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/grade-setting-action-types";
 import {
-  respondModal,
   showErrorToast,
-  showHideModal,
   showSuccessToast,
 } from "./toaster-actions";
 

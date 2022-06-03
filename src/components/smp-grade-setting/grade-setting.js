@@ -28,7 +28,6 @@ const GradeSetting = () => {
   //VARIABLE DECLARATIONS
   const ref = useRef()
   const dispatch = useDispatch();
-  const [executeOnce, setExecuteOnce] = useState({status:false, index: null});
   const [gGroupId, setgGroupId] = useState('');
   const [selectedClassIds, setSelectedClassids] = useState([]);
   const [gradeSetups, setGradeSetup] = useState([]);
@@ -122,8 +121,6 @@ const GradeSetting = () => {
     }
   }
 
-
-console.log('classList', newClassList);
 
   return (
     <>
@@ -364,12 +361,10 @@ console.log('classList', newClassList);
                             className="text-capitalize badge btn-primary border-0 btn btn-sm"
                             ref={ref}
                             onClick={() => {
-                              setExecuteOnce({status: true, index:index})
                               setgGroupId(item.gradeGroupId)
                               setgGroupName(item.gradeGroupName);
                               setGradeSetup(item.grades);
-                              if(executeOnce.index !== index) {updateClassListState(item.classes, newClassList)(dispatch)};
-                              console.log(executeOnce.index)
+                             updateClassListState(item.classes, newClassList)(dispatch);
                               setGradeToEdit(null);
                               window.scrollTo(0, 0);
                             }}>
