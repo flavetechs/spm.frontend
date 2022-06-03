@@ -16,22 +16,21 @@ import { showErrorToast } from "../../store/actions/toaster-actions";
 const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const {
-    classList,
-    prevGradesList,
-    newClassList,
-    message,
-    isSuccessful
-  } = state.grade;
+  const { classList, prevGradesList, newClassList, message, isSuccessful } =
+    state.grade;
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS
-  const ref = useRef()
+  const ref = useRef();
   const dispatch = useDispatch();
-  const [gGroupId, setgGroupId] = useState('');
+  const [executeOnce, setExecuteOnce] = useState({
+    status: false,
+    index: null,
+  });
+  const [gGroupId, setgGroupId] = useState("");
   const [selectedClassIds, setSelectedClassids] = useState([]);
   const [gradeSetups, setGradeSetup] = useState([]);
-  const [gGroupName, setgGroupName] = useState('');
+  const [gGroupName, setgGroupName] = useState("");
   const [gradeToEdit, setGradeToEdit] = useState(null);
   //VARIABLE DECLARATIONS
 
@@ -40,11 +39,13 @@ const GradeSetting = () => {
     // gradeGroupName: Yup.string().required("Grade group is required"),
     gradeName: Yup.string().required("required"),
     remark: Yup.string().required("required"),
-    upperLimit: Yup.number().min(0, 'invalid')
-      .max(100, 'invalid').required("required"),
+    upperLimit: Yup.number()
+      .min(0, "invalid")
+      .max(100, "invalid")
+      .required("required"),
     lowerLimit: Yup.number()
-      .min(0, 'invalid')
-      .max(100, 'invalid')
+      .min(0, "invalid")
+      .max(100, "invalid")
       .required("required"),
   });
 
@@ -52,13 +53,12 @@ const GradeSetting = () => {
 
   React.useEffect(() => {
     getAllGradeClasses()(dispatch);
-    getPreviousGrades()(dispatch); 
+    getPreviousGrades()(dispatch);
   }, [isSuccessful]);
 
-
   React.useEffect(() => {
-    setgGroupId('');
-    setgGroupName('');
+    setgGroupId("");
+    setgGroupName("");
     selectedGrade(null);
     setGradeSetup([]);
     setGradeToEdit({});
@@ -68,59 +68,67 @@ const GradeSetting = () => {
   const pushSelectedClassId = (event, sessionClassId) => {
     if (event.target.checked) {
       setSelectedClassids([...selectedClassIds, sessionClassId]);
-    } 
-    else {
-      setSelectedClassids([...selectedClassIds.filter(id => id !== sessionClassId),]);
-      event.target.checked = false
+    } else {
+      setSelectedClassids([
+        ...selectedClassIds.filter((id) => id !== sessionClassId),
+      ]);
+      event.target.checked = false;
     }
-  
-  }
+  };
 
   const selectedGrade = (selected = null) => {
     if (selected) {
       setGradeToEdit(selected);
     } else {
       setGradeToEdit({
-        gradeGroupName: '',
-        gradeName: '',
-        remark: '',
+        gradeGroupName: "",
+        gradeName: "",
+        remark: "",
         upperLimit: 0,
-        lowerLimit: 0
+        lowerLimit: 0,
       });
     }
-  }
+  };
 
   const submitGradeSetting = () => {
-
     if (selectedClassIds.length === 0) {
-      showErrorToast('No Classes Selected')(dispatch);
+      showErrorToast("No Classes Selected")(dispatch);
       return;
     }
 
     if (gradeSetups.length === 0) {
-      showErrorToast('No Grade added')(dispatch);
+      showErrorToast("No Grade added")(dispatch);
       return;
     }
 
     const payload = {
       gradeGroupName: gGroupName,
       grades: gradeSetups,
-      classes: selectedClassIds
-    }
+      classes: selectedClassIds,
+    };
 
     const updatePayload = {
-      gradeGroupId : gGroupId,
+      gradeGroupId: gGroupId,
       gradeGroupName: gGroupName,
       grades: gradeSetups,
-      classes: selectedClassIds
+      classes: selectedClassIds,
+    };
+    if (!gGroupId) {
+      createGradeSetting(payload)(dispatch);
+    } else {
+      updateGradeSetting(updatePayload)(dispatch);
     }
-    if(!gGroupId){
-    createGradeSetting(payload)(dispatch);
-    }else{
-    updateGradeSetting(updatePayload)(dispatch);
-    }
-  }
+  };
+  const handleEditClick = (item, newClassList) => {
+    setgGroupId(item.gradeGroupId);
+    setgGroupName(item.gradeGroupName);
+    setGradeSetup(item.grades);
+    setGradeToEdit(null);
+    window.scrollTo(0, 0);
+    updateClassListState(item.classes, newClassList)(dispatch);
+  };
 
+  console.log("classList", classList);
 
   return (
     <>
@@ -128,58 +136,68 @@ const GradeSetting = () => {
         <Row>
           <Col sm="12">
             <Card className="p-2">
-              <Card.Body id='form'>
+              <Card.Body id="form">
                 <Formik
                   initialValues={{
                     gradeGroupName: gradeToEdit?.gradeGroupName || gGroupName,
                     gradeName: gradeToEdit?.gradeName,
                     remark: gradeToEdit?.remark,
                     upperLimit: gradeToEdit?.upperLimit,
-                    lowerLimit: gradeToEdit?.lowerLimit
-
+                    lowerLimit: gradeToEdit?.lowerLimit,
                   }}
                   enableReinitialize={true}
                   validationSchema={validation}
                   onSubmit={(values) => {
                     setgGroupName(values.gradeGroupName);
                     selectedGrade(null);
-                    var edited = gradeSetups.find(d => d.gradeName.trim().toLowerCase() == values.gradeName.trim().toLowerCase())
+                    var edited = gradeSetups.find(
+                      (d) =>
+                        d.gradeName.trim().toLowerCase() ==
+                        values.gradeName.trim().toLowerCase()
+                    );
                     if (edited) {
                       edited.gradeName = values.gradeName;
                       edited.remark = values.remark;
                       edited.upperLimit = values.upperLimit;
                       edited.lowerLimit = values.lowerLimit;
-                      setGradeSetup([...gradeSetups.filter(d => d.gradeName.trim().toLowerCase() != values.gradeName.trim().toLowerCase()), edited])
-                      return
+                      setGradeSetup([
+                        ...gradeSetups.filter(
+                          (d) =>
+                            d.gradeName.trim().toLowerCase() !=
+                            values.gradeName.trim().toLowerCase()
+                        ),
+                        edited,
+                      ]);
+                      return;
                     } else {
                       setGradeSetup([...gradeSetups, values]);
-                      return
+                      return;
                     }
-
                   }}
                 >
-                  {({
-                    handleSubmit,
-                    touched,
-                    errors,
-                  }) => (
+                  {({ handleSubmit, touched, errors }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <Row className="border p-3 px-4 d-lg-flex ">
-
                         <Col className="w-md-100 w-sm-100">
                           {/* {(touched.gradeGroupName && errors.gradeGroupName) && <div className='text-danger'>{errors.gradeGroupName}</div>} */}
                           <h6 className="pb-2">Grade Group</h6>
-                          <Field type="text" className="form-control  w-75 text-dark fw-bolder" name="gradeGroupName" id="gradeGroupName" aria-describedby="gradeGroupName" required placeholder="Enter grade group name" />
+                          <Field
+                            type="text"
+                            className="form-control  w-75 text-dark fw-bolder"
+                            name="gradeGroupName"
+                            id="gradeGroupName"
+                            aria-describedby="gradeGroupName"
+                            required
+                            placeholder="Enter grade group name"
+                          />
 
-                         {classList.map((classItem, idx) => (
+                          {classList.map((classItem, idx) => (
                             <div
                               className="mt-3 col-md-9 d-flex justify-content-between form-group "
                               key={idx}
                             >
-                              <div
-                                className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center"
-                              >
+                              <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
                                 {classItem.className}
                               </div>
 
@@ -189,51 +207,66 @@ const GradeSetting = () => {
                                 className="form-check-input px-3 border-secondary"
                                 style={{ height: "30px" }}
                                 onChange={(e) => {
-                                  pushSelectedClassId(e, classItem.sessionClassId);
+                                  pushSelectedClassId(
+                                    e,
+                                    classItem.sessionClassId
+                                  );
                                 }}
                               />
                             </div>
                           ))}
-                          
-                          {!gGroupId && newClassList.map((newClass, idx) => (
-                             <div
-                             className="mt-3 col-md-9 d-flex justify-content-between form-group "
-                             key={idx}
-                           >
-                             <div
-                               className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center"
-                             >
-                               {newClass.className}
-                             </div>
 
-                             <input
-                               type="checkbox"
-                               id="customCheck1"
-                               className="form-check-input px-3 border-secondary"
-                               style={{ height: "30px" }}
-                               defaultChecked={true}
-                               onChange={(e) => {
-                                 pushSelectedClassId(e, newClass.sessionClassId);
-                               }}
-                             />
-                           </div>
-                         ))}
+                          {!gGroupId &&
+                            newClassList.map((newClass, idx) => (
+                              <div
+                                className="mt-3 col-md-9 d-flex justify-content-between form-group "
+                                key={idx}
+                              >
+                                <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
+                                  {newClass.className}
+                                </div>
+
+                                <input
+                                  type="checkbox"
+                                  id="customCheck1"
+                                  className="form-check-input px-3 border-secondary"
+                                  style={{ height: "30px" }}
+                                  defaultChecked={true}
+                                  onChange={(e) => {
+                                    pushSelectedClassId(
+                                      e,
+                                      newClass.sessionClassId
+                                    );
+                                  }}
+                                />
+                              </div>
+                            ))}
                         </Col>
 
                         <Col className="w-md-100 w-sm-100 pt-md-3 pt-sm-3 pt-lg-0">
-
                           <div className="d-flex justify-content-around">
-
                             <div className="form-group">
                               <label
                                 className="form-label d-block h6"
-                                htmlFor="gradeName">
+                                htmlFor="gradeName"
+                              >
                                 <Row>
-                                  {(touched.gradeName && errors.gradeName) && <div className='text-danger'>{errors.gradeName}</div>}
+                                  {touched.gradeName && errors.gradeName && (
+                                    <div className="text-danger">
+                                      {errors.gradeName}
+                                    </div>
+                                  )}
                                 </Row>
                                 Grade
                               </label>
-                              <Field type="text" className="form-control w-75 text-dark fw-bolder" name="gradeName" id="gradeName" aria-describedby="gradeName" required />
+                              <Field
+                                type="text"
+                                className="form-control w-75 text-dark fw-bolder"
+                                name="gradeName"
+                                id="gradeName"
+                                aria-describedby="gradeName"
+                                required
+                              />
                               <span>e.g A</span>
                             </div>
 
@@ -243,12 +276,23 @@ const GradeSetting = () => {
                                 htmlFor="upperLimit"
                               >
                                 <Row>
-                                  {(touched.upperLimit && errors.upperLimit) && <div className='text-danger'>{errors.upperLimit}</div>}
+                                  {touched.upperLimit && errors.upperLimit && (
+                                    <div className="text-danger">
+                                      {errors.upperLimit}
+                                    </div>
+                                  )}
                                 </Row>
                                 Upper Limit
                               </label>
 
-                              <Field type="number" className="form-control w-75 text-dark fw-bolder" name="upperLimit" id="upperLimit" aria-describedby="upperLimit" required />
+                              <Field
+                                type="number"
+                                className="form-control w-75 text-dark fw-bolder"
+                                name="upperLimit"
+                                id="upperLimit"
+                                aria-describedby="upperLimit"
+                                required
+                              />
                               <span>e.g 90</span>
                             </div>
 
@@ -258,11 +302,22 @@ const GradeSetting = () => {
                                 htmlFor="lowerLimit"
                               >
                                 <Row>
-                                  {(touched.lowerLimit && errors.lowerLimit) && <div className='text-danger'>{errors.lowerLimit}</div>}
+                                  {touched.lowerLimit && errors.lowerLimit && (
+                                    <div className="text-danger">
+                                      {errors.lowerLimit}
+                                    </div>
+                                  )}
                                 </Row>
                                 Lower Limit
                               </label>
-                              <Field type="number" className="form-control w-75 text-dark fw-bolder" name="lowerLimit" id="lowerLimit" aria-describedby="lowerLimit" required />
+                              <Field
+                                type="number"
+                                className="form-control w-75 text-dark fw-bolder"
+                                name="lowerLimit"
+                                id="lowerLimit"
+                                aria-describedby="lowerLimit"
+                                required
+                              />
                               <span>e.g 70</span>
                             </div>
 
@@ -272,14 +327,24 @@ const GradeSetting = () => {
                                 htmlFor="remark"
                               >
                                 <Row>
-                                  {(touched.remark && errors.remark) && <div className='text-danger'>{errors.remark}</div>}
+                                  {touched.remark && errors.remark && (
+                                    <div className="text-danger">
+                                      {errors.remark}
+                                    </div>
+                                  )}
                                 </Row>
                                 Remark
                               </label>
-                              <Field type="text" className="form-control text-dark fw-bolder" name="remark" id="remark" aria-describedby="remark" required />
+                              <Field
+                                type="text"
+                                className="form-control text-dark fw-bolder"
+                                name="remark"
+                                id="remark"
+                                aria-describedby="remark"
+                                required
+                              />
                               <span>e.g Excellent</span>
                             </div>
-
                           </div>
 
                           <hr />
@@ -287,35 +352,48 @@ const GradeSetting = () => {
                           <table className="table table-bordered table-responsive table-sm">
                             <thead>
                               <tr className="text-center">
-
                                 <td className="text-uppercase h6">Grade</td>
 
-                                <td className="text-uppercase h6">Upper Limit</td>
+                                <td className="text-uppercase h6">
+                                  Upper Limit
+                                </td>
 
-                                <td className="text-uppercase h6">Lower Limit</td>
+                                <td className="text-uppercase h6">
+                                  Lower Limit
+                                </td>
 
                                 <td className="text-uppercase h6">Remark</td>
 
                                 <td className="text-uppercase h6">Action</td>
                               </tr>
-
                             </thead>
                             <tbody>
-                              {
-                                gradeSetups.map((item, idx) => (
-                                  <tr key={idx} className="text-center">
-                                    <td className="text-uppercase">{item.gradeName}</td>
-                                    <td className="text-uppercase">{item.upperLimit}</td>
-                                    <td className="text-uppercase">{item.lowerLimit}</td>
-                                    <td className="text-uppercase">{item.remark}</td>
-                                    <td>
-                                      <Button
-                                        onClick={() => {
-                                          selectedGrade(item);
-                                        }} className="btn btn-sm bt-primary">edit</Button></td>
-                                  </tr>
-                                ))
-                              }
+                              {gradeSetups.map((item, idx) => (
+                                <tr key={idx} className="text-center">
+                                  <td className="text-uppercase">
+                                    {item.gradeName}
+                                  </td>
+                                  <td className="text-uppercase">
+                                    {item.upperLimit}
+                                  </td>
+                                  <td className="text-uppercase">
+                                    {item.lowerLimit}
+                                  </td>
+                                  <td className="text-uppercase">
+                                    {item.remark}
+                                  </td>
+                                  <td>
+                                    <Button
+                                      onClick={() => {
+                                        selectedGrade(item);
+                                      }}
+                                      className="btn btn-sm bt-primary"
+                                    >
+                                      edit
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
 
@@ -323,10 +401,10 @@ const GradeSetting = () => {
                             <a
                               className="h-25 btn-sm mt-5 btn btn-primary"
                               onClick={() => {
-                                submitGradeSetting()
+                                submitGradeSetting();
                               }}
                             >
-                            {!gGroupId ?  "submit" : "update"}
+                              {!gGroupId ? "submit" : "update"}
                             </a>
                           </div>
                         </Col>
@@ -345,13 +423,10 @@ const GradeSetting = () => {
                   )}
                 </Formik>
 
-
                 <div className="mt-4 d-md-block  d-lg-flex justify-content-lg-around">
                   <Row>
-                    {prevGradesList.map((item, index) => (
-                      <Col key={index} className="">
-
-
+                    {prevGradesList.map((item) => (
+                      <Col className="">
                         <div className="d-flex justify-content-around">
                           <h5 className="text-uppercase text-center w-100">
                             {item.gradeGroupName}{" "}
@@ -361,34 +436,24 @@ const GradeSetting = () => {
                             className="text-capitalize badge btn-primary border-0 btn btn-sm"
                             ref={ref}
                             onClick={() => {
-                              setgGroupId(item.gradeGroupId)
-                              setgGroupName(item.gradeGroupName);
-                              setGradeSetup(item.grades);
-                             updateClassListState(item.classes, newClassList)(dispatch);
-                              setGradeToEdit(null);
-                              window.scrollTo(0, 0);
-                            }}>
+                              handleEditClick(item, newClassList);
+                            }}
+                          >
                             Edit
                           </a>
                         </div>
 
-
                         <table className="table table-bordered table-responsive  col-md-6 ">
                           <thead>
                             <tr className="text-center">
-                              <td className="text-uppercase h6">
-                                Upper Limit
-                              </td>
+                              <td className="text-uppercase h6">Upper Limit</td>
 
-                              <td className="text-uppercase h6">
-                                Lower Limit
-                              </td>
+                              <td className="text-uppercase h6">Lower Limit</td>
 
                               <td className="text-uppercase h6">Grade</td>
 
                               <td className="text-uppercase h6">Remark</td>
                             </tr>
-
                           </thead>
                           <tbody>
                             {item.grades.map((grade, index) => (
@@ -401,8 +466,6 @@ const GradeSetting = () => {
                             ))}
                           </tbody>
                         </table>
-
-
                       </Col>
                     ))}
                   </Row>
