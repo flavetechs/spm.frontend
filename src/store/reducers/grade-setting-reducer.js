@@ -2,20 +2,20 @@ import { _state } from "../states/grade-setting-state";
 import { actions } from "../action-types/grade-setting-action-types";
 export const gradeReducer = (state = _state, { type, payload }) => {
   switch (type) {
-    // case actions.NEW_CLASS_STATE:
-    //     return {
-    //       ...state,
-    //       newClassList: [...state.newClassList, payload]
-    //     };
+    case actions.NEW_CLASS_STATE:
+        return {
+          ...state,
+          newClassList: [...state.newClassList, payload]
+        };
   
 
-    // case actions.UPDATE_CLASS_STATE:{
-    //   var updatedClassList = filterClasses(state.newClassList, payload)
-    //   return {
-    //     ...state,
-    //     newClassList: updatedClassList
-    //   };
-    // }
+    case actions.UPDATE_CLASS_STATE:{
+      var updatedClassList = filterClasses(state.newClassList, payload)
+      return {
+        ...state,
+        newClassList: updatedClassList
+      };
+    }
     
     case actions.FETCH_GRADE_CLASSES_LOADING:
       return {

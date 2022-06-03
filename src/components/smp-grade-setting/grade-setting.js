@@ -213,7 +213,7 @@ const GradeSetting = () => {
                             </div>
                           ))}
 
-                          {!gGroupId &&
+                          {gGroupId &&
                             newClassList.map((newClass, idx) => (
                               <div
                                 className="mt-3 col-md-9 d-flex justify-content-between form-group "
