@@ -95,25 +95,28 @@ export const updateGradeSetting = (values) => (dispatch) => {
       });
   };
 
-export const updateClassListState = (classes, newClassList) => (dispatch) => { 
- let prevClasses = newClassList.map((list) => list.className);
+export const newClassListState = (classes) => (dispatch) => { 
   classes = classes.reduce((obj, item) => {
     return {
       ...item,
     };
   }, {});
-  if(prevClasses){
     dispatch({
         type: actions.NEW_CLASS_STATE,
         payload: classes,
       });
    }
-  if (prevClasses !== classes) {
+   export const updateClassListState = (classes) => (dispatch) => { 
+        classes = classes.reduce((obj, item) => {
+    return {
+      ...item,
+    };
+  }, {});
   dispatch({
     type: actions.UPDATE_CLASS_STATE,
     payload: classes,
   });
   
-} 
-console.log('here',prevClasses)
+
+console.log('here',classes)
 }

@@ -8,6 +8,7 @@ import {
   createGradeSetting,
   getAllGradeClasses,
   getPreviousGrades,
+  newClassListState,
   updateClassListState,
   updateGradeSetting,
 } from "../../store/actions/grade-setting-actions";
@@ -23,10 +24,6 @@ const GradeSetting = () => {
   //VARIABLE DECLARATIONS
   const ref = useRef();
   const dispatch = useDispatch();
-  const [executeOnce, setExecuteOnce] = useState({
-    status: false,
-    index: null,
-  });
   const [gGroupId, setgGroupId] = useState("");
   const [selectedClassIds, setSelectedClassids] = useState([]);
   const [gradeSetups, setGradeSetup] = useState([]);
@@ -63,7 +60,7 @@ const GradeSetting = () => {
     setGradeSetup([]);
     setGradeToEdit({});
     setSelectedClassids([]);
-  }, [isSuccessful, newClassList]);
+  }, [isSuccessful, classList]);
 
   const pushSelectedClassId = (event, sessionClassId) => {
     if (event.target.checked) {
@@ -119,15 +116,15 @@ const GradeSetting = () => {
       updateGradeSetting(updatePayload)(dispatch);
     }
   };
-  const handleEditClick = (item, newClassList) => {
+  const handleEditClick = (item) => {
+    newClassListState(item.classes)(dispatch);
+    updateClassListState(item.classes)(dispatch);
     setgGroupId(item.gradeGroupId);
     setgGroupName(item.gradeGroupName);
     setGradeSetup(item.grades);
     setGradeToEdit(null);
     window.scrollTo(0, 0);
-    updateClassListState(item.classes, newClassList)(dispatch);
   };
-
   console.log("classList", classList);
 
   return (

@@ -2,6 +2,21 @@ import { _state } from "../states/grade-setting-state";
 import { actions } from "../action-types/grade-setting-action-types";
 export const gradeReducer = (state = _state, { type, payload }) => {
   switch (type) {
+    // case actions.NEW_CLASS_STATE:
+    //     return {
+    //       ...state,
+    //       newClassList: [...state.newClassList, payload]
+    //     };
+  
+
+    // case actions.UPDATE_CLASS_STATE:{
+    //   var updatedClassList = filterClasses(state.newClassList, payload)
+    //   return {
+    //     ...state,
+    //     newClassList: updatedClassList
+    //   };
+    // }
+    
     case actions.FETCH_GRADE_CLASSES_LOADING:
       return {
         ...state,
@@ -87,27 +102,12 @@ export const gradeReducer = (state = _state, { type, payload }) => {
         message: payload,
       };
 
-      case actions.NEW_CLASS_STATE:
-        return {
-          ...state,
-          newClassList: [...state.newClassList, payload]
-        };
-  
-
-    case actions.UPDATE_CLASS_STATE:{
-      var updatedClassList = filterClasses(state.newClassList, payload)
-      return {
-        ...state,
-        newClassList: updatedClassList
-      };
-    }
-
     default:
       return state;
   }
 };
 function filterClasses(arr, value) {
-  let prevClasses = arr.map((list) => list.className);
+  let prevClasses = arr.map((list) => list.className).toString();
   if (prevClasses !== value) {
     return arr.splice(arr.length - 1, 1);
   } else{
