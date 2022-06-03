@@ -91,7 +91,7 @@ const PromotionFailedList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Passed Student List</h4>
+                  <h4 className="card-title">Failed Student List</h4>
                 </div>
               </Card.Header>
               <Card.Body className="px-0">
@@ -125,7 +125,7 @@ const PromotionFailedList = () => {
                           </td>
                           <td className="text-center">{student.registrationNumber}</td>
                           <td className="text-center"><span>50</span></td>
-                          <td className="text-center"><Badge bg="danger"><span>Passed</span></Badge></td>
+                          <td className="text-center"><Badge bg="danger"><span>Failed</span></Badge></td>
                           <td className="text-center">
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger
