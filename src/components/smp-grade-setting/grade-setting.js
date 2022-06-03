@@ -47,9 +47,14 @@ const GradeSetting = () => {
   //VALIDATIONS SCHEMA
 
   React.useEffect(() => {
+    if (isSuccessful) {
+      setGradeInput(!gradeInput);
+    setOkButton(false);
+      setSaveButton(true);
+  }
     getAllGradeClasses()(dispatch);
-    getPreviousGrades()(dispatch);
-  }, []);
+    getPreviousGrades()(dispatch); 
+  }, [isSuccessful]);
 
 
   React.useEffect(() => {
