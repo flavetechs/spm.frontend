@@ -39,6 +39,7 @@ export const getPreviousGrades = () => (dispatch) => {
             })
         });
 }
+
 export const createGradeSetting = (values) => (dispatch) => {
     dispatch({
         type: actions.CREATE_GRADE_LOADING
@@ -50,6 +51,8 @@ export const createGradeSetting = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getPreviousGrades()(dispatch);
+            getAllGradeClasses()(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_GRADE_FAILED,
@@ -59,85 +62,13 @@ export const createGradeSetting = (values) => (dispatch) => {
         });
 }
 
-export const gradeValueArray = (gradeInput) => (dispatch) => {
+export const updateClassListState = (classes) => dispatch => {
     dispatch({
-        type: actions.PUSH_GRADE_VALUES,
-        payload: gradeInput
-    })
-    console.log('here',gradeInput)
-}
-
-export const editGradeValues = (index, gradeGroupId, prevGradesList) => (dispatch) => {
-    var existingGradeGroup = prevGradesList.find(er => er.gradeGroupId === gradeGroupId);
-if(existingGradeGroup){
-    prevGradesList.splice(index, 1)
-}
-    dispatch({
-        type: actions.EDIT_GRADE_VALUES,
-        payload: prevGradesList
-    })
-}
-export const chooseEdit = (index, gradeGroupId, prevGradesList) => (dispatch) => {
-    var existingGradeGroup = prevGradesList.find(er => er.gradeGroupId === gradeGroupId);
-if(existingGradeGroup){
-    var cutGradeGroup = prevGradesList.slice(index, index + 1);
-}
-    dispatch({
-        type: actions.CHOOSE_EDIT,
-        payload: cutGradeGroup
-    })
-}
-
-export const updateFetchClass = (index, gradeGroupId, prevGradesList) => (dispatch) => {
-    var existingGradeGroup = prevGradesList.find(er => er.gradeGroupId === gradeGroupId);
-    if(existingGradeGroup){
-        var cutGradeGroup = prevGradesList.slice(index, index + 1);
-        var sessionClassId = cutGradeGroup.map((edit, index) => 
-        edit.classes.map((list) =>
-           list.sessionClassId
-    ));
-    sessionClassId = sessionClassId.toString();
-    
-    var sessionClassName = cutGradeGroup.map((edit, index) => 
-        edit.classes.map((list) =>
-           list.sessionClassName
-    ));
-    
-    sessionClassName = sessionClassName.toString();
-    }
-    let classToAdd = {
-        sessionClassId,
-        className: sessionClassName
-    }
-
-    dispatch({
-        type: actions.UPDATE_FETCH_CLASS,
-        payload: classToAdd
-    })
-    
-}
-
-export const buildClassArray = (checked, sessionClassId, classes) => (dispatch) => {
-    var existingClasses = classes.find(er => er.sessionClassId === sessionClassId);
-    var otherClasses = classes.filter(er => er.sessionClassId !== sessionClassId);
-    if (existingClasses) {
-        if (checked) {
-            existingClasses.sessionClassId = sessionClassId;
-            classes = [...otherClasses, existingClasses]
-        } else {
-            classes = [...otherClasses]
-        }
-    } else {
-        let newClasses = {
-            sessionClassId
-        }
-        classes = [...classes, newClasses]
-    }
-    dispatch({
-        type: actions.PUSH_CLASSES_ID,
+        type: actions.UPDATE_CLASS_STATE,
         payload: classes
-    })
-}
+    });
+} 
+
 
 
 
