@@ -98,21 +98,20 @@ const GradeSetting = () => {
       return;
     }
 
-    const payload = {
-      gradeGroupName: gGroupName,
-      grades: gradeSetups,
-      classes: selectedClassIds,
-    };
-
-    const updatePayload = {
-      gradeGroupId: gGroupId,
-      gradeGroupName: gGroupName,
-      grades: gradeSetups,
-      classes: selectedClassIds,
-    };
     if (!gGroupId) {
+      const payload = {
+        gradeGroupName: gGroupName,
+        grades: gradeSetups,
+        classes: selectedClassIds,
+      };
       createGradeSetting(payload)(dispatch);
     } else {
+      const updatePayload = {
+        gradeGroupId: gGroupId,
+        gradeGroupName: gGroupName,
+        grades: gradeSetups,
+        classes: selectedClassIds,
+      };
       updateGradeSetting(updatePayload)(dispatch);
     }
   };
@@ -125,7 +124,6 @@ const GradeSetting = () => {
     setGradeToEdit(null);
     window.scrollTo(0, 0);
   };
-  console.log("classList", classList);
 
   return (
     <>
