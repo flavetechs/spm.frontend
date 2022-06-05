@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting } from './spm-path-locations';
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
@@ -32,6 +32,7 @@ import SessionClassDetails from '../components/spm-class/session-class-details';
 import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
 import EnrolledStudents from '../components/smp-enrollment/enrolled-student-list';
 import StaffDetails from '../components/smp-staff/StaffDetails';
+import GradeSetting from '../components/smp-grade-setting/grade-setting';
 
 const DashboardRouter = () => {
 
@@ -81,6 +82,9 @@ const DashboardRouter = () => {
                      {/* enrollment */}
                      <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
                      <Route path={enrollment.enrolledStudents} exact component={EnrolledStudents} />
+
+                      {/* Grade Setting */}
+                      <Route path={gradeSetting.setting} exact component={GradeSetting} />
 
                 </Switch>
             </CSSTransition>

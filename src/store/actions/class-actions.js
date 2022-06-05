@@ -337,13 +337,13 @@ export const getAllActiveClasses = () => (dispatch) => {
 //CLASS SUBJECT IDS//
 export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
 
-    var existingCassSubject = classSubjects.find(er => er.subjectId === subjectId);
+    var existingClassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
-    if (existingCassSubject) {
+    if (existingClassSubject) {
         if (checkBoxValue) {
-            existingCassSubject.subjectId = subjectId;
-            existingCassSubject.subjectTeacherId = subjectTeacherId;
-            classSubjects = [...otherClassSubject, existingCassSubject]
+            existingClassSubject.subjectId = subjectId;
+            existingClassSubject.subjectTeacherId = subjectTeacherId;
+            classSubjects = [...otherClassSubject, existingClassSubject]
         } else {
             classSubjects = [...otherClassSubject]
         }
