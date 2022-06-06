@@ -24,6 +24,7 @@ const GradeSetting = () => {
   //VARIABLE DECLARATIONS
   const ref = useRef();
   const dispatch = useDispatch();
+  const [defaultChecked, setDefaultChecked] = useState({status: false, id: []})
   const [gGroupId, setgGroupId] = useState("");
   const [selectedClassIds, setSelectedClassids] = useState([]);
   const [gradeSetups, setGradeSetup] = useState([]);
@@ -69,8 +70,9 @@ const GradeSetting = () => {
       setSelectedClassids([
         ...selectedClassIds.filter((id) => id !== sessionClassId),
       ]);
-      event.target.checked = false;
+     
     }
+    
   };
 
   const selectedGrade = (selected = null) => {
@@ -111,21 +113,38 @@ const GradeSetting = () => {
       classes: selectedClassIds,
     };
     if (!gGroupId) {
-      createGradeSetting(payload)(dispatch);
+    // createGradeSetting(payload)(dispatch);
     } else {
-      updateGradeSetting(updatePayload)(dispatch);
-    }
+      console.log('updatepayload', updatePayload)
+     // updateGradeSetting(updatePayload)(dispatch);
+    } 
+    setSelectedClassids([]);
   };
   const handleEditClick = (item) => {
     newClassListState(item.classes)(dispatch);
-    updateClassListState(item.classes)(dispatch);
+    //updateClassListState(item.classes)(dispatch);
     setgGroupId(item.gradeGroupId);
     setgGroupName(item.gradeGroupName);
     setGradeSetup(item.grades);
     setGradeToEdit(null);
+    setDefaultChecked({status:true, id: item.classes})
+    handleDefaultChecked();
     window.scrollTo(0, 0);
   };
-  console.log("classList", classList);
+  const handleDefaultChecked = () => {
+    if(defaultChecked.status) {
+      setSelectedClassids([...selectedClassIds, defaultChecked.id])
+    }else{
+      setSelectedClassids([
+        ...selectedClassIds.filter((id) => id === defaultChecked.id),
+      ]);
+    }
+   
+  }
+  console.log("defaultChecked",defaultChecked.id)
+  console.log("selectedClassIds",selectedClassIds)
+  console.log("selectedClass",prevGradesList)
+  
 
   return (
     <>
@@ -222,7 +241,7 @@ const GradeSetting = () => {
                                 <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
                                   {newClass.className}
                                 </div>
-
+                      
                                 <input
                                   type="checkbox"
                                   id="customCheck1"
@@ -230,10 +249,12 @@ const GradeSetting = () => {
                                   style={{ height: "30px" }}
                                   defaultChecked={true}
                                   onChange={(e) => {
-                                    pushSelectedClassId(
+                                 pushSelectedClassId(
                                       e,
                                       newClass.sessionClassId
-                                    );
+                                    )
+                                    setDefaultChecked({status: false , id: null});
+                                   
                                   }}
                                 />
                               </div>
@@ -433,7 +454,7 @@ const GradeSetting = () => {
                             className="text-capitalize badge btn-primary border-0 btn btn-sm"
                             ref={ref}
                             onClick={() => {
-                              handleEditClick(item, newClassList);
+                              handleEditClick(item);
                             }}
                           >
                             Edit

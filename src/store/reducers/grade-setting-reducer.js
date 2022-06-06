@@ -5,7 +5,7 @@ export const gradeReducer = (state = _state, { type, payload }) => {
     case actions.NEW_CLASS_STATE:
         return {
           ...state,
-          newClassList: [...state.newClassList, payload]
+          newClassList: [...state.newClassList, ...payload]
         };
   
 
@@ -107,9 +107,10 @@ export const gradeReducer = (state = _state, { type, payload }) => {
   }
 };
 function filterClasses(arr, value) {
-  let prevClasses = arr.map((list) => list.className).toString();
-  if (prevClasses !== value) {
-    return arr.splice(arr.length - 1, 1);
+  let prevClassesStatus = arr.map((list) => list.className != value ? false : true);
+  if (!prevClassesStatus) {
+    arr = []
+    return arr.push(value)
   } else{
     return arr
   }

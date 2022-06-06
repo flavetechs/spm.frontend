@@ -96,16 +96,11 @@ export const updateGradeSetting = (values) => (dispatch) => {
   };
 
 export const newClassListState = (classes) => (dispatch) => { 
-  classes = classes.reduce((obj, item) => {
-    return {
-      ...item,
-    };
-  }, {});
     dispatch({
         type: actions.NEW_CLASS_STATE,
         payload: classes,
       });
-      console.log('here',classes)
+      console.log('i', classes)
    }
    export const updateClassListState = (classes) => (dispatch) => { 
         classes = classes.reduce((obj, item) => {
@@ -118,6 +113,4 @@ export const newClassListState = (classes) => (dispatch) => {
     payload: classes,
   });
   
-
-console.log('here2',classes)
 }
