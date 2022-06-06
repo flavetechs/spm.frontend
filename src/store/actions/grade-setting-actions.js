@@ -100,17 +100,11 @@ export const newClassListState = (classes) => (dispatch) => {
         type: actions.NEW_CLASS_STATE,
         payload: classes,
       });
-      console.log('i', classes)
    }
    export const updateClassListState = (classes) => (dispatch) => { 
-        classes = classes.reduce((obj, item) => {
-    return {
-      ...item,
-    };
-  }, {});
   dispatch({
     type: actions.UPDATE_CLASS_STATE,
     payload: classes,
   });
-  
+  console.log('i', classes)
 }

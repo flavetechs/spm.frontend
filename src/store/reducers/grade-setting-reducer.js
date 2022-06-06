@@ -10,10 +10,10 @@ export const gradeReducer = (state = _state, { type, payload }) => {
   
 
     case actions.UPDATE_CLASS_STATE:{
-      var updatedClassList = filterClasses(state.newClassList, payload)
+      var updatedClassList = filterClasses(state.newClassList)
       return {
         ...state,
-        newClassList: updatedClassList
+        newClassList: [...updatedClassList, ...payload]
       };
     }
     
@@ -106,12 +106,14 @@ export const gradeReducer = (state = _state, { type, payload }) => {
       return state;
   }
 };
-function filterClasses(arr, value) {
-  let prevClassesStatus = arr.map((list) => list.className != value ? false : true);
-  if (!prevClassesStatus) {
-    arr = []
-    return arr.push(value)
-  } else{
-    return arr
-  }
+function filterClasses(arr) {
+  // let prevClassesStatus = arr.map((list) => list.className !== value ? false : true);
+  // if (!prevClassesStatus) {
+  //   arr = []
+  //   return arr.push(value)
+  // } else{
+  //   return arr
+  // }
+  arr = []
+  return arr
 }

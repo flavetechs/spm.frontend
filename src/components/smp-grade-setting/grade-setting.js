@@ -24,7 +24,6 @@ const GradeSetting = () => {
   //VARIABLE DECLARATIONS
   const ref = useRef();
   const dispatch = useDispatch();
-  const [defaultChecked, setDefaultChecked] = useState({status: false, id: []})
   const [gGroupId, setgGroupId] = useState("");
   const [selectedClassIds, setSelectedClassids] = useState([]);
   const [gradeSetups, setGradeSetup] = useState([]);
@@ -115,35 +114,24 @@ const GradeSetting = () => {
         classes: selectedClassIds,
       };
       updateGradeSetting(updatePayload)(dispatch);
-      console.log('updatepayload', updatePayload)
     }
-    //selectedClassIds([])
+    setSelectedClassids([])
   };
-  
+  const handleDefaultChecked = (classes) => {
+    let checkedClasses = classes.map((item, id) => item.sessionClassId.toString());
+      setSelectedClassids([...selectedClassIds, ...checkedClasses]);
+  }
   const handleEditClick = (item) => {
     newClassListState(item.classes)(dispatch);
-    //updateClassListState(item.classes)(dispatch);
+    updateClassListState(item.classes)(dispatch);
     setgGroupId(item.gradeGroupId);
     setgGroupName(item.gradeGroupName);
     setGradeSetup(item.grades);
     setGradeToEdit(null);
-    setDefaultChecked({status:true, id: item.classes})
-    handleDefaultChecked();
+    handleDefaultChecked(item.classes);
     window.scrollTo(0, 0);
   };
-  const handleDefaultChecked = () => {
-    if(defaultChecked.status) {
-      setSelectedClassids([...selectedClassIds, defaultChecked.id])
-    }else{
-      setSelectedClassids([
-        ...selectedClassIds.filter((id) => id === defaultChecked.id),
-      ]);
-    }
-   
-  }
-  console.log("defaultChecked",defaultChecked.id)
-  console.log("selectedClassIds",selectedClassIds)
-  console.log("selectedClass",prevGradesList)
+  
   
 
   return (
@@ -253,7 +241,6 @@ const GradeSetting = () => {
                                       e,
                                       newClass.sessionClassId
                                     )
-                                    setDefaultChecked({status: false , id: null});
                                    
                                   }}
                                 />
