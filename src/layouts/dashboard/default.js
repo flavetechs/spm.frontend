@@ -23,6 +23,7 @@ import { authLocations } from '../../router/spm-path-locations'
 import { DecisionDialog } from '../../components/partials/components/hoc-tools/decision-dialog'
 import { SingleDeleteDialog } from '../../components/partials/components/hoc-tools/delete-dialogs'
 import { ErrorToast, SuccessToast } from '../../components/partials/components/hoc-tools/alert'
+import SmpLoader from '../../components/loader/smp-loader'
 
 const mapStateToProps = (state) => {
     return {
@@ -96,7 +97,8 @@ const Default = (props) => {
 
     return (
         <>
-            <Loader />
+            {/* <Loader /> */}
+            <SmpLoader />
             <Sidebar />
             <main className="main-content">
                 <div className="position-relative">
