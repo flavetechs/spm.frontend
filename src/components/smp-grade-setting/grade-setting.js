@@ -100,26 +100,26 @@ const GradeSetting = () => {
       return;
     }
 
-    const payload = {
-      gradeGroupName: gGroupName,
-      grades: gradeSetups,
-      classes: selectedClassIds,
-    };
-
-    const updatePayload = {
-      gradeGroupId: gGroupId,
-      gradeGroupName: gGroupName,
-      grades: gradeSetups,
-      classes: selectedClassIds,
-    };
     if (!gGroupId) {
-    // createGradeSetting(payload)(dispatch);
+      const payload = {
+        gradeGroupName: gGroupName,
+        grades: gradeSetups,
+        classes: selectedClassIds,
+      };
+      createGradeSetting(payload)(dispatch);
     } else {
+      const updatePayload = {
+        gradeGroupId: gGroupId,
+        gradeGroupName: gGroupName,
+        grades: gradeSetups,
+        classes: selectedClassIds,
+      };
+      updateGradeSetting(updatePayload)(dispatch);
       console.log('updatepayload', updatePayload)
-     // updateGradeSetting(updatePayload)(dispatch);
-    } 
-    setSelectedClassids([]);
+    }
+    //selectedClassIds([])
   };
+  
   const handleEditClick = (item) => {
     newClassListState(item.classes)(dispatch);
     //updateClassListState(item.classes)(dispatch);
