@@ -107,13 +107,6 @@ export const gradeReducer = (state = _state, { type, payload }) => {
   }
 };
 function filterClasses(arr) {
-  // let prevClassesStatus = arr.map((list) => list.className !== value ? false : true);
-  // if (!prevClassesStatus) {
-  //   arr = []
-  //   return arr.push(value)
-  // } else{
-  //   return arr
-  // }
   arr = []
   return arr
 }

@@ -106,5 +106,4 @@ export const newClassListState = (classes) => (dispatch) => {
     type: actions.UPDATE_CLASS_STATE,
     payload: classes,
   });
-  console.log('i', classes)
 }
