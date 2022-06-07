@@ -5,15 +5,15 @@ export const gradeReducer = (state = _state, { type, payload }) => {
     case actions.NEW_CLASS_STATE:
         return {
           ...state,
-          newClassList: [...state.newClassList, payload]
+          newClassList: [...state.newClassList, ...payload]
         };
   
 
     case actions.UPDATE_CLASS_STATE:{
-      var updatedClassList = filterClasses(state.newClassList, payload)
+      var updatedClassList = filterClasses(state.newClassList)
       return {
         ...state,
-        newClassList: updatedClassList
+        newClassList: [...updatedClassList, ...payload]
       };
     }
     
@@ -106,11 +106,7 @@ export const gradeReducer = (state = _state, { type, payload }) => {
       return state;
   }
 };
-function filterClasses(arr, value) {
-  let prevClasses = arr.map((list) => list.className).toString();
-  if (prevClasses !== value) {
-    return arr.splice(arr.length - 1, 1);
-  } else{
-    return arr
-  }
+function filterClasses(arr) {
+  arr = []
+  return arr
 }

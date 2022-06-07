@@ -69,8 +69,9 @@ const GradeSetting = () => {
       setSelectedClassids([
         ...selectedClassIds.filter((id) => id !== sessionClassId),
       ]);
-      event.target.checked = false;
+     
     }
+    
   };
 
   const selectedGrade = (selected = null) => {
@@ -114,7 +115,12 @@ const GradeSetting = () => {
       };
       updateGradeSetting(updatePayload)(dispatch);
     }
+    setSelectedClassids([])
   };
+  const handleDefaultChecked = (classes) => {
+    let checkedClasses = classes.map((item, id) => item.sessionClassId.toString());
+      setSelectedClassids([...selectedClassIds, ...checkedClasses]);
+  }
   const handleEditClick = (item) => {
     newClassListState(item.classes)(dispatch);
     updateClassListState(item.classes)(dispatch);
@@ -122,8 +128,11 @@ const GradeSetting = () => {
     setgGroupName(item.gradeGroupName);
     setGradeSetup(item.grades);
     setGradeToEdit(null);
+    handleDefaultChecked(item.classes);
     window.scrollTo(0, 0);
   };
+  
+  
 
   return (
     <>
@@ -220,7 +229,7 @@ const GradeSetting = () => {
                                 <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
                                   {newClass.className}
                                 </div>
-
+                      
                                 <input
                                   type="checkbox"
                                   id="customCheck1"
@@ -228,10 +237,11 @@ const GradeSetting = () => {
                                   style={{ height: "30px" }}
                                   defaultChecked={true}
                                   onChange={(e) => {
-                                    pushSelectedClassId(
+                                 pushSelectedClassId(
                                       e,
                                       newClass.sessionClassId
-                                    );
+                                    )
+                                   
                                   }}
                                 />
                               </div>
@@ -431,7 +441,7 @@ const GradeSetting = () => {
                             className="text-capitalize badge btn-primary border-0 btn btn-sm"
                             ref={ref}
                             onClick={() => {
-                              handleEditClick(item, newClassList);
+                              handleEditClick(item);
                             }}
                           >
                             Edit
