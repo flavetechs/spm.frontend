@@ -69,9 +69,9 @@ const GradeSetting = () => {
       setSelectedClassids([
         ...selectedClassIds.filter((id) => id !== sessionClassId),
       ]);
-     
+
     }
-    
+
   };
 
   const selectedGrade = (selected = null) => {
@@ -119,7 +119,7 @@ const GradeSetting = () => {
   };
   const handleDefaultChecked = (classes) => {
     let checkedClasses = classes.map((item, id) => item.sessionClassId.toString());
-      setSelectedClassids([...selectedClassIds, ...checkedClasses]);
+    setSelectedClassids([...selectedClassIds, ...checkedClasses]);
   }
   const handleEditClick = (item) => {
     newClassListState(item.classes)(dispatch);
@@ -131,8 +131,8 @@ const GradeSetting = () => {
     handleDefaultChecked(item.classes);
     window.scrollTo(0, 0);
   };
-  
-  
+
+
 
   return (
     <>
@@ -229,7 +229,7 @@ const GradeSetting = () => {
                                 <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
                                   {newClass.className}
                                 </div>
-                      
+
                                 <input
                                   type="checkbox"
                                   id="customCheck1"
@@ -237,11 +237,8 @@ const GradeSetting = () => {
                                   style={{ height: "30px" }}
                                   defaultChecked={true}
                                   onChange={(e) => {
-                                 pushSelectedClassId(
-                                      e,
-                                      newClass.sessionClassId
-                                    )
-                                   
+                                    pushSelectedClassId(e, newClass.sessionClassId)
+
                                   }}
                                 />
                               </div>
@@ -395,6 +392,15 @@ const GradeSetting = () => {
                                       className="btn btn-sm bt-primary"
                                     >
                                       edit
+                                    </Button>
+
+                                    <Button bg={'red'}
+                                      onClick={() => {
+                                        setGradeSetup([...gradeSetups.filter(e => e.gradeName != item.gradeName)]);
+                                      }}
+                                      className="btn btn-sm"
+                                    >
+                                      delete
                                     </Button>
                                   </td>
                                 </tr>
