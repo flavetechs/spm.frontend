@@ -76,13 +76,11 @@ export const getAllenrolledStudents = () => (dispatch) => {
 
     axiosInstance.get('/errollment/api/v1/getall/enrolled')
         .then((res) => {
-            console.log('enrolled res', res);
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
-            console.log('enrolled err', err);
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_FAILED,
                 payload: err.response.data.result
@@ -107,7 +105,6 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
             getAllenrolledStudents()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('unenrolled err', err);
             dispatch({
                 type: actions.UNENROLL_STUDENTS_FAILED,
                 payload: err.response.data.message.friendlyMessage

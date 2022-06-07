@@ -2,7 +2,7 @@ import axios from 'axios';
 // https://localhost:44373/,
 // http://flavetech-001-site3.etempurl.com/
 const axiosInstance = axios.create({
-    baseURL: 'http://flavetech-001-site1.itempurl.com/',
+    baseURL: 'http://flavetech-001-site1.etempurl.com/',
     headers: {
         Authorization: '',
     },
@@ -25,9 +25,7 @@ axiosInstance.interceptors.response.use((response) => response, (error: any) => 
 
 axiosInstance.interceptors.request.use(
     async (config: any) => {
-
         const sessionToken = await localStorage.getItem('token');
-
         if (sessionToken !== null) {
             config.headers.Authorization = 'Bearer ' + sessionToken
         }
