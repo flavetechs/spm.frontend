@@ -23,8 +23,7 @@ const SessionClassAdd = () => {
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
   const [subjectScores, setSubjectScores] = useState([]);
-const [validator, setValidator] = useState({exam: "",
-  assessment: "",});
+  const [validator, setValidator] = useState({ exam: "", assessment: "" });
 
   //VARIABLE DECLARATIONS
 
@@ -100,7 +99,7 @@ const [validator, setValidator] = useState({exam: "",
   const getSubjectId = (event, subjectId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
-      "", 
+      "",
       "",
       subjectId,
       "",
@@ -109,26 +108,26 @@ const [validator, setValidator] = useState({exam: "",
     )(dispatch);
   };
 
-  const getExamScores = (event,  subjectId) => {
-  //  const examScore = event.target.value;
-  //  const  assessment = 100 - event.target.value;
-  //   const checkBoxValue = event.target.checked;
-  //   buildClassSubjectArray(
-  //     examScore, 
-  //     assessment,
-  //     subjectId,
-  //     "",
-  //     classSubjects,
-  //     checkBoxValue
-  //   )(dispatch);
+  const getExamScores = (event, subjectId) => {
+    //  const examScore = event.target.value;
+    //  const  assessment = 100 - event.target.value;
+    //   const checkBoxValue = event.target.checked;
+    //   buildClassSubjectArray(
+    //     examScore,
+    //     assessment,
+    //     subjectId,
+    //     "",
+    //     classSubjects,
+    //     checkBoxValue
+    //   )(dispatch);
   };
 
-  const getAssessmentScores = (event,subjectId) => {
+  const getAssessmentScores = (event, subjectId) => {
     // const checkBoxValue = event.target.checked;
     // const examScore = 100 - event.target.value;
     // const  assessment =  event.target.value;
     // buildClassSubjectArray(
-    //   examScore, 
+    //   examScore,
     //   assessment,
     //   subjectId,
     //   "",
@@ -139,7 +138,7 @@ const [validator, setValidator] = useState({exam: "",
 
   const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
     buildClassSubjectArray(
-      "", 
+      "",
       "",
       subjectId,
       subjectTeacherId,
@@ -149,11 +148,10 @@ const [validator, setValidator] = useState({exam: "",
 
   const storeSubjectScore = (lookupId, newSubjectScore) => {
     let prevSubjectScore = subjectScores.filter(
-       (sub) => sub.subjectId != lookupId
-     );
-     setSubjectScores([...prevSubjectScore, newSubjectScore])
-     
-   }
+      (sub) => sub.subjectId != lookupId
+    );
+    setSubjectScores([...prevSubjectScore, newSubjectScore]);
+  };
   //HANDLER FUNCTIONS
   console.log("subjectScores", subjectScores);
   return (
@@ -172,6 +170,8 @@ const [validator, setValidator] = useState({exam: "",
                     examScore: 70,
                     assessmentScore: 30,
                     passMark: 40,
+                    subjectExam: 70,
+                    subjectAssessment: 30,
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
@@ -186,7 +186,7 @@ const [validator, setValidator] = useState({exam: "",
                       )(dispatch);
                       return;
                     }
-                    console.log('values', values)
+                    console.log("values", values);
                     //createSessionClass(values)(dispatch);
                   }}
                 >
@@ -294,11 +294,12 @@ const [validator, setValidator] = useState({exam: "",
                                   "assessmentScore",
                                   100 - e.target.value
                                 );
-                                setSubjectScores([{
-                                  exam: e.target.value,
-                                  assessment: 100 - e.target.value,
-                                }]);
-                               
+                                setSubjectScores([
+                                  {
+                                    exam: e.target.value,
+                                    assessment: 100 - e.target.value,
+                                  },
+                                ]);
                               }}
                               className="form-control"
                               name="examScore"
@@ -330,12 +331,13 @@ const [validator, setValidator] = useState({exam: "",
                                   "assessmentScore",
                                   e.target.value
                                 );
-                               
-                                setSubjectScores([{
+
+                                setSubjectScores([
+                                  {
                                     exam: 100 - e.target.value,
                                     assessment: e.target.value,
-                                }])
-                               
+                                  },
+                                ]);
                               }}
                               className="form-control"
                               name="assessmentScore"
@@ -440,30 +442,32 @@ const [validator, setValidator] = useState({exam: "",
                                   )}
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId);
-                                   
-                                    
                                   }}
                                 />{" "}
                                 {subject.name}
                               </td>
-                             
+
                               <td style={{ width: "30%" }}>
                                 {" "}
                                 {classSubjects.find(
-                                    (sub) => sub.subjectId === subject.lookupId
-                                  ) ? (
+                                  (sub) => sub.subjectId === subject.lookupId
+                                ) ? (
                                   <input
                                     type="number"
-                                  defaultValue={subjectScores.map(item=> item.exam)}
+                                    defaultValue={subjectScores.map(
+                                      (item) => item.exam
+                                    )}
                                     onChange={(e) => {
-                                     storeSubjectScore(subject.lookupId,
-                                        { 
-                                            subjectId: subject.lookupId,
-                                            exam: e.target.value,
-                                            assessment: 100 - e.target.value,
-                                          })
-                                          getExamScores (e, subject.lookupId)
-                                          setValidator({exam:e.target.value, assessment: 100 - e.target.value})
+                                      setValidator({
+                                        exam: e.target.value,
+                                        assessment: 100 - e.target.value,
+                                      });
+                                      storeSubjectScore(subject.lookupId, {
+                                        subjectId: subject.lookupId,
+                                        exam: e.target.value,
+                                        assessment: 100 - e.target.value,
+                                      });
+                                      getExamScores(e, subject.lookupId);
                                     }}
                                     onKeyUp={() =>
                                       setFormErrors(validate(validator))
@@ -477,32 +481,35 @@ const [validator, setValidator] = useState({exam: "",
 
                               <td style={{ width: "20%" }}>
                                 {classSubjects.find(
-                                    (sub) => sub.subjectId === subject.lookupId
-                                  ) ? (
+                                  (sub) => sub.subjectId === subject.lookupId
+                                ) ? (
                                   <input
                                     type="number"
-                                    defaultValue={subjectScores.map(item=> item.assessment)}
+                                    defaultValue={subjectScores.map(
+                                      (item) => item.assessment
+                                    )}
                                     onChange={(e) => {
-                                     storeSubjectScore(subject.lookupId, 
-                                        { 
-                                            subjectId: subject.lookupId,
-                                            exam:100 - e.target.value,
-                                            assessment:  e.target.value,
-                                          })
-                                      getAssessmentScores (e, subject.lookupId)
-                                     setValidator({exam:100 - e.target.value, assessment:e.target.value})
+                                      storeSubjectScore(subject.lookupId, {
+                                        subjectId: subject.lookupId,
+                                        exam: 100 - e.target.value,
+                                        assessment: e.target.value,
+                                      });
+                                      getAssessmentScores(e, subject.lookupId);
+                                      setValidator({
+                                        exam: 100 - e.target.value,
+                                        assessment: e.target.value,
+                                      });
                                     }}
-                                    
                                     onKeyUp={() =>
-                                        setFormErrors(validate(validator))
-                                      }
+                                      setFormErrors(validate(validator))
+                                    }
                                     className="form-control w-75 p-1"
                                     required
                                     placeholder=" "
                                   />
                                 ) : null}
                               </td>
-                              
+
                               <td>
                                 <select
                                   name="subjectTeacherId"
