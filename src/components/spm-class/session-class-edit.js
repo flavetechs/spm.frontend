@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { classLocations } from "../../router/spm-path-locations";
@@ -111,7 +111,7 @@ const SessionClassEdit = () => {
 
     return (
         <>
-            <div className="col-8 mx-auto">
+            <div className="col-md-8 mx-auto">
 
                 <Row>
                     <Col sm="12">
@@ -189,8 +189,7 @@ const SessionClassEdit = () => {
                                             />
 
                                             <Row>
-
-                                                <Col lg="6">
+                                                <Col>
                                                     <div className="form-group">
                                                         <label htmlFor="sessionId" className="form-label">
                                                             {" "}
@@ -207,7 +206,7 @@ const SessionClassEdit = () => {
                                                         />
                                                     </div>
                                                 </Col>
-                                                <Col lg="6">
+                                                <Col>
                                                     <div className="form-group">
                                                         <label htmlFor="classId" className="form-label"> Class </label>
                                                         <Field
@@ -238,9 +237,8 @@ const SessionClassEdit = () => {
                                                 </Col>
                                             </Row>
 
-                                            <div className="d-flex row justify-content-between">
-
-                                                <Col lg="2">
+                                            <Row className="d-flex  justify-content-between">
+                                                 <Col>
                                                     <div className="form-group">
                                                         <label htmlFor="examScore" className="form-label"> Exam Score</label>
                                                         <Field type="number" onChange={(e) => {
@@ -249,29 +247,28 @@ const SessionClassEdit = () => {
                                                             setFieldValue('examScore', e.target.value)
                                                         }} 
                                                         
-                                                        className="form-control" name="examScore" id="examScore" aria-describedby="examScore" required placeholder=" " />
+                                                        className="form-control p-sm-1 p-lg-2" name="examScore" id="examScore" aria-describedby="examScore" required placeholder=" " />
                                                     </div>
                                                 </Col>
 
-                                                <Col lg="2">
+                                                <Col>
                                                     <div className="form-group">
                                                         <label htmlFor="assessmentScore" className="form-label"> Assesment </label>
                                                         <Field type="number" onChange={(e) => {
                                                             setAssessmentScore(e.target.value);
                                                             setExamScore(100 - e.target.value);
                                                             setFieldValue('assessmentScore', e.target.value)
-                                                        }} className="form-control" name="assessmentScore" id="assessmentScore" aria-describedby="assessmentScore" required placeholder=" " />
+                                                        }} className="form-control p-sm-1 p-lg-2" name="assessmentScore" id="assessmentScore" aria-describedby="assessmentScore" required placeholder=" " />
                                                     </div>
                                                 </Col>
-
-                                                <Col lg="2">
+                                                <Col sm="2">
                                                     <div className="form-group">
                                                         <label htmlFor="passMark" className="form-label"> Pass Mark </label>
-                                                        <Field type="number" className="form-control" name="passMark" id="passMark" aria-describedby="passMark" required placeholder=" " />
+                                                        <Field type="number" className="form-control p-sm-1 p-lg-2" name="passMark" id="passMark" aria-describedby="passMark" required placeholder=" " />
                                                     </div>
                                                 </Col>
 
-                                                <Col lg="6">
+                                                <Col sm="6">
                                                     <div className="form-group">
                                                         <label
                                                             htmlFor="formTeacherId"
@@ -303,10 +300,10 @@ const SessionClassEdit = () => {
                                                         </Field>
                                                     </div>
                                                 </Col>
-                                            </div>
+                                            </Row>
 
                                           
-                                            <table className="table table-bordered">
+                                            <Table size="md" bordered responsive>
                                                 <thead>
                                                     <tr>
                                                         <th>Subject</th>
@@ -361,14 +358,14 @@ const SessionClassEdit = () => {
                                                         </tr>
                                                     ))}
                                                 </tbody>
-                                            </table>
+                                            </Table>
 
                                             <div className="d-flex justify-content-end">
                                                 <Button
                                                     type="button"
                                                     variant="btn btn-danger mx-2"
                                                     onClick={() => {
-                                                        history.push(classLocations.sessionClassList);
+                                                        history.goBack();
                                                     }}
                                                 >
                                                     Cancel
