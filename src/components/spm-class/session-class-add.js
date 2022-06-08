@@ -21,12 +21,11 @@ const SessionClassAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [inputOverRide, setInputoverRide] = useState(true);
   const [formErrors, setFormErrors] = useState({});
-  const [subjectScores, setSubjectScores] = useState({
-    exam: "",
-    assessment: "",
-  });
+  const [subjectScores, setSubjectScores] = useState([]);
+const [validator, setValidator] = useState({exam: "",
+  assessment: "",});
+
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -101,6 +100,8 @@ const SessionClassAdd = () => {
   const getSubjectId = (event, subjectId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
+      "", 
+      "",
       subjectId,
       "",
       classSubjects,
@@ -108,16 +109,53 @@ const SessionClassAdd = () => {
     )(dispatch);
   };
 
+  const getExamScores = (event,  subjectId) => {
+  //  const examScore = event.target.value;
+  //  const  assessment = 100 - event.target.value;
+  //   const checkBoxValue = event.target.checked;
+  //   buildClassSubjectArray(
+  //     examScore, 
+  //     assessment,
+  //     subjectId,
+  //     "",
+  //     classSubjects,
+  //     checkBoxValue
+  //   )(dispatch);
+  };
+
+  const getAssessmentScores = (event,subjectId) => {
+    // const checkBoxValue = event.target.checked;
+    // const examScore = 100 - event.target.value;
+    // const  assessment =  event.target.value;
+    // buildClassSubjectArray(
+    //   examScore, 
+    //   assessment,
+    //   subjectId,
+    //   "",
+    //   classSubjects,
+    //   checkBoxValue
+    // )(dispatch);
+  };
+
   const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
     buildClassSubjectArray(
+      "", 
+      "",
       subjectId,
       subjectTeacherId,
       classSubjects
     )(dispatch);
   };
 
+  const storeSubjectScore = (lookupId, newSubjectScore) => {
+    let prevSubjectScore = subjectScores.filter(
+       (sub) => sub.subjectId != lookupId
+     );
+     setSubjectScores([...prevSubjectScore, newSubjectScore])
+     
+   }
   //HANDLER FUNCTIONS
-  console.log("here", subjectScores);
+  console.log("subjectScores", subjectScores);
   return (
     <>
       <div className="col-8 mx-auto">
@@ -148,8 +186,8 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
-
-                    createSessionClass(values)(dispatch);
+                    console.log('values', values)
+                    //createSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -256,11 +294,11 @@ const SessionClassAdd = () => {
                                   "assessmentScore",
                                   100 - e.target.value
                                 );
-                                inputOverRide && setSubjectScores({
+                                setSubjectScores([{
                                   exam: e.target.value,
                                   assessment: 100 - e.target.value,
-                                });
-                                setInputoverRide(true)
+                                }]);
+                               
                               }}
                               className="form-control"
                               name="examScore"
@@ -292,13 +330,12 @@ const SessionClassAdd = () => {
                                   "assessmentScore",
                                   e.target.value
                                 );
-                                inputOverRide && 
-                                setSubjectScores(prevState => ({
-                                    ...prevState = null,
+                               
+                                setSubjectScores([{
                                     exam: 100 - e.target.value,
                                     assessment: e.target.value,
-                                }))
-                                setInputoverRide(true)
+                                }])
+                               
                               }}
                               className="form-control"
                               name="assessmentScore"
@@ -406,7 +443,7 @@ const SessionClassAdd = () => {
                                    
                                     
                                   }}
-                                />
+                                />{" "}
                                 {subject.name}
                               </td>
                              
@@ -417,16 +454,19 @@ const SessionClassAdd = () => {
                                   ) ? (
                                   <input
                                     type="number"
-                                    defaultValue={subjectScores.exam}
+                                  defaultValue={subjectScores.map(item=> item.exam)}
                                     onChange={(e) => {
-                                        setSubjectScores({
-                                        exam: e.target.value,
-                                        assessment: 100 - e.target.value,
-                                    });
-                                      setInputoverRide(false)
+                                     storeSubjectScore(subject.lookupId,
+                                        { 
+                                            subjectId: subject.lookupId,
+                                            exam: e.target.value,
+                                            assessment: 100 - e.target.value,
+                                          })
+                                          getExamScores (e, subject.lookupId)
+                                          setValidator({exam:e.target.value, assessment: 100 - e.target.value})
                                     }}
                                     onKeyUp={() =>
-                                      setFormErrors(validate(subjectScores))
+                                      setFormErrors(validate(validator))
                                     }
                                     className="form-control p-1"
                                     required
@@ -441,16 +481,20 @@ const SessionClassAdd = () => {
                                   ) ? (
                                   <input
                                     type="number"
-                                    defaultValue={subjectScores.assessment}
+                                    defaultValue={subjectScores.map(item=> item.assessment)}
                                     onChange={(e) => {
-                                      setSubjectScores({
-                                        exam: 100 - e.target.value,
-                                        assessment: e.target.value,
-                                    })
-                                      setInputoverRide(false)
+                                     storeSubjectScore(subject.lookupId, 
+                                        { 
+                                            subjectId: subject.lookupId,
+                                            exam:100 - e.target.value,
+                                            assessment:  e.target.value,
+                                          })
+                                      getAssessmentScores (e, subject.lookupId)
+                                     setValidator({exam:100 - e.target.value, assessment:e.target.value})
                                     }}
+                                    
                                     onKeyUp={() =>
-                                        setFormErrors(validate(subjectScores))
+                                        setFormErrors(validate(validator))
                                       }
                                     className="form-control w-75 p-1"
                                     required
