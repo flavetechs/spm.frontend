@@ -17,13 +17,43 @@ import { useHistory } from "react-router-dom";
 import { getActiveSession } from "../../store/actions/session-actions";
 import { showErrorToast } from "../../store/actions/toaster-actions";
 
+
+
+
 const SessionClassAdd = () => {
+
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const {
+    isSuccessful,
+    message,
+    activeTeachers,
+    activeSubjects,
+    activeClasses,
+    classSubjects,
+  } = state.class;
+
+  const { activeSession } = state.session;
+  // ACCESSING STATE FROM REDUX STORE
+
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
   const [subjectScores, setSubjectScores] = useState([]);
-  const [validator, setValidator] = useState({ exam: "", assessment: "" });
+  const [currentSubjectScores, setCurrentSubjectScores] = useState({ exam: "", assessment: "" });
+  const [initialValues, setInitialValues] = useState({
+    sessionId: activeSession?.session,
+    classId: "",
+    formTeacherId: "",
+    InSession: true,
+    examScore: 70,
+    assessmentScore: 30,
+    passMark: 40,
+    subjectExamScore: 70,
+    subjectAssessmentScore: 30,
+  })
 
   //VARIABLE DECLARATIONS
 
@@ -43,45 +73,28 @@ const SessionClassAdd = () => {
       .required("Pass Mark is required")
       .min(0, "Pass Mark score must not be below 0")
       .max(100, "Pass Mark score must not be above 100"),
+    subjectExamScore: Yup.number()
+      .required("Subject Examination score is required")
+      .min(0, "Subject Examination score must not be below 0")
+      .max(100, "Subject Examination score must not be above 100"),
+    subjectAssessmentScore: Yup.number()
+      .required("Subject Assessment score is required")
+      .min(0, "Subject Assessment score must not be below 0")
+      .max(100, "Subject Assessment score must not be above 100"),
   });
 
-  const validate = (values) => {
-    const errors = {};
-    if (!values.exam) {
-      errors.exam = "Examination score is required";
-    }
-    if (values.exam < 0) {
-      errors.exam = "Examination score must not be below 0";
-    }
-    if (values.exam > 100) {
-      errors.exam = "Examination score must not be above 100";
-    }
-    if (!values.assessment) {
-      errors.assessment = "Assessment score is required";
-    }
-    if (values.assessment < 0) {
-      errors.assessment = "Assessment score must not be below 0";
-    }
-    if (values.assessment > 100) {
-      errors.assessment = "Assessment score must not be above 100";
-    }
-    return errors;
-  };
-  //VALIDATIONS SCHEMA
 
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const {
-    isSuccessful,
-    message,
-    activeTeachers,
-    activeSubjects,
-    activeClasses,
-    classSubjects,
-  } = state.class;
+  const setCurrentSubjectScores1 = (subjectExamScore, subjectAssessmentScore, subjectId) => {
+    initialValues[`${subjectId}_subjectExamScore`] = subjectExamScore;
+    initialValues[`${subjectId}_subjectAssessmentScore`] = subjectAssessmentScore;
 
-  const { activeSession } = state.session;
-  // ACCESSING STATE FROM REDUX STORE
+    initialValues.subjectExamScore = subjectExamScore;
+    initialValues.subjectAssessmentScore = subjectAssessmentScore;
+    setInitialValues(initialValues);
+  }
+
+
+
 
   React.useEffect(() => {
     getAllActiveClasses()(dispatch);
@@ -108,32 +121,27 @@ const SessionClassAdd = () => {
     )(dispatch);
   };
 
-  const getExamScores = (event, subjectId) => {
-    //  const examScore = event.target.value;
-    //  const  assessment = 100 - event.target.value;
-    //   const checkBoxValue = event.target.checked;
-    //   buildClassSubjectArray(
-    //     examScore,
-    //     assessment,
-    //     subjectId,
-    //     "",
-    //     classSubjects,
-    //     checkBoxValue
-    //   )(dispatch);
+  const getExamScores = (subjectId) => {
+    console.log('subjectId', subjectId);
+    buildClassSubjectArray(
+      initialValues.subjectExamScore,
+      initialValues.subjectAssessmentScore,
+      subjectId,
+      "",
+      classSubjects,
+      true
+    )(dispatch);
   };
 
-  const getAssessmentScores = (event, subjectId) => {
-    // const checkBoxValue = event.target.checked;
-    // const examScore = 100 - event.target.value;
-    // const  assessment =  event.target.value;
-    // buildClassSubjectArray(
-    //   examScore,
-    //   assessment,
-    //   subjectId,
-    //   "",
-    //   classSubjects,
-    //   checkBoxValue
-    // )(dispatch);
+  const getAssessmentScores = (subjectId) => {
+    buildClassSubjectArray(
+      initialValues.subjectExamScore,
+      initialValues.subjectAssessmentScore,
+      subjectId,
+      "",
+      classSubjects,
+      true
+    )(dispatch);
   };
 
   const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
@@ -146,14 +154,8 @@ const SessionClassAdd = () => {
     )(dispatch);
   };
 
-  const storeSubjectScore = (lookupId, newSubjectScore) => {
-    let prevSubjectScore = subjectScores.filter(
-      (sub) => sub.subjectId != lookupId
-    );
-    setSubjectScores([...prevSubjectScore, newSubjectScore]);
-  };
+  console.log('classSubjects', classSubjects);
   //HANDLER FUNCTIONS
-  console.log("subjectScores", subjectScores);
   return (
     <>
       <div className="col-8 mx-auto">
@@ -162,24 +164,14 @@ const SessionClassAdd = () => {
             <Card className="">
               <Card.Body>
                 <Formik
-                  initialValues={{
-                    sessionId: activeSession?.session,
-                    classId: "",
-                    formTeacherId: "",
-                    InSession: true,
-                    examScore: 70,
-                    assessmentScore: 30,
-                    passMark: 40,
-                    subjectExam: 70,
-                    subjectAssessment: 30,
-                  }}
+                  initialValues={initialValues}
                   validationSchema={validation}
+                  enableReinitialize={true}
                   onSubmit={(values) => {
                     values.classSubjects = classSubjects;
                     values.sessionId = activeSession?.sessionId;
 
-                    const score =
-                      Number(values.examScore) + Number(values.assessmentScore);
+                    const score = Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
                       showErrorToast(
                         "Examination and assessment must equal 100"
@@ -201,6 +193,30 @@ const SessionClassAdd = () => {
                     isValid,
                   }) => (
                     <Form>
+
+                      <Row>
+                        <Col md={6}>
+                          <Field
+                            type="text"
+                            style={{ visibility: 'hidden' }}
+                            className="form-control"
+                            name="subjectExamScore"
+                            id="subjectExamScore"
+                            values={values.subjectExamScore}
+                          />
+                        </Col>
+                        <Col md={6}>
+                          <Field
+                            type="text"
+                            style={{ visibility: 'hidden' }}
+                            className="form-control"
+                            name="subjectAssessmentScore"
+                            id="subjectAssessmentScore"
+                            values={values.subjectAssessmentScore}
+                          />
+                        </Col>
+
+                      </Row>
                       <Row>
                         {message && (
                           <div className="text-danger">{message}</div>
@@ -224,6 +240,7 @@ const SessionClassAdd = () => {
                         {touched.passMark && errors.passMark && (
                           <div className="text-danger">{errors.passMark}</div>
                         )}
+
                       </Row>
                       <Field
                         type="text"
@@ -407,27 +424,24 @@ const SessionClassAdd = () => {
                         </Col>
                       </div>
 
-                      {touched.classId && errors.subjectId && (
-                        <div className="text-danger">{errors.subjectId}</div>
+                      {touched.subjectExamScore && errors.subjectExamScore && (
+                        <div className="text-danger">{errors.subjectExamScore}</div>
                       )}
-                      {formErrors.exam && (
-                        <div className="text-danger">{formErrors.exam}</div>
+                      {touched.subjectAssessmentScore && errors.subjectAssessmentScore && (
+                        <div className="text-danger">{errors.subjectAssessmentScore}</div>
                       )}
-                      {formErrors.assessment && (
-                        <div className="text-danger">
-                          {formErrors.assessment}
-                        </div>
-                      )}
+
                       <table className="table table-bordered">
                         <thead>
                           <tr>
                             <th style={{ width: "50%" }}>Subject</th>
-                            <th style={{ width: "30%" }}>Exam</th>
+                            <th style={{ width: "20%" }}>Exam</th>
                             <th style={{ width: "20%" }}>Assessment</th>
-                            <th>Subject Teacher</th>
+                            <th style={{ width: "30%" }}>Subject Teacher</th>
                           </tr>
                         </thead>
                         <tbody>
+
                           {activeSubjects.map((subject, idx) => (
                             <tr key={idx}>
                               <td style={{ width: "50%" }}>
@@ -447,35 +461,32 @@ const SessionClassAdd = () => {
                                 {subject.name}
                               </td>
 
-                              <td style={{ width: "30%" }}>
+                              <td style={{ width: "20%" }}>
                                 {" "}
                                 {classSubjects.find(
                                   (sub) => sub.subjectId === subject.lookupId
                                 ) ? (
-                                  <input
+                                  <Field
+
                                     type="number"
-                                    defaultValue={subjectScores.map(
-                                      (item) => item.exam
-                                    )}
-                                    onChange={(e) => {
-                                      setValidator({
-                                        exam: e.target.value,
-                                        assessment: 100 - e.target.value,
-                                      });
-                                      storeSubjectScore(subject.lookupId, {
-                                        subjectId: subject.lookupId,
-                                        exam: e.target.value,
-                                        assessment: 100 - e.target.value,
-                                      });
-                                      getExamScores(e, subject.lookupId);
-                                    }}
-                                    onKeyUp={() =>
-                                      setFormErrors(validate(validator))
-                                    }
-                                    className="form-control p-1"
+                                    className="form-control"
+                                    name={`${subject.lookupId}_subjectExamScore`}
+                                    id={`${subject.lookupId}_subjectExamScore`}
+                                    aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
+                                    onChange={(e) => {
+                                      setCurrentSubjectScores1(Number(e.target.value), Number(100 - e.target.value), subject.lookupId);
+                                      setFieldValue('subjectExamScore', Number(e.target.value));
+                                      getExamScores(subject.lookupId);
+                                      getAssessmentScores(subject.lookupId);
+                                      setFieldValue(`${subject.lookupId}_subjectExamScore`, Number(e.target.value));
+                                      setFieldValue(`${subject.lookupId}_subjectAssessmentScore`, Number(100 - e.target.value));
+                                    }}
+
                                   />
+
+
                                 ) : null}
                               </td>
 
@@ -483,34 +494,25 @@ const SessionClassAdd = () => {
                                 {classSubjects.find(
                                   (sub) => sub.subjectId === subject.lookupId
                                 ) ? (
-                                  <input
+                                  <Field
                                     type="number"
-                                    defaultValue={subjectScores.map(
-                                      (item) => item.assessment
-                                    )}
-                                    onChange={(e) => {
-                                      storeSubjectScore(subject.lookupId, {
-                                        subjectId: subject.lookupId,
-                                        exam: 100 - e.target.value,
-                                        assessment: e.target.value,
-                                      });
-                                      getAssessmentScores(e, subject.lookupId);
-                                      setValidator({
-                                        exam: 100 - e.target.value,
-                                        assessment: e.target.value,
-                                      });
-                                    }}
-                                    onKeyUp={() =>
-                                      setFormErrors(validate(validator))
-                                    }
-                                    className="form-control w-75 p-1"
+                                    className="form-control"
+                                    name={`${subject.lookupId}_subjectAssessmentScore`}
+                                    id={`${subject.lookupId}_subjectAssessmentScore`}
+                                    aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
                                     placeholder=" "
+                                    onChange={(e) => {
+                                      setCurrentSubjectScores1(Number(100 - e.target.value), Number(e.target.value), subject.lookupId);
+                                      setFieldValue('subjectAssessmentScore', Number(e.target.value));
+                                      setFieldValue(`${subject.lookupId}_subjectAssessmentScore`, Number(e.target.value));
+                                      setFieldValue(`${subject.lookupId}_subjectExamScore`, Number(100 - e.target.value));
+                                    }}
                                   />
                                 ) : null}
                               </td>
 
-                              <td>
+                              <td style={{ width: "30%" }}>
                                 <select
                                   name="subjectTeacherId"
                                   className="form-select"
@@ -532,7 +534,7 @@ const SessionClassAdd = () => {
                                         classSubjects.find(
                                           (sub) =>
                                             sub.subjectTeacherId ===
-                                              teacher.teacherAccountId &&
+                                            teacher.teacherAccountId &&
                                             sub.subjectId === subject.lookupId
                                         )
                                           ? true
