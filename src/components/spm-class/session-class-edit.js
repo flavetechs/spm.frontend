@@ -261,6 +261,7 @@ const SessionClassEdit = () => {
                                                             setExamScore(100 - e.target.value);
                                                             setFieldValue('assessmentScore', e.target.value)
                                                         }} className="form-control" name="assessmentScore" id="assessmentScore" aria-describedby="assessmentScore" required placeholder=" " />
+                                                    
                                                     </div>
                                                 </Col>
 
