@@ -51,7 +51,7 @@ const SessionAdd = () => {
           <Col sm="12">
             <Card className="">
               <Card.Header className="d-flex justify-content-between">
-                <div className="header-title">
+                <div className="header-title">z
                   <h4 className="card-title">Add New Session</h4>
                 </div>
               </Card.Header>
@@ -92,7 +92,6 @@ const SessionAdd = () => {
                           <label htmlFor="endYear" className="form-label"><b>End Year:</b></label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
-
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="headTeacherId" className="form-label"><b>Head of School:</b></label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">

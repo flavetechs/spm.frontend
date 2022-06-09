@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Table } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form } from "formik";
@@ -69,9 +69,7 @@ const GradeSetting = () => {
       setSelectedClassids([
         ...selectedClassIds.filter((id) => id !== sessionClassId),
       ]);
-
     }
-
   };
 
   const selectedGrade = (selected = null) => {
@@ -115,12 +113,14 @@ const GradeSetting = () => {
       };
       updateGradeSetting(updatePayload)(dispatch);
     }
-    setSelectedClassids([])
+    setSelectedClassids([]);
   };
   const handleDefaultChecked = (classes) => {
-    let checkedClasses = classes.map((item, id) => item.sessionClassId.toString());
+    let checkedClasses = classes.map((item, id) =>
+      item.sessionClassId.toString()
+    );
     setSelectedClassids([...selectedClassIds, ...checkedClasses]);
-  }
+  };
   const handleEditClick = (item) => {
     newClassListState(item.classes)(dispatch);
     updateClassListState(item.classes)(dispatch);
@@ -131,8 +131,6 @@ const GradeSetting = () => {
     handleDefaultChecked(item.classes);
     window.scrollTo(0, 0);
   };
-
-
 
   return (
     <>
@@ -182,13 +180,13 @@ const GradeSetting = () => {
                   {({ handleSubmit, touched, errors }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
-                      <Row className="border p-3 px-4 d-lg-flex ">
-                        <Col className="w-md-100 w-sm-100">
+                      <Row className="border p-3 px-4 d-lg-flex d-sm-block">
+                        <Col className="">
                           {/* {(touched.gradeGroupName && errors.gradeGroupName) && <div className='text-danger'>{errors.gradeGroupName}</div>} */}
                           <h6 className="pb-2">Grade Group</h6>
                           <Field
                             type="text"
-                            className="form-control  w-75 text-dark fw-bolder"
+                            className="form-control fw-bolder"
                             name="gradeGroupName"
                             id="gradeGroupName"
                             aria-describedby="gradeGroupName"
@@ -201,7 +199,7 @@ const GradeSetting = () => {
                               className="mt-3 col-md-9 d-flex justify-content-between form-group "
                               key={idx}
                             >
-                              <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
+                              <div className="form-control fw-bolder border-secondary text-secondary  w-75 pt-1 text-center">
                                 {classItem.className}
                               </div>
 
@@ -226,7 +224,7 @@ const GradeSetting = () => {
                                 className="mt-3 col-md-9 d-flex justify-content-between form-group "
                                 key={idx}
                               >
-                                <div className="form-control text-dark fw-bolder border-secondary text-dark w-75 pt-1 text-center">
+                                <div className="form-control  fw-bolder border-secondary text-secondary w-75 pt-1 text-center">
                                   {newClass.className}
                                 </div>
 
@@ -237,16 +235,18 @@ const GradeSetting = () => {
                                   style={{ height: "30px" }}
                                   defaultChecked={true}
                                   onChange={(e) => {
-                                    pushSelectedClassId(e, newClass.sessionClassId)
-
+                                    pushSelectedClassId(
+                                      e,
+                                      newClass.sessionClassId
+                                    );
                                   }}
                                 />
                               </div>
                             ))}
                         </Col>
 
-                        <Col className="w-md-100 w-sm-100 pt-md-3 pt-sm-3 pt-lg-0">
-                          <div className="d-flex justify-content-around">
+                        <Col className="pt-md-3 pt-sm-3 pt-lg-0">
+                          <div className="d-md-flex justify-content-around">
                             <div className="form-group">
                               <label
                                 className="form-label d-block h6"
@@ -263,7 +263,7 @@ const GradeSetting = () => {
                               </label>
                               <Field
                                 type="text"
-                                className="form-control w-75 text-dark fw-bolder"
+                                className="form-control w-75 fw-bolder text-secondary"
                                 name="gradeName"
                                 id="gradeName"
                                 aria-describedby="gradeName"
@@ -289,7 +289,7 @@ const GradeSetting = () => {
 
                               <Field
                                 type="number"
-                                className="form-control w-75 text-dark fw-bolder"
+                                className="form-control w-75 fw-bolder text-secondary"
                                 name="upperLimit"
                                 id="upperLimit"
                                 aria-describedby="upperLimit"
@@ -314,7 +314,7 @@ const GradeSetting = () => {
                               </label>
                               <Field
                                 type="number"
-                                className="form-control w-75 text-dark fw-bolder"
+                                className="form-control w-75 fw-bolder text-secondary"
                                 name="lowerLimit"
                                 id="lowerLimit"
                                 aria-describedby="lowerLimit"
@@ -339,7 +339,7 @@ const GradeSetting = () => {
                               </label>
                               <Field
                                 type="text"
-                                className="form-control text-dark fw-bolder"
+                                className="form-control text-secondary fw-bolder"
                                 name="remark"
                                 id="remark"
                                 aria-describedby="remark"
@@ -347,11 +347,19 @@ const GradeSetting = () => {
                               />
                               <span>e.g Excellent</span>
                             </div>
+                            <div className="mt-5 ml-5">
+                            <Button
+                            type="submit"
+                            className="mt-5 btn-sm"
+                            onSubmit={handleSubmit}
+                          >
+                            Save
+                          </Button>
                           </div>
-
+                          </div>
                           <hr />
 
-                          <table className="table table-bordered table-responsive table-sm">
+                          <Table size="sm" bordered responsive>
                             <thead>
                               <tr className="text-center">
                                 <td className="text-uppercase h6">Grade</td>
@@ -406,7 +414,7 @@ const GradeSetting = () => {
                                 </tr>
                               ))}
                             </tbody>
-                          </table>
+                          </Table>
 
                           <div className="d-flex justify-content-end">
                             <a
@@ -418,16 +426,6 @@ const GradeSetting = () => {
                               {!gGroupId ? "submit" : "update"}
                             </a>
                           </div>
-                        </Col>
-
-                        <Col className="col-md-1 mt-5">
-                          <Button
-                            type="submit"
-                            className="mt-4 btn-sm"
-                            onSubmit={handleSubmit}
-                          >
-                            Save
-                          </Button>
                         </Col>
                       </Row>
                     </Form>
@@ -454,7 +452,12 @@ const GradeSetting = () => {
                           </a>
                         </div>
 
-                        <table className="table table-bordered table-responsive  col-md-6 ">
+                        <Table
+                          size="md"
+                          bordered
+                          responsive
+                          className="col-md-6"
+                        >
                           <thead>
                             <tr className="text-center">
                               <td className="text-uppercase h6">Upper Limit</td>
@@ -476,7 +479,7 @@ const GradeSetting = () => {
                               </tr>
                             ))}
                           </tbody>
-                        </table>
+                        </Table>
                       </Col>
                     ))}
                   </Row>
