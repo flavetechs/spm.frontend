@@ -30,11 +30,13 @@ export const fetchSingleSession = (sessionId) => dispatch => {
     });
     axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
         .then((res) => {
+            console.log('fetchsinglesession res: ', res);
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
+            console.log('fetchsinglesession err: ', err);
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_FAILED,
                 payload: err.response.data.result
