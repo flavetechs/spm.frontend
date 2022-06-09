@@ -335,14 +335,15 @@ export const getAllActiveClasses = () => (dispatch) => {
 //GET ACTIVE CLASSES ACTION  HANDLER
 
 //CLASS SUBJECT IDS//
-export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
-
+export const buildClassSubjectArray = (examSCore, assessment, subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
     var existingClassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
     if (existingClassSubject) {
         if (checkBoxValue) {
             existingClassSubject.subjectId = subjectId;
-            existingClassSubject.subjectTeacherId = subjectTeacherId;
+            existingClassSubject.subjectTeacherId = subjectTeacherId == "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
+            existingClassSubject.examSCore = examSCore == "" ? existingClassSubject.examSCore : examSCore;
+            existingClassSubject.assessment = assessment == "" ? existingClassSubject.assessment : assessment;
             classSubjects = [...otherClassSubject, existingClassSubject]
         } else {
             classSubjects = [...otherClassSubject]
@@ -350,7 +351,9 @@ export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubject
     } else {
         let newClassSubject = {
             subjectId,
-            subjectTeacherId
+            subjectTeacherId,
+            examSCore,
+            assessment
         }
         classSubjects = [...classSubjects, newClassSubject]
     }
@@ -359,6 +362,13 @@ export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubject
         type: actions.PUSH_CLASS_SUBJECT_ID,
         payload: classSubjects
     })
+}
+
+export const updateClassSubjects = (examSCore, assessment, classSubjects) => dispatch => {
+ classSubjects = classSubjects.map((subject, idx) => {
+        subject.examSCore = examSCore;
+        subject.assessment = assessment;
+})
 }
 //CLASS SUBJECT IDS//
 

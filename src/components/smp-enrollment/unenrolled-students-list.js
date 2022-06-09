@@ -4,13 +4,9 @@ import {
   Col,
   Tooltip,
   OverlayTrigger,
-  Button,
-  Modal,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
-import { Formik, Field } from "formik";
-import * as Yup from "yup";
 import {
   getAllUnenrolledStudents,
   pushId,
@@ -20,7 +16,7 @@ import {
 } from "../../store/actions/enrollment-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
-import { respondModal, showErrorToast, showHideModal } from "../../store/actions/toaster-actions";
+import { showErrorToast, showHideModal } from "../../store/actions/toaster-actions";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
 import { ClassesModal } from "./classesModal";
@@ -33,9 +29,9 @@ const UnenrolledStudentsList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { unenrolledStudents, selectedIds, message, isSuccessful } = state.enrollment;
+  const { unenrolledStudents, selectedIds } = state.enrollment;
   const { activeSession } = state.session;
-  const { showModal, modalResponse } = state.alert;
+  const { modalResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
