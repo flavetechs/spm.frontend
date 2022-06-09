@@ -336,8 +336,6 @@ export const getAllActiveClasses = () => (dispatch) => {
 
 //CLASS SUBJECT IDS//
 export const buildClassSubjectArray = (examSCore, assessment, subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
-
-    console.log('log', examSCore + ' ' + assessment);
     var existingClassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
     if (existingClassSubject) {
@@ -364,6 +362,13 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
         type: actions.PUSH_CLASS_SUBJECT_ID,
         payload: classSubjects
     })
+}
+
+export const updateClassSubjects = (examSCore, assessment, classSubjects) => dispatch => {
+ classSubjects = classSubjects.map((subject, idx) => {
+        subject.examSCore = examSCore;
+        subject.assessment = assessment;
+})
 }
 //CLASS SUBJECT IDS//
 
