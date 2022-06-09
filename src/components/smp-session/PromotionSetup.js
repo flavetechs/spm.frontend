@@ -47,7 +47,7 @@ const PromotionSetup = () => {
   const { activeSession } = state.session;
   // console.log('promotionList : ', promotionList);
   // console.log('classesToPromoteTo :', classesToPromoteTo);
-  const { deleteDialogResponse } = state.alert;
+  const { dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATIONS SCHEMA
@@ -68,7 +68,7 @@ const PromotionSetup = () => {
   }, [activeSession]);
 
   React.useEffect(() => {
-    if (deleteDialogResponse === "continue") {
+    if (dialogResponse === "continue") {
       if (!classToPromoteTo) {
         showErrorToast("No class selected to be promoted")(dispatch);
       } else {
@@ -80,10 +80,9 @@ const PromotionSetup = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [dialogResponse]);
 
-  console.log("classtopromoteto", classToPromoteTo);
-  console.log("classtopromote", classToPromote);
+ 
   return (
     <>
       <div>
@@ -254,8 +253,7 @@ const PromotionSetup = () => {
                                         setClassToPromote(item.sessionClassId);
                                         const message =
                                           classToPromoteTo != ""
-                                            ? `Are you sure you want to promote student ?`
-                                            : `Are you sure to unenroll students ?`;
+                                            && `Are you sure you want to promote student ?`
                                         showHideDialog(true, message)(dispatch);
                                       }}
                                     >

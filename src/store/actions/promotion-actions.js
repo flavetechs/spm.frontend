@@ -100,22 +100,22 @@ export const promoteStudent = (classToBePromoted, classToPromoteTo) => (dispatch
         classToPromoteTo
     }
     console.log('payload', payload)
-    // axiosInstance.post('/promotion/api/v1/promote/class', payload)
-    //     .then((res) => {
-    //         console.log('promote student res action', res);
-    //         dispatch({
-    //             type: actions.PROMOTE_STUDENT_SUCCESS,
-    //             payload: res.data.result
-    //         });
-    //         showSuccessToast(res.data.message.friendlyMessage)(dispatch)
-    //     }).catch(err => {
-    //         console.log('promote student err action', err.response.data.result);
-    //         dispatch({
-    //             type: actions.PROMOTE_STUDENT_FAILED,
-    //             payload: err.response.data.result
-    //         });
-    //         showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
-    //     })
+    axiosInstance.post('/promotion/api/v1/promote/class', payload)
+        .then((res) => {
+            console.log('promote student res action', res);
+            dispatch({
+                type: actions.PROMOTE_STUDENT_SUCCESS,
+                payload: res.data.result
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch(err => {
+            console.log('promote student err action', err.response.data.result);
+            dispatch({
+                type: actions.PROMOTE_STUDENT_FAILED,
+                payload: err.response.data.result
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        })
 }
 
 
