@@ -4,5 +4,7 @@ export const _state = {
     message: '',
     isSuccessful: false,
     selectedIds: [],
-    selectedPromotion: null
+    selectedItem: null,
+    passedStudentList: null,
+    failedStudentList: null
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import {
   getAllStudents,
@@ -16,6 +16,8 @@ import {
   showErrorToast,
   showSingleDeleteDialog,
 } from "../../store/actions/toaster-actions";
+import { fetchSingleSession } from "../../store/actions/session-actions";
+import { fetchPassedStudentList } from "../../store/actions/promotion-actions";
 
 
 const PromotionPassedList = () => {
@@ -24,64 +26,26 @@ const PromotionPassedList = () => {
   const history = useHistory();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  const locations = useLocation();
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { studentList, selectedIds } = state.student;
-  const { deleteDialogResponse } = state.alert;
+  const { passedStudentList } = state.promotion;
+  console.log('selectedPassed : ', passedStudentList);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllStudents()(dispatch);
   }, []);
 
-  //DELETE HANDLER
+
   React.useEffect(() => {
-    if (deleteDialogResponse === "continue") {
-      if (selectedIds.length === 0) {
-        showErrorToast("No Item selected to be deleted")(dispatch);
-      } else {
-        deleteStudent(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton);
-        setShowCheckBoxes(false);
-        respondToDeleteDialog("")(dispatch);
-      }
-    } else {
-      setDeleteButton(true);
-      setShowCheckBoxes(false);
-      selectedIds.forEach((id) => {
-        dispatch(removeId(id));
-      });
-    }
-    return () => {
-      respondToDeleteDialog("")(dispatch);
-    };
-  }, [deleteDialogResponse]);
-  //DELETE HANDLER
-  const checkSingleItem = (isChecked, userAccountId, studentList) => {
-    studentList.forEach((item) => {
-      if (item.userAccountId === userAccountId) {
-        item.isChecked = isChecked;
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(userAccountId));
-    } else {
-      dispatch(removeId(userAccountId));
-    }
-  };
-  const checkAllItems = (isChecked, studentList) => {
-    studentList.forEach((item) => {
-      item.isChecked = isChecked;
-      if (item.isChecked) {
-        dispatch(pushId(item.userAccountId));
-      } else {
-        dispatch(removeId(item.userAccountId));
-      }
-    });
-    returnList(studentList)(dispatch);
-  };
+    const queryParams = new URLSearchParams(locations.search);
+    const sessionClassId = queryParams.get("sessionClassId");
+    if (!sessionClassId) return;
+    fetchPassedStudentList(sessionClassId)(dispatch)
+  }, []);
 
   return (
     <>
@@ -105,27 +69,24 @@ const PromotionPassedList = () => {
                     <thead>
                       <tr className="ligth">
                         <th className="text-center">
-                          { "S/No"}
+                          {"S/No"}
                         </th>
                         <th>Full Name</th>
                         <th className="text-center">Reg No.</th>
-                        <th className="text-center">Average Score</th>
                         <th className="text-center">Status</th>
                         <th className="text-center" min-width="100px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {studentList.map((student, idx) => (
+                      {passedStudentList?.map((student, idx) => (
                         <tr key={idx}>
                           <td className="text-center">
-                            { idx + 1}</td>
+                            {idx + 1}</td>
                           <td>
-                            {student.firstName}{" "}{student.middleName}{" "}
-                            {student.lastName}
+                            {student.studentName}
                           </td>
                           <td className="text-center">{student.registrationNumber}</td>
-                          <td className="text-center"><span>50</span></td>
-                          <td className="text-center"><Badge bg="success"><span>Passed</span></Badge></td>
+                          <td className="text-center"><Badge bg="success">{student.status}</Badge></td>
                           <td className="text-center">
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger
@@ -185,9 +146,7 @@ const PromotionPassedList = () => {
                   <Button
                     type="button"
                     variant="btn btn-danger mx-2"
-                    onClick={() => {
-                      history.go(-2);
-                    }}
+                    onClick={() => history.goBack()}
                   >
                     Cancel
                   </Button>{" "}
