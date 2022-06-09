@@ -12,6 +12,7 @@ import {
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
+  updateClassSubjects,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 import { getActiveSession } from "../../store/actions/session-actions";
@@ -75,7 +76,7 @@ const SessionClassAdd = () => {
       .max(100, "Subject Assessment score must not be above 100"),
   });
 
-  const setCurrentSubjectScores = (
+  const setCurrentSubjectScores1 = (
     subjectExamScore,
     subjectAssessmentScore,
     subjectId
@@ -83,6 +84,21 @@ const SessionClassAdd = () => {
     initialValues[`${subjectId}_subjectExamScore`] = subjectExamScore;
     initialValues[`${subjectId}_subjectAssessmentScore`] =
       subjectAssessmentScore;
+
+    initialValues.subjectExamScore = subjectExamScore;
+    initialValues.subjectAssessmentScore = subjectAssessmentScore;
+    setInitialValues(initialValues);
+  };
+
+  const setCurrentSubjectScores2 = (
+    subjectExamScore,
+    subjectAssessmentScore
+  ) => {
+    classSubjects.map((subject, idx) => {
+      initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
+      initialValues[`${subject.subjectId}_subjectAssessmentScore`] = subjectAssessmentScore;
+      updateClassSubjects(subjectExamScore, subjectAssessmentScore, classSubjects)(dispatch)
+    });
 
     initialValues.subjectExamScore = subjectExamScore;
     initialValues.subjectAssessmentScore = subjectAssessmentScore;
@@ -146,7 +162,6 @@ const SessionClassAdd = () => {
     )(dispatch);
   };
 
-  
   //HANDLER FUNCTIONS
   return (
     <>
@@ -161,6 +176,7 @@ const SessionClassAdd = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     values.sessionId = activeSession?.sessionId;
+                    values.classSubjects = classSubjects;
                     const score =
                       Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
@@ -169,17 +185,7 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
-                    const payload = {
-                      sessionId: activeSession?.sessionId,
-                      classId: values.classId,
-                      formTeacherId: values.formTeacherId,
-                      InSession: true,
-                      examScore: 70,
-                      assessmentScore: 30,
-                      passMark: 40,
-                    };
-                    payload.classSubjects = classSubjects;
-                    createSessionClass(payload)(dispatch);
+                    createSessionClass(values)(dispatch);
                   }}
                 >
                   {({
@@ -310,19 +316,21 @@ const SessionClassAdd = () => {
                                 setFieldValue(
                                   "subjectExamScore",
                                   Number(e.target.value)
+                                ); 
+                                 setCurrentSubjectScores2(
+                                  Number(e.target.value),
+                                  Number(100 - e.target.value)
                                 );
-                                classSubjects.map((subject, idx) =>
+                                classSubjects.map((subject, idx) => {
                                   setFieldValue(
                                     `${subject.subjectId}_subjectExamScore`,
                                     Number(e.target.value)
                                   )
-                                );
-                                classSubjects.map((subject, idx) =>
                                   setFieldValue(
                                     `${subject.subjectId}_subjectAssessmentScore`,
                                     Number(100 - e.target.value)
                                   )
-                                );
+                                  });
                               }}
                               className="form-control"
                               name="examScore"
@@ -358,18 +366,20 @@ const SessionClassAdd = () => {
                                   "subjectAssessmentScore",
                                   Number(e.target.value)
                                 );
-                                classSubjects.map((subject, idx) =>
+                                setCurrentSubjectScores2(
+                                  Number(100 - e.target.value),
+                                  Number(e.target.value)
+                                );
+                                classSubjects.map((subject, idx) => {
                                   setFieldValue(
                                     `${subject.subjectId}_subjectAssessmentScore`,
                                     Number(e.target.value)
-                                  )
-                                );
-                                classSubjects.map((subject, idx) =>
+                                  );
                                   setFieldValue(
                                     `${subject.subjectId}_subjectExamScore`,
                                     Number(100 - e.target.value)
-                                  )
-                                );
+                                  );
+                                });
                               }}
                               className="form-control"
                               name="assessmentScore"
@@ -494,7 +504,7 @@ const SessionClassAdd = () => {
                                     required
                                     placeholder=" "
                                     onChange={(e) => {
-                                      setCurrentSubjectScores(
+                                      setCurrentSubjectScores1(
                                         Number(e.target.value),
                                         Number(100 - e.target.value),
                                         subject.lookupId
@@ -531,7 +541,7 @@ const SessionClassAdd = () => {
                                     required
                                     placeholder=" "
                                     onChange={(e) => {
-                                      setCurrentSubjectScores(
+                                      setCurrentSubjectScores1(
                                         Number(100 - e.target.value),
                                         Number(e.target.value),
                                         subject.lookupId
@@ -597,7 +607,7 @@ const SessionClassAdd = () => {
                           type="button"
                           variant="btn btn-danger mx-2"
                           onClick={() => {
-                            history.push(classLocations.sessionClassList);
+                            history.goBack();
                           }}
                         >
                           Cancel

@@ -102,8 +102,13 @@ const SessionClassEdit = () => {
   ) => {
     classSubjects.map((subject, idx) => {
       initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
-      initialValues[`${subject.subjectId}_subjectAssessmentScore`] = subjectAssessmentScore;
-      updateClassSubjects(subjectExamScore, subjectAssessmentScore, classSubjects)(dispatch)
+      initialValues[`${subject.subjectId}_subjectAssessmentScore`] =
+        subjectAssessmentScore;
+      updateClassSubjects(
+        subjectExamScore,
+        subjectAssessmentScore,
+        classSubjects
+      )(dispatch);
     });
 
     initialValues.subjectExamScore = subjectExamScore;
@@ -177,11 +182,8 @@ const SessionClassEdit = () => {
       true
     )(dispatch);
   };
-  //console.log("classSubjects", classSubjects)
-  console.log("classSubjects", classSubjects);
-  //console.log('subjectExamScore', initialValues.subjectExamScore)
   //HANDLER FUNCTIONS
-
+  console.log("classSubjects", classSubjects);
   return (
     <>
       <div className="col-8 mx-auto">
@@ -204,6 +206,7 @@ const SessionClassEdit = () => {
                       )(dispatch);
                       return;
                     }
+                    console.log("values",values)
                     updateSessionClass(values)(dispatch);
                   }}
                 >
@@ -353,12 +356,12 @@ const SessionClassEdit = () => {
                                   setFieldValue(
                                     `${subject.subjectId}_subjectExamScore`,
                                     Number(e.target.value)
-                                  )
+                                  );
                                   setFieldValue(
                                     `${subject.subjectId}_subjectAssessmentScore`,
                                     Number(100 - e.target.value)
-                                  )
-                                  });
+                                  );
+                                });
                               }}
                               className="form-control"
                               name="examScore"
@@ -400,18 +403,16 @@ const SessionClassEdit = () => {
                                   Number(100 - e.target.value),
                                   Number(e.target.value)
                                 );
-                                classSubjects.map((subject, idx) =>
+                                classSubjects.map((subject, idx) => {
                                   setFieldValue(
                                     `${subject.subjectId}_subjectAssessmentScore`,
                                     Number(e.target.value)
-                                  )
-                                );
-                                classSubjects.map((subject, idx) =>
+                                  );
                                   setFieldValue(
                                     `${subject.subjectId}_subjectExamScore`,
                                     Number(100 - e.target.value)
-                                  )
-                                );
+                                  );
+                                });
                               }}
                               className="form-control"
                               name="assessmentScore"
