@@ -31,6 +31,8 @@ export const sessionLocations = {
   sessionDetails: "/dashboard/smp-session/details-setup",
   sessionAdd: "/dashboard/smp-session/add-setup",
   promotionSetup: "/dashboard/smp-session/promotion-setup",
+  promotionPassedList: "/dashboard/smp-session/promotion-passed-list-setup",
+  promotionFailedList: "/dashboard/smp-session/promotion-failed-list-setup",
 };
 
 export const staffLocations = {

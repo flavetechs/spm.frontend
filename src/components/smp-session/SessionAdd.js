@@ -92,7 +92,6 @@ const SessionAdd = () => {
                           <label htmlFor="endYear" className="form-label"><b>End Year:</b></label>
                           <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
-
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="headTeacherId" className="form-label"><b>Head of School:</b></label><br />
                           <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
