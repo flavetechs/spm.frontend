@@ -51,7 +51,7 @@ const SessionAdd = () => {
           <Col sm="12">
             <Card className="">
               <Card.Header className="d-flex justify-content-between">
-                <div className="header-title">z
+                <div className="header-title">
                   <h4 className="card-title">Add New Session</h4>
                 </div>
               </Card.Header>
