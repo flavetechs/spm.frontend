@@ -57,3 +57,12 @@ export const enrollment = {
 export const gradeSetting = {
   setting: "/dashboard/smp-grade/setting"
 }
+
+
+export const resultManagement = {
+  scoreEntry: "/dashboard/smp-result/score-entry",
+  publishResult: "/dashboard/smp-result/publish-result",
+  masterList: "/dashboard/smp-result/master-list",
+  printResult: "/dashboard/smp-result/print-result",
+  cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
+}

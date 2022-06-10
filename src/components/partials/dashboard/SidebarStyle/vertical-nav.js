@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
-import { classLocations, enrollment, gradeSetting, permissionLocations, sessionLocations, staffLocations, studentsLocations } from '../../../../router/spm-path-locations';
+import { classLocations, enrollment, gradeSetting, permissionLocations, resultManagement, sessionLocations, staffLocations, studentsLocations } from '../../../../router/spm-path-locations';
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -22,7 +22,7 @@ function CustomToggle({ children, eventKey, onClick }) {
 }
 
 const VerticalNav = () => {
-    const [activeMenu, setActiveMenu] = useState(false)
+    const [activeMenue, setActiveMenu] = useState(false)
     //location
     // console.log(activeMenu);
     let location = useLocation();
@@ -205,7 +205,7 @@ const VerticalNav = () => {
                     </Accordion.Collapse>
                 </Accordion.Item>
 
-              
+
 
                 <li><hr className="hr-horizontal" /></li>
                 {/* <li className="nav-item static-item">
@@ -287,7 +287,7 @@ const VerticalNav = () => {
                 <Accordion.Item as="li" eventKey="sidebar-enrollment" bsPrefix="nav-item">
                     <CustomToggle eventKey="sidebar-enrollment" onClick={(activeKey) => setActiveMenu(activeKey)}>
                         <i className="icon">
-                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.4" d="M18.8088 9.021C18.3573 9.021 17.7592 9.011 17.0146 9.011C15.1987 9.011 13.7055 7.508 13.7055 5.675V2.459C13.7055 2.206 13.5026 2 13.253 2H7.96363C5.49517 2 3.5 4.026 3.5 6.509V17.284C3.5 19.889 5.59022 22 8.16958 22H16.0453C18.5058 22 20.5 19.987 20.5 17.502V9.471C20.5 9.217 20.298 9.012 20.0465 9.013C19.6247 9.016 19.1168 9.021 18.8088 9.021Z" fill="currentColor"></path><path opacity="0.4" d="M16.0842 2.56737C15.7852 2.25637 15.2632 2.47037 15.2632 2.90137V5.53837C15.2632 6.64437 16.1742 7.55437 17.2792 7.55437C17.9772 7.56237 18.9452 7.56437 19.7672 7.56237C20.1882 7.56137 20.4022 7.05837 20.1102 6.75437C19.0552 5.65737 17.1662 3.69137 16.0842 2.56737Z" fill="currentColor"></path><path d="M14.3672 12.2364H12.6392V10.5094C12.6392 10.0984 12.3062 9.7644 11.8952 9.7644C11.4842 9.7644 11.1502 10.0984 11.1502 10.5094V12.2364H9.4232C9.0122 12.2364 8.6792 12.5704 8.6792 12.9814C8.6792 13.3924 9.0122 13.7264 9.4232 13.7264H11.1502V15.4524C11.1502 15.8634 11.4842 16.1974 11.8952 16.1974C12.3062 16.1974 12.6392 15.8634 12.6392 15.4524V13.7264H14.3672C14.7782 13.7264 15.1122 13.3924 15.1122 12.9814C15.1122 12.5704 14.7782 12.2364 14.3672 12.2364Z" fill="currentColor"></path></svg>
+                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.4" d="M18.8088 9.021C18.3573 9.021 17.7592 9.011 17.0146 9.011C15.1987 9.011 13.7055 7.508 13.7055 5.675V2.459C13.7055 2.206 13.5026 2 13.253 2H7.96363C5.49517 2 3.5 4.026 3.5 6.509V17.284C3.5 19.889 5.59022 22 8.16958 22H16.0453C18.5058 22 20.5 19.987 20.5 17.502V9.471C20.5 9.217 20.298 9.012 20.0465 9.013C19.6247 9.016 19.1168 9.021 18.8088 9.021Z" fill="currentColor"></path><path opacity="0.4" d="M16.0842 2.56737C15.7852 2.25637 15.2632 2.47037 15.2632 2.90137V5.53837C15.2632 6.64437 16.1742 7.55437 17.2792 7.55437C17.9772 7.56237 18.9452 7.56437 19.7672 7.56237C20.1882 7.56137 20.4022 7.05837 20.1102 6.75437C19.0552 5.65737 17.1662 3.69137 16.0842 2.56737Z" fill="currentColor"></path><path d="M14.3672 12.2364H12.6392V10.5094C12.6392 10.0984 12.3062 9.7644 11.8952 9.7644C11.4842 9.7644 11.1502 10.0984 11.1502 10.5094V12.2364H9.4232C9.0122 12.2364 8.6792 12.5704 8.6792 12.9814C8.6792 13.3924 9.0122 13.7264 9.4232 13.7264H11.1502V15.4524C11.1502 15.8634 11.4842 16.1974 11.8952 16.1974C12.3062 16.1974 12.6392 15.8634 12.6392 15.4524V13.7264H14.3672C14.7782 13.7264 15.1122 13.3924 15.1122 12.9814C15.1122 12.5704 14.7782 12.2364 14.3672 12.2364Z" fill="currentColor"></path></svg>
                         </i>
                         <span className="item-name">Enrollment</span>
                         <i className="right-icon">
@@ -330,18 +330,118 @@ const VerticalNav = () => {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                   
+
                 </Accordion.Item>
                 <li><hr className="hr-horizontal" /></li>
 
                 <li className="nav-item">
                     <Link className={`${location.pathname === gradeSetting.setting ? 'active' : ''} nav-link `} aria-current="page" to={gradeSetting.setting} onClick={() => { }}>
                         <i className="icon">
-                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.4" d="M12.9763 3.11361L15.2028 7.58789C15.3668 7.91205 15.6799 8.13717 16.041 8.18719L21.042 8.91556C21.3341 8.95658 21.5992 9.11066 21.7782 9.34578C21.9552 9.5779 22.0312 9.87205 21.9882 10.1612C21.9532 10.4013 21.8402 10.6234 21.6672 10.7935L18.0434 14.3063C17.7783 14.5514 17.6583 14.9146 17.7223 15.2698L18.6145 20.2083C18.7095 20.8046 18.3144 21.3669 17.7223 21.48C17.4783 21.519 17.2282 21.478 17.0082 21.3659L12.5472 19.0417C12.2161 18.8746 11.8251 18.8746 11.494 19.0417L7.03303 21.3659C6.48491 21.657 5.80576 21.4589 5.5007 20.9187C5.38767 20.7036 5.34766 20.4584 5.38467 20.2193L6.27686 15.2798C6.34088 14.9256 6.21985 14.5604 5.95579 14.3153L2.33202 10.8045C1.90092 10.3883 1.88792 9.70296 2.30301 9.27175C2.31201 9.26274 2.32201 9.25274 2.33202 9.24273C2.50405 9.06764 2.7301 8.95658 2.97415 8.92757L7.97523 8.1982C8.33531 8.14717 8.64837 7.92406 8.81341 7.59789L10.9599 3.11361C11.1509 2.72942 11.547 2.4903 11.9771 2.5003H12.1111C12.4842 2.54533 12.8093 2.77644 12.9763 3.11361Z" fill="currentColor"></path><path d="M11.992 18.9171C11.7983 18.9231 11.6096 18.9752 11.4399 19.0682L7.00072 21.3871C6.45756 21.6464 5.80756 21.4452 5.50303 20.9258C5.39021 20.7136 5.34927 20.4704 5.38721 20.2322L6.27384 15.3032C6.33375 14.9449 6.21394 14.5806 5.95334 14.3284L2.32794 10.8185C1.8976 10.3971 1.88961 9.70556 2.31096 9.27421C2.31695 9.26821 2.32195 9.2632 2.32794 9.2582C2.49967 9.08806 2.72133 8.97597 2.95996 8.94094L7.96523 8.20433C8.32767 8.1583 8.64219 7.93211 8.80194 7.60384L10.9776 3.06312C11.1843 2.69682 11.5806 2.47864 12 2.50166C11.992 2.7989 11.992 18.715 11.992 18.9171Z" fill="currentColor"></path></svg>
+                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.4" d="M12.9763 3.11361L15.2028 7.58789C15.3668 7.91205 15.6799 8.13717 16.041 8.18719L21.042 8.91556C21.3341 8.95658 21.5992 9.11066 21.7782 9.34578C21.9552 9.5779 22.0312 9.87205 21.9882 10.1612C21.9532 10.4013 21.8402 10.6234 21.6672 10.7935L18.0434 14.3063C17.7783 14.5514 17.6583 14.9146 17.7223 15.2698L18.6145 20.2083C18.7095 20.8046 18.3144 21.3669 17.7223 21.48C17.4783 21.519 17.2282 21.478 17.0082 21.3659L12.5472 19.0417C12.2161 18.8746 11.8251 18.8746 11.494 19.0417L7.03303 21.3659C6.48491 21.657 5.80576 21.4589 5.5007 20.9187C5.38767 20.7036 5.34766 20.4584 5.38467 20.2193L6.27686 15.2798C6.34088 14.9256 6.21985 14.5604 5.95579 14.3153L2.33202 10.8045C1.90092 10.3883 1.88792 9.70296 2.30301 9.27175C2.31201 9.26274 2.32201 9.25274 2.33202 9.24273C2.50405 9.06764 2.7301 8.95658 2.97415 8.92757L7.97523 8.1982C8.33531 8.14717 8.64837 7.92406 8.81341 7.59789L10.9599 3.11361C11.1509 2.72942 11.547 2.4903 11.9771 2.5003H12.1111C12.4842 2.54533 12.8093 2.77644 12.9763 3.11361Z" fill="currentColor"></path><path d="M11.992 18.9171C11.7983 18.9231 11.6096 18.9752 11.4399 19.0682L7.00072 21.3871C6.45756 21.6464 5.80756 21.4452 5.50303 20.9258C5.39021 20.7136 5.34927 20.4704 5.38721 20.2322L6.27384 15.3032C6.33375 14.9449 6.21394 14.5806 5.95334 14.3284L2.32794 10.8185C1.8976 10.3971 1.88961 9.70556 2.31096 9.27421C2.31695 9.26821 2.32195 9.2632 2.32794 9.2582C2.49967 9.08806 2.72133 8.97597 2.95996 8.94094L7.96523 8.20433C8.32767 8.1583 8.64219 7.93211 8.80194 7.60384L10.9776 3.06312C11.1843 2.69682 11.5806 2.47864 12 2.50166C11.992 2.7989 11.992 18.715 11.992 18.9171Z" fill="currentColor"></path></svg>
                         </i>
                         <span className="item-name">Grade Setting</span>
                     </Link>
                 </li>
+
+                <Accordion.Item as="li" eventKey="sidebar-result" bsPrefix="nav-item">
+                    <CustomToggle eventKey="sidebar-result" onClick={(activeKey) => setActiveMenu(activeKey)}>
+                        <i className="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 5C2 4.44772 2.44772 4 3 4H8.66667H21C21.5523 4 22 4.44772 22 5V8H15.3333H8.66667H2V5Z" fill="currentColor" stroke="currentColor"></path><path d="M6 8H2V11M6 8V20M6 8H14M6 20H3C2.44772 20 2 19.5523 2 19V11M6 20H14M14 8H22V11M14 8V20M14 20H21C21.5523 20 22 19.5523 22 19V11M2 11H22M2 14H22M2 17H22M10 8V20M18 8V20" stroke="currentColor"></path></svg>
+                        </i>
+                        <span className="item-name">Result MGT</span>
+                        <i className="right-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </i>
+                    </CustomToggle>
+                    <Accordion.Collapse eventKey="sidebar-result">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === resultManagement.scoreEntry ? 'active' : ''} nav-link`} to={resultManagement.scoreEntry}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> S </i>
+                                    <span className="item-name">Scores Entry</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                    <Accordion.Collapse eventKey="sidebar-result">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === resultManagement.publishResult ? 'active' : ''} nav-link`} to={resultManagement.publishResult}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> P </i>
+                                    <span className="item-name">Publish Result</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                    <Accordion.Collapse eventKey="sidebar-result">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === resultManagement.masterList ? 'active' : ''} nav-link`} to={resultManagement.masterList}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> M </i>
+                                    <span className="item-name">Master List</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                    <Accordion.Collapse eventKey="sidebar-result">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === resultManagement.printResult ? 'active' : ''} nav-link`} to={resultManagement.printResult}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> M </i>
+                                    <span className="item-name">Print Result</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                    <Accordion.Collapse eventKey="sidebar-result">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === resultManagement.cumulativeMasterList ? 'active' : ''} nav-link`} to={resultManagement.cumulativeMasterList}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> M </i>
+                                    <span className="item-name">Cumulative Result</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+
+                </Accordion.Item>
 
 
 
