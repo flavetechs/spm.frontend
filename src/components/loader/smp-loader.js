@@ -27,8 +27,6 @@ const SmpLoader = () => {
 
     }, [loading1 || loading2 || loading3 || loading4 || loading5 || loading6 || loading7 || loading8 || loading9 || loading10])
 
-
-    console.log('show', show);
     return (
         <>
             <div class={show ? `overlay show` : `overlay`}></div>

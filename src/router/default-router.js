@@ -32,6 +32,9 @@ import SessionClassDetails from '../components/spm-class/session-class-details';
 import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
 import EnrolledStudents from '../components/smp-enrollment/enrolled-student-list';
 import StaffDetails from '../components/smp-staff/StaffDetails';
+import PromotionSetup from '../components/smp-session/PromotionSetup';
+import PromotionPassedList from '../components/smp-session/PromotionPassedList';
+import PromotionFailedList from '../components/smp-session/PromotionFailedList';
 import GradeSetting from '../components/smp-grade-setting/grade-setting';
 
 const DashboardRouter = () => {
@@ -83,6 +86,10 @@ const DashboardRouter = () => {
                      <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
                      <Route path={enrollment.enrolledStudents} exact component={EnrolledStudents} />
 
+                     {/* {promotioon} */}
+                     <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
+                     <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />
+                     <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />
 

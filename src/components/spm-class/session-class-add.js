@@ -12,36 +12,13 @@ import {
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
+  updateClassSubjects,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 import { getActiveSession } from "../../store/actions/session-actions";
 import { showErrorToast } from "../../store/actions/toaster-actions";
 
 const SessionClassAdd = () => {
-  //VARIABLE DECLARATIONS
-  const history = useHistory();
-  const dispatch = useDispatch();
-  //VARIABLE DECLARATIONS
-
-  //VALIDATIONS SCHEMA
-  const validation = Yup.object().shape({
-    classId: Yup.string().required("Class is required"),
-    formTeacherId: Yup.string().required("Form teacher is required"),
-    examScore: Yup.number()
-      .required("Exmination score is required")
-      .min(0, "Exmination score must not be below 0")
-      .max(100, "Exmination score must not be above 100"),
-    assessmentScore: Yup.number()
-      .required("Assessment score is required")
-      .min(0, "Assessment score must not be below 0")
-      .max(100, "Assessment score must not be above 100"),
-    passMark: Yup.number()
-      .required("Pass Mark is required")
-      .min(0, "Pass Mark score must not be below 0")
-      .max(100, "Pass Mark score must not be above 100"),
-  });
-  //VALIDATIONS SCHEMA
-
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const {
@@ -55,6 +32,78 @@ const SessionClassAdd = () => {
 
   const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
+
+  //VARIABLE DECLARATIONS
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [initialValues, setInitialValues] = useState({
+    sessionId: activeSession?.session,
+    classId: "",
+    formTeacherId: "",
+    InSession: true,
+    examScore: 70,
+    assessmentScore: 30,
+    passMark: 40,
+    subjectExamScore: 70,
+    subjectAssessmentScore: 30,
+  });
+
+  //VARIABLE DECLARATIONS
+
+  //VALIDATIONS SCHEMA
+  const validation = Yup.object().shape({
+    classId: Yup.string().required("Class is required"),
+    formTeacherId: Yup.string().required("Form teacher is required"),
+    examScore: Yup.number()
+      .required("Examination score is required")
+      .min(0, "Examination score must not be below 0")
+      .max(100, "Examination score must not be above 100"),
+    assessmentScore: Yup.number()
+      .required("Assessment score is required")
+      .min(0, "Assessment score must not be below 0")
+      .max(100, "Assessment score must not be above 100"),
+    passMark: Yup.number()
+      .required("Pass Mark is required")
+      .min(0, "Pass Mark score must not be below 0")
+      .max(100, "Pass Mark score must not be above 100"),
+    subjectExamScore: Yup.number()
+      .required("Subject Examination score is required")
+      .min(0, "Subject Examination score must not be below 0")
+      .max(100, "Subject Examination score must not be above 100"),
+    subjectAssessmentScore: Yup.number()
+      .required("Subject Assessment score is required")
+      .min(0, "Subject Assessment score must not be below 0")
+      .max(100, "Subject Assessment score must not be above 100"),
+  });
+
+  const setCurrentSubjectScores1 = (
+    subjectExamScore,
+    subjectAssessmentScore,
+    subjectId
+  ) => {
+    initialValues[`${subjectId}_subjectExamScore`] = subjectExamScore;
+    initialValues[`${subjectId}_subjectAssessmentScore`] =
+      subjectAssessmentScore;
+
+    initialValues.subjectExamScore = subjectExamScore;
+    initialValues.subjectAssessmentScore = subjectAssessmentScore;
+    setInitialValues(initialValues);
+  };
+
+  const setCurrentSubjectScores2 = (
+    subjectExamScore,
+    subjectAssessmentScore
+  ) => {
+    classSubjects.map((subject, idx) => {
+      initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
+      initialValues[`${subject.subjectId}_subjectAssessmentScore`] = subjectAssessmentScore;
+      updateClassSubjects(subjectExamScore, subjectAssessmentScore, classSubjects)(dispatch)
+    });
+
+    initialValues.subjectExamScore = subjectExamScore;
+    initialValues.subjectAssessmentScore = subjectAssessmentScore;
+    setInitialValues(initialValues);
+  };
 
   React.useEffect(() => {
     getAllActiveClasses()(dispatch);
@@ -72,6 +121,8 @@ const SessionClassAdd = () => {
   const getSubjectId = (event, subjectId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
+      "",
+      "",
       subjectId,
       "",
       classSubjects,
@@ -79,8 +130,32 @@ const SessionClassAdd = () => {
     )(dispatch);
   };
 
+  const getExamScores = (subjectId) => {
+    buildClassSubjectArray(
+      initialValues.subjectExamScore,
+      initialValues.subjectAssessmentScore,
+      subjectId,
+      "",
+      classSubjects,
+      true
+    )(dispatch);
+  };
+
+  const getAssessmentScores = (subjectId) => {
+    buildClassSubjectArray(
+      initialValues.subjectExamScore,
+      initialValues.subjectAssessmentScore,
+      subjectId,
+      "",
+      classSubjects,
+      true
+    )(dispatch);
+  };
+
   const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
     buildClassSubjectArray(
+      "",
+      "",
       subjectId,
       subjectTeacherId,
       classSubjects
@@ -90,26 +165,18 @@ const SessionClassAdd = () => {
   //HANDLER FUNCTIONS
   return (
     <>
-      <div className="col-md-8 mx-auto">
+      <div className="col-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
               <Card.Body>
                 <Formik
-                  initialValues={{
-                    sessionId: activeSession?.session,
-                    classId: "",
-                    formTeacherId: "",
-                    InSession: true,
-                    examScore: 70,
-                    assessmentScore: 30,
-                    passMark: 40,
-                  }}
+                  initialValues={initialValues}
                   validationSchema={validation}
+                  enableReinitialize={true}
                   onSubmit={(values) => {
-                    values.classSubjects = classSubjects;
                     values.sessionId = activeSession?.sessionId;
-
+                    values.classSubjects = classSubjects;
                     const score =
                       Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
@@ -118,7 +185,6 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
-
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -133,6 +199,28 @@ const SessionClassAdd = () => {
                     isValid,
                   }) => (
                     <Form>
+                      <Row>
+                        <Col md={6}>
+                          <Field
+                            type="text"
+                            style={{ visibility: "hidden" }}
+                            className="form-control"
+                            name="subjectExamScore"
+                            id="subjectExamScore"
+                            values={values.subjectExamScore}
+                          />
+                        </Col>
+                        <Col md={6}>
+                          <Field
+                            type="text"
+                            style={{ visibility: "hidden" }}
+                            className="form-control"
+                            name="subjectAssessmentScore"
+                            id="subjectAssessmentScore"
+                            values={values.subjectAssessmentScore}
+                          />
+                        </Col>
+                      </Row>
                       <Row>
                         {message && (
                           <div className="text-danger">{message}</div>
@@ -167,11 +255,10 @@ const SessionClassAdd = () => {
                       />
 
                       <Row>
-                        <Col>
+                        <Col lg="6">
                           <div className="form-group">
                             <label htmlFor="sessionId" className="form-label">
-                              {" "}
-                              Session{" "}
+                              Session
                             </label>
                             <Field
                               type="text"
@@ -184,7 +271,7 @@ const SessionClassAdd = () => {
                             />
                           </div>
                         </Col>
-                        <Col>
+                        <Col lg="6">
                           <div className="form-group">
                             <label htmlFor="classId" className="form-label">
                               {" "}
@@ -211,10 +298,11 @@ const SessionClassAdd = () => {
                         </Col>
                       </Row>
 
-                      <Row className="d-flex justify-content-between">
-                        <Col>
+                      <div className="d-flex row justify-content-between">
+                        <Col lg="2">
                           <div className="form-group">
                             <label htmlFor="examScore" className="form-label">
+                              {" "}
                               Exam Score
                             </label>
                             <Field
@@ -225,8 +313,26 @@ const SessionClassAdd = () => {
                                   "assessmentScore",
                                   100 - e.target.value
                                 );
+                                setFieldValue(
+                                  "subjectExamScore",
+                                  Number(e.target.value)
+                                ); 
+                                 setCurrentSubjectScores2(
+                                  Number(e.target.value),
+                                  Number(100 - e.target.value)
+                                );
+                                classSubjects.map((subject, idx) => {
+                                  setFieldValue(
+                                    `${subject.subjectId}_subjectExamScore`,
+                                    Number(e.target.value)
+                                  )
+                                  setFieldValue(
+                                    `${subject.subjectId}_subjectAssessmentScore`,
+                                    Number(100 - e.target.value)
+                                  )
+                                  });
                               }}
-                              className="form-control p-sm-1 p-lg-2"
+                              className="form-control"
                               name="examScore"
                               id="examScore"
                               aria-describedby="examScore"
@@ -236,7 +342,7 @@ const SessionClassAdd = () => {
                           </div>
                         </Col>
 
-                        <Col>
+                        <Col lg="2">
                           <div className="form-group">
                             <label
                               htmlFor="assessmentScore"
@@ -256,8 +362,26 @@ const SessionClassAdd = () => {
                                   "assessmentScore",
                                   e.target.value
                                 );
+                                setFieldValue(
+                                  "subjectAssessmentScore",
+                                  Number(e.target.value)
+                                );
+                                setCurrentSubjectScores2(
+                                  Number(100 - e.target.value),
+                                  Number(e.target.value)
+                                );
+                                classSubjects.map((subject, idx) => {
+                                  setFieldValue(
+                                    `${subject.subjectId}_subjectAssessmentScore`,
+                                    Number(e.target.value)
+                                  );
+                                  setFieldValue(
+                                    `${subject.subjectId}_subjectExamScore`,
+                                    Number(100 - e.target.value)
+                                  );
+                                });
                               }}
-                              className="form-control  p-sm-1 p-lg-2"
+                              className="form-control"
                               name="assessmentScore"
                               id="assessmentScore"
                               aria-describedby="assessmentScore"
@@ -267,7 +391,7 @@ const SessionClassAdd = () => {
                           </div>
                         </Col>
 
-                        <Col sm="2">
+                        <Col lg="2">
                           <div className="form-group">
                             <label htmlFor="passMark" className="form-label">
                               {" "}
@@ -275,7 +399,7 @@ const SessionClassAdd = () => {
                             </label>
                             <Field
                               type="number"
-                              className="form-control  p-sm-1 p-lg-2"
+                              className="form-control"
                               name="passMark"
                               id="passMark"
                               aria-describedby="passMark"
@@ -285,7 +409,7 @@ const SessionClassAdd = () => {
                           </div>
                         </Col>
 
-                        <Col sm="6">
+                        <Col lg="6">
                           <div className="form-group">
                             <label
                               htmlFor="formTeacherId"
@@ -323,22 +447,33 @@ const SessionClassAdd = () => {
                             </Field>
                           </div>
                         </Col>
-                      </Row>
+                      </div>
 
-                      {touched.classId && errors.subjectId && (
-                        <div className="text-danger">{errors.subjectId}</div>
+                      {touched.subjectExamScore && errors.subjectExamScore && (
+                        <div className="text-danger">
+                          {errors.subjectExamScore}
+                        </div>
                       )}
-                      <Table size="md" bordered responsive >
+                      {touched.subjectAssessmentScore &&
+                        errors.subjectAssessmentScore && (
+                          <div className="text-danger">
+                            {errors.subjectAssessmentScore}
+                          </div>
+                        )}
+
+                      <table className="table table-bordered">
                         <thead>
                           <tr>
-                            <th>Subject</th>
-                            <th>Subject Teacher</th>
+                            <th style={{ width: "50%" }}>Subject</th>
+                            <th style={{ width: "10%" }}>Exam</th>
+                            <th style={{ width: "10%" }}>Assessment</th>
+                            <th style={{ width: "30%" }}>Subject Teacher</th>
                           </tr>
                         </thead>
                         <tbody>
                           {activeSubjects.map((subject, idx) => (
                             <tr key={idx}>
-                              <td>
+                              <td style={{ width: "50%" }}>
                                 {" "}
                                 <Field
                                   type="checkbox"
@@ -354,7 +489,81 @@ const SessionClassAdd = () => {
                                 />{" "}
                                 {subject.name}
                               </td>
-                              <td>
+
+                              <td style={{ width: "25%" }}>
+                                {" "}
+                                {classSubjects.find(
+                                  (sub) => sub.subjectId === subject.lookupId
+                                ) ? (
+                                  <Field
+                                    type="number"
+                                    className="form-control px-1"
+                                    name={`${subject.lookupId}_subjectExamScore`}
+                                    id={`${subject.lookupId}_subjectExamScore`}
+                                    aria-describedby={`${subject.lookupId}_subjectExamScore`}
+                                    required
+                                    placeholder=" "
+                                    onChange={(e) => {
+                                      setCurrentSubjectScores1(
+                                        Number(e.target.value),
+                                        Number(100 - e.target.value),
+                                        subject.lookupId
+                                      );
+                                      setFieldValue(
+                                        "subjectExamScore",
+                                        Number(e.target.value)
+                                      );
+                                      getExamScores(subject.lookupId);
+                                      getAssessmentScores(subject.lookupId);
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectExamScore`,
+                                        Number(e.target.value)
+                                      );
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectAssessmentScore`,
+                                        Number(100 - e.target.value)
+                                      );
+                                    }}
+                                  />
+                                ) : null}
+                              </td>
+
+                              <td style={{ width: "15%" }}>
+                                {classSubjects.find(
+                                  (sub) => sub.subjectId === subject.lookupId
+                                ) ? (
+                                  <Field
+                                    type="number"
+                                    className="form-control px-1"
+                                    name={`${subject.lookupId}_subjectAssessmentScore`}
+                                    id={`${subject.lookupId}_subjectAssessmentScore`}
+                                    aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
+                                    required
+                                    placeholder=" "
+                                    onChange={(e) => {
+                                      setCurrentSubjectScores1(
+                                        Number(100 - e.target.value),
+                                        Number(e.target.value),
+                                        subject.lookupId
+                                      );
+                                      setFieldValue(
+                                        "subjectAssessmentScore",
+                                        Number(e.target.value)
+                                      );
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectAssessmentScore`,
+                                        Number(e.target.value)
+                                      );
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectExamScore`,
+                                        Number(100 - e.target.value)
+                                      );
+                                    }}
+                                  />
+                                ) : null}
+                              </td>
+
+                              <td style={{ width: "30%" }}>
                                 <select
                                   name="subjectTeacherId"
                                   className="form-select"
@@ -391,15 +600,15 @@ const SessionClassAdd = () => {
                             </tr>
                           ))}
                         </tbody>
-                      </Table>
+                      </table>
 
                       <div className="d-flex justify-content-end">
                         <Button
                           type="button"
                           variant="btn btn-danger mx-2"
-                          onClick={() => 
-                            history.goBack()
-                          }
+                          onClick={() => {
+                            history.goBack();
+                          }}
                         >
                           Cancel
                         </Button>{" "}
