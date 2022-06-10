@@ -275,7 +275,7 @@ const SessionClassEdit = () => {
                       />
 
                       <Row>
-                        <Col lg="6">
+                        <Col>
                           <div className="form-group">
                             <label htmlFor="sessionId" className="form-label">
                               {" "}
@@ -292,7 +292,7 @@ const SessionClassEdit = () => {
                             />
                           </div>
                         </Col>
-                        <Col lg="6">
+                        <Col >
                           <div className="form-group">
                             <label htmlFor="classId" className="form-label">
                               {" "}
@@ -328,7 +328,7 @@ const SessionClassEdit = () => {
                       </Row>
 
                       <div className="d-flex row justify-content-between">
-                        <Col lg="2">
+                        <Col sm="6" lg="2">
                           <div className="form-group">
                             <label htmlFor="examScore" className="form-label">
                               {" "}
@@ -363,7 +363,7 @@ const SessionClassEdit = () => {
                                   );
                                 });
                               }}
-                              className="form-control"
+                              className="form-control p-sm-1 p-lg-2"
                               name="examScore"
                               id="examScore"
                               aria-describedby="examScore"
@@ -373,7 +373,7 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
 
-                        <Col lg="2">
+                        <Col sm="6" lg="2">
                           <div className="form-group">
                             <label
                               htmlFor="assessmentScore"
@@ -414,7 +414,7 @@ const SessionClassEdit = () => {
                                   );
                                 });
                               }}
-                              className="form-control"
+                              className="form-control p-sm-1 p-lg-2"
                               name="assessmentScore"
                               id="assessmentScore"
                               aria-describedby="assessmentScore"
@@ -424,7 +424,7 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
 
-                        <Col lg="2">
+                        <Col sm="6" lg="2">
                           <div className="form-group">
                             <label htmlFor="passMark" className="form-label">
                               {" "}
@@ -432,7 +432,7 @@ const SessionClassEdit = () => {
                             </label>
                             <Field
                               type="number"
-                              className="form-control"
+                              className="form-control p-sm-1 p-lg-2"
                               name="passMark"
                               id="passMark"
                               aria-describedby="passMark"
@@ -442,7 +442,7 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
 
-                        <Col lg="6">
+                        <Col sm="6" lg="6">
                           <div className="form-group">
                             <label
                               htmlFor="formTeacherId"
@@ -495,7 +495,7 @@ const SessionClassEdit = () => {
                           </div>
                         )}
 
-                      <table className="table table-bordered">
+                      <Table bordered responsive>
                         <thead>
                           <tr>
                             <th style={{ width: "50%" }}>Subject</th>
@@ -637,7 +637,7 @@ const SessionClassEdit = () => {
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                      </Table>
 
                       <div className="d-flex justify-content-end">
                         <Button

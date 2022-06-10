@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -165,7 +165,7 @@ const SessionClassAdd = () => {
   //HANDLER FUNCTIONS
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -255,7 +255,7 @@ const SessionClassAdd = () => {
                       />
 
                       <Row>
-                        <Col lg="6">
+                        <Col>
                           <div className="form-group">
                             <label htmlFor="sessionId" className="form-label">
                               Session
@@ -271,7 +271,7 @@ const SessionClassAdd = () => {
                             />
                           </div>
                         </Col>
-                        <Col lg="6">
+                        <Col >
                           <div className="form-group">
                             <label htmlFor="classId" className="form-label">
                               {" "}
@@ -299,7 +299,7 @@ const SessionClassAdd = () => {
                       </Row>
 
                       <div className="d-flex row justify-content-between">
-                        <Col lg="2">
+                        <Col sm="6" lg="2">
                           <div className="form-group">
                             <label htmlFor="examScore" className="form-label">
                               {" "}
@@ -332,7 +332,7 @@ const SessionClassAdd = () => {
                                   )
                                   });
                               }}
-                              className="form-control"
+                              className="form-control p-sm-1 p-lg-2"
                               name="examScore"
                               id="examScore"
                               aria-describedby="examScore"
@@ -342,7 +342,7 @@ const SessionClassAdd = () => {
                           </div>
                         </Col>
 
-                        <Col lg="2">
+                        <Col sm="6" lg="2">
                           <div className="form-group">
                             <label
                               htmlFor="assessmentScore"
@@ -381,7 +381,7 @@ const SessionClassAdd = () => {
                                   );
                                 });
                               }}
-                              className="form-control"
+                              className="form-control p-sm-1 p-lg-2"
                               name="assessmentScore"
                               id="assessmentScore"
                               aria-describedby="assessmentScore"
@@ -391,7 +391,7 @@ const SessionClassAdd = () => {
                           </div>
                         </Col>
 
-                        <Col lg="2">
+                        <Col sm="6" lg="2">
                           <div className="form-group">
                             <label htmlFor="passMark" className="form-label">
                               {" "}
@@ -399,7 +399,7 @@ const SessionClassAdd = () => {
                             </label>
                             <Field
                               type="number"
-                              className="form-control"
+                              className="form-control p-sm-1 p-lg-2"
                               name="passMark"
                               id="passMark"
                               aria-describedby="passMark"
@@ -409,7 +409,7 @@ const SessionClassAdd = () => {
                           </div>
                         </Col>
 
-                        <Col lg="6">
+                        <Col sm="6" lg="6">
                           <div className="form-group">
                             <label
                               htmlFor="formTeacherId"
@@ -461,7 +461,7 @@ const SessionClassAdd = () => {
                           </div>
                         )}
 
-                      <table className="table table-bordered">
+                      <Table bordered responsive>
                         <thead>
                           <tr>
                             <th style={{ width: "50%" }}>Subject</th>
@@ -600,7 +600,7 @@ const SessionClassAdd = () => {
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                      </Table>
 
                       <div className="d-flex justify-content-end">
                         <Button

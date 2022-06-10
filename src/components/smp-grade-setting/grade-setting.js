@@ -269,7 +269,7 @@ const GradeSetting = () => {
                                 aria-describedby="gradeName"
                                 required
                               />
-                              <span>e.g A</span>
+                              <div>e.g A</div>
                             </div>
 
                             <div className="form-group">
@@ -348,14 +348,14 @@ const GradeSetting = () => {
                               <span>e.g Excellent</span>
                             </div>
                             <div className="mt-5 ml-5">
-                            <Button
-                            type="submit"
-                            className="mt-5 btn-sm"
-                            onSubmit={handleSubmit}
-                          >
-                            Save
-                          </Button>
-                          </div>
+                              <Button
+                                type="submit"
+                                className="mt-5 btn-sm"
+                                onSubmit={handleSubmit}
+                              >
+                                Save
+                              </Button>
+                            </div>
                           </div>
                           <hr />
 
@@ -451,11 +451,11 @@ const GradeSetting = () => {
                         >
                           <thead>
                             <tr className="text-center">
+                              <td className="text-uppercase h6">Grade</td>
+
                               <td className="text-uppercase h6">Upper Limit</td>
 
                               <td className="text-uppercase h6">Lower Limit</td>
-
-                              <td className="text-uppercase h6">Grade</td>
 
                               <td className="text-uppercase h6">Remark</td>
                             </tr>
