@@ -12,6 +12,7 @@ import { studentReducer } from './reducers/student-reducers'
 import { alertReducer } from './reducers/toaster-reducer'
 import { gradeReducer } from './reducers/grade-setting-reducer'
 import Mode from './setting/setting'
+import { resultsReducer } from './reducers/results-reducers'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -26,6 +27,7 @@ export default createStore(
         student: studentReducer,
         enrollment: enrollmentReducer,
         promotion: promotionReducer,
-        grade: gradeReducer
+        grade: gradeReducer,
+        results: resultsReducer
     })
 )

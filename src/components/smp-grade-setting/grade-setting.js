@@ -401,6 +401,15 @@ const GradeSetting = () => {
                                     >
                                       edit
                                     </Button>
+
+                                    <Button bg={'red'}
+                                      onClick={() => {
+                                        setGradeSetup([...gradeSetups.filter(e => e.gradeName != item.gradeName)]);
+                                      }}
+                                      className="btn btn-sm"
+                                    >
+                                      delete
+                                    </Button>
                                   </td>
                                 </tr>
                               ))}
