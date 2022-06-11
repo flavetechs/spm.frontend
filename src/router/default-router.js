@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement } from './spm-path-locations';
 import ClassSetList from '../components/spm-class/class-setup-list';
 import ClassSetupAdd from '../components/spm-class/class-setup-add';
 import ClassSetupEdit from '../components/spm-class/class-setup-edit';
@@ -36,6 +36,7 @@ import PromotionSetup from '../components/smp-session/PromotionSetup';
 import PromotionPassedList from '../components/smp-session/PromotionPassedList';
 import PromotionFailedList from '../components/smp-session/PromotionFailedList';
 import GradeSetting from '../components/smp-grade-setting/grade-setting';
+import ScoreEntry from '../components/smp-result-management/score-entry';
 
 const DashboardRouter = () => {
 
@@ -92,6 +93,9 @@ const DashboardRouter = () => {
                      <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />
+                      {/* resultManagement */}
+                      <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
+                      {/* resultManagement */}
 
                 </Switch>
             </CSSTransition>
