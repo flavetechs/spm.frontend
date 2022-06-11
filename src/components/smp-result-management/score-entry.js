@@ -23,6 +23,7 @@ const ScoreEntry = () => {
   const [subjectId, setSubjectId] = useState("");
   const [viewTable, setViewTable] = useState(false);
   const [editButtonClick, setEditButtonClick] = useState(false);
+  const [initialValues, setInitialValues] = useState({ examScore : "", assessment: ""});
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -52,6 +53,19 @@ const ScoreEntry = () => {
   const singleClassSubject = classSubjects.filter(
     (item) => item.subjectId === subjectId
   );
+
+  const setCurrentSubjectScores = (
+    examScore,
+    assessment,
+    studentAccountId
+  ) => {
+    initialValues[`${studentAccountId}_assessment`] = examScore;
+    initialValues[`${studentAccountId}_examScore`] = assessment;
+
+    initialValues.examScore = examScore;
+    initialValues.assessment = assessment;
+    setInitialValues(initialValues);
+  };
 
   React.useEffect(() => {
     fetchSingleSessionClass(item.sessionClassId)(dispatch);
@@ -262,14 +276,11 @@ const ScoreEntry = () => {
                       </div>
 
                       <Formik
-                  initialValues={{
-                    examScore: "",
-                    asessment: "",
-                  }}
+                  initialValues={initialValues}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    setViewTable(true);
+                    
                   }}
                 >
                   {({
@@ -305,10 +316,26 @@ const ScoreEntry = () => {
                           <td className="">{index + 1}</td>
                           <td className="" ><input type="text" defaultValue={`${student.firstName} ${student.lastName}`}/></td>
                           <td className=""><input type="text" defaultValue={student.registrationNumber}/></td>
-                          <td className=""><Field className="w-50" type="number" name="assessment"
-                           defaultValue={student.assessment} onChange={(e)=>{setFieldValue("examScore",100 - e.target.value)}}/></td>
-                          <td className=""><Field className="w-50"  type="number"  name="examScore"
-                          defaultValue={student.examScore} onChange={(e)=>{setFieldValue("assessment",100 - e.target.value)}}/></td>
+                          <td className=""><Field className="w-50" type="number" name={`${student.studentAccountId}_assessment`}
+                           defaultValue={student.assessment} 
+                           onChange={(e)=>{
+                           setFieldValue(`${student.studentAccountId}_examScore`,Number(100 - e.target.value)); 
+                           setCurrentSubjectScores(
+                            Number(e.target.value),
+                            Number(100 - e.target.value),
+                            student.studentAccountId
+                           );}}/>
+                          </td>
+                          <td className=""><Field className="w-50"  type="number" name={`${student.studentAccountId}_examScore`} 
+                          defaultValue={student.examScore} 
+                          onChange={(e)=>{
+                          setFieldValue(`${student.studentAccountId}_assessment`,Number(100 - e.target.value));
+                          setCurrentSubjectScores(
+                            Number(100 - e.target.value),
+                            Number( e.target.value),
+                            student.studentAccountId
+                           );}}/>
+                          </td>
                         </tr>
                           ))}
                         </tbody>
