@@ -14,8 +14,7 @@ import {
   showErrorToast,
   showSingleDeleteDialog
 } from "../../store/actions/toaster-actions";
-import { removeId } from "../../store/actions/session-actions";
-import { getGeneralActiveSession } from "../../store/actions/general-actions";
+import { getActiveSession, removeId } from "../../store/actions/session-actions";
 
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
@@ -33,7 +32,7 @@ const SessionClassList = () => {
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getGeneralActiveSession()(dispatch);
+    getActiveSession()(dispatch);
   }, []);
 
   React.useEffect(() => {
@@ -47,7 +46,7 @@ const SessionClassList = () => {
       if (selectedIds.length === 0) {
         showErrorToast('No Item selected to be deleted')(dispatch);
       } else {
-        deleteSessionClass(selectedIds)(dispatch);
+        deleteSessionClass(selectedIds, activeSession?.sessionId)(dispatch);
         setDeleteButton(!showDeleteButton)
         setShowCheckBoxes(false);
         respondToDeleteDialog('')(dispatch);

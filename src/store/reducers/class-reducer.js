@@ -291,13 +291,15 @@ export const classReducer = (state = _state, { type, payload }) => {
         selectedSessionId:'',
         message: payload,
         isSuccessful: true,
+        loading: false,
       };
     case actions.DELETE_SESSION_CLASS_FAILED:
       return {
         ...state,
         loading: false,
         message: payload,
-        isSuccessful: false
+        isSuccessful: false,
+        loading: false,
       };
     //SESSION_CLASS ACTION REDUCERS
 

@@ -22,7 +22,7 @@ import { showErrorToast } from "../../store/actions/toaster-actions";
 const SessionClassEdit = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    classId: Yup.string().required("Class is required"),
+    // classId: Yup.string().required("Class is required"),
     formTeacherId: Yup.string().required("Form teacher is required"),
     examScore: Yup.number()
       .required("Examination score is required")
@@ -64,6 +64,7 @@ const SessionClassEdit = () => {
   //VARIABLE DECLARATIONS
   const [examScore, setExamScore] = useState(70);
   const [assessmentScore, setAssessmentScore] = useState(30);
+  const [passMark, setPassMark] = useState(40);
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const SessionClassEdit = () => {
     sessionClassId: selectedItem?.sessionClassId,
     examScore: examScore,
     assessmentScore: assessmentScore,
-    passMark: selectedItem?.passMark,
+    passMark: passMark,
     subjectExamScore: 70,
     subjectAssessmentScore: 30,
   });
@@ -117,20 +118,27 @@ const SessionClassEdit = () => {
   };
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
-    if (!sessionClassId) return;
-    fetchSingleSessionClass(sessionClassId)(dispatch);
-    getAllSessionClasses()(dispatch);
-    getAllActiveClasses()(dispatch);
-    getAllActiveTeachers()(dispatch);
-    getAllActiveSubjects()(dispatch);
     getActiveSession()(dispatch);
   }, []);
 
   React.useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const sessionClassId = queryParams.get("sessionClassId");
+    if (!sessionClassId) return;
+    fetchSingleSessionClass(sessionClassId)(dispatch);
+    getAllSessionClasses(activeSession?.sessionId)(dispatch);
+    getAllActiveClasses()(dispatch);
+    getAllActiveTeachers()(dispatch);
+    getAllActiveSubjects()(dispatch);
+    
+  }, [activeSession]);
+
+  React.useEffect(() => {
     setExamScore(selectedItem?.examScore);
     setAssessmentScore(selectedItem?.assessmentScore);
+    setPassMark(selectedItem?.passMark);
+    initialValues.formTeacherId = selectedItem?.formTeacherId;
+    setInitialValues(initialValues);
   }, [selectedItem]);
 
   if (isSuccessful) {
@@ -183,7 +191,7 @@ const SessionClassEdit = () => {
     )(dispatch);
   };
   //HANDLER FUNCTIONS
-  console.log("classSubjects", classSubjects);
+  console.log("selectedItem", selectedItem);
   return (
     <>
       <div className="col-8 mx-auto">
@@ -192,21 +200,21 @@ const SessionClassEdit = () => {
             <Card className="">
               <Card.Body>
                 <Formik
+                  enableReinitialize={true}
                   initialValues={initialValues}
                   validationSchema={validation}
-                  enableReinitialize={true}
                   onSubmit={(values) => {
                     values.sessionId = selectedItem?.sessionId;
                     values.classSubjects = classSubjects;
-                    const score =
-                      Number(values.examScore) + Number(values.assessmentScore);
+                    values.classId = selectedItem?.classId;
+                    values.sessionClassId = selectedItem?.sessionClassId;
+                    const score = Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
-                      showErrorToast(
-                        "Examination and assessment must equal 100"
-                      )(dispatch);
+                      showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
-                    console.log("values",values)
+
+                    console.log("values", values)
                     updateSessionClass(values)(dispatch);
                   }}
                 >
@@ -247,6 +255,7 @@ const SessionClassEdit = () => {
                         {message && (
                           <div className="text-danger">{message}</div>
                         )}
+
                         {touched.formTeacherId && errors.formTeacherId && (
                           <div className="text-danger">
                             {errors.formTeacherId}
@@ -301,23 +310,22 @@ const SessionClassEdit = () => {
                             <Field
                               as="select"
                               type="select"
-                              name="classId"
+                              name={"classId"}
+                              defaultValue={values.classId}
                               className="form-select"
-                              id="classId"
+                              id={"classId"}
                               disabled={true}
                               onChange={(event) =>
                                 setFieldValue("classId", event.target.value)
                               }
                             >
+
                               <option value={""}>Select Class</option>
                               {activeClasses.map((classLookup, idx) => (
                                 <option
                                   key={idx}
                                   value={classLookup.lookupId}
-                                  selected={
-                                    selectedItem?.classId ==
-                                    classLookup.lookupId
-                                  }
+                                  selected={selectedItem?.classId == classLookup.lookupId}
                                 >
                                   {classLookup.name}
                                 </option>
@@ -340,27 +348,12 @@ const SessionClassEdit = () => {
                                 setExamScore(e.target.value);
                                 setAssessmentScore(100 - e.target.value);
                                 setFieldValue("examScore", e.target.value);
-                                setFieldValue(
-                                  "assessmentScore",
-                                  100 - e.target.value
-                                );
-                                setFieldValue(
-                                  "subjectExamScore",
-                                  Number(e.target.value)
-                                );
-                                setCurrentSubjectScores2(
-                                  Number(e.target.value),
-                                  Number(100 - e.target.value)
-                                );
+                                setFieldValue("assessmentScore", 100 - e.target.value);
+                                setFieldValue("subjectExamScore", Number(e.target.value));
+                                setCurrentSubjectScores2(Number(e.target.value), Number(100 - e.target.value));
                                 classSubjects.map((subject, idx) => {
-                                  setFieldValue(
-                                    `${subject.subjectId}_subjectExamScore`,
-                                    Number(e.target.value)
-                                  );
-                                  setFieldValue(
-                                    `${subject.subjectId}_subjectAssessmentScore`,
-                                    Number(100 - e.target.value)
-                                  );
+                                  setFieldValue(`${subject.subjectId}_subjectExamScore`, Number(e.target.value));
+                                  setFieldValue(`${subject.subjectId}_subjectAssessmentScore`, Number(100 - e.target.value));
                                 });
                               }}
                               className="form-control p-sm-1 p-lg-2"
@@ -430,8 +423,16 @@ const SessionClassEdit = () => {
                               {" "}
                               Pass Mark{" "}
                             </label>
+
                             <Field
                               type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "passMark",
+                                  e.target.value
+                                );
+
+                              }}
                               className="form-control p-sm-1 p-lg-2"
                               name="passMark"
                               id="passMark"
@@ -457,10 +458,7 @@ const SessionClassEdit = () => {
                               className="form-select"
                               id="formTeacherId"
                               onChange={(event) =>
-                                setFieldValue(
-                                  "formTeacherId",
-                                  event.target.value
-                                )
+                                setFieldValue("formTeacherId", event.target.value)
                               }
                             >
                               <option value={""} defaultValue={""}>
@@ -468,12 +466,9 @@ const SessionClassEdit = () => {
                               </option>
                               {activeTeachers.map((teacher, idx) => (
                                 <option
+                                  selected={selectedItem?.formTeacherId == teacher.teacherAccountId ? true: false }
                                   key={idx}
                                   value={teacher.teacherAccountId}
-                                  selected={
-                                    selectedItem?.formTeacherId ==
-                                    teacher.teacherAccountId
-                                  }
                                 >
                                   {teacher.fullName}
                                 </option>
@@ -540,6 +535,7 @@ const SessionClassEdit = () => {
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
+                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore}
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(e.target.value),
@@ -573,6 +569,7 @@ const SessionClassEdit = () => {
                                     type="number"
                                     className="form-control px-1"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
+                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
@@ -622,7 +619,7 @@ const SessionClassEdit = () => {
                                         classSubjects.find(
                                           (sub) =>
                                             sub.subjectTeacherId ===
-                                              teacher.teacherAccountId &&
+                                            teacher.teacherAccountId &&
                                             sub.subjectId === subject.lookupId
                                         )
                                           ? true
