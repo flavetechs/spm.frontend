@@ -186,7 +186,7 @@ const GradeSetting = () => {
                           <h6 className="pb-2">Grade Group</h6>
                           <Field
                             type="text"
-                            className="form-control fw-bolder"
+                            className="form-control fw-bolder border-secondary"
                             name="gradeGroupName"
                             id="gradeGroupName"
                             aria-describedby="gradeGroupName"
@@ -261,17 +261,18 @@ const GradeSetting = () => {
                                 </Row>
                                 Grade
                               </label>
+                              <div className="d-sm-flex d-md-block">
                               <Field
                                 type="text"
-                                className="form-control w-75 fw-bolder text-secondary"
+                                className="form-control w-75 fw-bolder text-secondary border-secondary"
                                 name="gradeName"
                                 id="gradeName"
                                 aria-describedby="gradeName"
                                 required
                               />
-                              <div>e.g A</div>
+                              <span className="px-sm-2 px-md-0">e.g A</span>
                             </div>
-
+</div>
                             <div className="form-group">
                               <label
                                 className="form-label d-block h6"
@@ -286,18 +287,18 @@ const GradeSetting = () => {
                                 </Row>
                                 Upper Limit
                               </label>
-
-                              <Field
-                                type="number"
-                                className="form-control w-75 fw-bolder text-secondary"
-                                name="upperLimit"
-                                id="upperLimit"
-                                aria-describedby="upperLimit"
-                                required
-                              />
-                              <span>e.g 90</span>
+                              <div className="d-sm-flex d-md-block">
+                                <Field
+                                  type="number"
+                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
+                                  name="upperLimit"
+                                  id="upperLimit"
+                                  aria-describedby="upperLimit"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">e.g 90</span>
+                              </div>
                             </div>
-
                             <div className="form-group">
                               <label
                                 className="form-label d-block h6"
@@ -312,17 +313,18 @@ const GradeSetting = () => {
                                 </Row>
                                 Lower Limit
                               </label>
+                              <div className="d-sm-flex d-md-block">
                               <Field
                                 type="number"
-                                className="form-control w-75 fw-bolder text-secondary"
+                                className="form-control w-75 fw-bolder text-secondary border-secondary"
                                 name="lowerLimit"
                                 id="lowerLimit"
                                 aria-describedby="lowerLimit"
                                 required
                               />
-                              <span>e.g 70</span>
+                              <span className="px-sm-2 px-md-0">e.g 70</span>
                             </div>
-
+                            </div>
                             <div className="form-group">
                               <label
                                 className="form-label d-block h6"
@@ -337,15 +339,17 @@ const GradeSetting = () => {
                                 </Row>
                                 Remark
                               </label>
+                              <div className="d-sm-flex d-md-block">
                               <Field
                                 type="text"
-                                className="form-control text-secondary fw-bolder"
+                                className="form-control text-secondary fw-bolder border-secondary"
                                 name="remark"
                                 id="remark"
                                 aria-describedby="remark"
                                 required
                               />
-                              <span>e.g Excellent</span>
+                              <span className="px-sm-2 px-md-0">e.g Excellent</span>
+                            </div>
                             </div>
                             <div className="mt-5 ml-5">
                               <Button
@@ -402,9 +406,14 @@ const GradeSetting = () => {
                                       edit
                                     </Button>
 
-                                    <Button bg={'red'}
+                                    <Button
+                                      bg={"red"}
                                       onClick={() => {
-                                        setGradeSetup([...gradeSetups.filter(e => e.gradeName != item.gradeName)]);
+                                        setGradeSetup([
+                                          ...gradeSetups.filter(
+                                            (e) => e.gradeName != item.gradeName
+                                          ),
+                                        ]);
                                       }}
                                       className="btn btn-sm"
                                     >
