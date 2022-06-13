@@ -24,6 +24,7 @@ const StaffAdd = () => {
    const history = useHistory();
    const dispatch = useDispatch();
    const [images, setImages] = useState([])
+   const [image, setImage] = useState(null);
    const [imageURLs, setImageURLs] = useState([])
    //VARIABLE DECLARATIONS
 
@@ -56,16 +57,22 @@ const StaffAdd = () => {
       history.push(staffLocations.staffList);
    }
 
-   React.useEffect(() => {
-      if (images.length < 1) return;
-      const newImageUrls = [];
-      images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
-      setImageURLs(newImageUrls)
-   }, [images])
+   // React.useEffect(() => {
+   //    if (images.length < 1) return;
+   //    const newImageUrls = [];
+   //    images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
+   //    setImageURLs(newImageUrls)
+   // }, [images])
 
-   function onImageChanges(e) {
-      setImages([...e.target.files])
-   }
+   // function onImageChanges(e) {
+   //    setImages([...e.target.files])
+   // }
+
+   const ImageDisplay = (event) => {
+      if (event.target.files[0]) {
+         setImage(URL.createObjectURL(event.target.files[0]));
+      }
+   };
 
    return (
       <>
@@ -94,53 +101,81 @@ const StaffAdd = () => {
                   values,
                   touched,
                   errors,
-                  isValid }) => (
+                  isValid,
+                  setFieldValue, }) => (
                   <Row>
-                     <Col xl="3" lg="4" className="">
+                     <Col>
                         <Card>
-                           <Card.Header className="d-flex justify-content-between">
+                           <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Add Staff Photo</h4>
+                                 <h4 className="card-title">Add New Staff</h4>
                               </div>
-                           </Card.Header>
-                           <Card.Body>
-                              <div>
-                                 <Form.Group className="form-group">
+                           </div>
+                           <div className="card-body ">
+                              <Form className="">
+                                 <div className="form-group">
                                     <div className="profile-img-edit position-relative">
-                                       <Image className="theme-color-default-img  profile-pic rounded avatar-100" src={avatars1} alt="profile-pic" />
-                                       <Image className="theme-color-purple-img profile-pic rounded avatar-100" src={avatars2} alt="profile-pic" />
-                                       <Image className="theme-color-blue-img profile-pic rounded avatar-100" src={avatars3} alt="profile-pic" />
-                                       <Image className="theme-color-green-img profile-pic rounded avatar-100" src={avatars5} alt="profile-pic" />
-                                       <Image className="theme-color-yellow-img profile-pic rounded avatar-100" src={avatars6} alt="profile-pic" />
-                                       <Image className="theme-color-pink-img profile-pic rounded avatar-100" src={avatars4} alt="profile-pic" />
+                                       <div>
+                                          <img src={avatars1} alt="User-Profile" className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100" />    
+                                          <img src={avatars2} alt="User-Profile" className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100" />
+                                          <img src={avatars3} alt="User-Profile" className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100" />
+                                          <img src={avatars5}  alt="User-Profile" className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100" />                   
+                                          <img src={avatars6} alt="User-Profile" className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100" />
+                                          <img src={avatars4} alt="User-Profile" className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100" />{" "}
+                                       </div>
                                        <div className="upload-icone bg-primary">
-
-                                          <svg className="upload-button" width="14" height="14" viewBox="0 0 24 24">
-                                             <path fill="#ffffff" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
-                                          </svg>
-
+                                          <label htmlFor="photo">
+                                             <svg
+                                                className="upload-button"
+                                                width="14"
+                                                height="14"
+                                                viewBox="0 0 24 24"
+                                                style={{ cursor: "pointer" }}
+                                             >
+                                                <path
+                                                   fill="#ffffff"
+                                                   d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                                                ></path>
+                                             </svg>
+                                             <input
+                                                type="file"
+                                                id="photo"
+                                                style={{ display: "none" }}
+                                                name="photo"
+                                                accept="image/jpeg,image/jpg,image/png"
+                                                className="file-upload form-control"
+                                                data-original-title="upload photos"
+                                                onChange={(event) => {
+                                                   setFieldValue(
+                                                      "photo",
+                                                      event.currentTarget.files[0]
+                                                   );
+                                                   ImageDisplay(event);
+                                                }}
+                                             />
+                                          </label>
                                        </div>
                                     </div>
                                     <div className="img-extension mt-3">
-                                       <div className="d-inline-block align-items-center">s
-                                          <span>Only</span>{' '}
-                                          <Link to="#">.jpg</Link>{' '}
-                                          <Link to="#">.png</Link>{' '}
-                                          <Link to="#">.jpeg</Link>{' '}
-                                          <span>allowed</span>
-                                          <Field type="file" id="customFile1" name='photo' onChange={onImageChanges} />
-                                          {imageURLs.map((imageSrc, index) => {
-                                             return (
-                                                <img key={index} src={imageSrc} style={{ width: 350, height: 300, borderRadius: 10, marginTop: 15 }} />
-                                             )
-                                          })}
+                                       <div className="d-inline-block align-items-center">
+                                          <span>Only</span> <a href="#">.jpg</a>{" "}
+                                          <a href="#">.png</a> <a href="#">.jpeg</a>
+                                          <span> allowed</span>
                                        </div>
                                     </div>
-                                 </Form.Group>
-                              </div>
-                           </Card.Body>
+                                    {image ?
+                                       <img
+                                          className=" img-fluid mt-4"
+                                          id="displayImg"
+                                          src={image}
+                                          alt="profile image"
+                                       /> : null}
+                                 </div>
+                              </Form>
+                           </div>
                         </Card>
                      </Col>
+
                      <Col xl="9" lg="8">
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
@@ -181,7 +216,7 @@ const StaffAdd = () => {
                                           <Field type="tel" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
                                        </Form.Group>
                                        <Form.Group className="col-md-3  form-group">
-                                          <label htmlFor="dob" className="form-label"> <b>Date of Birth:</b></label>
+                                          <label htmlFor="dob" className="form-label"><b>Date of Birth:</b></label>
                                           <Field type="date" className="form-control" name="dob" id="dob" aria-describedby="name" required placeholder="Enter Date of Birth" />
                                        </Form.Group>
                                     </div>

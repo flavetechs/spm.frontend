@@ -31,19 +31,6 @@ const ClassSetupAdd = () => {
   const { isSuccessful, message } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
-  // const checkSingleItem = (isChecked, lookupId, classes) => {
-  //   classes.forEach(item => {
-  //     if (item.lookupId === lookupId) {
-  //       item.isChecked = isChecked
-  //     }
-  //   });
-  //   if (isChecked) {
-  //     dispatch(pushId(lookupId));
-  //   } else {
-  //     dispatch(removeId(lookupId));
-  //   }
-  // }
-
 
   if (isSuccessful) {
     history.push(classLocations.classSetupList);
@@ -52,7 +39,7 @@ const ClassSetupAdd = () => {
 
   return (
     <>
-      <div className="col-6 mx-auto">
+      <div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -105,7 +92,7 @@ const ClassSetupAdd = () => {
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">
-                        <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
+                        <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
 
                         <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                       </div>
