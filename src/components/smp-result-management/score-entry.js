@@ -12,8 +12,10 @@ import {
   getAllSessionClasses,
 } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
-import { getAllStudents } from "../../store/actions/student-actions";
-import StudentList from "../smp-students/student-list";
+import {
+  getAllStaffClasses,
+  getStaffClassSubjects,
+} from "../../store/actions/results-actions";
 
 const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
@@ -23,13 +25,13 @@ const ScoreEntry = () => {
   const [subjectId, setSubjectId] = useState("");
   const [viewTable, setViewTable] = useState(false);
   const [editButtonClick, setEditButtonClick] = useState(false);
-  const [initialValues, setInitialValues] = useState({ examScore : "", assessment: ""});
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList, activeSubjects, classSubjects, classStudents } =state.class;
-  const { activeSession } = state.session;
+  const { itemList, activeSubjects, classSubjects, classStudents } =
+    state.class;
+  const { staffClasses, staffClassSubjects } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -38,7 +40,7 @@ const ScoreEntry = () => {
       const { path, createError } = this;
 
       return (
-        singleClassSubject.length !== 0 ||
+        item.sessionClassId != "" ||
         createError({ path, message: errorMessage })
       );
     });
@@ -46,47 +48,32 @@ const ScoreEntry = () => {
   const validation = Yup.object().shape({
     sessionClassId: Yup.string().required("Class is required"),
     subjectId: Yup.string()
-      .required("Subject is required")
-      .classUnavailable("Class selected does not offer this subject"),
+      .classUnavailable("Kindly select class first")
+      .required("Subject is required"),
   });
   //VALIDATION SCHEMA
-  const singleClassSubject = classSubjects.filter(
-    (item) => item.subjectId === subjectId
-  );
-
   const setCurrentSubjectScores = (
     examScore,
     assessment,
     studentAccountId
-  ) => {
-    initialValues[`${studentAccountId}_assessment`] = examScore;
-    initialValues[`${studentAccountId}_examScore`] = assessment;
-
-    initialValues.examScore = examScore;
-    initialValues.assessment = assessment;
-    setInitialValues(initialValues);
-  };
+  ) => {};
 
   React.useEffect(() => {
-    fetchSingleSessionClass(item.sessionClassId)(dispatch);
-    getActiveSession()(dispatch);
-    getAllActiveSubjects()(dispatch);
+    //fetchSingleSessionClass(item.sessionClassId)(dispatch);
+    getAllStaffClasses()(dispatch);
+    getStaffClassSubjects(item.sessionClassId)(dispatch);
     getAllClassStudents(item.sessionClassId)(dispatch);
   }, [item.sessionClassId]);
 
-  React.useEffect(() => {
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
-
-  console.log("classSubjects", classStudents);
+  console.log("classSubjects", item.sessionClassId);
   return (
     <>
       <div className="col-md-12 mx-auto">
         <Row>
           <Col sm="12">
             <Card>
-             <Card.Header>
-                 <h6>SCORE ENTRY</h6>
+              <Card.Header>
+                <h6>SCORE ENTRY</h6>
               </Card.Header>
               <Card.Body>
                 <Formik
@@ -143,20 +130,20 @@ const ScoreEntry = () => {
                                 sessionClass:
                                   e.target.selectedOptions[0].getAttribute(
                                     "data-tag"
-                                  )
+                                  ),
                               });
                               setViewTable(false);
                             }}
                           >
                             <option value="">Select Class</option>
-                            {itemList.map((list, idx) => (
+                            {staffClasses.map((list, idx) => (
                               <option
                                 key={idx}
                                 name={values.sessionClassId}
                                 value={list.sessionClassId}
-                                data-tag={list.class}
+                                data-tag={list.sessionClass}
                               >
-                                {list.class}
+                                {list.sessionClass}
                               </option>
                             ))}
                           </Field>
@@ -177,13 +164,13 @@ const ScoreEntry = () => {
                             }}
                           >
                             <option value="">Select Subject</option>
-                            {activeSubjects.map((subject, idx) => (
+                            {staffClassSubjects?.map((subject, idx) => (
                               <option
                                 key={idx}
                                 name={values.subjectId}
-                                value={subject.lookupId}
+                                value={subject.subjectId}
                               >
-                                {subject.name}
+                                {subject.subjectName}
                               </option>
                             ))}
                           </Field>
@@ -207,43 +194,37 @@ const ScoreEntry = () => {
                 {viewTable && (
                   <div>
                     <Row className="pt-3">
-                      {singleClassSubject.length === 0 ? (
-                        <div className="h6">
-                          Class selected does not offer this subject
-                        </div>
-                      ) : (
-                        <Table responsive bordered size="sm" className="w-50">
-                          {singleClassSubject.map((subject, idx) => (
-                            <tbody key={idx}>
-                              <tr>
-                                <th className="h6">Class Name</th>
-                                <td>{item.sessionClass}</td>
-                              </tr>
-                              <tr>
-                                <th className="h6">Subject Name</th>
-                                <td>{subject.subjectName}</td>
-                              </tr>
-                              <tr>
-                                <th className="h6">Subject Teacher</th>
-                                <td>{subject.subjectTeacherName}</td>
-                              </tr>
-                              <tr>
-                                <th className="h6">Test Score</th>
-                                <td>{subject.assessment}</td>
-                              </tr>
-                              <tr>
-                                <th className="h6">Exam Score</th>
-                                <td>{subject.examSCore}</td>
-                              </tr>
-                            </tbody>
-                          ))}
-                        </Table>
-                      )}
+                      <Table responsive bordered size="sm" className="w-50">
+                        {staffClassSubjects?.map((subject, idx) => (
+                          <tbody key={idx}>
+                            <tr>
+                              <th className="h6">Class Name</th>
+                              <td>{item.sessionClass}</td>
+                            </tr>
+                            <tr>
+                              <th className="h6">Subject Name</th>
+                              <td>{subject.subjectName}</td>
+                            </tr>
+                            <tr>
+                              <th className="h6">Subject Teacher</th>
+                              <td>{subject.subjectTeacherName}</td>
+                            </tr>
+                            <tr>
+                              <th className="h6">Test Score</th>
+                              <td>{subject.assessment}</td>
+                            </tr>
+                            <tr>
+                              <th className="h6">Exam Score</th>
+                              <td>{subject.examSCore}</td>
+                            </tr>
+                          </tbody>
+                        ))}
+                      </Table>
                     </Row>
 
                     <Row className="pt-3">
-                    <div className="d-flex justify-content-end">
-                        <Button
+                      <div className="d-flex justify-content-end">
+                        {/* <Button
                           type="button"
                           className="btn-sm mx-2"
                           variant="btn btn-success"
@@ -251,97 +232,152 @@ const ScoreEntry = () => {
                             setEditButtonClick(!editButtonClick)
                           }}
                         >
-                          Edit
-                        </Button>
+                         {!editButtonClick ? "Edit" : "Close Edit"}
+                        </Button> */}
                         <Button
                           type="button"
                           className="btn-sm"
                           variant="btn btn-primary"
-                          onClick={() => {
-                            
-                          }}
+                          onClick={() => {}}
                         >
                           Save
                         </Button>
                         <Button
                           type="button"
                           className="btn-sm mx-2"
-                          variant="btn btn-warning"
-                          onClick={() => {
-                            
-                          }}
+                          variant="btn btn-success"
+                          onClick={() => {}}
                         >
                           Preview
                         </Button>
                       </div>
 
                       <Formik
-                  initialValues={initialValues}
-                  validationSchema={validation}
-                  enableReinitialize={true}
-                  onSubmit={(values) => {
-                    
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    values,
-                    setFieldValue,
-                    touched,
-                    errors,
-                    isValid,
-                  }) => (
-                      <Table size="md" bordered responsive className="mt-2">
-                        <thead>
-                          <tr className="text-center">
-                            <td className="text-uppercase h6">S/No</td>
-                            <td className="text-uppercase h6">Students Full Name</td>
-                            <td className="text-uppercase h6">Student Registration No</td>
-                            <td className="text-uppercase h6">Assessment score</td>
-                            <td className="text-uppercase h6">Exam score</td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {!editButtonClick ? classStudents?.map((student, index) => (
-                            <tr key={index} className="text-center">
-                              <td className="">{index + 1}</td>
-                              <td className="fw-bold">{student.firstName} {student.lastName}</td>
-                              <td className="fw-bold">{student.registrationNumber}</td>
-                              <td className="fw-bold">{student.assessment}</td>
-                              <td className="fw-bold">{student.examScore}</td>
-                            </tr>
-                          )):
-                          classStudents?.map((student, index) => (
-                          <tr key={index} className="text-center">
-                          <td className="">{index + 1}</td>
-                          <td className="" ><input type="text" defaultValue={`${student.firstName} ${student.lastName}`}/></td>
-                          <td className=""><input type="text" defaultValue={student.registrationNumber}/></td>
-                          <td className=""><Field className="w-50" type="number" name={`${student.studentAccountId}_assessment`}
-                           defaultValue={student.assessment} 
-                           onChange={(e)=>{
-                           setFieldValue(`${student.studentAccountId}_examScore`,Number(100 - e.target.value)); 
-                           setCurrentSubjectScores(
-                            Number(e.target.value),
-                            Number(100 - e.target.value),
-                            student.studentAccountId
-                           );}}/>
-                          </td>
-                          <td className=""><Field className="w-50"  type="number" name={`${student.studentAccountId}_examScore`} 
-                          defaultValue={student.examScore} 
-                          onChange={(e)=>{
-                          setFieldValue(`${student.studentAccountId}_assessment`,Number(100 - e.target.value));
-                          setCurrentSubjectScores(
-                            Number(100 - e.target.value),
-                            Number( e.target.value),
-                            student.studentAccountId
-                           );}}/>
-                          </td>
-                        </tr>
-                          ))}
-                        </tbody>
-                      </Table>
-                       )}
-                       </Formik>
+                        initialValues={{ examScore: 0, assessment: 0 }}
+                        validationSchema={validation}
+                        enableReinitialize={true}
+                        onSubmit={(values) => {}}
+                      >
+                        {({
+                          handleSubmit,
+                          values,
+                          setFieldValue,
+                          touched,
+                          errors,
+                          isValid,
+                        }) => (
+                          <Table size="md" bordered responsive className="mt-2">
+                            <thead>
+                              <tr className="text-center">
+                                <td className="text-uppercase h6">S/No</td>
+                                <td className="text-uppercase h6">
+                                  Students Full Name
+                                </td>
+                                <td className="text-uppercase h6">
+                                  Student Registration No
+                                </td>
+                                <td className="text-uppercase h6">
+                                  Assessment score
+                                </td>
+                                <td className="text-uppercase h6">
+                                  Exam score
+                                </td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {!editButtonClick
+                                ? classStudents?.map((student, index) => (
+                                    <tr key={index} className="text-center">
+                                      <td className="fw-bold">{index + 1}</td>
+                                      <td className="fw-bold">{student.firstName} {student.lastName}</td>
+                                      <td className="fw-bold">{student.registrationNumber}</td>
+                                      <td
+                                        className="fw-bold"
+                                        onDoubleClick={() => {
+                                          setEditButtonClick(!editButtonClick);
+                                        }}
+                                      >
+                                        {student.assessment}
+                                      </td>
+                                      <td className="fw-bold"  
+                                       onDoubleClick={() => {
+                                            setEditButtonClick(
+                                              !editButtonClick
+                                            );
+                                          }}>
+                                        {student.examScore}
+                                      </td>
+                                    </tr>
+                                  ))
+                                : classStudents?.map((student, index) => (
+                                    <tr key={index} className="text-center">
+                                      <td className="fw-bold">
+                                        {editButtonClick ? (
+                                          <Field
+                                            type="checkbox"
+                                            className="form-check-input"
+                                            checked={
+                                              values.assessment > 0 ||
+                                              values.examScore > 0
+                                            }
+                                          
+                                          />
+                                        ) : (
+                                          index + 1
+                                        )}
+                                      </td>
+                                      <td className="fw-bold">{`${student.firstName} ${student.lastName}`}</td>
+                                      <td className="fw-bold">
+                                        {student.registrationNumber}
+                                      </td>
+                                      <td className="fw-bold" 
+                                      onDoubleClick={() => {
+                                          setEditButtonClick(!editButtonClick);
+                                        }}>
+                                        <Field
+                                          className="w-50 text-center"
+                                          type="number"
+                                          name="assessment"
+                                          onDoubleClick={() => {
+                                            setEditButtonClick(
+                                              !editButtonClick
+                                            );
+                                          }}
+                                          onChange={(e) => {
+                                            setFieldValue(
+                                              "assessment",
+                                              e.target.value
+                                            );
+                                          }}
+                                        />
+                                      </td>
+                                      <td className="fw-bold text-center" 
+                                      onDoubleClick={() => {
+                                      setEditButtonClick(!editButtonClick);
+                                        }}>
+                                        <Field
+                                          className="w-50 text-center"
+                                          type="number"
+                                          name="examScore"
+                                          onDoubleClick={() => {
+                                            setEditButtonClick(
+                                              !editButtonClick
+                                            );
+                                          }}
+                                          onChange={(e) => {
+                                            setFieldValue(
+                                              "examScore",
+                                              e.target.value
+                                            );
+                                          }}
+                                        />
+                                      </td>
+                                    </tr>
+                                  ))}
+                            </tbody>
+                          </Table>
+                        )}
+                      </Formik>
                     </Row>
                   </div>
                 )}
