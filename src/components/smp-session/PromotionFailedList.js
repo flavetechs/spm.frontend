@@ -81,7 +81,7 @@ const PromotionFailedList = () => {
                             {student.studentName}
                           </td>
                           <td className="text-center">{student.registrationNumber}</td>
-                          <td className="text-center"><Badge bg="success">{student.status}</Badge></td>
+                          <td className="text-center"><Badge bg="danger">{student.status}</Badge></td>
                           <td className="text-center">
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger
