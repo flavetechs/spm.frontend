@@ -46,12 +46,12 @@ const SessionAdd = () => {
 
   return (
     <>
-      <div className="col-8 mx-auto">
+      <div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
               <Card.Header className="d-flex justify-content-between">
-                <div className="header-title">z
+                <div className="header-title">
                   <h4 className="card-title">Add New Session</h4>
                 </div>
               </Card.Header>

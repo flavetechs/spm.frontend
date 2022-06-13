@@ -36,7 +36,7 @@ const SessionDetails = () => {
     //HANDLER FUNCTIONS
     return (
         <>
-            <div className="col-8 mx-auto">
+            <div className="col-md-8 mx-auto">
                 <Row>
                     <Col sm="12">
                         <Card className="">
@@ -46,7 +46,7 @@ const SessionDetails = () => {
                                         <h5><b>{selectedItem?.startDate}/{selectedItem?.endDate} Session</b></h5>
                                     </div>
                                 </Card.Header>
-                                <table className="table table-bordered">
+                                <table className="table table-bordered" responsive>
                                     <thead>
                                         <tr>
                                             <th>Session Detail</th>
@@ -97,7 +97,7 @@ const SessionDetails = () => {
                                             className={!displayStudentsTable ? "nav-link active" : "nav-link"}
                                             type="button"
                                             role="tab"
-                                            onClick={() => { setDisplaySubjectsTable(true); setDisplayStudentsTable(false); }}
+                                            onClick={() => { setDisplayStudentsTable(true); setDisplayStudentsTable(false); }}
                                         >
                                             All Classes
                                         </button>

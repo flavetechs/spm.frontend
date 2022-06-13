@@ -93,8 +93,7 @@ const PromotionFailedList = () => {
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   data-original-title="Details"
-                                  // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
-                                  to='#'
+                                  to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentContactId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg
