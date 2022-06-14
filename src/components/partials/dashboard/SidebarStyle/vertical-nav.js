@@ -205,8 +205,6 @@ const VerticalNav = () => {
                     </Accordion.Collapse>
                 </Accordion.Item>
 
-
-
                 <li><hr className="hr-horizontal" /></li>
                 {/* <li className="nav-item static-item">
                     <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
