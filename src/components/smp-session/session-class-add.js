@@ -165,7 +165,7 @@ const SessionClassAdd = () => {
   //HANDLER FUNCTIONS
   return (
     <>
-      <div className="col-md-8 mx-auto">
+      <div className="col-md-10 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -464,10 +464,10 @@ const SessionClassAdd = () => {
                       <Table bordered responsive>
                         <thead>
                           <tr>
-                            <th style={{ width: "50%" }}>Subject</th>
-                            <th style={{ width: "10%" }}>Exam</th>
-                            <th style={{ width: "10%" }}>Assessment</th>
-                            <th style={{ width: "30%" }}>Subject Teacher</th>
+                            <th>Subject</th>
+                            <th>Exam</th>
+                            <th>Assessment</th>
+                            <th>Subject Teacher</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -490,7 +490,7 @@ const SessionClassAdd = () => {
                                 {subject.name}
                               </td>
 
-                              <td style={{ width: "25%" }}>
+                              <td>
                                 {" "}
                                 {classSubjects.find(
                                   (sub) => sub.subjectId === subject.lookupId
@@ -528,13 +528,13 @@ const SessionClassAdd = () => {
                                 ) : null}
                               </td>
 
-                              <td style={{ width: "15%" }}>
+                              <td>
                                 {classSubjects.find(
                                   (sub) => sub.subjectId === subject.lookupId
                                 ) ? (
                                   <Field
                                     type="number"
-                                    className="form-control px-1"
+                                    className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
