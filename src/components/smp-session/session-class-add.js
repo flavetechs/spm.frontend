@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 
@@ -113,7 +113,7 @@ const SessionClassAdd = () => {
   }, []);
 
   if (isSuccessful) {
-    history.push(classLocations.sessionClassList);
+    history.push(sessionLocations.sessionClassList);
   }
 
   //HANDLER FUNCTIONS

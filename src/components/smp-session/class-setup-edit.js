@@ -1,20 +1,25 @@
+import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
+import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-
 import {
-  createClass, pushId, removeId,
+  updateClass,
 } from "../../store/actions/class-actions";
-import { useHistory } from "react-router-dom";
-import { useState } from "react";
 
-const ClassSetupAdd = () => {
-  //VARIABLE DECLARATIONS
-  const [isChecked, setIsChecked] = useState(true)
+const ClassSetupEdit = () => {
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { selectedItem, isSuccessful, message } = state.class;
+  // ACCESSING STATE FROM REDUX STORE
+
+  //VARIABLE DECLARATIONS 
+  const [isChecked, setIsChecked] = useState(selectedItem?.isActive)
   const history = useHistory();
+  const locations = useLocation();
   const dispatch = useDispatch();
   //VARIABLE DECLARATIONS
 
@@ -26,52 +31,36 @@ const ClassSetupAdd = () => {
   });
   //VALIDATIONS SCHEMA
 
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { isSuccessful, message } = state.class;
-  // ACCESSING STATE FROM REDUX STORE
-
-  // const checkSingleItem = (isChecked, lookupId, classes) => {
-  //   classes.forEach(item => {
-  //     if (item.lookupId === lookupId) {
-  //       item.isChecked = isChecked
-  //     }
-  //   });
-  //   if (isChecked) {
-  //     dispatch(pushId(lookupId));
-  //   } else {
-  //     dispatch(removeId(lookupId));
-  //   }
-  // }
 
 
-  if (isSuccessful) {
-    history.push(classLocations.classSetupList);
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const classId = queryParams.get("classId");
+    if (!classId) return;
+  }, []);
+
+  if (isSuccessful || !selectedItem) {
+    history.push(sessionLocations.classSetupList)
   }
-
 
   return (
     <>
       <div className="col-6 mx-auto">
         <Row>
-          <Col sm="12">
-            <Card className="">
-              <Card.Header className="d-flex justify-content-between">
-                <div className="header-title">
-                  <h4 className="card-title">Add New Class</h4>
-                </div>
-              </Card.Header>
+          <Col sm="12" >
+            <Card>
               <Card.Body>
                 <Formik
                   initialValues={{
-                    name: '',
-                    isActive: true
+                    name: selectedItem?.name,
+                    isActive: selectedItem?.isActive,
+                    lookupId: selectedItem?.lookupId
                   }}
                   validationSchema={validation}
                   onSubmit={values => {
                     console.log(values);
                     values.isActive = isChecked
-                    createClass(values)(dispatch)
+                    updateClass(values)(dispatch)
                   }}
                 >
                   {({
@@ -88,8 +77,8 @@ const ClassSetupAdd = () => {
                       <Col lg="12">
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
-                          <label htmlFor="name" className="form-label"> <b>Name</b></label>
-                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" Enter class name e.g SS1" />
+                          <label htmlFor="name" className="form-label"> Name</label>
+                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" " />
                         </div>
                       </Col>
 
@@ -105,13 +94,13 @@ const ClassSetupAdd = () => {
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">
-                        <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
-
-                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
+                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(sessionLocations.classSetupList) }}>Cancel</Button>{'  '}
+                      <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                       </div>
                     </Form>
                   )}
                 </Formik>
+
               </Card.Body>
             </Card>
           </Col>
@@ -121,4 +110,4 @@ const ClassSetupAdd = () => {
   );
 };
 
-export default ClassSetupAdd;
+export default ClassSetupEdit;

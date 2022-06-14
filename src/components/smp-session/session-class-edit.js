@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
@@ -134,7 +134,7 @@ const SessionClassEdit = () => {
   }, [selectedItem]);
 
   if (isSuccessful) {
-    history.push(classLocations.sessionClassList);
+    history.push(sessionLocations.sessionClassList);
   }
 
   //HANDLER FUNCTIONS
@@ -644,7 +644,7 @@ const SessionClassEdit = () => {
                           type="button"
                           variant="btn btn-danger mx-2"
                           onClick={() => {
-                            history.push(classLocations.sessionClassList);
+                            history.push(sessionLocations.sessionClassList);
                           }}
                         >
                           Cancel
