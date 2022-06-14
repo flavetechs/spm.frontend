@@ -39,3 +39,24 @@ import { actions } from "../action-types/results-action-types"
                 })
             });
     }
+
+    
+    export const getAllClassScoreEntries = (sessionClassId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_CLASS_SCORE_ENTRIES_LOADING,
+            payload: sessionClassId
+        });
+    
+        axiosInstance.get(`/api/v1/result/get/class-score-entries/${sessionClassId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_CLASS_SCORE_ENTRIES_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_CLASS_SCORE_ENTRIES_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+    }

@@ -12,15 +12,9 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { getActiveSession } from "../../store/actions/session-actions";
-import {
-  fetchSingleSessionClass,
-  getAllActiveSubjects,
-  getAllClassStudents,
-  getAllSessionClasses,
-} from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 import {
+  getAllClassScoreEntries,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../store/actions/results-actions";
@@ -30,6 +24,7 @@ const ScoreEntry = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [item, setItem] = useState({ sessionClassId: "", sessionClass: "" });
+  const [subjectId, setSubjectId] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [viewTable, setViewTable] = useState(false);
   const [editClick, setEditClick] = useState(false);
@@ -37,8 +32,7 @@ const ScoreEntry = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { classSubjects, classStudents } = state.class;
-  const { staffClasses, staffClassSubjects } = state.results;
+  const { staffClasses, staffClassSubjects, scoreEntries } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -59,20 +53,14 @@ const ScoreEntry = () => {
       .required("Subject is required"),
   });
   //VALIDATION SCHEMA
-  const setCurrentSubjectScores = (
-    examScore,
-    assessment,
-    studentAccountId
-  ) => {};
-
   React.useEffect(() => {
     //fetchSingleSessionClass(item.sessionClassId)(dispatch);
     getAllStaffClasses()(dispatch);
     getStaffClassSubjects(item.sessionClassId)(dispatch);
-    getAllClassStudents(item.sessionClassId)(dispatch);
+    getAllClassScoreEntries(item.sessionClassId)(dispatch);
   }, [item.sessionClassId]);
 
-  console.log("classSubjects", item.sessionClassId);
+  console.log("classSubjects", scoreEntries);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -166,6 +154,7 @@ const ScoreEntry = () => {
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
+                              setSubjectId(e.target.value);
                               setViewTable(false);
                             }}
                           >
@@ -201,11 +190,11 @@ const ScoreEntry = () => {
                   <div>
                     <Row className="pt-3">
                       <Table responsive bordered size="sm" className="w-50">
-                        {staffClassSubjects?.map((subject, idx) => (
+                        {scoreEntries?.filter(entry => entry.subjectId == subjectId).map((subject, idx) => (
                           <tbody key={idx}>
                             <tr>
                               <th className="h6">Class Name</th>
-                              <td>{item.sessionClass}</td>
+                              <td>{subject.sessionClassName}</td>
                             </tr>
                             <tr>
                               <th className="h6">Subject Name</th>
@@ -213,15 +202,15 @@ const ScoreEntry = () => {
                             </tr>
                             <tr>
                               <th className="h6">Subject Teacher</th>
-                              <td>{subject.subjectTeacherName}</td>
+                              <td>{subject.subjectTeacher}</td>
                             </tr>
                             <tr>
                               <th className="h6">Test Score</th>
-                              <td>{subject.assessment}</td>
+                              <td>{subject.assessmentScore}</td>
                             </tr>
                             <tr>
                               <th className="h6">Exam Score</th>
-                              <td>{subject.examSCore}</td>
+                              <td>{subject.examsScore}</td>
                             </tr>
                           </tbody>
                         ))}
@@ -230,16 +219,7 @@ const ScoreEntry = () => {
 
                     <Row className="pt-3">
                       <div className="d-flex justify-content-end">
-                        {/* <Button
-                          type="button"
-                          className="btn-sm mx-2"
-                          variant="btn btn-success"
-                          onClick={() => {
-                            setEditButtonClick(!editButtonClick)
-                          }}
-                        >
-                         {!editButtonClick ? "Edit" : "Close Edit"}
-                        </Button> */}
+                    
                         <Button
                           type="button"
                           className="btn-sm"
@@ -301,7 +281,9 @@ const ScoreEntry = () => {
                             </thead>
                             <tbody>
                               {!editClick
-                                ? classStudents?.map((student, index) => (
+                                ? scoreEntries?.filter(entry => entry.subjectId == subjectId)
+                                .map((entry, idx)=>(
+                                  entry.classScoreEntries.map((list, index) => (
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
@@ -319,14 +301,17 @@ const ScoreEntry = () => {
                                         }}
                                       >
                                         <td className="fw-bold">{index + 1}</td>
-                                        <td className="fw-bold">{student.firstName} {student.lastName}</td>
-                                        <td className="fw-bold">{student.registrationNumber}</td>
-                                        <td className="fw-bold">{student.assessment}</td>
-                                        <td className="fw-bold">{student.examScore}</td>
+                                        <td className="fw-bold">{list.studentName}</td>
+                                        <td className="fw-bold">{list.registrationNumber}</td>
+                                        <td className="fw-bold">{list.assessmentScore}</td>
+                                        <td className="fw-bold">{list.examsScore}</td>
+                                        <td></td>
                                       </tr>
                                     </OverlayTrigger>
-                                  ))
-                                : classStudents?.map((student, index) => (
+                                  ))))
+                                : scoreEntries?.filter(entry => entry.subjectId == subjectId)
+                                .map((entry, idx)=>(
+                                  entry.classScoreEntries.map((list, index) => (
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
@@ -343,8 +328,8 @@ const ScoreEntry = () => {
                                         }}
                                       >
                                         <td className="fw-bold">{index + 1}</td>
-                                        <td className="fw-bold">{`${student.firstName} ${student.lastName}`}</td>
-                                        <td className="fw-bold">{student.registrationNumber}</td>
+                                        <td className="fw-bold">{list.studentName}</td>
+                                        <td className="fw-bold">{list.registrationNumber}</td>
                                         <td className="fw-bold">
                                           {identifier == index && (
                                             <Field
@@ -394,7 +379,7 @@ const ScoreEntry = () => {
                                         </td>
                                       </tr>
                                     </OverlayTrigger>
-                                  ))}
+                                  ))))}
                             </tbody>
                           </Table>
                         )}

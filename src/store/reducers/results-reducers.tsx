@@ -45,7 +45,28 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
             };
           }
       
-            
+          case actions.FETCH_CLASS_SCORE_ENTRIES_LOADING: {
+            return {
+              ...state,
+              loading: true,
+            };
+          }
+          case actions.FETCH_CLASS_SCORE_ENTRIES_SUCCESS: {
+            return {
+              ...state,
+              loading: false,
+              scoreEntries: payload,
+            };
+          }
+          case actions.FETCH_CLASS_SCORE_ENTRIES_FAILED: {
+            return {
+              ...state,
+              loading: false,
+              scoreEntries: null,
+            };
+          }
+
+
         default:
             return state
     }
