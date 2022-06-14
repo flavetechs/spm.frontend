@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button, Table } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Form,
+  Button,
+  Table,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
@@ -22,15 +30,14 @@ const ScoreEntry = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [item, setItem] = useState({ sessionClassId: "", sessionClass: "" });
-  const [subjectId, setSubjectId] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [viewTable, setViewTable] = useState(false);
-  const [editButtonClick, setEditButtonClick] = useState(false);
+  const [editClick, setEditClick] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList, activeSubjects, classSubjects, classStudents } =
-    state.class;
+  const { classSubjects, classStudents } = state.class;
   const { staffClasses, staffClassSubjects } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -159,7 +166,6 @@ const ScoreEntry = () => {
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
-                              setSubjectId(e.target.value);
                               setViewTable(false);
                             }}
                           >
@@ -266,7 +272,13 @@ const ScoreEntry = () => {
                           errors,
                           isValid,
                         }) => (
-                          <Table size="md" bordered responsive className="mt-2">
+                          <Table
+                            size="md"
+                            hover
+                            bordered
+                            responsive
+                            className="mt-2"
+                          >
                             <thead>
                               <tr className="text-center">
                                 <td className="text-uppercase h6">S/No</td>
@@ -282,97 +294,106 @@ const ScoreEntry = () => {
                                 <td className="text-uppercase h6">
                                   Exam score
                                 </td>
+                                <td className="text-uppercase h6">
+                                  Is Offered
+                                </td>
                               </tr>
                             </thead>
                             <tbody>
-                              {!editButtonClick
+                              {!editClick
                                 ? classStudents?.map((student, index) => (
-                                    <tr key={index} className="text-center">
-                                      <td className="fw-bold">{index + 1}</td>
-                                      <td className="fw-bold">{student.firstName} {student.lastName}</td>
-                                      <td className="fw-bold">{student.registrationNumber}</td>
-                                      <td
-                                        className="fw-bold"
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip id="button-tooltip-2">
+                                          double click to edit
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <tr
+                                        key={index}
+                                        className="text-center"
                                         onDoubleClick={() => {
-                                          setEditButtonClick(!editButtonClick);
+                                          setEditClick(!editClick);
+                                          setIdentifier(index);
                                         }}
                                       >
-                                        {student.assessment}
-                                      </td>
-                                      <td className="fw-bold"  
-                                       onDoubleClick={() => {
-                                            setEditButtonClick(
-                                              !editButtonClick
-                                            );
-                                          }}>
-                                        {student.examScore}
-                                      </td>
-                                    </tr>
+                                        <td className="fw-bold">{index + 1}</td>
+                                        <td className="fw-bold">{student.firstName} {student.lastName}</td>
+                                        <td className="fw-bold">{student.registrationNumber}</td>
+                                        <td className="fw-bold">{student.assessment}</td>
+                                        <td className="fw-bold">{student.examScore}</td>
+                                      </tr>
+                                    </OverlayTrigger>
                                   ))
                                 : classStudents?.map((student, index) => (
-                                    <tr key={index} className="text-center">
-                                      <td className="fw-bold">
-                                        {editButtonClick ? (
-                                          <Field
-                                            type="checkbox"
-                                            className="form-check-input"
-                                            checked={
-                                              values.assessment > 0 ||
-                                              values.examScore > 0
-                                            }
-                                          
-                                          />
-                                        ) : (
-                                          index + 1
-                                        )}
-                                      </td>
-                                      <td className="fw-bold">{`${student.firstName} ${student.lastName}`}</td>
-                                      <td className="fw-bold">
-                                        {student.registrationNumber}
-                                      </td>
-                                      <td className="fw-bold" 
-                                      onDoubleClick={() => {
-                                          setEditButtonClick(!editButtonClick);
-                                        }}>
-                                        <Field
-                                          className="w-50 text-center"
-                                          type="number"
-                                          name="assessment"
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip id="button-tooltip-2">
+                                          double click to close edit
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <tr
+                                        key={index}
+                                        className="text-center"
+                                        onDoubleClick={() => {
+                                          setEditClick(!editClick);
+                                        }}
+                                      >
+                                        <td className="fw-bold">{index + 1}</td>
+                                        <td className="fw-bold">{`${student.firstName} ${student.lastName}`}</td>
+                                        <td className="fw-bold">{student.registrationNumber}</td>
+                                        <td className="fw-bold">
+                                          {identifier == index && (
+                                            <Field
+                                              className="w-50 text-center"
+                                              type="number"
+                                              name="assessment"
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "assessment",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          )}
+                                        </td>
+                                        <td
+                                          className="fw-bold text-center"
                                           onDoubleClick={() => {
-                                            setEditButtonClick(
-                                              !editButtonClick
-                                            );
+                                            setEditClick(!editClick);
                                           }}
-                                          onChange={(e) => {
-                                            setFieldValue(
-                                              "assessment",
-                                              e.target.value
-                                            );
-                                          }}
-                                        />
-                                      </td>
-                                      <td className="fw-bold text-center" 
-                                      onDoubleClick={() => {
-                                      setEditButtonClick(!editButtonClick);
-                                        }}>
-                                        <Field
-                                          className="w-50 text-center"
-                                          type="number"
-                                          name="examScore"
-                                          onDoubleClick={() => {
-                                            setEditButtonClick(
-                                              !editButtonClick
-                                            );
-                                          }}
-                                          onChange={(e) => {
-                                            setFieldValue(
-                                              "examScore",
-                                              e.target.value
-                                            );
-                                          }}
-                                        />
-                                      </td>
-                                    </tr>
+                                        >
+                                          {identifier == index && (
+                                            <Field
+                                              className="w-50 text-center"
+                                              type="number"
+                                              name="examScore"
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "examScore",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          )}
+                                        </td>
+                                        <td>
+                                          {identifier == index && (
+                                            <Field
+                                              type="checkbox"
+                                              className="form-check-input"
+                                              checked={
+                                                values.assessment > 0 ||
+                                                values.examScore > 0
+                                              }
+                                            />
+                                          )}
+                                        </td>
+                                      </tr>
+                                    </OverlayTrigger>
                                   ))}
                             </tbody>
                           </Table>
