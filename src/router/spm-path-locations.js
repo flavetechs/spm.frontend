@@ -13,16 +13,7 @@ export const authLocations = {
 };
 
 export const classLocations = {
-  classSetupList: "/dashboard/smp-class/setup",
-  classSetupEdit: "/dashboard/smp-class/edit-setup",
-  classSetupAdd: "/dashboard/smp-class/add-setup",
-  subjectSetupList: "/dashboard/smp-class/subject-setup",
-  editSubjectSetup: "/dashboard/smp-class/edit-subject",
-  addSubjectSetup: "/dashboard/smp-class/add-subject",
-  sessionClassList: "/dashboard/smp-class/session-class",
-  sessionClassEdit: "/dashboard/smp-class/edit-session-class",
-  sessionClassAdd: "/dashboard/smp-class/add-session-class",
-  sessionClassDetail: "/dashboard/smp-class/class-detail",
+  sessionClassList2: "/dashboard/smp-class/session-class",
 };
 
 export const sessionLocations = {
@@ -30,6 +21,16 @@ export const sessionLocations = {
   sessionEdit: "/dashboard/smp-session/edit-setup",
   sessionDetails: "/dashboard/smp-session/details-setup",
   sessionAdd: "/dashboard/smp-session/add-setup",
+  classSetupList: "/dashboard/smp-session/class-setup",
+  classSetupEdit: "/dashboard/smp-session/edit-setup",
+  classSetupAdd: "/dashboard/smp-session/add-setup",
+  subjectSetupList: "/dashboard/smp-session/subject-setup",
+  editSubjectSetup: "/dashboard/smp-session/edit-subject",
+  addSubjectSetup: "/dashboard/smp-session/add-subject",
+  sessionClassList: "/dashboard/smp-session/session-class",
+  sessionClassEdit: "/dashboard/smp-session/edit-session-class",
+  sessionClassAdd: "/dashboard/smp-session/add-session-class",
+  sessionClassDetail: "/dashboard/smp-session/class-detail",
   promotionSetup: "/dashboard/smp-session/promotion-setup",
   promotionPassedList: "/dashboard/smp-session/promotion-passed-list-setup",
   promotionFailedList: "/dashboard/smp-session/promotion-failed-list-setup",

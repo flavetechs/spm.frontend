@@ -11,7 +11,7 @@ import {
   fetchSingleItem,
 } from "../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 import { getGeneralActiveSession } from '../../store/actions/general-actions';
 
@@ -183,7 +183,7 @@ const ClassSetupList = () => {
                   </button>
                 )}
                 <Link
-                  to={classLocations.classSetupAdd}
+                  to={sessionLocations.classSetupAdd}
                   className="d-flex justify-content-end"
                 >
                   <button
@@ -266,7 +266,7 @@ const ClassSetupList = () => {
                               <a
                                 onClick={() => {
                                   fetchSingleItem(item.lookupId)(dispatch)
-                                  history.push(classLocations.classSetupEdit);
+                                  history.push(sessionLocations.classSetupEdit);
                                 }
                                 }
                                 className="btn btn-sm btn-icon btn-warning"
@@ -274,7 +274,7 @@ const ClassSetupList = () => {
                                 data-placement="top"
                                 title=""
                                 data-original-title="Edit"
-                                to={`${classLocations.classSetupEdit}?classId=${item.lookupId}`}
+                                to={`${sessionLocations.classSetupEdit}?classId=${item.lookupId}`}
                               >
                                 <span className="btn-inner">
                                   <svg

@@ -1,19 +1,24 @@
+import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useState } from "react";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
+import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
+import { updateSubject } from "../../store/actions/class-actions";
 
-import { createSubject } from "../../store/actions/class-actions";
-import { useHistory } from "react-router-dom";
+const SubjectSetupEdit = () => {
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { selectedItem, isSuccessful, message } = state.class;
+  // ACCESSING STATE FROM REDUX STORE
 
-const SubjectSetupAdd = () => {
   //VARIABLE DECLARATIONS
-  const [isChecked, setIsChecked] = useState(true);
   const history = useHistory();
+  const locations = useLocation();
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(selectedItem?.isActive);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -24,13 +29,14 @@ const SubjectSetupAdd = () => {
   });
   //VALIDATIONS SCHEMA
 
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { isSuccessful, message } = state.class;
-  // ACCESSING STATE FROM REDUX STORE
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const subjectId = queryParams.get("subjectId");
+    if (!subjectId) return;
+  }, []);
 
-  if (isSuccessful) {
-    history.push(classLocations.subjectSetupList);
+  if (isSuccessful || !selectedItem) {
+    history.push(sessionLocations.subjectSetupList);
   }
 
   return (
@@ -38,17 +44,19 @@ const SubjectSetupAdd = () => {
       <div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
-            <Card className="">
+            <Card>
               <Card.Body>
                 <Formik
                   initialValues={{
-                    name: "",
-                    isActive: true,
+                    name: selectedItem?.name,
+                    isActive: selectedItem?.isActive,
+                    lookupId: selectedItem?.lookupId,
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
                     values.isActive = isChecked;
-                    createSubject(values)(dispatch);
+                    console.log(values);
+                    updateSubject(values)(dispatch);
                   }}
                 >
                   {({
@@ -78,14 +86,14 @@ const SubjectSetupAdd = () => {
                             id="name"
                             aria-describedby="name"
                             required
-                            placeholder="Enter subject name e.g english "
+                            placeholder=" "
                           />
                         </div>
                       </Col>
 
                       <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
-                          <input
+                          <Field
                             type="checkbox"
                             id="customCheck1"
                             className="form-check-input"
@@ -94,7 +102,7 @@ const SubjectSetupAdd = () => {
                               setIsChecked(!isChecked);
                             }}
                           />
-                          <label htmlFor="" className="check-label">
+                          <label htmlFor="customCheck1" className="check-label">
                             isActive{" "}
                           </label>
                         </div>
@@ -103,9 +111,7 @@ const SubjectSetupAdd = () => {
                         <Button
                           type="button"
                           variant="btn btn-danger mx-2"
-                          onClick={() => {
-                            history.goBack();
-                          }}
+                          onClick={() => history.goBack()}
                         >
                           Cancel
                         </Button>{" "}
@@ -129,4 +135,4 @@ const SubjectSetupAdd = () => {
   );
 };
 
-export default SubjectSetupAdd;
+export default SubjectSetupEdit;

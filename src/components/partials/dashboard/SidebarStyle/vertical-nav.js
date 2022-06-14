@@ -118,6 +118,61 @@ const VerticalNav = () => {
                             </li>
                         </ul>
                     </Accordion.Collapse>
+
+                    <Accordion.Collapse eventKey="sidebar-session" >
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === sessionLocations.classSetupList ? 'active' : ''} nav-link`} to={sessionLocations.classSetupList}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> S </i>
+                                    <span className="item-name">Class Setup</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+
+                    <Accordion.Collapse eventKey="sidebar-session" >
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === sessionLocations.subjectSetupList ? 'active' : ''} nav-link`} to={sessionLocations.subjectSetupList}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> S </i>
+                                    <span className="item-name">Subject Setup</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+
+                    <Accordion.Collapse eventKey="sidebar-session" >
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === sessionLocations.sessionClassList ? 'active' : ''} nav-link`} to={sessionLocations.sessionClassList}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> S </i>
+                                    <span className="item-name">Session Class</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+
                     <Accordion.Collapse eventKey="sidebar-session">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -152,44 +207,11 @@ const VerticalNav = () => {
                             </svg>
                         </i>
                     </CustomToggle>
+                  
                     <Accordion.Collapse eventKey="sidebar-special" >
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.classSetupList ? 'active' : ''} nav-link`} to={classLocations.classSetupList}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> S </i>
-                                    <span className="item-name">Class Setup</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                    <Accordion.Collapse eventKey="sidebar-special" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.subjectSetupList ? 'active' : ''} nav-link`} to={classLocations.subjectSetupList}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> S </i>
-                                    <span className="item-name">Subject Setup</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                    <Accordion.Collapse eventKey="sidebar-special" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.sessionClassList ? 'active' : ''} nav-link`} to={classLocations.sessionClassList}>
+                                <Link className={`${location.pathname === classLocations.sessionClassList2 ? 'active' : ''} nav-link`} to={classLocations.sessionClassList2}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>

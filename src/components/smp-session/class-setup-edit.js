@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
@@ -40,7 +40,7 @@ const ClassSetupEdit = () => {
   }, []);
 
   if (isSuccessful || !selectedItem) {
-    history.push(classLocations.classSetupList)
+    history.push(sessionLocations.classSetupList)
   }
 
   return (
@@ -94,7 +94,7 @@ const ClassSetupEdit = () => {
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">
-                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{'  '}
+                      <Button type="button" variant="btn btn-danger" onClick={() => { history.push(sessionLocations.classSetupList) }}>Cancel</Button>{'  '}
                       <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                       </div>
                     </Form>

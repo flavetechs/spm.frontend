@@ -1,7 +1,7 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations } from "../../router/spm-path-locations";
+import { sessionLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -33,7 +33,7 @@ const ClassSetupAdd = () => {
 
 
   if (isSuccessful) {
-    history.push(classLocations.classSetupList);
+    history.push(sessionLocations.classSetupList);
   }
 
 
@@ -92,7 +92,7 @@ const ClassSetupAdd = () => {
                         </div>
                       </Col>
                       <div className="d-flex justify-content-end">
-                        <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(classLocations.classSetupList) }}>Cancel</Button>{' '}
+                        <Button type="button" variant="btn btn-danger" onClick={() => { history.push(sessionLocations.classSetupList) }}>Cancel</Button>{' '}
 
                         <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                       </div>
