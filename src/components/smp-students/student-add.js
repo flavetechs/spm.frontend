@@ -128,7 +128,6 @@ const StudentAdd = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-
                         <div>
                           <img
                             src={avatars1}
@@ -161,8 +160,6 @@ const StudentAdd = () => {
                             className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
                           />{" "}
                         </div>
-
-
                         <div className="upload-icone bg-primary">
                           <label htmlFor="photo">
                             <svg

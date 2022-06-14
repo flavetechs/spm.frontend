@@ -229,6 +229,12 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
 
 //SESSION CLASS ACTION HANDLERS
 export const getAllSessionClasses = (sessionId) => (dispatch) => {
+
+    if(!sessionId){
+        // showErrorToast('Active Session Not found')(dispatch)
+        return;
+    }
+    
     dispatch({
         type: actions.FETCH_SESSION_CLASS_LOADING
     });
@@ -267,7 +273,7 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
         });
 }
 
-export const deleteSessionClass = (selectedIds) => (dispatch) => {
+export const deleteSessionClass = (selectedIds, activeSessionId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_CLASS_LOADING
     });
@@ -280,7 +286,7 @@ export const deleteSessionClass = (selectedIds) => (dispatch) => {
                 type: actions.DELETE_SESSION_CLASS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllSessionClasses()(dispatch);
+            getAllSessionClasses(activeSessionId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

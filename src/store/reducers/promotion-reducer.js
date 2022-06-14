@@ -38,7 +38,6 @@ export const promotionReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        message: '',
         isSuccessful: false
       };
 
@@ -76,8 +75,6 @@ export const promotionReducer = (state = _state, { type, payload }) => {
         passedStudentList: null,
       };
 
-
-
     case actions.FETCH_FAILED_STUDENT_LOADING:
       return {
         ...state,
@@ -88,12 +85,14 @@ export const promotionReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         failedStudentList: payload,
+        isSuccessful: true,
       };
     case actions.FETCH_FAILED_STUDENT_FAILED:
       return {
         ...state,
         loading: false,
         failedStudentList: null,
+        isSuccessful: false,
       };
 
     case actions.PROMOTE_STUDENT_LOADING:
@@ -101,7 +100,6 @@ export const promotionReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
-        message: ''
       };
     case actions.PROMOTE_STUDENT_SUCCESS:
       return {
@@ -115,7 +113,7 @@ export const promotionReducer = (state = _state, { type, payload }) => {
         ...state,
         isSuccessful: false,
         loading: false,
-        message: ''
+        message: payload,
       };
 
 
