@@ -4,7 +4,6 @@ import {
   Col,
   OverlayTrigger,
   Tooltip,
-  Badge,
   Form,
 } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -35,8 +34,9 @@ const PromotionSetup = () => {
   const locations = useLocation();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [classToPromoteTo, setClassToPromoteTo] = useState("");
+  const [classToPromoteTo, setClassToPromoteTo] = useState({sessionClassId:"", className:""});
   const [classToPromote, setClassToPromote] = useState("");
+  console.log(' now now  classToPromoteTo', classToPromoteTo);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -46,7 +46,7 @@ const PromotionSetup = () => {
   const { itemList: classesToPromoteTo } = state.class;
   const { activeSession } = state.session;
   // console.log('promotionList : ', promotionList);
-  // console.log('classesToPromoteTo :', classesToPromoteTo);
+  console.log('classesToPromoteTo :', classesToPromoteTo);
   const { dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -56,7 +56,7 @@ const PromotionSetup = () => {
   });
   //VALIDATIONS SCHEMA
 
-  const handlePromotion = (sessionClassId) => {};
+  const handlePromotion = (sessionClassId) => { };
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
@@ -69,10 +69,10 @@ const PromotionSetup = () => {
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      if (!classToPromoteTo) {
+      if (!classToPromoteTo.sessionClassId) {
         showErrorToast("No class selected to be promoted")(dispatch);
       } else {
-        promoteStudent(classToPromote, classToPromoteTo)(dispatch);
+        promoteStudent(classToPromote, classToPromoteTo.sessionClassId)(dispatch);
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
       }
@@ -81,8 +81,8 @@ const PromotionSetup = () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse]);
-
- 
+console.log("promotion values1",classToPromote )
+console.log("promotion values2",classToPromoteTo.sessionClassId)
   return (
     <>
       <div>
@@ -110,11 +110,12 @@ const PromotionSetup = () => {
                           Total Student <br /> in prev class
                         </th>
                         <th className="text-center">
-                          total student with <br />
-                          passmark of prev class
+                          total number of <br />
+                          passed students
                         </th>
                         <th className="text-center">
-                          total student <br /> that failed
+                          total number of <br />
+                          failed students
                         </th>
                         <th className="text-center">
                           total number <br />
@@ -132,7 +133,6 @@ const PromotionSetup = () => {
                       }}
                       validationSchema={validation}
                       onSubmit={(values) => {
-                        // createSession(values)(dispatch)
                         promoteStudent(values)(dispatch);
                       }}
                     >
@@ -155,50 +155,52 @@ const PromotionSetup = () => {
                               <td className="h4 text-center">
                                 {item.totalStudentsInClass}
                               </td>
-                              <td className="h2 text-center">
+                              <td onClick={() => history.push(`${sessionLocations.promotionPassedList}?sessionClassId=${item.sessionClassId}`)} 
+                              className="h2 text-center" style={{ backgroundColor: '#98FB98', cursor: 'pointer' }}>
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
-                                      View Student List
+                                      View passed Student list
                                     </Tooltip>
                                   }
                                 >
+                                  <div>
                                   <Link
-                                    className="btn btn-sm btn-icon btn-success h2"
+                                    className="px-3 h2"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
                                     to={`${sessionLocations.promotionPassedList}?sessionClassId=${item.sessionClassId}`}
                                   >
-                                    <Badge bg="success">
                                       {item.totalStudentsPassed}
-                                    </Badge>
                                   </Link>
+                                  </div>
                                 </OverlayTrigger>
                               </td>
-                              <td className="h4 text-center">
+                              <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`)} 
+                              className="h2 text-center" style={{ backgroundColor: '#FF7C7C', cursor: 'pointer' }}>
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
-                                      View Student List
+                                      View Failed Student list
                                     </Tooltip>
                                   }
                                 >
+                                  <div>
                                   <Link
-                                    className="btn btn-sm btn-icon btn-danger"
+                                    className="px-3 h2"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
                                     to={`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`}
                                   >
-                                    <Badge bg="danger">
                                       {item.totalStudentsFailed}
-                                    </Badge>
                                   </Link>
+                                  </div>
                                 </OverlayTrigger>
                               </td>
                               <td className="h4 text-center">
@@ -213,7 +215,7 @@ const PromotionSetup = () => {
                                     name="classId"
                                     id="form"
                                     onChange={(e) =>
-                                      setClassToPromoteTo(e.target.value)
+                                      setClassToPromoteTo({sessionClassId: e.target.value, className:e.target.selectedOptions[0].dataset.tag})
                                     }
                                   >
                                     <option defaultValue={""}>
@@ -224,6 +226,7 @@ const PromotionSetup = () => {
                                       .map((promoteTo, idx) => (
                                         <option
                                           key={idx}
+                                          data-tag={promoteTo.class}
                                           value={promoteTo.sessionClassId}
                                         >
                                           {promoteTo.class}
@@ -252,8 +255,8 @@ const PromotionSetup = () => {
                                       onClick={() => {
                                         setClassToPromote(item.sessionClassId);
                                         const message =
-                                          classToPromoteTo != ""
-                                            && `Are you sure you want to promote student ?`
+                                          classToPromoteTo.className != ""
+                                          && `Are you sure you want to promote ${item.sessionClassName} students to ${classToPromoteTo.className}?`
                                         showHideDialog(true, message)(dispatch);
                                       }}
                                     >
