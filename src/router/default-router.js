@@ -7,28 +7,11 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting } from './spm-path-locations';
-import ClassSetList from '../components/spm-class/class-setup-list';
-import ClassSetupAdd from '../components/spm-class/class-setup-add';
-import ClassSetupEdit from '../components/spm-class/class-setup-edit';
-import SubjectSetupList from '../components/spm-class/subject-setup-list';
-import SubjectSetupEdit from '../components/spm-class/subject-setup-edit';
-import SubjectSetupAdd from '../components/spm-class/subject-setup-add';
-import SessionClassList from '../components/spm-class/session-class-list';
-import SessionClassEdit from '../components/spm-class/session-class-edit';
-import SessionClassAdd from '../components/spm-class/session-class-add';
-import SessionList from '../components/smp-session/session-list';
-import SessionAdd from '../components/smp-session/session-add';
-import StaffList from '../components/smp-staff/staff-list';
-import StaffAdd from '../components/smp-staff/staff-add';
-import StaffEdit from '../components/smp-staff/staff-edit';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
 import StudentDetails from '../components/smp-students/student-details';
-import SessionDetails from '../components/smp-session/session-details';
-import SessionEdit from '../components/smp-session/session-edit';
-import SessionClassDetails from '../components/spm-class/session-class-details';
 import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
 import EnrolledStudents from '../components/smp-enrollment/enrolled-student-list';
 import StaffDetails from '../components/smp-staff/staff-details';
@@ -36,6 +19,24 @@ import PromotionSetup from '../components/smp-session/promotion-list';
 import PromotionPassedList from '../components/smp-session/promotion-passed-list';
 import PromotionFailedList from '../components/smp-session/promotion-failed-list';
 import GradeSetting from '../components/smp-grade-setting/grade-setting';
+import ScoreEntry from '../components/smp-result-management/score-entry';
+import ClassSetupAdd from '../components/smp-session/class-setup-add';
+import ClassSetupList from '../components/smp-session/class-setup-list';
+import ClassSetupEdit from '../components/smp-session/class-setup-edit';
+import SubjectSetupList from '../components/smp-session/subject-setup-list';
+import SubjectSetupEdit from '../components/smp-session/subject-setup-edit';
+import SubjectSetupAdd from '../components/smp-session/subject-setup-add';
+import SessionClassList from '../components/smp-session/session-class-list';
+import SessionClassEdit from '../components/smp-session/session-class-edit';
+import SessionClassAdd from '../components/smp-session/session-class-add';
+import SessionClassDetails from '../components/smp-session/session-class-details';
+import SessionClassList2 from '../components/spm-class/session-class-list';
+import SessionList from '../components/smp-session/session-list';
+import SessionAdd from '../components/smp-session/session-add';
+import SessionDetails from '../components/smp-session/session-details';
+import StaffList from '../components/smp-staff/staff-list';
+import StaffAdd from '../components/smp-staff/staff-add';
+import StaffEdit from '../components/smp-staff/staff-edit';
 
 const DashboardRouter = () => {
 
@@ -53,22 +54,26 @@ const DashboardRouter = () => {
                     <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
 
                     {/* class */}
-                    <Route path={classLocations.classSetupList} exact component={ClassSetList} />
-                    <Route path={classLocations.classSetupAdd} exact component={ClassSetupAdd} />
-                    <Route path={classLocations.classSetupEdit} exact component={ClassSetupEdit} />
-                    <Route path={ classLocations.subjectSetupList} exact component={SubjectSetupList} />
-                   <Route path={classLocations.editSubjectSetup} exact component={SubjectSetupEdit} />
-                    <Route path={classLocations.addSubjectSetup} exact component={SubjectSetupAdd} />
-                    <Route path={ classLocations.sessionClassList} exact component={SessionClassList} />
-                   <Route path={classLocations.sessionClassEdit} exact component={SessionClassEdit} />
-                    <Route path={classLocations.sessionClassAdd} exact component={SessionClassAdd} />
-                    <Route path={classLocations.sessionClassDetail} exact component={SessionClassDetails} />
-
+                    <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
+                
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
                     {/* <Route path={sessionLocations.sessionEdit} exact component={SessionEdit} /> */}
                     <Route path={sessionLocations.sessionDetails} exact component={SessionDetails} />
+                    <Route path={sessionLocations.classSetupList} exact component={ClassSetupList} />
+                    <Route path={sessionLocations.classSetupAdd} exact component={ClassSetupAdd} />
+                    <Route path={sessionLocations.classSetupEdit} exact component={ClassSetupEdit} />
+                    <Route path={sessionLocations.subjectSetupList} exact component={SubjectSetupList} />
+                   <Route path={sessionLocations.editSubjectSetup} exact component={SubjectSetupEdit} />
+                    <Route path={sessionLocations.addSubjectSetup} exact component={SubjectSetupAdd} />
+                    <Route path={sessionLocations.sessionClassList} exact component={SessionClassList} />
+                   <Route path={sessionLocations.sessionClassEdit} exact component={SessionClassEdit} />
+                    <Route path={sessionLocations.sessionClassAdd} exact component={SessionClassAdd} />
+                    <Route path={sessionLocations.sessionClassDetail} exact component={SessionClassDetails} />
+                    <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
+                     <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />
+                     <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
 
                     {/* students */}
                     <Route path={studentsLocations.studentList} exact component={StudentList} />
@@ -86,12 +91,11 @@ const DashboardRouter = () => {
                      <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
                      <Route path={enrollment.enrolledStudents} exact component={EnrolledStudents} />
 
-                     {/* {promotioon} */}
-                     <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
-                     <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />
-                     <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />
+
+                      {/* resultManagement */}
+                      <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
 
                 </Switch>
             </CSSTransition>

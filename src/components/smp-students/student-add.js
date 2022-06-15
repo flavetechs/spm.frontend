@@ -50,7 +50,6 @@ const StudentAdd = () => {
   const { isSuccessful, message } = state.student;
   const { itemList } = state.class;
   const { activeSession } = state.session;
-  console.log('activeSession: ', activeSession);
 
   // ACCESSING STATE FROM REDUX STORE
 
