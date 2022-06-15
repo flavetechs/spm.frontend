@@ -34,7 +34,7 @@ const PromotionSetup = () => {
   const locations = useLocation();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [classToPromoteTo, setClassToPromoteTo] = useState({sessionClassId:"", className:""});
+  const [classToPromoteTo, setClassToPromoteTo] = useState({ sessionClassId: "", className: "" });
   const [classToPromote, setClassToPromote] = useState("");
   console.log(' now now  classToPromoteTo', classToPromoteTo);
   //VARIABLE DECLARATIONS
@@ -81,8 +81,8 @@ const PromotionSetup = () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse]);
-console.log("promotion values1",classToPromote )
-console.log("promotion values2",classToPromoteTo.sessionClassId)
+  console.log("promotion values1", classToPromote)
+  console.log("promotion values2", classToPromoteTo.sessionClassId)
   return (
     <>
       <div>
@@ -155,8 +155,8 @@ console.log("promotion values2",classToPromoteTo.sessionClassId)
                               <td className="h4 text-center">
                                 {item.totalStudentsInClass}
                               </td>
-                              <td onClick={() => history.push(`${sessionLocations.promotionPassedList}?sessionClassId=${item.sessionClassId}`)} 
-                              className="h2 text-center" style={{ backgroundColor: '#98FB98', cursor: 'pointer' }}>
+                              <td onClick={() => history.push(`${sessionLocations.promotionPassedList}?sessionClassId=${item.sessionClassId}`)}
+                                className="h2 text-center" style={{ backgroundColor: '#98FB98', cursor: 'pointer' }}>
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -166,21 +166,21 @@ console.log("promotion values2",classToPromoteTo.sessionClassId)
                                   }
                                 >
                                   <div>
-                                  <Link
-                                    className="px-3 h2"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title=""
-                                    data-original-title="Details"
-                                    to={`${sessionLocations.promotionPassedList}?sessionClassId=${item.sessionClassId}`}
-                                  >
+                                    <Link
+                                      className="px-3 h2"
+                                      data-toggle="tooltip"
+                                      data-placement="top"
+                                      title=""
+                                      data-original-title="Details"
+                                      to={`${sessionLocations.promotionPassedList}?sessionClassId=${item.sessionClassId}`}
+                                    >
                                       {item.totalStudentsPassed}
-                                  </Link>
+                                    </Link>
                                   </div>
                                 </OverlayTrigger>
                               </td>
-                              <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`)} 
-                              className="h2 text-center" style={{ backgroundColor: '#FF7C7C', cursor: 'pointer' }}>
+                              <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`)}
+                                className="h2 text-center" style={{ backgroundColor: '#FF7C7C', cursor: 'pointer' }}>
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -190,16 +190,16 @@ console.log("promotion values2",classToPromoteTo.sessionClassId)
                                   }
                                 >
                                   <div>
-                                  <Link
-                                    className="px-3 h2"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title=""
-                                    data-original-title="Details"
-                                    to={`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`}
-                                  >
+                                    <Link
+                                      className="px-3 h2"
+                                      data-toggle="tooltip"
+                                      data-placement="top"
+                                      title=""
+                                      data-original-title="Details"
+                                      to={`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`}
+                                    >
                                       {item.totalStudentsFailed}
-                                  </Link>
+                                    </Link>
                                   </div>
                                 </OverlayTrigger>
                               </td>
@@ -214,15 +214,17 @@ console.log("promotion values2",classToPromoteTo.sessionClassId)
                                     className="form-select"
                                     name="classId"
                                     id="form"
+                                    disabled={item.isPromoted}
                                     onChange={(e) =>
-                                      setClassToPromoteTo({sessionClassId: e.target.value, className:e.target.selectedOptions[0].dataset.tag})
+                                      setClassToPromoteTo({ sessionClassId: e.target.value, className: e.target.selectedOptions[0].dataset.tag })
                                     }
                                   >
                                     <option defaultValue={""}>
                                       Select promotion class
                                     </option>
                                     {classesToPromoteTo
-                                      .slice(idx + 1, classesToPromoteTo.length)
+                                      .slice(idx - 1, classesToPromoteTo.length)
+                                     .filter(d => d.class != item.sessionClassName)
                                       .map((promoteTo, idx) => (
                                         <option
                                           key={idx}
@@ -246,6 +248,7 @@ console.log("promotion values2",classToPromoteTo.sessionClassId)
                                     }
                                   >
                                     <Link
+                                      style={{ visibility: item.isPromoted ? 'hidden' : 'visible' }}
                                       className="btn btn-sm btn-icon btn-success"
                                       data-toggle="tooltip"
                                       data-placement="top"

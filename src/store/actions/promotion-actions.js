@@ -108,6 +108,7 @@ export const promoteStudent = (classToBePromoted, classToPromoteTo) => (dispatch
                 payload: res.data.result
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllPromotionList()(dispatch)
         }).catch(err => {
             console.log('promote student err action', err.response.data.result);
             dispatch({
