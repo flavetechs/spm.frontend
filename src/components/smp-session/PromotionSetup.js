@@ -9,8 +9,6 @@ import {
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Field } from "formik";
-import * as Yup from "yup";
 import {
   respondDialog,
   showErrorToast,
@@ -18,45 +16,25 @@ import {
 } from "../../store/actions/toaster-actions";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
 import { sessionLocations } from "../../router/spm-path-locations";
-import {
-  getAllPromotionList,
-  promoteStudent,
-} from "../../store/actions/promotion-actions";
-import {
-  fetchSingleSession,
-  getActiveSession,
-} from "../../store/actions/session-actions";
+import { getAllPromotionList, promoteStudent } from "../../store/actions/promotion-actions";
+import { getActiveSession } from "../../store/actions/session-actions";
 
 const PromotionSetup = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const locations = useLocation();
-  const [showDeleteButton, setDeleteButton] = useState(true);
-  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [classToPromoteTo, setClassToPromoteTo] = useState({ sessionClassId: "", className: "" });
   const [classToPromote, setClassToPromote] = useState("");
-  console.log(' now now  classToPromoteTo', classToPromoteTo);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { promotionList, selectedIds } = state.promotion;
-  const { selectedItem } = state.session;
+  const { promotionList } = state.promotion;
   const { itemList: classesToPromoteTo } = state.class;
   const { activeSession } = state.session;
-  // console.log('promotionList : ', promotionList);
-  console.log('classesToPromoteTo :', classesToPromoteTo);
   const { dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
-  //VALIDATIONS SCHEMA
-  const validation = Yup.object().shape({
-    classId: Yup.string().required("Start Year is required"),
-  });
-  //VALIDATIONS SCHEMA
-
-  const handlePromotion = (sessionClassId) => { };
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
@@ -81,8 +59,6 @@ const PromotionSetup = () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse]);
-  console.log("promotion values1", classToPromote)
-  console.log("promotion values2", classToPromoteTo.sessionClassId)
   return (
     <>
       <div>
@@ -127,24 +103,6 @@ const PromotionSetup = () => {
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
-                    <Formik
-                      initialValues={{
-                        classId: "",
-                      }}
-                      validationSchema={validation}
-                      onSubmit={(values) => {
-                        promoteStudent(values)(dispatch);
-                      }}
-                    >
-                      {({
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        values,
-                        touched,
-                        errors,
-                        isValid,
-                      }) => (
                         <tbody>
                           {promotionList.map((item, idx) => (
                             <tr key={idx}>
@@ -302,8 +260,6 @@ const PromotionSetup = () => {
                             </tr>
                           ))}
                         </tbody>
-                      )}
-                    </Formik>
                   </table>
                 </div>
               </Card.Body>
