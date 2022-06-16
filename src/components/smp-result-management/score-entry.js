@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
@@ -17,6 +12,7 @@ import {
 } from "../../store/actions/results-actions";
 import SmallTable from "./score-entry-small-table";
 import LargeTable from "./score-entry-large-table";
+import Preview from "./score-entry-preview";
 
 const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
@@ -25,6 +21,7 @@ const ScoreEntry = () => {
   const [indexRow, setIndexRow] = useState("");
   const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
   const [isEditMode, setEditMode] = useState(false);
+  const [isPreviewMode, setPreviewMode] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -32,7 +29,6 @@ const ScoreEntry = () => {
   const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
-  
   //VALIDATION SCHEMA
 
   const validation = Yup.object().shape({
@@ -42,13 +38,14 @@ const ScoreEntry = () => {
   //VALIDATION SCHEMA
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
+    window.onbeforeunload = () => {
+      return "are you sure you want to leave?";
+    };
   }, []);
   React.useEffect(() => {
-   
-    if(scoreEntry){
+    if (scoreEntry) {
       setShowScoresEntryTable(true);
     }
-    
   }, [scoreEntry]);
 
   return (
@@ -69,7 +66,10 @@ const ScoreEntry = () => {
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    getAllClassScoreEntries(values.sessionClassId, values.subjectId)(dispatch); 
+                    getAllClassScoreEntries(
+                      values.sessionClassId,
+                      values.subjectId
+                    )(dispatch);
                   }}
                 >
                   {({
@@ -170,17 +170,25 @@ const ScoreEntry = () => {
 
                 {showScoresEntryTable && (
                   <div>
-                    <SmallTable
-                      scoreEntry={scoreEntry}
-                    />
-                    <LargeTable
-                      validation={validation}
-                      scoreEntry={scoreEntry}
-                      isEditMode={isEditMode}
-                      setEditMode={setEditMode}
-                      setIndexRow={setIndexRow}
-                      indexRow={indexRow}
-                    />
+                    <SmallTable scoreEntry={scoreEntry} />
+                    {!isPreviewMode ? (
+                      <LargeTable
+                        validation={validation}
+                        scoreEntry={scoreEntry}
+                        isEditMode={isEditMode}
+                        setEditMode={setEditMode}
+                        setIndexRow={setIndexRow}
+                        setPreviewMode={setPreviewMode}
+                        indexRow={indexRow}
+                        isPreviewMode={isPreviewMode}
+                      />
+                    ) : (
+                      <Preview
+                        scoreEntry={scoreEntry}
+                        setPreviewMode={setPreviewMode}
+                        isPreviewMode={isPreviewMode}
+                      />
+                    )}
                   </div>
                 )}
               </Card.Body>
