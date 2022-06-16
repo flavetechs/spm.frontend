@@ -1,7 +1,5 @@
 import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
-import { isNumber } from "../../utils/tools";
-import React, { useState } from "react";
 import { setAssessmentScoreEntry, setExamScoreEntry } from "../../store/actions/results-actions";
 import { useDispatch } from "react-redux";
 
@@ -11,30 +9,22 @@ const LargeTable = ({
   isEditMode,
   setEditMode,
   setIndexRow,
+  setPreviewMode,
   indexRow,
+  isPreviewMode,
 }) => {
 
   const dispatch = useDispatch();
 
   return (
-
-
-    <>
+ <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
           <Button
             type="button"
-            className="btn-sm"
-            variant="btn btn-primary"
-            onClick={() => { }}
-          >
-            Save
-          </Button>
-          <Button
-            type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
-            onClick={() => { }}
+            onClick={() => {setPreviewMode(!isPreviewMode);}}
           >
             Preview
           </Button>
@@ -111,12 +101,15 @@ const LargeTable = ({
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className=" fw-bold "
                                 type="text"
+                                maxLength = {scoreEntry?.examsScore}
                                 name={`${item.scoreEntryId}_examScore`}
                                 defaultValue={item.examsScore}
                                
                                 onChange={(e) => {
+                                  if(Number(e.target.value) > e.target.maxLength) {e.target.value = e.target.maxLength}
                                   setFieldValue(`${item.scoreEntryId}_examScore`, e.target.value);
                                 }}
+
                                 onBlur={(e) => {
                                   setExamScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
                                 }}
@@ -137,11 +130,14 @@ const LargeTable = ({
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className="fw-bold"
                                 type="text"
+                                maxLength={scoreEntry?.assessmentScore}
                                 name={`${item.scoreEntryId}_assessmentScore`}
                                 defaultValue={item.assessmentScore}
                                 onChange={(e) => {
+                                  if(Number(e.target.value) > e.target.maxLength) {e.target.value = e.target.maxLength}
                                   setFieldValue(`${item.scoreEntryId}_assessmentScore`, e.target.value);
                                 }}
+
                                 onBlur={(e) => {
                                   setAssessmentScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
                                 }}
