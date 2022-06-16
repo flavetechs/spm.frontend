@@ -22,43 +22,35 @@ const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [item, setItem] = useState({ sessionClassId: "", sessionClass: "" });
-  const [subjectId, setSubjectId] = useState("");
-  const [identifier, setIdentifier] = useState("");
-  const [viewTable, setViewTable] = useState(false);
-  const [editClick, setEditClick] = useState(false);
+  const [indexRow, setIndexRow] = useState("");
+  const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
+  const [isEditMode, setEditMode] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, scoreEntries } = state.results;
+  const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
+  
   //VALIDATION SCHEMA
-  Yup.addMethod(Yup.string, "classUnavailable", function (errorMessage) {
-    return this.test(`test-class-availability`, errorMessage, function (value) {
-      const { path, createError } = this;
 
-      return (
-        item.sessionClassId != "" ||
-        createError({ path, message: errorMessage })
-      );
-    });
-  });
   const validation = Yup.object().shape({
     sessionClassId: Yup.string().required("Class is required"),
-    subjectId: Yup.string()
-      .classUnavailable("Kindly select class first")
-      .required("Subject is required"),
+    subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION SCHEMA
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-    getStaffClassSubjects(item.sessionClassId)(dispatch);
-    getAllClassScoreEntries(item.sessionClassId)(dispatch);
-  }, [item.sessionClassId]);
+  }, []);
+  React.useEffect(() => {
+   
+    if(scoreEntry){
+      setShowScoresEntryTable(true);
+    }
+    
+  }, [scoreEntry]);
 
-  console.log("classSubjects", scoreEntries);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -77,7 +69,7 @@ const ScoreEntry = () => {
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    setViewTable(true);
+                    getAllClassScoreEntries(values.sessionClassId, values.subjectId)(dispatch); 
                   }}
                 >
                   {({
@@ -118,14 +110,7 @@ const ScoreEntry = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
-                              setItem({
-                                sessionClassId: e.target.value,
-                                sessionClass:
-                                  e.target.selectedOptions[0].getAttribute(
-                                    "data-tag"
-                                  ),
-                              });
-                              setViewTable(false);
+                              getStaffClassSubjects(e.target.value)(dispatch);
                             }}
                           >
                             <option value="">Select Class</option>
@@ -152,8 +137,6 @@ const ScoreEntry = () => {
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
-                              setSubjectId(e.target.value);
-                              setViewTable(false);
                             }}
                           >
                             <option value="">Select Subject</option>
@@ -185,20 +168,18 @@ const ScoreEntry = () => {
                   )}
                 </Formik>
 
-                {viewTable && (
+                {showScoresEntryTable && (
                   <div>
                     <SmallTable
-                      scoreEntries={scoreEntries}
-                      subjectId={subjectId}
+                      scoreEntry={scoreEntry}
                     />
                     <LargeTable
                       validation={validation}
-                      scoreEntries={scoreEntries}
-                      subjectId={subjectId}
-                      editClick={editClick}
-                      setEditClick={setEditClick}
-                      setIdentifier={setIdentifier}
-                      identifier={identifier}
+                      scoreEntry={scoreEntry}
+                      isEditMode={isEditMode}
+                      setEditMode={setEditMode}
+                      setIndexRow={setIndexRow}
+                      indexRow={indexRow}
                     />
                   </div>
                 )}

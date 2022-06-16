@@ -1,16 +1,24 @@
 import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
+import { isNumber } from "../../utils/tools";
+import React, { useState } from "react";
+import { setAssessmentScoreEntry, setExamScoreEntry } from "../../store/actions/results-actions";
+import { useDispatch } from "react-redux";
 
 const LargeTable = ({
   validation,
-  scoreEntries,
-  subjectId,
-  editClick,
-  setEditClick,
-  setIdentifier,
-  identifier,
+  scoreEntry,
+  isEditMode,
+  setEditMode,
+  setIndexRow,
+  indexRow,
 }) => {
+
+  const dispatch = useDispatch();
+
   return (
+
+
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
@@ -18,7 +26,7 @@ const LargeTable = ({
             type="button"
             className="btn-sm"
             variant="btn btn-primary"
-            onClick={() => {}}
+            onClick={() => { }}
           >
             Save
           </Button>
@@ -26,17 +34,17 @@ const LargeTable = ({
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
-            onClick={() => {}}
+            onClick={() => { }}
           >
             Preview
           </Button>
         </div>
 
         <Formik
-          initialValues={{ examScore: 0, assessment: 0 }}
+          initialValues={{ examScore: 0, assessmentScore: 0 }}
           validationSchema={validation}
           enableReinitialize={true}
-          onSubmit={(values) => {}}
+          onSubmit={(values) => { }}
         >
           {({
             handleSubmit,
@@ -55,101 +63,128 @@ const LargeTable = ({
                   <td className="text-uppercase h6">Exam score</td>
                   <td className="text-uppercase h6">Assessment score</td>
                   <td className="text-uppercase h6 px-2">Is Offered</td>
+                  <td className="text-uppercase h6 px-2">Status</td>
                 </tr>
               </thead>
               <tbody>
-                {scoreEntries
-                  ?.filter((entry) => entry.subjectId == subjectId)
-                  .map((entry, idx) =>
-                    entry.classScoreEntries.map((list, index) => (
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={
-                          !editClick ? (
-                            <Tooltip id="button-tooltip-2">
-                              double click to edit
-                            </Tooltip>
-                          ) : (
-                            <Tooltip id="button-tooltip-2">
-                              double click to close edit
-                            </Tooltip>
-                          )
-                        }
+                {
+                  scoreEntry?.classScoreEntries.map((item, index) => (
+
+                    <OverlayTrigger
+                      key={index}
+                      placement="top"
+                      overlay={!isEditMode ? (
+                        <Tooltip id="button-tooltip-2">
+                          double click to edit
+                        </Tooltip>
+                      ) : (
+                        <Tooltip id="button-tooltip-2">
+                          double click to close edit
+                        </Tooltip>
+                      )
+                      }
+                    >
+                      <tr
+                        style={{ maxHeight: '30px' }}
+                        key={index}
+                        className="text-center"
+                        onDoubleClick={() => {
+                          setEditMode(!isEditMode);
+                          setIndexRow(index);
+                        }}
                       >
-                        <tr
-                          key={index}
-                          className="text-center"
-                          onDoubleClick={() => {
-                            setEditClick(!editClick);
-                            setIdentifier(index);
-                          }}
-                        >
-                          <td className="fw-bold">{index + 1}</td>
-                          <td className="fw-bold text-start">
-                            {list.studentName}
-                          </td>
-                          <td className="fw-bold text-start">
-                            {list.registrationNumber}
-                          </td>
-                          {!editClick ? (
-                            <td className="fw-bold">{list.examsScore}</td>
+                        <td className="fw-bold">{index + 1}</td>
+                        <td className="fw-bold text-start">
+                          {item.studentName}
+                        </td>
+                        <td className="fw-bold text-start">
+                          {item.registrationNumber}
+                        </td>
+
+                        <td className="fw-bold text-center" style={{ maxWidth: '150px' }} >
+
+                          {!isEditMode ? (
+                            <span className="fw-bold">{item.examsScore}</span>
                           ) : (
-                            <td
-                              className="fw-bold text-center"
-                              onDoubleClick={() => {
-                                setEditClick(!editClick);
-                              }}
-                            >
-                              {identifier == index && (
-                                <Field
-                                  className="w-50 text-center"
-                                  type="text"
-                                  name="examScore"
-                                  onChange={(e) => {
-                                    setFieldValue("examScore", e.target.value);
-                                  }}
-                                />
-                              )}
-                            </td>
-                          )}
-                          {!editClick ? (
-                            <td className="fw-bold">{list.assessmentScore}</td>
-                          ) : (
-                            <td
-                              className="fw-bold text-center"
-                              onDoubleClick={() => {
-                                setEditClick(!editClick);
-                              }}
-                            >
-                              {identifier == index && (
-                                <Field
-                                  className="text-center w-50"
-                                  type="text"
-                                  name="assessment"
-                                  onChange={(e) => {
-                                    setFieldValue("assessment", e.target.value);
-                                  }}
-                                />
-                              )}
-                            </td>
-                          )}
-                          <td style={{ width: "5px" }}>
-                            {" "}
-                            {identifier == index && (
+                            indexRow == index ? (
                               <Field
-                                type="checkbox"
-                                className="form-check-input"
-                                checked={
-                                  values.assessment > 0 || values.examScore > 0
-                                }
+                                style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
+                                className=" fw-bold "
+                                type="text"
+                                name={`${item.scoreEntryId}_examScore`}
+                                defaultValue={item.examsScore}
+                               
+                                onChange={(e) => {
+                                  setFieldValue(`${item.scoreEntryId}_examScore`, e.target.value);
+                                }}
+                                onBlur={(e) => {
+                                  setExamScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
+                                }}
                               />
-                            )}
-                          </td>
-                          <td>{/*spinner*/}</td>
-                        </tr>
-                      </OverlayTrigger>
-                    ))
-                  )}
+                            ) : (
+                              <span className="fw-bold">{item.examsScore}</span>
+                            )
+                          )}
+                        </td>
+
+                        <td className="fw-bold text-center" style={{ maxWidth: '150px' }}>
+
+                          {!isEditMode ? (
+                            <span className="fw-bold">{item.assessmentScore}</span>
+                          ) : (
+                            indexRow == index ? (
+                              <Field
+                                style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
+                                className="fw-bold"
+                                type="text"
+                                name={`${item.scoreEntryId}_assessmentScore`}
+                                defaultValue={item.assessmentScore}
+                                onChange={(e) => {
+                                  setFieldValue(`${item.scoreEntryId}_assessmentScore`, e.target.value);
+                                }}
+                                onBlur={(e) => {
+                                  setAssessmentScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
+                                }}
+                              />
+                            ) : (
+                              <span className="fw-bold">{item.assessmentScore}</span>
+                            )
+                          )}
+                        </td>
+
+
+
+                        <td style={{ width: "5px" }}>
+                          {" "}
+                          <Field
+                            type="checkbox"
+                            className="form-check-input"
+                            checked={item.isOffered}
+                          />
+                        </td>
+                        <td>
+
+                          {item.isSaved ?
+                            <span style={{ color: 'green' }}>
+                              <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              </svg>
+                            </span>
+                            : 
+                            <span>
+                              <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21.25 12.0005C21.25 17.1095 17.109 21.2505 12 21.2505C6.891 21.2505 2.75 17.1095 2.75 12.0005C2.75 6.89149 6.891 2.75049 12 2.75049C17.109 2.75049 21.25 6.89149 21.25 12.0005Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M15.4316 14.9429L11.6616 12.6939V7.84692" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </span>}
+                        </td>
+                      </tr>
+
+                    </OverlayTrigger>
+
+                  ))
+                }
               </tbody>
             </Table>
           )}
