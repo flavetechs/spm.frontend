@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { Row, Col, Image, Form, Button } from 'react-bootstrap'
-// import Card from '../../../components/Card'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import Card from '../Card'
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
 // img
 import avatars1 from '../../assets/images/avatars/01.png'
 import avatars2 from '../../assets/images/avatars/avtar_2.png'
@@ -26,9 +24,7 @@ const StaffDetails = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const locations = useLocation();
-    const [images, setImages] = useState([])
     const [image, setImage] = useState(null);
-    const [imageURLs, setImageURLs] = useState([])
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -50,7 +46,6 @@ const StaffDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { isSuccessful, message, selectedItem } = state.staff;
-    console.log("selecteditem", selectedItem);
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -90,25 +85,19 @@ const StaffDetails = () => {
                     }}
                     validationSchema={validation}
                     onSubmit={values => {
-                        console.log(values);
                         updateStaffAccount(values)(dispatch)
                     }}
                 >
                     {({
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        values,
                         touched,
                         errors,
-                        isValid,
                         setFieldValue }) => (
                         <Row>
                             <Col>
                                 <Card>
                                     <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                                         <div className="header-title">
-                                            <h4 className="card-title">Staff Details</h4>
+                                            <h4 className="card-title"><b>Staff Photo</b></h4>
                                         </div>
                                     </div>
                                     <div className="card-body ">
@@ -146,7 +135,7 @@ const StaffDetails = () => {
                                                                 className="file-upload form-control"
                                                                 data-original-title="upload photos"
                                                                 readOnly
-                                                                required
+                                                                disabled={true}
                                                                 onChange={(event) => {
                                                                     setFieldValue(
                                                                         "photo",
@@ -181,7 +170,7 @@ const StaffDetails = () => {
                                 <Card>
                                     <Card.Header className="d-flex justify-content-between">
                                         <div className="header-title">
-                                            <h4 className="card-title"><b>Details of {selectedItem?.firstName} {selectedItem?.lastName}</b></h4>
+                                            <h4 className="card-title"><b>Staff Information</b></h4>
                                         </div>
                                     </Card.Header>
                                     <Card.Body>

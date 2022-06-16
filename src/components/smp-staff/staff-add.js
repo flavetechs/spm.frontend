@@ -98,7 +98,7 @@ const StaffAdd = () => {
                         <Card>
                            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Add New Staff</h4>
+                                 <h4 className="card-title"><b>Add New Staff Photo</b></h4>
                               </div>
                            </div>
                            <div className="card-body ">
@@ -170,7 +170,7 @@ const StaffAdd = () => {
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">New Staff List</h4>
+                                 <h4 className="card-title"><b>Add New Staff Information</b></h4>
                               </div>
                            </Card.Header>
                            <Card.Body>

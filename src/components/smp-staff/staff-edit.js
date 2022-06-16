@@ -7,7 +7,6 @@ import * as Yup from 'yup';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
 // img
 import avatars1 from '../../assets/images/avatars/01.png'
 import avatars2 from '../../assets/images/avatars/avtar_2.png'
@@ -52,7 +51,6 @@ const StaffEdit = () => {
    // ACCESSING STATE FROM REDUX STORE
    const state = useSelector((state) => state);
    const { isSuccessful, message, selectedItem } = state.staff;
-   console.log("selecteditem", selectedItem);
    // ACCESSING STATE FROM REDUX STORE
 
    React.useEffect(() => {
@@ -91,7 +89,6 @@ const StaffEdit = () => {
                }}
                validationSchema={validation}
                onSubmit={values => {
-                  console.log(values);
                   updateStaffAccount(values)(dispatch)
                }}
             >
@@ -109,7 +106,7 @@ const StaffEdit = () => {
                         <Card>
                            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Edit New Staff</h4>
+                                 <h4 className="card-title"><b>Edit Staff Photo</b></h4>
                               </div>
                            </div>
                            <div className="card-body ">
@@ -180,7 +177,7 @@ const StaffEdit = () => {
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Edit Staff Details</h4>
+                                 <h4 className="card-title"><b>Edit Staff Information</b></h4>
                               </div>
                            </Card.Header>
                            <Card.Body>
@@ -213,7 +210,7 @@ const StaffEdit = () => {
                                        </Form.Group>
                                        <Form.Group className="col-md-6  form-group">
                                           <label htmlFor="phone" className="form-label"> <b>Phone No.</b></label>
-                                          <Field type="text" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
+                                          <Field type="tel" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
                                        </Form.Group>
                                        <Form.Group className="col-md-3  form-group">
                                           <label htmlFor="dob" className="form-label"><b>Date of Birth:</b> </label>
@@ -221,7 +218,7 @@ const StaffEdit = () => {
                                        </Form.Group>
                                     </div>
                                     <div className="d-flex justify-content-end">
-                                       <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(staffLocations.staffList) }}>Cancel</Button>{' '}
+                                       <Button type="button" variant="btn btn-danger mx-2" onClick={() => history.goBack()}>Cancel</Button>{' '}
                                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                                     </div>
                                  </div>
