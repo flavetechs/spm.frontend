@@ -67,16 +67,6 @@ const StaffEdit = () => {
       history.push(staffLocations.staffList);
    }
 
-   // React.useEffect(() => {
-   //    if (images.length < 1) return;
-   //    const newImageUrls = [];
-   //    images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
-   //    setImageURLs(newImageUrls)
-   // }, [images])
-
-   // function onImageChanges(e) {
-   //    setImages([...e.target.files])
-   // }
 
    const ImageDisplay = (event) => {
       if (event.target.files[0]) {
@@ -119,7 +109,7 @@ const StaffEdit = () => {
                         <Card>
                            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Add New Staff</h4>
+                                 <h4 className="card-title">Edit New Staff</h4>
                               </div>
                            </div>
                            <div className="card-body ">

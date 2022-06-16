@@ -57,16 +57,6 @@ const StaffAdd = () => {
       history.push(staffLocations.staffList);
    }
 
-   // React.useEffect(() => {
-   //    if (images.length < 1) return;
-   //    const newImageUrls = [];
-   //    images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
-   //    setImageURLs(newImageUrls)
-   // }, [images])
-
-   // function onImageChanges(e) {
-   //    setImages([...e.target.files])
-   // }
 
    const ImageDisplay = (event) => {
       if (event.target.files[0]) {

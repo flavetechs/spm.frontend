@@ -30,9 +30,9 @@ const SmpLoader = () => {
 
     return (
         <>
-            <div class={show ? `overlay show` : `overlay`}></div>
-            <div class={show ? `spanner show` : `spanner`}>
-                <div class="loader"></div>
+            <div className={show ? `overlay show` : `overlay`}></div>
+            <div className={show ? `spanner show` : `spanner`}>
+                <div className="loader"></div>
             </div>
         </>
     )

@@ -4,35 +4,21 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import {
   getAllStudents,
-  pushId,
-  removeId,
-  returnList,
-  deleteStudent,
 } from "../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
-import {
-  respondToDeleteDialog,
-  showErrorToast,
-  showSingleDeleteDialog,
-} from "../../store/actions/toaster-actions";
-import { fetchSingleSession } from "../../store/actions/session-actions";
 import { fetchPassedStudentList } from "../../store/actions/promotion-actions";
-
 
 const PromotionPassedList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const [showDeleteButton, setDeleteButton] = useState(true);
-  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const locations = useLocation();
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { passedStudentList } = state.promotion;
-  console.log('selectedPassed : ', passedStudentList);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {

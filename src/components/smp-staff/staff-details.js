@@ -69,9 +69,9 @@ const StaffDetails = () => {
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
-           setImage(URL.createObjectURL(event.target.files[0]));
+            setImage(URL.createObjectURL(event.target.files[0]));
         }
-     };
+    };
 
     return (
         <>
@@ -108,7 +108,7 @@ const StaffDetails = () => {
                                 <Card>
                                     <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                                         <div className="header-title">
-                                            <h4 className="card-title">Add New Staff</h4>
+                                            <h4 className="card-title">Staff Details</h4>
                                         </div>
                                     </div>
                                     <div className="card-body ">
@@ -145,6 +145,8 @@ const StaffDetails = () => {
                                                                 accept="image/jpeg,image/jpg,image/png"
                                                                 className="file-upload form-control"
                                                                 data-original-title="upload photos"
+                                                                readOnly
+                                                                required
                                                                 onChange={(event) => {
                                                                     setFieldValue(
                                                                         "photo",
