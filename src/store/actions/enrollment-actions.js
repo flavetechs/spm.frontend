@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/enrollment-action-types"
-import { showErrorToast, showSuccessToast } from "./toaster-actions";
+import { respondModal, showErrorToast, showHideModal, showSuccessToast } from "./toaster-actions";
 
 export const pushId = (studentId) => {
     return {
@@ -57,6 +57,8 @@ export const enrollStudent = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             getAllUnenrolledStudents()(dispatch);
+            showHideModal(false)(dispatch)
+            respondModal('cancel')(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -74,13 +76,11 @@ export const getAllenrolledStudents = () => (dispatch) => {
 
     axiosInstance.get('/errollment/api/v1/getall/enrolled')
         .then((res) => {
-            console.log('enrolled res', res);
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
-            console.log('enrolled err', err);
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_FAILED,
                 payload: err.response.data.result
@@ -105,7 +105,6 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
             getAllenrolledStudents()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('unenrolled err', err);
             dispatch({
                 type: actions.UNENROLL_STUDENTS_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -113,6 +112,8 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+
 
 
 

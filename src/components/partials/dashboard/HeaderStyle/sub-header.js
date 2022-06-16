@@ -12,7 +12,9 @@ import topHeader5 from '../../../../assets/images/dashboard/top-header5.png'
 
 // store
 import {NavbarstyleAction, getDirMode, SchemeDirAction,  getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../../../store/setting/setting'
-import {connect} from "react-redux"
+import {connect, useDispatch, useSelector} from "react-redux"
+import { getActiveSession } from '../../../../store/actions/session-actions'
+import { getGeneralActiveSession } from '../../../../store/actions/general-actions'
 
 const mapStateToProps = (state) => {
     return {
@@ -39,6 +41,14 @@ const mapDispatchToProps = dispatch => ({
 
 
 const SubHeader = (props) => {
+// const state = useSelector((state) => state);
+// const dispatch = useDispatch();
+// const { activeSession } = state.appState;
+
+// React.useEffect(() => {
+//     getGeneralActiveSession()(dispatch);
+//     console.log('activeSession', activeSession);
+//   }, [activeSession]);
 
     useEffect(() => {
         // navbarstylemode
@@ -53,7 +63,8 @@ const SubHeader = (props) => {
                         <Col md="12">
                             <div className="d-flex justify-content-between flex-wrap">
                                 <div>
-                                    <h1>Hello Devs!</h1>
+                                    {/* <h1>{activeSession?.termName} TERM {activeSession?.session}</h1> */}
+                                    <h1>We got it</h1>
                                     <p>We are on a mission to help developers like you build successful projects for FREE.</p>
                                 </div>
                                 <div className="d-flex align-items-center">

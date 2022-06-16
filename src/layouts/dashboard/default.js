@@ -20,9 +20,10 @@ import { useHistory } from 'react-router-dom';
 import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
 import { connect } from "react-redux"
 import { authLocations } from '../../router/spm-path-locations'
-import { ErrorToast, SuccessToast } from '../../components/partials/components/toaster/alert'
-import { SingleDeleteDialog } from '../../components/partials/components/toaster/DeleteDialogs'
-import { DecisionDialog } from '../../components/partials/components/toaster/DecisionDialog'
+import { DecisionDialog } from '../../components/partials/components/hoc-tools/decision-dialog'
+import { SingleDeleteDialog } from '../../components/partials/components/hoc-tools/delete-dialogs'
+import { ErrorToast, SuccessToast } from '../../components/partials/components/hoc-tools/alert'
+import SmpLoader from '../../components/loader/smp-loader'
 
 const mapStateToProps = (state) => {
     return {
@@ -96,7 +97,8 @@ const Default = (props) => {
 
     return (
         <>
-            <Loader />
+            {/* <Loader /> */}
+            <SmpLoader />
             <Sidebar />
             <main className="main-content">
                 <div className="position-relative">

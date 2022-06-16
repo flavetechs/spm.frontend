@@ -17,6 +17,7 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { getActiveSession } from "../../store/actions/session-actions";
 const StudentEdit = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -52,6 +53,7 @@ const StudentEdit = () => {
   const state = useSelector((state) => state);
   const { selectedStudent, isSuccessful, message } = state.student;
   const { itemList } = state.class;
+  const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -59,11 +61,12 @@ const StudentEdit = () => {
     const studentAccountId = queryParams.get("studentAccountId");
     if (!studentAccountId) return;
     fetchSingleStudent(studentAccountId)(dispatch);
+    getActiveSession()(dispatch);
   }, []);
 
   React.useEffect(() => {
-    getAllSessionClasses()(dispatch);
-  }, []);
+    getAllSessionClasses(activeSession?.sessionId)(dispatch);
+  }, [activeSession]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
@@ -103,6 +106,11 @@ const StudentEdit = () => {
         }}
         validationSchema={validation}
         onSubmit={(values) => {
+          values.phone = values.phone.toString();
+          values.homePhone = values.homePhone.toString();
+          values.emergencyPhone = values.emergencyPhone.toString();
+          values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
+          values.zipCode = values.zipCode.toString();
           updateStudent(values)(dispatch);
         }}
         enableReinitialize={true}
@@ -320,7 +328,7 @@ const StudentEdit = () => {
                             Mobile Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="phone"
                             id="phone"
                             className="form-control"
@@ -331,7 +339,7 @@ const StudentEdit = () => {
                             Home Phone Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="homePhone"
                             id="homePhone"
                             className="form-control"
@@ -345,7 +353,7 @@ const StudentEdit = () => {
                             Emergency Phone Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
                             className="form-control"
@@ -459,7 +467,7 @@ const StudentEdit = () => {
                             Zip Code:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             id="zipCode"
                             name="zipCode"
                             className="form-control"
@@ -533,7 +541,7 @@ const StudentEdit = () => {
                             Mobile Number:
                           </label>
                           <Field
-                            type="text"
+                            type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
                             className="form-control"

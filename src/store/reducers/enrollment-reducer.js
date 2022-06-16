@@ -1,52 +1,28 @@
 import { _state } from "../states/enrollment-state";
-import { actions } from "../action-types/enrollment-action-types"
+import { actions } from "../action-types/enrollment-action-types";
 export const enrollmentReducer = (state = _state, { type, payload }) => {
-    switch (type) {
-      case actions.PUSH_STUDENT_ID:
-        return {
-          ...state,
-          selectedIds: [...state.selectedIds, payload]
-        }
-      case actions.REMOVE_STUDENT_ID:
-        var filteredIds = filterSelectedIds(state.selectedIds, payload)
-        return {
-          ...state,
-          selectedIds: filteredIds
-        }
-      case actions.RETURN_UNENROLLED_STUDENT_LIST:
-        return {
-            ...state,
-            unenrolledStudents: payload,
-          };
-      case actions.RETURN_ENROLLED_STUDENT_LIST:
-        return {
-            ...state,
-            enrolledStudents: payload,
-          };
-
-        case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
-          return {
-            ...state,
-            loading: true,
-            message: "",
-            isSuccessful: false,
-          };
-        case actions.FETCH_UNENROLLED_STUDENTS_SUCCESS:
-          return {
-            ...state,
-            loading: false,
-            unenrolledStudents: payload,
-          };
-        case actions.FETCH_UNENROLLED_STUDENTS_FAILED:
-          return {
-            ...state,
-            loading: false,
-            message: payload,
-            isSuccessful: false,
-          };
-    
-        
-        
+  switch (type) {
+    case actions.PUSH_STUDENT_ID:
+      return {
+        ...state,
+        selectedIds: [...state.selectedIds, payload],
+      };
+    case actions.REMOVE_STUDENT_ID:
+      var filteredIds = filterSelectedIds(state.selectedIds, payload);
+      return {
+        ...state,
+        selectedIds: filteredIds,
+      };
+    case actions.RETURN_UNENROLLED_STUDENT_LIST:
+      return {
+        ...state,
+        unenrolledStudents: payload,
+      };
+    case actions.RETURN_ENROLLED_STUDENT_LIST:
+      return {
+        ...state,
+        enrolledStudents: payload,
+      };
 
     case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
       return {
@@ -69,6 +45,28 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+    case actions.ENROLL_STUDENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.ENROLL_STUDENT_SUCCESS:
+      return {
+        ...state,
+        selectedIds: [],
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.ENROLL_STUDENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
     case actions.FETCH_ENROLLED_STUDENTS_LOADING:
       return {
         ...state,
@@ -76,14 +74,12 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         message: '',
         isSuccessful: false
       };
-
     case actions.FETCH_ENROLLED_STUDENTS_SUCCESS:
       return {
         ...state,
         loading: false,
         enrolledStudents: payload,
       };
-
     case actions.FETCH_ENROLLED_STUDENTS_FAILED:
       return {
         ...state,
@@ -113,11 +109,11 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
-
-
-
-
-
+    case actions.SHOW_HIDE_CLASS_MODAL:
+      return {
+        ...state,
+        showModal: payload
+      };
 
     default:
       return state
@@ -128,3 +124,4 @@ function filterSelectedIds(arr, value) {
     return ele !== value;
   });
 }
+

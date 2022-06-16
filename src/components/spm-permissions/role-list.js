@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Card from '../Card'
 import {
@@ -277,6 +277,10 @@ const RoleList = () => {
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2"> </Tooltip>}
+                              >
                               <Link
                                 className="btn btn-sm btn-icon btn-success"
                                 data-toggle="tooltip"
@@ -326,7 +330,12 @@ const RoleList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </Link>{" "}
+                              </Link>
+                              </OverlayTrigger>{" "}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
+                              >
                               <Link
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
@@ -367,7 +376,8 @@ const RoleList = () => {
                                     ></path>
                                   </svg>
                                 </span>
-                              </Link>{" "}
+                              </Link>
+                              </OverlayTrigger>
                               {isNotToBeDeleted(item.name) ? (null) : (
 
                                 <Link

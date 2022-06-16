@@ -78,12 +78,12 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({ name, classId, isActive }) => (dispatch) => {
+export const updateClass = ({ name, lookupId, isActive }) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
     const payload = {
-        lookupId: classId,
+        lookupId: lookupId,
         name: name,
         isActive: isActive
     }
@@ -228,12 +228,18 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
 //SUBJECT ACTION HANDLERS
 
 //SESSION CLASS ACTION HANDLERS
-export const getAllSessionClasses = () => (dispatch) => {
+export const getAllSessionClasses = (sessionId) => (dispatch) => {
+
+    if(!sessionId){
+        // showErrorToast('Active Session Not found')(dispatch)
+        return;
+    }
+    
     dispatch({
         type: actions.FETCH_SESSION_CLASS_LOADING
     });
 
-    axiosInstance.get('/class/api/v1/get-all/session-classes')
+    axiosInstance.get(`/class/api/v1/get-all/session-classes${sessionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SESSION_CLASS_SUCCESS,
@@ -267,7 +273,7 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
         });
 }
 
-export const deleteSessionClass = (selectedIds) => (dispatch) => {
+export const deleteSessionClass = (selectedIds, activeSessionId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_CLASS_LOADING
     });
@@ -280,7 +286,7 @@ export const deleteSessionClass = (selectedIds) => (dispatch) => {
                 type: actions.DELETE_SESSION_CLASS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllSessionClasses()(dispatch);
+            getAllSessionClasses(activeSessionId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -335,22 +341,25 @@ export const getAllActiveClasses = () => (dispatch) => {
 //GET ACTIVE CLASSES ACTION  HANDLER
 
 //CLASS SUBJECT IDS//
-export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
-
-    var existingCassSubject = classSubjects.find(er => er.subjectId === subjectId);
+export const buildClassSubjectArray = (examSCore, assessment, subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
+    var existingClassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
-    if(existingCassSubject){
-        if(checkBoxValue){
-            existingCassSubject.subjectId = subjectId;
-            existingCassSubject.subjectTeacherId = subjectTeacherId;
-            classSubjects = [...otherClassSubject, existingCassSubject]
-        }else{
+    if (existingClassSubject) {
+        if (checkBoxValue) {
+            existingClassSubject.subjectId = subjectId;
+            existingClassSubject.subjectTeacherId = subjectTeacherId == "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
+            existingClassSubject.examSCore = examSCore == "" ? existingClassSubject.examSCore : examSCore;
+            existingClassSubject.assessment = assessment == "" ? existingClassSubject.assessment : assessment;
+            classSubjects = [...otherClassSubject, existingClassSubject]
+        } else {
             classSubjects = [...otherClassSubject]
         }
-    }else{
+    } else {
         let newClassSubject = {
             subjectId,
-            subjectTeacherId
+            subjectTeacherId,
+            examSCore,
+            assessment
         }
         classSubjects = [...classSubjects, newClassSubject]
     }
@@ -360,6 +369,13 @@ export const buildClassSubjectArray = (subjectId, subjectTeacherId, classSubject
         payload: classSubjects
     })
 }
+
+export const updateClassSubjects = (examSCore, assessment, classSubjects) => dispatch => {
+ classSubjects = classSubjects.map((subject, idx) => {
+        subject.examSCore = examSCore;
+        subject.assessment = assessment;
+})
+}
 //CLASS SUBJECT IDS//
 
 //GET SINGLE SESSION CLASS
@@ -368,18 +384,18 @@ export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
         type: actions.FETCH_SINGLE_SESSION_CLASS_LOADING,
         payload: sessionClassId
     });
-        axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
-            .then((res) => {
-                dispatch({
-                    type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
-                    payload: res.data.result
-                });
-            }).catch(err => {
-                dispatch({
-                    type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
-                    payload: err.response.data.result
-                })
+    axiosInstance.get(`/class/api/v1/get-single/session-classes/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
+                payload: res.data.result
             });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
 
 }
 

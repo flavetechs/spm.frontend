@@ -14,6 +14,7 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { getActiveSession } from "../../store/actions/session-actions";
 const StudentAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -48,11 +49,17 @@ const StudentAdd = () => {
   const state = useSelector((state) => state);
   const { isSuccessful, message } = state.student;
   const { itemList } = state.class;
+  const { activeSession } = state.session;
+
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllSessionClasses()(dispatch);
+    getActiveSession()(dispatch)
   }, []);
+
+  React.useEffect(() => {
+    getAllSessionClasses(activeSession?.sessionId)(dispatch);
+  }, [activeSession]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
@@ -91,6 +98,11 @@ const StudentAdd = () => {
         validationSchema={validation}
         onSubmit={(values) => {
           console.log("values", values);
+          values.phone = values.phone.toString();
+          values.homePhone = values.homePhone.toString();
+          values.emergencyPhone = values.emergencyPhone.toString();
+          values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
+          values.zipCode = values.zipCode.toString();
           createStudent(values)(dispatch);
         }}
       >
@@ -116,41 +128,38 @@ const StudentAdd = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-      
-                          <div>
-                            <img
-                              src={avatars1}
-                              alt="User-Profile"
-                              className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars2}
-                              alt="User-Profile"
-                              className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars3}
-                              alt="User-Profile"
-                              className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars5}
-                              alt="User-Profile"
-                              className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars6}
-                              alt="User-Profile"
-                              className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars4}
-                              alt="User-Profile"
-                              className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />{" "}
-                          </div>
-                        
-                        
+                        <div>
+                          <img
+                            src={avatars1}
+                            alt="User-Profile"
+                            className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                          />
+                          <img
+                            src={avatars2}
+                            alt="User-Profile"
+                            className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                          />
+                          <img
+                            src={avatars3}
+                            alt="User-Profile"
+                            className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                          />
+                          <img
+                            src={avatars5}
+                            alt="User-Profile"
+                            className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                          />
+                          <img
+                            src={avatars6}
+                            alt="User-Profile"
+                            className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                          />
+                          <img
+                            src={avatars4}
+                            alt="User-Profile"
+                            className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                          />{" "}
+                        </div>
                         <div className="upload-icone bg-primary">
                           <label htmlFor="photo">
                             <svg
@@ -191,13 +200,13 @@ const StudentAdd = () => {
                           <span> allowed</span>
                         </div>
                       </div>
-                      {image?
-                      <img
-                            className=" img-fluid mt-4"
-                            id="displayImg"
-                            src={image}
-                            alt="profile image"
-                          />: null}
+                      {image ?
+                        <img
+                          className=" img-fluid mt-4"
+                          id="displayImg"
+                          src={image}
+                          alt="profile image"
+                        /> : null}
                     </div>
                   </Form>
                 </div>
@@ -217,7 +226,7 @@ const StudentAdd = () => {
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <div className="row">
-                      <Row>
+                        <Row>
                           <div className="col-md-12">
                             {touched.sessionClassId && errors.sessionClassId && (
                               <div className="text-danger">{errors.sessionClassId}</div>
@@ -307,7 +316,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Mobile Number"
-                            type="text"
+                            type="number"
                             name="phone"
                             id="phone"
                             className="form-control"
@@ -319,7 +328,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Home Phone Number"
-                            type="text"
+                            type="number"
                             name="homePhone"
                             id="homePhone"
                             className="form-control"
@@ -334,7 +343,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Emergency Phone Number"
-                            type="text"
+                            type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
                             className="form-control"
@@ -455,7 +464,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Zip Code"
-                            type="text"
+                            type="number"
                             id="zipCode"
                             name="zipCode"
                             className="form-control"
@@ -532,7 +541,7 @@ const StudentAdd = () => {
                           </label>
                           <Field
                             placeholder="Mobile Number"
-                            type="text"
+                            type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
                             className="form-control"
