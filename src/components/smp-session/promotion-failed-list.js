@@ -2,20 +2,8 @@ import React, { useState } from "react";
 import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
-import {
-  getAllStudents,
-  pushId,
-  removeId,
-  returnList,
-  deleteStudent,
-} from "../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
-import {
-  respondToDeleteDialog,
-  showErrorToast,
-  showSingleDeleteDialog,
-} from "../../store/actions/toaster-actions";
 import { fetchFailedStudentList } from "../../store/actions/promotion-actions";
 
 
@@ -23,15 +11,12 @@ const PromotionFailedList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const [showDeleteButton, setDeleteButton] = useState(true);
-  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const locations = useLocation();
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { failedStudentList } = state.promotion;
-  console.log('failedStudentList : ', failedStudentList);
   // ACCESSING STATE FROM REDUX STORE
 
 
@@ -81,7 +66,7 @@ const PromotionFailedList = () => {
                             {student.studentName}
                           </td>
                           <td className="text-center">{student.registrationNumber}</td>
-                          <td className="text-center"><Badge bg="success">{student.status}</Badge></td>
+                          <td className="text-center"><Badge bg="danger">{student.status}</Badge></td>
                           <td className="text-center">
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger
