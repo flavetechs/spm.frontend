@@ -4,75 +4,53 @@ import {
   Col,
   Form,
   Button,
-  Table,
-  OverlayTrigger,
-  Tooltip,
 } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { getActiveSession } from "../../store/actions/session-actions";
-import {
-  fetchSingleSessionClass,
-  getAllActiveSubjects,
-  getAllClassStudents,
-  getAllSessionClasses,
-} from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 import {
+  getAllClassScoreEntries,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../store/actions/results-actions";
+import SmallTable from "./score-entry-small-table";
+import LargeTable from "./score-entry-large-table";
 
 const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [item, setItem] = useState({ sessionClassId: "", sessionClass: "" });
-  const [identifier, setIdentifier] = useState("");
-  const [viewTable, setViewTable] = useState(false);
-  const [editClick, setEditClick] = useState(false);
+  const [indexRow, setIndexRow] = useState("");
+  const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
+  const [isEditMode, setEditMode] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { classSubjects, classStudents } = state.class;
-  const { staffClasses, staffClassSubjects } = state.results;
+  const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
+  
   //VALIDATION SCHEMA
-  Yup.addMethod(Yup.string, "classUnavailable", function (errorMessage) {
-    return this.test(`test-class-availability`, errorMessage, function (value) {
-      const { path, createError } = this;
 
-      return (
-        item.sessionClassId != "" ||
-        createError({ path, message: errorMessage })
-      );
-    });
-  });
   const validation = Yup.object().shape({
     sessionClassId: Yup.string().required("Class is required"),
-    subjectId: Yup.string()
-      .classUnavailable("Kindly select class first")
-      .required("Subject is required"),
+    subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION SCHEMA
-  const setCurrentSubjectScores = (
-    examScore,
-    assessment,
-    studentAccountId
-  ) => {};
-
   React.useEffect(() => {
-    //fetchSingleSessionClass(item.sessionClassId)(dispatch);
     getAllStaffClasses()(dispatch);
-    getStaffClassSubjects(item.sessionClassId)(dispatch);
-    getAllClassStudents(item.sessionClassId)(dispatch);
-  }, [item.sessionClassId]);
+  }, []);
+  React.useEffect(() => {
+   
+    if(scoreEntry){
+      setShowScoresEntryTable(true);
+    }
+    
+  }, [scoreEntry]);
 
-  console.log("classSubjects", item.sessionClassId);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -91,7 +69,7 @@ const ScoreEntry = () => {
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    setViewTable(true);
+                    getAllClassScoreEntries(values.sessionClassId, values.subjectId)(dispatch); 
                   }}
                 >
                   {({
@@ -132,14 +110,7 @@ const ScoreEntry = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
-                              setItem({
-                                sessionClassId: e.target.value,
-                                sessionClass:
-                                  e.target.selectedOptions[0].getAttribute(
-                                    "data-tag"
-                                  ),
-                              });
-                              setViewTable(false);
+                              getStaffClassSubjects(e.target.value)(dispatch);
                             }}
                           >
                             <option value="">Select Class</option>
@@ -166,7 +137,6 @@ const ScoreEntry = () => {
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
-                              setViewTable(false);
                             }}
                           >
                             <option value="">Select Subject</option>
@@ -197,209 +167,20 @@ const ScoreEntry = () => {
                     </Form>
                   )}
                 </Formik>
-                {viewTable && (
+
+                {showScoresEntryTable && (
                   <div>
-                    <Row className="pt-3">
-                      <Table responsive bordered size="sm" className="w-50">
-                        {staffClassSubjects?.map((subject, idx) => (
-                          <tbody key={idx}>
-                            <tr>
-                              <th className="h6">Class Name</th>
-                              <td>{item.sessionClass}</td>
-                            </tr>
-                            <tr>
-                              <th className="h6">Subject Name</th>
-                              <td>{subject.subjectName}</td>
-                            </tr>
-                            <tr>
-                              <th className="h6">Subject Teacher</th>
-                              <td>{subject.subjectTeacherName}</td>
-                            </tr>
-                            <tr>
-                              <th className="h6">Test Score</th>
-                              <td>{subject.assessment}</td>
-                            </tr>
-                            <tr>
-                              <th className="h6">Exam Score</th>
-                              <td>{subject.examSCore}</td>
-                            </tr>
-                          </tbody>
-                        ))}
-                      </Table>
-                    </Row>
-
-                    <Row className="pt-3">
-                      <div className="d-flex justify-content-end">
-                        {/* <Button
-                          type="button"
-                          className="btn-sm mx-2"
-                          variant="btn btn-success"
-                          onClick={() => {
-                            setEditButtonClick(!editButtonClick)
-                          }}
-                        >
-                         {!editButtonClick ? "Edit" : "Close Edit"}
-                        </Button> */}
-                        <Button
-                          type="button"
-                          className="btn-sm"
-                          variant="btn btn-primary"
-                          onClick={() => {}}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          type="button"
-                          className="btn-sm mx-2"
-                          variant="btn btn-success"
-                          onClick={() => {}}
-                        >
-                          Preview
-                        </Button>
-                      </div>
-
-                      <Formik
-                        initialValues={{ examScore: 0, assessment: 0 }}
-                        validationSchema={validation}
-                        enableReinitialize={true}
-                        onSubmit={(values) => {}}
-                      >
-                        {({
-                          handleSubmit,
-                          values,
-                          setFieldValue,
-                          touched,
-                          errors,
-                          isValid,
-                        }) => (
-                          <Table
-                            size="md"
-                            hover
-                            bordered
-                            responsive
-                            className="mt-2"
-                          >
-                            <thead>
-                              <tr className="text-center">
-                                <td className="text-uppercase h6">S/No</td>
-                                <td className="text-uppercase h6">
-                                  Students Full Name
-                                </td>
-                                <td className="text-uppercase h6">
-                                  Student Registration No
-                                </td>
-                                <td className="text-uppercase h6">
-                                  Assessment score
-                                </td>
-                                <td className="text-uppercase h6">
-                                  Exam score
-                                </td>
-                                <td className="text-uppercase h6">
-                                  Is Offered
-                                </td>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {!editClick
-                                ? classStudents?.map((student, index) => (
-                                    <OverlayTrigger
-                                      placement="top"
-                                      overlay={
-                                        <Tooltip id="button-tooltip-2">
-                                          double click to edit
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <tr
-                                        key={index}
-                                        className="text-center"
-                                        onDoubleClick={() => {
-                                          setEditClick(!editClick);
-                                          setIdentifier(index);
-                                        }}
-                                      >
-                                        <td className="fw-bold">{index + 1}</td>
-                                        <td className="fw-bold">{student.firstName} {student.lastName}</td>
-                                        <td className="fw-bold">{student.registrationNumber}</td>
-                                        <td className="fw-bold">{student.assessment}</td>
-                                        <td className="fw-bold">{student.examScore}</td>
-                                      </tr>
-                                    </OverlayTrigger>
-                                  ))
-                                : classStudents?.map((student, index) => (
-                                    <OverlayTrigger
-                                      placement="top"
-                                      overlay={
-                                        <Tooltip id="button-tooltip-2">
-                                          double click to close edit
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <tr
-                                        key={index}
-                                        className="text-center"
-                                        onDoubleClick={() => {
-                                          setEditClick(!editClick);
-                                        }}
-                                      >
-                                        <td className="fw-bold">{index + 1}</td>
-                                        <td className="fw-bold">{`${student.firstName} ${student.lastName}`}</td>
-                                        <td className="fw-bold">{student.registrationNumber}</td>
-                                        <td className="fw-bold">
-                                          {identifier == index && (
-                                            <Field
-                                              className="w-50 text-center"
-                                              type="number"
-                                              name="assessment"
-                                              onChange={(e) => {
-                                                setFieldValue(
-                                                  "assessment",
-                                                  e.target.value
-                                                );
-                                              }}
-                                            />
-                                          )}
-                                        </td>
-                                        <td
-                                          className="fw-bold text-center"
-                                          onDoubleClick={() => {
-                                            setEditClick(!editClick);
-                                          }}
-                                        >
-                                          {identifier == index && (
-                                            <Field
-                                              className="w-50 text-center"
-                                              type="number"
-                                              name="examScore"
-                                              onChange={(e) => {
-                                                setFieldValue(
-                                                  "examScore",
-                                                  e.target.value
-                                                );
-                                              }}
-                                            />
-                                          )}
-                                        </td>
-                                        <td>
-                                          {identifier == index && (
-                                            <Field
-                                              type="checkbox"
-                                              className="form-check-input"
-                                              checked={
-                                                values.assessment > 0 ||
-                                                values.examScore > 0
-                                              }
-                                            />
-                                          )}
-                                        </td>
-                                      </tr>
-                                    </OverlayTrigger>
-                                  ))}
-                            </tbody>
-                          </Table>
-                        )}
-                      </Formik>
-                    </Row>
+                    <SmallTable
+                      scoreEntry={scoreEntry}
+                    />
+                    <LargeTable
+                      validation={validation}
+                      scoreEntry={scoreEntry}
+                      isEditMode={isEditMode}
+                      setEditMode={setEditMode}
+                      setIndexRow={setIndexRow}
+                      indexRow={indexRow}
+                    />
                   </div>
                 )}
               </Card.Body>

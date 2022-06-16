@@ -28,6 +28,7 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
             return {
               ...state,
               loading: true,
+              staffClassSubjects: null
             };
           }
           case actions.FETCH_STAFF_CLASS_SUBJECTS_SUCCESS: {
@@ -45,7 +46,35 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
             };
           }
       
-            
+          case actions.FETCH_CLASS_SCORE_ENTRIES_LOADING: {
+            return {
+              ...state,
+              loading: true,
+              scoreEntry: null
+            };
+          }
+          case actions.FETCH_CLASS_SCORE_ENTRIES_SUCCESS: {
+            return {
+              ...state,
+              loading: false,
+              scoreEntry: payload,
+            };
+          }
+          case actions.FETCH_CLASS_SCORE_ENTRIES_FAILED: {
+            return {
+              ...state,
+              loading: false,
+              scoreEntry: null,
+            };
+          }
+
+          case actions.UPDATE_SCORE_ENTRY: {
+            return {
+              ...state,
+              scoreEntry: payload,
+            };
+          }
+
         default:
             return state
     }
