@@ -5,4 +5,6 @@ export const _state = {
     staffClasses: [],
     staffClassSubjects: null,
     scoreEntry: null,
+    scoreEntryPreview: null,
+    fetchPreviewSuccessful: false,
 }
