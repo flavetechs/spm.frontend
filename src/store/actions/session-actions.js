@@ -30,13 +30,11 @@ export const fetchSingleSession = (sessionId) => dispatch => {
     });
     axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
         .then((res) => {
-            console.log('fetchsinglesession res: ', res);
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
-            console.log('fetchsinglesession err: ', err);
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_FAILED,
                 payload: err.response.data.result
@@ -54,13 +52,11 @@ export const getAllSession = () => (dispatch) => {
 
     axiosInstance.get('session/api/v1/getall')
         .then((res) => {
-            console.log('getall session res: ', res)
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
                 payload: res.data.result
             })
         }).catch((err) => {
-            console.log('getall session err: ', err)
             dispatch({
                 type: actions.FETCH_SESSION_FAILED,
                 payload: err.data.result
@@ -74,14 +70,12 @@ export const createSession = (form) => (dispatch) => {
     });
     axiosInstance.post('/session/api/v1/create', form)
         .then((res) => {
-            console.log('create res: ', res)
             dispatch({
                 type: actions.CREATE_SESSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('create err: ', err)
             dispatch({
                 type: actions.CREATE_SESSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -100,7 +94,6 @@ export const deleteSession = (session) => (dispatch) => {
 
     axiosInstance.post('/session/api/v1/delete', payload)
         .then((res) => {
-            console.log('delete session res: ', res)
             dispatch({
                 type: actions.DELETE_SESSION_SUCCESS,
                 payload: res.data.message.friendlyMessage

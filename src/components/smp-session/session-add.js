@@ -39,7 +39,6 @@ const SessionAdd = () => {
   // ACCESSING STATE FROM REDUX STORE
 
 
-
   if (isSuccessful) {
     history.push(sessionLocations.sessionList);
   }
@@ -94,7 +93,7 @@ const SessionAdd = () => {
                         </Form.Group>
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="headTeacherId" className="form-label"><b>Head of School:</b></label><br />
-                          <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
+                          <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control text-capitalize" data-style="py-0">
                             <option value={''}>Select head of school</option>
                             {activeTeachers.map((teacher, idx) => {
                               return (

@@ -173,7 +173,7 @@ const GradeSetting = () => {
                           <h6 className="pb-2">Grade Group</h6>
                           <Field
                             type="text"
-                            className="form-control fw-bolder"
+                            className="form-control fw-bolder border-secondary"
                             name="gradeGroupName"
                             id="gradeGroupName"
                             aria-describedby="gradeGroupName"
@@ -198,17 +198,18 @@ const GradeSetting = () => {
                                 </Row>
                                 Grade
                               </label>
+                              <div className="d-sm-flex d-md-block">
                               <Field
                                 type="text"
-                                className="form-control w-75 fw-bolder text-secondary"
+                                className="form-control w-75 fw-bolder text-secondary border-secondary"
                                 name="gradeName"
                                 id="gradeName"
                                 aria-describedby="gradeName"
                                 required
                               />
-                              <div>e.g A</div>
+                              <span className="px-sm-2 px-md-0">e.g A</span>
                             </div>
-
+</div>
                             <div className="form-group  col-lg-2">
                               <label
                                 className="form-label d-block h6"
@@ -248,15 +249,17 @@ const GradeSetting = () => {
                                 </Row>
                                 Lower Limit
                               </label>
+                              <div className="d-sm-flex d-md-block">
                               <Field
                                 type="number"
-                                className="form-control w-75 fw-bolder text-secondary"
+                                className="form-control w-75 fw-bolder text-secondary border-secondary"
                                 name="lowerLimit"
                                 id="lowerLimit"
                                 aria-describedby="lowerLimit"
                                 required
                               />
-                              <span>e.g 70</span>
+                              <span className="px-sm-2 px-md-0">e.g 70</span>
+                            </div>
                             </div>
 
                             <div className="form-group col-lg-2">
@@ -273,17 +276,20 @@ const GradeSetting = () => {
                                 </Row>
                                 Remark
                               </label>
+                              <div className="d-sm-flex d-md-block">
                               <Field
                                 type="text"
-                                className="form-control text-secondary fw-bolder w-75"
+                                className="form-control text-secondary fw-bolder w-75 border-secondary"
                                 name="remark"
                                 id="remark"
                                 aria-describedby="remark"
                                 required
                               />
-                              <span>e.g Excellent</span>
+                              <span className="px-sm-2 px-md-0">e.g Excellent</span>
+                            </div>
                             </div>
                           </div>
+
                           <div className="mt-5 d-lg-flex justify-content-end">
                               <Button
                                 type="submit"
@@ -338,9 +344,14 @@ const GradeSetting = () => {
                                       edit
                                     </Button>
 
-                                    <Button bg={'red'}
+                                    <Button
+                                      bg={"red"}
                                       onClick={() => {
-                                        setGradeSetup([...gradeSetups.filter(e => e.gradeName != item.gradeName)]);
+                                        setGradeSetup([
+                                          ...gradeSetups.filter(
+                                            (e) => e.gradeName != item.gradeName
+                                          ),
+                                        ]);
                                       }}
                                       className="btn btn-sm"
                                     >
