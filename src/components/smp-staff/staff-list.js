@@ -255,9 +255,9 @@ const StaffList = () => {
                               idx + 1
                             )}
                           </td>
-                          <td>{item.firstName}</td>
-                          <td>{item.lastName}</td>
-                          <td>{item.middleName} </td>
+                          <td className="text-capitalize">{item.firstName}</td>
+                          <td className="text-capitalize">{item.lastName}</td>
+                          <td className="text-capitalize">{item.middleName} </td>
                           <td>{item.email} </td>
                           <td>{item.phone} </td>
                           <td>

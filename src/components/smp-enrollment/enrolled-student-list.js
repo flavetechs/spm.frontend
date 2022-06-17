@@ -222,7 +222,7 @@ const EnrolledStudents = () => {
                                 }}
                               />
                             ) : idx + 1}</td>
-                          <td>
+                          <td className="text-capitalize">
                             {student.studentName}
                           </td>
                           <td>{student.studentRegNumber}</td>
