@@ -127,7 +127,7 @@ const SessionClassDetails = () => {
                         setDisplayStudentsTable(false);
                       }}
                     >
-                      Subjects in class
+                      Subjects
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">
@@ -142,7 +142,7 @@ const SessionClassDetails = () => {
                         setDisplayStudentsTable(true);
                       }}
                     >
-                      Students in class
+                      Students
                     </button>
                   </li>
                 </ul>
@@ -155,7 +155,7 @@ const SessionClassDetails = () => {
                     }
                     role="tabpanel"
                   >
-                    <Table bordered size="sm">
+                    <Table responsive bordered size="sm">
                       <tbody>
                         <tr>
                           <th>
