@@ -191,7 +191,6 @@ const SessionClassEdit = () => {
     )(dispatch);
   };
   //HANDLER FUNCTIONS
-  console.log("selectedItem", selectedItem);
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -213,8 +212,6 @@ const SessionClassEdit = () => {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
-
-                    console.log("values", values)
                     updateSessionClass(values)(dispatch);
                   }}
                 >
@@ -455,7 +452,7 @@ const SessionClassEdit = () => {
                               as="select"
                               type="select"
                               name="formTeacherId"
-                              className="form-select"
+                              className="form-select text-capitalize"
                               id="formTeacherId"
                               onChange={(event) =>
                                 setFieldValue("formTeacherId", event.target.value)
@@ -508,7 +505,7 @@ const SessionClassEdit = () => {
                                   type="checkbox"
                                   id="subjectId"
                                   name="subjectId"
-                                  className="form-check-input"
+                                  className="form-check-input text-capitalize"
                                   checked={
                                     classSubjects.find(
                                       (sub) =>
@@ -600,7 +597,7 @@ const SessionClassEdit = () => {
                               <td style={{ width: "30%" }}>
                                 <select
                                   name="subjectTeacherId"
-                                  className="form-select"
+                                  className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
                                     getSubjectTeacherId(

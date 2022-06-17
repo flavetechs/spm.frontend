@@ -420,7 +420,7 @@ const SessionClassAdd = () => {
                             <Field
                               as="select"
                               name="formTeacherId"
-                              className="form-select"
+                              className="form-select text-capitalize"
                               id="formTeacherId"
                               onChange={(event) =>
                                 setFieldValue(
@@ -473,7 +473,7 @@ const SessionClassAdd = () => {
                         <tbody>
                           {activeSubjects.map((subject, idx) => (
                             <tr key={idx}>
-                              <td style={{ width: "50%" }}>
+                              <td style={{ width: "50%" }} className='text-capitalize'>
                                 {" "}
                                 <Field
                                   type="checkbox"
@@ -566,7 +566,7 @@ const SessionClassAdd = () => {
                               <td style={{ width: "30%" }}>
                                 <select
                                   name="subjectTeacherId"
-                                  className="form-select"
+                                  className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
                                     getSubjectTeacherId(
