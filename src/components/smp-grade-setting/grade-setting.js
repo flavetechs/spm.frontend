@@ -15,8 +15,7 @@ import { showErrorToast } from "../../store/actions/toaster-actions";
 const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { prevGradesList, message, isSuccessful } =
-    state.grade;
+  const { prevGradesList, message, isSuccessful } = state.grade;
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS
@@ -59,7 +58,6 @@ const GradeSetting = () => {
     setGradeToEdit({});
     setSelectedClassids([]);
   }, [isSuccessful]);
-
 
   const selectedGrade = (selected = null) => {
     if (selected) {
@@ -199,17 +197,17 @@ const GradeSetting = () => {
                                 Grade
                               </label>
                               <div className="d-sm-flex d-md-block">
-                              <Field
-                                type="text"
-                                className="form-control w-75 fw-bolder text-secondary border-secondary"
-                                name="gradeName"
-                                id="gradeName"
-                                aria-describedby="gradeName"
-                                required
-                              />
-                              <span className="px-sm-2 px-md-0">e.g A</span>
+                                <Field
+                                  type="text"
+                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
+                                  name="gradeName"
+                                  id="gradeName"
+                                  aria-describedby="gradeName"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">e.g A</span>
+                              </div>
                             </div>
-</div>
                             <div className="form-group  col-lg-2">
                               <label
                                 className="form-label d-block h6"
@@ -250,16 +248,16 @@ const GradeSetting = () => {
                                 Lower Limit
                               </label>
                               <div className="d-sm-flex d-md-block">
-                              <Field
-                                type="number"
-                                className="form-control w-75 fw-bolder text-secondary border-secondary"
-                                name="lowerLimit"
-                                id="lowerLimit"
-                                aria-describedby="lowerLimit"
-                                required
-                              />
-                              <span className="px-sm-2 px-md-0">e.g 70</span>
-                            </div>
+                                <Field
+                                  type="number"
+                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
+                                  name="lowerLimit"
+                                  id="lowerLimit"
+                                  aria-describedby="lowerLimit"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">e.g 70</span>
+                              </div>
                             </div>
 
                             <div className="form-group col-lg-2">
@@ -277,28 +275,30 @@ const GradeSetting = () => {
                                 Remark
                               </label>
                               <div className="d-sm-flex d-md-block">
-                              <Field
-                                type="text"
-                                className="form-control text-secondary fw-bolder w-75 border-secondary"
-                                name="remark"
-                                id="remark"
-                                aria-describedby="remark"
-                                required
-                              />
-                              <span className="px-sm-2 px-md-0">e.g Excellent</span>
-                            </div>
+                                <Field
+                                  type="text"
+                                  className="form-control text-secondary fw-bolder w-75 border-secondary"
+                                  name="remark"
+                                  id="remark"
+                                  aria-describedby="remark"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">
+                                  e.g Excellent
+                                </span>
+                              </div>
                             </div>
                           </div>
 
                           <div className="mt-5 d-lg-flex justify-content-end">
-                              <Button
-                                type="submit"
-                                className=" btn-sm"
-                                onSubmit={handleSubmit}
-                              >
-                                Save
-                              </Button>
-                            </div>
+                            <Button
+                              type="submit"
+                              className=" btn-sm"
+                              onSubmit={handleSubmit}
+                            >
+                              Save
+                            </Button>
+                          </div>
                           <hr />
 
                           <Table size="sm" bordered responsive>
