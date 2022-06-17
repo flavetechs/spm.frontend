@@ -89,6 +89,7 @@ const StaffEdit = () => {
                }}
                validationSchema={validation}
                onSubmit={values => {
+                  console.log(values);
                   updateStaffAccount(values)(dispatch)
                }}
             >
@@ -210,7 +211,7 @@ const StaffEdit = () => {
                                        </Form.Group>
                                        <Form.Group className="col-md-6  form-group">
                                           <label htmlFor="phone" className="form-label"> <b>Phone No.</b></label>
-                                          <Field type="tel" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
+                                          <Field type="text" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
                                        </Form.Group>
                                        <Form.Group className="col-md-3  form-group">
                                           <label htmlFor="dob" className="form-label"><b>Date of Birth:</b> </label>
