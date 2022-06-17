@@ -39,7 +39,6 @@ export const fetchSingleStaff = (teacherAccountId) => dispatch => {
     });
         axiosInstance.get(`/tercher/api/v1/get-single/${teacherAccountId}`)
             .then((res) => {
-                console.log("res", res.data)
                 dispatch({
                     type: actions.FETCH_SINGLE_STAFF_SUCCESS,
                     payload: res.data.result
@@ -61,13 +60,11 @@ export const getAllStaffAccount = () => (dispatch) => {
 
     axiosInstance.get('/tercher/api/v1/getall/teachers')
         .then((res) => {
-            console.log('staff get all res: ', res)
             dispatch({
                 type: actions.FETCH_STAFFACCOUNT_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
-            console.log('staff get all err: ', err)
             dispatch({
                 type: actions.FETCH_STAFFACCOUNT_FAILED,
                 payload: err.response.data.result
@@ -81,14 +78,12 @@ export const createStaffAccount = (staff) => (dispatch) => {
     });
     axiosInstance.post('/create/teacher', staff)
         .then((res) => {
-            console.log('staff create all res: ', res)
             dispatch({
                 type: actions.CREATE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('staff create all err: ', err)
             dispatch({
                 type: actions.CREATE_STAFFACCOUNT_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -107,7 +102,6 @@ export const deleteStaffAccount = (teacherUserAccountId) => (dispatch) => {
 
     axiosInstance.post('/tercher/api/v1/delete/teacher', payload)
         .then((res) => {
-            console.log('delete all res: ', res)
             dispatch({
                 type: actions.DELETE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
@@ -115,7 +109,6 @@ export const deleteStaffAccount = (teacherUserAccountId) => (dispatch) => {
             getAllStaffAccount()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('delete all err: ', err)
             dispatch({
                 type: actions.DELETE_STAFFACCOUNT_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -131,14 +124,12 @@ export const updateStaffAccount = (teacherAccountId) => (dispatch) => {
     
     axiosInstance.post('/update/teacher', teacherAccountId)
         .then((res) => {
-            console.log('update action res', res);
             dispatch({
                 type: actions.UPDATE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('update action err', err);
             dispatch({
                 type: actions.UPDATE_STAFFACCOUNT_FAILED,
                 payload: err.response.data.message.friendlyMessage

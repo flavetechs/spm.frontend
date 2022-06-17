@@ -117,7 +117,7 @@ const StudentDetails = () => {
                       <p>Last Name: <span className="h6">{selectedStudent?.lastName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Middle Name: <span className="h6">{selectedStudent?.middleName}</span></p>
+                      <p>Middle Name: <span className="h6 text-capitalize">{selectedStudent?.middleName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>Mobile Number: <span className="h6">{selectedStudent?.phone}</span></p>
@@ -132,24 +132,24 @@ const StudentDetails = () => {
                       </p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>Email Address: <span className="h6">{selectedStudent?.userName}</span></p>
+                      <p>Email Address: <span className="h6 text-capitalize">{selectedStudent?.userName}</span></p>
                     </div>
                     <div className="col-md-6  form-group">
                       <p>Date Of Birth: <span className="h6">{selectedStudent?.dob}</span></p>
                     </div>
                     <div className="col-sm-6 form-group">
-                      <p>Home Address: <span className="h6">{selectedStudent?.homeAddress}</span></p>
+                      <p>Home Address: <span className="h6 text-capitalize">{selectedStudent?.homeAddress}</span></p>
                     </div>
                     <div className="col-md-6  form-group">
-                      <p>City: <span className="h6">{selectedStudent?.cityId}</span></p>
+                      <p>City: <span className="h6 text-capitalize">{selectedStudent?.cityId}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
-                      <p>State: <span className="h6">{selectedStudent?.stateId}</span></p>
+                      <p>State: <span className="h6 text-capitalize">{selectedStudent?.stateId}</span></p>
                     </div>
-                    <div className="col-md-6 form-group">
-                      <p>Country: <span className="h6">{selectedStudent?.countryId}</span></p>
+                    <div className="col-md-6 form-group text-capitalize">
+                      <p>Country: <span className="h6 text-capitalize">{selectedStudent?.countryId}</span></p>
                     </div>
-                    <div className="col-md-6 form-group">
+                    <div className="col-md-6 form-group text-capitalize">
                       <p>Zip Code: <span className="h6">{selectedStudent?.zipCode}</span></p>
                     </div>
                   </div>
@@ -157,12 +157,12 @@ const StudentDetails = () => {
                   <h5 className="mb-3">Parent/Guardian(s) Information</h5>
                   <div className="row">
                     <div className="col-md-6 form-group">
-                      <p>Name: <span className="h6">{selectedStudent?.parentOrGuardianName}</span></p>
+                      <p>Name: <span className="h6 text-capitalize">{selectedStudent?.parentOrGuardianName}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
                       <p>
                         Relationship:{" "}
-                        <span className="h6">{selectedStudent?.parentOrGuardianRelationship}</span>
+                        <span className="h6 text-capitalize">{selectedStudent?.parentOrGuardianRelationship}</span>
                       </p>
                     </div>
                     <div className="col-md-6 form-group">

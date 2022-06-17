@@ -7,7 +7,6 @@ import * as Yup from 'yup';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
 // img
 import avatars1 from '../../assets/images/avatars/01.png'
 import avatars2 from '../../assets/images/avatars/avtar_2.png'
@@ -107,7 +106,7 @@ const StaffEdit = () => {
                         <Card>
                            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Edit New Staff</h4>
+                                 <h4 className="card-title"><b>Edit Staff Photo</b></h4>
                               </div>
                            </div>
                            <div className="card-body ">
@@ -178,7 +177,7 @@ const StaffEdit = () => {
                         <Card>
                            <Card.Header className="d-flex justify-content-between">
                               <div className="header-title">
-                                 <h4 className="card-title">Edit Staff Details</h4>
+                                 <h4 className="card-title"><b>Edit Staff Information</b></h4>
                               </div>
                            </Card.Header>
                            <Card.Body>
@@ -219,7 +218,7 @@ const StaffEdit = () => {
                                        </Form.Group>
                                     </div>
                                     <div className="d-flex justify-content-end">
-                                       <Button type="button" variant="btn btn-danger mx-2" onClick={() => { history.push(staffLocations.staffList) }}>Cancel</Button>{' '}
+                                       <Button type="button" variant="btn btn-danger mx-2" onClick={() => history.goBack()}>Cancel</Button>{' '}
                                        <Button type="button" variant="btn btn-primary" onClick={handleSubmit}>Submit</Button>
                                     </div>
                                  </div>
