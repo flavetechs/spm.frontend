@@ -8,8 +8,6 @@ import {
   createGradeSetting,
   getAllGradeClasses,
   getPreviousGrades,
-  newClassListState,
-  updateClassListState,
   updateGradeSetting,
 } from "../../store/actions/grade-setting-actions";
 import { showErrorToast } from "../../store/actions/toaster-actions";
@@ -17,8 +15,7 @@ import { showErrorToast } from "../../store/actions/toaster-actions";
 const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { classList, prevGradesList, newClassList, message, isSuccessful } =
-    state.grade;
+  const { prevGradesList, message, isSuccessful } = state.grade;
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS
@@ -60,17 +57,7 @@ const GradeSetting = () => {
     setGradeSetup([]);
     setGradeToEdit({});
     setSelectedClassids([]);
-  }, [isSuccessful, classList]);
-
-  const pushSelectedClassId = (event, sessionClassId) => {
-    if (event.target.checked) {
-      setSelectedClassids([...selectedClassIds, sessionClassId]);
-    } else {
-      setSelectedClassids([
-        ...selectedClassIds.filter((id) => id !== sessionClassId),
-      ]);
-    }
-  };
+  }, [isSuccessful]);
 
   const selectedGrade = (selected = null) => {
     if (selected) {
@@ -122,8 +109,6 @@ const GradeSetting = () => {
     setSelectedClassids([...selectedClassIds, ...checkedClasses]);
   };
   const handleEditClick = (item) => {
-    newClassListState(item.classes)(dispatch);
-    updateClassListState(item.classes)(dispatch);
     setgGroupId(item.gradeGroupId);
     setgGroupName(item.gradeGroupName);
     setGradeSetup(item.grades);
@@ -180,8 +165,8 @@ const GradeSetting = () => {
                   {({ handleSubmit, touched, errors }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
-                      <Row className="border p-3 px-4 d-lg-flex d-sm-block">
-                        <Col className="">
+                      <Row className="border p-3 px-4 d-sm-block">
+                        <Col sm="12" lg="11">
                           {/* {(touched.gradeGroupName && errors.gradeGroupName) && <div className='text-danger'>{errors.gradeGroupName}</div>} */}
                           <h6 className="pb-2">Grade Group</h6>
                           <Field
@@ -193,61 +178,11 @@ const GradeSetting = () => {
                             required
                             placeholder="Enter grade group name"
                           />
-
-                          {classList.map((classItem, idx) => (
-                            <div
-                              className="mt-3 col-md-9 d-flex justify-content-between form-group "
-                              key={idx}
-                            >
-                              <div className="form-control fw-bolder border-secondary text-secondary  w-75 pt-1 text-center">
-                                {classItem.className}
-                              </div>
-
-                              <input
-                                type="checkbox"
-                                id="customCheck1"
-                                className="form-check-input px-3 border-secondary"
-                                style={{ height: "30px" }}
-                                onChange={(e) => {
-                                  pushSelectedClassId(
-                                    e,
-                                    classItem.sessionClassId
-                                  );
-                                }}
-                              />
-                            </div>
-                          ))}
-
-                          {gGroupId &&
-                            newClassList.map((newClass, idx) => (
-                              <div
-                                className="mt-3 col-md-9 d-flex justify-content-between form-group "
-                                key={idx}
-                              >
-                                <div className="form-control  fw-bolder border-secondary text-secondary w-75 pt-1 text-center">
-                                  {newClass.className}
-                                </div>
-
-                                <input
-                                  type="checkbox"
-                                  id="customCheck1"
-                                  className="form-check-input px-3 border-secondary"
-                                  style={{ height: "30px" }}
-                                  defaultChecked={true}
-                                  onChange={(e) => {
-                                    pushSelectedClassId(
-                                      e,
-                                      newClass.sessionClassId
-                                    );
-                                  }}
-                                />
-                              </div>
-                            ))}
                         </Col>
 
-                        <Col className="pt-md-3 pt-sm-3 pt-lg-0">
+                        <Col className="pt-4">
                           <div className="d-md-flex justify-content-around">
-                            <div className="form-group">
+                            <div className="form-group col-lg-1">
                               <label
                                 className="form-label d-block h6"
                                 htmlFor="gradeName"
@@ -262,18 +197,18 @@ const GradeSetting = () => {
                                 Grade
                               </label>
                               <div className="d-sm-flex d-md-block">
-                              <Field
-                                type="text"
-                                className="form-control w-75 fw-bolder text-secondary border-secondary"
-                                name="gradeName"
-                                id="gradeName"
-                                aria-describedby="gradeName"
-                                required
-                              />
-                              <span className="px-sm-2 px-md-0">e.g A</span>
+                                <Field
+                                  type="text"
+                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
+                                  name="gradeName"
+                                  id="gradeName"
+                                  aria-describedby="gradeName"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">e.g A</span>
+                              </div>
                             </div>
-</div>
-                            <div className="form-group">
+                            <div className="form-group  col-lg-2">
                               <label
                                 className="form-label d-block h6"
                                 htmlFor="upperLimit"
@@ -287,19 +222,18 @@ const GradeSetting = () => {
                                 </Row>
                                 Upper Limit
                               </label>
-                              <div className="d-sm-flex d-md-block">
-                                <Field
-                                  type="number"
-                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
-                                  name="upperLimit"
-                                  id="upperLimit"
-                                  aria-describedby="upperLimit"
-                                  required
-                                />
-                                <span className="px-sm-2 px-md-0">e.g 90</span>
-                              </div>
+                              <Field
+                                type="number"
+                                className="form-control w-75 fw-bolder text-secondary col-lg-1 border-secondary"
+                                name="upperLimit"
+                                id="upperLimit"
+                                aria-describedby="upperLimit"
+                                required
+                              />
+                              <span>e.g 90</span>
                             </div>
-                            <div className="form-group">
+
+                            <div className="form-group col-lg-2">
                               <label
                                 className="form-label d-block h6"
                                 htmlFor="lowerLimit"
@@ -314,18 +248,19 @@ const GradeSetting = () => {
                                 Lower Limit
                               </label>
                               <div className="d-sm-flex d-md-block">
-                              <Field
-                                type="number"
-                                className="form-control w-75 fw-bolder text-secondary border-secondary"
-                                name="lowerLimit"
-                                id="lowerLimit"
-                                aria-describedby="lowerLimit"
-                                required
-                              />
-                              <span className="px-sm-2 px-md-0">e.g 70</span>
+                                <Field
+                                  type="number"
+                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
+                                  name="lowerLimit"
+                                  id="lowerLimit"
+                                  aria-describedby="lowerLimit"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">e.g 70</span>
+                              </div>
                             </div>
-                            </div>
-                            <div className="form-group">
+
+                            <div className="form-group col-lg-2">
                               <label
                                 className="form-label d-block h6"
                                 htmlFor="remark"
@@ -340,26 +275,29 @@ const GradeSetting = () => {
                                 Remark
                               </label>
                               <div className="d-sm-flex d-md-block">
-                              <Field
-                                type="text"
-                                className="form-control text-secondary fw-bolder border-secondary"
-                                name="remark"
-                                id="remark"
-                                aria-describedby="remark"
-                                required
-                              />
-                              <span className="px-sm-2 px-md-0">e.g Excellent</span>
+                                <Field
+                                  type="text"
+                                  className="form-control text-secondary fw-bolder w-75 border-secondary"
+                                  name="remark"
+                                  id="remark"
+                                  aria-describedby="remark"
+                                  required
+                                />
+                                <span className="px-sm-2 px-md-0">
+                                  e.g Excellent
+                                </span>
+                              </div>
                             </div>
-                            </div>
-                            <div className="mt-5 ml-5">
-                              <Button
-                                type="submit"
-                                className="mt-5 btn-sm"
-                                onSubmit={handleSubmit}
-                              >
-                                Save
-                              </Button>
-                            </div>
+                          </div>
+
+                          <div className="mt-5 d-lg-flex justify-content-end">
+                            <Button
+                              type="submit"
+                              className=" btn-sm"
+                              onSubmit={handleSubmit}
+                            >
+                              Save
+                            </Button>
                           </div>
                           <hr />
 
@@ -401,7 +339,7 @@ const GradeSetting = () => {
                                       onClick={() => {
                                         selectedGrade(item);
                                       }}
-                                      className="btn btn-sm bt-primary"
+                                      className="btn btn-sm bt-primary mx-1"
                                     >
                                       edit
                                     </Button>

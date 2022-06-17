@@ -94,16 +94,3 @@ export const updateGradeSetting = (values) => (dispatch) => {
         showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
       });
   };
-
-export const newClassListState = (classes) => (dispatch) => { 
-    dispatch({
-        type: actions.NEW_CLASS_STATE,
-        payload: classes,
-      });
-   }
-   export const updateClassListState = (classes) => (dispatch) => { 
-  dispatch({
-    type: actions.UPDATE_CLASS_STATE,
-    payload: classes,
-  });
-}
