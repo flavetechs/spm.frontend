@@ -500,7 +500,7 @@ const SessionClassAdd = () => {
                                     className="form-control px-1"
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
-                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examScore}
+                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
