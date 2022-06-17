@@ -6,7 +6,6 @@ import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import {
   createGradeSetting,
-  getAllGradeClasses,
   getPreviousGrades,
   updateGradeSetting,
 } from "../../store/actions/grade-setting-actions";
@@ -22,7 +21,6 @@ const GradeSetting = () => {
   const ref = useRef();
   const dispatch = useDispatch();
   const [gGroupId, setgGroupId] = useState("");
-  const [selectedClassIds, setSelectedClassids] = useState([]);
   const [gradeSetups, setGradeSetup] = useState([]);
   const [gGroupName, setgGroupName] = useState("");
   const [gradeToEdit, setGradeToEdit] = useState(null);
@@ -46,7 +44,6 @@ const GradeSetting = () => {
   //VALIDATIONS SCHEMA
 
   React.useEffect(() => {
-    getAllGradeClasses()(dispatch);
     getPreviousGrades()(dispatch);
   }, [isSuccessful]);
 
@@ -56,7 +53,6 @@ const GradeSetting = () => {
     selectedGrade(null);
     setGradeSetup([]);
     setGradeToEdit({});
-    setSelectedClassids([]);
   }, [isSuccessful]);
 
   const selectedGrade = (selected = null) => {
@@ -74,11 +70,6 @@ const GradeSetting = () => {
   };
 
   const submitGradeSetting = () => {
-    if (selectedClassIds.length === 0) {
-      showErrorToast("No Classes Selected")(dispatch);
-      return;
-    }
-
     if (gradeSetups.length === 0) {
       showErrorToast("No Grade added")(dispatch);
       return;
@@ -88,7 +79,6 @@ const GradeSetting = () => {
       const payload = {
         gradeGroupName: gGroupName,
         grades: gradeSetups,
-        classes: selectedClassIds,
       };
       createGradeSetting(payload)(dispatch);
     } else {
@@ -96,32 +86,24 @@ const GradeSetting = () => {
         gradeGroupId: gGroupId,
         gradeGroupName: gGroupName,
         grades: gradeSetups,
-        classes: selectedClassIds,
       };
       updateGradeSetting(updatePayload)(dispatch);
     }
-    setSelectedClassids([]);
   };
-  const handleDefaultChecked = (classes) => {
-    let checkedClasses = classes.map((item, id) =>
-      item.sessionClassId.toString()
-    );
-    setSelectedClassids([...selectedClassIds, ...checkedClasses]);
-  };
+
   const handleEditClick = (item) => {
     setgGroupId(item.gradeGroupId);
     setgGroupName(item.gradeGroupName);
     setGradeSetup(item.grades);
     setGradeToEdit(null);
-    handleDefaultChecked(item.classes);
     window.scrollTo(0, 0);
   };
 
   return (
     <>
       <div>
-        <Row>
-          <Col sm="12">
+        <Row className="d-flex justify-content-center">
+          <Col sm="12" lg="10">
             <Card className="p-2">
               <Card.Body id="form">
                 <Formik
