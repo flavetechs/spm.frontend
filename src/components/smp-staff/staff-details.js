@@ -7,7 +7,6 @@ import * as Yup from 'yup';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
 // img
 import avatars1 from '../../assets/images/avatars/01.png'
 import avatars2 from '../../assets/images/avatars/avtar_2.png'
@@ -50,7 +49,6 @@ const StaffDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { isSuccessful, message, selectedItem } = state.staff;
-    console.log("selecteditem", selectedItem);
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -90,7 +88,6 @@ const StaffDetails = () => {
                     }}
                     validationSchema={validation}
                     onSubmit={values => {
-                        console.log(values);
                         updateStaffAccount(values)(dispatch)
                     }}
                 >
@@ -198,7 +195,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
                                                         <Field type="text"
-                                                            className="form-control"
+                                                            className="form-control text-capitalize"
                                                             name="firstName" id="firstName"
                                                             aria-describedby="name"
                                                             value={selectedItem?.firstName}
@@ -209,7 +206,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="lastName" className="form-label"> <b>Last Name:</b></label>
                                                         <Field type="text"
-                                                            className="form-control"
+                                                            className="form-control text-capitalize"
                                                             name="lastName" id="lastName"
                                                             aria-describedby="name"
                                                             value={selectedItem?.lastName}
@@ -219,7 +216,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="middleName" className="form-label"> <b>Middle Name:</b></label>
                                                         <Field type="text"
-                                                            className="form-control"
+                                                            className="form-control text-capitalize"
                                                             name="middleName" id="middleName"
                                                             aria-describedby="name"
                                                             value={selectedItem?.middleName}

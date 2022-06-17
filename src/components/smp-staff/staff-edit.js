@@ -52,7 +52,6 @@ const StaffEdit = () => {
    // ACCESSING STATE FROM REDUX STORE
    const state = useSelector((state) => state);
    const { isSuccessful, message, selectedItem } = state.staff;
-   console.log("selecteditem", selectedItem);
    // ACCESSING STATE FROM REDUX STORE
 
    React.useEffect(() => {
@@ -91,7 +90,6 @@ const StaffEdit = () => {
                }}
                validationSchema={validation}
                onSubmit={values => {
-                  console.log(values);
                   updateStaffAccount(values)(dispatch)
                }}
             >
@@ -197,15 +195,15 @@ const StaffEdit = () => {
                                     <div className="row">
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
-                                          <Field type="text" className="form-control" name="firstName" id="firstName" aria-describedby="name" required placeholder="First Name" />
+                                          <Field type="text" className="form-control text-capitalize" name="firstName" id="firstName" aria-describedby="name" required placeholder="First Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="lastName" className="form-label"> <b>Last Name:</b></label>
-                                          <Field type="text" className="form-control" name="lastName" id="lastName" aria-describedby="name" required placeholder="Last Name" />
+                                          <Field type="text" className="form-control text-capitalize" name="lastName" id="lastName" aria-describedby="name" required placeholder="Last Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="middleName" className="form-label"> <b>Middle Name:</b></label>
-                                          <Field type="text" className="form-control" name="middleName" id="middleName" aria-describedby="name" placeholder="Middle Name" />
+                                          <Field type="text" className="form-control text-capitalize" name="middleName" id="middleName" aria-describedby="name" placeholder="Middle Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="email" className="form-label"><b>Email:</b> </label>
