@@ -224,7 +224,7 @@ const GradeSetting = () => {
                               </label>
                               <Field
                                 type="number"
-                                className="form-control w-75 fw-bolder text-secondary col-lg-1"
+                                className="form-control w-75 fw-bolder text-secondary col-lg-1 border-secondary"
                                 name="upperLimit"
                                 id="upperLimit"
                                 aria-describedby="upperLimit"
