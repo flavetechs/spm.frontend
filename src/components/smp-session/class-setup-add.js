@@ -76,7 +76,7 @@ const ClassSetupAdd = () => {
                         <div className="form-group">
                           {(touched.name && errors.name) && <div className='text-danger'>{errors.name}</div>}
                           <label htmlFor="name" className="form-label"> <b>Name</b></label>
-                          <Field type="text" className="form-control" name="name" id="name" aria-describedby="name" required placeholder=" Enter class name e.g SS1" />
+                          <Field type="text" className="form-control text-capitalize" name="name" id="name" aria-describedby="name" required placeholder=" Enter class name e.g SS1" />
                         </div>
                       </Col>
 

@@ -250,12 +250,12 @@ const StudentList = () => {
                                 }}
                               />
                             ) : idx + 1}</td>
-                          <td className="text-uppercase">
+                          <td className="text-uppercase text-dark">
                             {student.firstName}{" "}{student.middleName}{" "}
                             {student.lastName}
                           </td>
-                          <td className="text-uppercase">{student.sessionClass}</td>
-                          <td>{student.registrationNumber}</td>
+                          <td className="text-uppercase text-dark">{student.sessionClass}</td>
+                          <td className="text-uppercase text-dark">{student.registrationNumber}</td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">

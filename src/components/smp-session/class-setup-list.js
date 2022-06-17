@@ -253,7 +253,7 @@ const ClassSetupList = () => {
                               null
                             )}
                           </td>
-                          <td>{item.name}</td>
+                          <td><b>{item.name}</b></td>
                           <td>
                             <span className={item.isActive ? `badge bg-primary` : `badge bg-danger`}>
                               {item.isActive ? "Active" : "inactive"}

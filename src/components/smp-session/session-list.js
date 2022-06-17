@@ -230,7 +230,7 @@ const SessionList = () => {
                             )}
                           </td>
                           <td><b>{item.startDate}/{item.endDate}</b></td>
-                          <td className='text-capitalize'>{item.headTeacherName}</td>
+                          <td className='text-capitalize'><b>{item.headTeacherName}</b></td>
                           <td>
                             <div className="iq-media-group iq-media-group-1">
                               {item.terms.map((term, idx) => {

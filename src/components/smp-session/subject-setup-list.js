@@ -91,7 +91,7 @@ const SubjectSetupList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Subject List</h4>
+                  <h4 className="card-title"><b>Subject List</b></h4>
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
@@ -252,7 +252,7 @@ const SubjectSetupList = () => {
                               />
                             ) : null}
                           </td>
-                          <td className="text-capitalize">{item.name}</td>
+                          <td className="text-uppercase"><b>{item.name}</b></td>
                           <td>
                             <span
                               className={
