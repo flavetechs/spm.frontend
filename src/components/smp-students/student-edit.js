@@ -17,6 +17,7 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { getActiveSession } from "../../store/actions/session-actions";
 const StudentEdit = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -52,6 +53,7 @@ const StudentEdit = () => {
   const state = useSelector((state) => state);
   const { selectedStudent, isSuccessful, message } = state.student;
   const { itemList } = state.class;
+  const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -59,11 +61,12 @@ const StudentEdit = () => {
     const studentAccountId = queryParams.get("studentAccountId");
     if (!studentAccountId) return;
     fetchSingleStudent(studentAccountId)(dispatch);
+    getActiveSession()(dispatch);
   }, []);
 
   React.useEffect(() => {
-    getAllSessionClasses()(dispatch);
-  }, []);
+    getAllSessionClasses(activeSession?.sessionId)(dispatch);
+  }, [activeSession]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
