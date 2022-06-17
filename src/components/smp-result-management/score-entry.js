@@ -4,7 +4,6 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
 import {
   getAllClassScoreEntries,
   getAllStaffClasses,
@@ -16,9 +15,9 @@ import Preview from "./score-entry-preview";
 
 const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
-  const history = useHistory();
   const dispatch = useDispatch();
   const [indexRow, setIndexRow] = useState("");
+  const [idsForPreview, setIdsForPreview] = useState({});
   const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
   const [isEditMode, setEditMode] = useState(false);
   const [isPreviewMode, setPreviewMode] = useState(false);
@@ -26,7 +25,7 @@ const ScoreEntry = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
+  const { staffClasses, staffClassSubjects, scoreEntry,fetchPreviewSuccessful } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -48,6 +47,14 @@ const ScoreEntry = () => {
     }
   }, [scoreEntry]);
 
+  React.useEffect(() => {
+    if (fetchPreviewSuccessful) {
+     setPreviewMode(true);
+    }else{
+      setPreviewMode(false);
+    }
+  }, [fetchPreviewSuccessful, scoreEntry]);
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -70,6 +77,10 @@ const ScoreEntry = () => {
                       values.sessionClassId,
                       values.subjectId
                     )(dispatch);
+                    setIdsForPreview({
+                      sessionClassId: values.sessionClassId,
+                      subjectId: values.subjectId,
+                    });
                   }}
                 >
                   {({
@@ -181,10 +192,10 @@ const ScoreEntry = () => {
                         setPreviewMode={setPreviewMode}
                         indexRow={indexRow}
                         isPreviewMode={isPreviewMode}
+                        idsForPreview={idsForPreview}
                       />
                     ) : (
                       <Preview
-                        scoreEntry={scoreEntry}
                         setPreviewMode={setPreviewMode}
                         isPreviewMode={isPreviewMode}
                       />

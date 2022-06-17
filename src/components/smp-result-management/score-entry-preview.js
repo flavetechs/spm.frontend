@@ -1,6 +1,12 @@
 import { Button, Row, Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-const Preview = ({ scoreEntry, setPreviewMode, isPreviewMode }) => {
+const Preview = ({  setPreviewMode, isPreviewMode }) => {
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { scoreEntryPreview } = state.results;
+  // ACCESSING STATE FROM REDUX STORE
+
   return (
     <>
       <Row className="pt-3">
@@ -20,8 +26,12 @@ const Preview = ({ scoreEntry, setPreviewMode, isPreviewMode }) => {
           <thead>
             <tr className="text-center">
               <td className="text-uppercase h6">S/No</td>
-              <td className="text-uppercase h6">Students Full Name</td>
-              <td className="text-uppercase h6">Student Registration No</td>
+              <td className="text-uppercase h6 text-start">
+                Students Full Name
+              </td>
+              <td className="text-uppercase h6 text-start">
+                Student Registration No
+              </td>
               <td className="text-uppercase h6">Exam score</td>
               <td className="text-uppercase h6">Assessment score</td>
               <td className="text-uppercase h6 px-2">Total Score</td>
@@ -31,7 +41,7 @@ const Preview = ({ scoreEntry, setPreviewMode, isPreviewMode }) => {
             </tr>
           </thead>
           <tbody>
-            {scoreEntry?.classScoreEntries.map((item, index) => (
+            {scoreEntryPreview?.classScoreEntries.map((item, index) => (
               <tr
                 style={{ maxHeight: "30px" }}
                 key={index}
@@ -56,11 +66,13 @@ const Preview = ({ scoreEntry, setPreviewMode, isPreviewMode }) => {
                 >
                   {item.assessmentScore}
                 </td>
+
+                <td className="fw-bold text-center">{item.totalScore}</td>
+                <td className="fw-bold text-center">{item.grade}</td>
                 <td className="fw-bold text-center">
-                  {+item.examsScore + +item.assessmentScore}
+                  {item.remark}
                 </td>
-                <td></td>
-                <td></td>
+
                 <td style={{ width: "5px" }}>
                   <input
                     type="checkbox"

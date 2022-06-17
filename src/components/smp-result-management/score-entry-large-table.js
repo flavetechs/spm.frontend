@@ -2,6 +2,7 @@ import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
 import { setAssessmentScoreEntry, setExamScoreEntry } from "../../store/actions/results-actions";
 import { useDispatch } from "react-redux";
+import { getAllClassScoreEntryPreview } from "../../store/actions/results-actions";
 
 const LargeTable = ({
   validation,
@@ -12,6 +13,7 @@ const LargeTable = ({
   setPreviewMode,
   indexRow,
   isPreviewMode,
+  idsForPreview,
 }) => {
 
   const dispatch = useDispatch();
@@ -24,7 +26,11 @@ const LargeTable = ({
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
-            onClick={() => {setPreviewMode(!isPreviewMode);}}
+            onClick={() => {setPreviewMode(!isPreviewMode);
+              getAllClassScoreEntryPreview(
+              idsForPreview.sessionClassId,
+              idsForPreview.subjectId
+            )(dispatch);}}
           >
             Preview
           </Button>
@@ -48,8 +54,8 @@ const LargeTable = ({
               <thead>
                 <tr className="text-center">
                   <td className="text-uppercase h6">S/No</td>
-                  <td className="text-uppercase h6">Students Full Name</td>
-                  <td className="text-uppercase h6">Student Registration No</td>
+                  <td className="text-uppercase h6 text-start">Students Full Name</td>
+                  <td className="text-uppercase h6 text-start">Student Registration No</td>
                   <td className="text-uppercase h6">Exam score</td>
                   <td className="text-uppercase h6">Assessment score</td>
                   <td className="text-uppercase h6 px-2">Is Offered</td>
@@ -156,6 +162,7 @@ const LargeTable = ({
                             type="checkbox"
                             className="form-check-input"
                             checked={item.isOffered}
+                            onChange={()=>{}}
                           />
                         </td>
                         <td>

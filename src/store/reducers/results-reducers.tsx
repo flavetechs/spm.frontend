@@ -67,6 +67,30 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
               scoreEntry: null,
             };
           }
+        
+          case actions.FETCH_CLASS_SCORE_ENTRY_PREVIEW_LOADING: {
+            return {
+              ...state,
+              loading: true,
+              scoreEntryPreview: null,
+              fetchPreviewSuccessful: false,
+            };
+          }
+          case actions.FETCH_CLASS_SCORE_ENTRY_PREVIEW_SUCCESS: {
+            return {
+              ...state,
+              loading: false,
+              scoreEntryPreview: payload,
+              fetchPreviewSuccessful:true,
+            };
+          }
+          case actions.FETCH_CLASS_SCORE_ENTRY_PREVIEW_FAILED: {
+            return {
+              ...state,
+              loading: false,
+              scoreEntryPreview: null,
+            };
+          }
 
           case actions.UPDATE_SCORE_ENTRY: {
             return {
