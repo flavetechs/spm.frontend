@@ -65,8 +65,6 @@ const SessionClassList = () => {
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
-
-console.log(itemList);
   return (
     <>
       <div>
@@ -131,9 +129,8 @@ console.log(itemList);
                       {itemList.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">{idx + 1}</td>
-                          {/* <td>{item.session}</td> */}
                           <td><strong>{item.class}</strong> </td>
-                          <td>{item.formTeacher}</td>
+                          <td className="text-capitalize">{item.formTeacher}</td>
                           <td>{item.examScore}</td>
                           <td>{item.assessmentScore}</td>
                           <td>{item.passMark}</td>

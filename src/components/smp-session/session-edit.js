@@ -101,7 +101,7 @@ const SessionEdit = () => {
 
                         <Form.Group className="col-sm-6 form-group">
                           <label htmlFor="terms" className="form-label">Head of School</label><br />
-                          <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control" data-style="py-0">
+                          <Field as='select' id='headTeacherId' name='headTeacherId' className="form-control text-capitalize" data-style="py-0">
                             {activeTeachers.map((teacher, idx) => {
                               return (
                                 <option key={idx} value={teacher.userAccountId}>
@@ -111,11 +111,6 @@ const SessionEdit = () => {
                               )
 
                             })}
-
-
-                            {/* <option key={idx} name={values.headTeacherId} value={teacher.userAccountId}>
-                            {teacher.fullName}
-                            </option> */}
                           </Field>
                         </Form.Group>
                         <Form.Group className="col-sm-3 form-group">

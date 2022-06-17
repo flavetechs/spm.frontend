@@ -173,8 +173,8 @@ const SessionClassDetails = () => {
                         </tr>
                         {classSubjects?.map((classSubject, id) => (
                           <tr key={id}>
-                            <td>{classSubject.subjectName}</td>
-                            <td>{classSubject.subjectTeacherName}</td>
+                            <td className='text-capitalize'>{classSubject.subjectName}</td>
+                            <td className='text-capitalize'>{classSubject.subjectTeacherName}</td>
                             <td>
                               <span className="badge bg-primary">
                                 {classSubject.examSCore}
@@ -210,7 +210,7 @@ const SessionClassDetails = () => {
                         </tr>
                         {classStudents?.map((student, idx) => (
                           <tr key={idx}>
-                            <td>
+                            <td className='text-capitalize'>
                               {student.firstName} {student.lastName}
                             </td>
                             <td>

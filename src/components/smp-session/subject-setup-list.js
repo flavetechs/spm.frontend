@@ -252,7 +252,7 @@ const SubjectSetupList = () => {
                               />
                             ) : null}
                           </td>
-                          <td>{item.name}</td>
+                          <td className="text-capitalize">{item.name}</td>
                           <td>
                             <span
                               className={

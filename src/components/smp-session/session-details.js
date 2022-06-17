@@ -13,7 +13,6 @@ const SessionDetails = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const locations = useLocation();
-    const [ setDisplaySubjectsTable] = useState(true);
     const [displayStudentsTable, setDisplayStudentsTable] = useState(false);
     //VARIABLE DECLARATIONS
 
@@ -64,7 +63,7 @@ const SessionDetails = () => {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <span>No. of subject</span>
+                                                <span>No. of Subject</span>
                                             </td>
                                             <td>
                                                 <span className="badge bg-primary">{selectedItem?.noOfSubjects}</span>
@@ -72,7 +71,7 @@ const SessionDetails = () => {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <span>No. of classes</span>
+                                                <span>No. of Classes</span>
                                             </td>
                                             <td>
                                                 <span className="badge bg-primary">{selectedItem?.noOfClasses}</span>
@@ -128,7 +127,7 @@ const SessionDetails = () => {
                                                 {selectedItem?.sessionClasses.map((item, idx) =>
                                                     <tr key={idx}>
                                                         <td>{item.sessionClass}</td>
-                                                        <td>{item.formTeacher}</td>
+                                                        <td className="text-capitalize">{item.formTeacher}</td>
                                                         <td>
                                                             <div className="flex align-items-center list-user-action">
                                                                 <OverlayTrigger
