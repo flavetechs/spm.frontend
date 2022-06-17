@@ -18,12 +18,12 @@ export const classLocations = {
 
 export const sessionLocations = {
   sessionList: "/dashboard/smp-session/setup",
-  sessionEdit: "/dashboard/smp-session/edit-setup",
+  sessionEdit: "/dashboard/smp-session/edit-session",
   sessionDetails: "/dashboard/smp-session/details-setup",
-  sessionAdd: "/dashboard/smp-session/add-setup",
+  sessionAdd: "/dashboard/smp-session/add-session",
   classSetupList: "/dashboard/smp-session/class-setup",
-  classSetupEdit: "/dashboard/smp-session/edit-setup",
-  classSetupAdd: "/dashboard/smp-session/add-setup",
+  classSetupEdit: "/dashboard/smp-session/edit-class",
+  classSetupAdd: "/dashboard/smp-session/add-class",
   subjectSetupList: "/dashboard/smp-session/subject-setup",
   editSubjectSetup: "/dashboard/smp-session/edit-subject",
   addSubjectSetup: "/dashboard/smp-session/add-subject",
