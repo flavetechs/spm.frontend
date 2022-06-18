@@ -112,24 +112,26 @@ const ClassSetupEdit = () => {
                             <b>Grade Level</b>
                           </label>
                           <Field
-                            as="select"
-                            name="gradeLevelId"
-                            className="form-select"
-                            id="gradeLevelId"
-                            aria-describedby="gradeLevelId"
-                            defaultValue={values.gradeLevelId}
-                          >
-                            <option value="">Enter Grade Level</option>
-                            {prevGradesList.map((item, idx) => (
-                              <option
-                                key={idx}
-                                value={item.gradeGroupId}
-                                selected={values.gradeLevelId}
-                              >
-                                {item.gradeGroupName}
-                              </option>
-                            ))}
-                          </Field>
+                              as="select"
+                              type="select"
+                              name="gradeLevelId"
+                              defaultValue={values.gradeLevelId}
+                              className="form-select"
+                              id="gradeLevelId"
+                            >
+
+                              <option value={"grade level"}>Select Grade Level</option>
+                              {prevGradesList.map((list, idx) => (
+                                <option
+                                  key={idx}
+                                  value={list.gradeGroupId}
+                                  selected={selectedItem?.gradeLevelId == list.gradeGroupId}
+                                >
+                                  {list.gradeGroupName}
+                                </option>
+                              ))}
+                            </Field>
+                   
                         </div>
                       </Col>
 
