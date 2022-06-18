@@ -60,7 +60,7 @@ const ClassSetupEdit = () => {
                     name: selectedItem?.name,
                     isActive: selectedItem?.isActive,
                     lookupId: selectedItem?.lookupId,
-                    gradeLevelId: selectedItem?.gradeLevelId,
+                    gradeLevelId: selectedItem?.gradeLevelId.toLowerCase(),
                   }}
                   enableReinitialize={true}
                   validationSchema={validation}
@@ -115,17 +115,16 @@ const ClassSetupEdit = () => {
                               as="select"
                               type="select"
                               name="gradeLevelId"
-                              defaultValue={values.gradeLevelId}
                               className="form-select"
                               id="gradeLevelId"
+                              value={values.gradeLevelId}
                             >
 
-                              <option value={"grade level"}>Select Grade Level</option>
+                              <option value="grade level">Select Grade Level</option>
                               {prevGradesList.map((list, idx) => (
                                 <option
-                                  key={idx}
-                                  value={list.gradeGroupId}
-                                  selected={selectedItem?.gradeLevelId == list.gradeGroupId}
+                                   key={idx}
+                                  value={list.gradeGroupId}  
                                 >
                                   {list.gradeGroupName}
                                 </option>
