@@ -268,6 +268,7 @@ const StudentEdit = () => {
                               <option
                                 key={idx}
                                 value={item.sessionClassId}
+                                selected={selectedStudent?.sessionClassID == item.sessionClassId}
                               >
                                 {item.class}
                               </option>

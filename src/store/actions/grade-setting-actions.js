@@ -5,27 +5,6 @@ import {
   showSuccessToast,
 } from "./toaster-actions";
 
-export const getAllGradeClasses = () => (dispatch) => {
-  dispatch({
-    type: actions.FETCH_GRADE_CLASSES_LOADING,
-  });
-
-  axiosInstance
-    .get("/grade/api/v1/get/get-classes")
-    .then((res) => {
-      dispatch({
-        type: actions.FETCH_GRADE_CLASSES_SUCCESS,
-        payload: res.data.result,
-      });
-    })
-    .catch((err) => {
-      dispatch({
-        type: actions.FETCH_GRADE_CLASSES_FAILED,
-        payload: err.response.data.result,
-      });
-    });
-};
-
 export const getPreviousGrades = () => (dispatch) => {
   dispatch({
     type: actions.FETCH_PREVIOUS_GRADES_LOADING,
@@ -60,7 +39,6 @@ export const createGradeSetting = (values) => (dispatch) => {
       });
       showSuccessToast(res.data.message.friendlyMessage)(dispatch);
       getPreviousGrades()(dispatch);
-      getAllGradeClasses()(dispatch);
     })
     .catch((err) => {
       dispatch({
@@ -84,7 +62,6 @@ export const updateGradeSetting = (values) => (dispatch) => {
         });
         showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         getPreviousGrades()(dispatch);
-        getAllGradeClasses()(dispatch);
       })
       .catch((err) => {
         dispatch({
