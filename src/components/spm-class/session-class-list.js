@@ -67,10 +67,10 @@ console.log(itemList);
                           <td className="">{idx + 1}</td>
                           {/* <td>{item.session}</td> */}
                           <td><strong>{item.class}</strong> </td>
-                          <td className="text-uppercase">{item.formTeacher}</td>
-                          <td>{item.examScore}</td>
-                          <td>{item.assessmentScore}</td>
-                          <td>{item.passMark}</td>
+                          <td className="text-uppercase"><b>{item.formTeacher}</b></td>
+                          <td><b>{item.examScore}</b></td>
+                          <td><b>{item.assessmentScore}</b></td>
+                          <td><b>{item.passMark}</b></td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
