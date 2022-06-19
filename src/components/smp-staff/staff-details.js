@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col, Image, Form, Button } from 'react-bootstrap'
-// import Card from '../../../components/Card'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import Card from '../Card'
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
@@ -25,9 +24,7 @@ const StaffDetails = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const locations = useLocation();
-    const [images, setImages] = useState([])
     const [image, setImage] = useState(null);
-    const [imageURLs, setImageURLs] = useState([])
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -92,20 +89,15 @@ const StaffDetails = () => {
                     }}
                 >
                     {({
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        values,
                         touched,
                         errors,
-                        isValid,
                         setFieldValue }) => (
                         <Row>
                             <Col>
                                 <Card>
                                     <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                                         <div className="header-title">
-                                            <h4 className="card-title">Staff Details</h4>
+                                            <h4 className="card-title"><b>Staff Photo</b></h4>
                                         </div>
                                     </div>
                                     <div className="card-body ">
@@ -143,7 +135,7 @@ const StaffDetails = () => {
                                                                 className="file-upload form-control"
                                                                 data-original-title="upload photos"
                                                                 readOnly
-                                                                required
+                                                                disabled={true}
                                                                 onChange={(event) => {
                                                                     setFieldValue(
                                                                         "photo",
@@ -178,7 +170,7 @@ const StaffDetails = () => {
                                 <Card>
                                     <Card.Header className="d-flex justify-content-between">
                                         <div className="header-title">
-                                            <h4 className="card-title"><b>Details of {selectedItem?.firstName} {selectedItem?.lastName}</b></h4>
+                                            <h4 className="card-title"><b>Staff Information</b></h4>
                                         </div>
                                     </Card.Header>
                                     <Card.Body>

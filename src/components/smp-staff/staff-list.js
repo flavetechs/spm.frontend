@@ -19,7 +19,6 @@ import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '.
 const StaffList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const history = useHistory();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
@@ -27,7 +26,7 @@ const StaffList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffList, selectedIds, selectedItem } = state.staff;
+  const { staffList, selectedIds } = state.staff;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -271,7 +270,6 @@ const StaffList = () => {
                                   title=""
                                   data-original-title="Details"
                                   to={`${staffLocations.staffDetails}?teacherAccountId=${item.teacherAccountId}`}
-                                // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentContactId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg

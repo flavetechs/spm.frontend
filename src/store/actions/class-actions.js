@@ -39,13 +39,11 @@ export const getAllClasses = () => (dispatch) => {
 
     axiosInstance.get('class/api/v1/getall/class-lookup')
         .then((res) => {
-            console.log('getall class res: ', res)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
-            console.log('getall class err: ', err)
             dispatch({
                 type: actions.FETCH_CLASSLOOKUP_FAILED,
                 payload: err.response.data.result
@@ -78,16 +76,12 @@ export const createClass = (form) => (dispatch) => {
         });
 }
 
-export const updateClass = ({ name, lookupId, isActive }) => (dispatch) => {
+export const updateClass = (classes) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASSLOOKUP_LOADING
     });
-    const payload = {
-        lookupId: lookupId,
-        name: name,
-        isActive: isActive
-    }
-    axiosInstance.post('/class/api/v1/update/class-lookup', payload)
+   
+    axiosInstance.post('/class/api/v1/update/class-lookup', classes)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_CLASSLOOKUP_SUCCESS,
@@ -113,7 +107,6 @@ export const deleteClassItems = (classId) => (dispatch) => {
 
     axiosInstance.post('/class/api/v1/delete/class-lookup', payload)
         .then((res) => {
-            console.log('delete class res: ', res)
             dispatch({
                 type: actions.DELETE_CLASSLOOKUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
@@ -121,7 +114,6 @@ export const deleteClassItems = (classId) => (dispatch) => {
             getAllClasses()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
-            console.log('delete class err: ', err)
             dispatch({
                 type: actions.DELETE_CLASSLOOKUP_FAILED,
                 payload: err.response.data.message.friendlyMessage
