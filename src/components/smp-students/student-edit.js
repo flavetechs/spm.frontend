@@ -130,7 +130,7 @@ const StudentEdit = () => {
               <Card>
                 <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                   <div className="header-title">
-                    <h4 className="card-title">Student</h4>
+                    <h4 className="card-title"><b>Student</b></h4>
                   </div>
                 </div>
                 <div className="card-body ">
@@ -235,7 +235,7 @@ const StudentEdit = () => {
                 <div className="card-header d-flex justify-content-between d-flex justify-content-between">
                   {" "}
                   <div className="header-title">
-                    <h4 className="card-title">Student Information</h4>
+                    <h4 className="card-title"><b>Student Information</b></h4>
                   </div>{" "}
                 </div>
                 <Card.Body>
@@ -256,7 +256,7 @@ const StudentEdit = () => {
                             className="form-label"
                             htmlFor="sessionClassId"
                           >
-                            Class:
+                            <b>Class:</b>
                           </label>
                           <Field
                             as="select"
@@ -293,57 +293,57 @@ const StudentEdit = () => {
                         </Row>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="firstName">
-                            First Name:
+                            <b>First Name:</b>
                           </label>
                           <Field
                             type="text"
                             id="firstName"
                             name="firstName"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="lastName">
-                            Last Name:
+                            <b>Last Name:</b>
                           </label>
                           <Field
                             type="text"
                             id="lastName"
                             name="lastName"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="middleName">
-                            Middle Name:
+                            <b>Middle Name:</b>
                           </label>
                           <Field
                             type="text"
                             name="middleName"
                             id="middleName"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="phone">
-                            Mobile Number:
+                            <b>Mobile Number:</b>
                           </label>
                           <Field
                             type="number"
                             name="phone"
                             id="phone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="homePhone">
-                            Home Phone Number:
+                            <b>Home Phone Number:</b>
                           </label>
                           <Field
                             type="number"
                             name="homePhone"
                             id="homePhone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -351,13 +351,13 @@ const StudentEdit = () => {
                             className="form-label"
                             htmlFor="emergencyPhone"
                           >
-                            Emergency Phone Number:
+                            <b>Emergency Phone Number:</b>
                           </label>
                           <Field
                             type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <Row>
@@ -369,47 +369,47 @@ const StudentEdit = () => {
                         </Row>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="email">
-                            Email Address:
+                            <b>Email Address:</b>
                           </label>
                           <Field
                             type="email"
                             id="email"
                             name="email"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="dob">
-                            Date Of Birth:
+                            <b>Date Of Birth:</b>
                           </label>
                           <Field
                             type="date"
                             id="dob"
                             name="dob"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
 
                         <div className="col-sm-12 form-group">
                           <label htmlFor="homeAddress" className="form-label">
-                            Home Address:
+                            <b>Home Address:</b>
                           </label>
                           <Field
                             type="text"
                             id="homeAddress"
                             name="homeAddress"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
     
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="cityId">
-                            City:
+                            <b>City:</b>
                           </label>
                           <Field
                             as="select"
                             name="cityId"
-                            className="form-select"
+                            className="form-select text-dark"
                             id="cityId"
                           >
                             <option value="Lagos">Lagos</option>
@@ -422,12 +422,12 @@ const StudentEdit = () => {
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="stateId">
-                            State:
+                            <b>State:</b>
                           </label>
                           <Field
                             as="select"
                             name="stateId"
-                            className="form-select"
+                            className="form-select text-dark"
                             id="stateId"
                           >
                             <option value="Lagos">Lagos</option>
@@ -440,12 +440,12 @@ const StudentEdit = () => {
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="countryId">
-                            Country:
+                            <b>Country:</b>
                           </label>
                           <Field
                             as="select"
                             name="countryId"
-                            className="form-select"
+                            className="form-select text-dark"
                             id="countryId"
                           >
                             <option value="Nigeria">Nigeria</option>
@@ -465,7 +465,7 @@ const StudentEdit = () => {
                         </div>
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="zipCode">
-                            Zip Code:
+                            <b>Zip Code:</b>
                           </label>
                           <Field
                             type="number"
@@ -476,7 +476,7 @@ const StudentEdit = () => {
                         </div>
                       </div>
                       <hr />
-                      <h5 className="mb-3">Parent/Guardian(s) Information</h5>
+                      <h5 className="mb-3"><b>Parent/Guardian(s) Information</b></h5>
                       <div className="row">
                         <Row>
                           <div className="col-md-12">
@@ -493,13 +493,13 @@ const StudentEdit = () => {
                             className="form-label"
                             htmlFor="parentOrGuardianName"
                           >
-                            Name:
+                            <b>Name:</b>
                           </label>
                           <Field
                             type="text"
                             name="parentOrGuardianName"
                             id="parentOrGuardianName"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <Row>
@@ -525,13 +525,13 @@ const StudentEdit = () => {
                             className="form-label"
                             htmlFor="parentOrGuardianRelationship"
                           >
-                            Relationship:
+                            <b>Relationship:</b>
                           </label>
                           <Field
                             type="text"
                             name="parentOrGuardianRelationship"
                             id="parentOrGuardianRelationship"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -539,13 +539,13 @@ const StudentEdit = () => {
                             className="form-label"
                             htmlFor="parentOrGuardianPhone"
                           >
-                            Mobile Number:
+                            <b>Mobile Number:</b>
                           </label>
                           <Field
                             type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <Row>
@@ -563,13 +563,13 @@ const StudentEdit = () => {
                             className="form-label"
                             htmlFor="parentOrGuardianEmail"
                           >
-                            Email Address:
+                            <b>Email Address:</b>
                           </label>
                           <Field
                             type="email"
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                       </div>

@@ -97,7 +97,6 @@ const StudentAdd = () => {
         }}
         validationSchema={validation}
         onSubmit={(values) => {
-          console.log("values", values);
           values.phone = values.phone.toString();
           values.homePhone = values.homePhone.toString();
           values.emergencyPhone = values.emergencyPhone.toString();
@@ -243,7 +242,7 @@ const StudentAdd = () => {
                           <Field
                             as="select"
                             name="sessionClassId"
-                            className="form-select"
+                            className="form-select text-dark text-capitalize"
                             id="sessionClassId"
                           >
                             <option value="Select Class">Select Class</option>
@@ -319,7 +318,7 @@ const StudentAdd = () => {
                             type="number"
                             name="phone"
                             id="phone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -331,7 +330,7 @@ const StudentAdd = () => {
                             type="number"
                             name="homePhone"
                             id="homePhone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -346,7 +345,7 @@ const StudentAdd = () => {
                             type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <Row>
@@ -365,7 +364,7 @@ const StudentAdd = () => {
                             type="email"
                             id="email"
                             name="email"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -377,7 +376,7 @@ const StudentAdd = () => {
                             type="date"
                             id="dob"
                             name="dob"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-sm-12 form-group">
@@ -496,7 +495,7 @@ const StudentAdd = () => {
                             type="text"
                             name="parentOrGuardianName"
                             id="parentOrGuardianName"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <Row>
@@ -529,7 +528,7 @@ const StudentAdd = () => {
                             type="text"
                             name="parentOrGuardianRelationship"
                             id="parentOrGuardianRelationship"
-                            className="form-control"
+                            className="form-control text-dark text-capitalize"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -544,7 +543,7 @@ const StudentAdd = () => {
                             type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <Row>
@@ -569,7 +568,7 @@ const StudentAdd = () => {
                             type="email"
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                       </div>

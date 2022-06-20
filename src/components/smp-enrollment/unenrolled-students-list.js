@@ -264,7 +264,7 @@ const UnenrolledStudentsList = () => {
                               idx + 1
                             )}
                           </td>
-                          <td className="text-capitalize">{student.studentName}</td>
+                          <td className="text-uppercase text-dark">{student.studentName}</td>
                           <td>{student.studentRegNumber}</td>
 
                           <td>

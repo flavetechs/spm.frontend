@@ -91,7 +91,7 @@ const StaffList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Staff List</h4>
+                  <h4 className="card-title"><b>Staff List</b></h4>
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
@@ -228,18 +228,18 @@ const StaffList = () => {
                           /> : "S/No"}
 
                         </th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>MIddle Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th min-width="100px">Action</th>
+                        <th><b>First Name</b></th>
+                        <th><b>Last Name</b></th>
+                        <th><b>MIddle Name</b></th>
+                        <th><b>Email</b></th>
+                        <th><b>Phone Number</b></th>
+                        <th min-width="100px"><b>Action</b></th>
                       </tr>
                     </thead>
                     <tbody>
                       {staffList.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="">
+                          <td className="text-dark">
                             {showCheckBoxes ? (
                               <input
                                 className="form-check-input"
@@ -254,11 +254,11 @@ const StaffList = () => {
                               idx + 1
                             )}
                           </td>
-                          <td className="text-capitalize">{item.firstName}</td>
-                          <td className="text-capitalize">{item.lastName}</td>
-                          <td className="text-capitalize">{item.middleName} </td>
-                          <td>{item.email} </td>
-                          <td>{item.phone} </td>
+                          <td className="text-uppercase text-dark">{item.firstName}</td>
+                          <td className="text-uppercase text-dark">{item.lastName}</td>
+                          <td className="text-uppercase text-dark">{item.middleName}</td>
+                          <td className="text-dark">{item.email}</td>
+                          <td className="text-dark">{item.phone}</td>
                           <td>
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Staff Details</Tooltip>}

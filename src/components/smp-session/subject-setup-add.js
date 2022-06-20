@@ -69,11 +69,11 @@ const SubjectSetupAdd = () => {
                           )}
                           <label htmlFor="name" className="form-label">
                             {" "}
-                            Name
+                            <b>Name</b>
                           </label>
                           <Field
                             type="text"
-                            className="form-control"
+                            className="form-control text-capitalize"
                             name="name"
                             id="name"
                             aria-describedby="name"

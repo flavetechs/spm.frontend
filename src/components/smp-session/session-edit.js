@@ -24,9 +24,9 @@ const SessionEdit = () => {
 
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
-    startDate: Yup.string()
+    startDate: Yup.number()
       .required('Session Year is required'),
-    endDate: Yup.string()
+    endDate: Yup.number()
       .required('Session Year is required'),
     terms: Yup.string().required("Please select Term"),
     headTeacherId: Yup.string().required("Please select Term")
@@ -87,11 +87,11 @@ const SessionEdit = () => {
                       <div className="row">
                         <Form.Group className="col-md-6 form-group">
                           <label htmlFor="startDate" className="form-label"> Start Year:</label>
-                          <Field type="text" className="form-control" name="startDate" id="name" aria-describedby="name" required placeholder="Start Year" />
+                          <Field type="tel" className="form-control" name="startDate" id="name" aria-describedby="name" required placeholder="Start Year" />
                         </Form.Group>
                         <Form.Group className="col-md-6 form-group">
                           <label htmlFor="endYear" className="form-label">End Year:</label>
-                          <Field type="text" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
+                          <Field type="tel" className="form-control" name="endDate" id="name" aria-describedby="name" required placeholder="End Year" />
                         </Form.Group>
 
                         <Form.Group className="col-md-6 form-group">
