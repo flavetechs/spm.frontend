@@ -5,7 +5,7 @@ const SmallTable = ({ scoreEntry }) => {
     <>
       <div>
         <Row className="pt-3">
-          <Table responsive bordered size="sm" className="w-50">
+          <Table responsive bordered size="sm" className="w-50" style={{ background: '#d8efd1'}}>
             <tbody>
               <tr>
                 <th className="h6">Class Name</th>

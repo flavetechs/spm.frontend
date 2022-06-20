@@ -1,10 +1,12 @@
 import { Button, Row, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { showHidePreview } from "../../store/actions/results-actions";
 
-const Preview = ({  setPreviewMode, isPreviewMode }) => {
+const Preview = ({ setPreviewMode, isPreviewMode }) => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { scoreEntryPreview } = state.results;
+  const dispatch = useDispatch();
   // ACCESSING STATE FROM REDUX STORE
 
   return (
@@ -14,15 +16,16 @@ const Preview = ({  setPreviewMode, isPreviewMode }) => {
           <Button
             type="button"
             className="btn-sm mx-2"
-            variant="btn btn-success"
+            variant="btn btn-danger"
             onClick={() => {
               setPreviewMode(!isPreviewMode);
+              showHidePreview(false)(dispatch)
             }}
           >
             Close Preview
           </Button>
         </div>
-        <Table size="md" bordered responsive className="mt-2">
+        <Table size="md" bordered responsive className="mt-2" style={{ background: '#d1c6c6'}}>
           <thead>
             <tr className="text-center">
               <td className="text-uppercase h6">S/No</td>
@@ -32,8 +35,8 @@ const Preview = ({  setPreviewMode, isPreviewMode }) => {
               <td className="text-uppercase h6 text-start">
                 Student Registration No
               </td>
-              <td className="text-uppercase h6">Exam score</td>
               <td className="text-uppercase h6">Assessment score</td>
+              <td className="text-uppercase h6">Exam score</td>
               <td className="text-uppercase h6 px-2">Total Score</td>
               <td className="text-uppercase h6 px-2">Grade</td>
               <td className="text-uppercase h6 px-2">Remark</td>
@@ -52,7 +55,12 @@ const Preview = ({  setPreviewMode, isPreviewMode }) => {
                 <td className="fw-bold text-start">
                   {item.registrationNumber}
                 </td>
-
+                <td
+                  className="fw-bold text-center"
+                  style={{ maxWidth: "150px" }}
+                >
+                  {item.assessmentScore}
+                </td>
                 <td
                   className="fw-bold text-center"
                   style={{ maxWidth: "150px" }}
@@ -60,12 +68,7 @@ const Preview = ({  setPreviewMode, isPreviewMode }) => {
                   {item.examsScore}
                 </td>
 
-                <td
-                  className="fw-bold text-center"
-                  style={{ maxWidth: "150px" }}
-                >
-                  {item.assessmentScore}
-                </td>
+
 
                 <td className="fw-bold text-center">{item.totalScore}</td>
                 <td className="fw-bold text-center">{item.grade}</td>

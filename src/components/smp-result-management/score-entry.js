@@ -25,8 +25,10 @@ const ScoreEntry = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, scoreEntry,fetchPreviewSuccessful } = state.results;
+  const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
+
   // ACCESSING STATE FROM REDUX STORE
+  
 
   //VALIDATION SCHEMA
 
@@ -35,6 +37,8 @@ const ScoreEntry = () => {
     subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION SCHEMA
+
+
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
     window.onbeforeunload = () => {
@@ -47,14 +51,7 @@ const ScoreEntry = () => {
     }
   }, [scoreEntry]);
 
-  React.useEffect(() => {
-    if (fetchPreviewSuccessful) {
-     setPreviewMode(true);
-    }else{
-      setPreviewMode(false);
-    }
-  }, [fetchPreviewSuccessful, scoreEntry]);
- 
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -65,119 +62,120 @@ const ScoreEntry = () => {
                 <h6>SCORE ENTRY</h6>
               </Card.Header>
               <Card.Body>
-                <Formik
-                  initialValues={{
-                    sessionClassId: "",
-                    subjectId: "",
-                  }}
-                  validationSchema={validation}
-                  enableReinitialize={true}
-                  onSubmit={(values) => {
-                    getAllClassScoreEntries(
-                      values.sessionClassId,
-                      values.subjectId
-                    )(dispatch);
-                    setIdsForPreview({
-                      sessionClassId: values.sessionClassId,
-                      subjectId: values.subjectId,
-                    });
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    values,
-                    setFieldValue,
-                    touched,
-                    errors,
-                    isValid,
-                  }) => (
-                    <Form>
-                      <Row>
-                        <Col md="6">
-                          {touched.sessionClassId && errors.sessionClassId && (
-                            <div className="text-danger">
-                              {errors.sessionClassId}
-                            </div>
-                          )}
-                        </Col>
-                        <Col md="6">
-                          {touched.subjectId && errors.subjectId && (
-                            <div className="text-danger">
-                              {errors.subjectId}
-                            </div>
-                          )}
-                        </Col>
-                        <Col md="6" className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="sessionClassId"
-                          >
-                            Class:
-                          </label>
-                          <Field
-                            as="select"
-                            name="sessionClassId"
-                            className="form-select"
-                            id="sessionClassId"
-                            onChange={(e) => {
-                              setFieldValue("sessionClassId", e.target.value);
-                              getStaffClassSubjects(e.target.value)(dispatch);
-                            }}
-                          >
-                            <option value="">Select Class</option>
-                            {staffClasses.map((list, idx) => (
-                              <option
-                                key={idx}
-                                name={values.sessionClassId}
-                                value={list.sessionClassId}
-                                data-tag={list.sessionClass}
+                {
+                  !isPreviewMode ? 
+                    <Formik
+                      initialValues={{
+                        sessionClassId: "",
+                        subjectId: "",
+                      }}
+                      validationSchema={validation}
+                      enableReinitialize={true}
+                      onSubmit={(values) => {
+                        getAllClassScoreEntries(
+                          values.sessionClassId,
+                          values.subjectId
+                        )(dispatch);
+                        setIdsForPreview({
+                          sessionClassId: values.sessionClassId,
+                          subjectId: values.subjectId,
+                        });
+                      }}
+                    >
+                      {({
+                        handleSubmit,
+                        values,
+                        setFieldValue,
+                        touched,
+                        errors,
+                      }) => (
+                        <Form>
+                          <Row>
+                            <Col md="6">
+                              {touched.sessionClassId && errors.sessionClassId && (
+                                <div className="text-danger">
+                                  {errors.sessionClassId}
+                                </div>
+                              )}
+                            </Col>
+                            <Col md="6">
+                              {touched.subjectId && errors.subjectId && (
+                                <div className="text-danger">
+                                  {errors.subjectId}
+                                </div>
+                              )}
+                            </Col>
+                            <Col md="6" className="form-group">
+                              <label
+                                className="form-label"
+                                htmlFor="sessionClassId"
                               >
-                                {list.sessionClass}
-                              </option>
-                            ))}
-                          </Field>
-                        </Col>
-                        <Col md="6" className="form-group">
-                          <label className="form-label" htmlFor="subjectId">
-                            Subject:
-                          </label>
-                          <Field
-                            as="select"
-                            name="subjectId"
-                            className="form-select"
-                            id="subjectId"
-                            onChange={(e) => {
-                              setFieldValue("subjectId", e.target.value);
-                            }}
-                          >
-                            <option value="">Select Subject</option>
-                            {staffClassSubjects?.map((subject, idx) => (
-                              <option
-                                key={idx}
-                                name={values.subjectId}
-                                value={subject.subjectId}
+                                Class:
+                              </label>
+                              <Field
+                                as="select"
+                                name="sessionClassId"
+                                className="form-select"
+                                id="sessionClassId"
+                                onChange={(e) => {
+                                  setFieldValue("sessionClassId", e.target.value);
+                                  getStaffClassSubjects(e.target.value)(dispatch);
+                                }}
                               >
-                                {subject.subjectName}
-                              </option>
-                            ))}
-                          </Field>
-                        </Col>
-                      </Row>
-                      <div className="d-flex justify-content-end">
-                        <Button
-                          type="button"
-                          className="btn-sm"
-                          variant="btn btn-primary"
-                          onClick={() => {
-                            handleSubmit();
-                          }}
-                        >
-                          View
-                        </Button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
+                                <option value="">Select Class</option>
+                                {staffClasses.map((list, idx) => (
+                                  <option
+                                    key={idx}
+                                    name={values.sessionClassId}
+                                    value={list.sessionClassId}
+                                    data-tag={list.sessionClass}
+                                  >
+                                    {list.sessionClass}
+                                  </option>
+                                ))}
+                              </Field>
+                            </Col>
+                            <Col md="6" className="form-group">
+                              <label className="form-label" htmlFor="subjectId">
+                                Subject:
+                              </label>
+                              <Field
+                                as="select"
+                                name="subjectId"
+                                className="form-select"
+                                id="subjectId"
+                                onChange={(e) => {
+                                  setFieldValue("subjectId", e.target.value);
+                                }}
+                              >
+                                <option value="">Select Subject</option>
+                                {staffClassSubjects?.map((subject, idx) => (
+                                  <option
+                                    key={idx}
+                                    name={values.subjectId}
+                                    value={subject.subjectId}
+                                  >
+                                    {subject.subjectName}
+                                  </option>
+                                ))}
+                              </Field>
+                            </Col>
+                          </Row>
+                          <div className="d-flex justify-content-end">
+                            <Button
+                              type="button"
+                              className="btn-sm"
+                              variant="btn btn-primary"
+                              onClick={handleSubmit}
+                            >
+                              View
+                            </Button>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+                  : null
+                }
 
                 {showScoresEntryTable && (
                   <div>
