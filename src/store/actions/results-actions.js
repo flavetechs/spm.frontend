@@ -62,8 +62,9 @@ export const getAllClassScoreEntries = (sessionClassId, subjectId) => (dispatch)
         });
 }
 
-export const setExamScoreEntry = (scoreEntryId, examsScore, scoreEntry) => (dispatch) => {
+export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (dispatch) => {
 
+    debugger
 
     if (!examsScore) {
         examsScore = 0;
@@ -76,8 +77,8 @@ export const setExamScoreEntry = (scoreEntryId, examsScore, scoreEntry) => (disp
         return;
     }
 
-    const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.scoreEntryId === scoreEntryId);
-    let entry = scoreEntry?.classScoreEntries.find(e => e.scoreEntryId == scoreEntryId);
+    const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
     if (entry) {
         entry.examsScore = examsScore;
         entry.isSaved = false;
@@ -88,7 +89,7 @@ export const setExamScoreEntry = (scoreEntryId, examsScore, scoreEntry) => (disp
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/exam-score`, { scoreEntryId: entry.scoreEntryId, score: examsScore })
+        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: entry.studentContactId, score: examsScore })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -103,7 +104,9 @@ export const setExamScoreEntry = (scoreEntryId, examsScore, scoreEntry) => (disp
     }
 }
 
-export const setAssessmentScoreEntry = (scoreEntryId, assessmentScore, scoreEntry) => (dispatch) => {
+export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry) => (dispatch) => {
+
+    debugger
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -116,8 +119,8 @@ export const setAssessmentScoreEntry = (scoreEntryId, assessmentScore, scoreEntr
         return;
     }
 
-    const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.scoreEntryId === scoreEntryId);
-    let entry = scoreEntry?.classScoreEntries.find(e => e.scoreEntryId == scoreEntryId);
+    const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
     if (entry) {
         entry.assessmentScore = assessmentScore;
         entry.isSaved = false;
@@ -128,7 +131,7 @@ export const setAssessmentScoreEntry = (scoreEntryId, assessmentScore, scoreEntr
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/assessment-score`, { scoreEntryId: entry.scoreEntryId, score: assessmentScore })
+        axiosInstance.post(`/api/v1/result/update/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
