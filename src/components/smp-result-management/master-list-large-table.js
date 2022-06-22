@@ -1,14 +1,14 @@
 import { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
-import { useDownloadExcel } from "react-export-table-to-excel";
+// import { useDownloadExcel } from "react-export-table-to-excel";
 
 const MasterListLargeTable = ({ listEntry }) => {
   const tableRef = useRef(null);
-  const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: "Master-list Table",
-    sheet: "Result List"
-});
+//   const { onDownload } = useDownloadExcel({
+//     currentTableRef: tableRef.current,
+//     filename: "Master-list Table",
+//     sheet: "Result List"
+// });
 
   if (listEntry?.resultList == null) {
     listEntry.resultList = [];
@@ -29,7 +29,7 @@ const MasterListLargeTable = ({ listEntry }) => {
               type="button"
               className="btn-sm mx-2"
               variant="btn btn-success"
-              onClick={onDownload}
+              // onClick={onDownload}
             >
               Download
             </Button>
