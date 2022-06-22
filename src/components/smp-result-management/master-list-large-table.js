@@ -1,8 +1,15 @@
-import React from "react";
+import { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
-import { resultManagement } from "../../router/spm-path-locations";
+import { useDownloadExcel } from "react-export-table-to-excel";
 
 const MasterListLargeTable = ({ listEntry }) => {
+  const tableRef = useRef(null);
+  const { onDownload } = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: "Master-list Table",
+    sheet: "Result List"
+});
+
   if (listEntry?.resultList == null) {
     listEntry.resultList = [];
   }
@@ -18,29 +25,27 @@ const MasterListLargeTable = ({ listEntry }) => {
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
-          <a href={resultManagement.masterList} download>
             <Button
               type="button"
               className="btn-sm mx-2"
               variant="btn btn-success"
-              onClick={() => {}}
+              onClick={onDownload}
             >
               Download
             </Button>
-          </a>
         </div>
 
-        <Table size="md" bordered responsive className="mt-2">
+        <Table size="md" bordered responsive className="mt-2 border-secondary" ref={tableRef}>
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
-              <td className="text-uppercase h6">S/No</td>
-              <td className="text-uppercase h6 text-start">Student Name</td>
-              <td className="text-uppercase h6 text-start">Registration No</td>
-              <td className="text-uppercase h6">Position</td>
-              <td className="text-uppercase h6">Total Subjects Offered</td>
-              <td className="text-uppercase h6">Total Score</td>
-              <td className="text-uppercase h6">Average Score</td>
-              <td className="text-uppercase h6">Result Status</td>
+              <td className="text-uppercase h6 px-2">S/No</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Student Name</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Registration No</td>
+              <td className="text-uppercase h6 px-2">Position</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Subjects Offered</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Score</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Average Score</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Result Status</td>
               {subjectList?.map((subject, idx) => (
                 <td colspan="3" className="text-uppercase h6">
                   {subject.subjectName}
@@ -53,11 +58,12 @@ const MasterListLargeTable = ({ listEntry }) => {
               <td colspan="8"></td>
               {subjectList?.map((subject, idx) => (
                 <>
-                  <td
+                  <td 
                     style={{
                       writingMode: "vertical-rl",
                       maxWidth: "5px",
                       padding: 2,
+                   
                     }}
                   >
                     C.A
@@ -98,7 +104,7 @@ const MasterListLargeTable = ({ listEntry }) => {
                 <td className="fw-bold">{item.totalSubjects}</td>
                 <td className="fw-bold">{item.totalScore}</td>
                 <td className="fw-bold">{item.averageScore}</td>
-                <td className="fw-bold ">
+                <td className="fw-bold">
                   <Badge bg={item.status == "PASSED" ? "success" : "danger"}>
                     {item.status}
                   </Badge>
