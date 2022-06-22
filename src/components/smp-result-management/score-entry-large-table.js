@@ -137,15 +137,14 @@ const LargeTable = ({
                                 className="fw-bold"
                                 type="text"
                                 maxLength={scoreEntry?.assessmentScore}
-                                name={`${item.scoreEntryId}_assessmentScore`}
+                                name={`${item.studentContactId}_assessmentScore`}
                                 defaultValue={item.assessmentScore}
                                 onChange={(e) => {
-                                  if(Number(e.target.value) > e.target.maxLength) {e.target.value = e.target.maxLength}
-                                  setFieldValue(`${item.scoreEntryId}_assessmentScore`, e.target.value);
+                                  setFieldValue(`${item.studentContactId}_assessmentScore`, e.target.value);
                                 }}
 
                                 onBlur={(e) => {
-                                  setAssessmentScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
+                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
                                 }}
                               />
                             ) : (
@@ -154,6 +153,32 @@ const LargeTable = ({
                           )}
                         </td>
 
+                        <td className="fw-bold text-center" style={{ maxWidth: '150px' }} >
+
+                          {!isEditMode ? (
+                            <span className="fw-bold">{item.examsScore}</span>
+                          ) : (
+                            indexRow == index ? (
+                              <Field
+                                style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
+                                className=" fw-bold "
+                                type="text"
+                                maxLength={scoreEntry?.examsScore}
+                                name={`${item.studentContactId}_examScore`}
+                                defaultValue={item.examsScore}
+                                // onFocus={handleFocus}
+                                onChange={(e) => {
+                                  setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
+                                }}
+                                onBlur={(e) => {
+                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
+                                }}
+                              />
+                            ) : (
+                              <span className="fw-bold">{item.examsScore}</span>
+                            )
+                          )}
+                        </td>
 
 
                         <td style={{ width: "5px" }}>
