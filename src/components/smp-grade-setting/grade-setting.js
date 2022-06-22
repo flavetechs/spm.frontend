@@ -106,7 +106,7 @@ const GradeSetting = () => {
           <Col sm="12" lg="10">
             <Card className="p-2">
               <Card.Body id="form">
-                <Formik
+                <Formik 
                   initialValues={{
                     gradeGroupName: gradeToEdit?.gradeGroupName || gGroupName,
                     gradeName: gradeToEdit?.gradeName,
@@ -119,6 +119,7 @@ const GradeSetting = () => {
                   onSubmit={(values) => {
                     setgGroupName(values.gradeGroupName);
                     selectedGrade(null);
+                    setGradeToEdit(null);
                     var edited = gradeSetups.find(
                       (d) =>
                         d.gradeName.trim().toLowerCase() ==
@@ -144,7 +145,7 @@ const GradeSetting = () => {
                     }
                   }}
                 >
-                  {({ handleSubmit, touched, errors }) => (
+                  {({ handleSubmit, touched, errors, values, setFieldValue }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <Row className="border p-3 px-4 d-sm-block">
@@ -181,7 +182,7 @@ const GradeSetting = () => {
                               <div className="d-sm-flex d-md-block">
                                 <Field
                                   type="text"
-                                  className="form-control w-75 fw-bolder text-secondary border-secondary"
+                                  className="form-control w-75 fw-bolder text-secondary border-secondary text-uppercase"
                                   name="gradeName"
                                   id="gradeName"
                                   aria-describedby="gradeName"
@@ -259,7 +260,7 @@ const GradeSetting = () => {
                               <div className="d-sm-flex d-md-block">
                                 <Field
                                   type="text"
-                                  className="form-control text-secondary fw-bolder w-75 border-secondary"
+                                  className="form-control text-secondary fw-bolder w-75 border-secondary text-uppercase"
                                   name="remark"
                                   id="remark"
                                   aria-describedby="remark"
@@ -348,6 +349,7 @@ const GradeSetting = () => {
                           <div className="d-flex justify-content-end">
                             <a
                               className="h-25 btn-sm mt-5 btn btn-primary"
+                              ref = {ref}
                               onClick={() => {
                                 submitGradeSetting();
                               }}
@@ -372,7 +374,6 @@ const GradeSetting = () => {
                           <a
                             style={{ cursor: "pointer" }}
                             className="text-capitalize badge btn-primary border-0 btn btn-sm"
-                            ref={ref}
                             onClick={() => {
                               handleEditClick(item);
                             }}
