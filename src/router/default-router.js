@@ -37,6 +37,7 @@ import SessionDetails from '../components/smp-session/session-details';
 import StaffList from '../components/smp-staff/staff-list';
 import StaffAdd from '../components/smp-staff/staff-add';
 import StaffEdit from '../components/smp-staff/staff-edit';
+import PublishResult from '../components/smp-result-management/publish-result-setup';
 
 const DashboardRouter = () => {
 
@@ -96,6 +97,7 @@ const DashboardRouter = () => {
 
                       {/* resultManagement */}
                       <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
+                      <Route path={resultManagement.publishResult} exact component={PublishResult} />
 
                 </Switch>
             </CSSTransition>
