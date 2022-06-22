@@ -61,6 +61,7 @@ export const gradeSetting = {
 
 
 export const resultManagement = {
+  adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
   scoreEntry: "/dashboard/smp-result/score-entry",
   publishResult: "/dashboard/smp-result/publish-result",
   masterList: "/dashboard/smp-result/master-list",
