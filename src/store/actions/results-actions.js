@@ -170,3 +170,23 @@ export const showHidePreview = (value = false) => (dispatch) => {
         payload: value
     });
 }
+
+export const  getAllMasterListentries = (sessionClassId, termId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_MASTER_LIST_LOADING,
+        payload: sessionClassId
+    });
+
+    axiosInstance.get(`/api/v1/result/get/master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_MASTER_LIST_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_MASTER_LIST_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
