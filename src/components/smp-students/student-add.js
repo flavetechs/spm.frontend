@@ -15,6 +15,7 @@ import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
+import "./student-add.scss"
 const StudentAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -242,7 +243,7 @@ const StudentAdd = () => {
                           <Field
                             as="select"
                             name="sessionClassId"
-                            className="form-select text-dark text-capitalize"
+                            className="form-select text-dark"
                             id="sessionClassId"
                           >
                             <option value="Select Class">Select Class</option>
@@ -282,7 +283,7 @@ const StudentAdd = () => {
                             type="text"
                             id="firstName"
                             name="firstName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark firstName"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -294,7 +295,7 @@ const StudentAdd = () => {
                             type="text"
                             id="lastName"
                             name="lastName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -306,7 +307,7 @@ const StudentAdd = () => {
                             type="text"
                             name="middleName"
                             id="middleName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -364,7 +365,7 @@ const StudentAdd = () => {
                             type="email"
                             id="email"
                             name="email"
-                            className="form-control text-dark"
+                            className="form-control text-dark text-lowercase"
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -376,7 +377,7 @@ const StudentAdd = () => {
                             type="date"
                             id="dob"
                             name="dob"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-sm-12 form-group">
@@ -388,7 +389,7 @@ const StudentAdd = () => {
                             type="text"
                             id="homeAddress"
                             name="homeAddress"
-                            className="form-control"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -495,7 +496,7 @@ const StudentAdd = () => {
                             type="text"
                             name="parentOrGuardianName"
                             id="parentOrGuardianName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <Row>
@@ -528,7 +529,7 @@ const StudentAdd = () => {
                             type="text"
                             name="parentOrGuardianRelationship"
                             id="parentOrGuardianRelationship"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -568,7 +569,7 @@ const StudentAdd = () => {
                             type="email"
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
-                            className="form-control text-dark"
+                            className="form-control text-dark text-lowercase"
                           />
                         </div>
                       </div>

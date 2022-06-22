@@ -473,7 +473,7 @@ const SessionClassAdd = () => {
                         <tbody>
                           {activeSubjects.map((subject, idx) => (
                             <tr key={idx}>
-                              <td style={{ width: "50%" }} className='text-capitalize'>
+                              <td style={{ width: "50%" }} className='text-uppercase'>
                                 {" "}
                                 <Field
                                   type="checkbox"

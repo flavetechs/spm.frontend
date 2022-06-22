@@ -246,7 +246,7 @@ const UnenrolledStudentsList = () => {
                       {unenrolledStudents.map((student, idx) => (
                         <tr key={idx}>
                           <td className="">
-                            {showCheckBoxes ? (
+                            <b>{showCheckBoxes ? (
                               <input
                                 className="form-check-input"
                                 type="checkbox"
@@ -262,10 +262,10 @@ const UnenrolledStudentsList = () => {
                               />
                             ) : (
                               idx + 1
-                            )}
+                            )}</b>
                           </td>
-                          <td className="text-uppercase text-dark">{student.studentName}</td>
-                          <td>{student.studentRegNumber}</td>
+                          <td className="text-uppercase"><b>{student.studentName}</b></td>
+                          <td className="text-uppercase"><b>{student.studentRegNumber}</b></td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
