@@ -104,21 +104,15 @@ const AdminScoreEntry = () => {
                       errors,
                     }) => (
                       <Form>
-                        <Row >
-                          <Col md="6">
+                        <Row classname="d-flex justify-content-center">
+                          <Col md="10">
                             {touched.sessionId && errors.sessionId && (
                               <div className="text-danger">
                                 {errors.sessionId}
                               </div>
                             )}
                           </Col>
-                          <Col md="6">
-                            {touched.terms && errors.terms && (
-                              <div className="text-danger">{errors.terms}</div>
-                            )}
-                          </Col>
-
-                          <Col md="6" className="form-group">
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="sessionId"
@@ -147,7 +141,12 @@ const AdminScoreEntry = () => {
                               ))}
                             </Field>
                           </Col>
-                          <Col md="6" className="form-group">
+                          <Col md="10">
+                            {touched.terms && errors.terms && (
+                              <div className="text-danger">{errors.terms}</div>
+                            )}
+                          </Col>
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="terms"
@@ -186,9 +185,7 @@ const AdminScoreEntry = () => {
                                 )}
                             </select>
                           </Col>
-                          <Row>
-                            {" "}
-                            <Col md="6">
+                            <Col md="10">
                               {touched.sessionClassId &&
                                 errors.sessionClassId && (
                                   <div className="text-danger">
@@ -196,15 +193,7 @@ const AdminScoreEntry = () => {
                                   </div>
                                 )}
                             </Col>
-                            <Col md="6">
-                              {touched.subjectId && errors.subjectId && (
-                                <div className="text-danger">
-                                  {errors.subjectId}
-                                </div>
-                              )}
-                            </Col>
-                          </Row>
-                          <Col md="6" className="form-group">
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="sessionClassId"
@@ -233,7 +222,14 @@ const AdminScoreEntry = () => {
                               ))}
                             </Field>
                           </Col>
-                          <Col md="6" className="form-group">
+                          <Col md="10">
+                              {touched.subjectId && errors.subjectId && (
+                                <div className="text-danger">
+                                  {errors.subjectId}
+                                </div>
+                              )}
+                            </Col>
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="subjectId"
