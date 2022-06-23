@@ -55,7 +55,7 @@ const MasterList = () => {
       setShowMasterListTable(true);
     }
   }, [listEntry]);
-
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -81,8 +81,8 @@ const MasterList = () => {
                     onSubmit={(values) => {
                       getAllMasterListentries(
                         values.sessionClassId,
-                         values.terms
-                       )(dispatch)
+                        values.terms
+                      )(dispatch);
                     }}
                   >
                     {({
@@ -219,9 +219,14 @@ const MasterList = () => {
                   </Formik>
                 ) : (
                   <div>
-                    <MasterListSmallTable listEntry={listEntry} 
-                    setShowMasterListTable={setShowMasterListTable}/>
-                    <MasterListLargeTable listEntry={listEntry} />
+                    <MasterListSmallTable
+                      listEntry={listEntry}
+                      setShowMasterListTable={setShowMasterListTable}
+                      
+                    />
+                    <MasterListLargeTable
+                      listEntry={listEntry}
+                    />
                   </div>
                 )}
               </Card.Body>

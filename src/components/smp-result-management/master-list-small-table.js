@@ -19,7 +19,7 @@ const MasterListSmallTable = ({listEntry, setShowMasterListTable}) => {
                 <td className="fw-bold text-capitalize">{listEntry?.termName}</td>
               </tr>
               <tr>
-                <th className="h6">Term</th>
+                <th className="h6">Class</th>
                 <td className="fw-bold text-capitalize">{listEntry?.sessionClass}</td>
               </tr>
               <tr>
