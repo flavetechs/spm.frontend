@@ -7,4 +7,5 @@ export const _state = {
     scoreEntry: null,
     scoreEntryPreview: null,
     fetchPreviewSuccessful: false,
+    listEntry: null,
 }

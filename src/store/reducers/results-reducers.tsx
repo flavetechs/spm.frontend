@@ -95,6 +95,29 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_MASTER_LIST_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        listEntry: null,
+      };
+    }
+    case actions.FETCH_MASTER_LIST_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        listEntry: payload,
+      };
+    }
+    case actions.FETCH_MASTER_LIST_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        listEntry: null,
+      };
+    }
+
+
     case actions.UPDATE_SCORE_ENTRY: {
       return {
         ...state,

@@ -348,6 +348,7 @@ const GradeSetting = () => {
                           <div className="d-flex justify-content-end">
                             <a
                               className="h-25 btn-sm mt-5 btn btn-primary"
+                              ref = {ref}
                               onClick={() => {
                                 submitGradeSetting();
                               }}

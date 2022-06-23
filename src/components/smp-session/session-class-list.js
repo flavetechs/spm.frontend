@@ -128,7 +128,7 @@ const SessionClassList = () => {
                     <tbody>
                       {itemList.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="">{idx + 1}</td>
+                          <td className=""><b>{idx + 1}</b></td>
                           <td><strong>{item.class}</strong> </td>
                           <td className="text-uppercase"><b>{item.formTeacher}</b></td>
                           <td><b>{item.examScore}</b></td>
