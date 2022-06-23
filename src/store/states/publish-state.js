@@ -2,9 +2,9 @@ export const _state = {
     loading: false,
     message: "",
     isSuccessful: false,
-    staffClasses: [],
-    staffClassSubjects: null,
-    scoreEntry: null,
-    scoreEntryPreview: null,
+    schoolSessions: [],
+    sessionTerms: null,
+    termClasses: null,
+    classResult: null,
     fetchPreviewSuccessful: false,
 }

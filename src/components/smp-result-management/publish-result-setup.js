@@ -14,6 +14,7 @@ import SmallTable from "./score-entry-small-table";
 import Preview from "./score-entry-preview";
 import PublishResultTable from "./publish-result-table";
 import { fetchSingleSession, getActiveSession, getAllSession } from "../../store/actions/session-actions";
+import { getAllSchoolSessions, getAllTerms, getTermClasses } from "../../store/actions/publish-actions";
 
 const PublishResult = () => {
     //VARIABLE DECLARATIONS
@@ -33,10 +34,11 @@ const PublishResult = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { sessionList, selectedItem, activeSession } = state.session;
-    console.log('sessionList ', sessionList);
-    console.log('activeSession ', activeSession);
-    console.log('selectedItem ', selectedItem);
+    // const { sessionList, selectedItem, activeSession } = state.session;
+    const { schoolSessions, sessionTerms, termClasses } = state.publish;
+    console.log('schoolSessions ', schoolSessions);
+    console.log('sessionTerms ', sessionTerms);
+    console.log('termClasses ', termClasses);
     const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
 
     // ACCESSING STATE FROM REDUX STORE
@@ -52,19 +54,17 @@ const PublishResult = () => {
 
 
     React.useEffect(() => {
-        getAllStaffClasses()(dispatch);
-        getAllSession()(dispatch);
-        getActiveSession()(dispatch);
+        // getAllStaffClasses()(dispatch);
+        // getAllSession()(dispatch);
+        // getActiveSession()(dispatch);
+        getAllSchoolSessions()(dispatch)
 
-        window.onbeforeunload = () => {
-            return "are you sure you want to leave?";
-        };
+
+
+        // window.onbeforeunload = () => {
+        //     return "are you sure you want to leave?";
+        // };
     }, []);
-    React.useEffect(() => {
-        if (scoreEntry) {
-            setShowScoresEntryTable(true);
-        }
-    }, [scoreEntry]);
 
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);
@@ -137,27 +137,27 @@ const PublishResult = () => {
                                                         <Col md="4" className="form-group text-dark">
                                                             <label
                                                                 className="form-label"
-                                                                htmlFor="sessionClassId"
+                                                                htmlFor="sessionId"
                                                             >
                                                                 <b>Session:</b>
                                                             </label>
                                                             <Field
                                                                 as="select"
-                                                                name="sessionClassId"
+                                                                name="sessionId"
                                                                 className="form-select"
-                                                                id="sessionClassId"
+                                                                id="sessionId"
                                                                 onChange={(e) => {
-                                                                    setFieldValue("sessionClassId", e.target.value);
-                                                                    getStaffClassSubjects(e.target.value)(dispatch);
+                                                                    setFieldValue("sessionId", e.target.value);
+                                                                    getAllTerms(e.target.value)(dispatch);
                                                                 }}
                                                             >
                                                                 {/* <option value="">Select Class</option> */}
-                                                                {sessionList.map((item, idx) => (
+                                                                {schoolSessions.map((item, idx) => (
                                                                     <option
                                                                         key={idx}
-                                                                        name={values.sessionClassId}
-                                                                        value={item.sessionClassId}
-                                                                        data-tag={item.sessionClass}
+                                                                        name={values.sessionId}
+                                                                        value={item.sessionId}
+                                                                        // data-tag={item.sessionClass}
                                                                     >
                                                                         {item.startDate}/{item.endDate}
                                                                     </option>
@@ -177,17 +177,17 @@ const PublishResult = () => {
                                                                 className="form-select"
                                                                 id="sessionClassId"
                                                                 onChange={(e) => {
-                                                                    setFieldValue("sessionClassId", e.target.value);
-                                                                    getStaffClassSubjects(e.target.value)(dispatch);
+                                                                    setFieldValue("sessionTermId", e.target.value);
+                                                                    getTermClasses(e.target.value)(dispatch);
                                                                 }}
                                                             >
                                                                 <option value="">Select Term</option>
-                                                                {terms.map((term, idx) => (
+                                                                {sessionTerms?.map((term, idx) => (
                                                                     <option
                                                                         key={idx}
-                                                                        name={values.sessionClassId}
-                                                                        value={term.sessionClassId}
-                                                                        data-tag={term.sessionClass}
+                                                                        name={values.sessionTermId}
+                                                                        value={term.sessionTermId}
+                                                                        data-tag={term.sessionTermId}
                                                                     >
                                                                         {term.termName}
                                                                     </option>

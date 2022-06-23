@@ -13,6 +13,7 @@ import { alertReducer } from './reducers/toaster-reducer'
 import { gradeReducer } from './reducers/grade-setting-reducer'
 import Mode from './setting/setting'
 import { resultsReducer } from './reducers/results-reducers'
+import { publishresultsReducer } from './reducers/publish-result-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -28,6 +29,7 @@ export default createStore(
         enrollment: enrollmentReducer,
         promotion: promotionReducer,
         grade: gradeReducer,
-        results: resultsReducer
+        results: resultsReducer,
+        publish: publishresultsReducer,
     })
 )
