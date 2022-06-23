@@ -42,7 +42,7 @@ const PublishResultTable = ({
 
     return (
         <>
-            <Row className="pt-3 bg-light">
+            <Row className="pt-3">
                 <div className="d-flex justify-content-end">
                     <Button
                         type="button"
@@ -106,7 +106,7 @@ const PublishResultTable = ({
                                             <td className="fw-bold text-start text-uppercase">{item.averageScore}</td>
                                             <td className="fw-bold text-start text-uppercase">{item.totalStudent}</td>
                                             <td className="fw-bold text-start text-uppercase">
-                                            {item.isActive ? <span className="badge bg-success">Isactive</span> : <span className="badge bg-danger">inactive</span>}
+                                            {item.isActive ? <span className="badge bg-success">PASSED</span> : <span className="badge bg-danger">FAILED</span>}
                                             </td>
                                             <td>
                                                 <div className="flex align-items-center list-user-action">
