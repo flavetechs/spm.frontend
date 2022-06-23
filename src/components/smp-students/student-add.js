@@ -104,6 +104,8 @@ const StudentAdd = () => {
           values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
           values.firstName = values.firstName.toUpperCase();
           values.lastName = values.lastName.toUpperCase();
+          values.middleName = values.middleName.toUpperCase();
+          values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
           values.zipCode = values.zipCode.toString();
           createStudent(values)(dispatch);
         }}

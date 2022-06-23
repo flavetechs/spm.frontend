@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
+import "./class-setup.scss"
 
 import { createClass } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
@@ -64,6 +65,7 @@ const ClassSetupAdd = () => {
                   validationSchema={validation}
                   onSubmit={(values) => {
                     values.isActive = isChecked;
+                    values.name = values.name.toUpperCase();
                     createClass(values)(dispatch);
                   }}
                 >
@@ -89,7 +91,7 @@ const ClassSetupAdd = () => {
                           </label>
                           <Field
                             type="text"
-                            className="form-control text-capitalize"
+                            className="form-control text-dark"
                             name="name"
                             id="name"
                             aria-describedby="name"
@@ -112,7 +114,7 @@ const ClassSetupAdd = () => {
                           </label>
                           <Field
                             as="select"
-                            className="form-select text-capitalize"
+                            className="form-select text-dark"
                             name="gradeLevelId"
                             id="gradeLevelId"
                             aria-describedby="gradeLevelId"

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-
+import "./class-setup.scss"
 import { createSubject } from "../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 
@@ -47,6 +47,7 @@ const SubjectSetupAdd = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
+                    values.name = values.name.toUpperCase();
                     values.isActive = isChecked;
                     createSubject(values)(dispatch);
                   }}
@@ -73,7 +74,7 @@ const SubjectSetupAdd = () => {
                           </label>
                           <Field
                             type="text"
-                            className="form-control text-capitalize"
+                            className="form-control text-dark"
                             name="name"
                             id="name"
                             aria-describedby="name"
