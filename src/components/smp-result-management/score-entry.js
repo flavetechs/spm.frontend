@@ -94,7 +94,7 @@ const ScoreEntry = () => {
                       errors,
                     }) => (
                       <Form>
-                        
+                        <Row>
                           <Link
                             to={resultManagement.adminScoreEntry}
                             className="d-flex justify-content-end"
@@ -133,8 +133,7 @@ const ScoreEntry = () => {
                               View Previous Score Entries
                             </button>
                           </Link>
-                          <Row className="d-flex justify-content-center">
-                          <Col md="10">
+                          <Col md="6">
                             {touched.sessionClassId &&
                               errors.sessionClassId && (
                                 <div className="text-danger">
@@ -142,7 +141,14 @@ const ScoreEntry = () => {
                                 </div>
                               )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="6">
+                            {touched.subjectId && errors.subjectId && (
+                              <div className="text-danger">
+                                {errors.subjectId}
+                              </div>
+                            )}
+                          </Col>
+                          <Col md="6" className="form-group">
                             <label
                               className="form-label"
                               htmlFor="sessionClassId"
@@ -172,14 +178,7 @@ const ScoreEntry = () => {
                               ))}
                             </Field>
                           </Col>
-                          <Col md="10">
-                            {touched.subjectId && errors.subjectId && (
-                              <div className="text-danger">
-                                {errors.subjectId}
-                              </div>
-                            )}
-                          </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="6" className="form-group">
                             <label className="form-label" htmlFor="subjectId">
                               Subject:
                             </label>
