@@ -10,20 +10,18 @@ const MasterListLargeTable = ({ listEntry }) => {
 //     sheet: "Result List"
 // });
 
-
-console.log('listEntry.resultLis', listEntry.resultList);
-
   if (listEntry?.resultList == null) {
     listEntry.resultList = [];
   }
-  const list = listEntry?.resultList.map((list, idx) => list.subjects);
+  const list = listEntry?.resultList.map((list, idx) => list.subjects).flat();
   const subjectList = list
     .filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.subjectName === item.subjectName)
     )
-    .flat();
-
+    
+    console.log('listEntry.resultList',listEntry?.resultList );
+    console.log("help5",subjectList)
   return (
     <>
       <Row className="pt-3">
@@ -44,13 +42,13 @@ console.log('listEntry.resultLis', listEntry.resultList);
               <td className="text-uppercase h6 px-2">S/No</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Student Name</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Registration No</td>
-              <td className="text-uppercase h6 px-2">Position</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Position</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Subjects Offered</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Score</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Average Score</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Result Status</td>
               {subjectList?.map((subject, idx) => (
-                <td colspan="3" className="text-uppercase h6">
+                <td colSpan="3" className="text-uppercase h6" key={idx}>
                   {subject.subjectName}
                 </td>
               ))}
@@ -58,7 +56,7 @@ console.log('listEntry.resultLis', listEntry.resultList);
           </thead>
           <tbody>
             <tr>
-              <td colspan="8"></td>
+              <td colSpan="8"></td>
               {subjectList?.map((subject, idx) => (
                 <>
                   <td 
@@ -112,14 +110,31 @@ console.log('listEntry.resultLis', listEntry.resultList);
                     {item.status}
                   </Badge>
                 </td>
+                
+ {subjectList.map((list, id) => (
+                  <>
+                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ? 
+                   item.subjects.map(i=>i.subjectName == list.subjectName && i.assessmentScore) : ""}</td>
 
-                {item.subjects.map((subject, idx) => (
+                     <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
+                     item.subjects.map(i=>i.subjectName == list.subjectName && i.examScore) : ""}</td>
+
+                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
+                   item.subjects.map(i=>i.subjectName == list.subjectName && i.total) : ""} </td> 
+                  </>
+                ))} 
+
+
+
+
+                {/* {item.subjects.map((subject, id) => (
                   <>
                     <td className="px-3">{subject.assessmentScore}</td>
                     <td className="px-3">{subject.examScore}</td>
                     <td className="px-3">{subject.total}</td>
                   </>
-                ))}
+                ))} */}
+
               </tr>
             ))}
           </tbody>
