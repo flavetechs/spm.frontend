@@ -104,7 +104,7 @@ const AdminScoreEntry = () => {
                       errors,
                     }) => (
                       <Form>
-                        <Row>
+                        <Row >
                           <Col md="6">
                             {touched.sessionId && errors.sessionId && (
                               <div className="text-danger">
