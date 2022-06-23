@@ -18,7 +18,6 @@ const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS
-  const ref = useRef();
   const dispatch = useDispatch();
   const [gGroupId, setgGroupId] = useState("");
   const [gradeSetups, setGradeSetup] = useState([]);
@@ -349,7 +348,6 @@ const GradeSetting = () => {
                           <div className="d-flex justify-content-end">
                             <a
                               className="h-25 btn-sm mt-5 btn btn-primary"
-                              ref = {ref}
                               onClick={() => {
                                 submitGradeSetting();
                               }}

@@ -104,8 +104,10 @@ const ScoreEntry = () => {
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                             >
                               <svg
-                                width="24"
+                                width="25"
+                                height="25"
                                 viewBox="0 0 24 24"
+                                className="pb-1"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
