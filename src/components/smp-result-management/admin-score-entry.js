@@ -104,7 +104,7 @@ const AdminScoreEntry = () => {
                       errors,
                     }) => (
                       <Form>
-                        <Row classname="d-flex justify-content-center">
+                       <Row className="d-flex justify-content-center">
                           <Col md="10">
                             {touched.sessionId && errors.sessionId && (
                               <div className="text-danger">
