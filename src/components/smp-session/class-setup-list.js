@@ -230,6 +230,7 @@ const ClassSetupList = () => {
                           /> : null}
 
                         </th>
+                        <th>S/NO</th>
                         <th>Class Name</th>
                         <th>Grade Level</th>
                         <th>Status</th>
@@ -254,8 +255,9 @@ const ClassSetupList = () => {
                               null
                             )}
                           </td>
-                          <td>{item.name}</td>
-                          <td>{item.gradeLevelName}</td>
+                          <td><b>{idx + 1}</b></td>
+                          <td className='text-uppercase'><b>{item.name}</b></td>
+                          <td className='text-uppercase'><b>{item.gradeLevelName}</b></td>
                           <td>
                             <span className={item.isActive ? `badge bg-primary` : `badge bg-danger`}>
                               {item.isActive ? "Active" : "inactive"}

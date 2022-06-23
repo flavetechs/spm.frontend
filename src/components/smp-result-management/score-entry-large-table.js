@@ -112,14 +112,14 @@ const LargeTable = ({
                                 className="fw-bold"
                                 type="text"
                                 maxLength={scoreEntry?.assessmentScore}
-                                name={`${item.scoreEntryId}_assessmentScore`}
+                                name={`${item.studentContactId}_assessmentScore`}
                                 defaultValue={item.assessmentScore}
                                 onFocus={handleFocus}
                                 onChange={(e) => {
-                                  setFieldValue(`${item.scoreEntryId}_assessmentScore`, e.target.value);
+                                  setFieldValue(`${item.studentContactId}_assessmentScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setAssessmentScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
+                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
                                 }}
                               />
                             ) : (
@@ -139,14 +139,14 @@ const LargeTable = ({
                                 className=" fw-bold "
                                 type="text"
                                 maxLength={scoreEntry?.examsScore}
-                                name={`${item.scoreEntryId}_examScore`}
+                                name={`${item.studentContactId}_examScore`}
                                 defaultValue={item.examsScore}
                                 onFocus={handleFocus}
                                 onChange={(e) => {
-                                  setFieldValue(`${item.scoreEntryId}_examScore`, e.target.value);
+                                  setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setExamScoreEntry(item.scoreEntryId, e.target.value, scoreEntry)(dispatch);
+                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
                                 }}
                               />
                             ) : (

@@ -228,6 +228,7 @@ const SubjectSetupList = () => {
                             />
                           ) : null}
                         </th>
+                        <th>S/NO</th>
                         <th>Name</th>
                         <th>Status</th>
                         <th min-width="100px">Action</th>
@@ -252,6 +253,7 @@ const SubjectSetupList = () => {
                               />
                             ) : null}
                           </td>
+                          <td><b>{idx + 1}</b></td>
                           <td className="text-uppercase"><b>{item.name}</b></td>
                           <td>
                             <span
