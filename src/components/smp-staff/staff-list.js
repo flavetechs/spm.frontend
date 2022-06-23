@@ -254,11 +254,11 @@ const StaffList = () => {
                               idx + 1
                             )}
                           </td>
-                          <td className="text-uppercase text-dark">{item.firstName}</td>
-                          <td className="text-uppercase text-dark">{item.lastName}</td>
-                          <td className="text-uppercase text-dark">{item.middleName}</td>
-                          <td className="text-dark">{item.email}</td>
-                          <td className="text-dark">{item.phone}</td>
+                          <td className="text-uppercase"><b>{item.firstName}</b></td>
+                          <td className="text-uppercase"><b>{item.lastName}</b></td>
+                          <td className="text-uppercase"><b>{item.middleName}</b></td>
+                          <td><b>{item.email}</b></td>
+                          <td><b>{item.phone}</b></td>
                           <td>
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Staff Details</Tooltip>}

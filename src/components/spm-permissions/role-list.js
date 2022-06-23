@@ -268,8 +268,8 @@ const RoleList = () => {
                               null
                             )}
                           </td>
-                          <td>{item.name}</td>
-                          <td>{item.roleId}</td>
+                          <td><b>{item.name}</b></td>
+                          <td><b>{item.roleId}</b></td>
                           <td>
                             <span className={`badge ${"bg-primary"}`}>
                               {"Active"}
