@@ -19,9 +19,7 @@ const MasterListLargeTable = ({ listEntry }) => {
       (item, index, self) =>
         index === self.findIndex((t) => t.subjectName === item.subjectName)
     )
-    
-    console.log('listEntry.resultList',listEntry?.resultList );
-    console.log("help5",subjectList)
+
   return (
     <>
       <Row className="pt-3">
