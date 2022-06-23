@@ -81,9 +81,8 @@ const MasterList = () => {
                     onSubmit={(values) => {
                       getAllMasterListentries(
                         values.sessionClassId,
-                        values.terms
-                      )(dispatch);
-                      console.log("val",values);
+                         values.terms
+                       )(dispatch)
                     }}
                   >
                     {({
@@ -94,28 +93,15 @@ const MasterList = () => {
                       setFieldValue,
                     }) => (
                       <Form>
-                        <Row>
-                          <Col md="4">
+                        <Row className="d-flex justify-content-center">
+                          <Col md="10">
                             {touched.sessionId && errors.sessionId && (
                               <div className="text-danger">
                                 {errors.sessionId}
                               </div>
                             )}
                           </Col>
-                          <Col md="4">
-                            {touched.terms && errors.terms && (
-                              <div className="text-danger">{errors.terms}</div>
-                            )}
-                          </Col>
-                          <Col md="4">
-                            {touched.sessionClassId &&
-                              errors.sessionClassId && (
-                                <div className="text-danger">
-                                  {errors.sessionClassId}
-                                </div>
-                              )}
-                          </Col>
-                          <Col md="4" className="form-group">
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="sessionId"
@@ -144,21 +130,23 @@ const MasterList = () => {
                               ))}
                             </Field>
                           </Col>
-                          <Col md="4" className="form-group">
+                          <Col md="10">
+                            {touched.terms && errors.terms && (
+                              <div className="text-danger">{errors.terms}</div>
+                            )}
+                          </Col>
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="terms"
                             >
                               Terms:
                             </label>
-                            <select
+                            <Field
                               as="select"
                               name="terms"
                               className="form-select"
                               id="terms"
-                              onChange={(e) => {
-                                setFieldValue("terms", e.target.value);
-                              }}
                             >
                               <option value="">Select Terms</option>
                               {sessionList
@@ -181,9 +169,17 @@ const MasterList = () => {
                                     </option>
                                   ))
                                 )}
-                            </select>
+                            </Field>
                           </Col>
-                          <Col md="4" className="form-group">
+                          <Col md="10">
+                            {touched.sessionClassId &&
+                              errors.sessionClassId && (
+                                <div className="text-danger">
+                                  {errors.sessionClassId}
+                                </div>
+                              )}
+                          </Col>
+                          <Col md="10" className="form-group">
                             <label
                               className="form-label fw-bold"
                               htmlFor="sessionClassId"
@@ -212,8 +208,7 @@ const MasterList = () => {
                         <div className="d-flex justify-content-end">
                           <Button
                             type="button"
-                            className="btn-sm"
-                            variant="btn btn-primary"
+                            variant="btn btn-primary btn-sm"
                             onClick={handleSubmit}
                           >
                             View
@@ -224,8 +219,9 @@ const MasterList = () => {
                   </Formik>
                 ) : (
                   <div>
-                    <MasterListSmallTable listEntry={listEntry}/>
-                    <MasterListLargeTable listEntry={listEntry}/>
+                    <MasterListSmallTable listEntry={listEntry} 
+                    setShowMasterListTable={setShowMasterListTable}/>
+                    <MasterListLargeTable listEntry={listEntry} />
                   </div>
                 )}
               </Card.Body>
