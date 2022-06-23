@@ -65,6 +65,7 @@ const ClassSetupEdit = () => {
                   enableReinitialize={true}
                   validationSchema={validation}
                   onSubmit={(values) => {
+                    values.name = values.name.toUpperCase();
                     values.isActive = isChecked;
                     updateClass(values)(dispatch);
                   }}
@@ -90,7 +91,7 @@ const ClassSetupEdit = () => {
                           </label>
                           <Field
                             type="text"
-                            className="form-control"
+                            className="form-control text-dark"
                             name="name"
                             id="name"
                             aria-describedby="name"
@@ -115,7 +116,7 @@ const ClassSetupEdit = () => {
                               as="select"
                               type="select"
                               name="gradeLevelId"
-                              className="form-select"
+                              className="form-select text-dark text-uppercase"
                               id="gradeLevelId"
                               value={values.gradeLevelId}
                             >

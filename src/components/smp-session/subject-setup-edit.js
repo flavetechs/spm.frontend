@@ -6,6 +6,7 @@ import { sessionLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
+import "./class-setup.scss"
 import { updateSubject } from "../../store/actions/class-actions";
 
 const SubjectSetupEdit = () => {
@@ -54,6 +55,7 @@ const SubjectSetupEdit = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
+                    values.name = values.name.toUpperCase();
                     values.isActive = isChecked;
                     console.log(values);
                     updateSubject(values)(dispatch);
@@ -81,7 +83,7 @@ const SubjectSetupEdit = () => {
                           </label>
                           <Field
                             type="text"
-                            className="form-control"
+                            className="form-control text-dark"
                             name="name"
                             id="name"
                             aria-describedby="name"
