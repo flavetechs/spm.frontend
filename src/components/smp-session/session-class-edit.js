@@ -604,6 +604,7 @@ const SessionClassEdit = () => {
                                       subject.lookupId,
                                       e.target.value
                                     );
+
                                   }}
                                 >
                                   <option value="">Select Teacher</option>
@@ -611,7 +612,7 @@ const SessionClassEdit = () => {
                                   {activeTeachers.map((teacher, id) => (
                                     <option
                                       key={id}
-                                      defaultValue={teacher.teacherAccountId}
+                                      value={teacher.teacherAccountId}
                                       selected={
                                         classSubjects.find(
                                           (sub) =>

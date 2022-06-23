@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
     },
 });
 
-axiosInstance.interceptors.response.use((response) => response, (error: any) => { 
+axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
     if(error.response.status === 401){
         console.log('aunthorized');
         localStorage.removeItem('token');
@@ -16,7 +16,7 @@ axiosInstance.interceptors.response.use((response) => response, (error: any) => 
     throw error;
 });
 
-axiosInstance.interceptors.response.use((response) => response, (error: any) => { 
+axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
     if(error.response.status === 500){
         console.log('error.response', error.response)
     }

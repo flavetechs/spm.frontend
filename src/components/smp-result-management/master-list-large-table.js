@@ -10,6 +10,9 @@ const MasterListLargeTable = ({ listEntry }) => {
 //     sheet: "Result List"
 // });
 
+
+console.log('listEntry.resultLis', listEntry.resultList);
+
   if (listEntry?.resultList == null) {
     listEntry.resultList = [];
   }
