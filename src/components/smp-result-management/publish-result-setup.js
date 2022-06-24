@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import Preview from "./score-entry-preview";
 import PublishResultTable from "./publish-result-table";
 import { getAllResultList, getAllSchoolSessions, getAllTerms, getTermClasses, nullifyResultListOnExit } from "../../store/actions/publish-actions";
+import { getActiveSession } from "../../store/actions/session-actions";
 
 const PublishResult = () => {
     //VARIABLE DECLARATIONS
@@ -24,7 +25,6 @@ const PublishResult = () => {
 
     const { schoolSessions, sessionTerms, termClasses, printResult } = state.publish;
     const { activeSession } = state.session;
-    console.log('activeSession ', activeSession);
 
     // ACCESSING STATE FROM REDUX STORE
 
@@ -41,10 +41,7 @@ const PublishResult = () => {
 
     React.useEffect(() => {
         getAllSchoolSessions()(dispatch)
-        // window.onbeforeunload = () => {
-        //   return "are you sure you want to leave?";
-        // };
-
+        getActiveSession()(dispatch);
         setIndexRow('');
         setIdsForPreview({});
         SetShowPublishResultTable(false);
@@ -63,7 +60,10 @@ const PublishResult = () => {
         }
     },[printResult]);
 
-
+    console.log('activeSession ', activeSession?.terms
+    .filter((term) => term.isActive == true)
+    .map((term) => term.sessionTermId)
+    .toString());
     return (
         <>
             <div className="col-md-12 mx-auto">
@@ -77,17 +77,13 @@ const PublishResult = () => {
                                 {
                                     !isPreviewMode ?
                                         <Formik
-                                            // initialValues={{
-                                            //     sessionId: activeSession?.sessionId.toUpperCase(),
-                                            //     terms: activeSession?.terms
-                                            //         .filter((term) => term.isActive == true)
-                                            //         .map((term) => term.sessionTermId)
-                                            //         .toString(),
-                                            //     sessionClassId: "",
-                                            // }}
                                             initialValues={{
-                                                sessionClassId: activeSession?.sessionId.toUpperCase(),
-                                                sessionTermId: activeSession?.sessionTermId.toUpperCase(),
+                                                sessionId: activeSession?.sessionId.toUpperCase(),
+                                                sessionTermId: activeSession?.terms
+                                                        .filter((term) => term.isActive == true)
+                                                        .map((term) => term.sessionTermId)
+                                                        .toString(),
+                                                sessionClassId: "",
                                             }}
                                             validationSchema={validation}
                                             enableReinitialize={true}
@@ -156,7 +152,6 @@ const PublishResult = () => {
                                                                         key={idx}
                                                                         name={values.sessionId}
                                                                         value={item.sessionId}
-                                                                    // data-tag={item.sessionClass}
                                                                     >
                                                                         {item.startDate}/{item.endDate}
                                                                     </option>
@@ -180,17 +175,39 @@ const PublishResult = () => {
                                                                     getTermClasses(values.sessionId, e.target.value)(dispatch);
                                                                 }}
                                                             >
-                                                                <option value="">Select Term</option>
+                                                                {/* <option value="">Select Term</option>
                                                                 {sessionTerms?.map((term, idx) => (
                                                                     <option
                                                                         key={idx}
                                                                         name={values.sessionTermId}
                                                                         value={term.sessionTermId}
-                                                                    // data-tag={term.termName}
+                                                                        selected={
+                                                                            term.sessionTermId == values.sessionTermId
+                                                                          }
                                                                     >
                                                                         {term.termName}
                                                                     </option>
-                                                                ))}
+                                                                ))} */}
+        <option value="">Select Terms</option>
+                              {sessionTerms
+                                ?.filter(
+                                  (list, idx) =>
+                                    list.sessionId ==
+                                    values.sessionId
+                                )
+                              .map((term, idx) => (
+                                    <option
+                                      key={idx}
+                                      name={values.sessionTermId}
+                                      value={term.sessionTermId}
+                                      selected={
+                                        term.sessionTermId == values.sessionTermId
+                                      }
+                                    >
+                                      {term.termName}
+                                    </option>
+                              )
+)}
                                                             </Field>
                                                         </Col>
                                                         <Col md="4" className="form-group text-dark">

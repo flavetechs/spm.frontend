@@ -44,7 +44,6 @@ const MasterList = () => {
   React.useEffect(() => {
     if (!sessionId) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
-      setSessionId(activeSession?.sessionId);
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
