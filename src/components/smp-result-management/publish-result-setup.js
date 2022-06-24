@@ -4,25 +4,16 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { Link, useLocation } from 'react-router-dom'
-import {
-    getAllClassScoreEntries,
-    getAllStaffClasses,
-    getStaffClassSubjects,
-} from "../../store/actions/results-actions";
-import SmallTable from "./score-entry-small-table";
 import Preview from "./score-entry-preview";
 import PublishResultTable from "./publish-result-table";
-import { getAllResultList, getAllSchoolSessions, getAllTerms, getTermClasses } from "../../store/actions/publish-actions";
+import { getAllResultList, getAllSchoolSessions, getAllTerms, getTermClasses, nullifyResultListOnExit } from "../../store/actions/publish-actions";
 
 const PublishResult = () => {
     //VARIABLE DECLARATIONS
-    const locations = useLocation();
     const dispatch = useDispatch();
     const [indexRow, setIndexRow] = useState("");
     const [idsForPreview, setIdsForPreview] = useState({});
     const [showPublishResultTable, SetShowPublishResultTable] = useState(false);
-    const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
     const [isEditMode, setEditMode] = useState(false);
     const [isPreviewMode, setPreviewMode] = useState(false);
 
@@ -31,11 +22,7 @@ const PublishResult = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
 
-    const { schoolSessions, sessionTerms, termClasses, resultList } = state.publish;
-    // console.log('schoolSessions ', schoolSessions);
-    // console.log('sessionTerms ', sessionTerms);
-    // console.log('termClasses ', termClasses);
-    // console.log('ResultList ', resultList);
+    const { schoolSessions, sessionTerms, termClasses, printResult } = state.publish;
     const { activeSession } = state.session;
     console.log('activeSession ', activeSession);
 
@@ -64,14 +51,17 @@ const PublishResult = () => {
         setEditMode(false);
         setPreviewMode(false);
 
-
     }, []);
-    React.useEffect(() => {
-        if (resultList) {
-            SetShowPublishResultTable(true);
-        }
 
-    }, [resultList]);
+    React.useEffect(() => {
+        if (printResult) {
+            SetShowPublishResultTable(true);
+        } 
+        return () => {
+            nullifyResultListOnExit(printResult)(dispatch)
+            SetShowPublishResultTable(false);
+        }
+    },[printResult]);
 
 
     return (
@@ -255,7 +245,7 @@ const PublishResult = () => {
                                         {!isPreviewMode ? (
                                             <PublishResultTable
                                                 validation={validation}
-                                                resultList={resultList}
+                                                printResult={printResult}
                                                 isEditMode={isEditMode}
                                                 setEditMode={setEditMode}
                                                 setIndexRow={setIndexRow}

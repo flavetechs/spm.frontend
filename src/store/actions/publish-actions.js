@@ -1,4 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
+import { resultManagement } from "../../router/spm-path-locations";
 import { actions } from "../action-types/publish-result-action-types";
 // import { showErrorToast } from "./toaster-actions";
 
@@ -88,22 +89,12 @@ export const  getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-// export const publishResultList = (sessionClassId, termId) => (dispatch) => {
-//     dispatch({
-//         type: actions.PUBLISH_RESULT_LOADING,
-//         payload: sessionClassId
-//     });
-
-//     axiosInstance.get(`/api/v1/result/update/publish-result?sessionClassId=${sessionClassId}&subjectId=${termId}`)
-//         .then((res) => {
-//             dispatch({
-//                 type: actions.PUBLISH_RESULT_SUCCESS,
-//                 payload: res.data.result
-//             });
-//         }).catch((err) => {
-//             dispatch({
-//                 type: actions.PUBLISH_RESULT_FAILED,
-//                 payload: err.response.data.result
-//             })
-//         });
-// }
+export const nullifyResultListOnExit = (publishResult) => (dispatch) => {
+    if (window.location.pathname != resultManagement.publishResult){
+        publishResult = null
+    }else return publishResult
+    dispatch({
+        type: actions.CLOSE_RESULT_LIST,
+        payload: publishResult
+    });
+}

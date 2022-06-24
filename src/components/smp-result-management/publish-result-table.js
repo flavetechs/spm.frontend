@@ -9,7 +9,7 @@ import { getAllStudents } from "../../store/actions/student-actions";
 
 const PublishResultTable = ({
     validation,
-    resultList,
+    printResult,
     isEditMode,
     setEditMode,
     setIndexRow,
@@ -18,7 +18,7 @@ const PublishResultTable = ({
     isPreviewMode,
     idsForPreview,
 }) => {
-   
+
     const dispatch = useDispatch();
 
     // ACCESSING STATE FROM REDUX STORE
@@ -41,14 +41,14 @@ const PublishResultTable = ({
                         type="button"
                         className="btn-sm mx-2"
                         variant="btn btn-success"
-                        // onClick={() => {
-                        //     setEditMode(false);
-                        //     setPreviewMode(!isPreviewMode);
-                        //     getAllClassScoreEntryPreview(
-                        //         idsForPreview.sessionClassId,
-                        //         idsForPreview.subjectId
-                        //     )(dispatch);
-                        // }}
+                    // onClick={() => {
+                    //     setEditMode(false);
+                    //     setPreviewMode(!isPreviewMode);
+                    //     getAllClassScoreEntryPreview(
+                    //         idsForPreview.sessionClassId,
+                    //         idsForPreview.subjectId
+                    //     )(dispatch);
+                    // }}
                     >
                         Publish Result
                     </Button>
@@ -83,7 +83,7 @@ const PublishResultTable = ({
                             </thead>
                             <tbody>
                                 {
-                                    resultList?.publishResult.map((list, index) => (
+                                    printResult?.publishResult.map((list, index) => (
                                         <tr style={{ maxHeight: '30px' }}
                                             key={index}
                                             className="text-center"
@@ -99,7 +99,9 @@ const PublishResultTable = ({
                                             <td className="fw-bold text-start text-uppercase">{list.averageScore}</td>
                                             <td className="fw-bold text-start text-uppercase">{list.totalSubjects}</td>
                                             <td className="fw-bold text-start text-uppercase">
-                                            {list.status ? <span className="badge bg-success">PASSED</span> : <span className="badge bg-danger">FAILED</span>}
+                                                <Badge bg={list.status == "PASSED" ? "success" : "danger"}>
+                                                    {list.status}
+                                                </Badge>
                                             </td>
                                             <td>
                                                 <div className="flex align-items-center list-user-action">
