@@ -95,6 +95,30 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        previousScoreEntry: null,
+        fetchPreviousPreviewSuccessful: false,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntry: payload,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntry: null,
+      };
+    }
+
+
     case actions.FETCH_MASTER_LIST_LOADING: {
       return {
         ...state,

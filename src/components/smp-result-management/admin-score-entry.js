@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  getAllClassScoreEntries,
+  getAllPreviousClassScoreEntries,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../store/actions/results-actions";
@@ -16,7 +16,6 @@ import {
   getActiveSession,
   getAllSession,
 } from "../../store/actions/session-actions";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
 
 const AdminScoreEntry = () => {
   //VARIABLE DECLARATIONS
@@ -32,7 +31,6 @@ const AdminScoreEntry = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
-  const { itemList } = state.class;
   const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -50,6 +48,7 @@ const AdminScoreEntry = () => {
     getAllSession()(dispatch);
     setIndexRow("");
     setIdsForPreview({});
+    getAllStaffClasses()(dispatch);
     setShowAdminScoresEntryTable(false);
     setEditMode(false);
     setPreviewMode(false);
@@ -60,7 +59,7 @@ const AdminScoreEntry = () => {
       setShowAdminScoresEntryTable(true);
     }
   }, [scoreEntry]);
-
+console.log(scoreEntry);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -82,14 +81,11 @@ const AdminScoreEntry = () => {
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      getAllClassScoreEntries(
+                      getAllPreviousClassScoreEntries(
                         values.sessionClassId,
-                        values.subjectId
+                        values.subjectId,
+                        values.terms
                       )(dispatch);
-                      //   getAllMasterListentries(
-                      //     values.sessionClassId,
-                      //     values.terms
-                      //   )(dispatch);
                       setIdsForPreview({
                         sessionClassId: values.sessionClassId,
                         subjectId: values.subjectId,
@@ -130,10 +126,6 @@ const AdminScoreEntry = () => {
                               name="sessionId"
                               className="form-select"
                               id="sessionId"
-                              onChange={(e) => {
-                                setFieldValue("sessionId", e.target.value);
-                                getAllSessionClasses(e.target.value)(dispatch);
-                              }}
                             >
                               <option value="">Select Session</option>
                               {sessionList?.map((list, idx) => (
@@ -222,13 +214,13 @@ const AdminScoreEntry = () => {
                               }}
                             >
                               <option value="">Select Class</option>
-                              {itemList.map((list, idx) => (
+                              {staffClasses.map((list, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
                                   value={list.sessionClassId}
                                 >
-                                  {list.class}
+                                  {list.sessionClass}
                                 </option>
                               ))}
                             </Field>

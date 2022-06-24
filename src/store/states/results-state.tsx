@@ -8,4 +8,6 @@ export const _state = {
     scoreEntryPreview: null,
     fetchPreviewSuccessful: false,
     listEntry: null,
+    previousScoreEntry:null,
+    fetchPreviousPreviewSuccessful: false,
 }

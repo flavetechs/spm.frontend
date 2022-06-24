@@ -172,6 +172,27 @@ export const showHidePreview = (value = false) => (dispatch) => {
     });
 }
 
+export const getAllPreviousClassScoreEntries = (sessionClassId, subjectId, sessionTermId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_LOADING,
+        payload: sessionClassId
+    });
+
+    axiosInstance.get(`/api/v1/result/get/previous-terms/class-score-entries/${sessionClassId}?subjectId=${subjectId}&sessionTermId=${sessionTermId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
 export const  getAllMasterListentries = (sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MASTER_LIST_LOADING,
