@@ -3,6 +3,7 @@ import { Row, Col, Image, Form, Button } from 'react-bootstrap'
 import Card from '../Card'
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import "./staff.scss"
 
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,7 +80,9 @@ const StaffAdd = () => {
                }}
                validationSchema={validation}
                onSubmit={values => {
-                  console.log(values);
+                  values.firstName = values.firstName.toUpperCase();
+                  values.lastName = values.lastName.toUpperCase();
+                  values.middleName = values.middleName.toUpperCase();
                   values.headTeacherId = '7457e078-07b6-4d2d-474e-08da373808c4';
                   createStaffAccount(values)(dispatch)
                }}
@@ -187,23 +190,23 @@ const StaffAdd = () => {
                                     <div className="row">
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
-                                          <Field type="text" className="form-control text-capitalize text-dark" name="firstName" id="firstName" aria-describedby="name" required placeholder="First Name" />
+                                          <Field type="text" className="form-control text-dark" name="firstName" id="firstName" aria-describedby="name" required placeholder="First Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="lastName" className="form-label"><b>Last Name:</b></label>
-                                          <Field type="text" className="form-control text-capitalize text-dark" name="lastName" id="lastName" aria-describedby="name" required placeholder="Last Name" />
+                                          <Field type="text" className="form-control text-dark" name="lastName" id="lastName" aria-describedby="name" required placeholder="Last Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="middleName" className="form-label"><b>Middle Name:</b></label>
-                                          <Field type="text" className="form-control text-capitalize text-dark" name="middleName" id="middleName" aria-describedby="name" placeholder="Middle Name" />
+                                          <Field type="text" className="form-control text-dark" name="middleName" id="middleName" aria-describedby="name" placeholder="Middle Name" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6 form-group">
                                           <label htmlFor="email" className="form-label"><b>Email:</b></label>
-                                          <Field type="email" className="form-control" name="email" id="email" aria-describedby="name" required placeholder="Email e.g schoolmgt@yahoo.com" />
+                                          <Field type="email" className="form-control text-dark text-lowercase" name="email" id="email" aria-describedby="name" required placeholder="Email e.g schoolmgt@yahoo.com" />
                                        </Form.Group>
                                        <Form.Group className="col-md-6  form-group">
                                           <label htmlFor="phone" className="form-label"><b>Phone No.</b></label>
-                                          <Field type="tel" className="form-control" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
+                                          <Field type="tel" className="form-control text-dark" name="phone" id="phone" aria-describedby="name" required placeholder="Phone No. e.g 08222222" />
                                        </Form.Group>
                                        <Form.Group className="col-md-3  form-group">
                                           <label htmlFor="dob" className="form-label"><b>Date of Birth:</b></label>
