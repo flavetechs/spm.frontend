@@ -187,7 +187,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="firstName" className="form-label"><b>First Name:</b></label>
                                                         <Field type="text"
-                                                            className="form-control text-capitalize"
+                                                            className="form-control"
                                                             name="firstName" id="firstName"
                                                             aria-describedby="name"
                                                             value={selectedItem?.firstName}
@@ -198,7 +198,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="lastName" className="form-label"> <b>Last Name:</b></label>
                                                         <Field type="text"
-                                                            className="form-control text-capitalize"
+                                                            className="form-control"
                                                             name="lastName" id="lastName"
                                                             aria-describedby="name"
                                                             value={selectedItem?.lastName}
@@ -208,7 +208,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="middleName" className="form-label"> <b>Middle Name:</b></label>
                                                         <Field type="text"
-                                                            className="form-control text-capitalize"
+                                                            className="form-control"
                                                             name="middleName" id="middleName"
                                                             aria-describedby="name"
                                                             value={selectedItem?.middleName}
@@ -218,7 +218,7 @@ const StaffDetails = () => {
                                                     <Form.Group className="col-md-6 form-group">
                                                         <label htmlFor="email" className="form-label"> <b>Email:</b></label>
                                                         <Field type="text"
-                                                            className="form-control"
+                                                            className="form-control text-lowercase"
                                                             name="email" id="email"
                                                             aria-describedby="name"
                                                             required

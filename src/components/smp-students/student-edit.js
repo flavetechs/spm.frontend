@@ -6,6 +6,7 @@ import { studentsLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
+import "./student-add.scss"
 import {
   updateStudent,
   fetchSingleStudent,
@@ -111,6 +112,10 @@ const StudentEdit = () => {
           values.emergencyPhone = values.emergencyPhone.toString();
           values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
           values.zipCode = values.zipCode.toString();
+          values.firstName = values.firstName.toUpperCase();
+          values.lastName = values.lastName.toUpperCase();
+          values.middleName = values.middleName.toUpperCase();
+          values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
           updateStudent(values)(dispatch);
         }}
         enableReinitialize={true}
@@ -261,7 +266,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="sessionClassId"
-                            className="form-select"
+                            className="form-select text-dark"
                             id="sessionClassId"
                           >
                             {itemList.map((item, idx) => (
@@ -299,7 +304,7 @@ const StudentEdit = () => {
                             type="text"
                             id="firstName"
                             name="firstName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -310,7 +315,7 @@ const StudentEdit = () => {
                             type="text"
                             id="lastName"
                             name="lastName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -321,7 +326,7 @@ const StudentEdit = () => {
                             type="text"
                             name="middleName"
                             id="middleName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -398,7 +403,7 @@ const StudentEdit = () => {
                             type="text"
                             id="homeAddress"
                             name="homeAddress"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
     
@@ -409,7 +414,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="cityId"
-                            className="form-select text-dark"
+                            className="form-select text-dark text-uppercase"
                             id="cityId"
                           >
                             <option value="Lagos">Lagos</option>
@@ -427,7 +432,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="stateId"
-                            className="form-select text-dark"
+                            className="form-select text-dark text-uppercase"
                             id="stateId"
                           >
                             <option value="Lagos">Lagos</option>
@@ -445,7 +450,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="countryId"
-                            className="form-select text-dark"
+                            className="form-select text-dark text-uppercase"
                             id="countryId"
                           >
                             <option value="Nigeria">Nigeria</option>
@@ -499,7 +504,7 @@ const StudentEdit = () => {
                             type="text"
                             name="parentOrGuardianName"
                             id="parentOrGuardianName"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <Row>
@@ -531,7 +536,7 @@ const StudentEdit = () => {
                             type="text"
                             name="parentOrGuardianRelationship"
                             id="parentOrGuardianRelationship"
-                            className="form-control text-dark text-capitalize"
+                            className="form-control text-dark"
                           />
                         </div>
                         <div className="col-md-6 form-group">
