@@ -54,28 +54,28 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
             <tr>
               <td colSpan="5"></td>
                 <>
-                  <td style={{ writingMode: "vertical-rl", maxWidth: "5px", padding: 2 }}>
+                  <td style={{ textAlign:"center", maxWidth: "5px", padding: 2 }}>
                     1st
                   </td>
-                  <td style={{ writingMode: "vertical-rl",maxWidth: "5px",padding: 2 }}>
+                  <td style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
                     2nd
                   </td>
                   <td
-                    style={{writingMode: "vertical-rl",maxWidth: "5px",padding: 2 }}>
+                    style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
                     3rd
                   </td>
                 </>
               <td></td>
               {subjectList?.map((subject, idx) => (
                 <>
-                  <td style={{ writingMode: "vertical-rl", maxWidth: "5px", padding: 2 }}>
+                  <td style={{ textAlign:"center", maxWidth: "5px", padding: 2 }}>
                     1st
                   </td>
-                  <td style={{ writingMode: "vertical-rl",maxWidth: "5px",padding: 2 }}>
+                  <td style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
                     2nd
                   </td>
                   <td
-                    style={{writingMode: "vertical-rl",maxWidth: "5px",padding: 2 }}>
+                    style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
                     3rd
                   </td>
                 </>
