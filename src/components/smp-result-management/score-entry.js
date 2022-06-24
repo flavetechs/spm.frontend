@@ -8,6 +8,7 @@ import {
   getAllClassScoreEntries,
   getAllStaffClasses,
   getStaffClassSubjects,
+  nullifyScoreEntryOnExit,
 } from "../../store/actions/results-actions";
 import SmallTable from "./score-entry-small-table";
 import LargeTable from "./score-entry-large-table";
@@ -57,7 +58,10 @@ const ScoreEntry = () => {
     if (scoreEntry) {
       setShowScoresEntryTable(true);
     }
-    
+    return()=>{
+      nullifyScoreEntryOnExit(scoreEntry)(dispatch)
+      setShowScoresEntryTable(false);
+    }
   }, [scoreEntry]);
 
   

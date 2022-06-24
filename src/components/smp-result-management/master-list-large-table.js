@@ -11,11 +11,10 @@ const MasterListLargeTable = ({ listEntry }) => {
 // });
 
   if (listEntry?.resultList == null) {
-    listEntry.resultList = [];
+   listEntry.resultList = [];
   }
   const list = listEntry?.resultList.map((list, idx) => list.subjects).flat();
-  const subjectList = list
-    .filter(
+  const subjectList = list.filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.subjectName === item.subjectName)
     )

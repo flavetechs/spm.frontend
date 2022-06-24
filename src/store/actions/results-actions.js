@@ -1,4 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
+import { resultManagement } from "../../router/spm-path-locations";
 import { actions } from "../action-types/results-action-types"
 import { showErrorToast } from "./toaster-actions";
 
@@ -190,4 +191,26 @@ export const  getAllMasterListentries = (sessionClassId, termId) => (dispatch) =
                 payload: err.response.data.result
             })
         });
+}
+
+export const nullifyListEntryOnExit = (listEntry) => (dispatch) => {
+    if (window.location.pathname != resultManagement.masterList){
+    listEntry = null
+    }else return listEntry
+
+    dispatch({
+        type: actions.CLOSE_MASTER_LIST,
+        payload: listEntry
+    });
+}
+
+export const nullifyScoreEntryOnExit = (scoreEntry) => (dispatch) => {
+    if (window.location.pathname != resultManagement.scoreEntry){
+        scoreEntry = null
+    }else return scoreEntry
+
+    dispatch({
+        type: actions.CLOSE_SCORE_ENTRY,
+        payload: scoreEntry
+    });
 }
