@@ -100,7 +100,7 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
         ...state,
         loading: true,
         previousScoreEntry: null,
-        fetchPreviousPreviewSuccessful: false,
+        fetchPreviewSuccessful: false,
       };
     }
     case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_SUCCESS: {
@@ -118,6 +118,29 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        previousScoreEntryPreview: null,
+        fetchPreviewSuccessful: false,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntryPreview: payload,
+        fetchPreviewSuccessful: true,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntryPreview: null,
+      };
+    }
 
     case actions.FETCH_MASTER_LIST_LOADING: {
       return {
@@ -156,6 +179,27 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.CLOSE_MASTER_LIST: {
+      return {
+        ...state,
+        listEntry: payload,
+      };
+    }
+
+    case actions.CLOSE_SCORE_ENTRY: {
+      return {
+        ...state,
+        scoreEntry: payload,
+      };
+    }
+
+    case actions.CLOSE_PREVIOUS_SCORE_ENTRY: {
+      return {
+        ...state,
+        previousScoreEntry: payload,
+      };
+    }
+    
     default:
       return state
   }

@@ -9,5 +9,5 @@ export const _state = {
     fetchPreviewSuccessful: false,
     listEntry: null,
     previousScoreEntry:null,
-    fetchPreviousPreviewSuccessful: false,
+    previousScoreEntryPreview:null,
 }

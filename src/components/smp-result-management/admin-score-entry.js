@@ -6,8 +6,8 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
   getAllPreviousClassScoreEntries,
-  getAllStaffClasses,
   getStaffClassSubjects,
+  nullifyPreviousScoreEntryOnExit,
 } from "../../store/actions/results-actions";
 import AdminLargeTable from "./admin-score-entry-large-table";
 import AdminSmallTable from "./admin-score-entry-small-table";
@@ -16,10 +16,12 @@ import {
   getActiveSession,
   getAllSession,
 } from "../../store/actions/session-actions";
+import { getAllSessionClasses } from "../../store/actions/class-actions";
 
 const AdminScoreEntry = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const [sessionId, setSessionId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [idsForPreview, setIdsForPreview] = useState({});
   const [showAdminScoresEntryTable, setShowAdminScoresEntryTable] =
@@ -30,7 +32,8 @@ const AdminScoreEntry = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
+  const { staffClassSubjects, previousScoreEntry } = state.results;
+  const { itemList } = state.class;
   const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -48,18 +51,29 @@ const AdminScoreEntry = () => {
     getAllSession()(dispatch);
     setIndexRow("");
     setIdsForPreview({});
-    getAllStaffClasses()(dispatch);
     setShowAdminScoresEntryTable(false);
     setEditMode(false);
     setPreviewMode(false);
   }, []);
 
   React.useEffect(() => {
-    if (scoreEntry) {
+    if (!sessionId) {
+      getAllSessionClasses(activeSession?.sessionId)(dispatch);
+    } else {
+      getAllSessionClasses(sessionId)(dispatch);
+    }
+  }, [sessionId, activeSession]);
+
+  React.useEffect(() => {
+    if (previousScoreEntry) {
       setShowAdminScoresEntryTable(true);
     }
-  }, [scoreEntry]);
-console.log(scoreEntry);
+    return()=>{
+      nullifyPreviousScoreEntryOnExit(previousScoreEntry)(dispatch);
+      setShowAdminScoresEntryTable(false);
+    }
+  }, [previousScoreEntry]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -73,8 +87,11 @@ console.log(scoreEntry);
                 {!isPreviewMode ? (
                   <Formik
                     initialValues={{
-                      sessionId: "",
-                      terms: "",
+                      sessionId: activeSession?.sessionId.toUpperCase(),
+                      terms: activeSession?.terms
+                        .filter((term) => term.isActive == true)
+                        .map((term) => term.sessionTermId)
+                        .toString(),
                       sessionClassId: "",
                       subjectId: "",
                     }}
@@ -89,6 +106,7 @@ console.log(scoreEntry);
                       setIdsForPreview({
                         sessionClassId: values.sessionClassId,
                         subjectId: values.subjectId,
+                        terms:values.terms
                       });
                     }}
                   >
@@ -126,6 +144,10 @@ console.log(scoreEntry);
                               name="sessionId"
                               className="form-select"
                               id="sessionId"
+                              onChange={(e) => {
+                                setFieldValue("sessionId", e.target.value);
+                                setSessionId(e.target.value);
+                              }}
                             >
                               <option value="">Select Session</option>
                               {sessionList?.map((list, idx) => (
@@ -146,14 +168,11 @@ console.log(scoreEntry);
                             >
                               Terms:
                             </label>
-                            <select
+                            <Field
                               as="select"
                               name="terms"
                               className="form-select"
                               id="terms"
-                              onChange={(e) => {
-                                setFieldValue("terms", e.target.value);
-                              }}
                             >
                               <option value="">Select Terms</option>
                               {sessionList
@@ -176,7 +195,7 @@ console.log(scoreEntry);
                                     </option>
                                   ))
                                 )}
-                            </select>
+                            </Field>
                           </Col>
                           <Row>
                             {" "}
@@ -214,13 +233,13 @@ console.log(scoreEntry);
                               }}
                             >
                               <option value="">Select Class</option>
-                              {staffClasses.map((list, idx) => (
+                              {itemList.map((list, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
                                   value={list.sessionClassId}
                                 >
-                                  {list.sessionClass}
+                                  {list.class}
                                 </option>
                               ))}
                             </Field>
@@ -237,9 +256,6 @@ console.log(scoreEntry);
                               name="subjectId"
                               className="form-select"
                               id="subjectId"
-                              onChange={(e) => {
-                                setFieldValue("subjectId", e.target.value);
-                              }}
                             >
                               <option value="">Select Subject</option>
                               {staffClassSubjects?.map((subject, idx) => (
@@ -271,11 +287,11 @@ console.log(scoreEntry);
 
                 {showAdminScoresEntryTable && (
                   <div>
-                    <AdminSmallTable scoreEntry={scoreEntry} />
+                    <AdminSmallTable previousScoreEntry={previousScoreEntry} />
                     {!isPreviewMode ? (
                       <AdminLargeTable
                         validation={validation}
-                        scoreEntry={scoreEntry}
+                        previousScoreEntry={previousScoreEntry}
                         isEditMode={isEditMode}
                         setEditMode={setEditMode}
                         setIndexRow={setIndexRow}

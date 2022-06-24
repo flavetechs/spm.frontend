@@ -16,8 +16,6 @@ const LargeTable = ({
   idsForPreview,
 }) => {
 
-  console.log('scoreEntry', scoreEntry);
-
   const dispatch = useDispatch();
   const handleFocus = (event) => event.target.select();
 

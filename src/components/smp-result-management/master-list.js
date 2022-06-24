@@ -4,7 +4,7 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { getAllMasterListentries } from "../../store/actions/results-actions";
+import { getAllMasterListentries, nullifyListEntryOnExit } from "../../store/actions/results-actions";
 import {
   getActiveSession,
   getAllSession,
@@ -44,18 +44,22 @@ const MasterList = () => {
   React.useEffect(() => {
     if (!sessionId) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
-      setSessionId(activeSession?.sessionId);
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [activeSession]);
+  }, [sessionId, activeSession]);
 
   React.useEffect(() => {
     if (listEntry) {
       setShowMasterListTable(true);
     }
+    return()=>{
+      nullifyListEntryOnExit(listEntry)(dispatch)
+      setShowMasterListTable(false);
+    }
   }, [listEntry]);
-
+ 
+  
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -81,8 +85,8 @@ const MasterList = () => {
                     onSubmit={(values) => {
                       getAllMasterListentries(
                         values.sessionClassId,
-                         values.terms
-                       )(dispatch)
+                        values.terms
+                      )(dispatch);
                     }}
                   >
                     {({
@@ -219,9 +223,14 @@ const MasterList = () => {
                   </Formik>
                 ) : (
                   <div>
-                    <MasterListSmallTable listEntry={listEntry} 
-                    setShowMasterListTable={setShowMasterListTable}/>
-                    <MasterListLargeTable listEntry={listEntry} />
+                    <MasterListSmallTable
+                      listEntry={listEntry}
+                      setShowMasterListTable={setShowMasterListTable}
+                      
+                    />
+                    <MasterListLargeTable
+                      listEntry={listEntry}
+                    />
                   </div>
                 )}
               </Card.Body>

@@ -5,7 +5,7 @@ import { showHidePreview } from "../../store/actions/results-actions";
 const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { scoreEntryPreview } = state.results;
+  const { previousScoreEntryPreview } = state.results;
   const dispatch = useDispatch();
   // ACCESSING STATE FROM REDUX STORE
 
@@ -44,7 +44,7 @@ const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
             </tr>
           </thead>
           <tbody>
-            {scoreEntryPreview?.classScoreEntries.map((item, index) => (
+            {previousScoreEntryPreview?.classScoreEntries.map((item, index) => (
               <tr
                 style={{ maxHeight: "30px" }}
                 key={index}
