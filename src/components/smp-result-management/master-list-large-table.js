@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 // import { useDownloadExcel } from "react-export-table-to-excel";
 
 const MasterListLargeTable = ({ listEntry }) => {
-  const dispatch = useDispatch()
   const tableRef = useRef(null);
 //   const { onDownload } = useDownloadExcel({
 //     currentTableRef: tableRef.current,

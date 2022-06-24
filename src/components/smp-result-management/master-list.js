@@ -54,8 +54,12 @@ const MasterList = () => {
     if (listEntry) {
       setShowMasterListTable(true);
     }
+    return()=>{
+      
+    }
   }, [listEntry]);
  
+  
   return (
     <>
       <div className="col-md-12 mx-auto">
