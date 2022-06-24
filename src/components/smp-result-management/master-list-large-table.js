@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
 // import { useDownloadExcel } from "react-export-table-to-excel";
 
@@ -11,15 +11,14 @@ const MasterListLargeTable = ({ listEntry }) => {
 // });
 
   if (listEntry?.resultList == null) {
-    listEntry.resultList = [];
+   listEntry.resultList = [];
   }
   const list = listEntry?.resultList.map((list, idx) => list.subjects).flat();
-  const subjectList = list
-    .filter(
+  const subjectList = list.filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.subjectName === item.subjectName)
     )
-
+    
   return (
     <>
       <Row className="pt-3">
@@ -37,7 +36,7 @@ const MasterListLargeTable = ({ listEntry }) => {
         <Table size="md" bordered responsive className="mt-2 border-secondary" ref={tableRef}>
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
-              <td className="text-uppercase h6 px-2">S/No</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>S/No</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Student Name</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Registration No</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Position</td>
@@ -121,17 +120,6 @@ const MasterListLargeTable = ({ listEntry }) => {
                    item.subjects.map(i=>i.subjectName == list.subjectName && i.total) : ""} </td> 
                   </>
                 ))} 
-
-
-
-
-                {/* {item.subjects.map((subject, id) => (
-                  <>
-                    <td className="px-3">{subject.assessmentScore}</td>
-                    <td className="px-3">{subject.examScore}</td>
-                    <td className="px-3">{subject.total}</td>
-                  </>
-                ))} */}
 
               </tr>
             ))}

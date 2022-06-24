@@ -132,6 +132,20 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.CLOSE_MASTER_LIST: {
+      return {
+        ...state,
+        listEntry: payload,
+      };
+    }
+
+    case actions.CLOSE_SCORE_ENTRY: {
+      return {
+        ...state,
+        scoreEntry: payload,
+      };
+    }
+    
     default:
       return state
   }
