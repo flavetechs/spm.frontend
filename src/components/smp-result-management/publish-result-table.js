@@ -9,7 +9,7 @@ import { getAllStudents } from "../../store/actions/student-actions";
 
 const PublishResultTable = ({
     validation,
-    scoreEntry,
+    resultList,
     isEditMode,
     setEditMode,
     setIndexRow,
@@ -18,14 +18,7 @@ const PublishResultTable = ({
     isPreviewMode,
     idsForPreview,
 }) => {
-    const [resultTable, setResultTable] = useState([
-        { fullName: 'emmanuel micheal umo', regNo: 'ABC/0000015/xyz', position: '1st position', averageScore: 80, totalStudent: 84, isActive: true },
-        { fullName: 'christian micheal', regNo: 'ABC/0000016/xyz', position: '2st position', averageScore: 70, totalStudent: 84, isActive: false },
-        { fullName: 'paul moses ephraim', regNo: 'ABC/0000017/xyz', position: '3st position', averageScore: 60, totalStudent: 84, isActive: true },
-        { fullName: 'angela rufus joy', regNo: 'ABC/0000018/xyz', position: '4st position', averageScore: 50, totalStudent: 84, isActive: false },
-        { fullName: 'maryann ikechukwu', regNo: 'ABC/0000019/xyz', position: '5st position', averageScore: 40, totalStudent: 84, isActive: true },
-    ])
-
+   
     const dispatch = useDispatch();
 
     // ACCESSING STATE FROM REDUX STORE
@@ -48,14 +41,14 @@ const PublishResultTable = ({
                         type="button"
                         className="btn-sm mx-2"
                         variant="btn btn-success"
-                        onClick={() => {
-                            setEditMode(false);
-                            setPreviewMode(!isPreviewMode);
-                            getAllClassScoreEntryPreview(
-                                idsForPreview.sessionClassId,
-                                idsForPreview.subjectId
-                            )(dispatch);
-                        }}
+                        // onClick={() => {
+                        //     setEditMode(false);
+                        //     setPreviewMode(!isPreviewMode);
+                        //     getAllClassScoreEntryPreview(
+                        //         idsForPreview.sessionClassId,
+                        //         idsForPreview.subjectId
+                        //     )(dispatch);
+                        // }}
                     >
                         Publish Result
                     </Button>
@@ -90,7 +83,7 @@ const PublishResultTable = ({
                             </thead>
                             <tbody>
                                 {
-                                    resultTable.map((item, index) => (
+                                    resultList?.publishResult.map((list, index) => (
                                         <tr style={{ maxHeight: '30px' }}
                                             key={index}
                                             className="text-center"
@@ -100,13 +93,13 @@ const PublishResultTable = ({
                                             }}
                                         >
                                             <td className="fw-bold">{index + 1}</td>
-                                            <td className="fw-bold text-start text-uppercase"> {item.fullName} </td>
-                                            <td className="fw-bold text-start text-uppercase">{item.regNo}</td>
-                                            <td className="fw-bold text-start text-uppercase">{item.position}</td>
-                                            <td className="fw-bold text-start text-uppercase">{item.averageScore}</td>
-                                            <td className="fw-bold text-start text-uppercase">{item.totalStudent}</td>
+                                            <td className="fw-bold text-start text-uppercase"> {list.studentName} </td>
+                                            <td className="fw-bold text-start text-uppercase">{list.registrationNumber}</td>
+                                            <td className="fw-bold text-start text-uppercase">{list.position}</td>
+                                            <td className="fw-bold text-start text-uppercase">{list.averageScore}</td>
+                                            <td className="fw-bold text-start text-uppercase">{list.totalSubjects}</td>
                                             <td className="fw-bold text-start text-uppercase">
-                                            {item.isActive ? <span className="badge bg-success">PASSED</span> : <span className="badge bg-danger">FAILED</span>}
+                                            {list.status ? <span className="badge bg-success">PASSED</span> : <span className="badge bg-danger">FAILED</span>}
                                             </td>
                                             <td>
                                                 <div className="flex align-items-center list-user-action">
@@ -120,6 +113,7 @@ const PublishResultTable = ({
                                                             data-placement="top"
                                                             title=""
                                                             data-original-title="Details"
+                                                            to="#"
                                                         // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
                                                         >
                                                             <span className="btn-inner">
@@ -166,6 +160,7 @@ const PublishResultTable = ({
                                                             data-placement="top"
                                                             title=""
                                                             data-original-title="Edit"
+                                                            to="#"
                                                         // to={`${studentsLocations.studentEdit}?studentAccountId=${student.studentAccountId}`}
                                                         >
                                                             <span className="btn-inner">
@@ -212,6 +207,7 @@ const PublishResultTable = ({
                                                             data-placement="top"
                                                             title=""
                                                             data-original-title="Details"
+                                                            to="#"
                                                         // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
                                                         >
                                                             <span className="btn-inner">

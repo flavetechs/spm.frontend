@@ -13,8 +13,7 @@ import {
 import SmallTable from "./score-entry-small-table";
 import Preview from "./score-entry-preview";
 import PublishResultTable from "./publish-result-table";
-import { fetchSingleSession, getActiveSession, getAllSession } from "../../store/actions/session-actions";
-import { getAllSchoolSessions, getAllTerms, getTermClasses } from "../../store/actions/publish-actions";
+import { getAllResultList, getAllSchoolSessions, getAllTerms, getTermClasses } from "../../store/actions/publish-actions";
 
 const PublishResult = () => {
     //VARIABLE DECLARATIONS
@@ -22,24 +21,23 @@ const PublishResult = () => {
     const dispatch = useDispatch();
     const [indexRow, setIndexRow] = useState("");
     const [idsForPreview, setIdsForPreview] = useState({});
+    const [showPublishResultTable, SetShowPublishResultTable] = useState(false);
     const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
     const [isEditMode, setEditMode] = useState(false);
     const [isPreviewMode, setPreviewMode] = useState(false);
-    const [terms, setTerms] = useState([
-        {termName: "1st Term", id: 1},
-        {termName: "2st Term", id: 2},
-        {termName: "3st Term", id: 3},
-    ])
+
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    // const { sessionList, selectedItem, activeSession } = state.session;
-    const { schoolSessions, sessionTerms, termClasses } = state.publish;
-    console.log('schoolSessions ', schoolSessions);
-    console.log('sessionTerms ', sessionTerms);
-    console.log('termClasses ', termClasses);
-    const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
+
+    const { schoolSessions, sessionTerms, termClasses, resultList } = state.publish;
+    // console.log('schoolSessions ', schoolSessions);
+    // console.log('sessionTerms ', sessionTerms);
+    // console.log('termClasses ', termClasses);
+    // console.log('ResultList ', resultList);
+    const { activeSession } = state.session;
+    console.log('activeSession ', activeSession);
 
     // ACCESSING STATE FROM REDUX STORE
 
@@ -47,31 +45,33 @@ const PublishResult = () => {
     //VALIDATION SCHEMA
 
     const validation = Yup.object().shape({
-        sessionClassId: Yup.string().required("Session is required"),
-        subjectId: Yup.string().required("class is required"),
+        sessionClassId: Yup.string().required("Class is required"),
+        sessionTermId: Yup.string().required("Term is required"),
+        sessionId: Yup.string().required("Session is required"),
     });
     //VALIDATION SCHEMA
 
 
     React.useEffect(() => {
-        // getAllStaffClasses()(dispatch);
-        // getAllSession()(dispatch);
-        // getActiveSession()(dispatch);
         getAllSchoolSessions()(dispatch)
-
-
-
         // window.onbeforeunload = () => {
-        //     return "are you sure you want to leave?";
+        //   return "are you sure you want to leave?";
         // };
-    }, []);
 
-    React.useEffect(() => {
-        const queryParams = new URLSearchParams(locations.search);
-        const sessionId = queryParams.get("sessionId");
-        if (!sessionId) return;
-        fetchSingleSession(sessionId)(dispatch)
+        setIndexRow('');
+        setIdsForPreview({});
+        SetShowPublishResultTable(false);
+        setEditMode(false);
+        setPreviewMode(false);
+
+
     }, []);
+    React.useEffect(() => {
+        if (resultList) {
+            SetShowPublishResultTable(true);
+        }
+
+    }, [resultList]);
 
 
     return (
@@ -87,20 +87,29 @@ const PublishResult = () => {
                                 {
                                     !isPreviewMode ?
                                         <Formik
+                                            // initialValues={{
+                                            //     sessionId: activeSession?.sessionId.toUpperCase(),
+                                            //     terms: activeSession?.terms
+                                            //         .filter((term) => term.isActive == true)
+                                            //         .map((term) => term.sessionTermId)
+                                            //         .toString(),
+                                            //     sessionClassId: "",
+                                            // }}
                                             initialValues={{
-                                                sessionClassId: "",
-                                                subjectId: "",
+                                                sessionClassId: activeSession?.sessionId.toUpperCase(),
+                                                sessionTermId: activeSession?.sessionTermId.toUpperCase(),
                                             }}
                                             validationSchema={validation}
                                             enableReinitialize={true}
                                             onSubmit={(values) => {
-                                                getAllClassScoreEntries(
+                                                console.log('here value', values);
+                                                getAllResultList(
                                                     values.sessionClassId,
-                                                    values.subjectId
+                                                    values.sessionTermId
                                                 )(dispatch);
                                                 setIdsForPreview({
                                                     sessionClassId: values.sessionClassId,
-                                                    subjectId: values.subjectId,
+                                                    sessionTermId: values.sessionTermId,
                                                 });
                                             }}
                                         >
@@ -114,23 +123,23 @@ const PublishResult = () => {
                                                 <Form>
                                                     <Row>
                                                         <Col md="4">
+                                                            {touched.sessionId && errors.sessionId && (
+                                                                <div className="text-danger">
+                                                                    {errors.sessionId}
+                                                                </div>
+                                                            )}
+                                                        </Col>
+                                                        <Col md="4">
+                                                            {touched.sessionTermId && errors.sessionTermId && (
+                                                                <div className="text-danger">
+                                                                    {errors.sessionTermId}
+                                                                </div>
+                                                            )}
+                                                        </Col>
+                                                        <Col md="4">
                                                             {touched.sessionClassId && errors.sessionClassId && (
                                                                 <div className="text-danger">
                                                                     {errors.sessionClassId}
-                                                                </div>
-                                                            )}
-                                                        </Col>
-                                                        <Col md="4">
-                                                            {touched.subjectId && errors.subjectId && (
-                                                                <div className="text-danger">
-                                                                    {errors.subjectId}
-                                                                </div>
-                                                            )}
-                                                        </Col>
-                                                        <Col md="4">
-                                                            {touched.subjectId && errors.subjectId && (
-                                                                <div className="text-danger">
-                                                                    {errors.subjectId}
                                                                 </div>
                                                             )}
                                                         </Col>
@@ -151,13 +160,13 @@ const PublishResult = () => {
                                                                     getAllTerms(e.target.value)(dispatch);
                                                                 }}
                                                             >
-                                                                {/* <option value="">Select Class</option> */}
+                                                                <option value="">Select Session</option>
                                                                 {schoolSessions.map((item, idx) => (
                                                                     <option
                                                                         key={idx}
                                                                         name={values.sessionId}
                                                                         value={item.sessionId}
-                                                                        // data-tag={item.sessionClass}
+                                                                    // data-tag={item.sessionClass}
                                                                     >
                                                                         {item.startDate}/{item.endDate}
                                                                     </option>
@@ -173,12 +182,12 @@ const PublishResult = () => {
                                                             </label>
                                                             <Field
                                                                 as="select"
-                                                                name="sessionClassId"
+                                                                name="sessionTermId"
                                                                 className="form-select"
-                                                                id="sessionClassId"
+                                                                id="sessionTermId"
                                                                 onChange={(e) => {
                                                                     setFieldValue("sessionTermId", e.target.value);
-                                                                    getTermClasses(e.target.value)(dispatch);
+                                                                    getTermClasses(values.sessionId, e.target.value)(dispatch);
                                                                 }}
                                                             >
                                                                 <option value="">Select Term</option>
@@ -187,7 +196,7 @@ const PublishResult = () => {
                                                                         key={idx}
                                                                         name={values.sessionTermId}
                                                                         value={term.sessionTermId}
-                                                                        data-tag={term.sessionTermId}
+                                                                    // data-tag={term.termName}
                                                                     >
                                                                         {term.termName}
                                                                     </option>
@@ -208,18 +217,18 @@ const PublishResult = () => {
                                                                 id="sessionClassId"
                                                                 onChange={(e) => {
                                                                     setFieldValue("sessionClassId", e.target.value);
-                                                                    getStaffClassSubjects(e.target.value)(dispatch);
+                                                                    // getTermClasses(e.target.value)(dispatch);
                                                                 }}
                                                             >
                                                                 <option value="">Select Class</option>
-                                                                {staffClasses.map((list, idx) => (
+                                                                {termClasses?.map((termClass, idx) => (
                                                                     <option
                                                                         key={idx}
                                                                         name={values.sessionClassId}
-                                                                        value={list.sessionClassId}
-                                                                        data-tag={list.sessionClass}
+                                                                        value={termClass.sessionClassId}
+                                                                        data-tag={termClass.sessionClass}
                                                                     >
-                                                                        {list.sessionClass}
+                                                                        {termClass.sessionClass}
                                                                     </option>
                                                                 ))}
                                                             </Field>
@@ -240,43 +249,29 @@ const PublishResult = () => {
                                         </Formik>
                                         : null
                                 }
-                                {
-                                    <PublishResultTable
-                                        validation={validation}
-                                        scoreEntry={scoreEntry}
-                                        isEditMode={isEditMode}
-                                        setEditMode={setEditMode}
-                                        setIndexRow={setIndexRow}
-                                        setPreviewMode={setPreviewMode}
-                                        indexRow={indexRow}
-                                        isPreviewMode={isPreviewMode}
-                                        idsForPreview={idsForPreview}
-                                    />
-                                }
-
-                                {/* {showScoresEntryTable && (
-                  <div>
-                    <SmallTable scoreEntry={scoreEntry} />
-                    {!isPreviewMode ? (
-                      <PublishResultTable
-                        validation={validation}
-                        scoreEntry={scoreEntry}
-                        isEditMode={isEditMode}
-                        setEditMode={setEditMode}
-                        setIndexRow={setIndexRow}
-                        setPreviewMode={setPreviewMode}
-                        indexRow={indexRow}
-                        isPreviewMode={isPreviewMode}
-                        idsForPreview={idsForPreview}
-                      />
-                    ) : (
-                      <Preview
-                        setPreviewMode={setPreviewMode}
-                        isPreviewMode={isPreviewMode}
-                      />
-                    )}
-                  </div>
-                )} */}
+                                {showPublishResultTable && (
+                                    <div>
+                                        {/* <SmallTable scoreEntry={scoreEntry} /> */}
+                                        {!isPreviewMode ? (
+                                            <PublishResultTable
+                                                validation={validation}
+                                                resultList={resultList}
+                                                isEditMode={isEditMode}
+                                                setEditMode={setEditMode}
+                                                setIndexRow={setIndexRow}
+                                                setPreviewMode={setPreviewMode}
+                                                indexRow={indexRow}
+                                                isPreviewMode={isPreviewMode}
+                                                idsForPreview={idsForPreview}
+                                            />
+                                        ) : (
+                                            <Preview
+                                                setPreviewMode={setPreviewMode}
+                                                isPreviewMode={isPreviewMode}
+                                            />
+                                        )}
+                                    </div>
+                                )}
                             </Card.Body>
                         </Card>
                     </Col>

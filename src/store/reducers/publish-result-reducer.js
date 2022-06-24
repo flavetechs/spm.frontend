@@ -25,6 +25,8 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
         message: payload
       };
 
+
+
     case actions.FETCH_SESSIONS_TERMS_LOADING: {
       return {
         ...state,
@@ -40,7 +42,7 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
         sessionTerms: payload,
       };
     }
-    case actions.FETCH_TERM_CLASSESS_FAILED: {
+    case actions.FETCH_SESSIONS_TERMS_FAILED: {
       return {
         ...state,
         loading: false,
@@ -71,12 +73,34 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       };
     }
 
-    case actions.CLOSE_PREVIEW: {
+    case actions.FETCH_RESULT_LIST_LOADING: {
       return {
         ...state,
-        fetchPreviewSuccessful: payload,
+        loading: true,
+        resultList: null,
       };
     }
+    case actions.FETCH_RESULT_LIST_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        resultList: payload,
+      };
+    }
+    case actions.FETCH_RESULT_LIST_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        resultList: null,
+      };
+    }
+
+    // case actions.CLOSE_PREVIEW: {
+    //   return {
+    //     ...state,
+    //     fetchPreviewSuccessful: payload,
+    //   };
+    // }
 
     default:
       return state
