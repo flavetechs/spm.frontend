@@ -164,6 +164,27 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_CUMULATIVE_MASTER_LIST_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        cumulativeListEntry: null,
+      };
+    }
+    case actions.FETCH_CUMULATIVE_MASTER_LIST_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        cumulativeListEntry: payload,
+      };
+    }
+    case actions.FETCH_CUMULATIVE_MASTER_LIST_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        cumulativeListEntry: null,
+      };
+    }
 
     case actions.UPDATE_SCORE_ENTRY: {
       return {
@@ -200,6 +221,14 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
     
+    case actions.CLOSE_CUMULATIVE_MASTER_LIST: {
+      return {
+        ...state,
+        cumulativeListEntry: payload,
+      };
+    }
+
+
     default:
       return state
   }
