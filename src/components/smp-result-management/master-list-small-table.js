@@ -1,9 +1,12 @@
-import { Row, Table } from "react-bootstrap";
+import { Button, Row, Table } from "react-bootstrap";
 
-const MasterListSmallTable = ({listEntry}) => {
+const MasterListSmallTable = ({listEntry, setShowMasterListTable}) => {
   return (
     <>
       <div>
+       <Button variant="btn btn-success btn-sm" onClick={()=> setShowMasterListTable(false)}>
+          Back
+        </Button>
         <Row className="pt-3">
           <Table size="sm" responsive bordered className="w-50 border-secondary" style={{ background: '#d8efd1'}}>
             <tbody>
@@ -14,6 +17,10 @@ const MasterListSmallTable = ({listEntry}) => {
               <tr>
                 <th className="h6">Term</th>
                 <td className="fw-bold text-capitalize">{listEntry?.termName}</td>
+              </tr>
+              <tr>
+                <th className="h6">Class</th>
+                <td className="fw-bold text-capitalize">{listEntry?.sessionClass}</td>
               </tr>
               <tr>
                 <th className="h6">Form Teacher</th>

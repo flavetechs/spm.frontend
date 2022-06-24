@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
 // import { useDownloadExcel } from "react-export-table-to-excel";
 
@@ -10,20 +10,15 @@ const MasterListLargeTable = ({ listEntry }) => {
 //     sheet: "Result List"
 // });
 
-
-console.log('listEntry.resultLis', listEntry.resultList);
-
   if (listEntry?.resultList == null) {
-    listEntry.resultList = [];
+   listEntry.resultList = [];
   }
-  const list = listEntry?.resultList.map((list, idx) => list.subjects);
-  const subjectList = list
-    .filter(
+  const list = listEntry?.resultList.map((list, idx) => list.subjects).flat();
+  const subjectList = list.filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.subjectName === item.subjectName)
     )
-    .flat();
-
+    
   return (
     <>
       <Row className="pt-3">
@@ -41,16 +36,16 @@ console.log('listEntry.resultLis', listEntry.resultList);
         <Table size="md" bordered responsive className="mt-2 border-secondary" ref={tableRef}>
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
-              <td className="text-uppercase h6 px-2">S/No</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>S/No</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Student Name</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Registration No</td>
-              <td className="text-uppercase h6 px-2">Position</td>
+              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Position</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Subjects Offered</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Score</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Average Score</td>
               <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Result Status</td>
               {subjectList?.map((subject, idx) => (
-                <td colspan="3" className="text-uppercase h6">
+                <td colSpan="3" className="text-uppercase h6" key={idx}>
                   {subject.subjectName}
                 </td>
               ))}
@@ -58,7 +53,7 @@ console.log('listEntry.resultLis', listEntry.resultList);
           </thead>
           <tbody>
             <tr>
-              <td colspan="8"></td>
+              <td colSpan="8"></td>
               {subjectList?.map((subject, idx) => (
                 <>
                   <td 
@@ -112,14 +107,20 @@ console.log('listEntry.resultLis', listEntry.resultList);
                     {item.status}
                   </Badge>
                 </td>
-
-                {item.subjects.map((subject, idx) => (
+                
+ {subjectList.map((list, id) => (
                   <>
-                    <td className="px-3">{subject.assessmentScore}</td>
-                    <td className="px-3">{subject.examScore}</td>
-                    <td className="px-3">{subject.total}</td>
+                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ? 
+                   item.subjects.map(i=>i.subjectName == list.subjectName && i.assessmentScore) : ""}</td>
+
+                     <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
+                     item.subjects.map(i=>i.subjectName == list.subjectName && i.examScore) : ""}</td>
+
+                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
+                   item.subjects.map(i=>i.subjectName == list.subjectName && i.total) : ""} </td> 
                   </>
-                ))}
+                ))} 
+
               </tr>
             ))}
           </tbody>
