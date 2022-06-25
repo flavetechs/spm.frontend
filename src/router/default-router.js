@@ -37,6 +37,7 @@ import SessionDetails from '../components/smp-session/session-details';
 import StaffList from '../components/smp-staff/staff-list';
 import StaffAdd from '../components/smp-staff/staff-add';
 import StaffEdit from '../components/smp-staff/staff-edit';
+import AdminScoreEntry from '../components/smp-result-management/admin-score-entry';
 import MasterList from '../components/smp-result-management/master-list';
 
 const DashboardRouter = () => {
@@ -97,6 +98,7 @@ const DashboardRouter = () => {
 
                       {/* resultManagement */}
                       <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
+                      <Route path={resultManagement.adminScoreEntry} exact component={AdminScoreEntry} />
                       <Route path={resultManagement.masterList} exact component={MasterList} />
 
                 </Switch>

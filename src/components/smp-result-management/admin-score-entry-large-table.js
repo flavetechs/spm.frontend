@@ -1,12 +1,12 @@
 import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
-import { setAssessmentScoreEntry, setExamScoreEntry } from "../../store/actions/results-actions";
+import {setPreviousAssessmentScoreEntry, setPreviousExamScoreEntry } from "../../store/actions/results-actions";
 import { useDispatch } from "react-redux";
-import { getAllClassScoreEntryPreview } from "../../store/actions/results-actions";
+import { getAllPreviousClassScoreEntryPreview } from "../../store/actions/results-actions";
 
-const LargeTable = ({
+const AdminLargeTable = ({
   validation,
-  scoreEntry,
+  previousScoreEntry,
   isEditMode,
   setEditMode,
   setIndexRow,
@@ -18,7 +18,7 @@ const LargeTable = ({
 
   const dispatch = useDispatch();
   const handleFocus = (event) => event.target.select();
-
+ 
   return (
     <>
       <Row className="pt-3">
@@ -30,9 +30,10 @@ const LargeTable = ({
             onClick={() => {
               setEditMode(false);
               setPreviewMode(!isPreviewMode);
-              getAllClassScoreEntryPreview(
+              getAllPreviousClassScoreEntryPreview(
                 idsForPreview.sessionClassId,
-                idsForPreview.subjectId
+                idsForPreview.subjectId,
+                idsForPreview.terms
               )(dispatch);
             }}
           >
@@ -50,9 +51,6 @@ const LargeTable = ({
             handleSubmit,
             values,
             setFieldValue,
-            touched,
-            errors,
-            isValid,
           }) => (
             <Table size="md" hover bordered responsive className="mt-2">
               <thead>
@@ -68,7 +66,7 @@ const LargeTable = ({
               </thead>
               <tbody>
                 {
-                  scoreEntry?.classScoreEntries.map((item, index) => (
+                  previousScoreEntry?.classScoreEntries.map((item, index) => (
 
                     <OverlayTrigger
                       key={index}
@@ -111,7 +109,7 @@ const LargeTable = ({
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className="fw-bold"
                                 type="text"
-                                maxLength={scoreEntry?.assessmentScore}
+                                maxLength={previousScoreEntry?.assessmentScore}
                                 name={`${item.studentContactId}_assessmentScore`}
                                 defaultValue={item.assessmentScore}
                                 onFocus={handleFocus}
@@ -119,7 +117,7 @@ const LargeTable = ({
                                   setFieldValue(`${item.studentContactId}_assessmentScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
+                                  setPreviousAssessmentScoreEntry(item.studentContactId, e.target.value, previousScoreEntry,  idsForPreview.terms)(dispatch);
                                 }}
                               />
                             ) : (
@@ -138,7 +136,7 @@ const LargeTable = ({
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className=" fw-bold "
                                 type="text"
-                                maxLength={scoreEntry?.examsScore}
+                                maxLength={previousScoreEntry?.examsScore}
                                 name={`${item.studentContactId}_examScore`}
                                 defaultValue={item.examsScore}
                                 onFocus={handleFocus}
@@ -146,7 +144,7 @@ const LargeTable = ({
                                   setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
+                                  setPreviousExamScoreEntry(item.studentContactId, e.target.value, previousScoreEntry,  idsForPreview.terms)(dispatch);
                                 }}
                               />
                             ) : (
@@ -196,4 +194,4 @@ const LargeTable = ({
   );
 };
 
-export default LargeTable;
+export default AdminLargeTable;
