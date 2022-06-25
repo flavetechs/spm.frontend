@@ -168,13 +168,13 @@ const PublishResult = () => {
                               name="sessionTermId"
                               className="form-select"
                               id="sessionTermId"
-                              onChange={(e) => {
-                                setFieldValue("sessionTermId", e.target.value);
-                                getTermClasses(
-                                  values.sessionId,
-                                  e.target.value
-                                )(dispatch);
-                              }}
+                            //   onChange={(e) => {
+                            //     setFieldValue("sessionTermId", e.target.value);
+                            //     getTermClasses(
+                            //       values.sessionId,
+                            //       e.target.value
+                            //     )(dispatch);
+                            //   }}
                             >
                               <option value="">Select Term</option>
                               {sessionTerms?.map((term, idx) => (
@@ -200,8 +200,8 @@ const PublishResult = () => {
                               name="sessionClassId"
                               className="form-select"
                               id="sessionClassId"
-                              onChange={(e) => {
-                                setFieldValue("sessionClassId", e.target.value);
+                              onFocus={() => {
+                                getTermClasses(values.sessionId, values.sessionTermId)(dispatch);
                               }}
                             >
                               <option value="">Select Class</option>
