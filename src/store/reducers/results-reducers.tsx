@@ -95,6 +95,53 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        previousScoreEntry: null,
+        fetchPreviewSuccessful: false,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntry: payload,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntry: null,
+      };
+    }
+
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        previousScoreEntryPreview: null,
+        fetchPreviewSuccessful: false,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntryPreview: payload,
+        fetchPreviewSuccessful: true,
+      };
+    }
+    case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        previousScoreEntryPreview: null,
+      };
+    }
+
     case actions.FETCH_MASTER_LIST_LOADING: {
       return {
         ...state,
@@ -143,6 +190,13 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         scoreEntry: payload,
+      };
+    }
+
+    case actions.CLOSE_PREVIOUS_SCORE_ENTRY: {
+      return {
+        ...state,
+        previousScoreEntry: payload,
       };
     }
     
