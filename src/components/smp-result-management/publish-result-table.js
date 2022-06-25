@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Button, Table, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
-import { Formik, Field } from "formik";
+import { Formik } from "formik";
 import { Link } from "react-router-dom";
-import { setAssessmentScoreEntry, setExamScoreEntry } from "../../store/actions/results-actions";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllClassScoreEntryPreview } from "../../store/actions/results-actions";
-import { getAllStudents } from "../../store/actions/student-actions";
 
 const PublishResultTable = ({
     validation,
@@ -19,19 +15,6 @@ const PublishResultTable = ({
     idsForPreview,
 }) => {
 
-    const dispatch = useDispatch();
-
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { studentList } = state.student;
-    // ACCESSING STATE FROM REDUX STORE
-
-    React.useEffect(() => {
-        getAllStudents()(dispatch);
-    }, []);
-
-    // const dispatch = useDispatch();
-    const handleFocus = (event) => event.target.select();
 
     return (
         <>

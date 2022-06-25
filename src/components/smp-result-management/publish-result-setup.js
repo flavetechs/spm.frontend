@@ -27,15 +27,12 @@ const PublishResult = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-
-  const { schoolSessions, sessionTerms, termClasses, printResult } =
-    state.publish;
+  const { schoolSessions, sessionTerms, termClasses, printResult } = state.publish;
   const { activeSession } = state.session;
   const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
-
   const validation = Yup.object().shape({
     sessionClassId: Yup.string().required("Class is required"),
     sessionTermId: Yup.string().required("Term is required"),
@@ -71,7 +68,6 @@ const PublishResult = () => {
     };
   }, [printResult]);
 
-  console.log("activeSession ", activeSession);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -97,15 +93,10 @@ const PublishResult = () => {
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      console.log("here value", values.sessionId);
                       getAllResultList(
                         values.sessionClassId,
                         values.sessionTermId
                       )(dispatch);
-                      // setIdsForPreview({
-                      //     sessionClassId: values.sessionClassId,
-                      //     sessionTermId: values.sessionTermId,
-                      // });
                     }}
                   >
                     {({
@@ -191,9 +182,6 @@ const PublishResult = () => {
                                   key={idx}
                                   name={values.sessionTermId}
                                   value={term.sessionTermId}
-                                  selected={
-                                    term.sessionTermId == values.sessionTermId
-                                  }
                                 >
                                   {term.termName}
                                 </option>
@@ -214,7 +202,6 @@ const PublishResult = () => {
                               id="sessionClassId"
                               onChange={(e) => {
                                 setFieldValue("sessionClassId", e.target.value);
-                                // getTermClasses(e.target.value)(dispatch);
                               }}
                             >
                               <option value="">Select Class</option>
@@ -247,7 +234,6 @@ const PublishResult = () => {
                 ) : null}
                 {showPublishResultTable && (
                   <div>
-                    {/* <SmallTable scoreEntry={scoreEntry} /> */}
                     {!isPreviewMode ? (
                       <PublishResultTable
                         validation={validation}
