@@ -50,6 +50,14 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.UPDATE_PUBLISH_RESULT: {
+      return {
+        ...state,
+        publishResult: payload,
+      };
+    }
+
+
     case actions.FETCH_TERM_CLASSESS_LOADING: {
       return {
         ...state,

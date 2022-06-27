@@ -80,6 +80,93 @@ export const  getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
+export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previousScoreEntry,  sessionTermId) => (dispatch) => {
+
+    debugger
+
+    if (!examsScore) {
+        examsScore = 0;
+    }
+
+    examsScore = Math.round(examsScore);
+
+    if (examsScore > previousScoreEntry.examsScore) {
+        showErrorToast(`Please ensure exam score is not more than ${previousScoreEntry.examsScore}`)(dispatch);
+        return;
+    }
+
+    const entryIndex = previousScoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    if (entry) {
+        entry.examsScore = examsScore;
+        entry.isSaved = false;
+        entry.isOffered = examsScore > 0;
+        previousScoreEntry.classScoreEntries[entryIndex] = entry;
+        dispatch({
+            type: actions.UPDATE_PUBLISH_RESULT,
+            payload: previousScoreEntry
+        });
+
+        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: previousScoreEntry.subjectId, classScoreEntryId: previousScoreEntry.classScoreEntryId,  sessionTermId })
+            .then((res) => {
+                entry.isSaved = res.data.result.isSaved;
+                entry.isOffered = res.data.result.isOffered;
+                previousScoreEntry.classScoreEntries[entryIndex] = entry;
+                dispatch({
+                    type: actions.UPDATE_PUBLISH_RESULT,
+                    payload: previousScoreEntry
+                });
+            }).catch((err) => {
+                showErrorToast('Ooopsss.... unable to update score entry, please confirm entries')(dispatch);
+            });
+    }
+}
+
+export const setPreviousAssessmentResultList = (studentContactId, assessmentScore, publishResult, sessionTermId) => (dispatch) => {
+
+    if (!assessmentScore) {
+        assessmentScore = 0;
+    }
+
+    assessmentScore = Math.round(assessmentScore);
+
+    if (assessmentScore > publishResult.assessmentScore) {
+        showErrorToast(`Please ensure assessment score is not more than ${publishResult.assessmentScore}`)(dispatch);
+        return;
+    }
+
+    const entryIndex = publishResult?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entries = publishResult?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    if (entries) {
+        entries.assessmentScore = assessmentScore;
+        entries.isSaved = false;
+        entries.isOffered = assessmentScore > 0;
+        publishResult.classScoreEntries[entryIndex] = entries;
+        dispatch({
+            type: actions.UPDATE_PUBLISH_RESULT,
+            payload: publishResult
+        });
+
+        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.studentContactId, score: assessmentScore, subjectId: publishResult.subjectId, classScoreEntryId: publishResult.classScoreEntryId,  sessionTermId })
+            .then((res) => {
+                entries.isSaving = false;
+                entries.isOffered = res.data.result.isOffered;
+                entries.grade = res.data.result.grade;
+                entries.remark = res.data.result.remark;
+                publishResult.classScoreEntries[entryIndex] = entries;
+                dispatch({
+                    type: actions.UPDATE_PUBLISH_RESULT,
+                    payload: publishResult
+                });
+            }).catch((err) => {
+                showErrorToast('Ooopsss.... unable to update, score entry please confirm entries')(dispatch);
+            });
+    }
+}
+
+
+
+
 export const nullifyResultListOnExit = (publishResult) => (dispatch) => {
     if (window.location.pathname != resultManagement.publishResult){
         publishResult = null

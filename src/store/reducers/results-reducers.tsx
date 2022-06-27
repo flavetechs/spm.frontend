@@ -172,6 +172,7 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    
     case actions.CLOSE_PREVIEW: {
       return {
         ...state,
