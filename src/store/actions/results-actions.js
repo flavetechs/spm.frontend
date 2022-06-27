@@ -324,7 +324,7 @@ export const  getAllCumulativeMasterListentries = (sessionClassId, termId) => (d
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
+    axiosInstance.get(`/api/v1/result/get/cumulative-master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CUMULATIVE_MASTER_LIST_SUCCESS,

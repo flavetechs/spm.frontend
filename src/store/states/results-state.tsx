@@ -10,5 +10,5 @@ export const _state = {
     listEntry: null,
     previousScoreEntry:null,
     previousScoreEntryPreview:null,
-    cumulativeListEntry:null,
-}
+    cumulativeListEntry:null
+    }

@@ -18,7 +18,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
       (item, index, self) =>
         index === self.findIndex((t) => t.subjectName === item.subjectName)
     )
-    
+    console.log(cumulativeListEntry.resultList);
   return (
     <>
       <Row className="pt-3">
@@ -99,22 +99,26 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                   </Badge>
                 </td>
                 <>
-                <td>{item.totalScore}</td>
-                <td>{item.totalScore}</td>
-                <td>{item.totalScore}</td>
+                {/* <td>{item.cummulativeTermAvgScore.map((score, id) => (score.termName == "1st" && score.totalScore))}</td>
+                <td>{item.cummulativeTermAvgScore.map((score, id) => (score.termName == "2nd" && score.totalScore))}</td>
+                <td>{item.cummulativeTermAvgScore.map((score, id) => (score.termName == "3rd" && score.totalScore))}</td> */}
+                <td></td>
+                <td></td>
+                <td></td>
                 </>
                 <td className="fw-bold">{item.averageScore}</td>
                 
  {subjectList.map((list, id) => (
                   <>
                     <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ? 
-                   item.subjects.map(i=>i.subjectName == list.subjectName && i.assessmentScore) : ""}</td>
+                 item.subjects.map(i=>i.subjectName == list.subjectName && i.cummulativeTerms.map(t=>t.termName == "1st" && t.totalScore)): ""}</td>
 
                      <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
-                     item.subjects.map(i=>i.subjectName == list.subjectName && i.examScore) : ""}</td>
+                     item.subjects.map(i=>i.subjectName == list.subjectName && i.cummulativeTerms.map(t=>t.termName == "2nd" && t.totalScore)) : ""}
+                     </td>
 
                     <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
-                   item.subjects.map(i=>i.subjectName == list.subjectName && i.total) : ""} </td> 
+                  item.subjects.map(i=>i.subjectName == list.subjectName && i.cummulativeTerms.map(t=>t.termName == "3rd" && t.totalScore)): ""} </td> 
                   </>
                 ))} 
 

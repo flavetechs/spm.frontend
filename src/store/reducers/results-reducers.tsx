@@ -193,6 +193,13 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.UPDATE_PREVIOUS_SCORE_ENTRY: {
+      return {
+        ...state,
+        previousScoreEntry: payload,
+      };
+    }
+    
     case actions.CLOSE_PREVIEW: {
       return {
         ...state,
