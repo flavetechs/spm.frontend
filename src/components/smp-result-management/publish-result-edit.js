@@ -65,7 +65,7 @@ const PublishResultEdit = () => {
                                     //     idsForPreview.subjectId
                                     //   )(dispatch);
                                     // }}
-                                    // onClick={() => history.goBack()}
+                                    onClick={() => history.goBack()}
                                 >
                                     Back
                                 </Button>

@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Button, Table, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
+import { resultManagement } from "../../router/spm-path-locations";
 
 const PublishResultTable = ({
     validation,
@@ -14,6 +15,7 @@ const PublishResultTable = ({
     isPreviewMode,
     idsForPreview,
 }) => {
+    console.log('printResult ', printResult);
 
 
     return (
@@ -145,8 +147,9 @@ const PublishResultTable = ({
                                                             data-placement="top"
                                                             title=""
                                                             data-original-title="Edit"
-                                                            to="#"
-                                                        // to={`${studentsLocations.studentEdit}?studentAccountId=${student.studentAccountId}`}
+                                                            // to="#"
+
+                                                            to={`${resultManagement.publishResultEdit}?studentAccountId=${list.idx}`}
                                                         >
                                                             <span className="btn-inner">
                                                                 <svg
