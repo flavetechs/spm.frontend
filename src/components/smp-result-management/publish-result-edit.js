@@ -25,7 +25,7 @@ const PublishResultEdit = () => {
         { studentSubject: "Chemistry", registrationNumber: "ABC/0000092/xyz", assessmentScore: 33, examsScore: 45, isOffered: true, remark: "PASSED", Grade: "BC" },
     ])
     //VARIABLE DECLARATIONS
-
+Re
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { staffClasses, staffClassSubjects, scoreEntry } = state.results;
