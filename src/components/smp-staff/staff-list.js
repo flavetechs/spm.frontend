@@ -11,7 +11,7 @@ import {
   returnList
 } from '../../store/actions/staff-actions';
 import { useDispatch, useSelector } from "react-redux";
-import { staffLocations } from "../../router/spm-path-locations";
+import { resultManagement, staffLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
 
 
@@ -21,6 +21,7 @@ const StaffList = () => {
   const dispatch = useDispatch();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  const history = useHistory();
   //VARIABLE DECLARATIONS
 
 
@@ -269,7 +270,8 @@ const StaffList = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to={`${staffLocations.staffDetails}?teacherAccountId=${item.teacherAccountId}`}
+                                  // to={`${staffLocations.staffDetails}?teacherAccountId=${item.teacherAccountId}`}
+                                  onClick={() => { history.push(resultManagement.publishResultEdit) }}
                                 >
                                   <span className="btn-inner">
                                     <svg
