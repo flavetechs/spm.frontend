@@ -81,7 +81,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const setpublishExamScore = (classScoreEntryId, examScore, publishSingleStudent, sessionTermId) => (dispatch) => {
+export const setpublishExamScore = (subjectId, examScore, publishSingleStudent) => (dispatch) => {
 
     debugger
 
@@ -96,8 +96,8 @@ export const setpublishExamScore = (classScoreEntryId, examScore, publishSingleS
         return;
     }
 
-    const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.classScoreEntryId === classScoreEntryId);
-    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.classScoreEntryId== classScoreEntryId);
+    const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.subjectId === subjectId);
+    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.subjectId== subjectId);
     if (entries) {
         entries.examScore = examScore;
         entries.isSaving = true;
@@ -108,7 +108,7 @@ export const setpublishExamScore = (classScoreEntryId, examScore, publishSingleS
             payload: publishSingleStudent
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.classScoreEntryId, score: examScore, subjectId: publishSingleStudent.subjectId, classScoreEntryId: publishSingleStudent.classScoreEntryId, sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/exam-score`, {studentContactId: publishSingleStudent?.studentContactId, score: examScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
@@ -120,12 +120,15 @@ export const setpublishExamScore = (classScoreEntryId, examScore, publishSingleS
                     payload: publishSingleStudent
                 });
             }).catch((err) => {
-                showErrorToast('Ooopsss.... unable to update score entry, please confirm entries')(dispatch);
+                showErrorToast('Ooopsss.... unable to update score, please confirm entries')(dispatch);
             });
     }
 }
 
-export const setpublishAssessmentScore = (classScoreEntryId, assessmentScore, publishSingleStudent, sessionTermId) => (dispatch) => {
+
+export const setpublishAssessmentScore = (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
+
+    debugger
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -138,11 +141,11 @@ export const setpublishAssessmentScore = (classScoreEntryId, assessmentScore, pu
         return;
     }
 
-    const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.classScoreEntryId === classScoreEntryId);
-    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.classScoreEntryId == classScoreEntryId);
+    const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.subjectId === subjectId);
+    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.subjectId== subjectId);
     if (entries) {
         entries.assessmentScore = assessmentScore;
-        entries.isSaving = false;
+        entries.isSaving = true;
         entries.isOffered = assessmentScore > 0;
         publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
         dispatch({
@@ -150,7 +153,8 @@ export const setpublishAssessmentScore = (classScoreEntryId, assessmentScore, pu
             payload: publishSingleStudent
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.classScoreEntryId, score: assessmentScore, subjectId: publishSingleStudent.subjectId, classScoreEntryId: publishSingleStudent.classScoreEntryId, sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/assessment-score`,
+         {studentContactId: publishSingleStudent?.studentContactId, score: assessmentScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
@@ -162,7 +166,7 @@ export const setpublishAssessmentScore = (classScoreEntryId, assessmentScore, pu
                     payload: publishSingleStudent
                 });
             }).catch((err) => {
-                showErrorToast('Ooopsss.... unable to update, score entry please confirm entries')(dispatch);
+                showErrorToast('Ooopsss.... unable to update score, please confirm entries')(dispatch);
             });
     }
 }

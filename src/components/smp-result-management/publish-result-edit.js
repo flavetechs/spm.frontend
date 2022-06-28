@@ -33,48 +33,6 @@ const PublishResultEdit = () => {
   const [isPreviewMode, setPreviewMode] = useState(false);
   const history = useHistory();
   const locations = useLocation();
-  // const [studentEntry, setStudentEntry] = useState([
-  //   {
-  //     classScoreEntryId: "1",
-  //     studentSubject: "Geography",
-  //     registrationNumber: "ABC/0000017/xyz",
-  //     assessmentScore: 30,
-  //     examScore: 55,
-  //     isOffered: true,
-  //     remark: "PASSED",
-  //     Grade: "A",
-  //   },
-  //   {
-  //     classScoreEntryId: "2",
-  //     studentSubject: "Agriculture",
-  //     registrationNumber: "ABC/0000063/xyz",
-  //     assessmentScore: 20,
-  //     examScore: 45,
-  //     isOffered: false,
-  //     remark: "FAILED",
-  //     Grade: "C",
-  //   },
-  //   {
-  //     classScoreEntryId: "3",
-  //     studentSubject: "Physics",
-  //     registrationNumber: "ABC/0000098/xyz",
-  //     assessmentScore: 40,
-  //     examScore: 35,
-  //     isOffered: false,
-  //     remark: "PASSED",
-  //     Grade: "AB",
-  //   },
-  //   {
-  //     classScoreEntryId: "4",
-  //     studentSubject: "Chemistry",
-  //     registrationNumber: "ABC/0000092/xyz",
-  //     assessmentScore: 33,
-  //     examScore: 45,
-  //     isOffered: true,
-  //     remark: "PASSED",
-  //     Grade: "BC",
-  //   },
-  // ]);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -101,7 +59,10 @@ console.log("here", publishSingleStudent);
             </Card.Header>
             <Card.Body>
               <div>
-                <PublishResultEditTable />
+                <PublishResultEditTable 
+                publishSingleStudent={publishSingleStudent}
+                idsObj={idsObj}
+                />
               </div>
               <div className="d-flex justify-content-end">
                 <Button
@@ -123,10 +84,10 @@ console.log("here", publishSingleStudent);
               </div>
 
               <Formik
-              // initialValues={{ examScore: 0, assessmentScore: 0 }}
-              // validationSchema={validation}
-              // enableReinitialize={true}
-              // onSubmit={(values) => { }}
+              initialValues={{ examScore: 0, assessmentScore: 0 }}
+             // validationSchema={validation}
+              enableReinitialize={true}
+              onSubmit={(values) => { }}
               >
                 {({
                   handleSubmit,
@@ -207,18 +168,18 @@ console.log("here", publishSingleStudent);
                                   className="fw-bold"
                                   type="text"
                                   maxLength={publishResults?.assessmentScore}
-                                  name={`${item.classScoreEntryId}_assessmentScore`}
+                                  name={`${item.subjectId}_assessmentScore`}
                                   defaultValue={item.assessmentScore}
                                   onFocus={handleFocus}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      `${item.classScoreEntryId}_assessmentScore`,
+                                      `${item.subjectId}_assessmentScore`,
                                       e.target.value
                                     );
                                   }}
                                   onBlur={(e) => {
                                     setpublishAssessmentScore(
-                                      item.classScoreEntryId,
+                                      item.subjectId,
                                       e.target.value,
                                       publishSingleStudent
                                     )(dispatch);
@@ -249,18 +210,18 @@ console.log("here", publishSingleStudent);
                                   className=" fw-bold "
                                   type="text"
                                   maxLength={publishResults?.examScore}
-                                  name={`${item.classScoreEntryId}_examScore`}
+                                  name={`${item.subjectId}_examScore`}
                                   defaultValue={item.examScore}
                                   onFocus={handleFocus}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      `${item.classScoreEntryId}_examScore`,
+                                      `${item.subjectId}_examScore`,
                                       e.target.value
                                     );
                                   }}
                                   onBlur={(e) => {
                                     setpublishExamScore(
-                                      item.classScoreEntryId,
+                                      item.subjectId,
                                       e.target.value,
                                       publishSingleStudent
                                     )(dispatch);
