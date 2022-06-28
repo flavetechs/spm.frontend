@@ -81,40 +81,40 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const setpublishExamScore = (studentContactId, examsScore, publishSingleStudent, sessionTermId) => (dispatch) => {
+export const setpublishExamScore = (classScoreEntryId, examScore, publishSingleStudent, sessionTermId) => (dispatch) => {
 
     debugger
 
-    if (!examsScore) {
-        examsScore = 0;
+    if (!examScore) {
+        examScore = 0;
     }
 
-    examsScore = Math.round(examsScore);
+    examScore = Math.round(examScore);
 
-    if (examsScore > publishSingleStudent.examsScore) {
-        showErrorToast(`Please ensure exam score is not more than ${publishSingleStudent.examsScore}`)(dispatch);
+    if (examScore > publishSingleStudent.examScore) {
+        showErrorToast(`Please ensure exam score is not more than ${publishSingleStudent.examScore}`)(dispatch);
         return;
     }
 
-    const entryIndex = publishSingleStudent?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entries = publishSingleStudent?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.classScoreEntryId === classScoreEntryId);
+    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.classScoreEntryId== classScoreEntryId);
     if (entries) {
-        entries.examsScore = examsScore;
+        entries.examScore = examScore;
         entries.isSaving = true;
-        entries.isOffered = examsScore > 0;
-        publishSingleStudent.classScoreEntries[entryIndex] = entries;
+        entries.isOffered = examScore > 0;
+        publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
             payload: publishSingleStudent
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.studentContactId, score: examsScore, subjectId: publishSingleStudent.subjectId, classScoreEntryId: publishSingleStudent.classScoreEntryId, sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.classScoreEntryId, score: examScore, subjectId: publishSingleStudent.subjectId, classScoreEntryId: publishSingleStudent.classScoreEntryId, sessionTermId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
                 entries.grade = res.data.result.grade;
                 entries.remark = res.data.result.remark;
-                publishSingleStudent.classScoreEntries[entryIndex] = entries;
+                publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
                     payload: publishSingleStudent
@@ -125,7 +125,7 @@ export const setpublishExamScore = (studentContactId, examsScore, publishSingleS
     }
 }
 
-export const setpublishAssessmentScore = (studentContactId, assessmentScore, publishSingleStudent, sessionTermId) => (dispatch) => {
+export const setpublishAssessmentScore = (classScoreEntryId, assessmentScore, publishSingleStudent, sessionTermId) => (dispatch) => {
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -138,25 +138,25 @@ export const setpublishAssessmentScore = (studentContactId, assessmentScore, pub
         return;
     }
 
-    const entryIndex = publishSingleStudent?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entries = publishSingleStudent?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.classScoreEntryId === classScoreEntryId);
+    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.classScoreEntryId == classScoreEntryId);
     if (entries) {
         entries.assessmentScore = assessmentScore;
         entries.isSaving = false;
         entries.isOffered = assessmentScore > 0;
-        publishSingleStudent.classScoreEntries[entryIndex] = entries;
+        publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
             payload: publishSingleStudent
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.studentContactId, score: assessmentScore, subjectId: publishSingleStudent.subjectId, classScoreEntryId: publishSingleStudent.classScoreEntryId, sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.classScoreEntryId, score: assessmentScore, subjectId: publishSingleStudent.subjectId, classScoreEntryId: publishSingleStudent.classScoreEntryId, sessionTermId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
                 entries.grade = res.data.result.grade;
                 entries.remark = res.data.result.remark;
-                publishSingleStudent.classScoreEntries[entryIndex] = entries;
+                publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
                     payload: publishSingleStudent

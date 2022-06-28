@@ -35,7 +35,7 @@ const PublishResultEdit = () => {
   const locations = useLocation();
   // const [studentEntry, setStudentEntry] = useState([
   //   {
-  //     studentContactId: "1",
+  //     classScoreEntryId: "1",
   //     studentSubject: "Geography",
   //     registrationNumber: "ABC/0000017/xyz",
   //     assessmentScore: 30,
@@ -45,7 +45,7 @@ const PublishResultEdit = () => {
   //     Grade: "A",
   //   },
   //   {
-  //     studentContactId: "2",
+  //     classScoreEntryId: "2",
   //     studentSubject: "Agriculture",
   //     registrationNumber: "ABC/0000063/xyz",
   //     assessmentScore: 20,
@@ -55,7 +55,7 @@ const PublishResultEdit = () => {
   //     Grade: "C",
   //   },
   //   {
-  //     studentContactId: "3",
+  //     classScoreEntryId: "3",
   //     studentSubject: "Physics",
   //     registrationNumber: "ABC/0000098/xyz",
   //     assessmentScore: 40,
@@ -65,7 +65,7 @@ const PublishResultEdit = () => {
   //     Grade: "AB",
   //   },
   //   {
-  //     studentContactId: "4",
+  //     classScoreEntryId: "4",
   //     studentSubject: "Chemistry",
   //     registrationNumber: "ABC/0000092/xyz",
   //     assessmentScore: 33,
@@ -207,18 +207,18 @@ console.log("here", publishSingleStudent);
                                   className="fw-bold"
                                   type="text"
                                   maxLength={publishResults?.assessmentScore}
-                                  name={`${item.studentContactId}_assessmentScore`}
+                                  name={`${item.classScoreEntryId}_assessmentScore`}
                                   defaultValue={item.assessmentScore}
                                   onFocus={handleFocus}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      `${item.studentContactId}_assessmentScore`,
+                                      `${item.classScoreEntryId}_assessmentScore`,
                                       e.target.value
                                     );
                                   }}
                                   onBlur={(e) => {
                                     setpublishAssessmentScore(
-                                      item.studentContactId,
+                                      item.classScoreEntryId,
                                       e.target.value,
                                       publishSingleStudent
                                     )(dispatch);
@@ -254,7 +254,7 @@ console.log("here", publishSingleStudent);
                                   onFocus={handleFocus}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      `${item.studentContactId}_examScore`,
+                                      `${item.classScoreEntryId}_examScore`,
                                       e.target.value
                                     );
                                   }}
