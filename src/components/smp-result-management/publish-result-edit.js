@@ -9,7 +9,9 @@ import {
   Badge,
 } from "react-bootstrap";
 import { Formik, Field } from "formik";
+import { useHistory, useLocation } from "react-router-dom";
 import {
+  fetchSingleStudentResultEntries,
   getAllResultList,
   setpublishAssessmentScore,
   setpublishExamScore,
@@ -30,48 +32,49 @@ const PublishResultEdit = () => {
   const [isEditMode, setEditMode] = useState(false);
   const [isPreviewMode, setPreviewMode] = useState(false);
   const history = useHistory();
-  // const [studentEntry, setStudentEntry] = useState([
-  //   {
-  //     studentContactId: "1",
-  //     studentSubject: "Geography",
-  //     registrationNumber: "ABC/0000017/xyz",
-  //     assessmentScore: 30,
-  //     examsScore: 55,
-  //     isOffered: true,
-  //     remark: "PASSED",
-  //     Grade: "A",
-  //   },
-  //   {
-  //     studentContactId: "2",
-  //     studentSubject: "Agriculture",
-  //     registrationNumber: "ABC/0000063/xyz",
-  //     assessmentScore: 20,
-  //     examsScore: 45,
-  //     isOffered: false,
-  //     remark: "FAILED",
-  //     Grade: "C",
-  //   },
-  //   {
-  //     studentContactId: "3",
-  //     studentSubject: "Physics",
-  //     registrationNumber: "ABC/0000098/xyz",
-  //     assessmentScore: 40,
-  //     examsScore: 35,
-  //     isOffered: false,
-  //     remark: "PASSED",
-  //     Grade: "AB",
-  //   },
-  //   {
-  //     studentContactId: "4",
-  //     studentSubject: "Chemistry",
-  //     registrationNumber: "ABC/0000092/xyz",
-  //     assessmentScore: 33,
-  //     examsScore: 45,
-  //     isOffered: true,
-  //     remark: "PASSED",
-  //     Grade: "BC",
-  //   },
-  // ]);
+  const locations = useLocation();
+  const [studentEntry, setStudentEntry] = useState([
+    {
+      studentContactId: "1",
+      studentSubject: "Geography",
+      registrationNumber: "ABC/0000017/xyz",
+      assessmentScore: 30,
+      examsScore: 55,
+      isOffered: true,
+      remark: "PASSED",
+      Grade: "A",
+    },
+    {
+      studentContactId: "2",
+      studentSubject: "Agriculture",
+      registrationNumber: "ABC/0000063/xyz",
+      assessmentScore: 20,
+      examsScore: 45,
+      isOffered: false,
+      remark: "FAILED",
+      Grade: "C",
+    },
+    {
+      studentContactId: "3",
+      studentSubject: "Physics",
+      registrationNumber: "ABC/0000098/xyz",
+      assessmentScore: 40,
+      examsScore: 35,
+      isOffered: false,
+      remark: "PASSED",
+      Grade: "AB",
+    },
+    {
+      studentContactId: "4",
+      studentSubject: "Chemistry",
+      registrationNumber: "ABC/0000092/xyz",
+      assessmentScore: 33,
+      examsScore: 45,
+      isOffered: true,
+      remark: "PASSED",
+      Grade: "BC",
+    },
+  ]);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -79,12 +82,12 @@ const PublishResultEdit = () => {
   const { staffClasses, staffClassSubjects, publishResults } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
-  // React.useEffect(() => {
-  //     const queryParams = new URLSearchParams(locations.search);
-  //     const teacherAccountId = queryParams.get("teacherAccountId");
-  //     if (!teacherAccountId) return;
-  //     fetchSingleStaff(teacherAccountId)(dispatch)
-  //  }, []);
+  React.useEffect(() => {
+      const queryParams = new URLSearchParams(locations.search);
+      const studentContactId = queryParams.get("studentContactId");
+      if (!studentContactId) return;
+      fetchSingleStudentResultEntries(studentContactId)(dispatch)
+   }, []);
 
 React.useEffect(() => {
      // getAllResultList()(dispatch)
@@ -157,7 +160,7 @@ console.log("here", publishResults);
                       </tr>
                     </thead>
                     <tbody>
-                      {publishResults.map((item, index) => (
+                      {studentEntry.map((item, index) => (
                         <OverlayTrigger
                           key={index}
                           placement="top"

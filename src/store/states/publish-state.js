@@ -6,5 +6,6 @@ export const _state = {
     sessionTerms: null,
     termClasses: null,
     publishResults: null,
+    publishSingleStudent: null,
     fetchPreviewSuccessful: false,
 }

@@ -102,6 +102,31 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
         publishResults: null,
       };
     }
+
+
+    case actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        publishSingleStudent: null,
+      };
+    }
+    case actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        publishSingleStudent: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        publishSingleStudent: null,
+      };
+    }
+
+
     case actions.CLOSE_RESULT_LIST: {
       return {
         ...state,

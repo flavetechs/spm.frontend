@@ -62,7 +62,7 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
         });
 }
 
-export const  getAllResultList = (sessionClassId, termId) => (dispatch) => {
+export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_RESULT_LIST_LOADING,
         payload: sessionClassId
@@ -81,7 +81,7 @@ export const  getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const setpublishExamScore = (studentContactId, examsScore,  publishResults,  sessionTermId) => (dispatch) => {
+export const setpublishExamScore = (studentContactId, examsScore, publishResults, sessionTermId) => (dispatch) => {
 
     debugger
 
@@ -108,7 +108,7 @@ export const setpublishExamScore = (studentContactId, examsScore,  publishResult
             payload: publishResults
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.studentContactId, score: examsScore, subjectId: publishResults.subjectId, classScoreEntryId: publishResults.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.studentContactId, score: examsScore, subjectId: publishResults.subjectId, classScoreEntryId: publishResults.classScoreEntryId, sessionTermId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
@@ -150,7 +150,7 @@ export const setpublishAssessmentScore = (studentContactId, assessmentScore, pub
             payload: publishResults
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.studentContactId, score: assessmentScore, subjectId: publishResults.subjectId, classScoreEntryId: publishResults.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.studentContactId, score: assessmentScore, subjectId: publishResults.subjectId, classScoreEntryId: publishResults.classScoreEntryId, sessionTermId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
@@ -167,13 +167,32 @@ export const setpublishAssessmentScore = (studentContactId, assessmentScore, pub
     }
 }
 
+export const fetchSingleStudentResultEntries = (sessionClassId, termId, studentContactId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING,
+        payload: sessionClassId
+    });
+    axiosInstance.get(`/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId${studentContactId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 
 
 
 export const nullifyResultListOnExit = (publishResults) => (dispatch) => {
-    if (window.location.pathname != resultManagement.publishResult){
+    if (window.location.pathname != resultManagement.publishResult) {
         publishResults = null
-    }else return publishResults
+    } else return publishResults
     dispatch({
         type: actions.CLOSE_RESULT_LIST,
         payload: publishResults
