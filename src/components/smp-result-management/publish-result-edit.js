@@ -257,8 +257,10 @@ const PublishResultEdit = () => {
                                 checked={item.isOffered}
                               />
                             </td> */}
+                              <td>{item.grade}</td>
+                              <td>{item.remark}</td>
 
-                              {item.isSaving ? (
+                              {item.isSaving && (
                                 <td>
                                   <span style={{ color: "green" }}>
                                     <svg
@@ -286,11 +288,6 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (
-                                <>
-                                  <td>{item.grade}</td>
-                                  <td>{item.remark}</td>
-                                </>
                               )}
                             </tr>
                           </OverlayTrigger>
