@@ -63,6 +63,8 @@ const PublishResult = () => {
   React.useEffect(() => {
     if (publishResults) {
       SetShowPublishResultTable(true);
+    }else if(!publishResults){
+      SetShowPublishResultTable(false);
     }
     return () => {
       nullifyResultListOnExit(publishResults)(dispatch);

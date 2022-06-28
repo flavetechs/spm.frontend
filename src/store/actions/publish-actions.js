@@ -81,15 +81,15 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const setpublishExamScore = (subjectId, examScore, publishSingleStudent) => (dispatch) => {
+export const setExamScore = (subjectId, examScore, publishSingleStudent) => (dispatch) => {
 if (!examScore) {
         examScore = 0;
     }
 
     examScore = Math.round(examScore);
 
-    if (examScore > publishSingleStudent.examScore) {
-        showErrorToast(`Please ensure exam score is not more than ${publishSingleStudent.examScore}`)(dispatch);
+    if (examScore > publishSingleStudent?.examScore) {
+        showErrorToast(`Please ensure exam score is not more than ${publishSingleStudent?.examScore}`)(dispatch);
         return;
     }
 
@@ -122,15 +122,15 @@ if (!examScore) {
 }
 
 
-export const setpublishAssessmentScore = (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
+export const setAssessmentScore = (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
  if (!assessmentScore) {
         assessmentScore = 0;
     }
 
     assessmentScore = Math.round(assessmentScore);
 
-    if (assessmentScore > publishSingleStudent.assessmentScore) {
-        showErrorToast(`Please ensure assessment score is not more than ${publishSingleStudent.assessmentScore}`)(dispatch);
+    if (assessmentScore > publishSingleStudent?.assessmentScore) {
+        showErrorToast(`Please ensure assessment score is not more than ${publishSingleStudent?.assessmentScore}`)(dispatch);
         return;
     }
 

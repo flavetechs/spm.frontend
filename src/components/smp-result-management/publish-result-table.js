@@ -18,7 +18,7 @@ const PublishResultTable = ({
 }) => {
     console.log('publishResults ', publishResults?.publishResult);
 
-
+    if(publishResults?.publishResult == undefined) { publishResults.publishResult = [] }
     return (
         <>
             <Row className="pt-3">
