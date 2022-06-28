@@ -81,7 +81,7 @@ export const  getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const setpublishExamResult = (studentContactId, examsScore,  publishResult,  sessionTermId) => (dispatch) => {
+export const setpublishExamScore = (studentContactId, examsScore,  publishResults,  sessionTermId) => (dispatch) => {
 
     debugger
 
@@ -91,33 +91,33 @@ export const setpublishExamResult = (studentContactId, examsScore,  publishResul
 
     examsScore = Math.round(examsScore);
 
-    if (examsScore > publishResult.examsScore) {
-        showErrorToast(`Please ensure exam score is not more than ${publishResult.examsScore}`)(dispatch);
+    if (examsScore > publishResults.examsScore) {
+        showErrorToast(`Please ensure exam score is not more than ${publishResults.examsScore}`)(dispatch);
         return;
     }
 
-    const entryIndex = publishResult?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entries = publishResult?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    const entryIndex = publishResults?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entries = publishResults?.classScoreEntries.find(e => e.studentContactId == studentContactId);
     if (entries) {
         entries.examsScore = examsScore;
         entries.isSaving = true;
         entries.isOffered = examsScore > 0;
-        publishResult.classScoreEntries[entryIndex] = entries;
+        publishResults.classScoreEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
-            payload: publishResult
+            payload: publishResults
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.studentContactId, score: examsScore, subjectId: publishResult.subjectId, classScoreEntryId: publishResult.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.studentContactId, score: examsScore, subjectId: publishResults.subjectId, classScoreEntryId: publishResults.classScoreEntryId,  sessionTermId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
                 entries.grade = res.data.result.grade;
                 entries.remark = res.data.result.remark;
-                publishResult.classScoreEntries[entryIndex] = entries;
+                publishResults.classScoreEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
-                    payload: publishResult
+                    payload: publishResults
                 });
             }).catch((err) => {
                 showErrorToast('Ooopsss.... unable to update score entry, please confirm entries')(dispatch);
@@ -125,7 +125,7 @@ export const setpublishExamResult = (studentContactId, examsScore,  publishResul
     }
 }
 
-export const setpublishAssessmentResult = (studentContactId, assessmentScore, publishResult, sessionTermId) => (dispatch) => {
+export const setpublishAssessmentScore = (studentContactId, assessmentScore, publishResults, sessionTermId) => (dispatch) => {
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -133,33 +133,33 @@ export const setpublishAssessmentResult = (studentContactId, assessmentScore, pu
 
     assessmentScore = Math.round(assessmentScore);
 
-    if (assessmentScore > publishResult.assessmentScore) {
-        showErrorToast(`Please ensure assessment score is not more than ${publishResult.assessmentScore}`)(dispatch);
+    if (assessmentScore > publishResults.assessmentScore) {
+        showErrorToast(`Please ensure assessment score is not more than ${publishResults.assessmentScore}`)(dispatch);
         return;
     }
 
-    const entryIndex = publishResult?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entries = publishResult?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    const entryIndex = publishResults?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entries = publishResults?.classScoreEntries.find(e => e.studentContactId == studentContactId);
     if (entries) {
         entries.assessmentScore = assessmentScore;
         entries.isSaving = false;
         entries.isOffered = assessmentScore > 0;
-        publishResult.classScoreEntries[entryIndex] = entries;
+        publishResults.classScoreEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
-            payload: publishResult
+            payload: publishResults
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.studentContactId, score: assessmentScore, subjectId: publishResult.subjectId, classScoreEntryId: publishResult.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entries.studentContactId, score: assessmentScore, subjectId: publishResults.subjectId, classScoreEntryId: publishResults.classScoreEntryId,  sessionTermId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = res.data.result.isOffered;
                 entries.grade = res.data.result.grade;
                 entries.remark = res.data.result.remark;
-                publishResult.classScoreEntries[entryIndex] = entries;
+                publishResults.classScoreEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
-                    payload: publishResult
+                    payload: publishResults
                 });
             }).catch((err) => {
                 showErrorToast('Ooopsss.... unable to update, score entry please confirm entries')(dispatch);
@@ -170,12 +170,12 @@ export const setpublishAssessmentResult = (studentContactId, assessmentScore, pu
 
 
 
-export const nullifyResultListOnExit = (publishResult) => (dispatch) => {
+export const nullifyResultListOnExit = (publishResults) => (dispatch) => {
     if (window.location.pathname != resultManagement.publishResult){
-        publishResult = null
-    }else return publishResult
+        publishResults = null
+    }else return publishResults
     dispatch({
         type: actions.CLOSE_RESULT_LIST,
-        payload: publishResult
+        payload: publishResults
     });
 }
