@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Button, Table, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
-import { resultManagement } from "../../router/spm-path-locations";
+import { resultManagement, studentsLocations } from "../../router/spm-path-locations";
 
 const PublishResultTable = ({
     validation,
@@ -195,8 +195,7 @@ const PublishResultTable = ({
                                                             data-placement="top"
                                                             title=""
                                                             data-original-title="Details"
-                                                            to="#"
-                                                        // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
+                                                            to={`${studentsLocations.studentDetails}?studentAccountId=${list.studentContactId}`}
                                                         >
                                                             <span className="btn-inner">
                                                                 <svg

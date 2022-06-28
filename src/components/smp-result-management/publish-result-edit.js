@@ -6,21 +6,18 @@ import {
   OverlayTrigger,
   Tooltip,
   Col,
-  Badge,
 } from "react-bootstrap";
 import { Formik, Field } from "formik";
 import { useHistory, useLocation } from "react-router-dom";
 import {
   fetchSingleStudentResultEntries,
-  getAllResultList,
-  getValueIds,
   setpublishAssessmentScore,
   setpublishExamScore,
 } from "../../store/actions/publish-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllClassScoreEntryPreview } from "../../store/actions/results-actions";
 import PublishResultEditTable from "./publish-result-edit-table";
 import Card from "../Card";
+import { resultManagement } from "../../router/spm-path-locations";
 
 
 const PublishResultEdit = () => {
@@ -77,7 +74,7 @@ console.log("here", publishSingleStudent);
                   //     idsForPreview.subjectId
                   //   )(dispatch);
                   // }}
-                  onClick={() => history.goBack()}
+                  onClick={() => history.push(resultManagement.publishResult)}
                 >
                   Back
                 </Button>
@@ -111,7 +108,7 @@ console.log("here", publishSingleStudent);
                           Assessment Score
                         </td>
                         <td className="text-uppercase h6">Exam Score</td>
-                        <td className="text-uppercase h6">Is Offered</td>
+                        {/* <td className="text-uppercase h6">Is Offered</td> */}
                         <td className="text-uppercase h6 px-2">Grade</td>
                         <td className="text-uppercase h6 px-2">Remark</td>
                       </tr>
@@ -233,17 +230,23 @@ console.log("here", publishSingleStudent);
                                 </span>
                               )}
                             </td>
-                            <td style={{ width: "5px" }}>
+                            {/* <td style={{ width: "5px" }}>
                               {" "}
                               <Field
                                 type="checkbox"
                                 className="form-check-input"
                                 checked={item.isOffered}
                               />
-                            </td>
+                            </td> */}
 
-                            {item.isSaving ? (
-                              <td>
+                            {!item.isSaving ? (
+                              <>
+                              <td>{item.grade}</td>
+                              <td>{item.remark}</td>
+                            </>
+                            
+                            ) : (
+                                <td>
                                 <span style={{ color: "green" }}>
                                   <svg
                                     width="20"
@@ -270,11 +273,6 @@ console.log("here", publishSingleStudent);
                                   </svg>
                                 </span>
                               </td>
-                            ) : (
-                              <>
-                                <td>{item.grade}</td>
-                                <td>{item.remark}</td>
-                              </>
                             )}
                           </tr>
                         </OverlayTrigger>

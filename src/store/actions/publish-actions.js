@@ -146,7 +146,7 @@ export const setpublishAssessmentScore = (subjectId, assessmentScore, publishSin
     if (entries) {
         entries.assessmentScore = assessmentScore;
         entries.isSaving = true;
-        entries.isOffered = assessmentScore > 0;
+        entries.isOffered = true;
         publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
@@ -157,7 +157,7 @@ export const setpublishAssessmentScore = (subjectId, assessmentScore, publishSin
          {studentContactId: publishSingleStudent?.studentContactId, score: assessmentScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
             .then((res) => {
                 entries.isSaving = false;
-                entries.isOffered = res.data.result.isOffered;
+                entries.isOffered = true;
                 entries.grade = res.data.result.grade;
                 entries.remark = res.data.result.remark;
                 publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
@@ -203,11 +203,11 @@ dispatch({
 
 
 export const nullifyResultListOnExit = (publishResults) => (dispatch) => {
-    if (window.location.pathname != resultManagement.publishResult) {
-        publishResults = null
-    } else return publishResults
-    dispatch({
-        type: actions.CLOSE_RESULT_LIST,
-        payload: publishResults
-    });
+    // if (window.location.pathname != resultManagement.publishResult) {
+    //     publishResults = null
+    // } else return publishResults
+    // dispatch({
+    //     type: actions.CLOSE_RESULT_LIST,
+    //     payload: publishResults
+    // });
 }
