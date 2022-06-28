@@ -17,7 +17,6 @@ import {
   setpublishExamScore,
 } from "../../store/actions/publish-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { getAllClassScoreEntryPreview } from "../../store/actions/results-actions";
 import PublishResultEditTable from "./publish-result-edit-table";
 import Card from "../Card";
@@ -79,14 +78,14 @@ const PublishResultEdit = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, publishResults } = state.publish;
+  const { staffClasses, staffClassSubjects, publishResults, publishSingleStudent } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
       const queryParams = new URLSearchParams(locations.search);
       const studentContactId = queryParams.get("studentContactId");
       if (!studentContactId) return;
-      fetchSingleStudentResultEntries(studentContactId)(dispatch)
+      // fetchSingleStudentResultEntries(studentContactId)(dispatch)
    }, []);
 
 React.useEffect(() => {
