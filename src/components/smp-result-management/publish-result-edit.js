@@ -10,8 +10,9 @@ import {
 } from "react-bootstrap";
 import { Formik, Field } from "formik";
 import {
-  setpublishAssessmentResult,
-  setpublishExamResult,
+  getAllResultList,
+  setpublishAssessmentScore,
+  setpublishExamScore,
 } from "../../store/actions/publish-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -29,53 +30,53 @@ const PublishResultEdit = () => {
   const [isEditMode, setEditMode] = useState(false);
   const [isPreviewMode, setPreviewMode] = useState(false);
   const history = useHistory();
-  const [studentEntry, setStudentEntry] = useState([
-    {
-      studentContactId: "1",
-      studentSubject: "Geography",
-      registrationNumber: "ABC/0000017/xyz",
-      assessmentScore: 30,
-      examsScore: 55,
-      isOffered: true,
-      remark: "PASSED",
-      Grade: "A",
-    },
-    {
-      studentContactId: "2",
-      studentSubject: "Agriculture",
-      registrationNumber: "ABC/0000063/xyz",
-      assessmentScore: 20,
-      examsScore: 45,
-      isOffered: false,
-      remark: "FAILED",
-      Grade: "C",
-    },
-    {
-      studentContactId: "3",
-      studentSubject: "Physics",
-      registrationNumber: "ABC/0000098/xyz",
-      assessmentScore: 40,
-      examsScore: 35,
-      isOffered: false,
-      remark: "PASSED",
-      Grade: "AB",
-    },
-    {
-      studentContactId: "4",
-      studentSubject: "Chemistry",
-      registrationNumber: "ABC/0000092/xyz",
-      assessmentScore: 33,
-      examsScore: 45,
-      isOffered: true,
-      remark: "PASSED",
-      Grade: "BC",
-    },
-  ]);
+  // const [studentEntry, setStudentEntry] = useState([
+  //   {
+  //     studentContactId: "1",
+  //     studentSubject: "Geography",
+  //     registrationNumber: "ABC/0000017/xyz",
+  //     assessmentScore: 30,
+  //     examsScore: 55,
+  //     isOffered: true,
+  //     remark: "PASSED",
+  //     Grade: "A",
+  //   },
+  //   {
+  //     studentContactId: "2",
+  //     studentSubject: "Agriculture",
+  //     registrationNumber: "ABC/0000063/xyz",
+  //     assessmentScore: 20,
+  //     examsScore: 45,
+  //     isOffered: false,
+  //     remark: "FAILED",
+  //     Grade: "C",
+  //   },
+  //   {
+  //     studentContactId: "3",
+  //     studentSubject: "Physics",
+  //     registrationNumber: "ABC/0000098/xyz",
+  //     assessmentScore: 40,
+  //     examsScore: 35,
+  //     isOffered: false,
+  //     remark: "PASSED",
+  //     Grade: "AB",
+  //   },
+  //   {
+  //     studentContactId: "4",
+  //     studentSubject: "Chemistry",
+  //     registrationNumber: "ABC/0000092/xyz",
+  //     assessmentScore: 33,
+  //     examsScore: 45,
+  //     isOffered: true,
+  //     remark: "PASSED",
+  //     Grade: "BC",
+  //   },
+  // ]);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, publishResult } = state.publish;
+  const { staffClasses, staffClassSubjects, publishResults } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
   // React.useEffect(() => {
@@ -85,8 +86,12 @@ const PublishResultEdit = () => {
   //     fetchSingleStaff(teacherAccountId)(dispatch)
   //  }, []);
 
+React.useEffect(() => {
+     // getAllResultList()(dispatch)
+   }, []);
+
   const handleFocus = (event) => event.target.select();
-console.log("here", publishResult);
+console.log("here", publishResults);
   return (
     <>
       <Row className="pt-3">
@@ -152,7 +157,7 @@ console.log("here", publishResult);
                       </tr>
                     </thead>
                     <tbody>
-                      {studentEntry.map((item, index) => (
+                      {publishResults.map((item, index) => (
                         <OverlayTrigger
                           key={index}
                           placement="top"
@@ -202,7 +207,7 @@ console.log("here", publishResult);
                                   }}
                                   className="fw-bold"
                                   type="text"
-                                  maxLength={publishResult?.assessmentScore}
+                                  maxLength={publishResults?.assessmentScore}
                                   name={`${item.studentContactId}_assessmentScore`}
                                   defaultValue={item.assessmentScore}
                                   onFocus={handleFocus}
@@ -213,10 +218,10 @@ console.log("here", publishResult);
                                     );
                                   }}
                                   onBlur={(e) => {
-                                    setpublishAssessmentResult(
+                                    setpublishAssessmentScore(
                                       item.studentContactId,
                                       e.target.value,
-                                      publishResult
+                                      publishResults
                                     )(dispatch);
                                   }}
                                 />
@@ -244,7 +249,7 @@ console.log("here", publishResult);
                                   }}
                                   className=" fw-bold "
                                   type="text"
-                                  maxLength={publishResult?.examsScore}
+                                  maxLength={publishResults?.examsScore}
                                   name={`${item.studentContactId}_examScore`}
                                   defaultValue={item.examsScore}
                                   onFocus={handleFocus}
@@ -255,10 +260,10 @@ console.log("here", publishResult);
                                     );
                                   }}
                                   onBlur={(e) => {
-                                    setpublishExamResult(
+                                    setpublishExamScore(
                                       item.studentContactId,
                                       e.target.value,
-                                      publishResult
+                                      publishResults
                                     )(dispatch);
                                   }}
                                 />
