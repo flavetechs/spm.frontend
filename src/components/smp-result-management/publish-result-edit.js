@@ -85,7 +85,7 @@ const PublishResultEdit = () => {
       const queryParams = new URLSearchParams(locations.search);
       const studentContactId = queryParams.get("studentContactId");
       if (!studentContactId) return;
-      // fetchSingleStudentResultEntries(studentContactId)(dispatch)
+       fetchSingleStudentResultEntries(sessionClassId, termId,studentContactId)(dispatch)
    }, []);
 
 React.useEffect(() => {
