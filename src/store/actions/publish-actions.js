@@ -1,6 +1,7 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { resultManagement } from "../../router/spm-path-locations";
 import { actions } from "../action-types/publish-result-action-types";
+import { showErrorToast } from "./toaster-actions";
 
 export const getAllSchoolSessions = () => (dispatch) => {
     dispatch({
@@ -80,7 +81,7 @@ export const  getAllResultList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previousScoreEntry,  sessionTermId) => (dispatch) => {
+export const setpublishExamResult = (studentContactId, examsScore,  publishResult,  sessionTermId) => (dispatch) => {
 
     debugger
 
@@ -90,31 +91,33 @@ export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previou
 
     examsScore = Math.round(examsScore);
 
-    if (examsScore > previousScoreEntry.examsScore) {
-        showErrorToast(`Please ensure exam score is not more than ${previousScoreEntry.examsScore}`)(dispatch);
+    if (examsScore > publishResult.examsScore) {
+        showErrorToast(`Please ensure exam score is not more than ${publishResult.examsScore}`)(dispatch);
         return;
     }
 
-    const entryIndex = previousScoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
-    if (entry) {
-        entry.examsScore = examsScore;
-        entry.isSaved = false;
-        entry.isOffered = examsScore > 0;
-        previousScoreEntry.classScoreEntries[entryIndex] = entry;
+    const entryIndex = publishResult?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
+    let entries = publishResult?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    if (entries) {
+        entries.examsScore = examsScore;
+        entries.isSaving = true;
+        entries.isOffered = examsScore > 0;
+        publishResult.classScoreEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
-            payload: previousScoreEntry
+            payload: publishResult
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: previousScoreEntry.subjectId, classScoreEntryId: previousScoreEntry.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entries.studentContactId, score: examsScore, subjectId: publishResult.subjectId, classScoreEntryId: publishResult.classScoreEntryId,  sessionTermId })
             .then((res) => {
-                entry.isSaved = res.data.result.isSaved;
-                entry.isOffered = res.data.result.isOffered;
-                previousScoreEntry.classScoreEntries[entryIndex] = entry;
+                entries.isSaving = false;
+                entries.isOffered = res.data.result.isOffered;
+                entries.grade = res.data.result.grade;
+                entries.remark = res.data.result.remark;
+                publishResult.classScoreEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
-                    payload: previousScoreEntry
+                    payload: publishResult
                 });
             }).catch((err) => {
                 showErrorToast('Ooopsss.... unable to update score entry, please confirm entries')(dispatch);
@@ -122,7 +125,7 @@ export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previou
     }
 }
 
-export const setPreviousAssessmentResultList = (studentContactId, assessmentScore, publishResult, sessionTermId) => (dispatch) => {
+export const setpublishAssessmentResult = (studentContactId, assessmentScore, publishResult, sessionTermId) => (dispatch) => {
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -139,7 +142,7 @@ export const setPreviousAssessmentResultList = (studentContactId, assessmentScor
     let entries = publishResult?.classScoreEntries.find(e => e.studentContactId == studentContactId);
     if (entries) {
         entries.assessmentScore = assessmentScore;
-        entries.isSaved = false;
+        entries.isSaving = false;
         entries.isOffered = assessmentScore > 0;
         publishResult.classScoreEntries[entryIndex] = entries;
         dispatch({

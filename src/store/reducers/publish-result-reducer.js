@@ -85,27 +85,27 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        printResult: null,
+        publishResult: null,
       };
     }
     case actions.FETCH_RESULT_LIST_SUCCESS: {
       return {
         ...state,
         loading: false,
-        printResult: payload,
+        publishResult: payload,
       };
     }
     case actions.FETCH_RESULT_LIST_FAILED: {
       return {
         ...state,
         loading: false,
-        printResult: null,
+        publishResult: null,
       };
     }
     case actions.CLOSE_RESULT_LIST: {
       return {
         ...state,
-        printResult: payload,
+        publishResult: payload,
       };
     }
     default:

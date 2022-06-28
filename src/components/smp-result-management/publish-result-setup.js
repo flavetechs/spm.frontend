@@ -27,7 +27,7 @@ const PublishResult = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { schoolSessions, sessionTerms, termClasses, printResult } = state.publish;
+  const { schoolSessions, sessionTerms, termClasses, publishResult } = state.publish;
   const { activeSession } = state.session;
   const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
@@ -59,14 +59,14 @@ const PublishResult = () => {
   }, [activeSession, sessionId]);
 
   React.useEffect(() => {
-    if (printResult) {
+    if (publishResult) {
       SetShowPublishResultTable(true);
     }
     return () => {
-      nullifyResultListOnExit(printResult)(dispatch);
+      nullifyResultListOnExit(publishResult)(dispatch);
       SetShowPublishResultTable(false);
     };
-  }, [printResult]);
+  }, [publishResult]);
 
   return (
     <>
@@ -237,7 +237,7 @@ const PublishResult = () => {
                     {!isPreviewMode ? (
                       <PublishResultTable
                         validation={validation}
-                        printResult={printResult}
+                        printResult={publishResult}
                         isEditMode={isEditMode}
                         setEditMode={setEditMode}
                         setIndexRow={setIndexRow}

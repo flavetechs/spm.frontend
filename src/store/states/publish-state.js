@@ -5,6 +5,6 @@ export const _state = {
     schoolSessions: [],
     sessionTerms: null,
     termClasses: null,
-    printResult: null,
+    publishResult: null,
     fetchPreviewSuccessful: false,
 }
