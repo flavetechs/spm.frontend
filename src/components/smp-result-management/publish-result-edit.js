@@ -13,6 +13,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import {
   fetchSingleStudentResultEntries,
   getAllResultList,
+  getValueIds,
   setpublishAssessmentScore,
   setpublishExamScore,
 } from "../../store/actions/publish-actions";
@@ -32,68 +33,22 @@ const PublishResultEdit = () => {
   const [isPreviewMode, setPreviewMode] = useState(false);
   const history = useHistory();
   const locations = useLocation();
-  const [studentEntry, setStudentEntry] = useState([
-    {
-      studentContactId: "1",
-      studentSubject: "Geography",
-      registrationNumber: "ABC/0000017/xyz",
-      assessmentScore: 30,
-      examsScore: 55,
-      isOffered: true,
-      remark: "PASSED",
-      Grade: "A",
-    },
-    {
-      studentContactId: "2",
-      studentSubject: "Agriculture",
-      registrationNumber: "ABC/0000063/xyz",
-      assessmentScore: 20,
-      examsScore: 45,
-      isOffered: false,
-      remark: "FAILED",
-      Grade: "C",
-    },
-    {
-      studentContactId: "3",
-      studentSubject: "Physics",
-      registrationNumber: "ABC/0000098/xyz",
-      assessmentScore: 40,
-      examsScore: 35,
-      isOffered: false,
-      remark: "PASSED",
-      Grade: "AB",
-    },
-    {
-      studentContactId: "4",
-      studentSubject: "Chemistry",
-      registrationNumber: "ABC/0000092/xyz",
-      assessmentScore: 33,
-      examsScore: 45,
-      isOffered: true,
-      remark: "PASSED",
-      Grade: "BC",
-    },
-  ]);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, publishResults, publishSingleStudent } = state.publish;
+  const { staffClasses, staffClassSubjects, publishResults, publishSingleStudent, idsObj } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
       const queryParams = new URLSearchParams(locations.search);
       const studentContactId = queryParams.get("studentContactId");
       if (!studentContactId) return;
-       fetchSingleStudentResultEntries(sessionClassId, termId,studentContactId)(dispatch)
-   }, []);
-
-React.useEffect(() => {
-     // getAllResultList()(dispatch)
+       fetchSingleStudentResultEntries(idsObj.sessionClassId, idsObj.termId, studentContactId)(dispatch)
    }, []);
 
   const handleFocus = (event) => event.target.select();
-console.log("here", publishResults);
+console.log("here", publishSingleStudent);
   return (
     <>
       <Row className="pt-3">
@@ -104,7 +59,10 @@ console.log("here", publishResults);
             </Card.Header>
             <Card.Body>
               <div>
-                <PublishResultEditTable />
+                <PublishResultEditTable 
+                publishSingleStudent={publishSingleStudent}
+                idsObj={idsObj}
+                />
               </div>
               <div className="d-flex justify-content-end">
                 <Button
@@ -159,7 +117,7 @@ console.log("here", publishResults);
                       </tr>
                     </thead>
                     <tbody>
-                      {studentEntry.map((item, index) => (
+                      {publishSingleStudent?.studentSubjectEntries.map((item, index) => (
                         <OverlayTrigger
                           key={index}
                           placement="top"
@@ -186,7 +144,7 @@ console.log("here", publishResults);
                           >
                             <td className="fw-bold">{index + 1}</td>
                             <td className="fw-bold text-start text-uppercase">
-                              {item.studentSubject}
+                              {item.sibjectName}
                             </td>
                             {/* <td className="fw-bold text-center">
                                                     {item.assessmentScore}
@@ -197,7 +155,7 @@ console.log("here", publishResults);
                             >
                               {!isEditMode ? (
                                 <span className="fw-bold">
-                                  {item.examsScore}
+                                  {item.assessmentScore}
                                 </span>
                               ) : indexRow == index ? (
                                 <Field
@@ -223,13 +181,13 @@ console.log("here", publishResults);
                                     setpublishAssessmentScore(
                                       item.studentContactId,
                                       e.target.value,
-                                      publishResults
+                                      publishSingleStudent
                                     )(dispatch);
                                   }}
                                 />
                               ) : (
                                 <span className="fw-bold">
-                                  {item.assessmentScore}
+                                  {item.examScore}
                                 </span>
                               )}
                             </td>
@@ -239,7 +197,7 @@ console.log("here", publishResults);
                             >
                               {!isEditMode ? (
                                 <span className="fw-bold">
-                                  {item.examsScore}
+                                  {item.examScore}
                                 </span>
                               ) : indexRow == index ? (
                                 <Field
@@ -251,9 +209,9 @@ console.log("here", publishResults);
                                   }}
                                   className=" fw-bold "
                                   type="text"
-                                  maxLength={publishResults?.examsScore}
-                                  name={`${item.studentContactId}_examScore`}
-                                  defaultValue={item.examsScore}
+                                  maxLength={publishResults?.examScore}
+                                  name={`${item.classScoreEntryId}_examScore`}
+                                  defaultValue={item.examScore}
                                   onFocus={handleFocus}
                                   onChange={(e) => {
                                     setFieldValue(
@@ -263,15 +221,15 @@ console.log("here", publishResults);
                                   }}
                                   onBlur={(e) => {
                                     setpublishExamScore(
-                                      item.studentContactId,
+                                      item.classScoreEntryId,
                                       e.target.value,
-                                      publishResults
+                                      publishSingleStudent
                                     )(dispatch);
                                   }}
                                 />
                               ) : (
                                 <span className="fw-bold">
-                                  {item.examsScore}
+                                  {item.examScore}
                                 </span>
                               )}
                             </td>
@@ -314,7 +272,7 @@ console.log("here", publishResults);
                               </td>
                             ) : (
                               <>
-                                <td>{item.Grade}</td>
+                                <td>{item.grade}</td>
                                 <td>{item.remark}</td>
                               </>
                             )}
