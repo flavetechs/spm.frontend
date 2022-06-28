@@ -133,6 +133,14 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
         publishResults: payload,
       };
     }
+
+    case actions.IMPORT_IDS: {
+      return {
+        ...state,
+        idsObj: payload,
+      };
+    }
+
     default:
       return state
   }

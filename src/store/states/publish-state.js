@@ -8,4 +8,5 @@ export const _state = {
     publishResults: null,
     publishSingleStudent: null,
     fetchPreviewSuccessful: false,
+    idsObj:null,
 }
