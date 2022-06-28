@@ -6,7 +6,7 @@ import { resultManagement } from "../../router/spm-path-locations";
 
 const PublishResultTable = ({
     validation,
-    printResult,
+    publishResults,
     isEditMode,
     setEditMode,
     setIndexRow,
@@ -15,7 +15,7 @@ const PublishResultTable = ({
     isPreviewMode,
     idsForPreview,
 }) => {
-    console.log('printResult ', printResult);
+    console.log('publishResults ', publishResults);
 
 
     return (
@@ -68,7 +68,7 @@ const PublishResultTable = ({
                             </thead>
                             <tbody>
                                 {
-                                    printResult?.publishResult.map((list, index) => (
+                                    publishResults?.publishResult.map((list, index) => (
                                         <tr style={{ maxHeight: '30px' }}
                                             key={index}
                                             className="text-center"
@@ -149,7 +149,7 @@ const PublishResultTable = ({
                                                             data-original-title="Edit"
                                                             // to="#"
 
-                                                            to={`${resultManagement.publishResultEdit}?studentAccountId=${list.idx}`}
+                                                            to={`${resultManagement.publishResultEdit}?studentContactId=${list.studentContactId}`}
                                                         >
                                                             <span className="btn-inner">
                                                                 <svg

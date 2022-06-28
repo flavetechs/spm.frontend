@@ -53,7 +53,7 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
     case actions.UPDATE_PUBLISH_RESULT: {
       return {
         ...state,
-        publishResult: payload,
+        publishResults: payload,
       };
     }
 
@@ -85,27 +85,27 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        publishResult: null,
+        publishResults: null,
       };
     }
     case actions.FETCH_RESULT_LIST_SUCCESS: {
       return {
         ...state,
         loading: false,
-        publishResult: payload,
+        publishResults: payload,
       };
     }
     case actions.FETCH_RESULT_LIST_FAILED: {
       return {
         ...state,
         loading: false,
-        publishResult: null,
+        publishResults: null,
       };
     }
     case actions.CLOSE_RESULT_LIST: {
       return {
         ...state,
-        publishResult: payload,
+        publishResults: payload,
       };
     }
     default:
