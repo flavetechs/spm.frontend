@@ -34,18 +34,20 @@ const PublishResultEdit = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffClasses, staffClassSubjects, publishResults, publishSingleStudent, idsObj } = state.publish;
+  const { staffClasses, staffClassSubjects, publishResults, publishSingleStudent } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
       const queryParams = new URLSearchParams(locations.search);
       const studentContactId = queryParams.get("studentContactId");
+      const sessionClassId = queryParams.get("sessionClassId");
+      const termId = queryParams.get("termId");
+      console.log("here", termId);
       if (!studentContactId) return;
-       fetchSingleStudentResultEntries(idsObj.sessionClassId, idsObj.termId, studentContactId)(dispatch)
+       fetchSingleStudentResultEntries(sessionClassId, termId, studentContactId)(dispatch)
    }, []);
 
   const handleFocus = (event) => event.target.select();
-console.log("here", publishSingleStudent);
   return (
     <>
       <Row className="pt-3">
@@ -58,7 +60,7 @@ console.log("here", publishSingleStudent);
               <div>
                 <PublishResultEditTable 
                 publishSingleStudent={publishSingleStudent}
-                idsObj={idsObj}
+                //idsObj={idsObj}
                 />
               </div>
               <div className="d-flex justify-content-end">
@@ -74,7 +76,7 @@ console.log("here", publishSingleStudent);
                   //     idsForPreview.subjectId
                   //   )(dispatch);
                   // }}
-                  onClick={() => history.push(resultManagement.publishResult)}
+                  onClick={() => history.goBack()}
                 >
                   Back
                 </Button>
@@ -239,14 +241,8 @@ console.log("here", publishSingleStudent);
                               />
                             </td> */}
 
-                            {!item.isSaving ? (
-                              <>
-                              <td>{item.grade}</td>
-                              <td>{item.remark}</td>
-                            </>
-                            
-                            ) : (
-                                <td>
+                            {item.isSaving ? (
+                              <td>
                                 <span style={{ color: "green" }}>
                                   <svg
                                     width="20"
@@ -273,6 +269,11 @@ console.log("here", publishSingleStudent);
                                   </svg>
                                 </span>
                               </td>
+                            ) : (
+                              <>
+                                <td>{item.grade}</td>
+                                <td>{item.remark}</td>
+                              </>
                             )}
                           </tr>
                         </OverlayTrigger>

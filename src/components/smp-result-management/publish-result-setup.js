@@ -28,7 +28,7 @@ const PublishResult = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { schoolSessions, sessionTerms, termClasses, publishResults } =
+  const { schoolSessions, sessionTerms, termClasses, publishResults, idsObj } =
     state.publish;
   const { activeSession } = state.session;
   const [sessionId, setSessionId] = useState("");
@@ -247,6 +247,7 @@ const PublishResult = () => {
                       <PublishResultTable
                         validation={validation}
                         publishResults={publishResults}
+                        idsObj={idsObj}
                         isEditMode={isEditMode}
                         setEditMode={setEditMode}
                         setIndexRow={setIndexRow}

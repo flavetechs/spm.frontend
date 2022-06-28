@@ -1,6 +1,6 @@
 import { Row, Table } from "react-bootstrap";
 
-const PublishResultEditTable = ({publishSingleStudent, idsObj}) => {
+const PublishResultEditTable = ({publishSingleStudent}) => {
   return (
     <>
       <div>

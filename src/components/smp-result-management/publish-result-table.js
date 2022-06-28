@@ -7,6 +7,7 @@ import { resultManagement, studentsLocations } from "../../router/spm-path-locat
 const PublishResultTable = ({
     validation,
     publishResults,
+    idsObj,
     isEditMode,
     setEditMode,
     setIndexRow,
@@ -15,7 +16,7 @@ const PublishResultTable = ({
     isPreviewMode,
     idsForPreview,
 }) => {
-    console.log('publishResults ', publishResults);
+    console.log('publishResults ', publishResults?.publishResult);
 
 
     return (
@@ -149,7 +150,7 @@ const PublishResultTable = ({
                                                             data-original-title="Edit"
                                                             // to="#"
 
-                                                            to={`${resultManagement.publishResultEdit}?studentContactId=${list.studentContactId}`}
+                                                            to={`${resultManagement.publishResultEdit}?studentContactId=${list.studentContactId}&sessionClassId=${idsObj.sessionClassId}&termId=${idsObj.termId}`}
                                                         >
                                                             <span className="btn-inner">
                                                                 <svg

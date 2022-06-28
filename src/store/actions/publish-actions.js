@@ -82,10 +82,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
 }
 
 export const setpublishExamScore = (subjectId, examScore, publishSingleStudent) => (dispatch) => {
-
-    debugger
-
-    if (!examScore) {
+if (!examScore) {
         examScore = 0;
     }
 
@@ -101,7 +98,7 @@ export const setpublishExamScore = (subjectId, examScore, publishSingleStudent) 
     if (entries) {
         entries.examScore = examScore;
         entries.isSaving = true;
-        entries.isOffered = examScore > 0;
+        entries.isOffered = true;
         publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
         dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
@@ -111,9 +108,8 @@ export const setpublishExamScore = (subjectId, examScore, publishSingleStudent) 
         axiosInstance.post(`/api/v1/result/update/exam-score`, {studentContactId: publishSingleStudent?.studentContactId, score: examScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
             .then((res) => {
                 entries.isSaving = false;
-                entries.isOffered = res.data.result.isOffered;
-                entries.grade = res.data.result.grade;
-                entries.remark = res.data.result.remark;
+                entries.isOffered = true;
+             
                 publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
@@ -127,10 +123,7 @@ export const setpublishExamScore = (subjectId, examScore, publishSingleStudent) 
 
 
 export const setpublishAssessmentScore = (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
-
-    debugger
-
-    if (!assessmentScore) {
+ if (!assessmentScore) {
         assessmentScore = 0;
     }
 
@@ -158,8 +151,7 @@ export const setpublishAssessmentScore = (subjectId, assessmentScore, publishSin
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = true;
-                entries.grade = res.data.result.grade;
-                entries.remark = res.data.result.remark;
+             ;
                 publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
@@ -203,11 +195,11 @@ dispatch({
 
 
 export const nullifyResultListOnExit = (publishResults) => (dispatch) => {
-    // if (window.location.pathname != resultManagement.publishResult) {
-    //     publishResults = null
-    // } else return publishResults
-    // dispatch({
-    //     type: actions.CLOSE_RESULT_LIST,
-    //     payload: publishResults
-    // });
+    if (window.location.pathname != resultManagement.publishResult) {
+        publishResults = null
+    } else return publishResults
+    dispatch({
+        type: actions.CLOSE_RESULT_LIST,
+        payload: publishResults
+    });
 }
