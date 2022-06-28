@@ -30,7 +30,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
   const cumulativeTermAvgScoreLength = cumulativeListEntry?.resultList.map(
     (item) => item.cumulativeTermAvgScore.length
   );
-  console.log("here", cumulativeTermAvgScore);
+
   return (
     <>
       <Row className="pt-3">
