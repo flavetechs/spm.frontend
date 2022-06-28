@@ -4,48 +4,102 @@ import { Row, Button, Table, Badge } from "react-bootstrap";
 
 const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
   const tableRef = useRef(null);
-//   const { onDownload } = useDownloadExcel({
-//     currentTableRef: tableRef.current,
-//     filename: "Master-list Table",
-//     sheet: "Result List"
-// });
+  //   const { onDownload } = useDownloadExcel({
+  //     currentTableRef: tableRef.current,
+  //     filename: "Master-list Table",
+  //     sheet: "Result List"
+  // });
 
   if (cumulativeListEntry?.resultList == null) {
-   cumulativeListEntry.resultList = [];
+    cumulativeListEntry.resultList = [];
   }
-  const list = cumulativeListEntry?.resultList.map((list, idx) => list.subjects).flat();
+  const list = cumulativeListEntry?.resultList
+    .map((list, idx) => list.subjects)
+    .flat();
   const subjectList = list.filter(
-      (item, index, self) =>
-        index === self.findIndex((t) => t.subjectName === item.subjectName)
-    )
-    console.log(cumulativeListEntry.resultList);
+    (item, index, self) =>
+      index === self.findIndex((t) => t.subjectName === item.subjectName)
+  );
+  {
+    console.log("here", cumulativeListEntry?.resultList);
+  }
   return (
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
-            <Button
-              type="button"
-              className="btn-sm mx-2"
-              variant="btn btn-success"
-              // onClick={onDownload}
-            >
-              Download
-            </Button>
+          <Button
+            type="button"
+            className="btn-sm mx-2"
+            variant="btn btn-success"
+            // onClick={onDownload}
+          >
+            Download
+          </Button>
         </div>
 
-        <Table size="md" bordered responsive className="mt-2 border-secondary" ref={tableRef}>
+        <Table
+          size="md"
+          bordered
+          responsive
+          className="mt-2 border-secondary"
+          ref={tableRef}
+        >
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>S/No</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Student Name</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Registration No</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Position</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Result Status</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}} colSpan="3">Term Cumulative Ave. Score</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Cumulative Average Score</td>
-              {subjectList?.map((subject, idx) => (
-                <td colSpan="3" className="text-uppercase h6" key={idx}>
-                  {subject.subjectName}
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+              >
+                S/No
+              </td>
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+              >
+                Student Name
+              </td>
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+              >
+                Registration No
+              </td>
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+              >
+                Position
+              </td>
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+              >
+                Result Status
+              </td>
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+                colSpan={
+                  cumulativeListEntry?.resultList.map(
+                    (item) => item.cumulativeTermAvgScore
+                  ).length
+                }
+              >
+                Term Cumulative Ave. Score
+              </td>
+              <td
+                className="text-uppercase h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+              >
+                Cumulative Average Score
+              </td>
+              {subjectList?.map((subjectItem, idx) => (
+                <td
+                  colSpan={subjectItem.cumulativeTermAvgScore.length}
+                  className="text-uppercase h6"
+                  key={idx}
+                >
+                  {subjectItem.subjectName}
                 </td>
               ))}
             </tr>
@@ -53,31 +107,35 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
           <tbody>
             <tr>
               <td colSpan="5"></td>
-                <>
-                  <td style={{ textAlign:"center", maxWidth: "5px", padding: 2 }}>
-                    1st
-                  </td>
-                  <td style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
-                    2nd
-                  </td>
-                  <td
-                    style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
-                    3rd
-                  </td>
-                </>
+              <>
+                {cumulativeListEntry?.resultList.map((item, idx) =>
+                  item.cumulativeTermAvgScore.map((avgScore, id) => (
+                    <td
+                      style={{
+                        textAlign: "center",
+                        maxWidth: "5px",
+                        padding: 2,
+                      }}
+                    >
+                      {avgScore.termName}
+                    </td>
+                  ))
+                )}
+              </>
               <td></td>
-              {subjectList?.map((subject, idx) => (
+              {subjectList?.map((subjectItem, idx) => (
                 <>
-                  <td style={{ textAlign:"center", maxWidth: "5px", padding: 2 }}>
-                    1st
-                  </td>
-                  <td style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
-                    2nd
-                  </td>
-                  <td
-                    style={{ textAlign:"center", maxWidth: "5px",padding: 2 }}>
-                    3rd
-                  </td>
+                  {subjectItem.cumulativeTermAvgScore.map((avgScore, id) => (
+                    <td
+                      style={{
+                        textAlign: "center",
+                        maxWidth: "5px",
+                        padding: 2,
+                      }}
+                    >
+                      {avgScore.termName}
+                    </td>
+                  ))}
                 </>
               ))}
             </tr>
@@ -99,26 +157,44 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                   </Badge>
                 </td>
                 <>
-                <td>{item.cumulativeTermAvgScore.map((score, id) => (score.termName == "1st" && score.totalScore))}</td>
-                <td>{item.cumulativeTermAvgScore.map((score, id) => (score.termName == "2nd" && score.totalScore))}</td>
-                <td>{item.cumulativeTermAvgScore.map((score, id) => (score.termName == "3rd" && score.totalScore))}</td>
+                  {cumulativeListEntry?.resultList.map((item, idx) =>
+                    item.cumulativeTermAvgScore.map((avgScore, id) => (
+                      <td>
+                        {item.cumulativeTermAvgScore.map(
+                          (score, id) =>
+                            score.termName == "1st" && score.totalScore
+                        )}
+                      </td>
+                    ))
+                  )}
                 </>
                 <td className="fw-bold">{item.averageScore}</td>
-                
- {subjectList.map((list, id) => (
+
+                {subjectList.map((subjectItem, id) => (
                   <>
-                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ? 
-                 item.subjects.map(i=>i.subjectName == list.subjectName && i.cumulativeTermAvgScore.map(t=>t.termName == "1st" && t.totalScore)): ""}</td>
-
-                     <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
-                     item.subjects.map(i=>i.subjectName == list.subjectName && i.cumulativeTermAvgScore.map(t=>t.termName == "2nd" && t.totalScore)) : ""}
-                     </td>
-
-                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
-                  item.subjects.map(i=>i.subjectName == list.subjectName && i.cumulativeTermAvgScore.map(t=>t.termName == "3rd" && t.totalScore)): ""} </td> 
+                    {subjectItem.cumulativeTermAvgScore.map(
+                      (avgScore, index) => (
+                        <td className="px-3">
+                          {item.subjects.find(
+                            (subject) =>
+                              subject.subjectName == subjectItem.subjectName
+                          ) &&
+                            item.subjects.map(
+                              (i) =>
+                                i.subjectName == subjectItem.subjectName &&
+                                i.cumulativeTermAvgScore.map(
+                                  (t) =>
+                                    t.termId ==
+                                      subjectItem.cumulativeTermAvgScore.map(
+                                        (avg) => avg.termId
+                                      ) && t.totalScore
+                                )
+                            )}
+                        </td>
+                      )
+                    )}
                   </>
-                ))} 
-
+                ))}
               </tr>
             ))}
           </tbody>
