@@ -163,7 +163,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                     <td>
                       {item.cumulativeTermAvgScore.map(
                         (score, id) =>
-                          score.termName == "1st" && score.totalScore
+                          score.termId == avgScore.termId && score.termCumalativeScore
                       )}
                     </td>
                   ))}
@@ -184,10 +184,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                                 i.subjectName == subjectItem.subjectName &&
                                 i.cumulativeTermAvgScore.map(
                                   (t) =>
-                                    t.termId ==
-                                      subjectItem.cumulativeTermAvgScore.map(
-                                        (avg) => avg.termId
-                                      ) && t.totalScore
+                                    t.termId == avgScore.termId && t.termCumalativeScore
                                 )
                             )}
                         </td>
