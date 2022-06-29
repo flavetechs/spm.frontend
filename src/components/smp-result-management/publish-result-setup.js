@@ -248,7 +248,6 @@ const PublishResult = () => {
                     {!isPreviewMode ? (
                       <PublishResultTable
                         validation={validation}
-                        publishResults={publishResults}
                         idsObj={idsObj}
                         isEditMode={isEditMode}
                         setEditMode={setEditMode}

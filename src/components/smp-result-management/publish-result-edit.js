@@ -14,6 +14,7 @@ import {
   setAssessmentScore,
   setExamScore,
   getAllResultList,
+  getValueIds,
 } from "../../store/actions/publish-actions";
 import { useDispatch, useSelector } from "react-redux";
 import PublishResultEditTable from "./publish-result-edit-table";
@@ -92,6 +93,10 @@ const PublishResultEdit = () => {
                     const sessionClassId = queryParams.get("sessionClassId");
                     const termId = queryParams.get("termId");
                     getAllResultList(sessionClassId, termId)(dispatch);
+                    getValueIds(
+                      sessionClassId,
+                      termId
+                    )(dispatch);
                   }}
                 >
                   Back
