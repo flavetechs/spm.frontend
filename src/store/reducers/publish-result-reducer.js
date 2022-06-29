@@ -53,7 +53,7 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
     case actions.UPDATE_PUBLISH_RESULT: {
       return {
         ...state,
-        publishResults: payload,
+        publishSingleStudent: payload,
       };
     }
 

@@ -84,7 +84,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: actions.FETCH_RESULT_LIST_SUCCESS,
-        payload: res.data.result.publishResult,
+        payload: res.data.result,
       });
     })
     .catch((err) => {

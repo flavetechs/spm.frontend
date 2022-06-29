@@ -131,7 +131,6 @@ const PublishResultEdit = () => {
                           Assessment Score
                         </td>
                         <td className="text-uppercase h6">Exam Score</td>
-                        {/* <td className="text-uppercase h6">Is Offered</td> */}
                         <td className="text-uppercase h6 px-2">Grade</td>
                         <td className="text-uppercase h6 px-2">Remark</td>
                       </tr>
@@ -167,9 +166,6 @@ const PublishResultEdit = () => {
                               <td className="fw-bold text-start text-uppercase">
                                 {item.sibjectName}
                               </td>
-                              {/* <td className="fw-bold text-center">
-                                                    {item.assessmentScore}
-                                                </td> */}
                               <td
                                 className="fw-bold text-center"
                                 style={{ maxWidth: "150px" }}
@@ -254,18 +250,8 @@ const PublishResultEdit = () => {
                                   </span>
                                 )}
                               </td>
-                              {/* <td style={{ width: "5px" }}>
-                              {" "}
-                              <Field
-                                type="checkbox"
-                                className="form-check-input"
-                                checked={item.isOffered}
-                              />
-                            </td> */}
-                              <td>{item.grade}</td>
-                              <td>{item.remark}</td>
-
-                              {item.isSaving && (
+                              {/* <td>{item.grade}</td> */}
+                              {item.isSaving ? (
                                 <td>
                                   <span style={{ color: "green" }}>
                                     <svg
@@ -293,7 +279,37 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              )}
+                              ) : (<td>{item.grade}</td>)}
+                              {/* <td>{item.remark}</td> */}
+                              {item.isSaving ? (
+                                <td>
+                                  <span style={{ color: "green" }}>
+                                    <svg
+                                      width="20"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                  </span>
+                                </td>
+                              ) : (<td>{item.remark}</td>)}
                             </tr>
                           </OverlayTrigger>
                         )

@@ -72,7 +72,7 @@ const PublishResultTable = ({
                 </tr>
               </thead>
               <tbody>
-                {publishResults?.map((list, index) => (
+                {publishResults?.publishResult.map((list, index) => (
                   <tr
                     style={{ maxHeight: "30px" }}
                     key={index}
