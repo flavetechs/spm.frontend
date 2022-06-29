@@ -82,7 +82,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
 }
 
 export const setExamScore = (subjectId, examScore, publishSingleStudent) => (dispatch) => {
-if (!examScore) {
+    if (!examScore) {
         examScore = 0;
     }
 
@@ -94,7 +94,7 @@ if (!examScore) {
     }
 
     const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.subjectId === subjectId);
-    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.subjectId== subjectId);
+    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.subjectId == subjectId);
     if (entries) {
         entries.examScore = examScore;
         entries.isSaving = true;
@@ -105,13 +105,13 @@ if (!examScore) {
             payload: publishSingleStudent
         });
 
-        axiosInstance.post(`/api/v1/result/update/exam-score`, {studentContactId: publishSingleStudent?.studentContactId, score: examScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
+        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: publishSingleStudent?.studentContactId, score: examScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = true;
-               // console.log("hi", res.data.result)
+                // console.log("hi", res.data.result)
                 //entries.grade = res.data.result.grade;
-                 //entries.remark = res.data.result.remark;
+                //entries.remark = res.data.result.remark;
                 publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
@@ -125,7 +125,7 @@ if (!examScore) {
 
 
 export const setAssessmentScore = (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
- if (!assessmentScore) {
+    if (!assessmentScore) {
         assessmentScore = 0;
     }
 
@@ -137,7 +137,7 @@ export const setAssessmentScore = (subjectId, assessmentScore, publishSingleStud
     }
 
     const entryIndex = publishSingleStudent?.studentSubjectEntries.findIndex(e => e.subjectId === subjectId);
-    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.subjectId== subjectId);
+    let entries = publishSingleStudent?.studentSubjectEntries.find(e => e.subjectId == subjectId);
     if (entries) {
         entries.assessmentScore = assessmentScore;
         entries.isSaving = true;
@@ -149,12 +149,12 @@ export const setAssessmentScore = (subjectId, assessmentScore, publishSingleStud
         });
 
         axiosInstance.post(`/api/v1/result/update/assessment-score`,
-         {studentContactId: publishSingleStudent?.studentContactId, score: assessmentScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
+            { studentContactId: publishSingleStudent?.studentContactId, score: assessmentScore, subjectId: entries.subjectId, classScoreEntryId: entries.classScoreEntryId })
             .then((res) => {
                 entries.isSaving = false;
                 entries.isOffered = true;
                 //entries.grade = res.data.result.grade;
-                 //entries.remark = res.data.result.remark;
+                //entries.remark = res.data.result.remark;
                 publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
                 dispatch({
                     type: actions.UPDATE_PUBLISH_RESULT,
@@ -186,13 +186,13 @@ export const fetchSingleStudentResultEntries = (sessionClassId, termId, studentC
 }
 
 export const getValueIds = (sessionClassId, termId) => (dispatch) => {
-const idsObj = {};
-idsObj.sessionClassId = sessionClassId;
-idsObj.termId = termId;
-dispatch({
-    type: actions.IMPORT_IDS,
-    payload: idsObj
-});
+    const idsObj = {};
+    idsObj.sessionClassId = sessionClassId;
+    idsObj.termId = termId;
+    dispatch({
+        type: actions.IMPORT_IDS,
+        payload: idsObj
+    });
 }
 
 
