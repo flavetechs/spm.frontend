@@ -28,8 +28,7 @@ const PublishResult = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { schoolSessions, sessionTerms, termClasses, publishResults, idsObj } =
-    state.publish;
+  const { schoolSessions, sessionTerms, termClasses, publishResults, idsObj } = state.publish;
   const { activeSession } = state.session;
   const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
@@ -63,7 +62,7 @@ const PublishResult = () => {
   React.useEffect(() => {
     if (publishResults) {
       SetShowPublishResultTable(true);
-    }else if(!publishResults){
+    } else if (!publishResults) {
       SetShowPublishResultTable(false);
     }
     return () => {
@@ -176,13 +175,6 @@ const PublishResult = () => {
                               name="sessionTermId"
                               className="form-select"
                               id="sessionTermId"
-                              //   onChange={(e) => {
-                              //     setFieldValue("sessionTermId", e.target.value);
-                              //     getTermClasses(
-                              //       values.sessionId,
-                              //       e.target.value
-                              //     )(dispatch);
-                              //   }}
                             >
                               <option value="">Select Term</option>
                               {sessionTerms?.map((term, idx) => (

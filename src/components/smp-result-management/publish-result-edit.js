@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Row,
-  Button,
-  Table,
-  OverlayTrigger,
-  Tooltip,
-  Col,
-} from "react-bootstrap";
+import { Row,Button,Table, OverlayTrigger, Tooltip, Col } from "react-bootstrap";
 import { Formik, Field } from "formik";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -19,28 +12,19 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import PublishResultEditTable from "./publish-result-edit-table";
 import Card from "../Card";
-import { resultManagement } from "../../router/spm-path-locations";
 
 const PublishResultEdit = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [indexRow, setIndexRow] = useState("");
-  const [idsForPreview, setIdsForPreview] = useState({});
-  const [showScoresEntryTable, setShowScoresEntryTable] = useState(false);
   const [isEditMode, setEditMode] = useState(false);
-  const [isPreviewMode, setPreviewMode] = useState(false);
   const history = useHistory();
   const locations = useLocation();
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const {
-    staffClasses,
-    staffClassSubjects,
-    publishResults,
-    publishSingleStudent,
-  } = state.publish;
+  const {publishResults, publishSingleStudent, } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -56,7 +40,6 @@ const PublishResultEdit = () => {
       studentContactId
     )(dispatch);
   }, []);
-  console.log("here", publishSingleStudent);
   const handleFocus = (event) => event.target.select();
 
   return (
@@ -71,7 +54,6 @@ const PublishResultEdit = () => {
               <div>
                 <PublishResultEditTable
                   publishSingleStudent={publishSingleStudent}
-                  //idsObj={idsObj}
                 />
               </div>
               <div className="d-flex justify-content-end">
@@ -79,14 +61,6 @@ const PublishResultEdit = () => {
                   type="button"
                   className="btn-sm mx-2"
                   variant="btn btn-danger"
-                  // onClick={() => {
-                  //   setEditMode(false);
-                  //   setPreviewMode(!isPreviewMode);
-                  //   getAllClassScoreEntryPreview(
-                  //     idsForPreview.sessionClassId,
-                  //     idsForPreview.subjectId
-                  //   )(dispatch);
-                  // }}
                   onClick={() => {
                     history.goBack();
                     const queryParams = new URLSearchParams(locations.search);
@@ -105,17 +79,11 @@ const PublishResultEdit = () => {
 
               <Formik
                 initialValues={{ examScore: 0, assessmentScore: 0 }}
-                // validationSchema={validation}
                 enableReinitialize={true}
-                onSubmit={(values) => {}}
+                onSubmit={() => {}}
               >
                 {({
-                  handleSubmit,
-                  values,
                   setFieldValue,
-                  touched,
-                  errors,
-                  isValid,
                 }) => (
                   <Table size="md" hover bordered responsive className="mt-2">
                     <thead>
@@ -250,7 +218,6 @@ const PublishResultEdit = () => {
                                   </span>
                                 )}
                               </td>
-                              {/* <td>{item.grade}</td> */}
                               {item.isSaving ? (
                                 <td>
                                   <span style={{ color: "green" }}>
@@ -280,7 +247,6 @@ const PublishResultEdit = () => {
                                   </span>
                                 </td>
                               ) : (<td>{item.grade}</td>)}
-                              {/* <td>{item.remark}</td> */}
                               {item.isSaving ? (
                                 <td>
                                   <span style={{ color: "green" }}>

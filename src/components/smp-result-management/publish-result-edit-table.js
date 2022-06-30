@@ -19,10 +19,6 @@ const PublishResultEditTable = ({publishSingleStudent}) => {
                 <th className="fw-bold h6 text-uppercase">Class Name</th>
                 <td className="fw-bold text-uppercase">{publishSingleStudent?.sessionClassName}</td>
               </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Form Teacher</th>
-                <td className="fw-bold text-uppercase">Festus Chima</td>
-              </tr>
             </tbody>
           </Table>
         </Row>
