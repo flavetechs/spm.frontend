@@ -28,8 +28,6 @@ const SmallTable = ({ scoreEntry }) => {
                 <td className="fw-bold">{scoreEntry?.examsScore}</td>
               </tr>
             </tbody>
-
-
           </Table>
         </Row>
       </div>
