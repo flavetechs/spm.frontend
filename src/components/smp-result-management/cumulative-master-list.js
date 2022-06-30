@@ -74,8 +74,8 @@ const CumulativeMasterList = () => {
                     initialValues={{
                       sessionId: activeSession?.sessionId.toUpperCase(),
                       terms: activeSession?.terms
-                        .filter((term) => term.isActive == true)
-                        .map((term) => term.sessionTermId)
+                        .filter((term,i) => term.isActive == true)
+                        .map((term,i) => term.sessionTermId)
                         .toString(),
                       sessionClassId: "",
                     }}

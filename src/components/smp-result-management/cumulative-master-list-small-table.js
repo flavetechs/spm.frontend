@@ -1,6 +1,7 @@
 import { Button, Row, Table } from "react-bootstrap";
 
 const CumulativeMasterListSmallTable = ({cumulativeListEntry, setShowCumulativeMasterListTable}) => {
+  console.log(cumulativeListEntry);
   return (
     <>
       <div>

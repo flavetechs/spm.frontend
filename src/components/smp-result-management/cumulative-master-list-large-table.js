@@ -13,10 +13,10 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
   if (cumulativeListEntry?.resultList == null) {
     cumulativeListEntry.resultList = [];
   }
-  const list = cumulativeListEntry?.resultList
+  const flattenedResultList = cumulativeListEntry?.resultList
     .map((list, idx) => list.subjects)
     .flat();
-  const subjectList = list.filter(
+  const subjectList = flattenedResultList.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );
@@ -99,7 +99,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
               </td>
               {subjectList?.map((subjectItem, idx) => (
                 <td
-                  colSpan={subjectItem.cumulativeTermAvgScore.length}
+                  colSpan={cumulativeTermAvgScore.length}
                   className="text-uppercase h6"
                   key={idx}
                 >
@@ -127,7 +127,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
               <td></td>
               {subjectList?.map((subjectItem, idx) => (
                 <>
-                  {subjectItem.cumulativeTermAvgScore.map((avgScore, id) => (
+                  {cumulativeTermAvgScore.map((avgScore, id) => (
                     <td
                       style={{
                         textAlign: "center",
@@ -172,7 +172,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
 
                 {subjectList.map((subjectItem, id) => (
                   <>
-                    {subjectItem.cumulativeTermAvgScore.map(
+                    {cumulativeTermAvgScore.map(
                       (avgScore, index) => (
                         <td className="px-3">
                           {item.subjects.find(
