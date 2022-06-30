@@ -27,9 +27,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
       (item, index, self) =>
         index === self.findIndex((t) => t.termName === item.termName)
     );
-  const cumulativeTermAvgScoreLength = cumulativeListEntry?.resultList.map(
-    (item) => item.cumulativeTermAvgScore.length
-  );
+ 
 
   return (
     <>
@@ -87,7 +85,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
               <td
                 className="text-uppercase h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
-                colSpan={Math.max(...cumulativeTermAvgScoreLength)}
+                colSpan={cumulativeTermAvgScore.length}
               >
                 Term Average Score
               </td>
