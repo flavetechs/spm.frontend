@@ -50,6 +50,14 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.UPDATE_PUBLISH_RESULT: {
+      return {
+        ...state,
+        publishSingleStudent: payload,
+      };
+    }
+
+
     case actions.FETCH_TERM_CLASSESS_LOADING: {
       return {
         ...state,
@@ -77,29 +85,62 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        printResult: null,
+        publishResults: null,
       };
     }
     case actions.FETCH_RESULT_LIST_SUCCESS: {
       return {
         ...state,
         loading: false,
-        printResult: payload,
+        publishResults: payload,
       };
     }
     case actions.FETCH_RESULT_LIST_FAILED: {
       return {
         ...state,
         loading: false,
-        printResult: null,
+        publishResults: null,
       };
     }
+
+
+    case actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        publishSingleStudent: null,
+      };
+    }
+    case actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        publishSingleStudent: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        publishSingleStudent: null,
+      };
+    }
+
+
     case actions.CLOSE_RESULT_LIST: {
       return {
         ...state,
-        printResult: payload,
+        publishResults: payload,
       };
     }
+
+    case actions.IMPORT_IDS: {
+      return {
+        ...state,
+        idsObj: payload,
+      };
+    }
+
     default:
       return state
   }
