@@ -4,7 +4,10 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { getAllCumulativeMasterListentries, nullifyCumulativeListEntryOnExit } from "../../store/actions/results-actions";
+import {
+  getAllCumulativeMasterListentries,
+  nullifyCumulativeListEntryOnExit,
+} from "../../store/actions/results-actions";
 import {
   getActiveSession,
   getAllSession,
@@ -14,9 +17,10 @@ import CumulativeMasterListLargeTable from "./cumulative-master-list-large-table
 import CumulativeMasterListSmallTable from "./cumulative-master-list-small-table";
 
 const CumulativeMasterList = () => {
-     //VARIABLE DECLARATIONS
+  //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const [showCumulativeMasterListTable, setShowCumulativeMasterListTable] = useState(false);
+  const [showCumulativeMasterListTable, setShowCumulativeMasterListTable] =
+    useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -53,15 +57,15 @@ const CumulativeMasterList = () => {
     if (cumulativeListEntry) {
       setShowCumulativeMasterListTable(true);
     }
-    return()=>{
-      nullifyCumulativeListEntryOnExit(cumulativeListEntry)(dispatch)
+    return () => {
+      nullifyCumulativeListEntryOnExit(cumulativeListEntry)(dispatch);
       setShowCumulativeMasterListTable(false);
-    }
+    };
   }, [cumulativeListEntry]);
 
   return (
     <>
-        <div className="col-md-12 mx-auto">
+      <div className="col-md-12 mx-auto">
         <Row>
           <Col sm="12">
             <Card>
@@ -74,8 +78,8 @@ const CumulativeMasterList = () => {
                     initialValues={{
                       sessionId: activeSession?.sessionId.toUpperCase(),
                       terms: activeSession?.terms
-                        .filter((term,i) => term.isActive == true)
-                        .map((term,i) => term.sessionTermId)
+                        .filter((term, i) => term.isActive == true)
+                        .map((term, i) => term.sessionTermId)
                         .toString(),
                       sessionClassId: "",
                     }}
@@ -222,12 +226,13 @@ const CumulativeMasterList = () => {
                   </Formik>
                 ) : (
                   <div>
-                    < CumulativeMasterListSmallTable
+                    <CumulativeMasterListSmallTable
                       cumulativeListEntry={cumulativeListEntry}
-                      setShowCumulativeMasterListTable={setShowCumulativeMasterListTable}
-                      
+                      setShowCumulativeMasterListTable={
+                        setShowCumulativeMasterListTable
+                      }
                     />
-                    < CumulativeMasterListLargeTable
+                    <CumulativeMasterListLargeTable
                       cumulativeListEntry={cumulativeListEntry}
                     />
                   </div>
@@ -238,7 +243,7 @@ const CumulativeMasterList = () => {
         </Row>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CumulativeMasterList
+export default CumulativeMasterList;
