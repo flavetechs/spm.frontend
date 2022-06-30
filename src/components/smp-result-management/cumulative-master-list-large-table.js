@@ -89,7 +89,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
                 colSpan={Math.max(...cumulativeTermAvgScoreLength)}
               >
-                Term Cumulative Ave. Score
+                Term Average Score
               </td>
               <td
                 className="text-uppercase h6 px-2"
