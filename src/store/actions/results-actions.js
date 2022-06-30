@@ -262,7 +262,8 @@ export const setPreviousAssessmentScoreEntry = (studentContactId, assessmentScor
             payload: previousScoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: previousScoreEntry.subjectId, classScoreEntryId: previousScoreEntry.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, 
+        { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: previousScoreEntry.subjectId, classScoreEntryId: previousScoreEntry.classScoreEntryId,  sessionTermId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -318,6 +319,26 @@ export const  getAllMasterListentries = (sessionClassId, termId) => (dispatch) =
         });
 }
 
+export const  getAllCumulativeMasterListentries = (sessionClassId, termId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CUMULATIVE_MASTER_LIST_LOADING,
+        payload: sessionClassId
+    });
+
+    axiosInstance.get(`/api/v1/result/get/cumulative-master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CUMULATIVE_MASTER_LIST_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CUMULATIVE_MASTER_LIST_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const nullifyListEntryOnExit = (listEntry) => (dispatch) => {
     if (window.location.pathname != resultManagement.masterList){
     listEntry = null
@@ -347,5 +368,16 @@ export const nullifyPreviousScoreEntryOnExit = (previousScoreEntry) => (dispatch
     dispatch({
         type: actions.CLOSE_PREVIOUS_SCORE_ENTRY,
         payload: previousScoreEntry
+    });
+}
+
+export const nullifyCumulativeListEntryOnExit = (cumulativeListEntry) => (dispatch) => {
+    if (window.location.pathname != resultManagement.cumulativeMasterList){
+        cumulativeListEntry = null
+    }else return cumulativeListEntry
+
+    dispatch({
+        type: actions.CLOSE_CUMULATIVE_MASTER_LIST,
+        payload: cumulativeListEntry
     });
 }

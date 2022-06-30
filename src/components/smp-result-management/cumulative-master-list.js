@@ -4,25 +4,25 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { getAllMasterListentries, nullifyListEntryOnExit } from "../../store/actions/results-actions";
+import { getAllCumulativeMasterListentries, nullifyCumulativeListEntryOnExit } from "../../store/actions/results-actions";
 import {
   getActiveSession,
   getAllSession,
 } from "../../store/actions/session-actions";
-import MasterListSmallTable from "./master-list-small-table";
-import MasterListLargeTable from "./master-list-large-table";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import CumulativeMasterListLargeTable from "./cumulative-master-list-large-table";
+import CumulativeMasterListSmallTable from "./cumulative-master-list-small-table";
 
-const MasterList = () => {
-  //VARIABLE DECLARATIONS
+const CumulativeMasterList = () => {
+     //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const [showMasterListTable, setShowMasterListTable] = useState(false);
+  const [showCumulativeMasterListTable, setShowCumulativeMasterListTable] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { itemList } = state.class;
-  const { listEntry } = state.results;
+  const { cumulativeListEntry } = state.results;
   const { activeSession, sessionList } = state.session;
   const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
@@ -50,26 +50,26 @@ const MasterList = () => {
   }, [sessionId, activeSession]);
 
   React.useEffect(() => {
-    if (listEntry) {
-      setShowMasterListTable(true);
+    if (cumulativeListEntry) {
+      setShowCumulativeMasterListTable(true);
     }
     return()=>{
-      nullifyListEntryOnExit(listEntry)(dispatch)
-      setShowMasterListTable(false);
+      nullifyCumulativeListEntryOnExit(cumulativeListEntry)(dispatch)
+      setShowCumulativeMasterListTable(false);
     }
-  }, [listEntry]);
- 
+  }, [cumulativeListEntry]);
+
   return (
     <>
-      <div className="col-md-12 mx-auto">
+        <div className="col-md-12 mx-auto">
         <Row>
           <Col sm="12">
             <Card>
               <Card.Header>
-                <h6>MASTER LIST</h6>
+                <h6>CUMULATIVE RESULT</h6>
               </Card.Header>
               <Card.Body>
-                {!showMasterListTable ? (
+                {!showCumulativeMasterListTable ? (
                   <Formik
                     initialValues={{
                       sessionId: activeSession?.sessionId.toUpperCase(),
@@ -82,7 +82,7 @@ const MasterList = () => {
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      getAllMasterListentries(
+                      getAllCumulativeMasterListentries(
                         values.sessionClassId,
                         values.terms
                       )(dispatch);
@@ -222,13 +222,13 @@ const MasterList = () => {
                   </Formik>
                 ) : (
                   <div>
-                    <MasterListSmallTable
-                      listEntry={listEntry}
-                      setShowMasterListTable={setShowMasterListTable}
+                    < CumulativeMasterListSmallTable
+                      cumulativeListEntry={cumulativeListEntry}
+                      setShowCumulativeMasterListTable={setShowCumulativeMasterListTable}
                       
                     />
-                    <MasterListLargeTable
-                      listEntry={listEntry}
+                    < CumulativeMasterListLargeTable
+                      cumulativeListEntry={cumulativeListEntry}
                     />
                   </div>
                 )}
@@ -238,7 +238,7 @@ const MasterList = () => {
         </Row>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MasterList;
+export default CumulativeMasterList
