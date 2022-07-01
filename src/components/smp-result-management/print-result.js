@@ -65,7 +65,7 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
             </tbody>
           </Table>
   </div>
-          <Table responsive bordered size="sm" className=" table-bordered border-dark " style={{ background: '#59a9ea'}}>
+          <Table responsive bordered size="sm" className=" table-bordered border-dark" style={{ background: '#b9d7f7'}}>
             <tbody >
               <tr>
                 <td className="text-uppercase" style={{ width: '30vw'}}>Student Name</td>
@@ -82,6 +82,10 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
               <tr>
                 <td className="fw-bold h6 text-uppercase">Position</td>
                 <td className="fw-bold ">{'1st'} out of {50} student</td>
+              </tr>
+              <tr>
+                <td className="fw-bold h6 text-uppercase">Total</td>
+                <td className="fw-bold">{150}/{1000}</td>
               </tr>
               <tr>
                 <td className="fw-bold h6 text-uppercase">Average</td>
@@ -125,7 +129,7 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
                     <tbody>
                       <tr
                         className="text-center text-uppercase h6 fw-bold"
-                        style={{ background: "#59a9ea" }}
+                        style={{ background: "#b9d7f7" }}
                       >
                         <td className="">S/No</td>
                         <td className=" text-start">Subject</td>
@@ -153,7 +157,7 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
                     </tbody>
                   </Table>
                 </Row>
-                <div className="d-md-flex justify-content-around mt-5">
+                <div className="d-md-flex justify-content-end mt-5">
                   <div>
                     <div className="d-flex justify-content-center">
                       <div><img src="" alt="" /></div>
