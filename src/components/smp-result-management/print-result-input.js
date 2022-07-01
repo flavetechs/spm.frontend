@@ -14,11 +14,13 @@ import {
 } from "../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import PrintResult from "./print-result";
+import PrintResultTwo from "./print-result-two";
 
 const PrintResultInput = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [showPrintResultTable, SetShowPrintResultTable] = useState(false);
+  const [view, setView] = useState(true);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -267,22 +269,39 @@ const PrintResultInput = () => {
                         <div className="d-flex justify-content-end">
                           <Button
                             type="button"
-                            className="btn-sm"
+                            className="btn-sm mx-2"
                             variant="btn btn-primary"
-                            onClick={handleSubmit}
+                            onClick={()=>{handleSubmit(); setView(true)}}
                           >
                             View
+                          </Button>
+
+                          <Button
+                            type="button"
+                            className="btn-sm "
+                            variant="btn btn-primary"
+                            onClick={()=>{handleSubmit(); setView(false)}}
+                          >
+                            View2
                           </Button>
                         </div>
                       </Form>
                     )}
                   </Formik>
                 ) : (
+                    view ?
                   <PrintResult
                     publishSingleStudent={publishSingleStudent}
                     session={session}
                     term={term}
                   />
+                  :
+                  <PrintResultTwo
+                  publishSingleStudent={publishSingleStudent}
+                  session={session}
+                  term={term}
+                />
+
                 )}
               </Card.Body>
             </Card>

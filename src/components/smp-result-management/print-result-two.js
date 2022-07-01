@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
 import Card from "../Card";
 
-const PrintResult = ({ publishSingleStudent, session, term }) => {
+const PrintResultTwo = ({ publishSingleStudent, session, term }) => {
 
   return (
     <>
@@ -35,86 +35,56 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
                     Result for {`${session} ${term} TERM`}
                   </h5>
                   <div className="text-dark fw-bold mt-4 d-md-flex justify-content-around">
-<div> <h6 className="text-center text-uppercase">grade Setting</h6>
-                  <Table responsive bordered size="sm" className=" table-bordered border-dark" >  
+                    <div>
+                      <div className="py-2">
+                        STUDENT NAME:{" "}
+                        <span className="text-capitalize">
+                          {publishSingleStudent?.studentName}
+                        </span>
+                      </div>
+                      <div className="py-2">
+                        REGISTRATION NUMBER:{" "}
+                        <span className="text-capitalize">
+                          {publishSingleStudent?.registrationNumber}
+                        </span>
+                      </div>
+                      <div className="py-2">
+                        CLASS:{" "}
+                        <span className="text-capitalize">
+                          {publishSingleStudent?.sessionClassName}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="px-2">
+                      <div className="py-2">
+                        POSITION: <span className="">{'1st'} out of {50} students</span>
+                      </div>
+                      <div className="py-2">
+                        AVERAGE: <span className="text-capitalize">70</span>
+                      </div>
+                      <div className="py-2">
+                        REMARK:{" "}
+                        <span className="text-capitalize">Excellent</span>
+                      </div>
+                    </div>
+  
+          {/* <Table responsive bordered size="sm" className="w-50 table-bordered border-dark" style={{ background: '#59a9ea'}}>
             <tbody>
               <tr>
-                <th className="fw-bold h6 text-uppercase">80-100</th>
-                <td className="fw-bold text-uppercase">A</td>
+                <th className="fw-bold h6 text-uppercase">Student Name</th>
+                <td className="fw-bold text-uppercase">{publishSingleStudent?.studentName}</td>
               </tr>
               <tr>
-                <th className="fw-bold h6 text-uppercase">60-79</th>
-                <td className="fw-bold text-uppercase">B</td>
+                <th className="fw-bold h6 text-uppercase">Student Reg No.</th>
+                <td className="fw-bold text-uppercase">{publishSingleStudent?.registrationNumber}</td>
               </tr>
               <tr>
-                <th className="fw-bold h6 text-uppercase">50-59</th>
-                <td className="fw-bold text-uppercase">C</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">40-49</th>
-                <td className="fw-bold text-uppercase">D</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">20-39</th>
-                <td className="fw-bold text-uppercase">E</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">0-19</th>
-                <td className="fw-bold text-uppercase">F</td>
+                <th className="fw-bold h6 text-uppercase">Class Name</th>
+                <td className="fw-bold text-uppercase">{publishSingleStudent?.sessionClassName}</td>
               </tr>
             </tbody>
-          </Table>
-  </div>
-          <Table responsive bordered size="sm" className=" table-bordered border-dark " style={{ background: '#59a9ea'}}>
-            <tbody >
-              <tr>
-                <td className="text-uppercase" style={{ width: '30vw'}}>Student Name</td>
-                <td className="fw-bold" style={{ width: '30vw'}}>{publishSingleStudent?.studentName}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold h6 text-uppercase">Student Reg No.</td>
-                <td className="fw-bold">{publishSingleStudent?.registrationNumber}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold h6 text-uppercase">Class Name</td>
-                <td className="fw-bold">{publishSingleStudent?.sessionClassName}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold h6 text-uppercase">Position</td>
-                <td className="fw-bold ">{'1st'} out of {50} student</td>
-              </tr>
-              <tr>
-                <td className="fw-bold h6 text-uppercase">Average</td>
-                <td className="fw-bold">{70}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold h6 text-uppercase">Remark</td>
-                <td className="fw-bold">{"Excellent"}</td>
-              </tr>
-            </tbody>
-          </Table>
-          <div> <h6 className="text-center text-uppercase">cognitive behaviour</h6>
-          <Table responsive bordered size="sm" className=" table-bordered border-dark" >
-            <tbody>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Team work</th>
-                <td className="fw-bold text-uppercase">Good</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Creativity</th>
-                <td className="fw-bold text-uppercase">Good</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Responsibility</th>
-                <td className="fw-bold text-uppercase">Good</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Attentiveness</th>
-                <td className="fw-bold text-uppercase">Good</td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
+          </Table> */}
+        
                   </div>
                   <Table
                     size="md"
@@ -122,7 +92,7 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
                     responsive
                     className="mt-4 border-secondary"
                   >
-                    <tbody>
+                    <thead>
                       <tr
                         className="text-center text-uppercase h6 fw-bold"
                         style={{ background: "#59a9ea" }}
@@ -135,7 +105,7 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
                         <td className="px-2">Grade</td>
                         <td className="px-2">Remark</td>
                       </tr>
-                    </tbody>
+                    </thead>
                     <tbody>
                       {publishSingleStudent?.studentSubjectEntries.map(
                         (item, index) => (
@@ -170,4 +140,4 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
   );
 };
 
-export default PrintResult;
+export default PrintResultTwo;
