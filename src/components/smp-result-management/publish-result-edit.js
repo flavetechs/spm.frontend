@@ -40,6 +40,9 @@ const PublishResultEdit = () => {
       studentContactId
     )(dispatch);
   }, []);
+  function refreshPage() {
+    window.location.reload(false);
+  }
   const handleFocus = (event) => event.target.select();
   const studentSubjectEntriesOption =
   publishSingleStudent?.studentSubjectEntries == null
@@ -60,6 +63,25 @@ const PublishResultEdit = () => {
                 />
               </div>
               <div className="d-flex justify-content-end">
+              <Button
+                  type="button"
+                  className="btn-sm mx-2"
+                  variant="btn btn-success"
+                  onClick={refreshPage}
+                  // onClick={() => {
+                  //   history.goBack();
+                  //   const queryParams = new URLSearchParams(locations.search);
+                  //   const sessionClassId = queryParams.get("sessionClassId");
+                  //   const termId = queryParams.get("termId");
+                  //   getAllResultList(sessionClassId, termId)(dispatch);
+                  //   getValueIds(
+                  //     sessionClassId,
+                  //     termId
+                  //   )(dispatch);
+                  // }}
+                >
+                  Preview
+                </Button>
                 <Button
                   type="button"
                   className="btn-sm mx-2"
