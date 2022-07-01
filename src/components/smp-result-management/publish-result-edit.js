@@ -67,18 +67,17 @@ const PublishResultEdit = () => {
                   type="button"
                   className="btn-sm mx-2"
                   variant="btn btn-success"
-                  onClick={refreshPage}
-                  // onClick={() => {
-                  //   history.goBack();
-                  //   const queryParams = new URLSearchParams(locations.search);
-                  //   const sessionClassId = queryParams.get("sessionClassId");
-                  //   const termId = queryParams.get("termId");
-                  //   getAllResultList(sessionClassId, termId)(dispatch);
-                  //   getValueIds(
-                  //     sessionClassId,
-                  //     termId
-                  //   )(dispatch);
-                  // }}
+                  onClick={() => {
+                    const queryParams = new URLSearchParams(locations.search);
+                    const studentContactId = queryParams.get("studentContactId");
+                    const sessionClassId = queryParams.get("sessionClassId");
+                    const termId = queryParams.get("termId");
+                    fetchSingleStudentResultEntries(
+                      sessionClassId,
+                      termId,
+                      studentContactId
+                    )(dispatch);
+                  }}
                 >
                   Preview
                 </Button>
@@ -271,7 +270,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td>{item.grade}</td>)}
+                              ) : (<td className="text-uppercase">{item.grade}</td>)}
                               {item.isSaving ? (
                                 <td>
                                   <span style={{ color: "green" }}>
@@ -300,7 +299,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td>{item.remark}</td>)}
+                              ) : (<td className="text-uppercase">{item.remark}</td>)}
                             </tr>
                           </OverlayTrigger>
                         )
