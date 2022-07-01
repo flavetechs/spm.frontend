@@ -3,7 +3,7 @@ import { Row, Col, Table } from "react-bootstrap";
 import Card from "../Card";
 
 const PrintResult = ({ publishSingleStudent, session, term }) => {
-  console.log(publishSingleStudent);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
