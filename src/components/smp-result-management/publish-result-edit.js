@@ -25,19 +25,7 @@ const PublishResultEdit = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const {publishResults, publishSingleStudent, } = state.publish;
-  console.log('publishSingleStudent now', publishSingleStudent);
   // ACCESSING STATE FROM REDUX STORE
-
-  // if (publishSingleStudent?.studentSubjectEntries == null) {
-  //   publishSingleStudent.studentSubjectEntries = [];
-  //  }
-  
-  //  const list = publishSingleStudent?.studentSubjectEntries.map((list, idx) => list.subjects).flat();
-  //  const subjectList = list.filter(
-  //      (item, index, self) =>
-  //        index === self.findIndex((t) => t.subjectName === item.subjectName)
-  //    )
-
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -53,12 +41,10 @@ const PublishResultEdit = () => {
     )(dispatch);
   }, []);
   const handleFocus = (event) => event.target.select();
-
-  function refreshPage() {
-    window.location.reload(false);
-  }
-
- 
+  const studentSubjectEntriesOption =
+  publishSingleStudent?.studentSubjectEntries == null
+    ? []
+    : publishSingleStudent.studentSubjectEntries;
   return (
     <>
       <Row className="pt-3">
@@ -74,25 +60,6 @@ const PublishResultEdit = () => {
                 />
               </div>
               <div className="d-flex justify-content-end">
-                <Button
-                  type="button"
-                  className="btn-sm mx-2"
-                  variant="btn btn-success"
-                  onClick={refreshPage}
-                  // onClick={() => {
-                  //   history.goBack();
-                  //   const queryParams = new URLSearchParams(locations.search);
-                  //   const sessionClassId = queryParams.get("sessionClassId");
-                  //   const termId = queryParams.get("termId");
-                  //   getAllResultList(sessionClassId, termId)(dispatch);
-                  //   getValueIds(
-                  //     sessionClassId,
-                  //     termId
-                  //   )(dispatch);
-                  // }}
-                >
-                  Preview
-                </Button>
                 <Button
                   type="button"
                   className="btn-sm mx-2"
@@ -140,7 +107,7 @@ const PublishResultEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {publishSingleStudent?.studentSubjectEntries.map(
+                      {studentSubjectEntriesOption.map(
                         (item, index) => (
                           <OverlayTrigger
                             key={index}
@@ -282,7 +249,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td className="text-uppercase">{item.grade}</td>)}
+                              ) : (<td>{item.grade}</td>)}
                               {item.isSaving ? (
                                 <td>
                                   <span style={{ color: "green" }}>
@@ -311,7 +278,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td className="text-uppercase">{item.remark}</td>)}
+                              ) : (<td>{item.remark}</td>)}
                             </tr>
                           </OverlayTrigger>
                         )
