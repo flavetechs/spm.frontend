@@ -210,16 +210,12 @@ export const setAssessmentScore =
     }
   };
 
-export const fetchSingleStudentResultEntries =
-  (sessionClassId, termId, studentContactId) => (dispatch) => {
+export const fetchSingleStudentResultEntries = (sessionClassId, termId, studentContactId) => (dispatch) => {
     dispatch({
       type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING,
       payload: sessionClassId,
     });
-    axiosInstance
-      .get(
-        `/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`
-      )
+    axiosInstance.get(`/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
       .then((res) => {
         dispatch({
           type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS,

@@ -40,8 +40,14 @@ const PublishResultEdit = () => {
       studentContactId
     )(dispatch);
   }, []);
+  function refreshPage() {
+    window.location.reload(false);
+  }
   const handleFocus = (event) => event.target.select();
-
+  const studentSubjectEntriesOption =
+  publishSingleStudent?.studentSubjectEntries == null
+    ? []
+    : publishSingleStudent.studentSubjectEntries;
   return (
     <>
       <Row className="pt-3">
@@ -57,6 +63,24 @@ const PublishResultEdit = () => {
                 />
               </div>
               <div className="d-flex justify-content-end">
+              <Button
+                  type="button"
+                  className="btn-sm mx-2"
+                  variant="btn btn-success"
+                  onClick={() => {
+                    const queryParams = new URLSearchParams(locations.search);
+                    const studentContactId = queryParams.get("studentContactId");
+                    const sessionClassId = queryParams.get("sessionClassId");
+                    const termId = queryParams.get("termId");
+                    fetchSingleStudentResultEntries(
+                      sessionClassId,
+                      termId,
+                      studentContactId
+                    )(dispatch);
+                  }}
+                >
+                  Preview
+                </Button>
                 <Button
                   type="button"
                   className="btn-sm mx-2"
@@ -104,7 +128,7 @@ const PublishResultEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {publishSingleStudent?.studentSubjectEntries.map(
+                      {studentSubjectEntriesOption.map(
                         (item, index) => (
                           <OverlayTrigger
                             key={index}
@@ -246,7 +270,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td>{item.grade}</td>)}
+                              ) : (<td className="text-uppercase">{item.grade}</td>)}
                               {item.isSaving ? (
                                 <td>
                                   <span style={{ color: "green" }}>
@@ -275,7 +299,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td>{item.remark}</td>)}
+                              ) : (<td className="text-uppercase">{item.remark}</td>)}
                             </tr>
                           </OverlayTrigger>
                         )
