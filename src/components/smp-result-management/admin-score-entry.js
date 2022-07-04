@@ -24,8 +24,7 @@ const AdminScoreEntry = () => {
   const [sessionId, setSessionId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [idsForPreview, setIdsForPreview] = useState({});
-  const [showAdminScoresEntryTable, setShowAdminScoresEntryTable] =
-    useState(false);
+  const [showAdminScoresEntryTable, setShowAdminScoresEntryTable] = useState(false);
   const [isEditMode, setEditMode] = useState(false);
   const [isPreviewMode, setPreviewMode] = useState(false);
   //VARIABLE DECLARATIONS

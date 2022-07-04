@@ -7,7 +7,7 @@ import {
   setAssessmentScore,
   setExamScore,
   getAllResultList,
-  getValueIds,
+  setSessionClassIdAndTermId,
 } from "../../store/actions/publish-actions";
 import { useDispatch, useSelector } from "react-redux";
 import PublishResultEditTable from "./publish-result-edit-table";
@@ -24,7 +24,7 @@ const PublishResultEdit = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const {publishResults, publishSingleStudent, } = state.publish;
+  const {publishSingleStudent, } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -40,14 +40,10 @@ const PublishResultEdit = () => {
       studentContactId
     )(dispatch);
   }, []);
-  function refreshPage() {
-    window.location.reload(false);
-  }
+  
   const handleFocus = (event) => event.target.select();
-  const studentSubjectEntriesOption =
-  publishSingleStudent?.studentSubjectEntries == null
-    ? []
-    : publishSingleStudent.studentSubjectEntries;
+
+  const studentSubjectEntriesOption = publishSingleStudent?.studentSubjectEntries == null ? [] : publishSingleStudent.studentSubjectEntries;
   return (
     <>
       <Row className="pt-3">
@@ -91,7 +87,7 @@ const PublishResultEdit = () => {
                     const sessionClassId = queryParams.get("sessionClassId");
                     const termId = queryParams.get("termId");
                     getAllResultList(sessionClassId, termId)(dispatch);
-                    getValueIds(
+                    setSessionClassIdAndTermId(
                       sessionClassId,
                       termId
                     )(dispatch);
@@ -176,7 +172,6 @@ const PublishResultEdit = () => {
                                     }}
                                     className="fw-bold"
                                     type="text"
-                                    maxLength={publishResults?.assessmentScore}
                                     name={`${item.subjectId}_assessmentScore`}
                                     defaultValue={item.assessmentScore}
                                     onFocus={handleFocus}
@@ -218,7 +213,6 @@ const PublishResultEdit = () => {
                                     }}
                                     className=" fw-bold "
                                     type="text"
-                                    maxLength={publishResults?.examScore}
                                     name={`${item.subjectId}_examScore`}
                                     defaultValue={item.examScore}
                                     onFocus={handleFocus}

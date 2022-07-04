@@ -127,14 +127,14 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
     }
 
 
-    case actions.CLOSE_RESULT_LIST: {
+    case actions.RESET_RESULT_PUBLISH_LIST: {
       return {
         ...state,
         publishResults: payload,
       };
     }
 
-    case actions.IMPORT_IDS: {
+    case actions.SET_PREVIEW_IDS: {
       return {
         ...state,
         idsObj: payload,

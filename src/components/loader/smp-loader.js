@@ -16,18 +16,25 @@ const SmpLoader = () => {
     const { loading: loading10 } = state.class;
     const { loading: loading11 } = state.promotion; 
     const { loading: loading12 } = state.results;
+    const { loading: loading13 } = state.publish;
 
     const [show, setShow] = useState(false);
 
     React.useEffect(() => {
 
-        if (loading1 || loading2 || loading3 || loading4 || loading5 || loading6 || loading7 || loading8 || loading9 || loading10|| loading11 || loading12) {
+        if (loading1 || loading2 || loading3 || loading4 
+            || loading5 || loading6 || loading7 
+            || loading8 || loading9 || loading10
+            || loading11 || loading12 || loading13) {
             setShow(true);
         } else {
             setShow(false);
         }
 
-    }, [loading1 || loading2 || loading3 || loading4 || loading5 || loading6 || loading7 || loading8 || loading9 || loading10 || loading11 || loading12])
+    }, [loading1 || loading2 || loading3 || loading4 
+        || loading5 || loading6 || loading7 
+        || loading8 || loading9 || loading10 
+        || loading11 || loading12 || loading13])
 
     return (
         <>

@@ -50,6 +50,9 @@ export const getAllTerms = (sessionId) => (dispatch) => {
 };
 
 export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
+  if(!sessionId || !sessionTermId){
+    return
+  }
   dispatch({
     type: actions.FETCH_TERM_CLASSESS_LOADING,
     payload: sessionId,
@@ -230,25 +233,21 @@ export const fetchSingleStudentResultEntries = (sessionClassId, termId, studentC
       });
   };
 
-export const getValueIds = (sessionClassId, termId) => (dispatch) => {
-  const idsObj = {};
-  idsObj.sessionClassId = sessionClassId;
-  idsObj.termId = termId;
+export const setSessionClassIdAndTermId = (sessionClassId, termId) => (dispatch) => {
+  const idsToSet = {
+    sessionClassId,
+    termId,
+  };
+ 
   dispatch({
-    type: actions.IMPORT_IDS,
-    payload: idsObj,
+    type: actions.SET_PREVIEW_IDS,
+    payload: idsToSet,
   });
 };
 
-export const nullifyResultListOnExit = (publishResults) => (dispatch) => {
-  if (
-    window.location.pathname != resultManagement.publishResult &&
-    window.location.pathname != studentsLocations.studentDetails
-  ) {
-    publishResults = null;
-  } else return publishResults;
+export const resetPublishPage = () => (dispatch) => {
   dispatch({
-    type: actions.CLOSE_RESULT_LIST,
-    payload: publishResults,
+    type: actions.RESET_RESULT_PUBLISH_LIST,
+    payload: null,
   });
 };
