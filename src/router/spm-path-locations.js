@@ -14,6 +14,7 @@ export const authLocations = {
 
 export const classLocations = {
   sessionClassList2: "/dashboard/smp-class/session-class",
+  classAttendance: "/dashboard/smp-class/class-attendance",
 };
 
 export const sessionLocations = {
@@ -69,3 +70,7 @@ export const resultManagement = {
   printResult: "/dashboard/smp-result/print-result",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
 }
+
+export const portalSetting = {
+  setting: "/dashboard/smp-setting"
+};
