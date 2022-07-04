@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) => {
   const state = useSelector((state) => state);
   const { publishResults } = state.publish;
-  console.log("publishResultsTable ", publishResults);
 
   return (
     <>
