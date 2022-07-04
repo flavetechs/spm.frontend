@@ -66,6 +66,7 @@ export const resultManagement = {
   scoreEntry: "/dashboard/smp-result/score-entry",
   publishResult: "/dashboard/smp-result/publish-result",
   publishResultEdit: "/dashboard/smp-result/edit-publish-result",
+  previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
   printResult: "/dashboard/smp-result/print-result",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"

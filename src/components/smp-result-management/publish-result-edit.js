@@ -243,7 +243,7 @@ const PublishResultEdit = () => {
                                 )}
                               </td>
                               {item.isSaving ? (
-                                <td>
+                                <td style={{ maxWidth: "150px" }}>
                                   <span style={{ color: "green" }}>
                                     <svg
                                       width="20"
@@ -270,9 +270,9 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td className="text-uppercase">{item.grade}</td>)}
+                              ) : (<td style={{ maxWidth: "150px" }} className="text-uppercase">{item.grade}</td>)}
                               {item.isSaving ? (
-                                <td>
+                                <td style={{ maxWidth: "150px" }}>
                                   <span style={{ color: "green" }}>
                                     <svg
                                       width="20"
@@ -299,7 +299,7 @@ const PublishResultEdit = () => {
                                     </svg>
                                   </span>
                                 </td>
-                              ) : (<td className="text-uppercase">{item.remark}</td>)}
+                              ) : (<td style={{ maxWidth: "150px" }} className="text-uppercase">{item.remark}</td>)}
                             </tr>
                           </OverlayTrigger>
                         )
