@@ -42,6 +42,7 @@ import AdminScoreEntry from '../components/smp-result-management/admin-score-ent
 import MasterList from '../components/smp-result-management/master-list';
 import PublishResultEdit from '../components/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
+import PreviewPublishedResult from '../components/smp-result-management/preview-published-result';
 
 const DashboardRouter = () => {
 
@@ -106,6 +107,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.masterList} exact component={MasterList} />
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
+                      <Route path={resultManagement.previewPublishedResult} exact component={PreviewPublishedResult} />
 
                 </Switch>
             </CSSTransition>
