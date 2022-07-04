@@ -64,9 +64,6 @@ export const getAllClassScoreEntries = (sessionClassId, subjectId) => (dispatch)
 }
 
 export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (dispatch) => {
-
-    debugger
-
     if (!examsScore) {
         examsScore = 0;
     }
@@ -196,10 +193,7 @@ export const getAllPreviousClassScoreEntries = (sessionClassId, subjectId, sessi
 
 
 export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previousScoreEntry,  sessionTermId) => (dispatch) => {
-
-    debugger
-
-    if (!examsScore) {
+ if (!examsScore) {
         examsScore = 0;
     }
 

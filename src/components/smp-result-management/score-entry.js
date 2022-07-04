@@ -81,6 +81,7 @@ const ScoreEntry = () => {
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
+                      setEditMode(false);
                       getAllClassScoreEntries(
                         values.sessionClassId,
                         values.subjectId
