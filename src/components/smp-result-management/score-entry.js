@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  getAllClassScoreEntries,
+  getAllClassScore,
   getAllStaffClasses,
   getStaffClassSubjects,
-  nullifyScoreEntryOnExit as resetScoreEntryOnExit,
+  resetScoreEntryOnExit,
 } from "../../store/actions/results-actions";
 import SmallTable from "./score-entry-small-table";
 import LargeTable from "./score-entry-large-table";
@@ -47,13 +47,15 @@ const ScoreEntry = () => {
     setShowScoresEntryTable(false);
     setEditMode(false);
     setPreviewMode(false);
+    return () => {
+      resetScoreEntryOnExit(scoreEntry)(dispatch);
+      setShowScoresEntryTable(false);
+    };
   }, []);
   React.useEffect(() => {
     if (scoreEntry) {
       setShowScoresEntryTable(true);
-    }
-    return()=>{
-      resetScoreEntryOnExit(scoreEntry)(dispatch)
+    } else if (!scoreEntry) {
       setShowScoresEntryTable(false);
     }
   }, [scoreEntry]);
@@ -78,7 +80,7 @@ const ScoreEntry = () => {
                     enableReinitialize={true}
                     onSubmit={(values) => {
                       setEditMode(false);
-                      getAllClassScoreEntries(
+                      getAllClassScore(
                         values.sessionClassId,
                         values.subjectId
                       )(dispatch);
@@ -168,14 +170,14 @@ const ScoreEntry = () => {
                               }}
                             >
                               <option value="">Select Class</option>
-                              {staffClasses.map((list, idx) => (
+                              {staffClasses.map((classes, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
-                                  value={list.sessionClassId}
-                                  data-tag={list.sessionClass}
+                                  value={classes.sessionClassId}
+                                  data-tag={classes.sessionClass}
                                 >
-                                  {list.sessionClass}
+                                  {classes.sessionClass}
                                 </option>
                               ))}
                             </Field>

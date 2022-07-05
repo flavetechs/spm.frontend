@@ -1,9 +1,13 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
-import Card from "../Card";
+import { useSelector } from "react-redux";
+import Card from "../../Card";
 
-const PrintResultTwo = ({ publishSingleStudent, session, term }) => {
-
+const PrintResultTwo = () => {
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { studentResult } = state.results;
+  // ACCESSING STATE FROM REDUX STORE
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -32,59 +36,49 @@ const PrintResultTwo = ({ publishSingleStudent, session, term }) => {
               <Card.Body>
                 <Row>
                   <h5 className="text-uppercase text-center fw-bold">
-                    Result for {`${session} ${term} TERM`}
+                    Result for{" "}
+                    {`${studentResult?.session} ${studentResult?.term} TERM`}
                   </h5>
                   <div className="text-dark fw-bold mt-4 d-md-flex justify-content-around">
                     <div>
                       <div className="py-2">
                         STUDENT NAME:{" "}
                         <span className="text-capitalize">
-                          {publishSingleStudent?.studentName}
+                          {studentResult?.studentName}
                         </span>
                       </div>
                       <div className="py-2">
                         REGISTRATION NUMBER:{" "}
                         <span className="text-capitalize">
-                          {publishSingleStudent?.registrationNumber}
+                          {studentResult?.registrationNumber}
                         </span>
                       </div>
                       <div className="py-2">
                         CLASS:{" "}
                         <span className="text-capitalize">
-                          {publishSingleStudent?.sessionClassName}
+                          {studentResult?.sessionClassName}
                         </span>
                       </div>
                     </div>
                     <div className="px-2">
                       <div className="py-2">
-                        POSITION: <span className="">{'1st'} out of {50} students</span>
+                        POSITION:{" "}
+                        <span className="">
+                          {studentResult?.position} out of{" "}
+                          {studentResult?.noOfStudents} student
+                        </span>
                       </div>
                       <div className="py-2">
-                        AVERAGE: <span className="text-capitalize">70</span>
+                        TOTAL: <span className="text-capitalize">{studentResult?.total}/{studentResult?.totalScores}</span>
+                      </div>
+                      <div className="py-2">
+                        AVERAGE: <span className="text-capitalize">{studentResult?.average}</span>
                       </div>
                       <div className="py-2">
                         REMARK:{" "}
-                        <span className="text-capitalize">Excellent</span>
+                        <span className="text-capitalize">{studentResult?.remark}</span>
                       </div>
                     </div>
-  
-          {/* <Table responsive bordered size="sm" className="w-50 table-bordered border-dark" style={{ background: '#59a9ea'}}>
-            <tbody>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Student Name</th>
-                <td className="fw-bold text-uppercase">{publishSingleStudent?.studentName}</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Student Reg No.</th>
-                <td className="fw-bold text-uppercase">{publishSingleStudent?.registrationNumber}</td>
-              </tr>
-              <tr>
-                <th className="fw-bold h6 text-uppercase">Class Name</th>
-                <td className="fw-bold text-uppercase">{publishSingleStudent?.sessionClassName}</td>
-              </tr>
-            </tbody>
-          </Table> */}
-        
                   </div>
                   <Table
                     size="md"
@@ -107,7 +101,7 @@ const PrintResultTwo = ({ publishSingleStudent, session, term }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {publishSingleStudent?.studentSubjectEntries.map(
+                      {studentResult?.studentSubjectEntries.map(
                         (item, index) => (
                           <tr key={index} className="h6 text-center">
                             <td className="">{index + 1}</td>
@@ -126,9 +120,13 @@ const PrintResultTwo = ({ publishSingleStudent, session, term }) => {
                 <div className="d-md-flex justify-content-around mt-5">
                   <div>
                     <div className="d-flex justify-content-center">
-                      <div><img src="" alt="" /></div>
+                      <div>
+                        <img src="" alt="" />
+                      </div>
                     </div>
-                    <div className="h6 text-center">Principal's signature and Stamp</div>
+                    <div className="h6 text-center">
+                      Principal's signature and Stamp
+                    </div>
                   </div>
                 </div>
               </Card.Body>

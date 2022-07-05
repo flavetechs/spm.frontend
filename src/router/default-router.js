@@ -42,8 +42,8 @@ import AdminScoreEntry from '../components/smp-result-management/admin-score-ent
 import MasterList from '../components/smp-result-management/master-list';
 import PublishResultEdit from '../components/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
-import PrintResult from '../components/smp-result-management/print-result';
-import PrintResultInput from '../components/smp-result-management/print-result-input';
+import PrintResult from '../components/smp-result-management/result-templates/print-result';
+import PrintResultInput from '../components/smp-result-management/result-templates/print-result-input';
 import Attendance from '../components/spm-class/Attendance';
 import AttendanceBoard from '../components/spm-class/Attendance-board';
 
