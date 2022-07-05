@@ -68,32 +68,32 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
           <Table responsive bordered size="sm" className=" table-bordered border-dark" style={{ background: '#b9d7f7'}}>
             <tbody >
               <tr>
-                <td className="text-uppercase" style={{ width: '30vw'}}>Student Name</td>
-                <td className="fw-bold" style={{ width: '30vw'}}>{publishSingleStudent?.studentName}</td>
+                <td className="text-uppercase" style={{ width: '30vw', color:'#2d2d2d'}}>Student Name</td>
+                <td className="fw-bold" style={{ width: '30vw', color:'#2d2d2d'}}>{publishSingleStudent?.studentName}</td>
               </tr>
               <tr>
-                <td className="fw-bold h6 text-uppercase">Student Reg No.</td>
-                <td className="fw-bold">{publishSingleStudent?.registrationNumber}</td>
+                <td className="fw-bold h6 text-uppercase" style={{color:'#2d2d2d'}}>Student Reg No.</td>
+                <td className="fw-bold" style={{color:'#2d2d2d'}}>{publishSingleStudent?.registrationNumber}</td>
               </tr>
               <tr>
-                <td className="fw-bold h6 text-uppercase">Class Name</td>
-                <td className="fw-bold">{publishSingleStudent?.sessionClassName}</td>
+                <td className="fw-bold h6 text-uppercase" style={{color:'#2d2d2d'}}>Class Name</td>
+                <td className="fw-bold" style={{color:'#2d2d2d'}}>{publishSingleStudent?.sessionClassName}</td>
               </tr>
               <tr>
-                <td className="fw-bold h6 text-uppercase">Position</td>
-                <td className="fw-bold ">{'1st'} out of {50} student</td>
+                <td className="fw-bold h6 text-uppercase" style={{color:'#2d2d2d'}}>Position</td>
+                <td className="fw-bold " style={{color:'#2d2d2d'}}>{'1st'} out of {50} student</td>
               </tr>
               <tr>
-                <td className="fw-bold h6 text-uppercase">Total</td>
-                <td className="fw-bold">{150}/{1000}</td>
+                <td className="fw-bold h6 text-uppercase" style={{color:'#2d2d2d'}}>Total</td>
+                <td className="fw-bold" style={{color:'#2d2d2d'}}>{150}/{1000}</td>
               </tr>
               <tr>
-                <td className="fw-bold h6 text-uppercase">Average</td>
-                <td className="fw-bold">{70}</td>
+                <td className="fw-bold h6 text-uppercase"style={{color:'#2d2d2d'}}>Average</td>
+                <td className="fw-bold"style={{color:'#2d2d2d'}}>{70}</td>
               </tr>
               <tr>
-                <td className="fw-bold h6 text-uppercase">Remark</td>
-                <td className="fw-bold">{"Excellent"}</td>
+                <td className="fw-bold h6 text-uppercase"style={{color:'#2d2d2d'}}>Remark</td>
+                <td className="fw-bold" style={{color:'#2d2d2d'}}>{"Excellent"}</td>
               </tr>
             </tbody>
           </Table>
@@ -131,13 +131,13 @@ const PrintResult = ({ publishSingleStudent, session, term }) => {
                         className="text-center text-uppercase h6 fw-bold"
                         style={{ background: "#b9d7f7" }}
                       >
-                        <td className="">S/No</td>
-                        <td className=" text-start">Subject</td>
-                        <td className="">Assessment Score</td>
-                        <td className="">Exam Score</td>
-                        <td className="">Total Score</td>
-                        <td className="px-2">Grade</td>
-                        <td className="px-2">Remark</td>
+                        <td style={{color:'#2d2d2d'}}>S/No</td>
+                        <td className=" text-start"style={{color:'#2d2d2d'}}>Subject</td>
+                        <td style={{color:'#2d2d2d'}}>Assessment Score</td>
+                        <td style={{color:'#2d2d2d'}}>Exam Score</td>
+                        <td style={{color:'#2d2d2d'}}>Total Score</td>
+                        <td className="px-2" style={{color:'#2d2d2d'}}>Grade</td>
+                        <td className="px-2" style={{color:'#2d2d2d'}}>Remark</td>
                       </tr>
                     </tbody>
                     <tbody>

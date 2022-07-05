@@ -69,7 +69,7 @@ const PrintResultInput = () => {
     };
   }, [publishSingleStudent]);
 
- 
+ console.log()
   return (
     <>
       <div className="col-md-12 mx-auto">

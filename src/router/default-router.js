@@ -44,6 +44,8 @@ import PublishResultEdit from '../components/smp-result-management/publish-resul
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
 import PrintResult from '../components/smp-result-management/print-result';
 import PrintResultInput from '../components/smp-result-management/print-result-input';
+import Attendance from '../components/spm-class/Attendance';
+import AttendanceBoard from '../components/spm-class/Attendance-board';
 
 const DashboardRouter = () => {
 
@@ -62,6 +64,8 @@ const DashboardRouter = () => {
 
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
+                    <Route path={classLocations.classAttendance} exact component={Attendance} />
+                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
                 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
