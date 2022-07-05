@@ -11,12 +11,25 @@ import {
   getAllSchoolSessions,
   getAllTerms,
   getTermClasses,
-  getValueIds,
-  nullifyResultListOnExit,
+  setSessionClassIdAndTermId,
+  resetPublishPage,
 } from "../../store/actions/publish-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
 
 const PublishResult = () => {
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { schoolSessions, termClasses, publishResults, idsObj } = state.publish;
+  const { activeSession } = state.session;
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [initialValues, setInitialValues] = useState({
+    sessionId: '',
+    sessionTermId: '',
+    sessionClassId: "",
+  })
+  // ACCESSING STATE FROM REDUX STORE
+
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [indexRow, setIndexRow] = useState("");
@@ -26,13 +39,6 @@ const PublishResult = () => {
   const [isPreviewMode, setPreviewMode] = useState(false);
   //VARIABLE DECLARATIONS
 
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { schoolSessions, sessionTerms, termClasses, publishResults, idsObj } = state.publish;
-  const { activeSession } = state.session;
-  const [sessionId, setSessionId] = useState("");
-  // ACCESSING STATE FROM REDUX STORE
-
   //VALIDATION SCHEMA
   const validation = Yup.object().shape({
     sessionClassId: Yup.string().required("Class is required"),
@@ -41,23 +47,35 @@ const PublishResult = () => {
   });
   //VALIDATION SCHEMA
 
+
   React.useEffect(() => {
-    getAllSchoolSessions()(dispatch);
     getActiveSession()(dispatch);
+    getAllSchoolSessions()(dispatch);
+  }, []);
+
+  React.useEffect(() => {
+    getActiveSession()(dispatch);
+    getAllSchoolSessions()(dispatch);
     setIndexRow("");
     setIdsForPreview({});
     SetShowPublishResultTable(false);
     setEditMode(false);
     setPreviewMode(false);
+    return () => {
+      resetPublishPage()(dispatch);
+      SetShowPublishResultTable(false);
+    };
   }, []);
 
   React.useEffect(() => {
-    if (!sessionId && activeSession) {
-      getAllTerms(activeSession?.sessionId)(dispatch);
-    } else if (sessionId && activeSession) {
-      getAllTerms(sessionId)(dispatch);
+    if (activeSession) {
+      setSelectedSession(activeSession);
+      initialValues.sessionId = selectedSession?.sessionId.toUpperCase();
+      initialValues.sessionTermId =  selectedSession?.terms.find(term => term.isActive == true)?.sessionTermId;
+      setInitialValues(initialValues);
+      getTermClasses(selectedSession?.sessionId, selectedSession?.sessionTermId)(dispatch)
     }
-  }, [activeSession, sessionId]);
+  }, [activeSession]);
 
   React.useEffect(() => {
     if (publishResults) {
@@ -65,11 +83,8 @@ const PublishResult = () => {
     } else if (!publishResults) {
       SetShowPublishResultTable(false);
     }
-    return () => {
-      nullifyResultListOnExit(publishResults)(dispatch);
-      SetShowPublishResultTable(false);
-    };
   }, [publishResults]);
+
 
   return (
     <>
@@ -85,25 +100,12 @@ const PublishResult = () => {
               <Card.Body>
                 {!isPreviewMode ? (
                   <Formik
-                    initialValues={{
-                      sessionId: activeSession?.sessionId.toUpperCase(),
-                      sessionTermId: sessionTerms
-                        ?.filter((term) => term.isActive == true)
-                        .map((term) => term.sessionTermId)
-                        .toString(),
-                      sessionClassId: "",
-                    }}
+                    initialValues={initialValues}
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      getAllResultList(
-                        values.sessionClassId,
-                        values.sessionTermId
-                      )(dispatch);
-                      getValueIds(
-                        values.sessionClassId,
-                        values.sessionTermId
-                      )(dispatch);
+                      getAllResultList(values.sessionClassId, values.sessionTermId)(dispatch);
+                      setSessionClassIdAndTermId(values.sessionClassId, values.sessionTermId)(dispatch);
                     }}
                   >
                     {({
@@ -136,6 +138,8 @@ const PublishResult = () => {
                                   {errors.sessionClassId}
                                 </div>
                               )}
+
+
                           </Col>
                           <Col md="4" className="form-group text-dark">
                             <label className="form-label" htmlFor="sessionId">
@@ -146,9 +150,10 @@ const PublishResult = () => {
                               name="sessionId"
                               className="form-select"
                               id="sessionId"
+                              values={values.sessionId}
                               onChange={(e) => {
                                 setFieldValue("sessionId", e.target.value);
-                                setSessionId(e.target.value);
+                                setSelectedSession(schoolSessions.find(s => s.sessionId == e.target.value));
                               }}
                             >
                               <option value="">Select Session</option>
@@ -175,9 +180,14 @@ const PublishResult = () => {
                               name="sessionTermId"
                               className="form-select"
                               id="sessionTermId"
+                              value={values.sessionTermId}
+                              onChange={(e) => {
+                                setFieldValue("sessionTermId", e.target.value);
+                                getTermClasses(selectedSession?.sessionId, selectedSession?.sessionTermId)(dispatch)
+                              }}
                             >
                               <option value="">Select Term</option>
-                              {sessionTerms?.map((term, idx) => (
+                              {selectedSession?.terms?.map((term, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionTermId}
@@ -200,12 +210,7 @@ const PublishResult = () => {
                               name="sessionClassId"
                               className="form-select"
                               id="sessionClassId"
-                              onFocus={() => {
-                                getTermClasses(
-                                  values.sessionId,
-                                  values.sessionTermId
-                                )(dispatch);
-                              }}
+
                             >
                               <option value="">Select Class</option>
                               {termClasses?.map((termClass, idx) => (

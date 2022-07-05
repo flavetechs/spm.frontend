@@ -4,46 +4,45 @@ import { Row, Button, Table, Badge } from "react-bootstrap";
 
 const MasterListLargeTable = ({ listEntry }) => {
   const tableRef = useRef(null);
-//   const { onDownload } = useDownloadExcel({
-//     currentTableRef: tableRef.current,
-//     filename: "Master-list Table",
-//     sheet: "Result List"
-// });
+  //   const { onDownload } = useDownloadExcel({
+  //     currentTableRef: tableRef.current,
+  //     filename: "Master-list Table",
+  //     sheet: "Result List"
+  // });
 
   if (listEntry?.resultList == null) {
-   listEntry.resultList = [];
+    listEntry.resultList = [];
   }
+
   const list = listEntry?.resultList.map((list, idx) => list.subjects).flat();
-  const subjectList = list.filter(
-      (item, index, self) =>
-        index === self.findIndex((t) => t.subjectName === item.subjectName)
-    )
-    
+  const subjectList = list.filter((item, index, self) => index === self.findIndex((t) => t.subjectName === item.subjectName))
+
+
   return (
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
-            <Button
-              type="button"
-              className="btn-sm mx-2"
-              variant="btn btn-success"
-              // onClick={onDownload}
-            >
-              Download
-            </Button>
+          <Button
+            type="button"
+            className="btn-sm mx-2"
+            variant="btn btn-success"
+          // onClick={onDownload}
+          >
+            Download
+          </Button>
         </div>
 
         <Table size="md" bordered responsive className="mt-2 border-secondary" ref={tableRef}>
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>S/No</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Student Name</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Registration No</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Position</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Subjects Offered</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Total Score</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Average Score</td>
-              <td className="text-uppercase h6 px-2" style={{whiteSpace: 'pre-wrap', width:'80px'}}>Result Status</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>S/No</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Student Name</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Registration No</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Position</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Total Subjects Offered</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Total Score</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Average Score</td>
+              <td className="text-uppercase h6 px-2" style={{ whiteSpace: 'pre-wrap', width: '80px' }}>Result Status</td>
               {subjectList?.map((subject, idx) => (
                 <td colSpan="3" className="text-uppercase h6" key={idx}>
                   {subject.subjectName}
@@ -56,12 +55,12 @@ const MasterListLargeTable = ({ listEntry }) => {
               <td colSpan="8"></td>
               {subjectList?.map((subject, idx) => (
                 <>
-                  <td 
+                  <td
                     style={{
                       writingMode: "vertical-rl",
                       maxWidth: "5px",
                       padding: 2,
-                   
+
                     }}
                   >
                     C.A
@@ -107,19 +106,19 @@ const MasterListLargeTable = ({ listEntry }) => {
                     {item.status}
                   </Badge>
                 </td>
-                
- {subjectList.map((list, id) => (
+
+                {subjectList.map((list, id) => (
                   <>
-                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ? 
-                   item.subjects.map(i=>i.subjectName == list.subjectName && i.assessmentScore) : ""}</td>
+                    <td className="px-3">{item.subjects.find(subject => subject.subjectName == list.subjectName) ?
+                      item.subjects.map(i => i.subjectName == list.subjectName && i.assessmentScore) : ""}</td>
 
-                     <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
-                     item.subjects.map(i=>i.subjectName == list.subjectName && i.examScore) : ""}</td>
+                    <td className="px-3">{item.subjects.find(subject => subject.subjectName == list.subjectName) ?
+                      item.subjects.map(i => i.subjectName == list.subjectName && i.examScore) : ""}</td>
 
-                    <td className="px-3">{item.subjects.find(subject=>subject.subjectName == list.subjectName) ?
-                   item.subjects.map(i=>i.subjectName == list.subjectName && i.total) : ""} </td> 
+                    <td className="px-3">{item.subjects.find(subject => subject.subjectName == list.subjectName) ?
+                      item.subjects.map(i => i.subjectName == list.subjectName && i.total) : ""} </td>
                   </>
-                ))} 
+                ))}
 
               </tr>
             ))}

@@ -42,10 +42,6 @@ const ScoreEntry = () => {
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-    // window.onbeforeunload = () => {
-    //   return "are you sure you want to leave?";
-    // };
-
     setIndexRow("");
     setIdsForPreview({});
     setShowScoresEntryTable(false);
