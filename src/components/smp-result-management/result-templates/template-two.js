@@ -3,7 +3,7 @@ import { Row, Col, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Card from "../../Card";
 
-const PrintResultTwo = () => {
+const ResultTemplateTwo = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
@@ -138,4 +138,4 @@ const PrintResultTwo = () => {
   );
 };
 
-export default PrintResultTwo;
+export default ResultTemplateTwo;
