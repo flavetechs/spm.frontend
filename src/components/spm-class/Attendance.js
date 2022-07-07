@@ -6,7 +6,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../router/spm-path-locations";
 import {
   continueClassRegister,
-  getAllClassRegister,
   updateAttendance,
   updateRegisterLabel,
 } from "../../store/actions/class-actions";

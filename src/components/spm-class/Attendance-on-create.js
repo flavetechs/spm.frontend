@@ -6,8 +6,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../router/spm-path-locations";
 import {
   continueClassRegister,
-  createRegister,
-  getAllClassRegister,
   updateAttendance,
   updateRegisterLabel,
 } from "../../store/actions/class-actions";
@@ -20,7 +18,7 @@ const Attendance = () => {
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { newClassRegister, registerLabelUpdateSuccessful, createSuccessful } = state.class;
+  const { newClassRegister, registerLabelUpdateSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
