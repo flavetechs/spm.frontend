@@ -30,7 +30,7 @@ const Attendance = () => {
     }
   }, [registerLabelUpdateSuccessful]);
 
-console.log("singleClassRegister",singleClassRegister);
+
   return (
     <>
       <div>
