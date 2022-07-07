@@ -15,7 +15,10 @@ import {
   updateRegisterLabel,
 } from "../../store/actions/class-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
-import { respondDialog, showHideDialog } from "../../store/actions/toaster-actions";
+import {
+  respondDialog,
+  showHideDialog,
+} from "../../store/actions/toaster-actions";
 
 const AttendanceBoard = () => {
   //VARIABLE DECLARATIONS
@@ -34,26 +37,25 @@ const AttendanceBoard = () => {
   const {
     itemList: classList,
     classRegister,
+    createSuccessful,
+    newClassRegister,
     registerLabelUpdateSuccessful,
   } = state.class;
   const { activeSession } = state.session;
   const { dialogResponse } = state.alert;
   const queryParams = new URLSearchParams(locations.search);
-    const sessionClassIdQuery = queryParams.get("sessionClassId");
-    const [sessionClassId, setSessionClassId] = useState(sessionClassIdQuery);
+  const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const [sessionClassId, setSessionClassId] = useState(sessionClassIdQuery);
   // ACCESSING STATE FROM REDUX STORE
-  
+
   React.useEffect(() => {
     getActiveSession()(dispatch);
   }, []);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteClassRegister(
-        classRegisterId,
-        sessionClassId
-      )(dispatch);
-      showHideDialog(false, null)(dispatch)
+      deleteClassRegister(classRegisterId, sessionClassId)(dispatch);
+      showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     }
@@ -77,26 +79,31 @@ const AttendanceBoard = () => {
     if (registerLabelUpdateSuccessful) {
       setEditMode(false);
     }
+    history.push(
+      `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+    );
   }, [classList, sessionClassId, registerLabelUpdateSuccessful]);
 
   const filteredClassRegister = classRegister.filter((register) => {
     if (query === "") {
       //if query is empty
       return register;
-    } 
-    else if (register.classRegisterLabel.toLowerCase().includes(query.toLowerCase()) ) 
-     {
+    } else if (
+      register.classRegisterLabel.toLowerCase().includes(query.toLowerCase())
+    ) {
+      //returns filtered array
+      return register;
+    } else if (register.dateTime.toLowerCase().includes(query.toLowerCase())) {
       //returns filtered array
       return register;
     }
-    else if (register.dateTime.toLowerCase().includes(query.toLowerCase()) ) 
-    {
-     //returns filtered array
-     return register;
-   }
-   
   });
-  console.log("log1", sessionClassId);
+  if (createSuccessful) {
+    history.push(
+      `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
+    );
+  }
+  
   return (
     <>
       <div>
@@ -115,7 +122,6 @@ const AttendanceBoard = () => {
                 enableReinitialize={true}
                 onSubmit={(values) => {
                   createRegister(values)(dispatch);
-                  history.push(`${classLocations.classAttendance}?sessionClassId=${sessionClassId}`);
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -289,7 +295,13 @@ const AttendanceBoard = () => {
                                           );
                                           setShowMenuDropdown(false);
                                         }}
-                                        className={Number(register.dateTime.split("-")[0]) != new Date().getDate() ? "dropdown-item disabled":"dropdown-item"}
+                                        className={
+                                          Number(
+                                            register.dateTime.split("-")[0]
+                                          ) != new Date().getDate()
+                                            ? "dropdown-item disabled"
+                                            : "dropdown-item"
+                                        }
                                         role="button"
                                         draggable="false"
                                       >
@@ -378,8 +390,13 @@ const AttendanceBoard = () => {
                                       </div>
                                       <div
                                         onClick={() => {
-                                          setClassRegisterId(register.classRegisterId)
-                                          showHideDialog(true, "Are you sure you want to delete class register")(dispatch);
+                                          setClassRegisterId(
+                                            register.classRegisterId
+                                          );
+                                          showHideDialog(
+                                            true,
+                                            "Are you sure you want to delete class register"
+                                          )(dispatch);
                                         }}
                                         className="dropdown-item"
                                         role="button"

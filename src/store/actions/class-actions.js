@@ -633,4 +633,6 @@ export const updateAttendance = (classRegisterId, studentContactId, isPresent, s
                 })
             });
     }
+
+
 //ATTENTANCE ACTION//

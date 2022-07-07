@@ -434,15 +434,17 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: true,
+        createSuccessful:true,
         loading: false,
-        singleClassRegister: payload,
+        newClassRegister: payload,
       };
     case actions.CREATE_CLASS_REGISTER_FAILED:
       return {
         ...state,
         isSuccessful: false,
+        createSuccessful:false,
         loading: false,
-        singleClassRegister: [],
+        newClassRegister: null,
       };
 
     case actions.FETCH_CLASS_REGISTER_LOADING: {
@@ -529,10 +531,10 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         message: payload,
-        singleClassRegister: [],
+        singleClassRegister: null,
       };
 
-      case actions.FETCH_STUDENTS_PRESENT: {
+      case actions.FETCH_STUDENTS_PRESENT_LOADING: {
         return {
           ...state,
           loading: true,

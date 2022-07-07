@@ -6,6 +6,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../router/spm-path-locations";
 import {
   continueClassRegister,
+  createRegister,
   getAllClassRegister,
   updateAttendance,
   updateRegisterLabel,
@@ -19,18 +20,18 @@ const Attendance = () => {
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { singleClassRegister, registerLabelUpdateSuccessful } = state.class;
+  const { newClassRegister, registerLabelUpdateSuccessful, createSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const classRegisterId = queryParams.get("classRegisterId");
-    if (classRegisterId) {
+   if(classRegisterId){
     continueClassRegister(classRegisterId)(dispatch);
-    }
+   }
   }, [registerLabelUpdateSuccessful]);
 
-console.log("singleClassRegister",singleClassRegister);
+console.log("singleClassRegister",newClassRegister);
   return (
     <>
       <div>
@@ -41,7 +42,7 @@ console.log("singleClassRegister",singleClassRegister);
                 <div className="d-flex justify-content-center">
                   <Formik
                     initialValues={{
-                      classRegisterLabel: singleClassRegister?.classRegisterLabel,
+                      classRegisterLabel: newClassRegister?.classRegisterLabel,
                     }}
                     // validationSchema={validation}
                     enableReinitialize={true}
@@ -71,7 +72,7 @@ console.log("singleClassRegister",singleClassRegister);
                                     id="classRegisterLabel"
                                     onBlur={(e) => {
                                       updateRegisterLabel(
-                                        singleClassRegister?.classRegisterId,
+                                        newClassRegister?.classRegisterId,
                                         e.target.value
                                       )(dispatch);
                                     }}
@@ -79,7 +80,7 @@ console.log("singleClassRegister",singleClassRegister);
                                       e &&
                                         e.keyCode == 13 &&
                                         updateRegisterLabel(
-                                          singleClassRegister?.classRegisterId,
+                                          newClassRegister?.classRegisterId,
                                           e.target.value
                                         )(dispatch);
                                     }}
@@ -97,7 +98,7 @@ console.log("singleClassRegister",singleClassRegister);
                             </tr>
                           </thead>
                           <tbody>
-                            {singleClassRegister?.attendanceList?.map((student, idx) => (
+                            {newClassRegister?.attendanceList?.map((student, idx) => (
                                 <tr key={idx} className="text-uppercase">
                                   <td className="text-center">{idx + 1}</td>
                                   <td>{student.studentName}</td>
@@ -109,10 +110,10 @@ console.log("singleClassRegister",singleClassRegister);
                                       defaultChecked={student.isPresent}
                                       onChange={(e) => {
                                         updateAttendance(
-                                          singleClassRegister?.classRegisterId,
+                                          newClassRegister?.classRegisterId,
                                           student.studentContactId,
                                           e.target.checked,
-                                          singleClassRegister
+                                          newClassRegister
                                         )(dispatch);
                                       }}
                                     />
@@ -129,11 +130,11 @@ console.log("singleClassRegister",singleClassRegister);
                 <div className="d-flex justify-content-end">
                   <button
                     onClick={() => {
-                      const queryParams = new URLSearchParams(locations.search);
-                      const sessionClassId = queryParams.get("sessionClassId");
-                      history.push(
-                          `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
-                        );
+                        const queryParams = new URLSearchParams(locations.search);
+                        const sessionClassId = queryParams.get("sessionClassId");
+                        history.push(
+                            `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+                          );
                     }}
                     className="btn btn-success mx-3"
                   >

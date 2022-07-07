@@ -14,6 +14,8 @@ export const _state = {
 
   classRegister:[],
   singleClassRegister:[],
+  newClassRegister:[],
   registerLabelUpdateSuccessful:false,
   studentsPresence:null,
+  createSuccessful:false,
 };
