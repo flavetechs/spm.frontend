@@ -1,23 +1,43 @@
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import React from "react";
 import { Card, Col, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getAllStudents } from "../../store/actions/student-actions";
+import { useHistory, useLocation } from "react-router-dom";
+import { classLocations } from "../../router/spm-path-locations";
+import {
+  continueClassRegister,
+  createRegister,
+  getAllClassRegister,
+  updateAttendance,
+  updateRegisterLabel,
+} from "../../store/actions/class-actions";
 
 const Attendance = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
+  const locations = useLocation();
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { studentList } = state.student;
+  const { singleClassRegister, registerLabelUpdateSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
+
   React.useEffect(() => {
-    getAllStudents()(dispatch);
-  }, []);
-  console.log(studentList);
+    const queryParams = new URLSearchParams(locations.search);
+    const classRegisterId = queryParams.get("classRegisterId");
+    if (!classRegisterId) return;
+    continueClassRegister(classRegisterId)(dispatch);
+  }, [registerLabelUpdateSuccessful]);
+
+  // React.useEffect(() => {
+  // setTimeout(() => {
+  //       if (!singleClassRegister?.find(s=>s)?.classRegisterId) {
+  //         history.push(classLocations.classAttendanceBoard)
+  //         }
+  //     }, 3000);
+  //   }, [singleClassRegister]);
+console.log("hi",singleClassRegister);
   return (
     <>
       <div>
@@ -28,8 +48,9 @@ const Attendance = () => {
                 <div className="d-flex justify-content-center">
                   <Formik
                     initialValues={{
-                      checked: "",
-                      title: "",
+                      classRegisterLabel: singleClassRegister?.map(
+                        (label) => label.classRegisterLabel
+                      ),
                     }}
                     // validationSchema={validation}
                     enableReinitialize={true}
@@ -43,40 +64,73 @@ const Attendance = () => {
                       errors,
                     }) => (
                       <div>
-                        <Table
-                          size="md"
-                          responsive
-                          bordered
-                          className="w-50 border-secondary"
-                        >
-                          <tbody>
-                            <tr>
-                              <td colSpan={4} style={{ background: "#d8efd1"}}>
-                                <h5 className="text-center" style={{ color: "#2d2d2d" }}>
-                                  Title: <input type="text" />
+                        <Table size="md" responsive striped style={{ width: "60vw" }}>
+                          <thead>
+                          <tr>
+                              <td colSpan={4}>
+                                <h5
+                                  className="text-center"
+                                  style={{ color: "#2d2d2d" }}
+                                >
+                                  TITLE
+                                  <Field
+                                    type="text"
+                                    className="form-control text-center"
+                                    name="classRegisterLabel"
+                                    id="classRegisterLabel"
+                                    onBlur={(e) => {
+                                      updateRegisterLabel(
+                                        singleClassRegister[0]?.classRegisterId,
+                                        e.target.value
+                                      )(dispatch);
+                                    }}
+                                    onKeyUp={(e) => {
+                                      e &&
+                                        e.keyCode == 13 &&
+                                        updateRegisterLabel(
+                                          singleClassRegister[0]
+                                            ?.classRegisterId,
+                                          e.target.value
+                                        )(dispatch);
+                                    }}
+                                  />
                                 </h5>
                               </td>
                             </tr>
-                            <tr style={{ background: "#d8efd1" }}>
-                              <td style={{ color: "#2d2d2d" }}>S/No</td>
-                              <td style={{ color: "#2d2d2d" }}>Name</td>
-                              <td style={{ color: "#2d2d2d" }}>
+                            <tr>
+                              <th className="text-center">S/No</th>
+                              <th>Name</th>
+                              <th>
                                 Registration No.
-                              </td>
-                              <td style={{ color: "#2d2d2d" }}>Is Present</td>
+                              </th>
+                              <th className="text-center">Is Present</th>
                             </tr>
-                            {studentList.map((student, idx) => (
-                              <tr className="text-uppercase">
-                                <td className="text-center">{idx + 1}</td>
-                                <td>
-                                  {student.firstName} {student.lastName}
-                                </td>
-                                <td>{student.registrationNumber}</td>
-                                <td className="text-center">
-                                  <input type="checkbox" name="checked" id="" />
-                                </td>
-                              </tr>
-                            ))}
+                          </thead>
+                          <tbody>
+                            {singleClassRegister?.map((register, idx) =>
+                              register.attendanceList.map((student, idx) => (
+                                <tr key={idx} className="text-uppercase">
+                                  <td className="text-center">{idx + 1}</td>
+                                  <td>{student.studentName}</td>
+                                  <td>{student.registrationNumber}</td>
+                                  <td className="text-center">
+                                    <input
+                                      type="checkbox"
+                                      id=""
+                                      defaultChecked={student.isPresent}
+                                      onChange={(e) => {
+                                        updateAttendance(
+                                          register.classRegisterId,
+                                          student.studentContactId,
+                                          e.target.checked,
+                                          singleClassRegister
+                                        )(dispatch);
+                                      }}
+                                    />
+                                  </td>
+                                </tr>
+                              ))
+                            )}
                           </tbody>
                         </Table>
                       </div>
@@ -86,11 +140,15 @@ const Attendance = () => {
                 <div className="d-flex justify-content-end">
                   <button
                     onClick={() => {
-                      history.goBack();
+                      const queryParams = new URLSearchParams(locations.search);
+                      const sessionClassId = queryParams.get("sessionClassId");
+                      if (!sessionClassId) return;
+                        getAllClassRegister(sessionClassId)(dispatch);
+                        history.push(`${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`);
                     }}
-                    className="btn btn-danger mx-3"
+                    className="btn btn-success mx-3"
                   >
-                    <span>Back</span>
+                    <span>Done</span>
                   </button>
                 </div>
               </Card.Body>

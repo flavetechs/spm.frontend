@@ -46,6 +46,7 @@ import ResultTemplateOne from '../components/smp-result-management/result-templa
 import Attendance from '../components/spm-class/Attendance';
 import AttendanceBoard from '../components/spm-class/Attendance-board';
 import ResultTemplateTwo from '../components/smp-result-management/result-templates/template-two';
+import AttendancePresence from '../components/spm-class/Attendance-presence';
 
 const DashboardRouter = () => {
 
@@ -66,6 +67,7 @@ const DashboardRouter = () => {
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
                     <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />

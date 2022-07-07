@@ -16,6 +16,7 @@ export const classLocations = {
   sessionClassList2: "/dashboard/smp-class/session-class",
   classAttendance: "/dashboard/smp-class/class-attendance",
   classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
+  attendancePresence:"/dashboard/smp-class/attendance-presence",
 };
 
 export const sessionLocations = {

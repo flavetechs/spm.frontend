@@ -460,4 +460,177 @@ export const pushSessionClassId = (itemId) => {
         type: actions.PUSH_SESSION_CLASS_ID,
         payload: itemId
     }
+
 }
+
+
+
+
+
+
+
+
+//ATTENTANCE ACTION//
+export const createRegister = (sessionClass) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_CLASS_REGISTER_LOADING
+    });
+
+    axiosInstance.post('/attendance/api/v1/create-register', sessionClass)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_CLASS_REGISTER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_CLASS_REGISTER_FAILED,
+                payload: err.response.data.result
+            });
+        });
+}
+
+export const getAllClassRegister = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CLASS_REGISTER_LOADING,
+        payload: sessionClassId
+    });
+
+    axiosInstance.get(`/attendance/api/v1/get/all/class-register/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CLASS_REGISTER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CLASS_REGISTER_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const updateRegisterLabel = (classRegisterId,classRegisterLabel) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_CLASS_REGISTER_LABEL_LOADING
+    });
+
+    axiosInstance.post(`/attendance/api/v1/update/class-register?ClassRegisterId=${classRegisterId}&RegisterLabel=${classRegisterLabel}`)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_CLASS_REGISTER_LABEL_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_CLASS_REGISTER_LABEL_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteClassRegister = (classRegisterId,sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_CLASS_REGISTER_LOADING
+    });
+
+    axiosInstance.post(`/attendance/api/v1/delete/class-register?Item=${classRegisterId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_CLASS_REGISTER_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllClassRegister(sessionClassId)(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_CLASS_REGISTER_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const continueClassRegister = (classRegisterId) => (dispatch) => {
+    dispatch({
+        type: actions.CONTINUE_CLASS_REGISTER_LOADING
+    });
+
+    axiosInstance.get(`/attendance/api/v1/continue-attendance?ClassRegisterId=${classRegisterId}`)
+    .then((res) => {
+        dispatch({
+            type: actions.CONTINUE_CLASS_REGISTER_SUCCESS,
+            payload: res.data.result
+        });
+    }).catch((err) => {
+        dispatch({
+            type: actions.CONTINUE_CLASS_REGISTER_FAILED,
+            payload: err.response.data.result
+        });
+    });
+}
+export const updateAttendance = (classRegisterId, studentContactId, isPresent, singleClassRegister) => (dispatch) => {
+    const entryIndex = singleClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
+    let entry = singleClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
+    if (entry) {
+        entry.ispresent = isPresent
+       singleClassRegister[0].attendanceList[entryIndex] = entry;
+    dispatch({
+               type: actions.UPDATE_ATTENDANCE,
+               payload: singleClassRegister
+           });
+  
+           axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
+               .then((res) => {
+                  entry.isPresent = res.data.result.isPresent;
+                  singleClassRegister[0].attendanceList[entryIndex] = entry
+                   dispatch({
+                       type: actions.UPDATE_ATTENDANCE,
+                       payload: singleClassRegister
+                   });
+               }).catch((err) => {
+                   showErrorToast('Ooopsss.... unable to update attendance, please confirm entries')(dispatch);
+               });
+       }
+    }
+       export const getAllStudentsPresent = (classRegisterId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_STUDENTS_PRESENT_LOADING,
+            payload: classRegisterId
+        });
+    
+        axiosInstance.get(`/attendance/api/v1/get/present-students?classRegisterId=${classRegisterId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_PRESENT_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_PRESENT_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+    }
+    export const getAllStudentsAbsent = (classRegisterId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_STUDENTS_ABSENT_LOADING,
+            payload: classRegisterId
+        });
+    
+        axiosInstance.get(`/attendance/api/v1/get/absent-students?classRegisterId=${classRegisterId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_ABSENT_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_ABSENT_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+    }
+//ATTENTANCE ACTION//

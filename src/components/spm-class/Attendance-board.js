@@ -2,10 +2,20 @@ import { Field, Formik } from "formik";
 import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../router/spm-path-locations";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
+import {
+  continueClassRegister,
+  createRegister,
+  deleteClassRegister,
+  getAllClassRegister,
+  getAllSessionClasses,
+  getAllStudentsAbsent,
+  getAllStudentsPresent,
+  updateRegisterLabel,
+} from "../../store/actions/class-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
+import { respondDialog, showHideDialog } from "../../store/actions/toaster-actions";
 
 const AttendanceBoard = () => {
   //VARIABLE DECLARATIONS
@@ -14,67 +24,79 @@ const AttendanceBoard = () => {
   const [isEditMode, setEditMode] = useState(false);
   const [indexRow, setIndexRow] = useState("");
   const [query, setQuery] = useState("");
+  const [classRegisterId, setClassRegisterId] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
+  const locations = useLocation();
   const state = useSelector((state) => state);
-  const { itemList: classList } = state.class;
+  const {
+    itemList: classList,
+    classRegister,
+    registerLabelUpdateSuccessful,
+  } = state.class;
   const { activeSession } = state.session;
+  const { dialogResponse } = state.alert;
+  const queryParams = new URLSearchParams(locations.search);
+    const sessionClassIdQuery = queryParams.get("sessionClassId");
+    const [sessionClassId, setSessionClassId] = useState(sessionClassIdQuery);
   // ACCESSING STATE FROM REDUX STORE
-  const details = [
-    {
-      detId: 1,
-      title: "Morning Attendance",
-      present: 115,
-      absent: 2,
-      total: 117,
-      date: "18-06-2022",
-      time: "7:30",
-    },
-    {
-      detId: 2,
-      title: "Evening Attendance",
-      present: 125,
-      absent: 5,
-      total: 120,
-      date: "18-06-2022",
-      time: "8:30",
-    },
-    {
-      detId: 3,
-      title: "Afternoon Attendance",
-      present: 100,
-      absent: 10,
-      total: 110,
-      date: "18-06-2022",
-      time: "9:30",
-    },
-    {
-      detId: 4,
-      title: "Night Attendance",
-      present: 115,
-      absent: 10,
-      total: 125,
-      date: "18-06-2022",
-      time: "10:30",
-    },
-  ];
+  
   React.useEffect(() => {
     getActiveSession()(dispatch);
   }, []);
+
+  React.useEffect(() => {
+    if (dialogResponse === "continue") {
+      deleteClassRegister(
+        classRegisterId,
+        sessionClassId
+      )(dispatch);
+      showHideDialog(false, null)(dispatch)
+      respondDialog("")(dispatch);
+      setShowMenuDropdown(false);
+    }
+    return () => {
+      respondDialog("")(dispatch);
+      setShowMenuDropdown(false);
+    };
+  }, [dialogResponse]);
+
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
   }, [activeSession]);
-  const filteredData = details.filter(post => {
+
+  React.useEffect(() => {
+    if (!sessionClassId && classList.length != 0) {
+      setSessionClassId(classList[0]?.sessionClassId);
+      getAllClassRegister(sessionClassId)(dispatch);
+    } else {
+      getAllClassRegister(sessionClassId)(dispatch);
+    }
+    if (registerLabelUpdateSuccessful) {
+      setEditMode(false);
+    }
+  }, [classList, sessionClassId, registerLabelUpdateSuccessful]);
+
+  const filteredClassRegister = classRegister.filter((register) => {
     if (query === "") {
       //if query is empty
-      return post;
-    } else if (post.title.toLowerCase().includes(query.toLowerCase())) {
+      return register;
+    } 
+    else if (register.classRegisterLabel.toLowerCase().includes(query.toLowerCase()) ) 
+     {
       //returns filtered array
-      return post;
+      return register;
     }
+    else if (register.dateTime.toLowerCase().includes(query.toLowerCase()) ) 
+    {
+     //returns filtered array
+     return register;
+   }
+   
   });
+  console.log("log1", sessionClassId);
   return (
     <>
       <div>
@@ -88,11 +110,13 @@ const AttendanceBoard = () => {
               </Card.Header>
               <Formik
                 initialValues={{
-                  sessionClassId: classList[0]?.sessionClassId,
+                  sessionClassId: sessionClassId,
                 }}
-                // validationSchema={validation}
                 enableReinitialize={true}
-                onSubmit={(values) => {}}
+                onSubmit={(values) => {
+                  createRegister(values)(dispatch);
+                  history.push(`${classLocations.classAttendance}?sessionClassId=${sessionClassId}`);
+                }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
                   <Card.Body className="px-0 bg-transparent">
@@ -130,12 +154,14 @@ const AttendanceBoard = () => {
                                 </svg>
                               </span>
                               <div>
-                              <input
-                                type="search"
-                                className="form-control text-lowercase"
-                                placeholder="Search..."
-                                onChange={event => setQuery(event.target.value)}
-                              />
+                                <input
+                                  type="search"
+                                  className="form-control text-lowercase"
+                                  placeholder="Search..."
+                                  onChange={(event) =>
+                                    setQuery(event.target.value)
+                                  }
+                                />
                               </div>
                             </div>
                           </p>
@@ -146,6 +172,16 @@ const AttendanceBoard = () => {
                                 name="sessionClassId"
                                 className="form-select"
                                 id="sessionClassId"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "sessionClassId",
+                                    e.target.value
+                                  );
+                                  setSessionClassId(e.target.value);
+                                  history.push(
+                                    `${classLocations.classAttendanceBoard}?sessionClassId=${e.target.value}`
+                                  );
+                                }}
                               >
                                 <option value="">Select Class</option>
                                 {classList.map((item, idx) => (
@@ -159,7 +195,7 @@ const AttendanceBoard = () => {
                               <button
                                 type="button"
                                 onClick={() => {
-                                  history.push(classLocations.classAttendance);
+                                  handleSubmit();
                                 }}
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
@@ -187,12 +223,12 @@ const AttendanceBoard = () => {
                       </Card.Body>
                     </Card>
                     <Row className="">
-                      {filteredData.map((det, idx) => (
+                      {filteredClassRegister.map((register, idx) => (
                         <Col md="6" lg="4" xl="3" className="">
                           <Card>
                             <Card.Body>
                               <div className="d-flex justify-content-between">
-                                <p className="mb-0">Title</p>
+                                <div className="mb-0">Title</div>
                                 <div className="dropdown show">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +237,6 @@ const AttendanceBoard = () => {
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     style={{ cursor: "pointer" }}
-                                    id={det.detId}
                                     onClick={(e) => {
                                       setShowMenuDropdown(!showMenuDropdown);
                                       setIndexRow(idx);
@@ -230,8 +265,7 @@ const AttendanceBoard = () => {
                                       </g>
                                     </g>
                                   </svg>
-                                  {showMenuDropdown && (
-                                    indexRow == idx &&
+                                  {showMenuDropdown && indexRow == idx && (
                                     <div
                                       x-placement="bottom-start"
                                       aria-labelledby=""
@@ -246,8 +280,16 @@ const AttendanceBoard = () => {
                                       data-popper-reference-hidden="false"
                                     >
                                       <div
-                                        onClick={() => {}}
-                                        className="dropdown-item"
+                                        onClick={() => {
+                                          continueClassRegister(
+                                            register.classRegisterId
+                                          )(dispatch);
+                                          history.push(
+                                            `${classLocations.classAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassId}`
+                                          );
+                                          setShowMenuDropdown(false);
+                                        }}
+                                        className={Number(register.dateTime.split("-")[0]) != new Date().getDate() ? "dropdown-item disabled":"dropdown-item"}
                                         role="button"
                                         draggable="false"
                                       >
@@ -295,6 +337,7 @@ const AttendanceBoard = () => {
                                         onClick={() => {
                                           setIndexRow(idx);
                                           setEditMode(!isEditMode);
+                                          setShowMenuDropdown(false);
                                         }}
                                         className="dropdown-item"
                                         role="button"
@@ -334,7 +377,10 @@ const AttendanceBoard = () => {
                                         Rename
                                       </div>
                                       <div
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                          setClassRegisterId(register.classRegisterId)
+                                          showHideDialog(true, "Are you sure you want to delete class register")(dispatch);
+                                        }}
                                         className="dropdown-item"
                                         role="button"
                                         draggable="false"
@@ -376,43 +422,94 @@ const AttendanceBoard = () => {
                               </div>
 
                               {!isEditMode ? (
-                                <h6 className="mb-3">{det.title}</h6>
+                                <h6 className="mb-3">
+                                  {register.classRegisterLabel}
+                                </h6>
                               ) : indexRow == idx ? (
-                                <input type="text" defaultValue={det.title} />
+                                <input
+                                  type="text"
+                                  name="classRegisterLabel"
+                                  defaultValue={register.classRegisterLabel}
+                                  onBlur={(e) => {
+                                    updateRegisterLabel(
+                                      register.classRegisterId,
+                                      e.target.value
+                                    )(dispatch);
+                                  }}
+                                  onKeyUp={(e) => {
+                                    e &&
+                                      e.keyCode == 13 &&
+                                      updateRegisterLabel(
+                                        register.classRegisterId,
+                                        e.target.value
+                                      )(dispatch);
+                                  }}
+                                />
                               ) : (
-                                <h6 className="mb-3">{det.title}</h6>
+                                <h6 className="mb-3">
+                                  {register.classRegisterLabel}
+                                </h6>
                               )}
                               <div className="d-flex align-items-center mb-3">
                                 <div>
                                   <div>Present</div>
-                                  <div className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center">
+                                  <div
+                                    className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
+                                    onClick={() => {
+                                      history.push(
+                                        `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}`
+                                      );
+                                      getAllStudentsPresent(
+                                        register.classRegisterId
+                                      )(dispatch);
+                                    }}
+                                  >
                                     <div className="btn-inner">
-                                      {det.present}
+                                      {register.totalStudentPresent}
                                     </div>
                                   </div>
                                 </div>
                                 <div className="px-3">
                                   <div>Absent</div>
-                                  <div className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center">
+                                  <div
+                                    className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
+                                    onClick={() => {
+                                      history.push(
+                                        `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}`
+                                      );
+                                      getAllStudentsAbsent(
+                                        register.classRegisterId
+                                      )(dispatch);
+                                    }}
+                                  >
                                     <div className="btn-inner">
-                                      {det.absent}
+                                      {register.totalStudentAbsent}
                                     </div>
                                   </div>
                                 </div>
                                 <div>
-                                  <div className="text-center">All Students</div>
-                                  <div className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center">
-                                    <div className="btn-inner">{det.total}</div>
+                                  <div className="text-center">
+                                    All Students
+                                  </div>
+                                  <div
+                                    className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
+                                    style={{ cursor: "default" }}
+                                  >
+                                    <div className="btn-inner">
+                                      {register.totalStudentInClass}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                               <div className="d-flex">
                                 <div className="" draggable="false">
-                                  <div className="text-success">{det.date}</div>
+                                  <div className="text-success">
+                                    {register.dateTime.split(" ")[0]}
+                                  </div>
                                 </div>
                                 <div className="px-2" draggable="false">
                                   <div className=" text-warning">
-                                    {det.time}
+                                    {register.dateTime.split(" ")[1]}
                                   </div>
                                 </div>
                               </div>
