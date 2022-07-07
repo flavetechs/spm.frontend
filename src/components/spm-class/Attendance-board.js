@@ -100,7 +100,7 @@ const AttendanceBoard = () => {
   });
   if (createSuccessful) {
     history.push(
-      `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
+      `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}`
     );
   }
   
@@ -291,7 +291,7 @@ const AttendanceBoard = () => {
                                             register.classRegisterId
                                           )(dispatch);
                                           history.push(
-                                            `${classLocations.classAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassId}`
+                                            `${classLocations.classAttendance}?classRegisterId=${register.classRegisterId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}

@@ -580,6 +580,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         singleClassRegister: payload,
+        newClassRegister:payload,
       };
 
     //ATTENDANCE
