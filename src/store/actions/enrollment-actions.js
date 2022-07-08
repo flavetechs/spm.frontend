@@ -97,7 +97,6 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
     }
     axiosInstance.post('/errollment/api/v1/unenroll/students', payload)
         .then((res) => {
-            console.log('unenrolled res', res);
             dispatch({
                 type: actions.UNENROLL_STUDENTS_SUCCESS,
                 payload: res.data.message.friendlyMessage
