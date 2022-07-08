@@ -17,7 +17,10 @@ import {
   returnListEnrolled,
   unEnrollStudent,
 } from "../../store/actions/enrollment-actions";
-import { getActiveSession } from "../../store/actions/session-actions";
+import {
+  getActiveSession,
+  getAllSession,
+} from "../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
 import { Field, Formik } from "formik";
 
@@ -41,11 +44,16 @@ const EnrolledStudents = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
+    getAllSession()(dispatch);
   }, []);
 
   React.useEffect(() => {
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+    if (!sessionId) {
+      getAllSessionClasses(activeSession?.sessionId)(dispatch);
+    } else {
+      getAllSessionClasses(sessionId)(dispatch);
+    }
+  }, [sessionId, activeSession]);
 
   React.useEffect(() => {
     getAllenrolledStudents()(dispatch);
@@ -132,7 +140,7 @@ const EnrolledStudents = () => {
                   <h4 className="card-title mb-3">Enrolled Student List</h4>
                 </div>
               </Card.Header>
-              <div className="d-md-flex justify-content-between">
+              <div className="d-lg-flex justify-content-between">
                 <div>
                   <div className="input-group">
                     <span className="input-group-text border-0" id="">
@@ -171,182 +179,179 @@ const EnrolledStudents = () => {
                   </div>
                 </div>
                 <Formik
-                    initialValues={{
-                      sessionId: activeSession?.sessionId,
-                      terms: activeSession?.terms.find(
-                        (term) => term.isActive == true
-                      )?.sessionTermId,
-                      sessionClassId: "",
-                    }}
-                    enableReinitialize={true}
-                    onSubmit={(values) => { }}
-                  >
-                    {({
-                      handleSubmit,
-                      values,
-                      touched,
-                      errors,
-                      setFieldValue,
-                    }) => (
-                <div className="d-flex justify-content-end">
-                  <div className=" me-3 dropdown">
-                    <Field
-                      as="select"
-                      name="sessionId"
-                      className="form-select"
-                      id="sessionId"
-                      onChange={(e) => {
-                        setSessionId(e.target.value);
-                      }}
-                    >
-                      <option value="">Select Session</option>
-                      {sessionList?.map((session, idx) => (
-                        <option
-                          key={idx}
-                          name={values.sessionId}
-                          value={session.sessionId.toLowerCase()}
+                  initialValues={{
+                    sessionId: activeSession?.sessionId,
+                    terms: activeSession?.terms.find(
+                      (term) => term.isActive == true
+                    )?.sessionTermId,
+                    sessionClassId: classList[0]?.sessionClassId,
+                  }}
+                  enableReinitialize={true}
+                  onSubmit={(values) => {}}
+                >
+                  {({ handleSubmit, values, setFieldValue }) => (
+                    <div className="d-lg-flex justify-content-end">
+                      <div className=" mx-sm-3 mx-lg-1 col-sm-11 col-lg-4 mt-2 mt-lg-0">
+                        <Field
+                          as="select"
+                          name="sessionId"
+                          className="form-select"
+                          id="sessionId"
+                          onChange={(e) => {
+                            setFieldValue("sessionId", e.target.value);
+                            setSessionId(e.target.value);
+                          }}
                         >
-                          {session.startDate} / {session.endDate}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className=" me-3 dropdown">
-                    <Field
-                      as="select"
-                      name="terms"
-                      className="form-select"
-                      id="terms"
-                    >
-                      <option value="">Select Terms</option>
-                      {sessionList
-                        ?.find(
-                          (session, idx) =>
-                            session.sessionId.toLowerCase() == values.sessionId
-                        )
-                        ?.terms.map((term, id) => (
-                          <option
-                            key={id}
-                            name={values.terms}
-                            value={term.sessionTermId.toLowerCase()}
-                            selected={term.sessionTermId == values.terms}
-                          >
-                            {term.termName}
-                          </option>
-                        ))}
-                    </Field>
-                  </div>
-                  <div className=" me-3 dropdown">
-                    <Field
-                      as="select"
-                      name="sessionClassId"
-                      className="form-select"
-                      id="sessionClassId"
-                      onChange={(e) => {
-                        setSessionClassId(e.target.value);
-                        // history.push(
-                        //   `${classLocations.classAttendanceBoard}?sessionClassId=${e.target.value}`
-                        // );
-                      }}
-                    >
-                      {classList.map((item, idx) => (
-                        <option key={idx} value={item.sessionClassId}>
-                          {item.class}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  {showUnenrollButton ? (
-                    <button
-                      type="button"
-                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                      onClick={() => {
-                        setUnenrollButton(!showUnenrollButton);
-                        setShowCheckBoxes(!showCheckBoxes);
-                      }}
-                    >
-                      <i className="btn-inner">
-                        <svg
-                          width="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          stroke="currentColor"
+                          <option value="">Select Session</option>
+                          {sessionList?.map((session, idx) => (
+                            <option
+                              key={idx}
+                              name={values.sessionId}
+                              value={session.sessionId.toLowerCase()}
+                            >
+                              {session.startDate} / {session.endDate}
+                            </option>
+                          ))}
+                        </Field>
+                      </div>
+                      <div className=" mx-sm-3 mx-lg-1 col-sm-11 col-lg-2 mt-2 mt-lg-0">
+                        <Field
+                          as="select"
+                          name="terms"
+                          className="form-select"
+                          id="terms"
                         >
-                          <path
-                            d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M20.708 6.23975H3.75"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg>
-                      </i>
-                      <span> unenroll</span>
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                      onClick={() => {
-                        const message =
-                          selectedIds.length === 1
-                            ? `Are you sure to unenroll student ?`
-                            : `Are you sure to unenroll students ?`;
-                        showHideDialog(true, message)(dispatch);
-                      }}
-                    >
-                      <i className="btn-inner">
-                        <svg
-                          width="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          stroke="currentColor"
+                          <option value="">Select Terms</option>
+                          {sessionList
+                            ?.find(
+                              (session, idx) =>
+                                session.sessionId.toLowerCase() ==
+                                values.sessionId
+                            )
+                            ?.terms.map((term, id) => (
+                              <option
+                                key={id}
+                                name={values.terms}
+                                value={term.sessionTermId.toLowerCase()}
+                                selected={term.sessionTermId == values.terms}
+                              >
+                                {term.termName}
+                              </option>
+                            ))}
+                        </Field>
+                      </div>
+                      <div className=" mx-sm-3 mx-lg-1 col-sm-11 col-lg-3 mt-2 mt-lg-0">
+                        <Field
+                          as="select"
+                          name="sessionClassId"
+                          className="form-select"
+                          id="sessionClassId"
+                          onChange={(e) => {
+                            setFieldValue("sessionClassId", e.target.value);
+                            setSessionClassId(e.target.value);
+                            // history.push(
+                            //   `${classLocations.classAttendanceBoard}?sessionClassId=${e.target.value}`
+                            // );
+                          }}
                         >
-                          <path
-                            d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M20.708 6.23975H3.75"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg>
-                      </i>
-                      <span> Unenroll selected Student</span>
-                    </button>
-                  )}{" "}
-                </div>
-                   )}
-                   </Formik>
+                          {classList.map((item, idx) => (
+                            <option key={idx} value={item.sessionClassId}>
+                              {item.class}
+                            </option>
+                          ))}
+                        </Field>
+                      </div>
+                      {showUnenrollButton ? (
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-2 mt-3 btn btn-primary"
+                          onClick={() => {
+                            setUnenrollButton(!showUnenrollButton);
+                            setShowCheckBoxes(!showCheckBoxes);
+                          }}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              stroke="currentColor"
+                            >
+                              <path
+                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M20.708 6.23975H3.75"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> unenroll</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                          onClick={() => {
+                            const message =
+                              selectedIds.length === 1
+                                ? `Are you sure to unenroll student ?`
+                                : `Are you sure to unenroll students ?`;
+                            showHideDialog(true, message)(dispatch);
+                          }}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              stroke="currentColor"
+                            >
+                              <path
+                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M20.708 6.23975H3.75"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> Unenroll selected Student</span>
+                        </button>
+                      )}{" "}
+                    </div>
+                  )}
+                </Formik>
               </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
