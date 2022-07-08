@@ -56,8 +56,13 @@ const EnrolledStudents = () => {
   }, [sessionId, activeSession]);
 
   React.useEffect(() => {
-    getAllenrolledStudents()(dispatch);
-  }, []);
+    if (!sessionClassId && classList.length != 0) {
+      setSessionClassId(classList[0]?.sessionClassId);
+      getAllenrolledStudents()(dispatch);
+    } else {
+      getAllenrolledStudents()(dispatch);
+    }
+  }, [sessionClassId,classList]);
 
   //UNENROLL HANDLER
   React.useEffect(() => {
@@ -184,7 +189,7 @@ const EnrolledStudents = () => {
                     terms: activeSession?.terms.find(
                       (term) => term.isActive == true
                     )?.sessionTermId,
-                    sessionClassId: classList[0]?.sessionClassId,
+                    sessionClassId: sessionClassId,
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {}}
