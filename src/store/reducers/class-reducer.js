@@ -580,9 +580,20 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         singleClassRegister: payload,
+      };
+
+      case actions.CREATE_ATTENDANCE: 
+      return {
+        ...state,
         newClassRegister:payload,
       };
 
+      case actions.RESET_CREATE_SUCCESSFUL_STATE: {
+        return {
+          ...state,
+          createSuccessful: payload,
+        };
+      }
     //ATTENDANCE
 
     default:

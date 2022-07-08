@@ -581,7 +581,7 @@ export const updateAttendance = (classRegisterId, studentContactId, isPresent, s
                type: actions.UPDATE_ATTENDANCE,
                payload: singleClassRegister
            });
-  
+
            axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
                .then((res) => {
                   entry.isPresent = res.data.result.isPresent;
@@ -595,6 +595,30 @@ export const updateAttendance = (classRegisterId, studentContactId, isPresent, s
                });
        }
     }
+    export const createAttendance = (classRegisterId, studentContactId, isPresent, newClassRegister) => (dispatch) => {
+        const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
+        let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
+        if (entry) {
+            entry.ispresent = isPresent
+           newClassRegister[0].attendanceList[entryIndex] = entry;
+        dispatch({
+                   type: actions.CREATE_ATTENDANCE,
+                   payload: newClassRegister
+               });
+      
+               axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
+                   .then((res) => {
+                      entry.isPresent = res.data.result.isPresent;
+                      newClassRegister[0].attendanceList[entryIndex] = entry
+                       dispatch({
+                           type: actions.CREATE_ATTENDANCE,
+                           payload: newClassRegister
+                       });
+                   }).catch((err) => {
+                       showErrorToast('Ooopsss.... unable to add attendance, please confirm entries')(dispatch);
+                   });
+           }
+        }
        export const getAllStudentsPresent = (classRegisterId) => (dispatch) => {
         dispatch({
             type: actions.FETCH_STUDENTS_PRESENT_LOADING,
@@ -635,4 +659,10 @@ export const updateAttendance = (classRegisterId, studentContactId, isPresent, s
     }
 
 
+export const resetCreateSuccessfulState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_CREATE_SUCCESSFUL_STATE,
+          payload: false
+      });
+  }
 //ATTENTANCE ACTION//

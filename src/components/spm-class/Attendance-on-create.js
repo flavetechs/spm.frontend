@@ -6,7 +6,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../router/spm-path-locations";
 import {
   continueClassRegister,
-  updateAttendance,
+  createAttendance,
+  resetCreateSuccessfulState,
   updateRegisterLabel,
 } from "../../store/actions/class-actions";
 
@@ -18,7 +19,7 @@ const Attendance = () => {
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { newClassRegister, registerLabelUpdateSuccessful } = state.class;
+  const { newClassRegister, registerLabelUpdateSuccessful, createSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -29,7 +30,14 @@ const Attendance = () => {
    }
   }, [registerLabelUpdateSuccessful]);
 
-
+// if(!createSuccessful){
+//     const queryParams = new URLSearchParams(locations.search);
+//     const sessionClassId = queryParams.get("sessionClassId");
+// history.push(
+//       `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+//     );
+// }
+console.log('createSuccessful',createSuccessful);
   return (
     <>
       <div>
@@ -107,7 +115,7 @@ const Attendance = () => {
                                       id=""
                                       defaultChecked={student.isPresent}
                                       onChange={(e) => {
-                                        updateAttendance(
+                                        createAttendance(
                                           newClassRegister?.classRegisterId,
                                           student.studentContactId,
                                           e.target.checked,
@@ -128,7 +136,13 @@ const Attendance = () => {
                 <div className="d-flex justify-content-end">
                   <button
                     onClick={() => {
-                        history.goBack();
+                        resetCreateSuccessfulState()(dispatch);
+                        const queryParams = new URLSearchParams(locations.search);
+                        const sessionClassId = queryParams.get("sessionClassId");
+                        console.log("sessionClassId",sessionClassId);
+                        history.push(
+                            `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+                          );
                     }}
                     className="btn btn-success mx-3"
                   >

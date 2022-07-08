@@ -100,7 +100,7 @@ const AttendanceBoard = () => {
   });
   if (createSuccessful) {
     history.push(
-      `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}`
+      `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
     );
   }
   
