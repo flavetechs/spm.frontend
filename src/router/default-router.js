@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, gradeSetting, resultManagement } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -95,8 +95,8 @@ const DashboardRouter = () => {
                     <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
 
                      {/* enrollment */}
-                     <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
-                     <Route path={enrollment.enrolledStudents} exact component={EnrolledStudents} />
+                     <Route path={studentsLocations.unenrolledStudents} exact component={UnenrolledStudentsList} />
+                     <Route path={studentsLocations.enrolledStudents} exact component={EnrolledStudents} />
 
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />
