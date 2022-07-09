@@ -532,7 +532,7 @@ const StudentList = () => {
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2">Unenroll Student</Tooltip>}
+                                overlay={<Tooltip id="button-tooltip-2">Unenroll</Tooltip>}
                               >
                                 <Link
                                   className="btn btn-sm btn-icon btn-danger"

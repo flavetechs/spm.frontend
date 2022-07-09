@@ -30,13 +30,13 @@ const Attendance = () => {
    }
   }, [registerLabelUpdateSuccessful]);
 
-if(!createSuccessful){
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
-history.push(
-      `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
-    );
-}
+// if(!createSuccessful){
+//     const queryParams = new URLSearchParams(locations.search);
+//     const sessionClassId = queryParams.get("sessionClassId");
+// history.push(
+//       `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+//     );
+// }
 console.log('createSuccessful',createSuccessful);
   return (
     <>
@@ -137,12 +137,12 @@ console.log('createSuccessful',createSuccessful);
                   <button
                     onClick={() => {
                         resetCreateSuccessfulState()(dispatch);
-                        // const queryParams = new URLSearchParams(locations.search);
-                        // const sessionClassId = queryParams.get("sessionClassId");
-                        // console.log("sessionClassId",sessionClassId);
-                        // history.push(
-                        //     `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
-                        //   );
+                        const queryParams = new URLSearchParams(locations.search);
+                        const sessionClassId = queryParams.get("sessionClassId");
+                        console.log("sessionClassId",sessionClassId);
+                        history.push(
+                            `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+                          );
                     }}
                     className="btn btn-success mx-3"
                   >
