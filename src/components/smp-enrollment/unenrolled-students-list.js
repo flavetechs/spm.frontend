@@ -156,7 +156,7 @@ const UnenrolledStudentsList = () => {
                     </div>
                   </div>
                 </div>
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end px-2">
                 {showEnrollButton ? (
                   <button
                     type="button"

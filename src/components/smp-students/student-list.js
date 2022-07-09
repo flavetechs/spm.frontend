@@ -186,7 +186,7 @@ const StudentList = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="d-flex">
+                  <div className="d-flex  px-3">
                     {showDeleteButton ? (
                       <button
                         type="button"

@@ -145,7 +145,7 @@ const EnrolledStudents = () => {
                   <h4 className="card-title mb-3">Enrolled Student List</h4>
                 </div>
               </Card.Header>
-              <div className="d-lg-flex justify-content-between">
+              <div className="d-xl-flex justify-content-between">
                 <div>
                   <div className="input-group">
                     <span className="input-group-text border-0" id="">
@@ -195,8 +195,8 @@ const EnrolledStudents = () => {
                   onSubmit={(values) => {}}
                 >
                   {({ handleSubmit, values, setFieldValue }) => (
-                    <div className="d-lg-flex justify-content-end">
-                      <div className=" mx-sm-3 mx-lg-1 col-sm-11 col-lg-4 mt-2 mt-lg-0">
+                    <div className="d-xl-flex justify-content-end px-2">
+                      <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-4 mt-2 mt-xl-0">
                         <Field
                           as="select"
                           name="sessionId"
@@ -207,7 +207,7 @@ const EnrolledStudents = () => {
                             setSessionId(e.target.value);
                           }}
                         >
-                          <option value="">Select Session</option>
+                     
                           {sessionList?.map((session, idx) => (
                             <option
                               key={idx}
@@ -219,14 +219,14 @@ const EnrolledStudents = () => {
                           ))}
                         </Field>
                       </div>
-                      <div className=" mx-sm-3 mx-lg-1 col-sm-11 col-lg-2 mt-2 mt-lg-0">
+                      <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-3 mt-2 mt-xl-0">
                         <Field
                           as="select"
                           name="terms"
                           className="form-select"
                           id="terms"
                         >
-                          <option value="">Select Terms</option>
+
                           {sessionList
                             ?.find(
                               (session, idx) =>
@@ -245,7 +245,7 @@ const EnrolledStudents = () => {
                             ))}
                         </Field>
                       </div>
-                      <div className=" mx-sm-3 mx-lg-1 col-sm-11 col-lg-3 mt-2 mt-lg-0">
+                      <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-3 mt-2 mt-xl-0">
                         <Field
                           as="select"
                           name="sessionClassId"
@@ -269,7 +269,7 @@ const EnrolledStudents = () => {
                       {showUnenrollButton ? (
                         <button
                           type="button"
-                          className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-2 mt-3 btn btn-primary"
+                          className="text-center btn-primary btn-icon me-2  mt-3 mt-xl-0  btn btn-primary"
                           onClick={() => {
                             setUnenrollButton(!showUnenrollButton);
                             setShowCheckBoxes(!showCheckBoxes);
@@ -311,7 +311,7 @@ const EnrolledStudents = () => {
                       ) : (
                         <button
                           type="button"
-                          className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                          className="text-center btn-primary btn-icon  me-2 mt-3 mt-xl-0 btn btn-primary"
                           onClick={() => {
                             const message =
                               selectedIds.length === 1
