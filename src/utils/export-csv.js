@@ -23,7 +23,6 @@ export function ExportCSV(tableId, fileName = '') {
         downloadLink.href = 'data:' + dataType + ', ' + tableHtml;
 
         downloadLink.download = fileName;
-        document.head.removeChild(link);
         downloadLink.click();
     }
 
