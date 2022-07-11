@@ -17,6 +17,7 @@
     "apexcharts": "^3.27.3",
     "axios": "^0.26.0",
     "bootstrap": "^5.1.0",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "fullcalendar-interaction": "^5.3.3",
     "jquery": "^3.6.0",
@@ -45,6 +46,7 @@
     "waypoints": "^4.0.1",
     "web-vitals": "^1.1.2",
     "webpack": "4.44.2",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "scripts": {
