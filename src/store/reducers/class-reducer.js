@@ -576,12 +576,6 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
       }
 
-    case actions.UPDATE_ATTENDANCE: 
-      return {
-        ...state,
-        singleClassRegister: payload,
-      };
-
       case actions.CREATE_ATTENDANCE: 
       return {
         ...state,

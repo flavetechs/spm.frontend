@@ -223,7 +223,6 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
 export const getAllSessionClasses = (sessionId) => (dispatch) => {
 
     if(!sessionId){
-        // showErrorToast('Active Session Not found')(dispatch)
         return;
     }
     
@@ -510,7 +509,7 @@ export const getAllClassRegister = (sessionClassId) => (dispatch) => {
         });
 }
 
-export const updateRegisterLabel = (classRegisterId,classRegisterLabel) => (dispatch) => {
+export const updateRegisterLabel = (classRegisterId,classRegisterLabel, sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASS_REGISTER_LABEL_LOADING
     });
@@ -521,6 +520,7 @@ export const updateRegisterLabel = (classRegisterId,classRegisterLabel) => (disp
                 type: actions.UPDATE_CLASS_REGISTER_LABEL_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllClassRegister(sessionClassId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -571,30 +571,16 @@ export const continueClassRegister = (classRegisterId) => (dispatch) => {
         });
     });
 }
-export const updateAttendance = (classRegisterId, studentContactId, isPresent, singleClassRegister) => (dispatch) => {
-    const entryIndex = singleClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
-    let entry = singleClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
-    if (entry) {
-        entry.ispresent = isPresent
-       singleClassRegister[0].attendanceList[entryIndex] = entry;
-    dispatch({
-               type: actions.UPDATE_ATTENDANCE,
-               payload: singleClassRegister
-           });
+export const updateAttendance = (classRegisterId, studentContactId, isPresent) => (dispatch) => {
+    axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
+    .then((res) => {
+        console.log('success', res.data.result);
+    }).catch((err) => {
+        showErrorToast('Ooopsss.... unable to update attendance')(dispatch);
+    });
+}
 
-           axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
-               .then((res) => {
-                  entry.isPresent = res.data.result.isPresent;
-                  singleClassRegister[0].attendanceList[entryIndex] = entry
-                   dispatch({
-                       type: actions.UPDATE_ATTENDANCE,
-                       payload: singleClassRegister
-                   });
-               }).catch((err) => {
-                   showErrorToast('Ooopsss.... unable to update attendance, please confirm entries')(dispatch);
-               });
-       }
-    }
+
     export const createAttendance = (classRegisterId, studentContactId, isPresent, newClassRegister) => (dispatch) => {
         const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
         let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
