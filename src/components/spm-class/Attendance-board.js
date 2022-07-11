@@ -9,14 +9,12 @@ import {
   createRegister,
   deleteClassRegister,
   getAllClassRegister,
-  getAllSessionClasses,
   getAllStudentsAbsent,
   getAllStudentsPresent,
   resetCreateSuccessfulState,
   updateRegisterLabel,
 } from "../../store/actions/class-actions";
 import { getAllStaffClasses } from "../../store/actions/results-actions";
-import { getActiveSession } from "../../store/actions/session-actions";
 import {
   respondDialog,
   showHideDialog,

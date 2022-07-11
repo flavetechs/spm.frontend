@@ -18,7 +18,7 @@ const Attendance = () => {
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { singleClassRegister, registerLabelUpdateSuccessful } = state.class;
+  const { singleClassRegister } = state.class;
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
   const classRegisterId = queryParams.get("classRegisterId");

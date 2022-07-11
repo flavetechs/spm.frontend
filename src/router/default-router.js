@@ -43,10 +43,10 @@ import MasterList from '../components/smp-result-management/master-list';
 import PublishResultEdit from '../components/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
 import ResultTemplateOne from '../components/smp-result-management/result-templates/template-one';
-import Attendance from '../components/spm-class/Attendance';
-import AttendanceBoard from '../components/spm-class/Attendance-board';
+import Attendance from '../components/spm-class/attendance-on-update';
+import AttendanceBoard from '../components/spm-class/attendance-board';
 import ResultTemplateTwo from '../components/smp-result-management/result-templates/template-two';
-import AttendancePresence from '../components/spm-class/Attendance-presence';
+import AttendancePresence from '../components/spm-class/attendance-presence';
 
 const DashboardRouter = () => {
 
