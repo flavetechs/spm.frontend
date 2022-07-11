@@ -41,6 +41,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
           bordered
           responsive
           className="mt-2"
+          id="master-list"
           style={{border: "1px solid grey"}}
           ref={tableRef}
         >

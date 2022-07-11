@@ -44,6 +44,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
           bordered
           responsive
           className="mt-2"
+          id="cumulative-master-list"
           style={{border: "1px solid grey"}}
           ref={tableRef}
         >
