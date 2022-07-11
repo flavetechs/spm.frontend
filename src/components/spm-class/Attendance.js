@@ -1,33 +1,32 @@
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import React from "react";
 import { Card, Col, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../router/spm-path-locations";
 import {
   continueClassRegister,
   updateAttendance,
-  updateRegisterLabel,
 } from "../../store/actions/class-actions";
+
 
 const Attendance = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
+  const textInput = React.createRef();
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { singleClassRegister, registerLabelUpdateSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
-
+  const queryParams = new URLSearchParams(locations.search);
+  const classRegisterId = queryParams.get("classRegisterId");
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const classRegisterId = queryParams.get("classRegisterId");
     if (classRegisterId) {
-    continueClassRegister(classRegisterId)(dispatch);
+      continueClassRegister(classRegisterId)(dispatch);
     }
-  }, [registerLabelUpdateSuccessful]);
+  }, []);
 
 
   return (
@@ -44,7 +43,7 @@ const Attendance = () => {
                     }}
                     // validationSchema={validation}
                     enableReinitialize={true}
-                    onSubmit={(values) => {}}
+                    onSubmit={(values) => { }}
                   >
                     {({
                       handleSubmit,
@@ -54,35 +53,15 @@ const Attendance = () => {
                       errors,
                     }) => (
                       <div>
-                        <Table size="md" responsive striped style={{ width: "60vw" }}>
+                        <Table size="md" className="table-bordered" responsive striped style={{ width: "60vw" }}>
                           <thead>
-                          <tr>
-                              <td colSpan={4}>
+                            <tr>
+                              <td colSpan={4} className={'bg-white'}>
                                 <h5
                                   className="text-center"
                                   style={{ color: "#2d2d2d" }}
                                 >
-                                  TITLE
-                                  <Field
-                                    type="text"
-                                    className="form-control text-center"
-                                    name="classRegisterLabel"
-                                    id="classRegisterLabel"
-                                    onBlur={(e) => {
-                                      updateRegisterLabel(
-                                        singleClassRegister?.classRegisterId,
-                                        e.target.value
-                                      )(dispatch);
-                                    }}
-                                    onKeyUp={(e) => {
-                                      e &&
-                                        e.keyCode == 13 &&
-                                        updateRegisterLabel(
-                                          singleClassRegister?.classRegisterId,
-                                          e.target.value
-                                        )(dispatch);
-                                    }}
-                                  />
+                                  {singleClassRegister.classRegisterLabel}
                                 </h5>
                               </td>
                             </tr>
@@ -97,27 +76,22 @@ const Attendance = () => {
                           </thead>
                           <tbody>
                             {singleClassRegister?.attendanceList?.map((student, idx) => (
-                                <tr key={idx} className="text-uppercase">
-                                  <td className="text-center">{idx + 1}</td>
-                                  <td>{student.studentName}</td>
-                                  <td>{student.registrationNumber}</td>
-                                  <td className="text-center">
-                                    <input
-                                      type="checkbox"
-                                      id=""
-                                      defaultChecked={student.isPresent}
-                                      onChange={(e) => {
-                                        updateAttendance(
-                                          singleClassRegister?.classRegisterId,
-                                          student.studentContactId,
-                                          e.target.checked,
-                                          singleClassRegister
-                                        )(dispatch);
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              )
+                              <tr key={idx} className="text-uppercase">
+                                <td className="text-center">{idx + 1}</td>
+                                <td>{student.studentName}</td>
+                                <td>{student.registrationNumber}</td>
+                                <td className="text-center">
+                                  <input
+                                    type="checkbox"
+                                    id=""
+                                    defaultChecked={student.isPresent}
+                                    onChange={(e) => {
+                                      updateAttendance(singleClassRegister?.classRegisterId, student.studentContactId, e.target.checked)(dispatch);
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            )
                             )}
                           </tbody>
                         </Table>
