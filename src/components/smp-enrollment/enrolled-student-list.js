@@ -186,9 +186,6 @@ const EnrolledStudents = () => {
                 <Formik
                   initialValues={{
                     sessionId: activeSession?.sessionId,
-                    terms: activeSession?.terms.find(
-                      (term) => term.isActive == true
-                    )?.sessionTermId,
                     sessionClassId: sessionClassId,
                   }}
                   enableReinitialize={true}
@@ -219,32 +216,7 @@ const EnrolledStudents = () => {
                           ))}
                         </Field>
                       </div>
-                      <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-3 mt-2 mt-xl-0">
-                        <Field
-                          as="select"
-                          name="terms"
-                          className="form-select"
-                          id="terms"
-                        >
-
-                          {sessionList
-                            ?.find(
-                              (session, idx) =>
-                                session.sessionId.toLowerCase() ==
-                                values.sessionId
-                            )
-                            ?.terms.map((term, id) => (
-                              <option
-                                key={id}
-                                name={values.terms}
-                                value={term.sessionTermId.toLowerCase()}
-                                selected={term.sessionTermId == values.terms}
-                              >
-                                {term.termName}
-                              </option>
-                            ))}
-                        </Field>
-                      </div>
+                    
                       <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-3 mt-2 mt-xl-0">
                         <Field
                           as="select"

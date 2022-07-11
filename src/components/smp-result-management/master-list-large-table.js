@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
-// import { useDownloadExcel } from "react-export-table-to-excel";
+import { ExportCSV } from "../../utils/export-csv";
+
 
 const MasterListLargeTable = ({ masterEntry }) => {
   const tableRef = useRef(null);
@@ -19,24 +20,23 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
   return (
     <>
+   
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
+
           <Button
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
+            onClick={() => {
+              ExportCSV('master-list', 'master-list')
+            }}
           >
             Download
           </Button>
         </div>
 
-        <Table
-          size="md"
-          bordered
-          responsive
-          className="mt-2 border-secondary"
-          ref={tableRef}
-        >
+        <Table id="master-list" size="md" bordered responsive className="mt-2 border-secondary" >
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
               <td

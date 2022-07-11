@@ -51,12 +51,11 @@ export const studentsLocations = {
   studentAdd: "/dashboard/smp-student/add-student",
   studentEdit: "/dashboard/smp-student/edit-student",
   studentDetails: "/dashboard/smp-student/student-details",
+  enrolledStudents: "/dashboard/smp-student/enrollment",
+  unenrolledStudents: "/dashboard/smp-student/unenrollment",
 };
 
-export const enrollment = {
-  enrolledStudents: "/dashboard/smp-enrollment/enrollment",
-  unenrolledStudents: "/dashboard/smp-enrollment/unenrollment",
-}
+
 
 export const gradeSetting = {
   setting: "/dashboard/smp-grade/setting"
