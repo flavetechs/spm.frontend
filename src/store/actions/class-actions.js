@@ -651,4 +651,16 @@ export const resetCreateSuccessfulState = () => (dispatch) => {
           payload: false
       });
   }
+  export const resetclassRegisterState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_CLASS_REGISTER_STATE,
+          payload: [],
+      });
+  }
+  export const resetSingleClassRegisterState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_SINGLE_CLASS_REGISTER_STATE,
+          payload: null,
+      });
+  }
 //ATTENTANCE ACTION//

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
   continueClassRegister,
+  resetSingleClassRegisterState,
   updateAttendance,
 } from "../../store/actions/class-actions";
 
@@ -25,6 +26,9 @@ const Attendance = () => {
   React.useEffect(() => {
     if (classRegisterId) {
       continueClassRegister(classRegisterId)(dispatch);
+    }
+    return () => {
+      resetSingleClassRegisterState()(dispatch)
     }
   }, []);
 
@@ -61,7 +65,7 @@ const Attendance = () => {
                                   className="text-center"
                                   style={{ color: "#2d2d2d" }}
                                 >
-                                  {singleClassRegister.classRegisterLabel}
+                                  {singleClassRegister?.classRegisterLabel}
                                 </h5>
                               </td>
                             </tr>

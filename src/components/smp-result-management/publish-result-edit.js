@@ -75,7 +75,7 @@ const PublishResultEdit = () => {
                     )(dispatch);
                   }}
                 >
-                  Preview
+                  Refresh
                 </Button>
                 <Button
                   type="button"

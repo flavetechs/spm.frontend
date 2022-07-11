@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
+import { ExportCSV } from "../../utils/export-csv";
 
 const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const tableRef = useRef(null);
@@ -30,6 +31,9 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
+            onClick={() => {
+              ExportCSV('cumulative-master-list', 'cumulative-master-list')
+            }}
           >
             Download
           </Button>
