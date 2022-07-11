@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  getAllCumulativeMasterListentries,
-  nullifyCumulativeListEntryOnExit,
+  getAllCumulativeMasterList,
+  resetCumulativeListEntryOnExit,
 } from "../../store/actions/results-actions";
 import {
   getActiveSession,
@@ -25,8 +25,8 @@ const CumulativeMasterList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList } = state.class;
-  const { cumulativeListEntry } = state.results;
+  const { itemList: classList } = state.class;
+  const { cumulativeEntry } = state.results;
   const { activeSession, sessionList } = state.session;
   const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
@@ -43,6 +43,10 @@ const CumulativeMasterList = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
+    return () => {
+      resetCumulativeListEntryOnExit(cumulativeEntry)(dispatch);
+      setShowCumulativeMasterListTable(false);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -54,14 +58,12 @@ const CumulativeMasterList = () => {
   }, [sessionId, activeSession]);
 
   React.useEffect(() => {
-    if (cumulativeListEntry) {
+    if (cumulativeEntry) {
       setShowCumulativeMasterListTable(true);
-    }
-    return () => {
-      nullifyCumulativeListEntryOnExit(cumulativeListEntry)(dispatch);
+    } else if (!cumulativeEntry) {
       setShowCumulativeMasterListTable(false);
-    };
-  }, [cumulativeListEntry]);
+    }
+  }, [cumulativeEntry]);
 
   return (
     <>
@@ -76,17 +78,16 @@ const CumulativeMasterList = () => {
                 {!showCumulativeMasterListTable ? (
                   <Formik
                     initialValues={{
-                      sessionId: activeSession?.sessionId.toUpperCase(),
-                      terms: activeSession?.terms
-                        .filter((term, i) => term.isActive == true)
-                        .map((term, i) => term.sessionTermId)
-                        .toString(),
+                      sessionId: activeSession?.sessionId,
+                      terms: activeSession?.terms.find(
+                        (term) => term.isActive == true
+                      )?.sessionTermId,
                       sessionClassId: "",
                     }}
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      getAllCumulativeMasterListentries(
+                      getAllCumulativeMasterList(
                         values.sessionClassId,
                         values.terms
                       )(dispatch);
@@ -126,13 +127,13 @@ const CumulativeMasterList = () => {
                               }}
                             >
                               <option value="">Select Session</option>
-                              {sessionList?.map((list, idx) => (
+                              {sessionList?.map((session, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionId}
-                                  value={list.sessionId}
+                                  value={session.sessionId.toLowerCase()}
                                 >
-                                  {list.startDate} / {list.endDate}
+                                  {session.startDate} / {session.endDate}
                                 </option>
                               ))}
                             </Field>
@@ -157,25 +158,22 @@ const CumulativeMasterList = () => {
                             >
                               <option value="">Select Terms</option>
                               {sessionList
-                                ?.filter(
-                                  (list, idx) =>
-                                    list.sessionId.toUpperCase() ==
+                                ?.find(
+                                  (session, idx) =>
+                                    session.sessionId.toLowerCase() ==
                                     values.sessionId
-                                )
-                                .map((list, id) =>
-                                  list.terms.map((term, id) => (
-                                    <option
-                                      key={id}
-                                      name={values.terms}
-                                      value={term.sessionTermId}
-                                      selected={
-                                        term.sessionTermId == values.terms
-                                      }
-                                    >
-                                      {term.termName}
-                                    </option>
-                                  ))
-                                )}
+                                )?.terms.map((term, id) => (
+                                  <option
+                                    key={id}
+                                    name={values.terms}
+                                    value={term.sessionTermId.toLowerCase()}
+                                    selected={
+                                      term.sessionTermId == values.terms
+                                    }
+                                  >
+                                    {term.termName}
+                                  </option>
+                                ))}
                             </Field>
                           </Col>
                           <Col md="10">
@@ -200,13 +198,13 @@ const CumulativeMasterList = () => {
                               id="sessionClassId"
                             >
                               <option value="">Select Class</option>
-                              {itemList.map((list, idx) => (
+                              {classList.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
-                                  value={list.sessionClassId}
+                                  value={item.sessionClassId}
                                 >
-                                  {list.class}
+                                  {item.class}
                                 </option>
                               ))}
                             </Field>
@@ -227,13 +225,13 @@ const CumulativeMasterList = () => {
                 ) : (
                   <div>
                     <CumulativeMasterListSmallTable
-                      cumulativeListEntry={cumulativeListEntry}
+                      cumulativeEntry={cumulativeEntry}
                       setShowCumulativeMasterListTable={
                         setShowCumulativeMasterListTable
                       }
                     />
                     <CumulativeMasterListLargeTable
-                      cumulativeListEntry={cumulativeListEntry}
+                      cumulativeEntry={cumulativeEntry}
                     />
                   </div>
                 )}

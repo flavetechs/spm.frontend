@@ -1,26 +1,21 @@
 import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
-// import { useDownloadExcel } from "react-export-table-to-excel";
+import { ExportCSV } from "../../utils/export-csv";
 
-const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
+const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const tableRef = useRef(null);
-  //   const { onDownload } = useDownloadExcel({
-  //     currentTableRef: tableRef.current,
-  //     filename: "Master-list Table",
-  //     sheet: "Result List"
-  // });
 
-  if (cumulativeListEntry?.resultList == null) {
-    cumulativeListEntry.resultList = [];
+  if (cumulativeEntry?.resultList == null) {
+    cumulativeEntry.resultList = [];
   }
-  const subjectList = cumulativeListEntry?.resultList
-    .map((list, idx) => list.subjects)
+  const subjectList = cumulativeEntry?.resultList
+    .map((result, idx) => result.subjects)
     .flat();
   const filteredSubjectList = subjectList.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );
-  const filteredCumulativeTermAvgScore = cumulativeListEntry?.resultList
+  const filteredCumulativeTermAvgScore = cumulativeEntry?.resultList
     .map((item) => item.cumulativeTermAvgScore)
     .flat()
     .filter(
@@ -36,7 +31,9 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
-            // onClick={onDownload}
+            onClick={() => {
+              ExportCSV('cumulative-master-list', 'cumulative-master-list')
+            }}
           >
             Download
           </Button>
@@ -46,7 +43,9 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
           size="md"
           bordered
           responsive
-          className="mt-2 border-secondary"
+          className="mt-2"
+          id="cumulative-master-list"
+          style={{border: "1px solid grey"}}
           ref={tableRef}
         >
           <thead>
@@ -59,12 +58,14 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
               </td>
               <td
                 className="text-uppercase h6 px-2"
+                colSpan={2}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Student Name
               </td>
               <td
                 className="text-uppercase h6 px-2"
+                colSpan={2}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Registration No
@@ -107,7 +108,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="5"></td>
+              <td colSpan="7"></td>
               <>
                 {filteredCumulativeTermAvgScore.map((avgScore, id) => (
                   <td
@@ -138,15 +139,15 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                 </>
               ))}
             </tr>
-            {cumulativeListEntry?.resultList.map((item, index) => (
+            {cumulativeEntry?.resultList.map((item, index) => (
               <tr
                 style={{ maxHeight: "30px" }}
                 key={index}
                 className="text-center"
               >
                 <td className="fw-bold">{index + 1}</td>
-                <td className="fw-bold text-start">{item.studentName}</td>
-                <td className="fw-bold text-start">
+                <td className="fw-bold text-start" colSpan={2}>{item.studentName}</td>
+                <td className="fw-bold text-start" colSpan={2}>
                   {item.registrationNumber}
                 </td>
                 <td className="fw-bold">{item.position}</td>

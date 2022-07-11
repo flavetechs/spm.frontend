@@ -228,7 +228,7 @@ const VerticalNav = () => {
                     <Accordion.Collapse eventKey="sidebar-special" >
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.classAttendance ? 'active' : ''} nav-link`} to={classLocations.classAttendance}>
+                                <Link className={`${location.pathname === classLocations.classAttendanceBoard ? 'active' : ''} nav-link`} to={classLocations.classAttendanceBoard}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>

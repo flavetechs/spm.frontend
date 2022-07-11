@@ -1,6 +1,6 @@
 import { Button, Row, Table } from "react-bootstrap";
 
-const MasterListSmallTable = ({listEntry, setShowMasterListTable}) => {
+const MasterListSmallTable = ({ masterEntry, setShowMasterListTable}) => {
   return (
     <>
       <div>
@@ -12,19 +12,19 @@ const MasterListSmallTable = ({listEntry, setShowMasterListTable}) => {
             <tbody>
               <tr>
                 <th className="h6">Session</th>
-                <td className="fw-bold">{listEntry?.session}</td>
+                <td className="fw-bold">{masterEntry?.session}</td>
               </tr>
               <tr>
                 <th className="h6">Term</th>
-                <td className="fw-bold text-capitalize">{listEntry?.termName}</td>
+                <td className="fw-bold text-capitalize">{masterEntry?.termName}</td>
               </tr>
               <tr>
                 <th className="h6">Class</th>
-                <td className="fw-bold text-capitalize">{listEntry?.sessionClass}</td>
+                <td className="fw-bold text-capitalize">{masterEntry?.sessionClass}</td>
               </tr>
               <tr>
                 <th className="h6">Form Teacher</th>
-                <td className="fw-bold text-capitalize">{listEntry?.formTeacher}</td>
+                <td className="fw-bold text-capitalize">{masterEntry?.formTeacher}</td>
               </tr>
             </tbody>
           </Table>

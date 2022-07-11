@@ -1,5 +1,4 @@
 import axiosInstance from "../../axios/axiosInstance";
-import { resultManagement } from "../../router/spm-path-locations";
 import { actions } from "../action-types/results-action-types"
 import { showErrorToast } from "./toaster-actions";
 
@@ -43,7 +42,7 @@ export const getStaffClassSubjects = (sessionClassId) => (dispatch) => {
 }
 
 
-export const getAllClassScoreEntries = (sessionClassId, subjectId) => (dispatch) => {
+export const getAllClassScore = (sessionClassId, subjectId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_SCORE_ENTRIES_LOADING,
         payload: sessionClassId
@@ -171,7 +170,7 @@ export const showHidePreview = (value = false) => (dispatch) => {
     });
 }
 
-export const getAllPreviousClassScoreEntries = (sessionClassId, subjectId, sessionTermId) => (dispatch) => {
+export const getAllPreviousClassScore = (sessionClassId, subjectId, sessionTermId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_LOADING,
         payload: sessionClassId
@@ -293,7 +292,7 @@ export const getAllPreviousClassScoreEntryPreview = (sessionClassId, subjectId, 
         });
 }
 
-export const  getAllMasterListentries = (sessionClassId, termId) => (dispatch) => {
+export const  getAllMasterList = (sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MASTER_LIST_LOADING,
         payload: sessionClassId
@@ -313,7 +312,7 @@ export const  getAllMasterListentries = (sessionClassId, termId) => (dispatch) =
         });
 }
 
-export const  getAllCumulativeMasterListentries = (sessionClassId, termId) => (dispatch) => {
+export const  getAllCumulativeMasterList = (sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CUMULATIVE_MASTER_LIST_LOADING,
         payload: sessionClassId
@@ -333,45 +332,29 @@ export const  getAllCumulativeMasterListentries = (sessionClassId, termId) => (d
         });
 }
 
-export const nullifyListEntryOnExit = (listEntry) => (dispatch) => {
-    if (window.location.pathname != resultManagement.masterList){
-    listEntry = null
-    }else return listEntry
-
-    dispatch({
-        type: actions.CLOSE_MASTER_LIST,
-        payload: listEntry
+export const resetListEntryOnExit = () => (dispatch) => {
+  dispatch({
+        type: actions.RESET_MASTER_LIST,
+        payload: null
     });
 }
 
-export const nullifyScoreEntryOnExit = (scoreEntry) => (dispatch) => {
-    if (window.location.pathname != resultManagement.scoreEntry){
-        scoreEntry = null
-    }else return scoreEntry
-
-    dispatch({
-        type: actions.CLOSE_SCORE_ENTRY,
-        payload: scoreEntry
+export const resetScoreEntryOnExit = () => (dispatch) => {
+ dispatch({
+        type: actions.RESET_SCORE_ENTRY,
+        payload: null
     });
 }
-export const nullifyPreviousScoreEntryOnExit = (previousScoreEntry) => (dispatch) => {
-    if (window.location.pathname != resultManagement.adminScoreEntry){
-        previousScoreEntry = null
-    }else return previousScoreEntry
-
-    dispatch({
-        type: actions.CLOSE_PREVIOUS_SCORE_ENTRY,
-        payload: previousScoreEntry
+export const resetPreviousScoreEntryOnExit = () => (dispatch) => {
+   dispatch({
+        type: actions.RESET_PREVIOUS_SCORE_ENTRY,
+        payload: null
     });
 }
 
-export const nullifyCumulativeListEntryOnExit = (cumulativeListEntry) => (dispatch) => {
-    if (window.location.pathname != resultManagement.cumulativeMasterList){
-        cumulativeListEntry = null
-    }else return cumulativeListEntry
-
-    dispatch({
-        type: actions.CLOSE_CUMULATIVE_MASTER_LIST,
-        payload: cumulativeListEntry
+export const resetCumulativeListEntryOnExit = () => (dispatch) => {
+   dispatch({
+        type: actions.RESET_CUMULATIVE_MASTER_LIST,
+        payload: null
     });
 }

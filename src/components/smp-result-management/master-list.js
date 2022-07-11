@@ -4,7 +4,10 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { getAllMasterListentries, nullifyListEntryOnExit } from "../../store/actions/results-actions";
+import {
+  getAllMasterList,
+  resetListEntryOnExit,
+} from "../../store/actions/results-actions";
 import {
   getActiveSession,
   getAllSession,
@@ -21,8 +24,8 @@ const MasterList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { itemList } = state.class;
-  const { listEntry } = state.results;
+  const { itemList: classList } = state.class;
+  const { masterEntry } = state.results;
   const { activeSession, sessionList } = state.session;
   const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
@@ -39,6 +42,10 @@ const MasterList = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
+    return () => {
+      resetListEntryOnExit(masterEntry)(dispatch);
+      setShowMasterListTable(false);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -50,15 +57,13 @@ const MasterList = () => {
   }, [sessionId, activeSession]);
 
   React.useEffect(() => {
-    if (listEntry) {
+    if (masterEntry) {
       setShowMasterListTable(true);
-    }
-    return()=>{
-      nullifyListEntryOnExit(listEntry)(dispatch)
+    } else if (!masterEntry) {
       setShowMasterListTable(false);
     }
-  }, [listEntry]);
- 
+  }, [masterEntry]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -72,17 +77,16 @@ const MasterList = () => {
                 {!showMasterListTable ? (
                   <Formik
                     initialValues={{
-                      sessionId: activeSession?.sessionId.toUpperCase(),
-                      terms: activeSession?.terms
-                        .filter((term) => term.isActive == true)
-                        .map((term) => term.sessionTermId)
-                        .toString(),
+                      sessionId: activeSession?.sessionId,
+                      terms: activeSession?.terms.find(
+                        (term) => term.isActive == true
+                      )?.sessionTermId,
                       sessionClassId: "",
                     }}
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      getAllMasterListentries(
+                      getAllMasterList(
                         values.sessionClassId,
                         values.terms
                       )(dispatch);
@@ -122,13 +126,13 @@ const MasterList = () => {
                               }}
                             >
                               <option value="">Select Session</option>
-                              {sessionList?.map((list, idx) => (
+                              {sessionList?.map((session, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionId}
-                                  value={list.sessionId}
+                                  value={session.sessionId.toLowerCase()}
                                 >
-                                  {list.startDate} / {list.endDate}
+                                  {session.startDate} / {session.endDate}
                                 </option>
                               ))}
                             </Field>
@@ -153,25 +157,23 @@ const MasterList = () => {
                             >
                               <option value="">Select Terms</option>
                               {sessionList
-                                ?.filter(
-                                  (list, idx) =>
-                                    list.sessionId.toUpperCase() ==
+                                ?.find(
+                                  (session, idx) =>
+                                    session.sessionId.toLowerCase() ==
                                     values.sessionId
                                 )
-                                .map((list, id) =>
-                                  list.terms.map((term, id) => (
-                                    <option
-                                      key={id}
-                                      name={values.terms}
-                                      value={term.sessionTermId}
-                                      selected={
-                                        term.sessionTermId == values.terms
-                                      }
-                                    >
-                                      {term.termName}
-                                    </option>
-                                  ))
-                                )}
+                                ?.terms.map((term, id) => (
+                                  <option
+                                    key={id}
+                                    name={values.terms}
+                                    value={term.sessionTermId.toLowerCase()}
+                                    selected={
+                                      term.sessionTermId == values.terms
+                                    }
+                                  >
+                                    {term.termName}
+                                  </option>
+                                ))}
                             </Field>
                           </Col>
                           <Col md="10">
@@ -196,13 +198,13 @@ const MasterList = () => {
                               id="sessionClassId"
                             >
                               <option value="">Select Class</option>
-                              {itemList.map((list, idx) => (
+                              {classList.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
-                                  value={list.sessionClassId}
+                                  value={item.sessionClassId}
                                 >
-                                  {list.class}
+                                  {item.class}
                                 </option>
                               ))}
                             </Field>
@@ -223,13 +225,10 @@ const MasterList = () => {
                 ) : (
                   <div>
                     <MasterListSmallTable
-                      listEntry={listEntry}
+                      masterEntry={masterEntry}
                       setShowMasterListTable={setShowMasterListTable}
-                      
                     />
-                    <MasterListLargeTable
-                      listEntry={listEntry}
-                    />
+                    <MasterListLargeTable masterEntry={masterEntry} />
                   </div>
                 )}
               </Card.Body>

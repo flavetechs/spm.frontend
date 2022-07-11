@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  getAllPreviousClassScoreEntries,
+  getAllPreviousClassScore,
   getStaffClassSubjects,
-  nullifyPreviousScoreEntryOnExit,
+  resetPreviousScoreEntryOnExit,
 } from "../../store/actions/results-actions";
 import AdminLargeTable from "./admin-score-entry-large-table";
 import AdminSmallTable from "./admin-score-entry-small-table";
@@ -32,7 +32,7 @@ const AdminScoreEntry = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { staffClassSubjects, previousScoreEntry } = state.results;
-  const { itemList } = state.class;
+  const { itemList: classList } = state.class;
   const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -53,6 +53,10 @@ const AdminScoreEntry = () => {
     setShowAdminScoresEntryTable(false);
     setEditMode(false);
     setPreviewMode(false);
+    return()=>{
+      resetPreviousScoreEntryOnExit(previousScoreEntry)(dispatch);
+      setShowAdminScoresEntryTable(false);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -67,8 +71,7 @@ const AdminScoreEntry = () => {
     if (previousScoreEntry) {
       setShowAdminScoresEntryTable(true);
     }
-    return()=>{
-      nullifyPreviousScoreEntryOnExit(previousScoreEntry)(dispatch);
+    else if(!previousScoreEntry){
       setShowAdminScoresEntryTable(false);
     }
   }, [previousScoreEntry]);
@@ -86,18 +89,15 @@ const AdminScoreEntry = () => {
                 {!isPreviewMode ? (
                   <Formik
                     initialValues={{
-                      sessionId: activeSession?.sessionId.toUpperCase(),
-                      terms: activeSession?.terms
-                        .filter((term) => term.isActive == true)
-                        .map((term) => term.sessionTermId)
-                        .toString(),
+                      sessionId: activeSession?.sessionId,
+                      terms: activeSession?.terms.find(term => term.isActive == true)?.sessionTermId,
                       sessionClassId: "",
                       subjectId: "",
                     }}
                     validationSchema={validation}
                     enableReinitialize={true}
                     onSubmit={(values) => {
-                      getAllPreviousClassScoreEntries(
+                      getAllPreviousClassScore(
                         values.sessionClassId,
                         values.subjectId,
                         values.terms
@@ -149,13 +149,13 @@ const AdminScoreEntry = () => {
                               }}
                             >
                               <option value="">Select Session</option>
-                              {sessionList?.map((list, idx) => (
+                              {sessionList?.map((session, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionId}
-                                  value={list.sessionId}
+                                  value={session.sessionId.toLowerCase()}
                                 >
-                                  {list.startDate} / {list.endDate}
+                                  {session.startDate} / {session.endDate}
                                 </option>
                               ))}
                             </Field>
@@ -175,25 +175,22 @@ const AdminScoreEntry = () => {
                             >
                               <option value="">Select Terms</option>
                               {sessionList
-                                ?.filter(
-                                  (list, idx) =>
-                                    list.sessionId.toUpperCase() ==
+                                ?.find(
+                                  (session, idx) =>
+                                    session.sessionId.toLowerCase() ==
                                     values.sessionId
-                                )
-                                .map((list, id) =>
-                                  list.terms.map((term, id) => (
+                                )?.terms.map((term, id) => (
                                     <option
                                       key={id}
                                       name={values.terms}
-                                      value={term.sessionTermId}
+                                      value={term.sessionTermId.toLowerCase()}
                                       selected={
                                         term.sessionTermId == values.terms
                                       }
                                     >
                                       {term.termName}
                                     </option>
-                                  ))
-                                )}
+                                ))}
                             </Field>
                           </Col>
                           <Row>
@@ -232,13 +229,13 @@ const AdminScoreEntry = () => {
                               }}
                             >
                               <option value="">Select Class</option>
-                              {itemList.map((list, idx) => (
+                              {classList.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
-                                  value={list.sessionClassId}
+                                  value={item.sessionClassId}
                                 >
-                                  {list.class}
+                                  {item.class}
                                 </option>
                               ))}
                             </Field>

@@ -15,6 +15,8 @@ export const authLocations = {
 export const classLocations = {
   sessionClassList2: "/dashboard/smp-class/session-class",
   classAttendance: "/dashboard/smp-class/class-attendance",
+  classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
+  attendancePresence:"/dashboard/smp-class/attendance-presence",
 };
 
 export const sessionLocations = {
@@ -68,6 +70,8 @@ export const resultManagement = {
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
   printResult: "/dashboard/smp-result/print-result",
+  resultTemplateOne: "/dashboard/smp-result/result-template-one",
+  resultTemplateTwo: "/dashboard/smp-result/result-template-two",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
 }
 

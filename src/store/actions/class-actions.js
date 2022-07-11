@@ -223,7 +223,6 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
 export const getAllSessionClasses = (sessionId) => (dispatch) => {
 
     if(!sessionId){
-        // showErrorToast('Active Session Not found')(dispatch)
         return;
     }
     
@@ -460,4 +459,208 @@ export const pushSessionClassId = (itemId) => {
         type: actions.PUSH_SESSION_CLASS_ID,
         payload: itemId
     }
+
 }
+
+
+
+
+
+
+
+
+//ATTENTANCE ACTION//
+export const createRegister = (sessionClass) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_CLASS_REGISTER_LOADING
+    });
+
+    axiosInstance.post('/attendance/api/v1/create-register', sessionClass)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_CLASS_REGISTER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_CLASS_REGISTER_FAILED,
+                payload: err.response.data.result
+            });
+        });
+}
+
+export const getAllClassRegister = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CLASS_REGISTER_LOADING,
+        payload: sessionClassId
+    });
+
+    axiosInstance.get(`/attendance/api/v1/get/all/class-register/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CLASS_REGISTER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CLASS_REGISTER_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const updateRegisterLabel = (classRegisterId,classRegisterLabel, sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_CLASS_REGISTER_LABEL_LOADING
+    });
+
+    axiosInstance.post(`/attendance/api/v1/update/class-register?ClassRegisterId=${classRegisterId}&RegisterLabel=${classRegisterLabel}`)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_CLASS_REGISTER_LABEL_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllClassRegister(sessionClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_CLASS_REGISTER_LABEL_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteClassRegister = (classRegisterId,sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_CLASS_REGISTER_LOADING
+    });
+
+    axiosInstance.post(`/attendance/api/v1/delete/class-register?Item=${classRegisterId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_CLASS_REGISTER_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllClassRegister(sessionClassId)(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_CLASS_REGISTER_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const continueClassRegister = (classRegisterId) => (dispatch) => {
+    dispatch({
+        type: actions.CONTINUE_CLASS_REGISTER_LOADING
+    });
+
+    axiosInstance.get(`/attendance/api/v1/continue-attendance?ClassRegisterId=${classRegisterId}`)
+    .then((res) => {
+        dispatch({
+            type: actions.CONTINUE_CLASS_REGISTER_SUCCESS,
+            payload: res.data.result
+        });
+    }).catch((err) => {
+        dispatch({
+            type: actions.CONTINUE_CLASS_REGISTER_FAILED,
+            payload: err.response.data.result
+        });
+    });
+}
+export const updateAttendance = (classRegisterId, studentContactId, isPresent) => (dispatch) => {
+    axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
+    .then((res) => {
+        console.log('success', res.data.result);
+    }).catch((err) => {
+        showErrorToast('Ooopsss.... unable to update attendance')(dispatch);
+    });
+}
+
+
+    export const createAttendance = (classRegisterId, studentContactId, isPresent, newClassRegister) => (dispatch) => {
+        const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
+        let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
+        if (entry) {
+            entry.ispresent = isPresent
+           newClassRegister[0].attendanceList[entryIndex] = entry;
+        dispatch({
+                   type: actions.CREATE_ATTENDANCE,
+                   payload: newClassRegister
+               });
+      
+               axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
+                   .then((res) => {
+                      entry.isPresent = res.data.result.isPresent;
+                      newClassRegister[0].attendanceList[entryIndex] = entry
+                       dispatch({
+                           type: actions.CREATE_ATTENDANCE,
+                           payload: newClassRegister
+                       });
+                   }).catch((err) => {
+                       showErrorToast('Ooopsss.... unable to add attendance, please confirm entries')(dispatch);
+                   });
+           }
+        }
+       export const getAllStudentsPresent = (classRegisterId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_STUDENTS_PRESENT_LOADING,
+            payload: classRegisterId
+        });
+    
+        axiosInstance.get(`/attendance/api/v1/get/present-students?classRegisterId=${classRegisterId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_PRESENT_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_PRESENT_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+    }
+    export const getAllStudentsAbsent = (classRegisterId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_STUDENTS_ABSENT_LOADING,
+            payload: classRegisterId
+        });
+    
+        axiosInstance.get(`/attendance/api/v1/get/absent-students?classRegisterId=${classRegisterId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_ABSENT_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_STUDENTS_ABSENT_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+    }
+
+
+export const resetCreateSuccessfulState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_CREATE_SUCCESSFUL_STATE,
+          payload: false
+      });
+  }
+  export const resetclassRegisterState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_CLASS_REGISTER_STATE,
+          payload: [],
+      });
+  }
+  export const resetSingleClassRegisterState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_SINGLE_CLASS_REGISTER_STATE,
+          payload: null,
+      });
+  }
+//ATTENTANCE ACTION//
