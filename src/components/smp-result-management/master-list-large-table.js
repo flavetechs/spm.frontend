@@ -46,23 +46,23 @@ const MasterListLargeTable = ({ masterEntry }) => {
           ref={tableRef}
         >
           <thead>
-            <tr className="text-center" style={{ background: "#d8efd1" }}>
+            <tr className="text-center" style={{ background: "#d8efd1",textTransform: "uppercase" }}>
               <td
-                className="text-uppercase h6 px-2"
-                style={{ whiteSpace: "pre-wrap", width: "80px" }}
+                className=" h6 px-2"
+                style={{ whiteSpace: "pre-wrap", width: "80px"}}
               >
                 S/No
               </td>
               <td
                 className="text-uppercase h6 px-2"
-                colSpan={2}
+                colSpan={3}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Student Name
               </td>
               <td
                 className="text-uppercase h6 px-2"
-                colSpan={2}
+                colSpan={3}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Registration No
@@ -106,7 +106,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="10"></td>
+              <td colSpan="12"></td>
               {filteredSubjectList?.map((subject, idx) => (
                 <>
                   <td
@@ -141,13 +141,13 @@ const MasterListLargeTable = ({ masterEntry }) => {
             </tr>
             {masterEntry?.resultList.map((item, index) => (
               <tr
-                style={{ maxHeight: "30px" }}
+                style={{ maxHeight: "30px",textTransform: "uppercase" }}
                 key={index}
                 className="text-center"
               >
                 <td className="fw-bold">{index + 1}</td>
-                <td className="fw-bold text-start" colSpan={2}>{item.studentName}</td>
-                <td className="fw-bold text-start" colSpan={2}>
+                <td className="fw-bold text-start" colSpan={3}>{item.studentName}</td>
+                <td className="fw-bold text-start" colSpan={3}>
                   {item.registrationNumber}
                 </td>
                 <td className="fw-bold">{item.position}</td>
