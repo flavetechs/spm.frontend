@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
+import { ExportCSV } from "../../utils/export-csv";
 
 const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const tableRef = useRef(null);
@@ -30,6 +31,9 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
+            onClick={() => {
+              ExportCSV('cumulative-master-list', 'cumulative-master-list')
+            }}
           >
             Download
           </Button>
@@ -39,7 +43,9 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
           size="md"
           bordered
           responsive
-          className="mt-2 border-secondary"
+          className="mt-2"
+          id="cumulative-master-list"
+          style={{border: "1px solid grey"}}
           ref={tableRef}
         >
           <thead>
@@ -52,12 +58,14 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
               </td>
               <td
                 className="text-uppercase h6 px-2"
+                colSpan={2}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Student Name
               </td>
               <td
                 className="text-uppercase h6 px-2"
+                colSpan={2}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Registration No
@@ -100,7 +108,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="5"></td>
+              <td colSpan="7"></td>
               <>
                 {filteredCumulativeTermAvgScore.map((avgScore, id) => (
                   <td
@@ -138,8 +146,8 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
                 className="text-center"
               >
                 <td className="fw-bold">{index + 1}</td>
-                <td className="fw-bold text-start">{item.studentName}</td>
-                <td className="fw-bold text-start">
+                <td className="fw-bold text-start" colSpan={2}>{item.studentName}</td>
+                <td className="fw-bold text-start" colSpan={2}>
                   {item.registrationNumber}
                 </td>
                 <td className="fw-bold">{item.position}</td>

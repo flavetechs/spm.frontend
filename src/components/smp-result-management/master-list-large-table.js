@@ -36,7 +36,15 @@ const MasterListLargeTable = ({ masterEntry }) => {
           </Button>
         </div>
 
-        <Table id="master-list" size="md" bordered responsive className="mt-2 border-secondary" >
+        <Table
+          size="md"
+          bordered
+          responsive
+          className="mt-2"
+          id="master-list"
+          style={{border: "1px solid grey"}}
+          ref={tableRef}
+        >
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
               <td
@@ -47,12 +55,14 @@ const MasterListLargeTable = ({ masterEntry }) => {
               </td>
               <td
                 className="text-uppercase h6 px-2"
+                colSpan={2}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Student Name
               </td>
               <td
                 className="text-uppercase h6 px-2"
+                colSpan={2}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Registration No
@@ -96,7 +106,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="8"></td>
+              <td colSpan="10"></td>
               {filteredSubjectList?.map((subject, idx) => (
                 <>
                   <td
@@ -136,8 +146,8 @@ const MasterListLargeTable = ({ masterEntry }) => {
                 className="text-center"
               >
                 <td className="fw-bold">{index + 1}</td>
-                <td className="fw-bold text-start">{item.studentName}</td>
-                <td className="fw-bold text-start">
+                <td className="fw-bold text-start" colSpan={2}>{item.studentName}</td>
+                <td className="fw-bold text-start" colSpan={2}>
                   {item.registrationNumber}
                 </td>
                 <td className="fw-bold">{item.position}</td>

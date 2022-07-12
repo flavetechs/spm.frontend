@@ -48,7 +48,7 @@ console.log('createSuccessful',createSuccessful);
                 <div className="d-flex justify-content-center">
                   <Formik
                     initialValues={{
-                      classRegisterLabel: newClassRegister?.classRegisterLabel,
+                    
                     }}
                     // validationSchema={validation}
                     enableReinitialize={true}
@@ -70,27 +70,7 @@ console.log('createSuccessful',createSuccessful);
                                   className="text-center"
                                   style={{ color: "#2d2d2d" }}
                                 >
-                                  TITLE
-                                  <Field
-                                    type="text"
-                                    className="form-control text-center"
-                                    name="classRegisterLabel"
-                                    id="classRegisterLabel"
-                                    onBlur={(e) => {
-                                      updateRegisterLabel(
-                                        newClassRegister?.classRegisterId,
-                                        e.target.value
-                                      )(dispatch);
-                                    }}
-                                    onKeyUp={(e) => {
-                                      e &&
-                                        e.keyCode == 13 &&
-                                        updateRegisterLabel(
-                                          newClassRegister?.classRegisterId,
-                                          e.target.value
-                                        )(dispatch);
-                                    }}
-                                  />
+                                {newClassRegister?.classRegisterLabel}
                                 </h5>
                               </td>
                             </tr>

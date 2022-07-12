@@ -582,6 +582,20 @@ export const classReducer = (state = _state, { type, payload }) => {
         newClassRegister:payload,
       };
 
+      case actions.RESET_SINGLE_CLASS_REGISTER_STATE: {
+        return {
+          ...state,
+          singleClassRegister: payload,
+        };
+      }
+
+      case actions.RESET_CLASS_REGISTER_STATE: {
+        return {
+          ...state,
+          classRegister: payload,
+        };
+      }
+
       case actions.RESET_CREATE_SUCCESSFUL_STATE: {
         return {
           ...state,

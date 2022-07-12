@@ -27,6 +27,12 @@ export const returnListEnrolled = (students) => (dispatch) => {
     })
 }
 
+export const resetEnrolledStudentsState = () => (dispatch) => {
+    dispatch({
+        type: actions.RESET_ENROLLED_STUDENTS_STATE,
+        payload: []
+    })
+}
 
 export const getAllUnenrolledStudents = () => (dispatch) => {
     dispatch({
@@ -69,12 +75,12 @@ export const enrollStudent = (values) => (dispatch) => {
         });
 }
 
-export const getAllenrolledStudents = () => (dispatch) => {
+export const getAllEnrolledStudents = (sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ENROLLED_STUDENTS_LOADING
     });
 
-    axiosInstance.get('/errollment/api/v1/getall/enrolled')
+    axiosInstance.get(`/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
@@ -101,7 +107,7 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
                 type: actions.UNENROLL_STUDENTS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllenrolledStudents()(dispatch);
+            getAllEnrolledStudents()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
