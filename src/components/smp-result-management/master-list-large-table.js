@@ -54,51 +54,51 @@ const MasterListLargeTable = ({ masterEntry }) => {
                 S/No
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className="h6 px-2"
                 colSpan={3}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Student Name
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 colSpan={3}
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Registration No
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Position
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Total Subjects Offered
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Total Score
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Average Score
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className="h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Result Status
               </td>
               {filteredSubjectList?.map((subject, idx) => (
-                <td colSpan="3" className="text-uppercase h6" key={idx}>
+                <td colSpan="3" className=" h6" key={idx}>
                   {subject.subjectName}
                 </td>
               ))}
