@@ -8,13 +8,23 @@ import {
   Badge,
 } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { resultManagement, studentsLocations } from "../../router/spm-path-locations";
-import { useSelector } from "react-redux";
+import {
+  resultManagement,
+  studentsLocations,
+} from "../../router/spm-path-locations";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllStudentResult } from "../../store/actions/results-actions";
 
-const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) => {
+const PublishResultTable = ({
+  idsObj,
+  isEditMode,
+  setEditMode,
+  setIndexRow,
+}) => {
   const state = useSelector((state) => state);
   const { publishResults } = state.publish;
   const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -24,7 +34,6 @@ const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) =>
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
-            onClick={()=>{history.push(resultManagement.resultTemplate)}}
           >
             Publish Result
           </Button>
@@ -78,9 +87,7 @@ const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) =>
                   {list.totalSubjects}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
-                  <Badge
-                    bg={list.status == "PASSED" ? "success" : "danger"}
-                  >
+                  <Badge bg={list.status == "PASSED" ? "success" : "danger"}>
                     {list.status}
                   </Badge>
                 </td>
@@ -89,10 +96,7 @@ const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) =>
                     <OverlayTrigger
                       placement="top"
                       overlay={
-                        <Tooltip id="button-tooltip-2">
-                          {" "}
-                          Preview Result
-                        </Tooltip>
+                        <Tooltip id="button-tooltip-2"> Preview Result</Tooltip>
                       }
                     >
                       <Link
@@ -101,8 +105,10 @@ const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) =>
                         data-placement="top"
                         title=""
                         data-original-title="Details"
-                        to="#"
-                      // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
+                        onClick={() => {
+                          getAllStudentResult(idsObj.sessionClassId,idsObj.termId,list.studentContactId)(dispatch);
+                        }}
+                        to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}`}
                       >
                         <span className="btn-inner">
                           <svg
@@ -140,9 +146,7 @@ const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) =>
                     </OverlayTrigger>{" "}
                     <OverlayTrigger
                       placement="top"
-                      overlay={
-                        <Tooltip id="button-tooltip-2"> edit</Tooltip>
-                      }
+                      overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
                     >
                       <Link
                         className="btn btn-sm btn-icon btn-warning"
