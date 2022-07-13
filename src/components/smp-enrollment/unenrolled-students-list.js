@@ -17,8 +17,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
 import { showErrorToast, showHideModal } from "../../store/actions/toaster-actions";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
-import { getActiveSession } from "../../store/actions/session-actions";
 import { ClassesModal } from "./classesModal";
 const UnenrolledStudentsList = () => {
   //VARIABLE DECLARATIONS
@@ -31,7 +29,6 @@ const UnenrolledStudentsList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { unenrolledStudents, selectedIds } = state.enrollment;
-  const { activeSession } = state.session;
   const { modalResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 

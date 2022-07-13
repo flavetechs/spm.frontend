@@ -75,5 +75,6 @@ export const resultManagement = {
 }
 
 export const portalSetting = {
-  setting: "/dashboard/smp-setting"
+  setting: "/dashboard/smp-setting",
+  templateSetting:"/dashboard/smp-template-setting"
 };
