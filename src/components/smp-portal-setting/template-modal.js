@@ -1,4 +1,4 @@
-import { Modal, ModalBody } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   respondModal,
