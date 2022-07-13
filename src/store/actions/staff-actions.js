@@ -72,11 +72,11 @@ export const getAllStaffAccount = () => (dispatch) => {
         });
 }
 
-export const createStaffAccount = (staff) => (dispatch) => {
+export const createStaffAccount = (staff, formData) => (dispatch) => {
     dispatch({
         type: actions.CREATE_STAFFACCOUNT_LOADING
     });
-    axiosInstance.post('/create/teacher', staff)
+    axiosInstance.post('/create/teacher', formData,staff)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_STAFFACCOUNT_SUCCESS,
@@ -117,12 +117,12 @@ export const deleteStaffAccount = (teacherUserAccountId) => (dispatch) => {
         });
 }
 
-export const updateStaffAccount = (teacherAccountId) => (dispatch) => {
+export const updateStaffAccount = (teacherAccountId, formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_STAFFACCOUNT_LOADING
     });
     
-    axiosInstance.post('/update/teacher', teacherAccountId)
+    axiosInstance.post('/update/teacher', formData,teacherAccountId)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_STAFFACCOUNT_SUCCESS,
