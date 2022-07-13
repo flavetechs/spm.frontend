@@ -38,7 +38,6 @@ const StudentDetails = () => {
     getAllSessionClasses()(dispatch);
   }, []);
 
-
   return (
     <>
       <Row>
@@ -86,7 +85,7 @@ const StudentDetails = () => {
                       />
                     </div>
                   ) : (
-                    <img src={selectedStudent?.photo} alt="profile picture" />
+                    <img  className="img-fluid mt-4" src={selectedStudent?.photo} alt="profile" />
                   )}
                 </div>
               </Form>

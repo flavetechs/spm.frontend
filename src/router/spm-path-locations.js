@@ -70,8 +70,7 @@ export const resultManagement = {
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
   printResult: "/dashboard/smp-result/print-result",
-  resultTemplateOne: "/dashboard/smp-result/result-template-one",
-  resultTemplateTwo: "/dashboard/smp-result/result-template-two",
+  resultTemplate: "/dashboard/smp-result/result-template",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
 }
 

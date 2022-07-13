@@ -42,11 +42,12 @@ import AdminScoreEntry from '../components/smp-result-management/admin-score-ent
 import MasterList from '../components/smp-result-management/master-list';
 import PublishResultEdit from '../components/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
-import ResultTemplateOne from '../components/smp-result-management/result-templates/template-one';
+import TemplateControl from '../components/smp-result-management/result-templates/template-control';
 import Attendance from '../components/spm-class/attendance-on-update';
+import PrintResult from '../components/smp-result-management/print-result';
 import AttendanceBoard from '../components/spm-class/attendance-board';
-import ResultTemplateTwo from '../components/smp-result-management/result-templates/template-two';
 import AttendancePresence from '../components/spm-class/attendance-presence';
+
 
 
 const DashboardRouter = () => {
@@ -115,8 +116,8 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.masterList} exact component={MasterList} />
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
-                      <Route path={resultManagement.resultTemplateOne} exact component={ResultTemplateOne} />
-                      <Route path={resultManagement.resultTemplateTwo} exact component={ResultTemplateTwo} />
+                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
+                      <Route path={resultManagement.printResult} exact component={PrintResult} />
 
                 </Switch>
             </CSSTransition>

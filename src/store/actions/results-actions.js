@@ -332,6 +332,27 @@ export const  getAllCumulativeMasterList = (sessionClassId, termId) => (dispatch
         });
 }
 
+export const getAllStudentResult = (sessionClassId, termId, studentContactId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STUDENT_RESULT_LOADING,
+        payload: sessionClassId
+    });
+
+    // axiosInstance.get(`/api/v1/result/get/student-result?sessionClassId=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
+    //     .then((res) => {
+    //         dispatch({
+    //             type: actions.FETCH_STUDENT_RESULT_SUCCESS,
+    //             payload: res.data.result
+    //         });
+    //         showHidePreview(true)(dispatch);
+    //     }).catch((err) => {
+    //         dispatch({
+    //             type: actions.FETCH_STUDENT_RESULT_FAILED,
+    //             payload: err.response.data.result
+    //         })
+    //     });
+}
+
 export const resetListEntryOnExit = () => (dispatch) => {
   dispatch({
         type: actions.RESET_MASTER_LIST,

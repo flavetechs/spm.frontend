@@ -24,7 +24,7 @@ const StudentEdit = () => {
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState("");
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -69,15 +69,19 @@ const StudentEdit = () => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
   }, [activeSession]);
 
+  React.useEffect(() => {
+      setImages(selectedStudent?.photo)
+  }, [selectedStudent]);
+
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
   }
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]));
+      setImages(URL.createObjectURL(event.target.files[0]));
     }
   };
-  
+
   return (
     <>
       <Formik
@@ -102,7 +106,7 @@ const StudentEdit = () => {
           stateId: selectedStudent?.stateId,
           countryId: selectedStudent?.countryId,
           zipCode: selectedStudent?.zipCode,
-          //photo: selectedStudent?.photo,
+          photo: selectedStudent?.photo,
           sessionClassId: selectedStudent?.sessionClassID,
         }}
         validationSchema={validation}
@@ -116,7 +120,31 @@ const StudentEdit = () => {
           values.lastName = values.lastName.toUpperCase();
           values.middleName = values.middleName.toUpperCase();
           values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
-          updateStudent(values)(dispatch);
+          values.photo = images;
+          const params = new FormData();
+          params.append("userAccountId",values.userAccountId);
+          params.append("studentAccountId",values.studentAccountId);
+          params.append("firstName",values.firstName);
+          params.append("lastName",values.lastName);
+          params.append("middleName",values.middleName);
+          params.append("phone",values.phone);
+          params.append("dob",values.dob);
+          params.append("email",values.email);
+          params.append("homePhone",values.homePhone);
+          params.append("emergencyPhone",values.emergencyPhone);
+          params.append("parentOrGuardianName",values.parentOrGuardianName);
+          params.append("parentOrGuardianRelationship",values.parentOrGuardianRelationship);
+          params.append("parentOrGuardianPhone",values.parentOrGuardianPhone);
+          params.append("parentOrGuardianEmail",values.parentOrGuardianEmail);
+          params.append("homeAddress",values.homeAddress);
+          params.append("cityId",values.cityId);
+          params.append("stateId",values.stateId);
+          params.append("countryId",values.countryId);
+          params.append("zipCode",values.zipCode);
+          params.append("photo",values.photo);
+          params.append("profileImage",values.profileImage);
+          params.append("sessionClassId",values.sessionClassId);
+          updateStudent(values,params)(dispatch);
         }}
         enableReinitialize={true}
       >
@@ -176,7 +204,7 @@ const StudentEdit = () => {
                           </div>
                         
                         <div className="upload-icone bg-primary">
-                          <label htmlFor="photo">
+                          <label htmlFor="profileImage">
                             <svg
                               className="upload-button"
                               width="14"
@@ -191,17 +219,14 @@ const StudentEdit = () => {
                             </svg>
                             <input
                               type="file"
-                              id="photo"
+                              id="profileImage"
                               style={{ display: "none" }}
-                              name="photo"
+                              name="profileImage"
                               accept="image/jpeg,image/jpg,image/png"
                               className="file-upload form-control"
                               data-original-title="upload photos"
                               onChange={(event) => {
-                                setFieldValue(
-                                  "photo",
-                                  event.currentTarget.files[0]
-                                ); 
+                                setFieldValue("profileImage", event.target.files[0])
                                 ImageDisplay(event);
                               }}
                             />
@@ -223,12 +248,12 @@ const StudentEdit = () => {
                           <span> allowed</span>
                         </div>
                       </div>
-                      {image?
+                      {images?
                       <img
                             className=" img-fluid mt-4"
                             id="displayImg"
-                            src={image}
-                            alt="profile image"
+                            src={images}
+                            alt="profile"
                           />: null}
                     </div>
                   </Form>

@@ -11,6 +11,7 @@ export const _state = {
     previousScoreEntry:null,
     previousScoreEntryPreview:null,
     cumulativeEntry:null,
+    templateSetting:"template-one",
     studentResult:{
             "studentName": "BRIDGET DAVID",
             "studentContactId": "e7bd6632-4d18-4217-8c05-adc4c318d6b6",

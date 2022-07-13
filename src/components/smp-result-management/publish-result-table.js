@@ -7,14 +7,14 @@ import {
   Tooltip,
   Badge,
 } from "react-bootstrap";
-import { Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { resultManagement, studentsLocations } from "../../router/spm-path-locations";
 import { useSelector } from "react-redux";
 
 const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) => {
   const state = useSelector((state) => state);
   const { publishResults } = state.publish;
+  const history = useHistory();
 
   return (
     <>
@@ -24,6 +24,7 @@ const PublishResultTable = ({ idsObj, isEditMode, setEditMode, setIndexRow }) =>
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
+            onClick={()=>{history.push(resultManagement.resultTemplate)}}
           >
             Publish Result
           </Button>

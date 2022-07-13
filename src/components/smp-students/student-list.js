@@ -100,9 +100,6 @@ const StudentList = () => {
     ) {
       //returns filtered array
       return students;
-    } else if (students.middleName.toLowerCase().includes(query.toLowerCase())) {
-      //returns filtered array
-      return students;
     }else if (students.lastName.toLowerCase().includes(query.toLowerCase())) {
       //returns filtered array
       return students;
