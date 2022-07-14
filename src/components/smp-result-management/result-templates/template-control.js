@@ -8,17 +8,21 @@ const TemplateControl = () => {
   const { templateSetting } = state.results;
   switch (templateSetting) {
     case "template-one":
-        return (
-            <div><ResultTemplateOne/></div>
-            )
-      break;
+      return (
+        <div>
+          <ResultTemplateOne />
+        </div>
+      );
+
     case "template-two":
-        return (
-            <div><ResultTemplateTwo/></div>
-            )
-      break;
+      return (
+        <div>
+          <ResultTemplateTwo />
+        </div>
+      );
+
     default:
-      return;
+      return <h1 className="text-center mt-5">No template Selected</h1>;
   }
 };
 

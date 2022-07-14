@@ -8,6 +8,7 @@ const ResultTemplateTwo = () => {
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
   // ACCESSING STATE FROM REDUX STORE
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -65,7 +66,7 @@ const ResultTemplateTwo = () => {
                         POSITION:{" "}
                         <span className="">
                           {studentResult?.position} out of{" "}
-                          {studentResult?.noOfStudents} student
+                          {studentResult?.noOfStudents} student(s)
                         </span>
                       </div>
                       <div className="py-2">
