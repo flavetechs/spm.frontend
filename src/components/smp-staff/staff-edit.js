@@ -25,9 +25,7 @@ const StaffEdit = () => {
    const history = useHistory();
    const dispatch = useDispatch();
    const locations = useLocation();
-   const [images, setImages] = useState([])
-   const [image, setImage] = useState(null);
-   const [imageURLs, setImageURLs] = useState([])
+   const [images, setImages] = useState(null);
    //VARIABLE DECLARATIONS
 
    //VALIDATIONS SCHEMA
@@ -60,7 +58,9 @@ const StaffEdit = () => {
       if (!teacherAccountId) return;
       fetchSingleStaff(teacherAccountId)(dispatch)
    }, []);
-
+   React.useEffect(() => {
+      setImages(selectedItem?.photo)
+  }, [selectedItem]);
 
    if (isSuccessful) {
       history.push(staffLocations.staffList);
@@ -69,7 +69,7 @@ const StaffEdit = () => {
 
    const ImageDisplay = (event) => {
       if (event.target.files[0]) {
-         setImage(URL.createObjectURL(event.target.files[0]));
+         setImages(URL.createObjectURL(event.target.files[0]));
       }
    };
 
@@ -93,7 +93,17 @@ const StaffEdit = () => {
                   values.firstName = values.firstName.toUpperCase();
                   values.lastName = values.lastName.toUpperCase();
                   values.middleName = values.middleName.toUpperCase();
-                  updateStaffAccount(values)(dispatch)
+                  values.photo = images;
+                  const params = new FormData();
+                  params.append("firstName", values.firstName);
+                  params.append("lastName", values.lastName);
+                  params.append("middleName", values.middleName);
+                  params.append("phone", values.phone);
+                  params.append("dob", values.dob);
+                  params.append("email", values.email);
+                  params.append("photo",values.photo);
+                  params.append("profileImage",values.profileImage);
+                  updateStaffAccount(values, params)(dispatch)
                }}
             >
                {({
@@ -126,7 +136,7 @@ const StaffEdit = () => {
                                           <img src={avatars4} alt="User-Profile" className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100" />{" "}
                                        </div>
                                        <div className="upload-icone bg-primary">
-                                          <label htmlFor="photo">
+                                          <label htmlFor="profileImage">
                                              <svg
                                                 className="upload-button"
                                                 width="14"
@@ -141,15 +151,15 @@ const StaffEdit = () => {
                                              </svg>
                                              <input
                                                 type="file"
-                                                id="photo"
+                                                id="profileImage"
                                                 style={{ display: "none" }}
-                                                name="photo"
+                                                name="profileImage"
                                                 accept="image/jpeg,image/jpg,image/png"
                                                 className="file-upload form-control"
                                                 data-original-title="upload photos"
                                                 onChange={(event) => {
                                                    setFieldValue(
-                                                      "photo",
+                                                      "profileImage",
                                                       event.currentTarget.files[0]
                                                    );
                                                    ImageDisplay(event);
@@ -165,12 +175,12 @@ const StaffEdit = () => {
                                           <span> allowed</span>
                                        </div>
                                     </div>
-                                    {image ?
+                                    {images ?
                                        <img
                                           className=" img-fluid mt-4"
                                           id="displayImg"
-                                          src={image}
-                                          alt="profile image"
+                                          src={images}
+                                          alt="profile"
                                        /> : null}
                                  </div>
                               </Form>

@@ -146,21 +146,21 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         loading: true,
-        listEntry: null,
+        masterEntry: null,
       };
     }
     case actions.FETCH_MASTER_LIST_SUCCESS: {
       return {
         ...state,
         loading: false,
-        listEntry: payload,
+        masterEntry: payload,
       };
     }
     case actions.FETCH_MASTER_LIST_FAILED: {
       return {
         ...state,
         loading: false,
-        listEntry: null,
+        masterEntry: null,
       };
     }
 
@@ -168,21 +168,43 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         loading: true,
-        cumulativeListEntry: null,
+        cumulativeEntry: null,
       };
     }
     case actions.FETCH_CUMULATIVE_MASTER_LIST_SUCCESS: {
       return {
         ...state,
         loading: false,
-        cumulativeListEntry: payload,
+        cumulativeEntry: payload,
       };
     }
     case actions.FETCH_CUMULATIVE_MASTER_LIST_FAILED: {
       return {
         ...state,
         loading: false,
-        cumulativeListEntry: null,
+        cumulativeEntry: null,
+      };
+    }
+
+    case actions.FETCH_STUDENT_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentResult: null,
+      };
+    }
+    case actions.FETCH_STUDENT_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: payload,
+      };
+    }
+    case actions.FETCH_STUDENT_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: null,
       };
     }
 
@@ -207,31 +229,31 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
-    case actions.CLOSE_MASTER_LIST: {
+    case actions.RESET_MASTER_LIST: {
       return {
         ...state,
-        listEntry: payload,
+        masterEntry: payload,
       };
     }
 
-    case actions.CLOSE_SCORE_ENTRY: {
+    case actions.RESET_SCORE_ENTRY: {
       return {
         ...state,
         scoreEntry: payload,
       };
     }
 
-    case actions.CLOSE_PREVIOUS_SCORE_ENTRY: {
+    case actions.RESET_PREVIOUS_SCORE_ENTRY: {
       return {
         ...state,
         previousScoreEntry: payload,
       };
     }
     
-    case actions.CLOSE_CUMULATIVE_MASTER_LIST: {
+    case actions.RESET_CUMULATIVE_MASTER_LIST: {
       return {
         ...state,
-        cumulativeListEntry: payload,
+        cumulativeEntry: payload,
       };
     }
 

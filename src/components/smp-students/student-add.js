@@ -20,7 +20,7 @@ const StudentAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -68,7 +68,7 @@ const StudentAdd = () => {
 
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]));
+      setImages(URL.createObjectURL(event.target.files[0]));
     }
   };
 
@@ -93,7 +93,7 @@ const StudentAdd = () => {
           stateId: "",
           countryId: "",
           zipCode: "",
-          //photo: "",
+          photo: "",
           sessionClassId: "",
         }}
         validationSchema={validation}
@@ -107,7 +107,29 @@ const StudentAdd = () => {
           values.middleName = values.middleName.toUpperCase();
           values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
           values.zipCode = values.zipCode.toString();
-          createStudent(values)(dispatch);
+          values.photo = images;
+          const params = new FormData();
+          params.append("firstName",values.firstName);
+          params.append("lastName",values.lastName);
+          params.append("middleName",values.middleName);
+          params.append("phone",values.phone);
+          params.append("dob",values.dob);
+          params.append("email",values.email);
+          params.append("homePhone",values.homePhone);
+          params.append("emergencyPhone",values.emergencyPhone);
+          params.append("parentOrGuardianName",values.parentOrGuardianName);
+          params.append("parentOrGuardianRelationship",values.parentOrGuardianRelationship);
+          params.append("parentOrGuardianPhone",values.parentOrGuardianPhone);
+          params.append("parentOrGuardianEmail",values.parentOrGuardianEmail);
+          params.append("homeAddress",values.homeAddress);
+          params.append("cityId",values.cityId);
+          params.append("stateId",values.stateId);
+          params.append("countryId",values.countryId);
+          params.append("zipCode",values.zipCode);
+          params.append("photo",values.photo);
+          params.append("profileImage",values.profileImage);
+          params.append("sessionClassId",values.sessionClassId);
+          createStudent(values, params)(dispatch);
         }}
       >
         {({
@@ -165,7 +187,7 @@ const StudentAdd = () => {
                           />{" "}
                         </div>
                         <div className="upload-icone bg-primary">
-                          <label htmlFor="photo">
+                          <label htmlFor="profileImage">
                             <svg
                               className="upload-button"
                               width="14"
@@ -180,17 +202,14 @@ const StudentAdd = () => {
                             </svg>
                             <input
                               type="file"
-                              id="photo"
+                              id="profileImage"
                               style={{ display: "none" }}
-                              name="photo"
+                              name="profileImage"
                               accept="image/jpeg,image/jpg,image/png"
                               className="file-upload form-control"
                               data-original-title="upload photos"
                               onChange={(event) => {
-                                setFieldValue(
-                                  "photo",
-                                  event.currentTarget.files[0]
-                                );
+                                setFieldValue("profileImage", event.target.files[0])
                                 ImageDisplay(event);
                               }}
                             />
@@ -204,12 +223,12 @@ const StudentAdd = () => {
                           <span> allowed</span>
                         </div>
                       </div>
-                      {image ?
+                      {images ?
                         <img
                           className=" img-fluid mt-4"
                           id="displayImg"
-                          src={image}
-                          alt="profile image"
+                          src={images}
+                          alt="profile"
                         /> : null}
                     </div>
                   </Form>

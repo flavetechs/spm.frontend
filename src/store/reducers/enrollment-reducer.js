@@ -24,6 +24,12 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
         enrolledStudents: payload,
       };
 
+      case actions.RESET_ENROLLED_STUDENTS_STATE:
+        return {
+          ...state,
+          enrolledStudents: payload,
+        };
+
     case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
       return {
         ...state,

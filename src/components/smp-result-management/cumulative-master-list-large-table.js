@@ -1,33 +1,28 @@
 import React, { useRef } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
-// import { useDownloadExcel } from "react-export-table-to-excel";
+import { ExportCSV } from "../../utils/export-csv";
 
-const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
+const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const tableRef = useRef(null);
-  //   const { onDownload } = useDownloadExcel({
-  //     currentTableRef: tableRef.current,
-  //     filename: "Master-list Table",
-  //     sheet: "Result List"
-  // });
 
-  if (cumulativeListEntry?.resultList == null) {
-    cumulativeListEntry.resultList = [];
+  if (cumulativeEntry?.resultList == null) {
+    cumulativeEntry.resultList = [];
   }
-  const subjectList = cumulativeListEntry?.resultList
-    .map((list, idx) => list.subjects)
+  const subjectList = cumulativeEntry?.resultList
+    .map((result, idx) => result.subjects)
     .flat();
   const filteredSubjectList = subjectList.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );
-  const filteredCumulativeTermAvgScore = cumulativeListEntry?.resultList
+  const filteredCumulativeTermAvgScore = cumulativeEntry?.resultList
     .map((item) => item.cumulativeTermAvgScore)
     .flat()
     .filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.termName === item.termName)
     );
- 
+
   return (
     <>
       <Row className="pt-3">
@@ -36,7 +31,9 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
             type="button"
             className="btn-sm mx-2"
             variant="btn btn-success"
-            // onClick={onDownload}
+            onClick={() => {
+              ExportCSV("cumulative-master-list", "cumulative-master-list");
+            }}
           >
             Download
           </Button>
@@ -46,50 +43,57 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
           size="md"
           bordered
           responsive
-          className="mt-2 border-secondary"
+          className="mt-2"
+          id="cumulative-master-list"
+          style={{ border: "1px solid grey" }}
           ref={tableRef}
         >
           <thead>
-            <tr className="text-center" style={{ background: "#d8efd1" }}>
+            <tr
+              className="text-center"
+              style={{ background: "#d8efd1", textTransform: "uppercase" }}
+            >
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 S/No
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
+                colSpan="3"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Student Name
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
+                colSpan="3"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Registration No
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Position
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Result Status
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
                 colSpan={filteredCumulativeTermAvgScore.length}
               >
                 Term Average Score
               </td>
               <td
-                className="text-uppercase h6 px-2"
+                className=" h6 px-2"
                 style={{ whiteSpace: "pre-wrap", width: "80px" }}
               >
                 Cumulative Average Score
@@ -97,7 +101,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
               {filteredSubjectList?.map((subjectItem, idx) => (
                 <td
                   colSpan={filteredCumulativeTermAvgScore.length}
-                  className="text-uppercase h6"
+                  className=" h6"
                   key={idx}
                 >
                   {subjectItem.subjectName}
@@ -107,7 +111,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="5"></td>
+              <td colSpan="9"></td>
               <>
                 {filteredCumulativeTermAvgScore.map((avgScore, id) => (
                   <td
@@ -138,15 +142,17 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                 </>
               ))}
             </tr>
-            {cumulativeListEntry?.resultList.map((item, index) => (
+            {cumulativeEntry?.resultList.map((item, index) => (
               <tr
-                style={{ maxHeight: "30px" }}
+                style={{ maxHeight: "30px", textTransform: "uppercase" }}
                 key={index}
                 className="text-center"
               >
                 <td className="fw-bold">{index + 1}</td>
-                <td className="fw-bold text-start">{item.studentName}</td>
-                <td className="fw-bold text-start">
+                <td className="fw-bold text-start" colSpan="3">
+                  {item.studentName}
+                </td>
+                <td className="fw-bold text-start" colSpan="3">
                   {item.registrationNumber}
                 </td>
                 <td className="fw-bold">{item.position}</td>
@@ -160,7 +166,8 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
                     <td>
                       {item.cumulativeTermAvgScore.map(
                         (score, id) =>
-                          score.termId == avgScore.termId && score.termCumalativeScore
+                          score.termId == avgScore.termId &&
+                          score.termCumalativeScore
                       )}
                     </td>
                   ))}
@@ -169,24 +176,23 @@ const CumulativeMasterListLargeTable = ({ cumulativeListEntry }) => {
 
                 {filteredSubjectList.map((subjectItem, id) => (
                   <>
-                    {filteredCumulativeTermAvgScore.map(
-                      (avgScore, index) => (
-                        <td className="px-3">
-                          {item.subjects.find(
-                            (subject) =>
-                              subject.subjectName == subjectItem.subjectName
-                          ) &&
-                            item.subjects.map(
-                              (i) =>
-                                i.subjectName == subjectItem.subjectName &&
-                                i.cumulativeTermAvgScore.map(
-                                  (t) =>
-                                    t.termId == avgScore.termId && t.termCumalativeScore
-                                )
-                            )}
-                        </td>
-                      )
-                    )}
+                    {filteredCumulativeTermAvgScore.map((avgScore, index) => (
+                      <td className="px-3">
+                        {item.subjects.find(
+                          (subject) =>
+                            subject.subjectName == subjectItem.subjectName
+                        ) &&
+                          item.subjects.map(
+                            (i) =>
+                              i.subjectName == subjectItem.subjectName &&
+                              i.cumulativeTermAvgScore.map(
+                                (t) =>
+                                  t.termId == avgScore.termId &&
+                                  t.termCumalativeScore
+                              )
+                          )}
+                      </td>
+                    ))}
                   </>
                 ))}
               </tr>

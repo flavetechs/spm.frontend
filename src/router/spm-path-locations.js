@@ -15,6 +15,8 @@ export const authLocations = {
 export const classLocations = {
   sessionClassList2: "/dashboard/smp-class/session-class",
   classAttendance: "/dashboard/smp-class/class-attendance",
+  classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
+  attendancePresence:"/dashboard/smp-class/attendance-presence",
 };
 
 export const sessionLocations = {
@@ -49,12 +51,11 @@ export const studentsLocations = {
   studentAdd: "/dashboard/smp-student/add-student",
   studentEdit: "/dashboard/smp-student/edit-student",
   studentDetails: "/dashboard/smp-student/student-details",
+  enrolledStudents: "/dashboard/smp-student/enrollment",
+  unenrolledStudents: "/dashboard/smp-student/unenrollment",
 };
 
-export const enrollment = {
-  enrolledStudents: "/dashboard/smp-enrollment/enrollment",
-  unenrolledStudents: "/dashboard/smp-enrollment/unenrollment",
-}
+
 
 export const gradeSetting = {
   setting: "/dashboard/smp-grade/setting"
@@ -69,9 +70,11 @@ export const resultManagement = {
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
   printResult: "/dashboard/smp-result/print-result",
+  resultTemplate: "/dashboard/smp-result/result-template",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
 }
 
 export const portalSetting = {
-  setting: "/dashboard/smp-setting"
+  setting: "/dashboard/smp-setting",
+  templateSetting:"/dashboard/smp-template-setting"
 };

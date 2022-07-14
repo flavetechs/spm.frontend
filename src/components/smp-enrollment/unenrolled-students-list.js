@@ -17,31 +17,25 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
 import { showErrorToast, showHideModal } from "../../store/actions/toaster-actions";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
-import { getActiveSession } from "../../store/actions/session-actions";
 import { ClassesModal } from "./classesModal";
 const UnenrolledStudentsList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [showEnrollButton, setEnrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  const [query, setQuery] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { unenrolledStudents, selectedIds } = state.enrollment;
-  const { activeSession } = state.session;
   const { modalResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getActiveSession()(dispatch)
     getAllUnenrolledStudents()(dispatch);
   }, []);
 
-  React.useEffect(() => {
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
 
   //ENROLL HANDLER
   React.useEffect(() => {
@@ -88,7 +82,23 @@ const UnenrolledStudentsList = () => {
     });
     returnList(unenrolledStudents)(dispatch);
   };
-
+  const sortedList = unenrolledStudents.sort(function(a, b) {
+    if(a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
+    if(a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
+    return 0;
+   })
+  const filteredUnenrolledStudents = sortedList.filter((students) => {
+    if (query === "") {
+      //if query is empty
+      return students;
+    } else if (students.studentName.toLowerCase().includes(query.toLowerCase())) {
+      //returns filtered array
+      return students;
+    }else if (students.studentRegNumber.toLowerCase().includes(query.toLowerCase())) {
+      //returns filtered array
+      return students;
+    }  
+  });
 
   return (
     <>
@@ -98,11 +108,52 @@ const UnenrolledStudentsList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Unenrolled Students List</h4>
+                  <h4 className="card-title mb-3">Unenrolled Students List</h4>
                 </div>
               </Card.Header>
               <ClassesModal />
-              <div className="d-flex justify-content-end">
+              <div className="d-md-flex justify-content-between">
+                <div>
+                  <div className="input-group">
+                    <span
+                      className="input-group-text border-0"
+                      id=""
+                    >
+                      <svg
+                        width="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="11.7669"
+                          cy="11.7666"
+                          r="8.98856"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></circle>
+                        <path
+                          d="M18.0186 18.4851L21.5426 22"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </span>
+                    <div>
+                      <input
+                        type="search"
+                        className="form-control text-lowercase"
+                        placeholder="Search..."
+                        onChange={(event) => setQuery(event.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              <div className="d-flex justify-content-end px-2">
                 {showEnrollButton ? (
                   <button
                     type="button"
@@ -210,6 +261,7 @@ const UnenrolledStudentsList = () => {
                   </button>
                 )}
               </div>
+              </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -243,7 +295,7 @@ const UnenrolledStudentsList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {unenrolledStudents.map((student, idx) => (
+                      {filteredUnenrolledStudents.map((student, idx) => (
                         <tr key={idx}>
                           <td className="">
                             <b>{showCheckBoxes ? (

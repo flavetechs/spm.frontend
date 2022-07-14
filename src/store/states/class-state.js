@@ -11,4 +11,11 @@ export const _state = {
   activeClasses: [],
   classSubjects: [],
   classStudents: null,
+
+  classRegister:[],
+  singleClassRegister:[],
+  newClassRegister:[],
+  registerLabelUpdateSuccessful:false,
+  studentsPresence:null,
+  createSuccessful:false,
 };

@@ -42,8 +42,10 @@ import AdminScoreEntry from '../components/smp-result-management/admin-score-ent
 import MasterList from '../components/smp-result-management/master-list';
 import PublishResultEdit from '../components/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
-import PrintResult from '../components/smp-result-management/print-result';
-import PrintResultInput from '../components/smp-result-management/print-result-input';
+import TemplateControl from '../components/smp-result-management/result-templates/template-control';
+import Attendance from '../components/spm-class/attendance-on-update';
+// import PrintResult from '../components/smp-result-management/print-result';
+// import PrintResultInput from '../components/smp-result-management/print-result-input';
 import Setting from '../components/smp-portal-setting/setting';
 
 const DashboardRouter = () => {
@@ -63,6 +65,9 @@ const DashboardRouter = () => {
 
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
+                    <Route path={classLocations.classAttendance} exact component={Attendance} />
+                    {/* <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} /> */}
                 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
@@ -96,8 +101,8 @@ const DashboardRouter = () => {
                     <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
 
                      {/* enrollment */}
-                     <Route path={enrollment.unenrolledStudents} exact component={UnenrolledStudentsList} />
-                     <Route path={enrollment.enrolledStudents} exact component={EnrolledStudents} />
+                     <Route path={studentsLocations.unenrolledStudents} exact component={UnenrolledStudentsList} />
+                     <Route path={studentsLocations.enrolledStudents} exact component={EnrolledStudents} />
 
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />
@@ -109,7 +114,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.masterList} exact component={MasterList} />
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
-                      <Route path={resultManagement.printResult} exact component={PrintResultInput} />
+                      {/* <Route path={resultManagement.printResult} exact component={PrintResultInput} /> */}
 
 
                       {/* portal setting */}

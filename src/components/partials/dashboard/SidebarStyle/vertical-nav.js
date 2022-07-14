@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
-import { classLocations, enrollment, gradeSetting, permissionLocations, portalSetting, resultManagement, sessionLocations, staffLocations, studentsLocations } from '../../../../router/spm-path-locations';
+import { classLocations, gradeSetting, permissionLocations, portalSetting, resultManagement, sessionLocations, staffLocations, studentsLocations } from '../../../../router/spm-path-locations';
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -167,7 +167,7 @@ const VerticalNav = () => {
                                         </svg>
                                     </i>
                                     <i className="sidenav-mini-icon"> S </i>
-                                    <span className="item-name">Session Class</span>
+                                    <span className="item-name">Class</span>
                                 </Link>
                             </li>
                         </ul>
@@ -228,7 +228,7 @@ const VerticalNav = () => {
                     <Accordion.Collapse eventKey="sidebar-special" >
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.classAttendance ? 'active' : ''} nav-link`} to={classLocations.classAttendance}>
+                                <Link className={`${location.pathname === classLocations.classAttendanceBoard ? 'active' : ''} nav-link`} to={classLocations.classAttendanceBoard}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -319,24 +319,10 @@ const VerticalNav = () => {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                </Accordion.Item>
-
-                <Accordion.Item as="li" eventKey="sidebar-enrollment" bsPrefix="nav-item">
-                    <CustomToggle eventKey="sidebar-enrollment" onClick={(activeKey) => setActiveMenu(activeKey)}>
-                        <i className="icon">
-                            <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.4" d="M18.8088 9.021C18.3573 9.021 17.7592 9.011 17.0146 9.011C15.1987 9.011 13.7055 7.508 13.7055 5.675V2.459C13.7055 2.206 13.5026 2 13.253 2H7.96363C5.49517 2 3.5 4.026 3.5 6.509V17.284C3.5 19.889 5.59022 22 8.16958 22H16.0453C18.5058 22 20.5 19.987 20.5 17.502V9.471C20.5 9.217 20.298 9.012 20.0465 9.013C19.6247 9.016 19.1168 9.021 18.8088 9.021Z" fill="currentColor"></path><path opacity="0.4" d="M16.0842 2.56737C15.7852 2.25637 15.2632 2.47037 15.2632 2.90137V5.53837C15.2632 6.64437 16.1742 7.55437 17.2792 7.55437C17.9772 7.56237 18.9452 7.56437 19.7672 7.56237C20.1882 7.56137 20.4022 7.05837 20.1102 6.75437C19.0552 5.65737 17.1662 3.69137 16.0842 2.56737Z" fill="currentColor"></path><path d="M14.3672 12.2364H12.6392V10.5094C12.6392 10.0984 12.3062 9.7644 11.8952 9.7644C11.4842 9.7644 11.1502 10.0984 11.1502 10.5094V12.2364H9.4232C9.0122 12.2364 8.6792 12.5704 8.6792 12.9814C8.6792 13.3924 9.0122 13.7264 9.4232 13.7264H11.1502V15.4524C11.1502 15.8634 11.4842 16.1974 11.8952 16.1974C12.3062 16.1974 12.6392 15.8634 12.6392 15.4524V13.7264H14.3672C14.7782 13.7264 15.1122 13.3924 15.1122 12.9814C15.1122 12.5704 14.7782 12.2364 14.3672 12.2364Z" fill="currentColor"></path></svg>
-                        </i>
-                        <span className="item-name">Enrollment</span>
-                        <i className="right-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </i>
-                    </CustomToggle>
-                    <Accordion.Collapse eventKey="sidebar-enrollment">
+                    <Accordion.Collapse eventKey="sidebar-student">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === enrollment.enrolledStudents ? 'active' : ''} nav-link`} to={enrollment.enrolledStudents}>
+                                <Link className={`${location.pathname === studentsLocations.enrolledStudents ? 'active' : ''} nav-link`} to={studentsLocations.enrolledStudents}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -350,10 +336,10 @@ const VerticalNav = () => {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                    <Accordion.Collapse eventKey="sidebar-enrollment">
+                    <Accordion.Collapse eventKey="sidebar-student">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === enrollment.unenrolledStudents ? 'active' : ''} nav-link`} to={enrollment.unenrolledStudents}>
+                                <Link className={`${location.pathname === studentsLocations.unenrolledStudents ? 'active' : ''} nav-link`} to={studentsLocations.unenrolledStudents}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -367,8 +353,9 @@ const VerticalNav = () => {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-
                 </Accordion.Item>
+
+              
                 <li><hr className="hr-horizontal" /></li>
 
                 <li className="nav-item">
@@ -518,6 +505,23 @@ const VerticalNav = () => {
                                     </i>
                                     <i className="sidenav-mini-icon"> P </i>
                                     <span className="item-name">Portal Setting</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                    <Accordion.Collapse eventKey="sidebar-setting">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === portalSetting.templateSetting ? 'active' : ''} nav-link`} to={portalSetting.templateSetting}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> P </i>
+                                    <span className="item-name">Template Setting</span>
                                 </Link>
                             </li>
                         </ul>

@@ -1,6 +1,6 @@
 import { Button, Row, Table } from "react-bootstrap";
 
-const CumulativeMasterListSmallTable = ({cumulativeListEntry, setShowCumulativeMasterListTable}) => {
+const CumulativeMasterListSmallTable = ({ cumulativeEntry, setShowCumulativeMasterListTable}) => {
 
   return (
     <>
@@ -13,15 +13,15 @@ const CumulativeMasterListSmallTable = ({cumulativeListEntry, setShowCumulativeM
             <tbody>
               <tr>
                 <th className="h6">Session</th>
-                <td className="fw-bold">{cumulativeListEntry?.session}</td>
+                <td className="fw-bold">{cumulativeEntry?.session}</td>
               </tr>
               <tr>
                 <th className="h6">Class</th>
-                <td className="fw-bold text-capitalize">{cumulativeListEntry?.sessionClass}</td>
+                <td className="fw-bold text-capitalize">{cumulativeEntry?.sessionClass}</td>
               </tr>
               <tr>
                 <th className="h6">Form Teacher</th>
-                <td className="fw-bold text-capitalize">{cumulativeListEntry?.formTeacher}</td>
+                <td className="fw-bold text-capitalize">{cumulativeEntry?.formTeacher}</td>
               </tr>
             </tbody>
           </Table>
