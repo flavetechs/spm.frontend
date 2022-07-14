@@ -256,8 +256,13 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
         cumulativeEntry: payload,
       };
     }
-
-
+//template setting reducer
+case actions.SET_TEMPLATE_SETTING_STATE: {
+  return {
+    ...state,
+    templateSetting: payload,
+  };
+}
     default:
       return state
   }

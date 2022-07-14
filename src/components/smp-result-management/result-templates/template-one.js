@@ -119,7 +119,7 @@ const ResultTemplateOne = () => {
                           </td>
                           <td className="fw-bold text-uppercase" style={{ color: "#2d2d2d" }}>
                             {studentResult?.position} out of{" "}
-                            {studentResult?.noOfStudents} student
+                            {studentResult?.noOfStudents} student(s)
                           </td>
                         </tr>
                         <tr>
@@ -168,7 +168,7 @@ const ResultTemplateOne = () => {
                         className=" table-bordered border-dark"
                       >
                         <tbody>
-                          {studentResult?.cognitiveBehaviour.map(
+                          {studentResult?.cognitiveBehaviour?.map(
                             (cognitive, idx) => (
                               <tr key={idx}>
                                 <th className="fw-bold h6 text-uppercase">

@@ -74,7 +74,7 @@ const PrintResult = () => {
                     enableReinitialize={true}
                     onSubmit={(values) => {
                    history.push(resultManagement.resultTemplate);
-                   getAllStudentResult(values.sessionClassId,values.sessionTermId,values.studentContactId)(dispatch)
+                  getAllStudentResult(values.sessionClassId,values.sessionTermId,values.studentContactId)(dispatch)
                     }}
                   >
                     {({

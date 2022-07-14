@@ -1,4 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
+import TemplateSetting from "../../components/smp-portal-setting/template-setting";
 import { actions } from "../action-types/results-action-types"
 import { showErrorToast } from "./toaster-actions";
 
@@ -338,19 +339,19 @@ export const getAllStudentResult = (sessionClassId, termId, studentContactId) =>
         payload: sessionClassId
     });
 
-    // axiosInstance.get(`/api/v1/result/get/student-result?sessionClassId=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
-    //     .then((res) => {
-    //         dispatch({
-    //             type: actions.FETCH_STUDENT_RESULT_SUCCESS,
-    //             payload: res.data.result
-    //         });
-    //         showHidePreview(true)(dispatch);
-    //     }).catch((err) => {
-    //         dispatch({
-    //             type: actions.FETCH_STUDENT_RESULT_FAILED,
-    //             payload: err.response.data.result
-    //         })
-    //     });
+    axiosInstance.get(`/api/v1/result/get/student-result?sessionClassId=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_RESULT_SUCCESS,
+                payload: res.data.result
+            });
+            showHidePreview(true)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_RESULT_FAILED,
+                payload: err.response.data.result
+            })
+        });
 }
 
 export const resetListEntryOnExit = () => (dispatch) => {
@@ -379,3 +380,11 @@ export const resetCumulativeListEntryOnExit = () => (dispatch) => {
         payload: null
     });
 }
+
+// TemplateSetting action
+export const setTemplateSettingState = (templateName) => (dispatch) => {
+    dispatch({
+         type: actions.SET_TEMPLATE_SETTING_STATE,
+         payload: templateName
+     });
+    }

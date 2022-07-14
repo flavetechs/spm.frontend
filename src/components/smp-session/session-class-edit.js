@@ -532,7 +532,7 @@ const SessionClassEdit = () => {
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
-                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore||values.examScore}
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(e.target.value),
@@ -566,7 +566,7 @@ const SessionClassEdit = () => {
                                     type="number"
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
-                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment||values.assessmentScore}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required

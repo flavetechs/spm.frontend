@@ -13,7 +13,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
-import { getGeneralActiveSession } from '../../store/actions/general-actions';
 
 const ClassSetupList = () => {
   //VARIABLE DECLARATIONS
