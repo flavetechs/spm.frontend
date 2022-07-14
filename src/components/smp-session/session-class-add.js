@@ -500,7 +500,7 @@ const SessionClassAdd = () => {
                                     className="form-control px-1"
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
-                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore}
+                                    defaultValue={values.examScore}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
@@ -538,7 +538,7 @@ const SessionClassAdd = () => {
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
-                                    value={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment}
+                                    defaultValue={values.assessmentScore}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
                                     placeholder=" "

@@ -99,9 +99,9 @@ const ScoreEntry = () => {
                     }) => (
                       <Form>
                         <Row>
+                          <div className="d-flex justify-content-end">
                           <Link
                             to={resultManagement.adminScoreEntry}
-                            className="d-flex justify-content-end"
                           >
                             <button
                               type="button"
@@ -136,7 +136,7 @@ const ScoreEntry = () => {
                               </svg>{" "}
                               View Previous Score Entries
                             </button>
-                          </Link>
+                          </Link></div>
                           <Col md="6">
                             {touched.sessionClassId &&
                               errors.sessionClassId && (

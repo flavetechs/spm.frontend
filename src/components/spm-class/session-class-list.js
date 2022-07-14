@@ -26,7 +26,7 @@ const SessionClassList2 = () => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
   }, [activeSession]);
 
-  console.log(itemList);
+
   return (
     <>
       <div>

@@ -94,7 +94,7 @@ export const getAllEnrolledStudents = (sessionClassId) => (dispatch) => {
         });
 }
 
-export const unEnrollStudent = (studentContactId) => (dispatch) => {
+export const unEnrollStudent = (studentContactId, sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.UNENROLL_STUDENTS_LOADING
     });
@@ -107,7 +107,7 @@ export const unEnrollStudent = (studentContactId) => (dispatch) => {
                 type: actions.UNENROLL_STUDENTS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllEnrolledStudents()(dispatch);
+            getAllEnrolledStudents(sessionClassId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
 import { ExportCSV } from "../../utils/export-csv";
 
 const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
+  const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const tableRef = useRef(null);
 
   if (cumulativeEntry?.resultList == null) {
@@ -27,15 +28,68 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
-          <Button
+        <Button
             type="button"
-            className="btn-sm mx-2"
+            className="btn-sm mx-2 d-flex"
             variant="btn btn-success"
-            onClick={() => {
-              ExportCSV("cumulative-master-list", "cumulative-master-list");
-            }}
+            onClick={() => setShowMenuDropdown(!showMenuDropdown)}
           >
-            Download
+            <div>Export</div> 
+            <div className="dropdown show px-1">
+              <svg
+                width="10"
+                fill="white"
+                viewBox="0 0 320 512"
+                onClick={() => setShowMenuDropdown(!showMenuDropdown)}
+              >
+                <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
+              </svg>
+              {showMenuDropdown && (
+                <div
+                  x-placement="bottom-start"
+                  aria-labelledby=""
+                  className="dropdown-menu show"
+                  style={{
+                    position: "absolute",
+                    inset: "-25px auto auto -100px",
+                    transform: "translate(0px, 42px)",
+                  }}
+                  data-popper-placement="bottom-end"
+                  data-popper-escaped="false"
+                  data-popper-reference-hidden="false"
+                >
+                  <div
+                    onClick={() => {
+                      ExportCSV("master-list", "master-list");
+                      setShowMenuDropdown(false);
+                    }}
+                    className="dropdown-item"
+                    role="button"
+                    draggable="false"
+                  >
+                    Excel
+                  </div>
+                  <div
+                    onClick={() => {
+                      setShowMenuDropdown(false);
+                    }}
+                    className="dropdown-item"
+                    role="button"
+                    draggable="false"
+                  >
+                    Word
+                  </div>
+                  <div
+                    onClick={() => {}}
+                    className="dropdown-item"
+                    role="button"
+                    draggable="false"
+                  >
+                    PDF
+                  </div>
+                </div>
+              )}
+            </div>
           </Button>
         </div>
 

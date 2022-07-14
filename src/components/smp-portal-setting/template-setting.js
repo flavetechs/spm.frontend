@@ -1,55 +1,85 @@
 import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { showHideModal } from "../../store/actions/toaster-actions";
+import { setTemplateSettingState } from "../../store/actions/results-actions";
+import { respondDialog, showHideDialog, showHideModal } from "../../store/actions/toaster-actions";
 import { TemplateModal } from "./template-modal";
 
 const TemplateSetting = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  const { dialogResponse } = state.alert;
+  const { templateSetting } = state.results;
   const [imageDisplay, setImageDisplay] = useState("");
+  const [templateName, setTemplateName] = useState("");
+
   const imageData = [
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
       isChecked: true,
+      templateName:"template-one",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/7.png",
       isChecked: false,
+      templateName:"template-two",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/2.png",
       isChecked: false,
+      templateName:"template-three",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/1.png",
       isChecked: false,
+      templateName:"template-four",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/6.png",
       isChecked: false,
+      templateName:"template-five",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/5.png",
       isChecked: false,
+      templateName:"template-six",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/4.png",
       isChecked: false,
+      templateName:"template-seven",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
       isChecked: false,
+      templateName:"template-eight",
     },
   ];
+  React.useEffect(() => {
+    if(!templateName){
+    setTemplateName(imageData.find(d=>d.isChecked == true)?.templateName)
+    }
+  }, [imageData]);
+
+  React.useEffect(() => {
+    if (dialogResponse === "continue") {
+      setTemplateSettingState(templateName)(dispatch);
+      showHideDialog(false, null)(dispatch);
+      respondDialog("")(dispatch);
+    }
+    return () => {
+      respondDialog("")(dispatch);
+    };
+  }, [dialogResponse]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -84,7 +114,13 @@ const TemplateSetting = () => {
                                 type="radio"
                                 name="radioButton"
                                 defaultChecked={data.isChecked}
-                                onChange={()=>{}}
+                                onClick={() => {
+                                  setTemplateName(data.templateName)
+                                  showHideDialog(
+                                    true,
+                                    "Are you sure you want to choose this as default template"
+                                  )(dispatch);
+                                }}
                               />
                               <p className=" mb-0 text-dark">Select Template</p>
                             </div>

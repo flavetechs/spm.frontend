@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  Row,
-  Col,
-  Tooltip,
-  OverlayTrigger,
-} from "react-bootstrap";
+import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
 import {
@@ -16,8 +11,13 @@ import {
 } from "../../store/actions/enrollment-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
-import { showErrorToast, showHideModal } from "../../store/actions/toaster-actions";
+import {
+  respondModal,
+  showErrorToast,
+  showHideModal,
+} from "../../store/actions/toaster-actions";
 import { ClassesModal } from "./classesModal";
+
 const UnenrolledStudentsList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
@@ -36,24 +36,18 @@ const UnenrolledStudentsList = () => {
     getAllUnenrolledStudents()(dispatch);
   }, []);
 
-
   //ENROLL HANDLER
   React.useEffect(() => {
-    if (modalResponse == 'continue') {
-      if (selectedIds.length === 0) {
-        showErrorToast("No Student selected to be enrolled")(dispatch);
-      } else {
-        enrollStudent(selectedIds)(dispatch);
-        setEnrollButton(!showEnrollButton);
-        setShowCheckBoxes(false);
-      }
-    }else{
+    if (modalResponse == "cancel") {
       checkAllItems(false, unenrolledStudents);
       setEnrollButton(true);
       setShowCheckBoxes(false);
       selectedIds.forEach((id) => {
         dispatch(removeId(id));
       });
+    }
+    return () => {
+      respondModal("")(dispatch)
     }
   }, [modalResponse]);
   //ENROLL HANDLER
@@ -82,22 +76,26 @@ const UnenrolledStudentsList = () => {
     });
     returnList(unenrolledStudents)(dispatch);
   };
-  const sortedList = unenrolledStudents.sort(function(a, b) {
-    if(a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
-    if(a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
+  const sortedList = unenrolledStudents.sort(function (a, b) {
+    if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
+    if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
     return 0;
-   })
+  });
   const filteredUnenrolledStudents = sortedList.filter((students) => {
     if (query === "") {
       //if query is empty
       return students;
-    } else if (students.studentName.toLowerCase().includes(query.toLowerCase())) {
+    } else if (
+      students.studentName.toLowerCase().includes(query.toLowerCase())
+    ) {
       //returns filtered array
       return students;
-    }else if (students.studentRegNumber.toLowerCase().includes(query.toLowerCase())) {
+    } else if (
+      students.studentRegNumber.toLowerCase().includes(query.toLowerCase())
+    ) {
       //returns filtered array
       return students;
-    }  
+    }
   });
 
   return (
@@ -115,10 +113,7 @@ const UnenrolledStudentsList = () => {
               <div className="d-md-flex justify-content-between">
                 <div>
                   <div className="input-group">
-                    <span
-                      className="input-group-text border-0"
-                      id=""
-                    >
+                    <span className="input-group-text border-0" id="">
                       <svg
                         width="18"
                         viewBox="0 0 24 24"
@@ -153,114 +148,120 @@ const UnenrolledStudentsList = () => {
                     </div>
                   </div>
                 </div>
-              <div className="d-flex justify-content-end px-2">
-                {showEnrollButton ? (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary "
-                    onClick={() => {
-                      setEnrollButton(!showEnrollButton);
-                      setShowCheckBoxes(!showCheckBoxes);
-                    }}
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M19.2036 8.66919V12.6792"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M21.2497 10.6741H17.1597"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Enroll Students</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#viewModal"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      showHideModal(true)(dispatch);
-                    }}
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M19.2036 8.66919V12.6792"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M21.2497 10.6741H17.1597"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Enroll Selected</span>
-                  </button>
-                )}
-              </div>
+                <div className="d-flex justify-content-end px-2">
+                  {showEnrollButton ? (
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary "
+                      onClick={() => {
+                        setEnrollButton(!showEnrollButton);
+                        setShowCheckBoxes(!showCheckBoxes);
+                      }}
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          width="32"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M19.2036 8.66919V12.6792"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M21.2497 10.6741H17.1597"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span> Enroll Students</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      data-toggle="modal"
+                      data-target="#viewModal"
+                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                      onClick={() => {
+                        if (selectedIds.length == 0) {
+                          showErrorToast("No Student selected to be enrolled")(
+                            dispatch
+                          );
+                        } else {
+                          showHideModal(true)(dispatch);
+                        }
+                      }}
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          width="32"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M19.2036 8.66919V12.6792"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M21.2497 10.6741H17.1597"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span> Enroll Selected</span>
+                    </button>
+                  )}
+                </div>
               </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -282,7 +283,6 @@ const UnenrolledStudentsList = () => {
                                   e.target.checked,
                                   unenrolledStudents
                                 );
-
                               }}
                             />
                           ) : (
@@ -298,32 +298,42 @@ const UnenrolledStudentsList = () => {
                       {filteredUnenrolledStudents.map((student, idx) => (
                         <tr key={idx}>
                           <td className="">
-                            <b>{showCheckBoxes ? (
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                checked={student.isChecked || false}
-                                onChange={(e) => {
-                                  checkSingleItem(
-                                    e.target.checked,
-                                    student.studentContactId,
-                                    unenrolledStudents
-                                  );
-
-                                }}
-                              />
-                            ) : (
-                              idx + 1
-                            )}</b>
+                            <b>
+                              {showCheckBoxes ? (
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  checked={student.isChecked || false}
+                                  onChange={(e) => {
+                                    checkSingleItem(
+                                      e.target.checked,
+                                      student.studentContactId,
+                                      unenrolledStudents
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                idx + 1
+                              )}
+                            </b>
                           </td>
-                          <td className="text-uppercase"><b>{student.studentName}</b></td>
-                          <td className="text-uppercase"><b>{student.studentRegNumber}</b></td>
+                          <td className="text-uppercase">
+                            <b>{student.studentName}</b>
+                          </td>
+                          <td className="text-uppercase">
+                            <b>{student.studentRegNumber}</b>
+                          </td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> details</Tooltip>}
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    details
+                                  </Tooltip>
+                                }
                               >
                                 <Link
                                   className="btn btn-sm btn-icon btn-success"
@@ -369,7 +379,12 @@ const UnenrolledStudentsList = () => {
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> enroll</Tooltip>}
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    enroll
+                                  </Tooltip>
+                                }
                               >
                                 <Link
                                   className="btn btn-sm btn-icon btn-warning"
