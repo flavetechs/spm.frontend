@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -44,6 +44,7 @@ import PublishResultEdit from '../components/smp-result-management/publish-resul
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
 import PrintResult from '../components/smp-result-management/print-result';
 import PrintResultInput from '../components/smp-result-management/print-result-input';
+import Setting from '../components/smp-portal-setting/setting';
 
 const DashboardRouter = () => {
 
@@ -109,6 +110,10 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={resultManagement.printResult} exact component={PrintResultInput} />
+
+
+                      {/* portal setting */}
+                      <Route path={portalSetting.setting} exact component={Setting} />
 
                 </Switch>
             </CSSTransition>
