@@ -170,7 +170,7 @@ const ScoreEntry = () => {
                               }}
                             >
                               <option value="">Select Class</option>
-                              {staffClasses.map((classes, idx) => (
+                              {staffClasses?.map((classes, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
