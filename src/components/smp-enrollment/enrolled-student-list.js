@@ -23,7 +23,7 @@ import {
   getAllSession,
 } from "../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
-import { Field, Formik } from "formik";
+
 
 const EnrolledStudents = () => {
   //VARIABLE DECLARATIONS
@@ -49,6 +49,10 @@ const EnrolledStudents = () => {
   }, []);
 
   React.useEffect(() => {
+    getAllEnrolledStudents(sessionClassId)(dispatch);
+  }, [sessionClassId]);
+
+  React.useEffect(() => {
     if (!sessionId) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
     } else {
@@ -62,7 +66,7 @@ const EnrolledStudents = () => {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        unEnrollStudent(selectedIds)(dispatch);
+        unEnrollStudent(selectedIds,sessionClassId)(dispatch);
         setUnenrollButton(!showUnenrollButton);
         setShowCheckBoxes(false);
 
@@ -199,14 +203,13 @@ const EnrolledStudents = () => {
                       ))}
                     </select>
                   </div>
-                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-3 mt-2 mt-xl-0">
+                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-4 mt-2 mt-xl-0">
                     <select
                       name="sessionClassId"
                       className="form-select"
                       id="sessionClassId"
                       onChange={(e) => {
                         setSessionClassId(e.target.value);
-                        getAllEnrolledStudents(e.target.value)(dispatch);
                       }}
                     >
                       <option value="">Select Class</option>

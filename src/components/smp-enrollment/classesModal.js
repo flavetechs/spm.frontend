@@ -1,6 +1,5 @@
 import {
     Button,
-    Modal,
 } from "react-bootstrap";
 import { Field, Formik } from "formik";
 import * as Yup from "yup";
@@ -8,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { enrollStudent } from "../../store/actions/enrollment-actions";
 import { SmpModal } from "../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../store/actions/toaster-actions";
+import React from "react";
+import { getGeneralActiveSession } from "../../store/actions/general-actions";
+import { getAllSessionClasses } from "../../store/actions/class-actions";
 
 export function ClassesModal() {
     const dispatch = useDispatch();
@@ -22,8 +24,17 @@ export function ClassesModal() {
     const state = useSelector((state) => state);
     const { selectedIds, message } = state.enrollment;
     const { itemList } = state.class;
+    const { activeSession } = state.appState;
     // ACCESSING STATE FROM REDUX STORE
-    console.log('selectedIds', selectedIds);
+  
+    React.useEffect(() => {
+      getGeneralActiveSession()(dispatch);
+    }, []);
+  
+    React.useEffect(() => {
+      getAllSessionClasses(activeSession?.sessionId)(dispatch);
+    }, [activeSession]);
+
     return (
 
         <SmpModal title={'Enroll student(s) into class'}>
