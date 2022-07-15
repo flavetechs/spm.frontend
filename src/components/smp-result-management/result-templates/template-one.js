@@ -8,7 +8,7 @@ const ResultTemplateOne = () => {
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
   // ACCESSING STATE FROM REDUX STORE
-
+console.log("studentResult",studentResult)
   return (
     <>
       <div className="col-md-12 mx-auto">
