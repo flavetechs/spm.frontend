@@ -30,7 +30,7 @@ const EnrolledStudents = () => {
   const dispatch = useDispatch();
   const [showUnenrollButton, setUnenrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [query, setQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [sessionClassId, setSessionClassId] = useState("");
   const [sessionId, setSessionId] = useState("");
   //VARIABLE DECLARATIONS
@@ -115,16 +115,16 @@ const EnrolledStudents = () => {
     return 0;
   });
   let filteredEnrolledStudents = sortedList.filter((students) => {
-    if (query === "") {
+    if (searchQuery === "") {
       //if query is empty
       return students;
     } else if (
-      students.studentName.toLowerCase().includes(query.toLowerCase())
+      students.studentName.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return students;
     } else if (
-      students.studentRegNumber.toLowerCase().includes(query.toLowerCase())
+      students.studentRegNumber.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return students;
@@ -175,7 +175,7 @@ const EnrolledStudents = () => {
                         type="search"
                         className="form-control text-lowercase"
                         placeholder="Search..."
-                        onChange={(event) => setQuery(event.target.value)}
+                        onChange={(event) => setSearchQuery(event.target.value)}
                       />
                     </div>
                   </div>

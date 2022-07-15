@@ -23,7 +23,7 @@ const UnenrolledStudentsList = () => {
   const dispatch = useDispatch();
   const [showEnrollButton, setEnrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [query, setQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -82,16 +82,16 @@ const UnenrolledStudentsList = () => {
     return 0;
   });
   const filteredUnenrolledStudents = sortedList.filter((students) => {
-    if (query === "") {
+    if (searchQuery === "") {
       //if query is empty
       return students;
     } else if (
-      students.studentName.toLowerCase().includes(query.toLowerCase())
+      students.studentName.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return students;
     } else if (
-      students.studentRegNumber.toLowerCase().includes(query.toLowerCase())
+      students.studentRegNumber.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return students;
@@ -143,7 +143,7 @@ const UnenrolledStudentsList = () => {
                         type="search"
                         className="form-control text-lowercase"
                         placeholder="Search..."
-                        onChange={(event) => setQuery(event.target.value)}
+                        onChange={(event) => setSearchQuery(event.target.value)}
                       />
                     </div>
                   </div>
