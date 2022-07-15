@@ -275,10 +275,10 @@ const PrintResult = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
-                              getAllResultList(
-                                e.target.value,
-                                values.sessionTermId
-                              )(dispatch);
+                              // getAllResultList(
+                              //   e.target.value,
+                              //   values.sessionTermId
+                              // )(dispatch);
                             }}
                           >
                             <option value="">Select Class</option>
