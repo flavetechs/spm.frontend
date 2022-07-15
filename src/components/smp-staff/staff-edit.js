@@ -95,6 +95,7 @@ const StaffEdit = () => {
                   values.middleName = values.middleName.toUpperCase();
                   values.photo = images;
                   const params = new FormData();
+                  params.append("teacherUserAccountId", values.teacherUserAccountId);
                   params.append("firstName", values.firstName);
                   params.append("lastName", values.lastName);
                   params.append("middleName", values.middleName);
