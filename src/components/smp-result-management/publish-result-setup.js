@@ -9,7 +9,6 @@ import PublishResultTable from "./publish-result-table";
 import {
   getAllResultList,
   getAllSchoolSessions,
-  getAllTerms,
   getTermClasses,
   setSessionClassIdAndTermId,
   resetPublishPage,

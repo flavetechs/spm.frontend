@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import {
   fetchSingleStudent,
