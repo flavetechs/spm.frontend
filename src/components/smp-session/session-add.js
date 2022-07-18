@@ -35,7 +35,6 @@ const SessionAdd = () => {
   const state = useSelector((state) => state);
   const { isSuccessful, message } = state.session;
   const { activeTeachers } = state.class;
-  const { staffList } = state.staff;
   // ACCESSING STATE FROM REDUX STORE
 
 

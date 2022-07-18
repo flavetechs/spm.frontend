@@ -7,7 +7,6 @@ import {
   pushId,
   removeId,
   returnList,
-  enrollStudent,
 } from "../../store/actions/enrollment-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../router/spm-path-locations";
