@@ -23,7 +23,6 @@ const PublishResultTable = ({
 }) => {
   const state = useSelector((state) => state);
   const { publishResults } = state.publish;
-  const history = useHistory();
   const dispatch = useDispatch();
 
   return (
@@ -202,7 +201,7 @@ const PublishResultTable = ({
                         data-placement="top"
                         title=""
                         data-original-title="Details"
-                        to={`${studentsLocations.studentDetails}?studentAccountId=${list.studentContactId}`}
+                        to={`${studentsLocations.studentDetails}?studentAccountId=${list.studentContactId}&sessionClassId=${idsObj.sessionClassId}&termId=${idsObj.termId}`}
                       >
                         <span className="btn-inner">
                           <svg

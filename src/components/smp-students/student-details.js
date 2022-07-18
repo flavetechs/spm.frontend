@@ -14,6 +14,7 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { getAllResultList } from "../../store/actions/publish-actions";
 
 const StudentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -181,6 +182,10 @@ const StudentDetails = () => {
                       variant="btn btn-danger mx-2"
                       onClick={() => {
                         history.goBack();
+                        const queryParams = new URLSearchParams(locations.search);
+                        const sessionClassId = queryParams.get("sessionClassId");
+                        const termId = queryParams.get("termId");
+                        getAllResultList(sessionClassId, termId)(dispatch);
                       }}
                     >
                       Cancel

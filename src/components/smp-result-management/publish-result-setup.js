@@ -16,8 +16,8 @@ import {
 } from "../../store/actions/publish-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
 
-const PublishResult = () => {
 
+const PublishResult = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { schoolSessions, termClasses, publishResults, idsObj } = state.publish;
@@ -63,7 +63,7 @@ const PublishResult = () => {
     setPreviewMode(false);
     return () => {
       resetPublishPage()(dispatch);
-      SetShowPublishResultTable(false);
+       SetShowPublishResultTable(false);
     };
   }, []);
 
