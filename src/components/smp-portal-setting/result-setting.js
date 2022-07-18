@@ -2,107 +2,107 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { createStudent } from "../../store/actions/student-actions";
 import { useHistory } from "react-router-dom";
-import { getActiveSession } from "../../store/actions/session-actions";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
-// import "./student-add.scss"
 
-const ResultSetting = ({ editButton, setEditButton, saveButton, setSaveButton }) => {
+import avatars1 from "../../assets/images/avatars/01.png";
+import avatars2 from "../../assets/images/avatars/avtar_2.png";
+import avatars3 from "../../assets/images/avatars/avtar_2.png";
+import avatars4 from "../../assets/images/avatars/avtar_3.png";
+import avatars5 from "../../assets/images/avatars/avtar_4.png";
+import avatars6 from "../../assets/images/avatars/avtar_5.png";
+import { getResultSettingList, updateResultSetting } from "../../store/actions/portal-setting-action";
+
+const ResultSetting = () => {
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { isSuccessful, message, schoolSettingList, resultSettingList, notificationSettingList } = state.portal;
+    console.log('resultSettingList now', resultSettingList);
+    console.log('resultSettingList promoteByPassmark', resultSettingList.promoteByPassmark);
+    let result = Array.isArray(resultSettingList)
+    console.log('result result', result);
+    // ACCESSING STATE FROM REDUX STORE
+
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState(null);
+    const [isChecked, setIsChecked] = useState(resultSettingList.promoteByPassmark);
+    const [isChecked1, setIsChecked1] = useState(resultSettingList.promoteAll);
+    const [isChecked2, setIsChecked2] = useState(resultSettingList.showPositionOnResult);
+    const [isChecked3, setIsChecked3] = useState(resultSettingList.cumulativeResult);
+    const [isChecked4, setIsChecked4] = useState(resultSettingList.showNewsletter);
+    const [isChecked5, setIsChecked5] = useState(resultSettingList.batchPrinting);
+    console.log('isChecked', isChecked);
+    const [editButton, setEditButton] = useState(false);
+    const [saveButton, setSaveButton] = useState(false);
+    const [disable, setDisable] = useState(true);
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
     const validation = Yup.object().shape({
-        // firstName: Yup.string()
-        //     .min(2, "First Name Too Short!")
-        //     .required("First Name is required"),
-        // lastName: Yup.string()
-        //     .min(2, "Last Name Too Short!")
-        //     .required("Last Name is required"),
-        // email: Yup.string().email("Invalid email format"),
-        // parentOrGuardianName: Yup.string()
-        //     .min(2, "Name Too Short!")
-        //     .required("Parent/Guardian name is required"),
-        // parentOrGuardianRelationship: Yup.string().required(
-        //     "Parent/Guardian relationship is required"
-        // ),
-        // parentOrGuardianPhone: Yup.string()
-        //     .min(2, "Number Too Short!")
-        //     .required("Parent/Guardian phone number is required"),
-        // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
-        // sessionClassId: Yup.string().required("Class name is required"),
+
     });
     //VALIDATIONS SCHEMA
 
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { isSuccessful, message } = state.student;
-    const { itemList } = state.class;
-    const { activeSession } = state.session;
-
-    // ACCESSING STATE FROM REDUX STORE
-
     React.useEffect(() => {
-        getActiveSession()(dispatch)
+        setSaveButton(true)
+        setEditButton(false)
+        getResultSettingList()(dispatch)
     }, []);
 
     React.useEffect(() => {
-        getAllSessionClasses(activeSession?.sessionId)(dispatch);
-    }, [activeSession]);
+        setImages(resultSettingList?.filepath)
+    }, [resultSettingList]);
 
-    if (isSuccessful) {
-        history.push(studentsLocations.studentList);
-    }
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
-            setImage(URL.createObjectURL(event.target.files[0]));
+            setImages(URL.createObjectURL(event.target.files[0]));
         }
     };
 
     return (
         <>
             <Formik
+                enableReinitialize={true}
                 initialValues={{
-                    firstName: "",
-                    lastName: "",
-                    middleName: "",
-                    phone: "",
-                    dob: "",
-                    email: "",
-                    homePhone: "",
-                    emergencyPhone: "",
-                    parentOrGuardianName: "",
-                    parentOrGuardianRelationship: "",
-                    parentOrGuardianPhone: "",
-                    parentOrGuardianEmail: "",
-                    homeAddress: "",
-                    cityId: "",
-                    stateId: "",
-                    countryId: "",
-                    zipCode: "",
+                    resultSettingId: resultSettingList.resultSettingId,
+                    promoteByPassmark: resultSettingList.promoteByPassmark,
+                    promoteAll: resultSettingList.promoteAll,
+                    showPositionOnResult: resultSettingList?.showPositionOnResult,
+                    cumulativeResult: resultSettingList?.cumulativeResult,
+                    showNewsletter: resultSettingList?.showNewsletter,
+                    batchPrinting: resultSettingList?.batchPrinting,
+                    filepath: resultSettingList?.filepath,
                     //photo: "",
-                    sessionClassId: "",
                 }}
                 validationSchema={validation}
                 onSubmit={(values) => {
-                    values.phone = values.phone.toString();
-                    values.homePhone = values.homePhone.toString();
-                    values.emergencyPhone = values.emergencyPhone.toString();
-                    values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
-                    values.firstName = values.firstName.toUpperCase();
-                    values.lastName = values.lastName.toUpperCase();
-                    values.middleName = values.middleName.toUpperCase();
-                    values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
-                    values.zipCode = values.zipCode.toString();
-                    createStudent(values)(dispatch);
+                    values.promoteByPassmark = values.promoteByPassmark;
+                    values.promoteAll = values.promoteAll;
+                    values.showPositionOnResult = values.showPositionOnResult;
+                    values.cumulativeResult = values.cumulativeResult;
+                    values.showNewsletter = values.showNewsletter;
+                    values.batchPrinting = values.batchPrinting;
+                    values.PrincipalStamp = values.PrincipalStamp;
+                    values.filepath = values.images;
+                    const params = new FormData();
+                    params.append("resultSettingId", values.resultSettingId);
+                    params.append("promoteByPassmark", values.promoteByPassmark);
+                    params.append("promoteAll", values.promoteAll);
+                    params.append("showPositionOnResult", values.showPositionOnResult);
+                    params.append("cumulativeResult", values.cumulativeResult);
+                    params.append("showNewsletter", values.showNewsletter);
+                    params.append("batchPrinting", values.batchPrinting);
+                    params.append("PrincipalStamp", values.PrincipalStamp);
+                    params.append("schoolType", values.schoolType);
+                    params.append("filepath", values.filepath);
+                    setSaveButton(!saveButton);
+                    setEditButton(!editButton);
+                    setDisable(true);
+                    updateResultSetting(values, params)(dispatch);
                 }}
             >
                 {({
@@ -116,7 +116,7 @@ const ResultSetting = ({ editButton, setEditButton, saveButton, setSaveButton })
                     setFieldValue,
                 }) => (
 
-                    <Row className="border-start border-4 mt-0">
+                    <Row className="border-start border-4 mt-0" style={{ backgroundColor: "hsl(200deg 33% 98%)" }}>
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
@@ -129,63 +129,196 @@ const ResultSetting = ({ editButton, setEditButton, saveButton, setSaveButton })
                                     {" "}
                                     <div className="new-user-info">
                                         <Form>
-                                            {message && <div className="text-danger">{message}</div>}
                                             <div className="row">
-                                                <Row>
-                                                    <div className="col-md-12">
-                                                        {touched.sessionClassId && errors.sessionClassId && (
-                                                            <div className="text-danger">{errors.sessionClassId}</div>
-                                                        )}
-                                                    </div>
-                                                </Row>
-                                                <Row>
-                                                    <div className="col-md-6">
-                                                        {touched.firstName && errors.firstName && (
-                                                            <div className="text-danger">
-                                                                {errors.firstName}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        {touched.lastName && errors.lastName && (
-                                                            <div className="text-danger">
-                                                                {errors.lastName}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </Row>
-                                                <div className="col-md-6 form-group">
-                                                    <Form.Check type="checkbox" label="Promote by pass mark" />
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <Form.Check type="checkbox" label="Promote all" />
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <Form.Check type="checkbox" label="Show position on result " />
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <Form.Check type="checkbox" label="Cumulative result" />
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <Form.Check type="checkbox" label="Show newsletter" />
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <Form.Check type="checkbox" label="Batch printing" />
-                                                </div>
-                                                {/* <div className="form-check mb-3 form-Check">
+                                                <div className="form-check mb-3 form-Check col-md-6">
                                                     <Field
+                                                        disabled={disable}
                                                         type="checkbox"
-                                                        id="customCheck1"
+                                                        id="promoteByPassmark"
                                                         className="form-check-input"
-                                                        // checked={isChecked}
-                                                        // onChange={(e) => {
-                                                        //     setIsChecked(!isChecked);
-                                                        // }}
+                                                        name="promoteByPassmark"
+                                                        checked={isChecked}
+                                                        onChange={() => {
+                                                            setIsChecked(!isChecked);
+                                                        }}
                                                     />
-                                                    <label htmlFor="customCheck1" className="">
-                                                        Notify me by Email{" "}
+                                                    <label htmlFor="promoteByPassmark" className="check-label">
+                                                        Promote by pass mark{" "}
                                                     </label>
-                                                </div> */}
+                                                </div>
+                                                <div className="form-check mb-3 form-Check col-md-6">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="checkbox"
+                                                        id="promoteAll"
+                                                        className="form-check-input"
+                                                        name="promoteAll"
+                                                        checked={isChecked1}
+                                                        onChange={() => {
+                                                            setIsChecked1(!isChecked1);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="promoteAll" className="check-label">
+                                                        Promote all{" "}
+                                                    </label>
+                                                </div>
+                                                <div className="form-check mb-3 form-Check col-md-6">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="checkbox"
+                                                        id="showPositionOnResult"
+                                                        className="form-check-input"
+                                                        name="showPositionOnResult"
+                                                        checked={isChecked2}
+                                                        onChange={() => {
+                                                            setIsChecked2(!isChecked2);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="showPositionOnResult" className="check-label">
+                                                        Show position on result{" "}
+                                                    </label>
+                                                </div>
+                                                <div className="form-check mb-3 form-Check col-md-6">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="checkbox"
+                                                        id="cumulativeResult"
+                                                        className="form-check-input"
+                                                        name="cumulativeResult"
+                                                        checked={isChecked3}
+                                                        onChange={() => {
+                                                            setIsChecked3(!isChecked3);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="cumulativeResult" className="check-label">
+                                                        Cumulative result{" "}
+                                                    </label>
+                                                </div>
+                                                <div className="form-check mb-3 form-Check col-md-6">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="checkbox"
+                                                        id="showNewsletter"
+                                                        className="form-check-input"
+                                                        name="showNewsletter"
+                                                        checked={isChecked4}
+                                                        onChange={() => {
+                                                            setIsChecked4(!isChecked4);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="showNewsletter" className="check-label">
+                                                        Show newsletter{" "}
+                                                    </label>
+                                                </div>
+                                                <div className="form-check mb-3 form-Check col-md-6">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="checkbox"
+                                                        id="batchPrinting"
+                                                        className="form-check-input"
+                                                        name="batchPrinting"
+                                                        checked={isChecked5}
+                                                        onChange={() => {
+                                                            setIsChecked5(!isChecked5);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="batchPrinting" className="check-label">
+                                                        Batch printing{" "}
+                                                    </label>
+                                                </div>
+                                                <div className="row form-group">
+                                                    <div className="col-md-6">
+                                                        <div className="header-title mt-3">
+                                                            <p className="card-title fw-bold">Principal Stamp</p>
+                                                        </div>
+                                                        <div className="profile-img-edit position-relative">
+                                                            <div>
+                                                                <img
+                                                                    src={avatars1}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars2}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars3}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars5}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars6}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars4}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />{" "}
+                                                            </div>
+                                                            <div className="upload-icone bg-primary">
+                                                                <label htmlFor="PrincipalStamp">
+                                                                    <svg
+                                                                        className="upload-button"
+                                                                        width="14"
+                                                                        height="14"
+                                                                        viewBox="0 0 24 24"
+                                                                        style={{ cursor: "pointer" }}
+                                                                    >
+                                                                        <path
+                                                                            fill="#ffffff"
+                                                                            d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    <input
+                                                                        disabled={disable}
+                                                                        type="file"
+                                                                        id="PrincipalStamp"
+                                                                        style={{ display: "none" }}
+                                                                        name="PrincipalStamp"
+                                                                        accept="image/jpeg,image/jpg,image/png"
+                                                                        className="file-upload form-control"
+                                                                        data-original-title="upload photos"
+                                                                        onChange={(event) => {
+                                                                            setFieldValue(
+                                                                                "PrincipalStamp",
+                                                                                event.currentTarget.files[0]
+                                                                            );
+                                                                            ImageDisplay(event);
+                                                                        }}
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="img-extension mt-3">
+                                                            <div className="d-inline-block align-items-center">
+                                                                <span>Only</span> <a href="#">.jpg</a>{" "}
+                                                                <a href="#">.png</a> <a href="#">.jpeg</a>
+                                                                <span> allowed</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        {images ? (
+                                                            <img
+                                                                className=" img-fluid mt-4"
+                                                                id="displayImg"
+                                                                src={images}
+                                                                alt="profile"
+                                                                height='200px'
+                                                                width='200px'
+                                                            />
+                                                        ) : null}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="row">
                                             </div>
@@ -197,6 +330,7 @@ const ResultSetting = ({ editButton, setEditButton, saveButton, setSaveButton })
                                                         onClick={() => {
                                                             setSaveButton(!saveButton)
                                                             setEditButton(!editButton)
+                                                            setDisable(!disable);
                                                         }}
                                                     >
                                                         Edit Setting
@@ -205,12 +339,9 @@ const ResultSetting = ({ editButton, setEditButton, saveButton, setSaveButton })
                                                     <Button
                                                         type="button"
                                                         variant="btn btn-primary mx-2"
-                                                        onClick={() => {
-                                                            setSaveButton(!saveButton)
-                                                            setEditButton(!editButton)
-                                                        }}
+                                                        onClick={handleSubmit}
                                                     >
-                                                        Save
+                                                        Save Changes
                                                     </Button>
                                                 )}
                                             </div>

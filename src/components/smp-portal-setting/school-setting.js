@@ -2,99 +2,117 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { createStudent } from "../../store/actions/student-actions";
-import { useHistory } from "react-router-dom";
-import { getActiveSession } from "../../store/actions/session-actions";
-import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { useHistory, useLocation } from "react-router-dom";
+
+import avatars1 from "../../assets/images/avatars/01.png";
+import avatars2 from "../../assets/images/avatars/avtar_2.png";
+import avatars3 from "../../assets/images/avatars/avtar_2.png";
+import avatars4 from "../../assets/images/avatars/avtar_3.png";
+import avatars5 from "../../assets/images/avatars/avtar_4.png";
+import avatars6 from "../../assets/images/avatars/avtar_5.png";
+import { getSchoolSettingList, updateSchoolSetting } from "../../store/actions/portal-setting-action";
 // import "./student-add.scss"
 
-const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) => {
+const SchoolSetting = () => {
     //VARIABLE DECLARATIONS
-    const history = useHistory();
     const dispatch = useDispatch();
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState(null);
+    const [editButton, setEditButton] = useState(false);
+    const [saveButton, setSaveButton] = useState(false);
+    const [isChecked, setIsChecked] = useState(true)
+    const [isChecked1, setIsChecked1] = useState(false)
+    const [disable, setDisable] = useState(true);
+    // const [disable, setDisable] = useState(true);
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
     const validation = Yup.object().shape({
-        schoolName: Yup.string()
-            .min(2, "School Name Too Short!")
-            .required("School Name is required"),
-        schoolAbbreviation: Yup.string()
-            .required("School Abbreviation is required"),
-        email: Yup.string().email("Invalid email format"),
-        schoolAddress: Yup.string().required("School Address is required"),
-        parentOrGuardianPhone: Yup.string()
-            .min(2, "Number  Too Short!")
-            .required("Phone number 1 is required"),
-        // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
-        // sessionClassId: Yup.string().required("Class name is required"),
+
     });
     //VALIDATIONS SCHEMA
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { isSuccessful, message } = state.student;
-    const { itemList } = state.class;
-    const { activeSession } = state.session;
-
+    const { message, schoolSettingList } = state.portal;
+    console.log('schoolSettingList', schoolSettingList?.schoolType);
     // ACCESSING STATE FROM REDUX STORE
-
-  
+    React.useEffect(() => {
+        setSaveButton(true)
+        setEditButton(false)
+        setDisable(true)
+        getSchoolSettingList()(dispatch)
+    }, []);
 
     React.useEffect(() => {
-        getAllSessionClasses(activeSession?.sessionId)(dispatch);
-    }, [activeSession]);
+        setImages(schoolSettingList?.filepath)
+    }, [schoolSettingList]);
 
-    if (isSuccessful) {
-        history.push(studentsLocations.studentList);
-    }
+    React.useEffect(() => {
+
+    }, []);
+
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
-            setImage(URL.createObjectURL(event.target.files[0]));
+            setImages(URL.createObjectURL(event.target.files[0]));
         }
     };
-
+    // const handleEditButton = () => {
+    //     setSaveButton(!saveButton)
+    //     setEditButton(!editButton)
+    //     setDisable(!disable)
+    // }
+    console.log('images now', images);
     return (
         <>
             <Formik
+                enableReinitialize={true}
                 initialValues={{
-                    firstName: "",
-                    lastName: "",
-                    middleName: "",
-                    phone: "",
-                    dob: "",
-                    email: "",
-                    homePhone: "",
-                    emergencyPhone: "",
-                    parentOrGuardianName: "",
-                    parentOrGuardianRelationship: "",
-                    parentOrGuardianPhone: "",
-                    parentOrGuardianEmail: "",
-                    homeAddress: "",
-                    cityId: "",
-                    stateId: "",
-                    countryId: "",
-                    zipCode: "",
-                    //photo: "",
-                    sessionClassId: "",
+                    schoolSettingsId: schoolSettingList?.schoolSettingsId,
+                    schoolName: schoolSettingList?.schoolName,
+                    schoolAbbreviation: schoolSettingList?.schoolAbbreviation,
+                    schoolAddress: schoolSettingList?.schoolAddress,
+                    // email: schoolSettingList.email,
+                    phoneNo1: schoolSettingList?.phoneNo1,
+                    phoneNo2: schoolSettingList?.phoneNo2,
+                    country: schoolSettingList?.country,
+                    state: schoolSettingList?.state,
+                    schoolType: schoolSettingList?.schoolType,
+                    // photo: schoolSettingList?.photo,
+                    filepath: schoolSettingList?.filepath,
                 }}
                 validationSchema={validation}
                 onSubmit={(values) => {
-                    values.phone = values.phone.toString();
-                    values.homePhone = values.homePhone.toString();
-                    values.emergencyPhone = values.emergencyPhone.toString();
-                    values.parentOrGuardianPhone = values.parentOrGuardianPhone.toString();
-                    values.firstName = values.firstName.toUpperCase();
-                    values.lastName = values.lastName.toUpperCase();
-                    values.middleName = values.middleName.toUpperCase();
-                    values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
-                    values.zipCode = values.zipCode.toString();
-                    createStudent(values)(dispatch);
+                    values.schoolName = values.schoolName.toUpperCase();
+                    values.schoolAddress = values.schoolAddress.toUpperCase();
+                    values.schoolAbbreviation = values.schoolAbbreviation;
+                    values.country = values.country.toString();
+                    values.state = values.state.toString();
+                    values.phoneNo1 = values.phoneNo1;
+                    values.phoneNo2 = values.phoneNo2;
+                    values.schoolType = values.schoolType;
+                    //values.photo = values.photo;
+                    values.filepath = images;
+                    // values.email = values.email
+                    const params = new FormData();
+                    params.append("schoolSettingsId", values.schoolSettingsId);
+                    params.append("schoolName", values.schoolName);
+                    params.append("schoolAddress", values.schoolAddress);
+                    params.append("schoolAbbreviation", values.schoolAbbreviation);
+                    params.append("country", values.country);
+                    params.append("state", values.state);
+                    params.append("phoneNo1", values.phoneNo1);
+                    params.append("phoneNo2", values.phoneNo2);
+                    params.append("schoolType", values.schoolType);
+                    params.append("filepath", values.filepath);
+                    params.append("photo", values.photo);
+                    // params.append("email", values.email);
+                    setSaveButton(!saveButton);
+                    setEditButton(!editButton);
+                    setDisable(true);
+                    updateSchoolSetting(values, params)(dispatch);
                 }}
             >
                 {({
@@ -108,7 +126,7 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                     setFieldValue,
                 }) => (
 
-                    <Row className="border-start border-4">
+                    <Row className="border-start border-4" style={{ backgroundColor: "hsl(200deg 33% 98%)" }}>
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
@@ -121,29 +139,14 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                     {" "}
                                     <div className="new-user-info">
                                         <Form>
-                                            {message && <div className="text-danger">{message}</div>}
+                                            {/* {message && <div className="text-danger">{message}</div>} */}
                                             <div className="row">
-                                                <Row>
-                                                    <div className="col-md-6">
-                                                        {touched.schoolName && errors.schoolName && (
-                                                            <div className="text-danger">
-                                                                {errors.schoolName}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        {touched.schoolAbbreviation && errors.schoolAbbreviation && (
-                                                            <div className="text-danger">
-                                                                {errors.schoolAbbreviation}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </Row>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="schoolName">
                                                         <b>School Name: </b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         placeholder="School Name"
                                                         type="text"
                                                         id="schoolName"
@@ -156,6 +159,7 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                         <b>School Abbreviation: </b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         placeholder="School Abbreviation"
                                                         type="text"
                                                         id="schoolAbbreviation"
@@ -163,18 +167,12 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                         className="form-control text-dark"
                                                     />
                                                 </div>
-                                                <Row>
-                                                    <div className="col-md-6">
-                                                        {touched.schoolAddress && errors.schoolAddress && (
-                                                            <div className="text-danger">{errors.schoolAddress}</div>
-                                                        )}
-                                                    </div>
-                                                </Row>
                                                 <div className="col-md-12 form-group">
                                                     <label className="form-label" htmlFor="schoolAddress">
                                                         <b>School Address:</b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         placeholder="School Address"
                                                         type="text"
                                                         id="schoolAddress"
@@ -182,18 +180,12 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                         className="form-control text-dark"
                                                     />
                                                 </div>
-                                                <Row>
-                                                    <div className="col-md-6">
-                                                        {touched.email && errors.email && (
-                                                            <div className="text-danger">{errors.email}</div>
-                                                        )}
-                                                    </div>
-                                                </Row>
                                                 <div className="col-md-9 form-group">
                                                     <label className="form-label" htmlFor="email">
                                                         <b>School Email Adress:</b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         placeholder="School Email Address"
                                                         type="email"
                                                         id="email"
@@ -202,14 +194,15 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                     />
                                                 </div>
                                                 <div className="col-md-6  form-group">
-                                                    <label className="form-label" htmlFor="cityId">
+                                                    <label className="form-label" htmlFor="country">
                                                         <b>Country Located:</b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         as="select"
-                                                        name="countryId"
-                                                        className="form-select"
-                                                        id="countryId"
+                                                        name="country"
+                                                        className="form-select text-dark"
+                                                        id="country"
                                                     >
                                                         <option value="Select City">Select Country</option>
                                                         <option value="Lagos">Benin Republic</option>
@@ -221,14 +214,15 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                     </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="stateId">
+                                                    <label className="form-label" htmlFor="state">
                                                         <b>State Located:</b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         as="select"
-                                                        name="stateId"
-                                                        className="form-select"
-                                                        id="stateId"
+                                                        name="state"
+                                                        className="form-select text-dark"
+                                                        id="state"
                                                     >
                                                         <option value="Select State">Select State</option>
                                                         <option value="Lagos">Lagos</option>
@@ -240,40 +234,157 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                     </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="phone">
+                                                    <label className="form-label" htmlFor="phoneNo1">
                                                         <b>Phone Number 1:</b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         placeholder="Phone Number 1"
                                                         type="number"
-                                                        name="phone"
-                                                        id="phone"
+                                                        name="phoneNo1"
+                                                        id="phoneNo1"
                                                         className="form-control text-dark"
                                                     />
                                                 </div>
                                                 <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="homePhone">
+                                                    <label className="form-label" htmlFor="phoneNo2">
                                                         <b>Phone Number 2:</b>
                                                     </label>
                                                     <Field
+                                                        disabled={disable}
                                                         placeholder="Phone Number 2"
                                                         type="number"
-                                                        name="homePhone"
-                                                        id="homePhone"
+                                                        name="phoneNo2"
+                                                        id="phoneNo2"
                                                         className="form-control text-dark"
                                                     />
                                                 </div>
                                                 <div className="form-check ms-4">
-                                                    <Field className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
-                                                    <label className="form-check-label" for="flexRadioDefault1">
+                                                    <input
+                                                        disabled={disable}
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        name="schoolType"
+                                                        id="flexRadioDefault1"
+                                                        defaultChecked={values.schoolType == "pry" ? true : false}
+                                                        onChange={(e) => {
+                                                            // setIsChecked(!isChecked);
+                                                            setFieldValue("schoolType", e.target.checked)
+                                                        }}
+                                                    />
+                                                    <label className="form-check-label" for="schoolType1">
                                                         Primary
                                                     </label>
                                                 </div>
                                                 <div className="form-check ms-4">
-                                                    <Field className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
-                                                    <label className="form-check-label" for="flexRadioDefault2">
+                                                    <input
+                                                        disabled={disable}
+                                                        className="form-check-input"
+                                                        type="radio"
+                                                        name="schoolType"
+                                                        id="schoolType"
+                                                        defaultChecked={values.schoolType == "sec" ? true : false}
+                                                        onChange={(e) => {
+                                                            //setIsChecked(!isChecked1);
+                                                            setFieldValue("schoolType", e.target.checked)
+                                                        }}
+                                                    />
+                                                    <label className="form-check-label" for="schoolType1">
                                                         Secondary
                                                     </label>
+                                                </div>
+                                                <div className="row form-group">
+                                                    <div className="col-md-6">
+                                                        <div className="header-title mt-3">
+                                                            <p className="card-title fw-bold">School Logo</p>
+                                                        </div>
+                                                        <div className="profile-img-edit position-relative">
+                                                            <div>
+                                                                <img
+                                                                    src={avatars1}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars2}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars3}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars5}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars6}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars4}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />{" "}
+                                                            </div>
+                                                            <div className="upload-icone bg-primary">
+                                                                <label htmlFor="photo">
+                                                                    <svg
+                                                                        className="upload-button"
+                                                                        width="14"
+                                                                        height="14"
+                                                                        viewBox="0 0 24 24"
+                                                                        style={{ cursor: "pointer" }}
+                                                                    >
+                                                                        <path
+                                                                            fill="#ffffff"
+                                                                            d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    <input
+                                                                        disabled={disable}
+                                                                        type="file"
+                                                                        id="photo"
+                                                                        style={{ display: "none" }}
+                                                                        name="photo"
+                                                                        accept="image/jpeg,image/jpg,image/png"
+                                                                        className="file-upload form-control"
+                                                                        data-original-title="upload photos"
+                                                                        onChange={(event) => {
+                                                                            setFieldValue(
+                                                                                "photo",
+                                                                                event.currentTarget.files[0]
+                                                                            );
+                                                                            ImageDisplay(event);
+                                                                        }}
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="img-extension mt-3">
+                                                            <div className="d-inline-block align-items-center">
+                                                                <span>Only</span> <a href="#">.jpg</a>{" "}
+                                                                <a href="#">.png</a> <a href="#">.jpeg</a>
+                                                                <span> allowed</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        {images ? (
+                                                            <img
+                                                                className=" img-fluid mt-4"
+                                                                id="displayImg"
+                                                                src={images}
+                                                                alt="profile"
+                                                                height='200px'
+                                                                width='200px'
+                                                            />
+                                                        ) : null}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -289,26 +400,24 @@ const SchoolSetting = ({editButton, setEditButton, saveButton, setSaveButton}) =
                                                     Cancel
                                                 </Button>{" "} */}
                                                 {saveButton ? (
-                                                     <Button
-                                                     type="button"
-                                                     variant="btn btn-danger mx-2"
-                                                     onClick={() => {
-                                                         setSaveButton(!saveButton)
-                                                         setEditButton(!editButton)
-                                                     }}
-                                                 >
-                                                     Edit Setting
-                                                 </Button>
-                                                ) : (
-                                                   <Button
+                                                    <Button
                                                         type="button"
-                                                        variant="btn btn-primary mx-2"
+                                                        variant="btn btn-danger mx-2"
                                                         onClick={() => {
                                                             setSaveButton(!saveButton)
                                                             setEditButton(!editButton)
+                                                            setDisable(!disable)
                                                         }}
                                                     >
-                                                        Save
+                                                        Edit Setting
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        type="button"
+                                                        variant="btn btn-primary mx-2"
+                                                        onClick={handleSubmit}
+                                                    >
+                                                        Save Changes
                                                     </Button>
                                                 )}
                                             </div>
