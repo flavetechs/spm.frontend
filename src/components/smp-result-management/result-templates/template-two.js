@@ -1,14 +1,16 @@
 import React from "react";
-import { Row, Col, Table } from "react-bootstrap";
+import { Row, Col, Table, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Card from "../../Card";
 
 const ResultTemplateTwo = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
+  const history = useHistory();
   // ACCESSING STATE FROM REDUX STORE
-  console.log("studentResult",studentResult)
+  console.log("studentResult", studentResult);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -17,6 +19,16 @@ const ResultTemplateTwo = () => {
             <Card>
               <div>
                 <Row>
+                  <div className="m-4">
+                    <Button
+                      variant="btn btn-primary btn-sm"
+                      onClick={() => {
+                        history.goBack();
+                      }}
+                    >
+                      Back
+                    </Button>
+                  </div>
                   <Col
                     xs="12"
                     className="d-flex flex-column justify-content-center"
@@ -70,14 +82,22 @@ const ResultTemplateTwo = () => {
                         </span>
                       </div>
                       <div className="py-2">
-                        TOTAL: <span className="text-capitalize">{studentResult?.total}/{studentResult?.totalScores}</span>
+                        TOTAL:{" "}
+                        <span className="text-capitalize">
+                          {studentResult?.total}/{studentResult?.totalScores}
+                        </span>
                       </div>
                       <div className="py-2">
-                        AVERAGE: <span className="text-capitalize">{studentResult?.average}</span>
+                        AVERAGE:{" "}
+                        <span className="text-capitalize">
+                          {studentResult?.average}
+                        </span>
                       </div>
                       <div className="py-2">
                         REMARK:{" "}
-                        <span className="text-capitalize">{studentResult?.remark}</span>
+                        <span className="text-capitalize">
+                          {studentResult?.remark}
+                        </span>
                       </div>
                     </div>
                   </div>

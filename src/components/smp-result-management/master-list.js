@@ -66,7 +66,7 @@ const MasterList = () => {
 
   return (
     <>
-      <div className="col-md-12 mx-auto">
+      <div className="col-md-6 mx-auto d-flex justify-content-center">
         <Row>
           <Col sm="12">
             <Card>

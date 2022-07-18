@@ -1,11 +1,13 @@
-import { Row, Col, Table } from "react-bootstrap";
+import { Row, Col, Table, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Card from "../../Card";
 
 const ResultTemplateOne = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
+  const history = useHistory();
   // ACCESSING STATE FROM REDUX STORE
   return (
     <>
@@ -15,6 +17,16 @@ const ResultTemplateOne = () => {
             <Card>
               <div>
                 <Row>
+                  <div className="m-4">
+                    <Button
+                      variant="btn btn-primary btn-sm"
+                      onClick={() => {
+                        history.goBack();
+                      }}
+                    >
+                      Back
+                    </Button>
+                  </div>
                   <Col
                     xs="12"
                     className="d-flex flex-column justify-content-center"
@@ -93,7 +105,10 @@ const ResultTemplateOne = () => {
                           >
                             Student Reg No.
                           </td>
-                          <td className="fw-bold text-uppercase" style={{ color: "#2d2d2d" }}>
+                          <td
+                            className="fw-bold text-uppercase"
+                            style={{ color: "#2d2d2d" }}
+                          >
                             {studentResult?.registrationNumber}
                           </td>
                         </tr>
@@ -104,7 +119,10 @@ const ResultTemplateOne = () => {
                           >
                             Class Name
                           </td>
-                          <td className="fw-bold ext-uppercase" style={{ color: "#2d2d2d" }}>
+                          <td
+                            className="fw-bold ext-uppercase"
+                            style={{ color: "#2d2d2d" }}
+                          >
                             {studentResult?.sessionClassName}
                           </td>
                         </tr>
@@ -115,7 +133,10 @@ const ResultTemplateOne = () => {
                           >
                             Position
                           </td>
-                          <td className="fw-bold text-uppercase" style={{ color: "#2d2d2d" }}>
+                          <td
+                            className="fw-bold text-uppercase"
+                            style={{ color: "#2d2d2d" }}
+                          >
                             {studentResult?.position} out of{" "}
                             {studentResult?.noOfStudents} student(s)
                           </td>
@@ -149,7 +170,10 @@ const ResultTemplateOne = () => {
                           >
                             Remark
                           </td>
-                          <td className="fw-bold text-uppercase" style={{ color: "#2d2d2d" }}>
+                          <td
+                            className="fw-bold text-uppercase"
+                            style={{ color: "#2d2d2d" }}
+                          >
                             {studentResult?.remark}
                           </td>
                         </tr>
@@ -172,7 +196,9 @@ const ResultTemplateOne = () => {
                                 <th className="fw-bold h6 text-uppercase">
                                   {cognitive.behaviour}
                                 </th>
-                                <td className="fw-bold text-uppercase">{cognitive.remark}</td>
+                                <td className="fw-bold text-uppercase">
+                                  {cognitive.remark}
+                                </td>
                               </tr>
                             )
                           )}

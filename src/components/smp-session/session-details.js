@@ -140,7 +140,7 @@ const SessionDetails = () => {
                                                                         data-placement="top"
                                                                         title=""
                                                                         data-original-title="Details"
-                                                                        to={`${classLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
+                                                                        to={`${sessionLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
                                                                     >
                                                                         <span className="btn-inner">
                                                                             <svg

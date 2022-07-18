@@ -17,49 +17,49 @@ const TemplateSetting = () => {
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
-      isChecked: templateSetting === "template-one" ? true : false,
+      isChecked: templateSetting == "template-one" ? true : false,
       templateName:"template-one",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/7.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-two" ? true : false,
       templateName:"template-two",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/2.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-three" ? true : false,
       templateName:"template-three",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/1.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-four" ? true : false,
       templateName:"template-four",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/6.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-five" ? true : false,
       templateName:"template-five",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/5.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-six" ? true : false,
       templateName:"template-six",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/4.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-seven" ? true : false,
       templateName:"template-seven",
     },
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
-      isChecked: false,
+      isChecked: templateSetting == "template-eight" ? true : false,
       templateName:"template-eight",
     },
   ];

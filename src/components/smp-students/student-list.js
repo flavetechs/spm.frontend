@@ -24,10 +24,9 @@ import { ClassesModal } from "../smp-enrollment/classesModal";
 const StudentList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const history = useHistory();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [query, setQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -92,18 +91,18 @@ const StudentList = () => {
     return 0;
    })
   const filteredStudentList = sortedList.filter((students) => {
-    if (query === "") {
+    if (searchQuery === "") {
       //if query is empty
       return students;
     } else if (
-      students.firstName.toLowerCase().includes(query.toLowerCase())
+      students.firstName.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return students;
-    }else if (students.lastName.toLowerCase().includes(query.toLowerCase())) {
+    }else if (students.lastName.toLowerCase().includes(searchQuery.toLowerCase())) {
       //returns filtered array
       return students;
-    }else if (students.registrationNumber.toLowerCase().includes(query.toLowerCase())) {
+    }else if (students.registrationNumber.toLowerCase().includes(searchQuery.toLowerCase())) {
       //returns filtered array
       return students;
     }
@@ -177,7 +176,7 @@ const StudentList = () => {
                         type="search"
                         className="form-control text-lowercase"
                         placeholder="Search..."
-                        onChange={(event) => setQuery(event.target.value)}
+                        onChange={(event) => setSearchQuery(event.target.value)}
                       />
                     </div>
                   </div>

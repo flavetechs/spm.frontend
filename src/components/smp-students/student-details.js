@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import {
   fetchSingleStudent,
@@ -14,6 +13,7 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { getAllResultList } from "../../store/actions/publish-actions";
 
 const StudentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -181,6 +181,10 @@ const StudentDetails = () => {
                       variant="btn btn-danger mx-2"
                       onClick={() => {
                         history.goBack();
+                        const queryParams = new URLSearchParams(locations.search);
+                        const sessionClassId = queryParams.get("sessionClassId");
+                        const termId = queryParams.get("termId");
+                        getAllResultList(sessionClassId, termId)(dispatch);
                       }}
                     >
                       Cancel
