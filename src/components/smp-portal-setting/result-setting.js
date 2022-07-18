@@ -28,13 +28,13 @@ const ResultSetting = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [images, setImages] = useState(null);
-    const [isChecked, setIsChecked] = useState(resultSettingList?.promoteByPassmark);
-    const [isChecked1, setIsChecked1] = useState(resultSettingList?.promoteAll);
-    const [isChecked2, setIsChecked2] = useState(resultSettingList?.showPositionOnResult);
-    const [isChecked3, setIsChecked3] = useState(resultSettingList?.cumulativeResult);
-    const [isChecked4, setIsChecked4] = useState(resultSettingList?.showNewsletter);
-    const [isChecked5, setIsChecked5] = useState(resultSettingList?.batchPrinting);
-    console.log('isChecked', isChecked);
+    // const [isChecked, setIsChecked] = useState(resultSettingList?.promoteByPassmark);
+    // const [isChecked1, setIsChecked1] = useState(resultSettingList?.promoteAll);
+    // const [isChecked2, setIsChecked2] = useState(resultSettingList?.showPositionOnResult);
+    // const [isChecked3, setIsChecked3] = useState(resultSettingList?.cumulativeResult);
+    // const [isChecked4, setIsChecked4] = useState(resultSettingList?.showNewsletter);
+    // const [isChecked5, setIsChecked5] = useState(resultSettingList?.batchPrinting);
+   // console.log('isChecked', isChecked);
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
     const [disable, setDisable] = useState(true);
@@ -57,7 +57,7 @@ const ResultSetting = () => {
     }, [resultSettingList]);
 
 
-    const ImageDisplay = (event) => {
+    const ImageDisplay = (event) => {console.log("resultSettingList", event.target.files[0]);
         if (event.target.files[0]) {
             setImages(URL.createObjectURL(event.target.files[0]));
         }
@@ -80,14 +80,14 @@ const ResultSetting = () => {
                 }}
                 validationSchema={validation}
                 onSubmit={(values) => {
-                    values.promoteByPassmark = values.promoteByPassmark;
-                    values.promoteAll = values.promoteAll;
-                    values.showPositionOnResult = values.showPositionOnResult;
-                    values.cumulativeResult = values.cumulativeResult;
-                    values.showNewsletter = values.showNewsletter;
-                    values.batchPrinting = values.batchPrinting;
-                    values.PrincipalStamp = values.PrincipalStamp;
-                    values.filepath = values.images;
+                    // values.promoteByPassmark = values.promoteByPassmark;
+                    // values.promoteAll = values.promoteAll;
+                    // values.showPositionOnResult = values.showPositionOnResult;
+                    // values.cumulativeResult = values.cumulativeResult;
+                    // values.showNewsletter = values.showNewsletter;
+                    // values.batchPrinting = values.batchPrinting;
+                    // values.PrincipalStamp = values.PrincipalStamp;
+                    values.filepath = images;
                     const params = new FormData();
                     params.append("resultSettingId", values.resultSettingId);
                     params.append("promoteByPassmark", values.promoteByPassmark);
@@ -96,8 +96,7 @@ const ResultSetting = () => {
                     params.append("cumulativeResult", values.cumulativeResult);
                     params.append("showNewsletter", values.showNewsletter);
                     params.append("batchPrinting", values.batchPrinting);
-                    params.append("PrincipalStamp", values.PrincipalStamp);
-                    params.append("schoolType", values.schoolType);
+                    params.append("principalStamp", values.principalStamp);
                     params.append("filepath", values.filepath);
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
@@ -137,9 +136,10 @@ const ResultSetting = () => {
                                                         id="promoteByPassmark"
                                                         className="form-check-input"
                                                         name="promoteByPassmark"
-                                                        checked={isChecked}
+                                                        defaultChecked={resultSettingList?.promoteByPassmark || false}
                                                         onChange={(e) => {
-                                                            setIsChecked(!isChecked);
+                                                            //setIsChecked(!isChecked);
+                                                            setFieldValue("promoteByPassmark",e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="promoteByPassmark" className="check-label">
@@ -153,9 +153,10 @@ const ResultSetting = () => {
                                                         id="promoteAll"
                                                         className="form-check-input"
                                                         name="promoteAll"
-                                                        checked={isChecked1}
+                                                        defaultChecked={resultSettingList?.promoteAll|| false}
                                                         onChange={(e) => {
-                                                            setIsChecked1(!isChecked1);
+                                                            //setIsChecked1(!isChecked1);
+                                                            setFieldValue("promoteAll",e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="promoteAll" className="check-label">
@@ -169,9 +170,10 @@ const ResultSetting = () => {
                                                         id="showPositionOnResult"
                                                         className="form-check-input"
                                                         name="showPositionOnResult"
-                                                        checked={isChecked2}
+                                                        defaultChecked={resultSettingList?.showPositionOnResult|| false}
                                                         onChange={(e) => {
-                                                            setIsChecked2(!isChecked2);
+                                                            //setIsChecked2(!isChecked2);
+                                                            setFieldValue("showPositionOnResult",e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="showPositionOnResult" className="check-label">
@@ -185,9 +187,10 @@ const ResultSetting = () => {
                                                         id="cumulativeResult"
                                                         className="form-check-input"
                                                         name="cumulativeResult"
-                                                        checked={isChecked3}
+                                                        defaultChecked={resultSettingList?.cumulativeResult|| false}
                                                         onChange={(e) => {
-                                                            setIsChecked3(!isChecked3);
+                                                            //setIsChecked3(!isChecked3);
+                                                            setFieldValue("cumulativeResult",e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="cumulativeResult" className="check-label">
@@ -201,9 +204,10 @@ const ResultSetting = () => {
                                                         id="showNewsletter"
                                                         className="form-check-input"
                                                         name="showNewsletter"
-                                                        checked={isChecked4}
+                                                        defaultChecked={resultSettingList?.showNewsletter|| false}
                                                         onChange={(e) => {
-                                                            setIsChecked4(!isChecked4);
+                                                            //setIsChecked4(!isChecked4);
+                                                            setFieldValue("showNewsletter",e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="showNewsletter" className="check-label">
@@ -217,9 +221,10 @@ const ResultSetting = () => {
                                                         id="batchPrinting"
                                                         className="form-check-input"
                                                         name="batchPrinting"
-                                                        checked={isChecked5}
+                                                        defaultChecked={resultSettingList?.batchPrinting|| false}
                                                         onChange={(e) => {
-                                                            setIsChecked5(!isChecked5);
+                                                            //setIsChecked5(!isChecked5);
+                                                            setFieldValue("batchPrinting",e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="batchPrinting" className="check-label">
@@ -265,7 +270,7 @@ const ResultSetting = () => {
                                                                 />{" "}
                                                             </div>
                                                             <div className="upload-icone bg-primary">
-                                                                <label htmlFor="PrincipalStamp">
+                                                                <label htmlFor="principalStamp">
                                                                     <svg
                                                                         className="upload-button"
                                                                         width="14"
@@ -281,15 +286,15 @@ const ResultSetting = () => {
                                                                     <input
                                                                         disabled={disable}
                                                                         type="file"
-                                                                        id="PrincipalStamp"
+                                                                        id="principalStamp"
                                                                         style={{ display: "none" }}
-                                                                        name="PrincipalStamp"
+                                                                        name="principalStamp"
                                                                         accept="image/jpeg,image/jpg,image/png"
                                                                         className="file-upload form-control"
                                                                         data-original-title="upload photos"
                                                                         onChange={(event) => {
                                                                             setFieldValue(
-                                                                                "PrincipalStamp",
+                                                                                "principalStamp",
                                                                                 event.currentTarget.files[0]
                                                                             );
                                                                             ImageDisplay(event);

@@ -21,8 +21,8 @@ const SchoolSetting = () => {
     const [images, setImages] = useState(null);
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
-    const [isChecked, setIsChecked] = useState(true)
-    const [isChecked1, setIsChecked1] = useState(false)
+    // const [isChecked, setIsChecked] = useState(true)
+    // const [isChecked1, setIsChecked1] = useState(false)
     const [disable, setDisable] = useState(true);
     // const [disable, setDisable] = useState(true);
     //VARIABLE DECLARATIONS
@@ -46,7 +46,7 @@ const SchoolSetting = () => {
     }, []);
 
     React.useEffect(() => {
-        setImages(schoolSettingList?.filepath)
+        setImages(schoolSettingList?.filepath);
     }, [schoolSettingList]);
 
     React.useEffect(() => {
@@ -64,11 +64,10 @@ const SchoolSetting = () => {
     //     setEditButton(!editButton)
     //     setDisable(!disable)
     // }
-    console.log('images now', images);
+    console.log('answer', schoolSettingList?.schoolType == "true" ? true : false);
     return (
         <>
             <Formik
-                enableReinitialize={true}
                 initialValues={{
                     schoolSettingsId: schoolSettingList?.schoolSettingsId,
                     schoolName: schoolSettingList?.schoolName,
@@ -83,16 +82,14 @@ const SchoolSetting = () => {
                     // photo: schoolSettingList?.photo,
                     filepath: schoolSettingList?.filepath,
                 }}
+                enableReinitialize={true}
                 validationSchema={validation}
                 onSubmit={(values) => {
                     values.schoolName = values.schoolName.toUpperCase();
                     values.schoolAddress = values.schoolAddress.toUpperCase();
-                    values.schoolAbbreviation = values.schoolAbbreviation;
                     values.country = values.country.toString();
                     values.state = values.state.toString();
-                    values.phoneNo1 = values.phoneNo1;
-                    values.phoneNo2 = values.phoneNo2;
-                    values.schoolType = values.schoolType;
+                    //values.schoolType = values.schoolType == true ? "primary" : "secondary";
                     //values.photo = values.photo;
                     values.filepath = images;
                     // values.email = values.email
@@ -109,6 +106,7 @@ const SchoolSetting = () => {
                     params.append("filepath", values.filepath);
                     params.append("photo", values.photo);
                     // params.append("email", values.email);
+console.log("values", values.schoolType);
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
@@ -260,16 +258,16 @@ const SchoolSetting = () => {
                                                     />
                                                 </div>
                                                 <div className="form-check ms-4">
-                                                    <input
+                                                    <Field
                                                         disabled={disable}
                                                         className="form-check-input"
                                                         type="radio"
                                                         name="schoolType"
                                                         id="flexRadioDefault1"
-                                                        defaultChecked={values.schoolType == "pry" ? true : false}
+                                                        checked={values.schoolType == "primary" ? true : false}
                                                         onChange={(e) => {
                                                             // setIsChecked(!isChecked);
-                                                            setFieldValue("schoolType", e.target.checked)
+                                                            setFieldValue("schoolType", e.target.checked && "primary");
                                                         }}
                                                     />
                                                     <label className="form-check-label" for="schoolType1">
@@ -277,16 +275,16 @@ const SchoolSetting = () => {
                                                     </label>
                                                 </div>
                                                 <div className="form-check ms-4">
-                                                    <input
+                                                    <Field
                                                         disabled={disable}
                                                         className="form-check-input"
                                                         type="radio"
                                                         name="schoolType"
                                                         id="schoolType"
-                                                        defaultChecked={values.schoolType == "sec" ? true : false}
+                                                        checked={values.schoolType == "secondary" ? true : false}
                                                         onChange={(e) => {
                                                             //setIsChecked(!isChecked1);
-                                                            setFieldValue("schoolType", e.target.checked)
+                                                            setFieldValue("schoolType", e.target.checked && "secondary");
                                                         }}
                                                     />
                                                     <label className="form-check-label" for="schoolType1">
