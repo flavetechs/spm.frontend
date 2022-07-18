@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, gradeSetting, resultManagement, portalSetting } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -44,11 +44,9 @@ import PublishResultEdit from '../components/smp-result-management/publish-resul
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
 import TemplateControl from '../components/smp-result-management/result-templates/template-control';
 import Attendance from '../components/spm-class/attendance-on-update';
-import PrintResult from '../components/smp-result-management/print-result';
-import AttendanceBoard from '../components/spm-class/attendance-board';
-import AttendancePresence from '../components/spm-class/attendance-presence';
-import TemplateSetting from '../components/smp-portal-setting/template-setting';
-
+// import PrintResult from '../components/smp-result-management/print-result';
+// import PrintResultInput from '../components/smp-result-management/print-result-input';
+import Setting from '../components/smp-portal-setting/setting';
 
 const DashboardRouter = () => {
 
@@ -68,8 +66,8 @@ const DashboardRouter = () => {
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
-                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
-                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
+                    {/* <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} /> */}
                 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
@@ -116,11 +114,12 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.masterList} exact component={MasterList} />
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
-                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
-                      <Route path={resultManagement.printResult} exact component={PrintResult} />
-                       {/* Portal Setting */}
-                      <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
- 
+                      {/* <Route path={resultManagement.printResult} exact component={PrintResultInput} /> */}
+
+
+                      {/* portal setting */}
+                      <Route path={portalSetting.setting} exact component={Setting} />
+
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
