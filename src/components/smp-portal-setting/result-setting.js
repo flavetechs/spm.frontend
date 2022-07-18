@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
 
 import avatars1 from "../../assets/images/avatars/01.png";
 import avatars2 from "../../assets/images/avatars/avtar_2.png";
@@ -17,34 +16,16 @@ import { getResultSettingList, updateResultSetting } from "../../store/actions/p
 const ResultSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { isSuccessful, message, schoolSettingList, resultSettingList, notificationSettingList } = state.portal;
-    console.log('resultSettingList now', resultSettingList);
-    console.log('resultSettingList promoteByPassmark', resultSettingList.promoteByPassmark);
-    let result = Array.isArray(resultSettingList)
-    console.log('result result', result);
+    const { resultSettingList } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATIONS
-    const history = useHistory();
     const dispatch = useDispatch();
     const [images, setImages] = useState(null);
-    // const [isChecked, setIsChecked] = useState(resultSettingList?.promoteByPassmark);
-    // const [isChecked1, setIsChecked1] = useState(resultSettingList?.promoteAll);
-    // const [isChecked2, setIsChecked2] = useState(resultSettingList?.showPositionOnResult);
-    // const [isChecked3, setIsChecked3] = useState(resultSettingList?.cumulativeResult);
-    // const [isChecked4, setIsChecked4] = useState(resultSettingList?.showNewsletter);
-    // const [isChecked5, setIsChecked5] = useState(resultSettingList?.batchPrinting);
-   // console.log('isChecked', isChecked);
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
     const [disable, setDisable] = useState(true);
     //VARIABLE DECLARATIONS
-
-    //VALIDATIONS SCHEMA
-    const validation = Yup.object().shape({
-
-    });
-    //VALIDATIONS SCHEMA
 
     React.useEffect(() => {
         setSaveButton(true)
@@ -57,7 +38,7 @@ const ResultSetting = () => {
     }, [resultSettingList]);
 
 
-    const ImageDisplay = (event) => {console.log("resultSettingList", event.target.files[0]);
+    const ImageDisplay = (event) => {
         if (event.target.files[0]) {
             setImages(URL.createObjectURL(event.target.files[0]));
         }
@@ -78,15 +59,8 @@ const ResultSetting = () => {
                     filepath: resultSettingList?.filepath,
                     //photo: "",
                 }}
-                validationSchema={validation}
+
                 onSubmit={(values) => {
-                    // values.promoteByPassmark = values.promoteByPassmark;
-                    // values.promoteAll = values.promoteAll;
-                    // values.showPositionOnResult = values.showPositionOnResult;
-                    // values.cumulativeResult = values.cumulativeResult;
-                    // values.showNewsletter = values.showNewsletter;
-                    // values.batchPrinting = values.batchPrinting;
-                    // values.PrincipalStamp = values.PrincipalStamp;
                     values.filepath = images;
                     const params = new FormData();
                     params.append("resultSettingId", values.resultSettingId);
@@ -138,7 +112,6 @@ const ResultSetting = () => {
                                                         name="promoteByPassmark"
                                                         defaultChecked={resultSettingList?.promoteByPassmark || false}
                                                         onChange={(e) => {
-                                                            //setIsChecked(!isChecked);
                                                             setFieldValue("promoteByPassmark",e.target.checked);
                                                         }}
                                                     />
@@ -155,7 +128,6 @@ const ResultSetting = () => {
                                                         name="promoteAll"
                                                         defaultChecked={resultSettingList?.promoteAll|| false}
                                                         onChange={(e) => {
-                                                            //setIsChecked1(!isChecked1);
                                                             setFieldValue("promoteAll",e.target.checked);
                                                         }}
                                                     />
@@ -172,7 +144,6 @@ const ResultSetting = () => {
                                                         name="showPositionOnResult"
                                                         defaultChecked={resultSettingList?.showPositionOnResult|| false}
                                                         onChange={(e) => {
-                                                            //setIsChecked2(!isChecked2);
                                                             setFieldValue("showPositionOnResult",e.target.checked);
                                                         }}
                                                     />
@@ -189,7 +160,6 @@ const ResultSetting = () => {
                                                         name="cumulativeResult"
                                                         defaultChecked={resultSettingList?.cumulativeResult|| false}
                                                         onChange={(e) => {
-                                                            //setIsChecked3(!isChecked3);
                                                             setFieldValue("cumulativeResult",e.target.checked);
                                                         }}
                                                     />
@@ -206,7 +176,6 @@ const ResultSetting = () => {
                                                         name="showNewsletter"
                                                         defaultChecked={resultSettingList?.showNewsletter|| false}
                                                         onChange={(e) => {
-                                                            //setIsChecked4(!isChecked4);
                                                             setFieldValue("showNewsletter",e.target.checked);
                                                         }}
                                                     />
@@ -223,7 +192,6 @@ const ResultSetting = () => {
                                                         name="batchPrinting"
                                                         defaultChecked={resultSettingList?.batchPrinting|| false}
                                                         onChange={(e) => {
-                                                            //setIsChecked5(!isChecked5);
                                                             setFieldValue("batchPrinting",e.target.checked);
                                                         }}
                                                     />
@@ -327,7 +295,7 @@ const ResultSetting = () => {
                                             </div>
                                             <div className="row">
                                             </div>
-                                            <div className="d-flex justify-content-end">
+                                            <div className="d-flex mt-4 justify-content-end">
                                                 {saveButton ? (
                                                     <Button
                                                         type="button"

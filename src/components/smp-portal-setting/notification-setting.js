@@ -14,14 +14,8 @@ const NotificationSetting = () => {
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
     const [disable, setDisable] = useState(true);
-    const [isChecked, setIsChecked] = useState(true);
     //VARIABLE DECLARATIONS
 
-    //VALIDATIONS SCHEMA
-    const validation = Yup.object().shape({
-
-    });
-    //VALIDATIONS SCHEMA
 
     React.useEffect(() => {
         setSaveButton(true)
@@ -32,9 +26,7 @@ const NotificationSetting = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { isSuccessful, message, notificationSettingList } = state.portal;
-    console.log('notificationSettingList', notificationSettingList);
-
+    const { notificationSettingList } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
     return (
@@ -42,11 +34,12 @@ const NotificationSetting = () => {
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    notificationSettingId: notificationSettingList.notificationSettingId,
-                    notifyByEmail: notificationSettingList.notifyByEmail,
+                    notificationSettingId: notificationSettingList?.notificationSettingId,
+                    notifyByEmail: notificationSettingList?.notifyByEmail,
                 }}
-                validationSchema={validation}
+
                 onSubmit={(values) => {
+                    values.notificationSettingId = values.notificationSettingId;
                     values.notifyByEmail = values.notifyByEmail;
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
@@ -85,9 +78,9 @@ const NotificationSetting = () => {
                                                         id="notifyByEmail"
                                                         className="form-check-input"
                                                         name="notifyByEmail"
-                                                        checked={isChecked}
-                                                        onChange={() => {
-                                                            setIsChecked(!isChecked);
+                                                        defaultChecked={notificationSettingList?.notifyByEmail || false}
+                                                        onChange={(e) => {
+                                                            setFieldValue("notifyByEmail", e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="notifyByEmail" className="check-label">
@@ -97,7 +90,7 @@ const NotificationSetting = () => {
                                             </div>
                                             <div className="row">
                                             </div>
-                                            <div className="d-flex mb-4 justify-content-end">
+                                            <div className="d-flex mt-4 justify-content-end">
                                                 {saveButton ? (
                                                     <Button
                                                         type="button"

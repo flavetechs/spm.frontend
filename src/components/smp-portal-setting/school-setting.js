@@ -4,7 +4,6 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { useHistory, useLocation } from "react-router-dom";
 
 import avatars1 from "../../assets/images/avatars/01.png";
 import avatars2 from "../../assets/images/avatars/avtar_2.png";
@@ -21,22 +20,13 @@ const SchoolSetting = () => {
     const [images, setImages] = useState(null);
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
-    // const [isChecked, setIsChecked] = useState(true)
-    // const [isChecked1, setIsChecked1] = useState(false)
     const [disable, setDisable] = useState(true);
-    // const [disable, setDisable] = useState(true);
     //VARIABLE DECLARATIONS
 
-    //VALIDATIONS SCHEMA
-    const validation = Yup.object().shape({
-
-    });
-    //VALIDATIONS SCHEMA
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { message, schoolSettingList } = state.portal;
-    console.log('schoolSettingList', schoolSettingList?.schoolType);
+    const { schoolSettingList } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
     React.useEffect(() => {
         setSaveButton(true)
@@ -59,12 +49,6 @@ const SchoolSetting = () => {
             setImages(URL.createObjectURL(event.target.files[0]));
         }
     };
-    // const handleEditButton = () => {
-    //     setSaveButton(!saveButton)
-    //     setEditButton(!editButton)
-    //     setDisable(!disable)
-    // }
-    console.log('answer', schoolSettingList?.schoolType == "true" ? true : false);
     return (
         <>
             <Formik
@@ -79,18 +63,15 @@ const SchoolSetting = () => {
                     country: schoolSettingList?.country,
                     state: schoolSettingList?.state,
                     schoolType: schoolSettingList?.schoolType,
-                    // photo: schoolSettingList?.photo,
                     filepath: schoolSettingList?.filepath,
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
+ 
                 onSubmit={(values) => {
                     values.schoolName = values.schoolName.toUpperCase();
                     values.schoolAddress = values.schoolAddress.toUpperCase();
                     values.country = values.country.toString();
                     values.state = values.state.toString();
-                    //values.schoolType = values.schoolType == true ? "primary" : "secondary";
-                    //values.photo = values.photo;
                     values.filepath = images;
                     // values.email = values.email
                     const params = new FormData();
@@ -106,7 +87,6 @@ const SchoolSetting = () => {
                     params.append("filepath", values.filepath);
                     params.append("photo", values.photo);
                     // params.append("email", values.email);
-console.log("values", values.schoolType);
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
@@ -137,7 +117,6 @@ console.log("values", values.schoolType);
                                     {" "}
                                     <div className="new-user-info">
                                         <Form>
-                                            {/* {message && <div className="text-danger">{message}</div>} */}
                                             <div className="row">
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="schoolName">
@@ -266,7 +245,6 @@ console.log("values", values.schoolType);
                                                         id="flexRadioDefault1"
                                                         checked={values.schoolType == "primary" ? true : false}
                                                         onChange={(e) => {
-                                                            // setIsChecked(!isChecked);
                                                             setFieldValue("schoolType", e.target.checked && "primary");
                                                         }}
                                                     />
@@ -283,7 +261,6 @@ console.log("values", values.schoolType);
                                                         id="schoolType"
                                                         checked={values.schoolType == "secondary" ? true : false}
                                                         onChange={(e) => {
-                                                            //setIsChecked(!isChecked1);
                                                             setFieldValue("schoolType", e.target.checked && "secondary");
                                                         }}
                                                     />
@@ -387,16 +364,7 @@ console.log("values", values.schoolType);
                                             </div>
                                             <div className="row">
                                             </div>
-                                            <div className="d-flex justify-content-end">
-                                                {/* <Button
-                                                    type="button"
-                                                    variant="btn btn-danger mx-2"
-                                                    onClick={() => {
-                                                        history.push(studentsLocations.studentList);
-                                                    }}
-                                                >
-                                                    Cancel
-                                                </Button>{" "} */}
+                                            <div className="d-flex mt-4 justify-content-end">
                                                 {saveButton ? (
                                                     <Button
                                                         type="button"
