@@ -17,7 +17,7 @@ const TemplateSetting = () => {
     {
       image:
         "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
-      isChecked: true,
+      isChecked: templateSetting === "template-one" ? true : false,
       templateName:"template-one",
     },
     {

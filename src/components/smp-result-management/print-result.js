@@ -7,7 +7,6 @@ import {
   getAllSession,
 } from "../../store/actions/session-actions";
 import {
-  getAllResultList,
   getTermClasses,
 } from "../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
