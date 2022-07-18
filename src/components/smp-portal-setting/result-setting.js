@@ -28,12 +28,12 @@ const ResultSetting = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [images, setImages] = useState(null);
-    const [isChecked, setIsChecked] = useState(resultSettingList.promoteByPassmark);
-    const [isChecked1, setIsChecked1] = useState(resultSettingList.promoteAll);
-    const [isChecked2, setIsChecked2] = useState(resultSettingList.showPositionOnResult);
-    const [isChecked3, setIsChecked3] = useState(resultSettingList.cumulativeResult);
-    const [isChecked4, setIsChecked4] = useState(resultSettingList.showNewsletter);
-    const [isChecked5, setIsChecked5] = useState(resultSettingList.batchPrinting);
+    const [isChecked, setIsChecked] = useState(resultSettingList?.promoteByPassmark);
+    const [isChecked1, setIsChecked1] = useState(resultSettingList?.promoteAll);
+    const [isChecked2, setIsChecked2] = useState(resultSettingList?.showPositionOnResult);
+    const [isChecked3, setIsChecked3] = useState(resultSettingList?.cumulativeResult);
+    const [isChecked4, setIsChecked4] = useState(resultSettingList?.showNewsletter);
+    const [isChecked5, setIsChecked5] = useState(resultSettingList?.batchPrinting);
     console.log('isChecked', isChecked);
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
@@ -138,7 +138,7 @@ const ResultSetting = () => {
                                                         className="form-check-input"
                                                         name="promoteByPassmark"
                                                         checked={isChecked}
-                                                        onChange={() => {
+                                                        onChange={(e) => {
                                                             setIsChecked(!isChecked);
                                                         }}
                                                     />
@@ -154,7 +154,7 @@ const ResultSetting = () => {
                                                         className="form-check-input"
                                                         name="promoteAll"
                                                         checked={isChecked1}
-                                                        onChange={() => {
+                                                        onChange={(e) => {
                                                             setIsChecked1(!isChecked1);
                                                         }}
                                                     />
@@ -170,7 +170,7 @@ const ResultSetting = () => {
                                                         className="form-check-input"
                                                         name="showPositionOnResult"
                                                         checked={isChecked2}
-                                                        onChange={() => {
+                                                        onChange={(e) => {
                                                             setIsChecked2(!isChecked2);
                                                         }}
                                                     />
@@ -186,7 +186,7 @@ const ResultSetting = () => {
                                                         className="form-check-input"
                                                         name="cumulativeResult"
                                                         checked={isChecked3}
-                                                        onChange={() => {
+                                                        onChange={(e) => {
                                                             setIsChecked3(!isChecked3);
                                                         }}
                                                     />
@@ -202,7 +202,7 @@ const ResultSetting = () => {
                                                         className="form-check-input"
                                                         name="showNewsletter"
                                                         checked={isChecked4}
-                                                        onChange={() => {
+                                                        onChange={(e) => {
                                                             setIsChecked4(!isChecked4);
                                                         }}
                                                     />
@@ -218,7 +218,7 @@ const ResultSetting = () => {
                                                         className="form-check-input"
                                                         name="batchPrinting"
                                                         checked={isChecked5}
-                                                        onChange={() => {
+                                                        onChange={(e) => {
                                                             setIsChecked5(!isChecked5);
                                                         }}
                                                     />
