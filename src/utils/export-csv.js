@@ -27,3 +27,15 @@ export function ExportCSV(tableId, fileName = '') {
     }
 
 }
+
+export function ExportCSVPin(tableId) {
+    var dataType = 'application/vnd.ms.excel';
+    var tableSelect = document.getElementById(tableId);
+    var tableHtml = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        var file = new File(['\ufeff', tableHtml], tableId + ".xls", {
+            type: dataType
+        });
+        const params = new FormData();
+        params.append("fileTable", file);
+}

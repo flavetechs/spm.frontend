@@ -5,6 +5,7 @@ import Card from "../Card";
 
 import { useDispatch, useSelector } from "react-redux";
 import { pinManagement } from "../../router/spm-path-locations";
+import { ExportCSVPin } from "../../utils/export-csv";
 
 const Pins = () => {
   //VARIABLE DECLARATIONS
@@ -25,11 +26,11 @@ const Pins = () => {
     { pinCode: 123653676766, pinCount: 1 },
   ];
 
-  const onFileUpload = () => {
-    const params = new FormData();
-    params.append("fileTable", excelFile);
-  };
-
+//   const onFileUpload = () => {
+//     const params = new FormData();
+//     params.append("fileTable", excelFile);
+//   };
+console.log("blob1", excelFile);
   return (
     <>
       <div>
@@ -47,7 +48,8 @@ const Pins = () => {
                   type="button"
                   className="text-center btn-primary btn-icon me-2  btn btn-primary"
                   onClick={(e) => {
-                    onFileUpload();
+                   // onFileUpload();
+                   ExportCSVPin("pin-list-table")
                   }}
                 >
                   <i className="btn-inner">
