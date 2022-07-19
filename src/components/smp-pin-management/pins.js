@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
@@ -9,6 +9,7 @@ import { pinManagement } from "../../router/spm-path-locations";
 const Pins = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const tableRef = useRef(null);
   const [excelFile, setExcelFile] = useState(null);
   //VARIABLE DECLARATIONS
 
@@ -23,11 +24,12 @@ const Pins = () => {
     { pinCode: 123653664556, pinCount: 0 },
     { pinCode: 123653676766, pinCount: 1 },
   ];
+
   const onFileUpload = () => {
     const params = new FormData();
     params.append("fileTable", excelFile);
   };
-  console.log(excelFile);
+
   return (
     <>
       <div>
@@ -84,7 +86,8 @@ const Pins = () => {
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
-                    id="role-list-table"
+                    id="pin-list-table"
+                    ref={tableRef}
                     className="table table-striped"
                     role="grid"
                     data-toggle="data-table"
