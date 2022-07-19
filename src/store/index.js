@@ -33,5 +33,6 @@ export default createStore(
         results: resultsReducer,
         publish: publishresultsReducer,
         portal: portalSettingReducer,
+        //pin: pinReducer,
     })
 )
