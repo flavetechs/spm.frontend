@@ -26,11 +26,6 @@ const Pins = () => {
     { pinCode: 123653676766, pinCount: 1 },
   ];
 
-//   const onFileUpload = () => {
-//     const params = new FormData();
-//     params.append("fileTable", excelFile);
-//   };
-console.log("blob1", excelFile);
   return (
     <>
       <div>
@@ -43,12 +38,10 @@ console.log("blob1", excelFile);
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end px-2">
-                <input type="file" onChange={(e)=>{setExcelFile(e.target.files[0]);}} />
                 <button
                   type="button"
                   className="text-center btn-primary btn-icon me-2  btn btn-primary"
                   onClick={(e) => {
-                   // onFileUpload();
                    ExportCSVPin("pin-list-table")
                   }}
                 >
