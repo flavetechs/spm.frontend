@@ -50,6 +50,8 @@ import Setting from '../components/smp-portal-setting/setting';
 import Pins from '../components/smp-pin-management/pins';
 import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
+import TemplateSetting from '../components/smp-portal-setting/template-setting';
+import PrintResult from '../components/smp-result-management/print-result';
 
 const DashboardRouter = () => {
 
@@ -123,7 +125,8 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.masterList} exact component={MasterList} />
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
-                      {/* <Route path={resultManagement.printResult} exact component={PrintResultInput} /> */}
+                      <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
+                      <Route path={resultManagement.printResult} exact component={PrintResult} />
 
 
                       {/* portal setting */}
