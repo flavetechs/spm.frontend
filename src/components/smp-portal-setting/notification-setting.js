@@ -36,11 +36,13 @@ const NotificationSetting = () => {
                 initialValues={{
                     notificationSettingId: notificationSettingList?.notificationSettingId,
                     notifyByEmail: notificationSettingList?.notifyByEmail,
+                    // notifyBySms: notificationSettingList?.notifyBySms,
                 }}
 
                 onSubmit={(values) => {
                     values.notificationSettingId = values.notificationSettingId;
                     values.notifyByEmail = values.notifyByEmail;
+                    // values.notifyBySms = values.notifyBySms;
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
@@ -57,7 +59,7 @@ const NotificationSetting = () => {
                     isValid,
                     setFieldValue,
                 }) => (
-                    <Row className="border-start border-4" style={{ backgroundColor: "hsl(200deg 33% 98%)" }}>
+                    <Row className="border-start border-4" style={{ backgroundColor: "hsl(200deg 33% 98%)"}}>
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
@@ -70,7 +72,7 @@ const NotificationSetting = () => {
                                     {" "}
                                     <div className="new-user-info">
                                         <Form>
-                                            <div className="row">
+                                            <div className="row ms-1">
                                                 <div className="form-check mb-3 form-Check col-md-6">
                                                     <Field
                                                         disabled={disable}
@@ -85,6 +87,22 @@ const NotificationSetting = () => {
                                                     />
                                                     <label htmlFor="notifyByEmail" className="check-label">
                                                         Notify me by email{" "}
+                                                    </label>
+                                                </div>
+                                                <div className="form-check mb-3 form-Check col-md-6">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="checkbox"
+                                                        id="notifyBySms"
+                                                        className="form-check-input"
+                                                        name="notifyBySms"
+                                                        // defaultChecked={notificationSettingList?.notifyByEmail || false}
+                                                        onChange={(e) => {
+                                                            setFieldValue("notifyBySms", e.target.checked);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="notifyBySms" className="check-label">
+                                                        Notify me by sms{" "}
                                                     </label>
                                                 </div>
                                             </div>

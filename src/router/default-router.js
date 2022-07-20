@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -47,6 +47,9 @@ import Attendance from '../components/spm-class/attendance-on-update';
 // import PrintResult from '../components/smp-result-management/print-result';
 // import PrintResultInput from '../components/smp-result-management/print-result-input';
 import Setting from '../components/smp-portal-setting/setting';
+import Pins from '../components/smp-pin-management/pins';
+import UsedPins from '../components/smp-pin-management/used-pins';
+import PinDetails from '../components/smp-pin-management/pin-details';
 
 const DashboardRouter = () => {
 
@@ -103,6 +106,12 @@ const DashboardRouter = () => {
                      {/* enrollment */}
                      <Route path={studentsLocations.unenrolledStudents} exact component={UnenrolledStudentsList} />
                      <Route path={studentsLocations.enrolledStudents} exact component={EnrolledStudents} />
+
+
+                     {/* Pin Management */}
+                      <Route path={pinManagement.pins} exact component={Pins} />
+                      <Route path={pinManagement.usedPins} exact component={UsedPins} />
+                      <Route path={pinManagement.pinDetails} exact component={PinDetails} />
 
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />

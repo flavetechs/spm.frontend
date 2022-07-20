@@ -89,7 +89,7 @@ const ResultSetting = () => {
                     setFieldValue,
                 }) => (
 
-                    <Row className="border-start border-4 mt-0" style={{ backgroundColor: "hsl(200deg 33% 98%)" }}>
+                    <Row className="border-start border-4 mt-0" style={{ backgroundColor: "hsl(200deg 33% 98%)"}}>
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
@@ -102,7 +102,7 @@ const ResultSetting = () => {
                                     {" "}
                                     <div className="new-user-info">
                                         <Form>
-                                            <div className="row">
+                                            <div className="row ms-1">
                                                 <div className="form-check mb-3 form-Check col-md-6">
                                                     <Field
                                                         disabled={disable}

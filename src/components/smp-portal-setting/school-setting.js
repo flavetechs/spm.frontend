@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
-import * as Yup from "yup";
 
 import avatars1 from "../../assets/images/avatars/01.png";
 import avatars2 from "../../assets/images/avatars/avtar_2.png";
@@ -27,6 +26,7 @@ const SchoolSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { schoolSettingList } = state.portal;
+    console.log('schoolSettingList now', schoolSettingList);
     // ACCESSING STATE FROM REDUX STORE
     React.useEffect(() => {
         setSaveButton(true)
@@ -57,7 +57,7 @@ const SchoolSetting = () => {
                     schoolName: schoolSettingList?.schoolName,
                     schoolAbbreviation: schoolSettingList?.schoolAbbreviation,
                     schoolAddress: schoolSettingList?.schoolAddress,
-                    // email: schoolSettingList.email,
+                    email: schoolSettingList.email,
                     phoneNo1: schoolSettingList?.phoneNo1,
                     phoneNo2: schoolSettingList?.phoneNo2,
                     country: schoolSettingList?.country,
@@ -70,10 +70,11 @@ const SchoolSetting = () => {
                 onSubmit={(values) => {
                     values.schoolName = values.schoolName.toUpperCase();
                     values.schoolAddress = values.schoolAddress.toUpperCase();
-                    values.country = values.country.toString();
-                    values.state = values.state.toString();
+                    values.schoolAbbreviation = values.schoolAbbreviation.toUpperCase();
+                    values.country = values.country;
+                    values.state = values.state;
                     values.filepath = images;
-                    // values.email = values.email
+                    values.email = values.email;
                     const params = new FormData();
                     params.append("schoolSettingsId", values.schoolSettingsId);
                     params.append("schoolName", values.schoolName);
@@ -86,7 +87,7 @@ const SchoolSetting = () => {
                     params.append("schoolType", values.schoolType);
                     params.append("filepath", values.filepath);
                     params.append("photo", values.photo);
-                    // params.append("email", values.email);
+                    params.append("email", values.email);
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
@@ -104,7 +105,7 @@ const SchoolSetting = () => {
                     setFieldValue,
                 }) => (
 
-                    <Row className="border-start border-4" style={{ backgroundColor: "hsl(200deg 33% 98%)" }}>
+                    <Row className="border-start border-4 rounded" style={{ backgroundColor: "hsl(200deg 33% 98%)"}}>
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">

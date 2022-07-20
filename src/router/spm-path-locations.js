@@ -61,7 +61,6 @@ export const gradeSetting = {
   setting: "/dashboard/smp-grade/setting"
 }
 
-
 export const resultManagement = {
   adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
   scoreEntry: "/dashboard/smp-result/score-entry",
@@ -78,3 +77,9 @@ export const portalSetting = {
   setting: "/dashboard/smp-setting",
   templateSetting:"/dashboard/smp-template-setting"
 };
+
+export const pinManagement = {
+  pins: "/dashboard/smp-pin/pins",
+  usedPins: "/dashboard/smp-pin/used-pins",
+  pinDetails: "/dashboard/smp-pin/pin-details",
+}
