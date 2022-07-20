@@ -69,7 +69,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
                   >
                     Excel
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => {
                       setShowMenuDropdown(false);
                     }}
@@ -86,7 +86,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
                     draggable="false"
                   >
                     PDF
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>

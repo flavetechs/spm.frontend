@@ -63,7 +63,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                   >
                     Excel
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => {
                       setShowMenuDropdown(false);
                     }}
@@ -80,7 +80,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                     draggable="false"
                   >
                     PDF
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>
