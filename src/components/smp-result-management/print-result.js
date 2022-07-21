@@ -12,7 +12,7 @@ import {
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { resultManagement } from "../../router/spm-path-locations";
 import { useHistory } from "react-router-dom";
-import { getAllStudentResult } from "../../store/actions/results-actions";
+import { getSinglePrintResult } from "../../store/actions/results-actions";
 
 const PrintResult = () => {
   //VARIABLE DECLARATIONS
@@ -99,15 +99,18 @@ const PrintResult = () => {
                 enableReinitialize={true}
                 onSubmit={(values) => {
                   history.push(resultManagement.resultTemplate);
-                  getAllStudentResult(
-                    values.sessionClassId,
+                  //printSingle ? 
+                  getSinglePrintResult(
+                    values.ePin,
                     values.sessionTermId,
-                    values.studentContactId
-                  )(dispatch);
+                    values.studentRegNo
+                  )(dispatch)
+                  //: getBatchPrintResult()(dispatch)
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
                   <Form className="mx-auto">
+                    <Row className="d-flex justify-content-center">
                     <Col md="11">
                       {touched.sessionId && errors.sessionId && (
                         <div className="text-danger">{errors.sessionId}</div>
@@ -212,7 +215,7 @@ const PrintResult = () => {
                       </Field>
                     </Col>
                     {printSingle && (
-                      <div>
+                      <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.studentRegNo && errors.studentRegNo && (
                             <div className="text-danger">
@@ -249,10 +252,10 @@ const PrintResult = () => {
                             placeholder="Enter e-pin..."
                           />
                         </Col>
-                      </div>
+                      </Row>
                     )}
                     {batchPrint && (
-                      <div>
+                      <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.sessionClassId && errors.sessionClassId && (
                             <div className="text-danger">
@@ -292,7 +295,7 @@ const PrintResult = () => {
                             ))}
                           </Field>
                         </Col>
-                      </div>
+                      </Row>
                     )}
                     <div className="d-flex justify-content-end">
                       <Button
@@ -306,6 +309,7 @@ const PrintResult = () => {
                         Print
                       </Button>
                     </div>
+                    </Row>
                   </Form>
                 )}
               </Formik>

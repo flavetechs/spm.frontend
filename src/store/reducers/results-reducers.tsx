@@ -208,6 +208,28 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_SINGLE_PRINT_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentResult: null,
+      };
+    }
+    case actions.FETCH_SINGLE_PRINT_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_PRINT_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: null,
+      };
+    }
+
     case actions.UPDATE_SCORE_ENTRY: {
       return {
         ...state,

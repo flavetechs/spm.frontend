@@ -44,14 +44,14 @@ import PublishResultEdit from '../components/smp-result-management/publish-resul
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
 import TemplateControl from '../components/smp-result-management/result-templates/template-control';
 import Attendance from '../components/spm-class/attendance-on-update';
-// import PrintResult from '../components/smp-result-management/print-result';
-// import PrintResultInput from '../components/smp-result-management/print-result-input';
+import PrintResult from '../components/smp-result-management/print-result';
 import Setting from '../components/smp-portal-setting/setting';
 import Pins from '../components/smp-pin-management/pins';
 import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
-import PrintResult from '../components/smp-result-management/print-result';
+import AttendanceBoard from '../components/spm-class/attendance-board';
+import AttendancePresence from '../components/spm-class/attendance-presence';
 
 const DashboardRouter = () => {
 
@@ -71,8 +71,8 @@ const DashboardRouter = () => {
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
-                    {/* <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
-                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} /> */}
+                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
@@ -126,6 +126,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
+                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
                       <Route path={resultManagement.printResult} exact component={PrintResult} />
 
 

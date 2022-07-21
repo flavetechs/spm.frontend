@@ -354,6 +354,32 @@ export const getAllStudentResult = (sessionClassId, termId, studentContactId) =>
         });
 }
 
+export const getSinglePrintResult = (pin, termId, registrationNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_PRINT_RESULT_LOADING,
+       
+    });
+const payload = {
+    pin,
+    registractionNumber: registrationNumber,
+    termId,
+  
+}
+    axiosInstance.post('/api/v1/result/print/result', payload)
+        .then((res) => {
+            console.log('res',res)
+            dispatch({
+                type: actions.FETCH_SINGLE_PRINT_RESULT_SUCCESS,
+                payload: res.data.result
+            });
+            showHidePreview(true)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_PRINT_RESULT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+    }
 export const resetListEntryOnExit = () => (dispatch) => {
   dispatch({
         type: actions.RESET_MASTER_LIST,

@@ -67,15 +67,15 @@ const CumulativeMasterList = () => {
 
   return (
     <>
-      <div className="col-md-12 mx-auto d-xl-flex justify-content-center">
-        <Row >
-          <Col sm="12">
-            <Card>
-              <Card.Header>
-                <h6>CUMULATIVE RESULT</h6>
-              </Card.Header>
-              <Card.Body>
-                {!showCumulativeMasterListTable ? (
+      {!showCumulativeMasterListTable ? (
+        <div className="col-md-12 mx-auto d-flex justify-content-center">
+          <Row>
+            <Col sm="12">
+              <Card>
+                <Card.Header>
+                  <h6>CUMULATIVE RESULT</h6>
+                </Card.Header>
+                <Card.Body>
                   <Formik
                     initialValues={{
                       sessionId: activeSession?.sessionId,
@@ -162,7 +162,8 @@ const CumulativeMasterList = () => {
                                   (session, idx) =>
                                     session.sessionId.toLowerCase() ==
                                     values.sessionId
-                                )?.terms.map((term, id) => (
+                                )
+                                ?.terms.map((term, id) => (
                                   <option
                                     key={id}
                                     name={values.terms}
@@ -222,24 +223,35 @@ const CumulativeMasterList = () => {
                       </Form>
                     )}
                   </Formik>
-                ) : (
-                  <div>
-                    <CumulativeMasterListSmallTable
-                      cumulativeEntry={cumulativeEntry}
-                      setShowCumulativeMasterListTable={
-                        setShowCumulativeMasterListTable
-                      }
-                    />
-                    <CumulativeMasterListLargeTable
-                      cumulativeEntry={cumulativeEntry}
-                    />
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <div className="col-md-12 mx-auto">
+          <Row>
+            <Col sm="12">
+              <Card>
+                <Card.Header>
+                  <h6>CUMULATIVE RESULT</h6>
+                </Card.Header>
+                <Card.Body>
+                  <CumulativeMasterListSmallTable
+                    cumulativeEntry={cumulativeEntry}
+                    setShowCumulativeMasterListTable={
+                      setShowCumulativeMasterListTable
+                    }
+                  />
+                  <CumulativeMasterListLargeTable
+                    cumulativeEntry={cumulativeEntry}
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      )}
     </>
   );
 };

@@ -66,15 +66,15 @@ const MasterList = () => {
 
   return (
     <>
-      <div className="col-md-12 mx-auto d-xl-flex justify-content-center">
-        <Row>
-          <Col sm="12">
-            <Card>
-              <Card.Header>
-                <h6>MASTER LIST</h6>
-              </Card.Header>
-              <Card.Body>
-                {!showMasterListTable ? (
+      {!showMasterListTable ? (
+        <div className="col-md-12 mx-auto d-flex justify-content-center">
+          <Row>
+            <Col sm="12">
+              <Card>
+                <Card.Header>
+                  <h6>MASTER LIST</h6>
+                </Card.Header>
+                <Card.Body>
                   <Formik
                     initialValues={{
                       sessionId: activeSession?.sessionId,
@@ -222,20 +222,31 @@ const MasterList = () => {
                       </Form>
                     )}
                   </Formik>
-                ) : (
-                  <div>
-                    <MasterListSmallTable
-                      masterEntry={masterEntry}
-                      setShowMasterListTable={setShowMasterListTable}
-                    />
-                    <MasterListLargeTable masterEntry={masterEntry} />
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <div className="col-md-12 mx-auto">
+          <Row>
+            <Col sm="12">
+              <Card>
+                <Card.Header>
+                  <h6>MASTER LIST</h6>
+                </Card.Header>
+                <Card.Body>
+                  <MasterListSmallTable
+                    masterEntry={masterEntry}
+                    setShowMasterListTable={setShowMasterListTable}
+                  />
+                  <MasterListLargeTable masterEntry={masterEntry} />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      )}
     </>
   );
 };
