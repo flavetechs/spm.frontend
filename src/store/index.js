@@ -14,6 +14,7 @@ import { gradeReducer } from './reducers/grade-setting-reducer'
 import Mode from './setting/setting'
 import { resultsReducer } from './reducers/results-reducers'
 import { publishresultsReducer } from './reducers/publish-result-reducer'
+import { portalSettingReducer } from './reducers/portal-setting-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -31,5 +32,7 @@ export default createStore(
         grade: gradeReducer,
         results: resultsReducer,
         publish: publishresultsReducer,
+        portal: portalSettingReducer,
+        //pin: pinReducer,
     })
 )
