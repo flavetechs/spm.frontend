@@ -1,16 +1,19 @@
 import { Field, Formik } from "formik";
 import React from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import { createAnnouncement } from "../../store/actions/notification-actions";
 
 const MakeAnnouncement = () => {
-    const history = useHistory();
+  const history = useHistory();
+  const dispatch = useDispatch();
   //VALIDATION
   const validation = Yup.object().shape({
-    subject: Yup.string().required("Subject is required"),
-    body: Yup.string().required("Body is required"),
-    sendTo: Yup.string().required("Please enter who to send"),
+    header: Yup.string().required("Subject is required"),
+    content: Yup.string().required("Body is required"),
+    assignedTo: Yup.string().required("Please enter who to send"),
   });
   //VALIDATION
   return (
@@ -22,13 +25,15 @@ const MakeAnnouncement = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    subject: "",
-                    body: "",
-                    sendTo: "",
+                    header: "",
+                    content: "",
+                    assignedTo: "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
-                  onSubmit={(values) => {}}
+                  onSubmit={(values) => {
+                    createAnnouncement(values)(dispatch);
+                  }}
                 >
                   {({
                     handleSubmit,
@@ -40,65 +45,70 @@ const MakeAnnouncement = () => {
                     <Form className="mx-auto">
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
-                          {touched.subject && errors.subject && (
-                            <div className="text-danger">{errors.subject}</div>
+                          {touched.header && errors.header && (
+                            <div className="text-danger">{errors.header}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="subject">
+                          <label className="form-label" htmlFor="header">
                             <b>Subject:</b>
                           </label>
                           <Field
                             type="text"
-                            name="subject"
+                            name="header"
                             className="form-control"
-                            id="subject"
+                            id="header"
                             placeholder="Enter subject..."
                           />
                         </Col>
                         <Col md="11">
-                          {touched.body && errors.body && (
-                            <div className="text-danger">{errors.body}</div>
+                          {touched.content && errors.content && (
+                            <div className="text-danger">{errors.content}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="body">
+                          <label className="form-label" htmlFor="content">
                             <b>Announcement:</b>
                           </label>
                           <Field
-                          as="textarea"
+                            as="textarea"
                             type="text"
-                            name="body"
+                            name="content"
                             className="form-control h-75"
-                            id="body"
+                            id="content"
                             placeholder="Enter Announcement..."
                           />
                         </Col>
                         <Col md="11">
-                          {touched.sendTo && errors.sendTo && (
-                            <div className="text-danger">{errors.sendTo}</div>
+                          {touched.assignedTo && errors.assignedTo && (
+                            <div className="text-danger">
+                              {errors.assignedTo}
+                            </div>
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="sendTo">
+                          <label className="form-label" htmlFor="assignedTo">
                             <b>Send To:</b>
                           </label>
                           <Field
                             as="select"
-                            name="sendTo"
+                            name="assignedTo"
                             className="form-select"
-                            id="sendTo"
-                            onChange={(e) => {setFieldValue("sendTo", e.target.value)}}
+                            id="assignedTo"
+                            onChange={(e) => {
+                              setFieldValue("assignedTo", e.target.value);
+                            }}
                           >
                             <option value="">Select Send Option</option>
-                            <option value="printSingle">Staff</option>
-                            <option value="batchPrinting">Parents</option>
-                            <option value="batchPrinting">Students</option>
+                            <option value="admin">Admin</option>
+                            <option value="teacher">Teachers</option>
+                            <option value="parent">Parents</option>
+                            <option value="student">Students</option>
                           </Field>
                         </Col>
 
                         <div className="d-flex justify-content-end">
-                        <Button
+                          <Button
                             type="button"
                             className="btn-sm mt-4"
                             variant="btn btn-danger"

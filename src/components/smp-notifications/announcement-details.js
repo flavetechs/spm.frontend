@@ -1,15 +1,11 @@
-import React from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const AnnouncementDetails = () => {
   const history = useHistory();
-  const announcementData = {
-    subject: "Library Book",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas eu lacus, libero. Non mollis nunc commodo cursus urna pharetra aliquam. Est mi diam sed ac ut id. Metus gravida enim porta molestie sagittis condimentum interdum risus. Turpis porta erat mauris urna sit dapibus. Auctor nibh sit magna netus vulputate enim vulputate. Purus, tortor lobortis eget fermentum.",
-    dateAndTime: "18-08-2007 10:00AM",
-    senderName: "Abu Johnson",
-  };
+  const state = useSelector((state) => state);
+  const { announcementDetails } = state.notification;
 
   return (
     <div className="col-md-8 mx-auto">
@@ -19,10 +15,10 @@ const AnnouncementDetails = () => {
             <Card.Body>
               <div className="d-flex justify-content-between mt-3 flex-wrap">
                 <div>
-                  <h6>{announcementData.senderName}</h6>
+                  <h6>{announcementDetails?.senderName}</h6>
                 </div>
                 <div className="text-end text-primary">
-                  {announcementData.dateAndTime}
+                  {announcementDetails?.announcementDate}
                 </div>
               </div>
               <div className="d-flex justify-content-start mt-4">
@@ -57,12 +53,12 @@ const AnnouncementDetails = () => {
                   </button>
                 </div>
                 <div className="ms-2 mt-2 fw-bold">
-                  <span>{announcementData.subject}</span>
+                  <span>{announcementDetails?.header}</span>
                   <br />
                 </div>
               </div>
               <div>
-                <p className="my-4">{announcementData.body}</p>
+                <p className="my-4">{announcementDetails?.content}</p>
               </div>
               <hr />
 
