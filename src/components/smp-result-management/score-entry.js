@@ -60,6 +60,7 @@ const ScoreEntry = () => {
     }
   }, [scoreEntry]);
 
+  console.log('scoreEntry', scoreEntry);
   return (
     <>
       <div className="col-md-12 mx-auto">

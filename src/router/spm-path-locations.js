@@ -1,4 +1,9 @@
+export const currentTabRoute = (route) => {
+  return route.split('/')[1];
+}
+
 export const permissionLocations = {
+  active: 'smp-permissions',
   roleList: "/dashboard/smp-permissions/role-list",
   roleEdit: "/dashboard/smp-permissions/role-edit",
   roleAdd: "/dashboard/smp-permissions/role-add",
@@ -13,6 +18,7 @@ export const authLocations = {
 };
 
 export const classLocations = {
+  active: 'smp-class',
   sessionClassList2: "/dashboard/smp-class/session-class",
   classAttendance: "/dashboard/smp-class/class-attendance",
   classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
@@ -20,6 +26,7 @@ export const classLocations = {
 };
 
 export const sessionLocations = {
+  active: 'smp-session',
   sessionList: "/dashboard/smp-session/setup",
   sessionEdit: "/dashboard/smp-session/edit-session",
   sessionDetails: "/dashboard/smp-session/details-setup",
@@ -40,6 +47,7 @@ export const sessionLocations = {
 };
 
 export const staffLocations = {
+  active: 'smp-staff',
     staffList: '/dashboard/smp-staff/staff-list',
     staffAdd: '/dashboard/smp-staff/add-setup',
     staffEdit: '/dashboard/smp-staff/edit-setup',
@@ -47,6 +55,7 @@ export const staffLocations = {
 }
 
 export const studentsLocations = {
+  active: 'smp-student',
   studentList: "/dashboard/smp-student/student-list",
   studentAdd: "/dashboard/smp-student/add-student",
   studentEdit: "/dashboard/smp-student/edit-student",
@@ -58,10 +67,12 @@ export const studentsLocations = {
 
 
 export const gradeSetting = {
+  active: 'smp-permigradessions',
   setting: "/dashboard/smp-grade/setting"
 }
 
 export const resultManagement = {
+  active: 'smp-result',
   adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
   scoreEntry: "/dashboard/smp-result/score-entry",
   publishResult: "/dashboard/smp-result/publish-result",
@@ -74,11 +85,13 @@ export const resultManagement = {
 }
 
 export const portalSetting = {
+  active: 'smp-setting',
   setting: "/dashboard/smp-setting",
   templateSetting:"/dashboard/smp-template-setting"
 };
 
 export const pinManagement = {
+  active: 'smp-pin',
   pins: "/dashboard/smp-pin/pins",
   usedPins: "/dashboard/smp-pin/used-pins",
   pinDetails: "/dashboard/smp-pin/pin-details",
