@@ -50,7 +50,6 @@ import Pins from '../components/smp-pin-management/pins';
 import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
-import PrintResult from '../components/smp-result-management/print-result';
 import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
 import AttendanceBoard from '../components/spm-class/attendance-board';
 import AttendancePresence from '../components/spm-class/attendance-presence';
