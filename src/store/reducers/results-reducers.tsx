@@ -1,7 +1,7 @@
 import { actions } from "../action-types/results-action-types"
 import { _state } from "../states/results-state"
 
-export const resultsReducer = (state = _state, { type, payload }: any) => {
+export const resultsReducer = (state = _state, { type, payload}: any) => {
   switch (type) {
     case actions.FETCH_STAFF_CLASSES_LOADING:
       return {
@@ -276,6 +276,13 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         cumulativeEntry: payload,
+      };
+    }
+
+    case actions.RESET_STUDENT_RESULT_STATE: {
+      return {
+        ...state,
+        studentResult: payload,
       };
     }
 //template setting reducer
