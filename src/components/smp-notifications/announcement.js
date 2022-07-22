@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../router/spm-path-locations";
+import "./announcement.scss";
 
 const Announcement = () => {
   const history = useHistory();
@@ -31,9 +32,11 @@ const Announcement = () => {
       read: true,
     },
   ];
-  function truncateString(str, num) {
-    if (window.innerWidth >= 1200) {
-      return str?.length > 80 ? str.slice(0, 80) + "..." : str;
+  function truncateString(str) {
+    if (window.innerWidth >= 1400) {
+      return str?.length > 100 ? str.slice(0, 100) + "..." : str;
+    } else if (window.innerWidth >= 1200) {
+      return str?.length > 75 ? str.slice(0, 75) + "..." : str;
     } else if (window.innerWidth >= 992) {
       return str?.length > 60 ? str.slice(0, 60) + "..." : str;
     } else if (window.innerWidth >= 768) {
@@ -41,10 +44,10 @@ const Announcement = () => {
     } else if (window.innerWidth >= 576) {
       return str?.length > 15 ? str.slice(0, 15) + "..." : str;
     } else if (window.innerWidth < 576) {
-      return str?.length > 5 ? str.slice(0, 5) + "..." : str;
+      return str?.length > 15 ? str.slice(0, 15) + "..." : str;
     }
   }
- 
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -60,7 +63,7 @@ const Announcement = () => {
                     onClick={() => window.location.reload(false)}
                     style={{ cursor: "pointer" }}
                     width="23"
-                    fill="#595858"
+                    fill="blue"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
                   >
@@ -95,15 +98,19 @@ const Announcement = () => {
               </button>
             </div>
           </Card.Body>
-          <hr />
+          <hr className="mb-0 mt-2"/>
           <Card.Body className="h-100 py-0">
             <div className="tab-content iq-tab-fade-up" id="myTabContent-2">
               <div className="tab-pane fade show active">
                 {announcementData.map((item, idx) => (
-                  <Table size="sm" striped responsive hover>
-                    <tbody>
-                      <tr
-                        className={item.read == false ? "fw-bold" : ""}
+                  <div className="h6">
+                    <div>
+                      <div
+                        className={
+                          item.read == false
+                            ? "fw-bold d-md-flex justify-content-evenly item-outer-container"
+                            : "d-md-flex justify-content-evenly item-outer-container"
+                        }
                         style={{ cursor: "pointer" }}
                         onClick={() => {
                           history.push(
@@ -113,7 +120,10 @@ const Announcement = () => {
                           );
                         }}
                       >
-                        <td style={{ width: "5%" }}>
+                        <div
+                          style={{ width: "5%" }}
+                          className="py-2 item-table"
+                        >
                           {item.read == false ? (
                             <svg
                               width="22"
@@ -210,15 +220,23 @@ const Announcement = () => {
                               ></circle>
                             </svg>
                           )}
-                        </td>
-                        <td style={{ width: "10%" }}>{item.subject}</td>
-                        <td className="w-75">
-                          {truncateString(item.body, 60)}
-                        </td>
-                        <td className="w-25">{item.dateAndTime}</td>
-                      </tr>
-                    </tbody>
-                  </Table>
+                        </div>
+                        <div
+                          className="py-2 item-table"
+                          style={{ width: "15%" }}
+                        >
+                          {item.subject}
+                        </div>
+                        <div className="w-75 py-2 item-table">
+                          {truncateString(item.body)}
+                        </div>
+                        <div className="w-25 py-2 item-table">
+                          {item.dateAndTime}
+                        </div>
+                      </div>
+                      <hr className="m-0" />
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
