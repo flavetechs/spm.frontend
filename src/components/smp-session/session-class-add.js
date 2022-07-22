@@ -36,6 +36,8 @@ const SessionClassAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
+  const [examScore, setExamScore] = useState(70);
+  const [assessmentScore, setAssessmentScore] = useState(30);
   const [initialValues, setInitialValues] = useState({
     sessionId: activeSession?.session,
     classId: "",
@@ -90,10 +92,7 @@ const SessionClassAdd = () => {
     setInitialValues(initialValues);
   };
 
-  const setCurrentSubjectScores2 = (
-    subjectExamScore,
-    subjectAssessmentScore
-  ) => {
+  const setCurrentSubjectScores2 = (subjectExamScore, subjectAssessmentScore) => {
     classSubjects.map((subject, idx) => {
       initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
       initialValues[`${subject.subjectId}_subjectAssessmentScore`] = subjectAssessmentScore;
@@ -103,6 +102,7 @@ const SessionClassAdd = () => {
     initialValues.subjectExamScore = subjectExamScore;
     initialValues.subjectAssessmentScore = subjectAssessmentScore;
     setInitialValues(initialValues);
+
   };
 
   React.useEffect(() => {
@@ -121,8 +121,8 @@ const SessionClassAdd = () => {
   const getSubjectId = (event, subjectId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
-      "",
-      "",
+      examScore,
+      assessmentScore,
       subjectId,
       "",
       classSubjects,
@@ -185,6 +185,7 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
+                    console.log('values', values);
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -308,6 +309,7 @@ const SessionClassAdd = () => {
                             <Field
                               type="number"
                               onChange={(e) => {
+                                setExamScore(e.target.value)
                                 setFieldValue("examScore", e.target.value);
                                 setFieldValue(
                                   "assessmentScore",
@@ -316,12 +318,13 @@ const SessionClassAdd = () => {
                                 setFieldValue(
                                   "subjectExamScore",
                                   Number(e.target.value)
-                                ); 
-                                 setCurrentSubjectScores2(
+                                );
+                                setCurrentSubjectScores2(
                                   Number(e.target.value),
                                   Number(100 - e.target.value)
                                 );
                                 classSubjects.map((subject, idx) => {
+
                                   setFieldValue(
                                     `${subject.subjectId}_subjectExamScore`,
                                     Number(e.target.value)
@@ -330,7 +333,7 @@ const SessionClassAdd = () => {
                                     `${subject.subjectId}_subjectAssessmentScore`,
                                     Number(100 - e.target.value)
                                   )
-                                  });
+                                });
                               }}
                               className="form-control p-sm-1 p-lg-2"
                               name="examScore"
@@ -354,6 +357,7 @@ const SessionClassAdd = () => {
                             <Field
                               type="number"
                               onChange={(e) => {
+                                setAssessmentScore(e.target.value)
                                 setFieldValue(
                                   "examScore",
                                   100 - e.target.value
@@ -587,7 +591,7 @@ const SessionClassAdd = () => {
                                         classSubjects.find(
                                           (sub) =>
                                             sub.subjectTeacherId ===
-                                              teacher.teacherAccountId &&
+                                            teacher.teacherAccountId &&
                                             sub.subjectId === subject.lookupId
                                         )
                                           ? true
@@ -599,6 +603,7 @@ const SessionClassAdd = () => {
                                   ))}
                                 </select>
                               </td>
+
                             </tr>
                           ))}
                         </tbody>

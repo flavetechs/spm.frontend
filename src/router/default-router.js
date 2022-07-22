@@ -129,8 +129,8 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
-                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
                       <Route path={resultManagement.printResult} exact component={PrintResult} />
+                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
 
                       {/* portal setting */}
                       <Route path={portalSetting.setting} exact component={Setting} />

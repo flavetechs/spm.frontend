@@ -58,6 +58,11 @@ const PromotionSetup = () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse]);
+  
+  // const allClass = () => {
+  //   classesToPromoteTo
+  // }
+  console.log('classesToPromoteTo', classesToPromoteTo);
   return (
     <>
       <div>
@@ -179,9 +184,8 @@ const PromotionSetup = () => {
                                     <option defaultValue={""}>
                                       Select promotion class
                                     </option>
-                                    {classesToPromoteTo
-                                      .slice(idx - 1, classesToPromoteTo.length)
-                                     .filter(d => d.class != item.sessionClassName)
+                                    {/* .slice(idx - 1, classesToPromoteTo.length) */}
+                                    {classesToPromoteTo.filter(d => d.class != item.sessionClassName)
                                       .map((promoteTo, idx) => (
                                         <option
                                           key={idx}
