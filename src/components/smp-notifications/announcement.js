@@ -103,12 +103,12 @@ const Announcement = () => {
             <div className="tab-content iq-tab-fade-up" id="myTabContent-2">
               <div className="tab-pane fade show active">
                 {announcementData.map((item, idx) => (
-                  <div className="h6">
+                  <div className="">
                     <div>
                       <div
                         className={
                           item.read == false
-                            ? "fw-bold d-md-flex justify-content-evenly item-outer-container"
+                            ? "fw-bold h6 d-md-flex justify-content-evenly item-outer-container"
                             : "d-md-flex justify-content-evenly item-outer-container"
                         }
                         style={{ cursor: "pointer" }}
