@@ -2,25 +2,26 @@ import React from "react";
 import { Button, Card, Col, Row, Table } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSingleUnusedPin } from "../../store/actions/pin-management-actions";
+import { fetchSingleUsedPin } from "../../store/actions/pin-management-actions";
 
-const PinDetails = () => {
+const UsedPinDetails = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedUnusedPin } = state.pin;
+  const { selectedUsedPin } = state.pin;
+  console.log('selectedUsedPin now: ', selectedUsedPin);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const pin = queryParams.get("pin");
     if (!pin) return;
-    fetchSingleUnusedPin(pin)(dispatch);
+    fetchSingleUsedPin(pin)(dispatch);
   }, []);
+
   return (
     <>
       <div className="col-md-8 mx-auto">
@@ -28,7 +29,7 @@ const PinDetails = () => {
           <Col sm="12">
             <Card className="">
               <Card.Body>
-                <h4>Pin Details</h4>
+                <h4>Used Pin Details</h4>
                 <div className="pt-3">
                   <Table responsive bordered size="sm">
                     <tbody>
@@ -36,31 +37,31 @@ const PinDetails = () => {
                         <th>
                           <span className="h6">Pin</span>
                         </th>
-                        <td>{selectedUnusedPin?.pin}</td>
+                        <td>{selectedUsedPin?.pin}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Pin Count</span>
                         </th>
-                        <td>{selectedUnusedPin?.numberOfTimesUsed}</td>
+                        <td>{selectedUsedPin?.numberOfTimesUsed}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Student Name</span>
                         </th>
-                        <td>{selectedUnusedPin?.studentName}</td>
+                        <td>{selectedUsedPin?.studentName}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Session</span>
                         </th>
-                        <td>{selectedUnusedPin?.session}</td>
+                        <td>{selectedUsedPin?.session}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Term Printed</span>
                         </th>
-                        <td>{selectedUnusedPin?.term}</td>
+                        <td>{selectedUsedPin?.term}</td>
                       </tr>
                     </tbody>
                   </Table>
@@ -86,4 +87,4 @@ const PinDetails = () => {
   );
 };
 
-export default PinDetails;
+export default UsedPinDetails;

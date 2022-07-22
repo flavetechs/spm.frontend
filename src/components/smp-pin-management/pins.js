@@ -1,30 +1,44 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
 
 import { useDispatch, useSelector } from "react-redux";
 import { pinManagement } from "../../router/spm-path-locations";
-import { ExportCSVPin } from "../../utils/export-csv";
+import { getAllUnusedPinList, upLoadPinFile } from "../../store/actions/pin-management-actions";
+import { showErrorToast } from "../../store/actions/toaster-actions";
 
 const Pins = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const tableRef = useRef(null);
-  const [excelFile, setExcelFile] = useState(null);
+  const [excelFile, setExcelFile] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
+  const { unUsedPinList } = state.pin;
   // ACCESSING STATE FROM REDUX STORE
 
-  const pinList = [
-    { pinCode: 123653672556, pinCount: 3 },
-    { pinCode: 163673773686, pinCount: 2 },
-    { pinCode: 123653648456, pinCount: 3 },
-    { pinCode: 123653664556, pinCount: 0 },
-    { pinCode: 123653676766, pinCount: 1 },
-  ];
+
+  const handleFileSelect = (event) => {
+    setExcelFile(event.target.files[0])
+  }
+
+  const handleSubmit = () => {
+    if (!excelFile) {
+      showErrorToast("Please choose a file")(dispatch);
+    } else {
+      const params = new FormData();
+      params.append("excelFile", excelFile);
+      upLoadPinFile(excelFile, params)(dispatch)
+    }
+  }
+
+  React.useEffect(() => {
+    getAllUnusedPinList()(dispatch)
+  }, [])
+
 
   return (
     <>
@@ -37,47 +51,59 @@ const Pins = () => {
                   <h4 className="card-title mb-3">All Pins</h4>
                 </div>
               </Card.Header>
-              <div className="d-flex justify-content-end px-2">
-                <button
-                  type="button"
-                  className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                  onClick={(e) => {
-                   ExportCSVPin("pin-list-table")
-                  }}
-                >
-                  <i className="btn-inner">
-                    <svg
-                      width="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+              <Form>
+                <div className="d-flex d-xs-block justify-content-end">
+                  <div className="">
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      className="form-control px-1"
+                      accept=".xlsx, .xls, .csv"
+                      onChange={handleFileSelect}
+                    />
+                  </div>
+                  <div className="">
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                      onClick={handleSubmit}
                     >
-                      <path
-                        d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                      <path
-                        d="M12.0215 2.19044V14.2314"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                      <path
-                        d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                    </svg>
-                  </i>
-                  <span> upload</span>
-                </button>
-              </div>
+                      <i className="btn-inner">
+                        <svg
+                          width="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M12.0215 2.19044V14.2314"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span> Upload</span>
+                    </button>
+                  </div>
+                </div>
+              </Form>
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -92,18 +118,22 @@ const Pins = () => {
                         <th>S/No</th>
                         <th>Pin(s)</th>
                         <th>Pin Count</th>
+                        <th>Pin Status</th>
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {pinList.map((item, idx) => (
+                      {unUsedPinList.map((item, idx) => (
                         <tr key={idx} className="text-center">
                           <td className="">{idx + 1}</td>
                           <td>
-                            <b>{item.pinCode}</b>
+                            <b>{item.pin}</b>
                           </td>
                           <td>
-                            <b>{item.pinCount}</b>
+                            <b>{item.numberOfTimesUsed}</b>
+                          </td>
+                          <td>
+                            <b>{item.pinStatus}</b>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
@@ -121,7 +151,7 @@ const Pins = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to={`${pinManagement.pinDetails}?pinId=${item.pinCode}`}
+                                  to={`${pinManagement.pinDetails}?pin=${item.pin}`}
                                 >
                                   <span className="btn-inner">
                                     <svg
