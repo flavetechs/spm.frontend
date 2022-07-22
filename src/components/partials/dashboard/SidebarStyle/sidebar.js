@@ -70,7 +70,28 @@ const Sidebar = (props) => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
     
-    
+    const [dimensions, setDimensions] = React.useState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+      const handleResize = () => {
+        setDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      React.useEffect(() => {
+        window.addEventListener("resize", handleResize, false);
+
+        setTimeout(function(){
+            if(dimensions.width < 800){
+                if(!document.getElementsByTagName('ASIDE')[0]?.classList.contains('sidebar-mini')){
+                    document.getElementsByTagName('ASIDE')[0]?.classList?.add('sidebar-mini');
+                }
+              }
+        }, 1000)
+        
+      });
 
     return (
         <>

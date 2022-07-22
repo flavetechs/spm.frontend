@@ -53,6 +53,8 @@ import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
 import PrintResult from '../components/smp-result-management/print-result';
 import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
+import AttendanceBoard from '../components/spm-class/attendance-board';
+import AttendancePresence from '../components/spm-class/attendance-presence';
 
 const DashboardRouter = () => {
 
@@ -72,8 +74,8 @@ const DashboardRouter = () => {
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
-                    {/* <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
-                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} /> */}
+                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                 
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
@@ -129,7 +131,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
                       <Route path={resultManagement.printResult} exact component={PrintResult} />
-
+                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
 
                       {/* portal setting */}
                       <Route path={portalSetting.setting} exact component={Setting} />
