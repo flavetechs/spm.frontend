@@ -1,11 +1,22 @@
+import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
+import { getSinglePrintResult } from "../../store/actions/results-actions";
 
 const AnnouncementDetails = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const locations = useLocation();
   const state = useSelector((state) => state);
   const { announcementDetails } = state.notification;
+
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const announcementsId = queryParams.get("announcementsId");
+    updateSeenAnnouncement(announcementsId)(dispatch);
+  }, []);
 
   return (
     <div className="col-md-8 mx-auto">
