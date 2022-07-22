@@ -83,3 +83,9 @@ export const pinManagement = {
   usedPins: "/dashboard/smp-pin/used-pins",
   pinDetails: "/dashboard/smp-pin/pin-details",
 }
+
+export const notificationManagement = {
+  announcement: "/dashboard/smp-notification/announcement",
+  makeAnnouncement: "/dashboard/smp-notification/make-announcement",
+  annoucementDetails: "/dashboard/smp-notification/announcement-details",
+}
