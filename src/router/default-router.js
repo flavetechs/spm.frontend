@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -44,16 +44,17 @@ import PublishResultEdit from '../components/smp-result-management/publish-resul
 import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
 import TemplateControl from '../components/smp-result-management/result-templates/template-control';
 import Attendance from '../components/spm-class/attendance-on-update';
-// import PrintResult from '../components/smp-result-management/print-result';
-// import PrintResultInput from '../components/smp-result-management/print-result-input';
+import PrintResult from '../components/smp-result-management/print-result';
 import Setting from '../components/smp-portal-setting/setting';
 import Pins from '../components/smp-pin-management/pins';
 import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
-import PrintResult from '../components/smp-result-management/print-result';
 import AttendanceBoard from '../components/spm-class/attendance-board';
 import AttendancePresence from '../components/spm-class/attendance-presence';
+import Announcement from '../components/smp-notifications/announcement';
+import MakeAnnouncement from '../components/smp-notifications/make-announcement';
+import AnnouncementDetails from '../components/smp-notifications/announcement-details';
 
 const DashboardRouter = () => {
 
@@ -134,6 +135,10 @@ const DashboardRouter = () => {
                       {/* portal setting */}
                       <Route path={portalSetting.setting} exact component={Setting} />
 
+                       {/* notificationManagement */}
+                      <Route path={notificationManagement.announcement} exact component={Announcement} />
+                      <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
+                      <Route path={notificationManagement.annoucementDetails} exact component={AnnouncementDetails} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>

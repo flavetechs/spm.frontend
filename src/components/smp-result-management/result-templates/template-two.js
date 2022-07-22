@@ -1,7 +1,8 @@
 import React from "react";
 import { Row, Col, Table, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { resetStudentResultState } from "../../../store/actions/results-actions";
 import Card from "../../Card";
 
 const ResultTemplateTwo = () => {
@@ -9,8 +10,9 @@ const ResultTemplateTwo = () => {
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
   const history = useHistory();
+  const dispatch = useDispatch();
   // ACCESSING STATE FROM REDUX STORE
-  console.log("studentResult", studentResult);
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -24,6 +26,7 @@ const ResultTemplateTwo = () => {
                       variant="btn btn-primary btn-sm"
                       onClick={() => {
                         history.goBack();
+                        resetStudentResultState()(dispatch);
                       }}
                     >
                       Back
