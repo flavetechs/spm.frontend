@@ -50,6 +50,7 @@ import Pins from '../components/smp-pin-management/pins';
 import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
+import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
 import AttendanceBoard from '../components/spm-class/attendance-board';
 import AttendancePresence from '../components/spm-class/attendance-presence';
 import Announcement from '../components/smp-notifications/announcement';
@@ -117,6 +118,7 @@ const DashboardRouter = () => {
                       <Route path={pinManagement.pins} exact component={Pins} />
                       <Route path={pinManagement.usedPins} exact component={UsedPins} />
                       <Route path={pinManagement.pinDetails} exact component={PinDetails} />
+                      <Route path={pinManagement.usedPinDetails} exact component={UsedPinDetails} />
 
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />
