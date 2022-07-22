@@ -99,9 +99,9 @@ const AttendanceBoard = () => {
   }, [createSuccessful]);
 
   React.useEffect(() => {
-    if(!sessionClassIdQuery){
-      resetclassRegisterState()(dispatch)
-    }  
+    if (!sessionClassIdQuery) {
+      resetclassRegisterState()(dispatch);
+    }
   }, [sessionClassIdQuery]);
 
   return (
