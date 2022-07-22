@@ -5,6 +5,7 @@ import Card from "../Card";
 
 import { useDispatch, useSelector } from "react-redux";
 import { pinManagement } from "../../router/spm-path-locations";
+import { getAllUsedPinList } from "../../store/actions/pin-management-actions";
 
 const UsedPins = () => {
   //VARIABLE DECLARATIONS
@@ -14,24 +15,25 @@ const UsedPins = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
+  const { usedPinList } = state.pin;
+  console.log('usedPinList now: ', usedPinList);
   // ACCESSING STATE FROM REDUX STORE
 
-  const pinList = [
-    { pinCode: 123676648456, pinCount: 5 },
-    { pinCode: 123736663336, pinCount: 5 },
-    { pinCode: 123653676546, pinCount: 5 },
-  ];
-  let filteredPinList = pinList.filter((item) => {
+  React.useEffect(() => {
+    getAllUsedPinList()(dispatch)
+  }, [])
+
+  let filteredPinList = usedPinList.filter((item) => {
     if (filterQuery === "") {
       //if query is empty
       return item;
     } else if (
-      item.pinCode.toLowerCase().includes(filterQuery.toLowerCase())
+      item.session.toLowerCase().includes(filterQuery.toLowerCase())
     ) {
       //returns filtered array
       return item;
     } else if (
-      item.pinCount.toLowerCase().includes(filterQuery.toLowerCase())
+      item.term.toLowerCase().includes(filterQuery.toLowerCase())
     ) {
       //returns filtered array
       return item;
@@ -90,6 +92,7 @@ const UsedPins = () => {
                         <th>S/No</th>
                         <th>Pin(s)</th>
                         <th>Pin Count</th>
+                        <th>Pin Status</th>
                         <th min-width="100px">Action</th>
                       </tr>
                     </thead>
@@ -98,10 +101,13 @@ const UsedPins = () => {
                         <tr key={idx} className="text-center">
                           <td className="">{idx + 1}</td>
                           <td>
-                            <b>{item.pinCode}</b>
+                            <b>{item.pin}</b>
                           </td>
                           <td>
-                            <b>{item.pinCount}</b>
+                            <b>{item.numberOfTimesUsed}</b>
+                          </td>
+                          <td>
+                            <b>{item.pinStatus}</b>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
@@ -119,7 +125,7 @@ const UsedPins = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to={`${pinManagement.pinDetails}?pinId=${item.pinCode}`}
+                                  to={`${pinManagement.usedPinDetails}?pin=${item.pin}`}
                                 >
                                   <span className="btn-inner">
                                     <svg

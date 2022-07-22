@@ -1,6 +1,7 @@
 import { Row, Col, Table, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { resetStudentResultState } from "../../../store/actions/results-actions";
 import Card from "../../Card";
 
 const ResultTemplateOne = () => {
@@ -8,6 +9,7 @@ const ResultTemplateOne = () => {
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
   const history = useHistory();
+  const dispatch = useDispatch();
   // ACCESSING STATE FROM REDUX STORE
   return (
     <>
@@ -22,6 +24,7 @@ const ResultTemplateOne = () => {
                       variant="btn btn-primary btn-sm"
                       onClick={() => {
                         history.goBack();
+                        resetStudentResultState()(dispatch);
                       }}
                     >
                       Back
@@ -64,7 +67,7 @@ const ResultTemplateOne = () => {
                       >
                         <tbody>
                           {studentResult?.gradeSetting.map((result, idx) => (
-                            <tr>
+                            <tr key={idx}>
                               <th className="fw-bold h6 text-uppercase">
                                 {result.limit}
                               </th>

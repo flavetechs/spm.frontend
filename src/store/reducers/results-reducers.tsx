@@ -1,7 +1,7 @@
 import { actions } from "../action-types/results-action-types"
 import { _state } from "../states/results-state"
 
-export const resultsReducer = (state = _state, { type, payload }: any) => {
+export const resultsReducer = (state = _state, { type, payload}: any) => {
   switch (type) {
     case actions.FETCH_STAFF_CLASSES_LOADING:
       return {
@@ -208,6 +208,28 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_SINGLE_PRINT_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentResult: null,
+      };
+    }
+    case actions.FETCH_SINGLE_PRINT_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_PRINT_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: null,
+      };
+    }
+
     case actions.UPDATE_SCORE_ENTRY: {
       return {
         ...state,
@@ -254,6 +276,13 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         cumulativeEntry: payload,
+      };
+    }
+
+    case actions.RESET_STUDENT_RESULT_STATE: {
+      return {
+        ...state,
+        studentResult: payload,
       };
     }
 //template setting reducer

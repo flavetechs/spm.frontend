@@ -1,7 +1,7 @@
 import axiosInstance from "../../axios/axiosInstance";
 import TemplateSetting from "../../components/smp-portal-setting/template-setting";
 import { actions } from "../action-types/results-action-types"
-import { showErrorToast } from "./toaster-actions";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllStaffClasses = () => (dispatch) => {
     dispatch({
@@ -354,6 +354,32 @@ export const getAllStudentResult = (sessionClassId, termId, studentContactId) =>
         });
 }
 
+export const getSinglePrintResult = (pin, termId, registrationNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_PRINT_RESULT_LOADING,
+       
+    });
+const payload = {
+    pin,
+    registractionNumber: registrationNumber,
+    termId,
+  
+}
+    axiosInstance.post('/api/v1/result/print/result', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_PRINT_RESULT_SUCCESS,
+                payload: res.data.result
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_PRINT_RESULT_FAILED,
+                payload: err.response.data.result
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+    }
 export const resetListEntryOnExit = () => (dispatch) => {
   dispatch({
         type: actions.RESET_MASTER_LIST,
@@ -380,6 +406,13 @@ export const resetCumulativeListEntryOnExit = () => (dispatch) => {
         payload: null
     });
 }
+
+export const resetStudentResultState = () => (dispatch) => {
+    dispatch({
+         type: actions.RESET_STUDENT_RESULT_STATE,
+         payload: null
+     });
+ }
 
 // TemplateSetting action
 export const setTemplateSettingState = (templateName) => (dispatch) => {
