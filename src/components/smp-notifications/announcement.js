@@ -44,7 +44,7 @@ const Announcement = () => {
       return str?.length > 5 ? str.slice(0, 5) + "..." : str;
     }
   }
-  console.log(window.innerWidth);
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">
