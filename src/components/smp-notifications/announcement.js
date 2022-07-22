@@ -1,50 +1,32 @@
-import React, { useState } from "react";
-import { Card, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import React from "react";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../router/spm-path-locations";
+import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
 import "./announcement.scss";
 
 const Announcement = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
-  const announcementData = [
-    {
-      subject: "Library Book",
-      body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas eu lacus, libero. Non mollis nunc commodo cursus urna pharetra aliquam. Est mi diam sed ac ut id. Metus gravida enim porta molestie sagittis condimentum interdum risus. Turpis porta erat mauris urna sit dapibus. Auctor nibh sit magna netus vulputate enim vulputate. Purus, tortor lobortis eget fermentum.",
-      dateAndTime: "18-08-2007 10:00AM",
-      read: false,
-    },
-    {
-      subject: "New Book",
-      body: "Lorem ipsum dolor sit amet, c adipiscing elit. Nulla egestas eu lacus, libero. Non mollis nunc commodo cursus urna pharetra aliquam. Est mi diam sed ac ut id. Metus gravida enim porta molestie sagittis condimentum interdum risus. Turpis porta erat mauris urna sit dapibus. Auctor nibh sit magna netus vulputate enim vulputate. Purus, tortor lobortis eget fermentum.",
-      dateAndTime: "18-08-2007 11:00AM",
-      read: false,
-    },
-    {
-      subject: "Newest Book",
-      body: "Lorem ipsum dolor  amet, consectetur adipiscing elit. Nulla egestas eu lacus, libero. Non mollis nunc commodo cursus urna pharetra aliquam. Est mi diam sed ac ut id. Metus gravida enim porta molestie sagittis condimentum interdum risus. Turpis porta erat mauris urna sit dapibus. Auctor nibh sit magna netus vulputate enim vulputate. Purus, tortor lobortis eget fermentum.",
-      dateAndTime: "18-06-2007 10:00AM",
-      read: true,
-    },
-    {
-      subject: "Book",
-      body: "Lorem ipsum dolor  amet.",
-      dateAndTime: "8-06-2007 10:00AM",
-      read: true,
-    },
-  ];
+  const state = useSelector((state) => state);
+  const { announcementList } = state.notification;
+
+  React.useEffect(() => {
+    getAllAnnouncement()(dispatch);
+  }, []);
+
   function truncateString(str) {
     if (window.innerWidth >= 1400) {
-      return str?.length > 100 ? str.slice(0, 100) + "..." : str;
-    } else if (window.innerWidth >= 1200) {
-      return str?.length > 75 ? str.slice(0, 75) + "..." : str;
-    } else if (window.innerWidth >= 992) {
       return str?.length > 60 ? str.slice(0, 60) + "..." : str;
-    } else if (window.innerWidth >= 768) {
+    } else if (window.innerWidth >= 1200) {
+      return str?.length > 45 ? str.slice(0, 45) + "..." : str;
+    } else if (window.innerWidth >= 992) {
       return str?.length > 35 ? str.slice(0, 35) + "..." : str;
-    } else if (window.innerWidth >= 576) {
-      return str?.length > 15 ? str.slice(0, 15) + "..." : str;
-    } else if (window.innerWidth < 576) {
-      return str?.length > 15 ? str.slice(0, 15) + "..." : str;
+    } else if (window.innerWidth >= 768) {
+      return str?.length > 25 ? str.slice(0, 25) + "..." : str;
+    } else if (window.innerWidth < 768) {
+      return str?.length > 25 ? str.slice(0, 25) + "..." : str;
     }
   }
 
@@ -98,33 +80,34 @@ const Announcement = () => {
               </button>
             </div>
           </Card.Body>
-          <hr className="mb-0 mt-2"/>
+          <hr className="mb-0 mt-2" />
           <Card.Body className="h-100 py-0">
             <div className="tab-content iq-tab-fade-up" id="myTabContent-2">
               <div className="tab-pane fade show active">
-                {announcementData.map((item, idx) => (
-                  <div className="">
+                {announcementList?.map((item, idx) => (
+                  <div key={idx}>
                     <div>
                       <div
                         className={
-                          item.read == false
-                            ? "fw-bold h6 d-md-flex justify-content-evenly item-outer-container"
+                          item.isSeen == false
+                            ? " h6 d-md-flex justify-content-evenly item-outer-container"
                             : "d-md-flex justify-content-evenly item-outer-container"
                         }
                         style={{ cursor: "pointer" }}
                         onClick={() => {
                           history.push(
                             `${
-                              notificationManagement.annoucementDetails
-                            }?announcementId=${"id"}`
+                              notificationManagement.announcementDetails
+                            }?announcementsId=${item.announcementsId}`
                           );
+                        updateSeenAnnouncement(item.announcementsId)(dispatch)
                         }}
                       >
                         <div
                           style={{ width: "5%" }}
                           className="py-2 item-table"
                         >
-                          {item.read == false ? (
+                          {item.isSeen == false ? (
                             <svg
                               width="22"
                               viewBox="0 0 24 24"
@@ -222,16 +205,16 @@ const Announcement = () => {
                           )}
                         </div>
                         <div
-                          className="py-2 item-table"
-                          style={{ width: "15%" }}
+                          className="py-2  item-table"
+                          style={{ width: "20%" }}
                         >
-                          {item.subject}
+                          {item.header}
                         </div>
-                        <div className="w-75 py-2 item-table">
-                          {truncateString(item.body)}
+                        <div className="w-50 py-2 item-table">
+                          {truncateString(item.content)}
                         </div>
                         <div className="w-25 py-2 item-table">
-                          {item.dateAndTime}
+                          {item.announcementDate}
                         </div>
                       </div>
                       <hr className="m-0" />

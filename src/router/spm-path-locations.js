@@ -101,5 +101,5 @@ export const pinManagement = {
 export const notificationManagement = {
   announcement: "/dashboard/smp-notification/announcement",
   makeAnnouncement: "/dashboard/smp-notification/make-announcement",
-  annoucementDetails: "/dashboard/smp-notification/announcement-details",
+  announcementDetails: "/dashboard/smp-notification/announcement-details",
 }
