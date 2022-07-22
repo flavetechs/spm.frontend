@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../router/spm-path-locations";
 
 const Announcement = () => {
-    const history = useHistory();
+  const history = useHistory();
   const announcementData = [
     {
       subject: "Library Book",
@@ -25,15 +25,26 @@ const Announcement = () => {
       read: true,
     },
     {
-        subject: "Book",
-        body: "Lorem ipsum dolor  amet.",
-        dateAndTime: "8-06-2007 10:00AM",
-        read: true,
-      },
+      subject: "Book",
+      body: "Lorem ipsum dolor  amet.",
+      dateAndTime: "8-06-2007 10:00AM",
+      read: true,
+    },
   ];
   function truncateString(str, num) {
-    return str?.length > num ? str.slice(0, num) + "..." : str;
+    if (window.innerWidth >= 1200) {
+      return str?.length > 80 ? str.slice(0, 80) + "..." : str;
+    } else if (window.innerWidth >= 992) {
+      return str?.length > 60 ? str.slice(0, 60) + "..." : str;
+    } else if (window.innerWidth >= 768) {
+      return str?.length > 35 ? str.slice(0, 35) + "..." : str;
+    } else if (window.innerWidth >= 576) {
+      return str?.length > 15 ? str.slice(0, 15) + "..." : str;
+    } else if (window.innerWidth < 576) {
+      return str?.length > 5 ? str.slice(0, 5) + "..." : str;
+    }
   }
+  console.log(window.innerWidth);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -46,8 +57,8 @@ const Announcement = () => {
               >
                 <div className=" mx-3">
                   <svg
-                  onClick={()=>window.location.reload(false)}
-                  style={{cursor:"pointer"}}
+                    onClick={() => window.location.reload(false)}
+                    style={{ cursor: "pointer" }}
                     width="23"
                     fill="#595858"
                     xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +70,9 @@ const Announcement = () => {
               </OverlayTrigger>
               <button
                 type="button"
-                onClick={() => {history.push(notificationManagement.makeAnnouncement)}}
+                onClick={() => {
+                  history.push(notificationManagement.makeAnnouncement);
+                }}
                 className="text-center btn-primary btn-icon mx-3 mt-lg-0 mt-md-0 btn btn-primary"
               >
                 <i className="btn-inner">
@@ -90,13 +103,18 @@ const Announcement = () => {
                   <Table size="sm" striped responsive hover>
                     <tbody>
                       <tr
-                        className={item.read == false && "fw-bold"}
-                        style={{cursor:"pointer"}}
-                        onClick={() => {history.push(`${notificationManagement.annoucementDetails}?announcementId=${"id"}`)}}
+                        className={item.read == false ? "fw-bold" : ""}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          history.push(
+                            `${
+                              notificationManagement.annoucementDetails
+                            }?announcementId=${"id"}`
+                          );
+                        }}
                       >
                         <td style={{ width: "5%" }}>
                           {item.read == false ? (
-                           
                             <svg
                               width="22"
                               viewBox="0 0 24 24"
@@ -106,41 +124,41 @@ const Announcement = () => {
                               <path
                                 d="M9.76045 14.3667C9.18545 13.7927 8.83545 13.0127 8.83545 12.1377C8.83545 10.3847 10.2474 8.97168 11.9994 8.97168C12.8664 8.97168 13.6644 9.32268 14.2294 9.89668"
                                 stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M15.1049 12.6987C14.8729 13.9887 13.8569 15.0067 12.5679 15.2407"
                                 stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M6.65451 17.4722C5.06751 16.2262 3.72351 14.4062 2.74951 12.1372C3.73351 9.85823 5.08651 8.02823 6.68351 6.77223C8.27051 5.51623 10.1015 4.83423 11.9995 4.83423C13.9085 4.83423 15.7385 5.52623 17.3355 6.79123"
                                 stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M19.4473 8.99072C20.1353 9.90472 20.7403 10.9597 21.2493 12.1367C19.2823 16.6937 15.8063 19.4387 11.9993 19.4387C11.1363 19.4387 10.2853 19.2987 9.46729 19.0257"
                                 stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M19.8868 4.24951L4.11279 20.0235"
                                 stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                             </svg>
                           ) : (
-                             <svg
+                            <svg
                               width="20"
                               viewBox="0 0 24 24"
                               fill="none"
@@ -193,7 +211,7 @@ const Announcement = () => {
                             </svg>
                           )}
                         </td>
-                        <td style={{ width:"10%"}}>{item.subject}</td>
+                        <td style={{ width: "10%" }}>{item.subject}</td>
                         <td className="w-75">
                           {truncateString(item.body, 60)}
                         </td>
