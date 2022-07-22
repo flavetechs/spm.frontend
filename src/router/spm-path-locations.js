@@ -82,4 +82,5 @@ export const pinManagement = {
   pins: "/dashboard/smp-pin/pins",
   usedPins: "/dashboard/smp-pin/used-pins",
   pinDetails: "/dashboard/smp-pin/pin-details",
+  usedPinDetails: "/dashboard/smp-pin/usedpin-details",
 }

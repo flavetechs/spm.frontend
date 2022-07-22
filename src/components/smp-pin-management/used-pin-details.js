@@ -1,17 +1,27 @@
 import React from "react";
 import { Button, Card, Col, Row, Table } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSingleUsedPin } from "../../store/actions/pin-management-actions";
 
 const UsedPinDetails = () => {
   const history = useHistory();
-  const singlePinDetail = {
-    pinCode: 123653672556,
-    pinCount: 3,
-    studentName: "Noah Ark",
-    regNo: "abc/000012/xyz",
-    session: "2001/2002",
-    termPrinted: "3rd",
-  };
+  const dispatch = useDispatch();
+  const locations = useLocation();
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { selectedUsedPin } = state.pin;
+  console.log('selectedUsedPin now: ', selectedUsedPin);
+  // ACCESSING STATE FROM REDUX STORE
+
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const pin = queryParams.get("pin");
+    if (!pin) return;
+    fetchSingleUsedPin(pin)(dispatch);
+  }, []);
+
   return (
     <>
       <div className="col-md-8 mx-auto">
@@ -19,7 +29,7 @@ const UsedPinDetails = () => {
           <Col sm="12">
             <Card className="">
               <Card.Body>
-                <h4>Pin Details</h4>
+                <h4>Used Pin Details</h4>
                 <div className="pt-3">
                   <Table responsive bordered size="sm">
                     <tbody>
@@ -27,32 +37,38 @@ const UsedPinDetails = () => {
                         <th>
                           <span className="h6">Pin</span>
                         </th>
-                        <td>{singlePinDetail?.pinCode}</td>
+                        <td>{selectedUsedPin?.pin}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Pin Count</span>
                         </th>
-                        <td>{singlePinDetail?.pinCount}</td>
+                        <td>{selectedUsedPin?.numberOfTimesUsed}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Student Name</span>
                         </th>
-                        <td>{singlePinDetail?.studentName}</td>
+                        <td>{selectedUsedPin?.studentName}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Session</span>
                         </th>
-                        <td>{singlePinDetail?.session}</td>
+                        <td>{selectedUsedPin?.session}</td>
                       </tr>
                       <tr>
                         <th>
                           <span className="h6">Term Printed</span>
                         </th>
-                        <td>{singlePinDetail?.termPrinted}</td>
+                        <td>{selectedUsedPin?.term}</td>
                       </tr>
+                      {/* <tr>
+                        <th>
+                          <span className="h6">Pin SerialNumber</span>
+                        </th>
+                        <td>{selectedUsedPin?.serialNumber}</td>
+                      </tr> */}
                     </tbody>
                   </Table>
                 </div>

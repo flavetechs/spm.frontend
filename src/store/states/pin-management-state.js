@@ -2,8 +2,8 @@ export const _state = {
     loading: false,
     message: "",
     isSuccessful: false,
-    selectedPin: null,
+    selectedUnusedPin: null,
     selectedUsedPin: null,
-    allPinList:[],
+    unUsedPinList:[],
     usedPinList:[],
   };

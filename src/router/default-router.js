@@ -52,6 +52,7 @@ import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
 import PrintResult from '../components/smp-result-management/print-result';
+import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
 
 const DashboardRouter = () => {
 
@@ -114,6 +115,7 @@ const DashboardRouter = () => {
                       <Route path={pinManagement.pins} exact component={Pins} />
                       <Route path={pinManagement.usedPins} exact component={UsedPins} />
                       <Route path={pinManagement.pinDetails} exact component={PinDetails} />
+                      <Route path={pinManagement.usedPinDetails} exact component={UsedPinDetails} />
 
                       {/* Grade Setting */}
                       <Route path={gradeSetting.setting} exact component={GradeSetting} />

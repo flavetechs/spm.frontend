@@ -14,7 +14,7 @@ export const pinReducer = (state = _state, { type, payload }) => {
             return {
                 ...state,
                 loading: false,
-                allPinList: payload,
+                unUsedPinList: payload,
                 isSuccessful: true,
             };
         case actions.FETCH_ALL_PIN_FAILED:
@@ -58,14 +58,14 @@ export const pinReducer = (state = _state, { type, payload }) => {
             return {
                 ...state,
                 loading: false,
-                selectedPin: payload,
+                selectedUnusedPin: payload,
                 isSuccessful: true,
             };
         case actions.FETCH_SINGLE_PIN_FAILED:
             return {
                 ...state,
                 loading: false,
-                selectedPin: null,
+                selectedUnusedPin: null,
                 isSuccessful: false,
             };
 
