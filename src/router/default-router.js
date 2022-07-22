@@ -140,7 +140,7 @@ const DashboardRouter = () => {
                        {/* notificationManagement */}
                       <Route path={notificationManagement.announcement} exact component={Announcement} />
                       <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
-                      <Route path={notificationManagement.annoucementDetails} exact component={AnnouncementDetails} />
+                      <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>

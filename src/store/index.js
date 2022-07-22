@@ -15,6 +15,7 @@ import Mode from './setting/setting'
 import { resultsReducer } from './reducers/results-reducers'
 import { publishresultsReducer } from './reducers/publish-result-reducer'
 import { portalSettingReducer } from './reducers/portal-setting-reducer'
+import { notificationReducer } from './reducers/notification-reducer'
 import { pinReducer } from './reducers/pin-management-reducer'
 export default createStore(
     combineReducers({
@@ -34,6 +35,7 @@ export default createStore(
         results: resultsReducer,
         publish: publishresultsReducer,
         portal: portalSettingReducer,
+        notification: notificationReducer,
         pin: pinReducer,
     })
 )
