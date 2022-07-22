@@ -63,12 +63,6 @@ const UsedPinDetails = () => {
                         </th>
                         <td>{selectedUsedPin?.term}</td>
                       </tr>
-                      {/* <tr>
-                        <th>
-                          <span className="h6">Pin SerialNumber</span>
-                        </th>
-                        <td>{selectedUsedPin?.serialNumber}</td>
-                      </tr> */}
                     </tbody>
                   </Table>
                 </div>

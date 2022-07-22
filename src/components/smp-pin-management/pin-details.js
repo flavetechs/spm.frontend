@@ -13,7 +13,6 @@ const PinDetails = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedUnusedPin } = state.pin;
-  console.log('selectedUnusedPin now: ', selectedUnusedPin);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -22,14 +21,6 @@ const PinDetails = () => {
     if (!pin) return;
     fetchSingleUnusedPin(pin)(dispatch);
   }, []);
-  const singlePinDetail = {
-    pinCode: 123653672556,
-    pinCount: 3,
-    studentName: "Noah Ark",
-    regNo: "abc/000012/xyz",
-    session: "2001/2002",
-    termPrinted: "3rd",
-  };
   return (
     <>
       <div className="col-md-8 mx-auto">

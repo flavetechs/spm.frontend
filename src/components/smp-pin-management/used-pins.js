@@ -16,29 +16,24 @@ const UsedPins = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { usedPinList } = state.pin;
-  // console.log('usedPinList now: ', usedPinList);
+  console.log('usedPinList now: ', usedPinList);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllUsedPinList()(dispatch)
   }, [])
 
-  const pinList = [
-    { pinCode: 123676648456, pinCount: 5 },
-    { pinCode: 123736663336, pinCount: 5 },
-    { pinCode: 123653676546, pinCount: 5 },
-  ];
   let filteredPinList = usedPinList.filter((item) => {
     if (filterQuery === "") {
       //if query is empty
       return item;
     } else if (
-      item.pinCode.toLowerCase().includes(filterQuery.toLowerCase())
+      item.session.toLowerCase().includes(filterQuery.toLowerCase())
     ) {
       //returns filtered array
       return item;
     } else if (
-      item.pinCount.toLowerCase().includes(filterQuery.toLowerCase())
+      item.term.toLowerCase().includes(filterQuery.toLowerCase())
     ) {
       //returns filtered array
       return item;

@@ -3,21 +3,21 @@ import { _state } from "../states/pin-management-state";
 
 export const pinReducer = (state = _state, { type, payload }) => {
     switch (type) {
-        case actions.FETCH_ALL_PIN_LOADING:
+        case actions.FETCH_UNUSED_PIN_LOADING:
             return {
                 ...state,
                 loading: true,
                 message: '',
                 isSuccessful: false
             };
-        case actions.FETCH_ALL_PIN_SUCCESS:
+        case actions.FETCH_UNUSED_PIN_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 unUsedPinList: payload,
                 isSuccessful: true,
             };
-        case actions.FETCH_ALL_PIN_FAILED:
+        case actions.FETCH_UNUSED_PIN_FAILED:
             return {
                 ...state,
                 loading: false,
@@ -48,20 +48,20 @@ export const pinReducer = (state = _state, { type, payload }) => {
             };
 
 
-        case actions.FETCH_SINGLE_PIN_LOADING:
+        case actions.FETCH_SINGLE_UNUSED_PIN_LOADING:
             return {
                 ...state,
                 loading: true,
                 isSuccessful: false,
             };
-        case actions.FETCH_SINGLE_PIN_SUCCESS:
+        case actions.FETCH_SINGLE_UNUSED_PIN_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 selectedUnusedPin: payload,
                 isSuccessful: true,
             };
-        case actions.FETCH_SINGLE_PIN_FAILED:
+        case actions.FETCH_SINGLE_UNUSED_PIN_FAILED:
             return {
                 ...state,
                 loading: false,
@@ -118,8 +118,3 @@ export const pinReducer = (state = _state, { type, payload }) => {
             return state;
     }
 }
-// function filterSelectedIds(arr, value) {
-//     return arr.filter(function (ele) {
-//       return ele !== value;
-//     });
-//   }

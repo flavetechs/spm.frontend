@@ -5,57 +5,40 @@ import Card from "../Card";
 
 import { useDispatch, useSelector } from "react-redux";
 import { pinManagement } from "../../router/spm-path-locations";
-import { ExportCSVPin } from "../../utils/export-csv";
 import { getAllUnusedPinList, upLoadPinFile } from "../../store/actions/pin-management-actions";
-import { hideSuccessToast, respondDialog, showErrorToast, showHideDialog } from "../../store/actions/toaster-actions";
+import { showErrorToast } from "../../store/actions/toaster-actions";
 
 const Pins = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const tableRef = useRef(null);
   const [excelFile, setExcelFile] = useState("");
-  // console.log('excelFile', excelFile);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { unUsedPinList } = state.pin;
-  // console.log('unUsedPinList now: ', unUsedPinList);
   // ACCESSING STATE FROM REDUX STORE
-  
 
-  // React.useEffect(() => {
-  //   const params = new FormData();
-  //   params.append("excelFile", excelFile);
-  //   upLoadPinFile(excelFile, params)(dispatch)
-  // }, [excelFile]);
+
+  const handleFileSelect = (event) => {
+    setExcelFile(event.target.files[0])
+  }
 
   const handleSubmit = () => {
     if (!excelFile) {
       showErrorToast("Please choose a file")(dispatch);
     } else {
-      // showHideDialog(false, null)(dispatch);
-      // respondDialog("")(dispatch);
       const params = new FormData();
       params.append("excelFile", excelFile);
       upLoadPinFile(excelFile, params)(dispatch)
     }
-    // const params = new FormData();
-    // params.append("excelFile", excelFile);
-    // upLoadPinFile(excelFile, params)(dispatch)
   }
 
   React.useEffect(() => {
     getAllUnusedPinList()(dispatch)
   }, [])
 
-  const pinList = [
-    { pinCode: 123653672556, pinCount: 3 },
-    { pinCode: 163673773686, pinCount: 2 },
-    { pinCode: 123653648456, pinCount: 3 },
-    { pinCode: 123653664556, pinCount: 0 },
-    { pinCode: 123653676766, pinCount: 1 },
-  ];
 
   return (
     <>
@@ -70,55 +53,55 @@ const Pins = () => {
               </Card.Header>
               <Form>
                 <div className="d-flex d-xs-block justify-content-end">
-                    <div className="">
-                      <input
-                        type="file"
-                        id="file"
-                        name="file"
-                        className="form-control px-1"
-                        accept=".xlsx, .xls, .csv"
-                        onChange={e => setExcelFile(e.target.value)}
-                      />
-                    </div>
-                    <div className="">
-                      <button
-                        type="button"
-                        className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                        onClick={handleSubmit}
-                      >
-                        <i className="btn-inner">
-                          <svg
-                            width="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                            <path
-                              d="M12.0215 2.19044V14.2314"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                            <path
-                              d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
-                              stroke="currentColor"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            ></path>
-                          </svg>
-                        </i>
-                        <span> Upload</span>
-                      </button>
-                    </div>
+                  <div className="">
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      className="form-control px-1"
+                      accept=".xlsx, .xls, .csv"
+                      onChange={handleFileSelect}
+                    />
+                  </div>
+                  <div className="">
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                      onClick={handleSubmit}
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          width="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M12.0215 2.19044V14.2314"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span> Upload</span>
+                    </button>
+                  </div>
                 </div>
               </Form>
               <Card.Body className="px-0">
