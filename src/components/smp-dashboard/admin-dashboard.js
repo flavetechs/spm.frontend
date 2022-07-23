@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 
-const Index = (props) => {
+const AdminDashboard = (props) => {
     useEffect(() => {
     AOS.init({
         startEvent: 'DOMContentLoaded',
@@ -843,4 +843,4 @@ const Index = (props) => {
         )
     }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard)
