@@ -21,6 +21,7 @@
     "formik": "^2.2.9",
     "fullcalendar-interaction": "^5.3.3",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "leaflet": "^1.7.1",
     "nouislider-react": "^3.4.0",
     "prismjs": "^1.24.1",

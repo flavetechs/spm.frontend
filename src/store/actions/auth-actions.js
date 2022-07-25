@@ -19,10 +19,9 @@ export const loginUser = ({ userName, password }) => (dispatch) => {
                 payload: res.data.result
             });
         }).catch(err => {
-            console.log('err', err.response.data.result);
             dispatch({
                 type: actions.LOGIN_USER_FAILED,
-                payload: err.response.data.result
+                payload: err.response.data.message.friendlyMessage
             })
         })
 }

@@ -204,15 +204,41 @@ const addNewActivityToRole = (id, value, action) => {
     };
 }
 
+export const updateRoleActivityOnSelect = (id, isChecked, selectedRole) => dispatch => {
+    const otherSelectedActivity = selectedRole.activities.filter(e => e.activityId !== id);
+    let selectedActivity = selectedRole.activities.find(e => e.activityId === id);
+ 
+    if (selectedActivity) {
+           if (isChecked === false) {
+            selectedRole.activities = [...otherSelectedActivity];
+        } else {
+            selectedRole.activities = [...otherSelectedActivity, selectedActivity];
+        }
+        dispatch({
+            type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+            payload: selectedRole
+        });
+    } else {
+        const newActivity = {activityId : id};
+        selectedRole.activities = [...otherSelectedActivity, newActivity];
+        dispatch({
+            type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+            payload: selectedRole
+        });
+    }
+}
+
 export const updateRoleNameState = (name, selectedRole) => dispatch => {
     selectedRole.name = name;
     dispatch({
         type: actions.UPDATE_ROLE_NAME_STATE,
         payload: selectedRole,
     });
-
-
 }
+
+
+
+
 export const updateModifiedRole = (role) => dispatch => {
     dispatch({
         type: actions.UPDATE_ROLE_LOADING

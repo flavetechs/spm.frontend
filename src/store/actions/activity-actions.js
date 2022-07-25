@@ -21,3 +21,23 @@ export const getAllActivities = () => dispatch => {
             })
         });
 }
+
+export const getAppActivityParent = () => dispatch => {
+    
+    dispatch({
+        type: actions.FETCH_APP_ACTIVITY_PARENT_LOADING
+    });
+
+    axiosInstance.get(`/role/api/v1/getall-activity-parent`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_APP_ACTIVITY_PARENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_APP_ACTIVITY_PARENT_FAILED,
+                payload: err.response.data
+            })
+        });
+}

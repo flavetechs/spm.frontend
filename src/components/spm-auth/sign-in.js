@@ -62,7 +62,6 @@ const SignIn = () => {
                                             }}
                                             validationSchema={validation}
                                             onSubmit={values => {
-                                                console.log(values);
                                                 loginUser(values)(dispatch)
                                             }}
                                         >

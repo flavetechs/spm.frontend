@@ -1,5 +1,6 @@
 import { actions } from "../action-types/auth-action-types"
 import { _state } from "../states/auth-state"
+import jwt from 'jwt-decode'
 
 export const authReducer = (state = _state, { type, payload }: any) => {
     switch (type) {
@@ -15,14 +16,19 @@ export const authReducer = (state = _state, { type, payload }: any) => {
 
         case actions.LOGIN_USER_SUCCESS: {
             localStorage.removeItem('token');
-            localStorage.setItem('token', payload.token);
+            localStorage.setItem('token', payload.authResult.token);
+            const decodedToken = jwt<any>(payload.authResult.token);
+            console.log('decodedTken', decodedToken);
+            
             return {
                 ...state,
                 loading: false,
-                token: payload.token,
-                refreshToken: payload.refreshToken,
+                token: payload.authResult.token,
+                refreshToken: payload.authResult.refreshToken,
                 message: '',
                 isSuccessful: true,
+                permissions: decodedToken.permissions,
+                schoolProps: decodedToken.schoolProperties
             }
         }
 
@@ -30,10 +36,12 @@ export const authReducer = (state = _state, { type, payload }: any) => {
             return {
                 ...state,
                 loading: false,
+                token: null,
+                refreshToken: null,
                 message: payload,
-                token: '',
-                refreshToken: '',
                 isSuccessful: false,
+                permissions: [],
+                schoolProps: null
             }
 
         case actions.LOG_OUT_USER: {
