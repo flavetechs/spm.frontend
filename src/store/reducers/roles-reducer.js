@@ -110,6 +110,35 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         selectedRole: null,
       };
     }
+  
+    case actions.RESET_ACTIVITIES:
+      return {
+        ...state,
+        selectedRole:payload
+      };
+
+    case actions.CREATE_ROLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.CREATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.CREATE_ROLE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+      };
+
     case actions.UPDATE_ROLE_ACTIVITY_STATE:
       return {
         ...state,

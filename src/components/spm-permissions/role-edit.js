@@ -6,7 +6,10 @@ import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import {
   fetchSingleRole,
+  getAllParentRole,
+  resetRoleActivities,
   updateModifiedRole,
+  updateRoleActivityOnSelect,
   updateRoleActivityState,
   updateRoleNameState,
 } from "../../store/actions/role-actions";
@@ -17,11 +20,12 @@ const RoleEdit = () => {
   const locations = useLocation();
   const dispatch = useDispatch();
   const [allActivites, setAllActivities] = useState([])
+  const [parentValue, setParentValue] = useState("session-management");
 
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedRole } = state.roles;
+  const { selectedRole, parentRole } = state.roles;
   // ACCESSING STATE FROM REDUX STORE
 
 
@@ -30,65 +34,20 @@ const RoleEdit = () => {
     const roleId = queryParams.get("roleId");
     if (!roleId) return;
     fetchSingleRole(roleId)(dispatch);
+    getAllParentRole()(dispatch);
+    // return()=>{
+    //   resetRoleActivities()(dispatch);
+    // }
   }, []);
 
   React.useLayoutEffect(() => {
-    setAllActivities(selectedRole.activities);
-  }, []);
+    setAllActivities(selectedRole?.activities);
+  }, [selectedRole]);
 
-  const handleCanCreateCheckBox = (event) => {
-    const activityId = event.target.id.replace("canCreate_", "");
+  const handleSelect = (event) => {
+    const activityId = event.target.id;
     const checkBoxValue = event.target.checked;
-    updateRoleActivityState(
-      activityId,
-      checkBoxValue,
-      selectedRole,
-      "canCreate"
-    )(dispatch);
-  };
-
-  const handleCanUpdateCheckBox = (event) => {
-    const activityId = event.target.id.replace("canUpdate_", "");
-    const checkBoxValue = event.target.checked;
-    updateRoleActivityState(
-      activityId,
-      checkBoxValue,
-      selectedRole,
-      "canUpdate"
-    )(dispatch);
-  };
-
-  const handleCanDeleteCheckBox = (event) => {
-    const activityId = event.target.id.replace("canDelete_", "");
-    const checkBoxValue = event.target.checked;
-    updateRoleActivityState(
-      activityId,
-      checkBoxValue,
-      selectedRole,
-      "canDelete"
-    )(dispatch);
-  };
-
-  const handleCanImportCheckBox = (event) => {
-    const activityId = event.target.id.replace("canImport_", "");
-    const checkBoxValue = event.target.checked;
-    updateRoleActivityState(
-      activityId,
-      checkBoxValue,
-      selectedRole,
-      "canImport"
-    )(dispatch);
-  };
-
-  const handleCanExportCheckBox = (event) => {
-    const activityId = event.target.id.replace("canExport_", "");
-    const checkBoxValue = event.target.checked;
-    updateRoleActivityState(
-      activityId,
-      checkBoxValue,
-      selectedRole,
-      "canExport"
-    )(dispatch);
+    updateRoleActivityOnSelect(activityId, checkBoxValue, selectedRole)(dispatch);
   };
 
   const handleRoleNameOnChange = (event) => {
@@ -96,13 +55,13 @@ const RoleEdit = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
-
-
+  const filteredActivities = allActivites.filter((item,idx)=>parentValue == item.parentName);
+//console.log("allActivites", allActivites);
   return (
     <>
       <div>
-        <Row>
-          <Col sm="12">
+        <Row className="d-flex justify-content-center">
+          <Col sm="6">
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
@@ -119,6 +78,28 @@ const RoleEdit = () => {
                       placeholder="Role name"
                     />
                   </Form.Group>
+                  <Form.Group className="form-group">
+                            <select
+                              name="name"
+                              className="form-select"
+                              id="name"
+                              onChange={(e) => {
+                               setParentValue(e.target.value);
+                               setAllActivities(selectedRole?.activities);
+                              }}
+                            >
+                              <option value="">Select Role</option>
+                              {parentRole?.map((role, idx) => (
+                                <option
+                                  key={idx}
+                                  value={role.name}
+                                  selected={role.name == "session-management"}
+                                >
+                                  {role.name}
+                                </option>
+                              ))}
+                            </select>
+                          </Form.Group>
                 </div>
               </Card.Header>
 
@@ -135,60 +116,20 @@ const RoleEdit = () => {
                         <th className="text-center" width="300px">
                           Activities
                         </th>
-                        <th className="text-center">Create</th>
-                        <th className="text-center">Update</th>
-                        <th className="text-center">Delete</th>
-                        <th className="text-center">Import</th>
-                        <th className="text-center">Export</th>
+                        <th className="text-center">Select</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {allActivites.map((item, idx) => (
+                      {filteredActivities.map((item, idx) => (
                         <tr key={idx}>
                           <td className="text-uppercase">{item.name}</td>
                           <td className="text-center">
                             <input
                               className="form-check-input"
                               type="checkbox"
-                              checked={item?.canCreate}
-                              id={"canCreate_" + item.activityId}
-                              onChange={handleCanCreateCheckBox}
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              checked={item?.canUpdate}
-                              id={"canUpdate_" + item.activityId}
-                              onChange={handleCanUpdateCheckBox}
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              checked={item?.canDelete}
-                              id={"canDelete_" + item.activityId}
-                              onChange={handleCanDeleteCheckBox}
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              checked={item?.canImport}
-                              id={"canImport_" + item.activityId}
-                              onChange={handleCanImportCheckBox}
-                            />
-                          </td>
-                          <td className="text-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              checked={item?.canExport}
-                              id={"canExport_" + item.activityId}
-                              onChange={handleCanExportCheckBox}
+                              //checked={item?.isChecked}
+                              id={item.activityId}
+                             onChange={handleSelect}
                             />
                           </td>
                         </tr>
@@ -199,7 +140,7 @@ const RoleEdit = () => {
                     <Link to={permissionLocations.roleList} className="mx-2">
                       <button
                         type="button"
-                        className="btn btn-primary mr-5"
+                        className="btn btn-danger"
                         style={{ cursor: "pointer" }}
                       >
                         Back
@@ -210,7 +151,7 @@ const RoleEdit = () => {
                         updateModifiedRole(selectedRole)(dispatch);
                       }}
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary mx-2"
                       style={{ cursor: "pointer" }}
                     >
                       Save

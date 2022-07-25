@@ -101,7 +101,7 @@ const RoleList = () => {
   return (
     <>
       <div>
-        <Row>
+        <Row >
           <Col sm="12">
             <Card>
               <Card.Header className="d-flex justify-content-between">
@@ -377,7 +377,7 @@ const RoleList = () => {
                                   </svg>
                                 </span>
                               </Link>
-                              </OverlayTrigger>
+                              </OverlayTrigger>{" "}
                               {isNotToBeDeleted(item.name) ? (null) : (
 
                                 <Link
