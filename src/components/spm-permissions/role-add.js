@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,25 +6,26 @@ import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import {
   createNewRole,
+  getAllParentRole,
   updateRoleActivityState,
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { getAllActivities } from "../../store/actions/activity-actions";
 
 const RoleAdd = () => {
-
   const dispatch = useDispatch();
-
+const [parentValue, setParentValue] = useState("")
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedRole } = state.roles;
+  const { selectedRole, parentRole } = state.roles;
   const { activities } = state.activities;
   // ACCESSING STATE FROM REDUX STORE
 
 
   React.useEffect(() => {
     getAllActivities()(dispatch);
+    getAllParentRole()(dispatch);
   }, []);
 
   const handleCanCreateCheckBox = (event) => {
@@ -87,8 +88,8 @@ const RoleAdd = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
-
-
+const filteredActivities = activities.filter((item,idx)=>parentValue == item.parentName)
+console.log("parentRole", filteredActivities);
   return (
     <>
       <div>
@@ -109,6 +110,26 @@ const RoleAdd = () => {
                       placeholder="Role name"
                     />
                   </Form.Group>
+                  <Form.Group className="form-group">
+                            <select
+                              name="name"
+                              className="form-select"
+                              id="name"
+                              onChange={(e) => {
+                               setParentValue(e.target.value)
+                              }}
+                            >
+                              <option value="">Select Role</option>
+                              {parentRole?.map((classes, idx) => (
+                                <option
+                                  key={idx}
+                                  value={classes.name}
+                                >
+                                  {classes.name}
+                                </option>
+                              ))}
+                            </select>
+                          </Form.Group>
                 </div>
               </Card.Header>
 
@@ -133,9 +154,10 @@ const RoleAdd = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {activities.map((item, idx) => (
+                      {filteredActivities.map((item, idx) => (
                         <tr key={idx}>
                           <td className="text-uppercase">{item.name}</td>
+
                           <td className="text-center">
                             <input
                               className="form-check-input"
@@ -186,10 +208,10 @@ const RoleAdd = () => {
                     </tbody>
                   </table>
                   <div className="d-flex justify-content-end">
-                    <Link to={permissionLocations.roleList} className="mx-2">
+                    <Link to={permissionLocations.roleList} className="">
                       <button
                         type="button"
-                        className="btn btn-primary mr-5"
+                        className="btn btn-danger"
                         style={{ cursor: "pointer" }}
                       >
                         Back
@@ -200,7 +222,7 @@ const RoleAdd = () => {
                         createNewRole(selectedRole)(dispatch);
                       }}
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary mx-2"
                       style={{ cursor: "pointer" }}
                     >
                       Save

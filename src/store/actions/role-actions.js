@@ -20,6 +20,24 @@ export const getAllRoles = () => (dispatch) => {
             })
         });
 }
+export const getAllParentRole = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PARENT_ROLE_LOADING
+    });
+
+    axiosInstance.get('/role/api/v1/getall-activity-parent')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PARENT_ROLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_PARENT_ROLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
 export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
     dispatch({

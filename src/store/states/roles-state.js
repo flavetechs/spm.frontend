@@ -8,5 +8,6 @@ export const _state = {
     isSuccessful: false,
     roleId: '',
     name: '',
-    selectedIds: []
+    selectedIds: [],
+    parentRole:null,
 }

@@ -68,6 +68,28 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         roles: payload,
       };
     }
+
+    case actions.FETCH_PARENT_ROLE_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_PARENT_ROLE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+      parentRole: payload,
+      };
+    }
+    case actions.FETCH_PARENT_ROLE_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        parentRole: null,
+      };
+    }
+
     case actions.FETCH_SINGLE_ROLE_LOADING: {
       return {
         ...state,
