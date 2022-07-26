@@ -135,7 +135,7 @@ const ScoreEntry = () => {
                                   stroke-linejoin="round"
                                 ></path>
                               </svg>{" "}
-                              View Previous Score Entries
+                              Update Previous Terms Scores
                             </button>
                           </Link></div>
                           <Col md="6">
