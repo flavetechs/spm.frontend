@@ -114,7 +114,8 @@ export const rolesReducer = (state = _state, { type, payload }) => {
     case actions.RESET_ACTIVITIES:
       return {
         ...state,
-        selectedRole:payload
+        selectedRole:payload,
+        submitSuccessful:false,
       };
 
     case actions.CREATE_ROLE_LOADING:
@@ -122,12 +123,14 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
+        submitSuccessful:false,
         message: "",
       };
     case actions.CREATE_ROLE_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
+        submitSuccessful:true,
         loading: false,
         message: payload,
       };
@@ -135,6 +138,33 @@ export const rolesReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: false,
+        submitSuccessful:false,
+        loading: false,
+        message: payload,
+      };
+
+      
+    case actions.UPDATE_ROLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        submitSuccessful:false,
+        message: "",
+      };
+    case actions.UPDATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        submitSuccessful:true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_ROLE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        submitSuccessful:false,
         loading: false,
         message: payload,
       };

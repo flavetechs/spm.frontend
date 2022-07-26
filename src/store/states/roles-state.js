@@ -6,6 +6,7 @@ export const _state = {
     },
     message: '',
     isSuccessful: false,
+    submitSuccessful:false,
     roleId: '',
     name: '',
     selectedIds: [],

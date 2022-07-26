@@ -3,7 +3,7 @@ import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   fetchSingleRole,
   getAllParentActivity,
@@ -18,11 +18,13 @@ import { getAllActivities } from "../../store/actions/activity-actions";
 const RoleEdit = () => {
   const locations = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [parentValue, setParentValue] = useState("");
+  const [checkAll, setCheckAll] = useState(false);
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedRole, parentActivity } = state.roles;
+  const { selectedRole, parentActivity, submitSuccessful } = state.roles;
   const { activities } = state.activities;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -37,6 +39,11 @@ const RoleEdit = () => {
       resetRoleActivities()(dispatch);
     };
   }, []);
+  
+  React.useEffect(() => {
+    submitSuccessful &&
+    history.push(permissionLocations.roleList);
+  }, [submitSuccessful]);
 
   const handleSelect = (event) => {
     const activityId = event.target.id;
@@ -53,12 +60,12 @@ const RoleEdit = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
- 
+
   return (
     <>
       <div>
         <Row className="d-flex justify-content-center">
-          <Col sm="6">
+          <Col sm="8">
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title w-100">
@@ -96,6 +103,31 @@ const RoleEdit = () => {
                       ))}
                     </select>
                   </Form.Group>
+                  <Row className="">
+                    <Form.Group className="form-group col-md-8">
+                      <Form.Label htmlFor="role-name" className="">
+                        Parent Activity
+                      </Form.Label>
+                      <select
+                        name="display-name"
+                        className="form-select"
+                        id="display-name"
+                        onChange={(e) => {
+                          setParentValue(e.target.value);
+                        }}
+                      >
+                        <option value="">Select Parent Activity</option>
+                        {parentActivity?.map((activity, idx) => (
+                          <option key={idx} value={activity.parentActivityId}>
+                            {activity.displayName}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.Group>
+                    <Col md="3" className="mt-5">
+                      <div>Activities: {selectedRole?.activities.length}</div>
+                    </Col>
+                  </Row>
                 </div>
               </Card.Header>
 
@@ -112,7 +144,8 @@ const RoleEdit = () => {
                         <th className="" width="300px">
                           Activities
                         </th>
-                        <th className="text-center">Select</th>
+                        <th className="text-center">Select{" "}
+                        <input type="checkbox"  onChange={()=>setCheckAll(true)} /> </th>
                       </tr>
                     </thead>
                     <tbody>

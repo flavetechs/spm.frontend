@@ -215,13 +215,13 @@ export const updateModifiedRole = (role) => dispatch => {
     axiosInstance.post('/role/api/v1/update', role)
         .then((res) => {
             dispatch({
-                type: actions.UPDATE_ROLE_LOADING,
+                type: actions.UPDATE_ROLE_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
-                type: actions.UPDATE_ROLE_LOADING,
+                type: actions.UPDATE_ROLE_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
