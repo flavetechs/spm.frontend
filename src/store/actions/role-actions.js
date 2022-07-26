@@ -141,30 +141,25 @@ export const fetchSingleRole = (roleId) => dispatch => {
         });
 }
 
-// export const updateRoleActivityState = (id, value, selectedRole, action) => dispatch => {
-//     const otherActivities = selectedRole.activities.filter(e => e !== id);
-//     let targetActivity = selectedRole.activities.find(e => e === id);
-//     if (targetActivity) {
 
-//         if (!targetActivity) {
-//             selectedRole.activities = [...otherActivities];
-//         } else {
-//             selectedRole.activities = [...otherActivities, targetActivity];
-//         }
-//         dispatch({
-//             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
-//             payload: selectedRole
-//         });
-//     } else {
+export const updateRoleActivityOnSelectAll = (id, isChecked, selectedRole ) => dispatch => {
+    const otherSelectedActivity = selectedRole.activities.filter(e => e !== id);
+        const newActivity = id;
+        if (isChecked === false) {
+            selectedRole.activities = []
+        } 
+        else{
+        selectedRole.activities = [...otherSelectedActivity, newActivity].flat().filter(
+            (item, index, self) =>
+              index === self.findIndex((a) => a === item)
+          );
+        }
+        dispatch({
+            type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+            payload: selectedRole
+        });
+}
 
-//         const newActivity = id
-//         selectedRole.activities = [...otherActivities, newActivity];
-//         dispatch({
-//             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
-//             payload: selectedRole
-//         });
-//     }
-// }
 
 
 export const updateRoleActivityOnSelect = (id, isChecked, selectedRole ) => dispatch => {
@@ -255,6 +250,31 @@ export const resetRoleActivities = () => (dispatch) => {
         }
      });
  }
+
+ // export const updateRoleActivityState = (id, value, selectedRole, action) => dispatch => {
+//     const otherActivities = selectedRole.activities.filter(e => e !== id);
+//     let targetActivity = selectedRole.activities.find(e => e === id);
+//     if (targetActivity) {
+
+//         if (!targetActivity) {
+//             selectedRole.activities = [...otherActivities];
+//         } else {
+//             selectedRole.activities = [...otherActivities, targetActivity];
+//         }
+//         dispatch({
+//             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+//             payload: selectedRole
+//         });
+//     } else {
+
+//         const newActivity = id
+//         selectedRole.activities = [...otherActivities, newActivity];
+//         dispatch({
+//             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+//             payload: selectedRole
+//         });
+//     }
+// }
 // export const deleteEachRole = (itemsId) => {
 //         console.log('id', itemsId);
 //         return {

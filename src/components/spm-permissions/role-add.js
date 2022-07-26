@@ -9,6 +9,7 @@ import {
   getAllParentActivity,
   resetRoleActivities,
   updateRoleActivityOnSelect,
+  updateRoleActivityOnSelectAll,
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { getAllActivities } from "../../store/actions/activity-actions";
@@ -17,7 +18,6 @@ const RoleAdd = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [parentValue, setParentValue] = useState("");
-  const [checkAll, setCheckAll] = useState(false);
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -34,28 +34,24 @@ const RoleAdd = () => {
   }, []);
 
   React.useEffect(() => {
-    submitSuccessful &&
-    history.push(permissionLocations.roleList);
+    submitSuccessful && history.push(permissionLocations.roleList);
   }, [submitSuccessful]);
 
+  const handleSelectAll = (event) => {
+    const checkBoxValue = event.target.checked;
+    const activityId = activities
+      ?.filter((a) => parentValue == a.parentId)
+      ?.map((a) => a.activityId);
+    updateRoleActivityOnSelectAll(
+      activityId,
+      checkBoxValue,
+      selectedRole
+    )(dispatch);
+  };
+
   const handleSelect = (event) => {
-    let activityId;
-let checkBoxValue;
-// if(checkAll){
-//     selectedRole?.activities.forEach((item) => {
-//       item.isChecked = event.target.checked;
-//       if (item.isChecked) {
-//         activityId = selectedRole?.activities.filter((a,i) =>a == event.target.id);
-//         checkBoxValue = item.isChecked
-//       } else {
-//        // activityId = selectedRole?.activities.filter((a,i) =>a !== event.target.id);
-//       }
-//     });
-//   }
-//     else{
-    activityId = event.target.id;
-    checkBoxValue = event.target.checked;
-    // }
+    const activityId = event.target.id;
+    const checkBoxValue = event.target.checked;
     updateRoleActivityOnSelect(
       activityId,
       checkBoxValue,
@@ -69,7 +65,7 @@ let checkBoxValue;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
   console.log(selectedRole);
-  
+
   return (
     <>
       <div>
@@ -135,7 +131,7 @@ let checkBoxValue;
                           Select{" "}
                           <input
                             type="checkbox"
-                            onChange={() => setCheckAll(!checkAll)}
+                            onChange={(e) => handleSelectAll(e)}
                           />
                         </th>
                       </tr>
@@ -155,7 +151,7 @@ let checkBoxValue;
                                     (id) => id === item.activityId
                                   )}
                                   id={item.activityId}
-                                  onChange={(e)=>{
+                                  onChange={(e) => {
                                     handleSelect(e);
                                   }}
                                 />

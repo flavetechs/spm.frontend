@@ -10,6 +10,7 @@ import {
   resetRoleActivities,
   updateModifiedRole,
   updateRoleActivityOnSelect,
+  updateRoleActivityOnSelectAll,
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { useLocation } from "react-router-dom";
@@ -20,7 +21,6 @@ const RoleEdit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [parentValue, setParentValue] = useState("");
-  const [checkAll, setCheckAll] = useState(false);
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -39,11 +39,22 @@ const RoleEdit = () => {
       resetRoleActivities()(dispatch);
     };
   }, []);
-  
+
   React.useEffect(() => {
-    submitSuccessful &&
-    history.push(permissionLocations.roleList);
+    submitSuccessful && history.push(permissionLocations.roleList);
   }, [submitSuccessful]);
+
+  const handleSelectAll = (event) => {
+    const checkBoxValue = event.target.checked;
+    const activityId = activities
+      ?.filter((a) => parentValue == a.parentId)
+      ?.map((a) => a.activityId);
+    updateRoleActivityOnSelectAll(
+      activityId,
+      checkBoxValue,
+      selectedRole
+    )(dispatch);
+  };
 
   const handleSelect = (event) => {
     const activityId = event.target.id;
@@ -144,8 +155,13 @@ const RoleEdit = () => {
                         <th className="" width="300px">
                           Activities
                         </th>
-                        <th className="text-center">Select{" "}
-                        <input type="checkbox"  onChange={()=>setCheckAll(true)} /> </th>
+                        <th className="text-center">
+                          Select{" "}
+                          <input
+                            type="checkbox"
+                            onChange={(e) => handleSelectAll(e)}
+                          />{" "}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
