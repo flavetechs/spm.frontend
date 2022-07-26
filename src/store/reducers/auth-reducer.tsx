@@ -19,6 +19,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
             localStorage.setItem('token', payload.authResult.token);
             const decodedToken = jwt<any>(payload.authResult.token);
             console.log('decodedTken', decodedToken);
+            localStorage.setItem('permissions', decodedToken.permissions);
             
             return {
                 ...state,
