@@ -9,5 +9,5 @@ export const _state = {
     roleId: '',
     name: '',
     selectedIds: [],
-    parentRole:null,
+    parentActivity:null,
 }

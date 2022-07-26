@@ -20,7 +20,7 @@ export const getAllRoles = () => (dispatch) => {
             })
         });
 }
-export const getAllParentRole = () => (dispatch) => {
+export const getAllParentActivity = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_PARENT_ROLE_LOADING
     });
@@ -167,7 +167,7 @@ export const fetchSingleRole = (roleId) => dispatch => {
 // }
 
 
-export const updateRoleActivityOnSelect = (id, isChecked, selectedRole,previousCheckedValue,parentValue ) => dispatch => {
+export const updateRoleActivityOnSelect = (id, isChecked, selectedRole ) => dispatch => {
     const otherSelectedActivity = selectedRole.activities.filter(e => e !== id);
     let selectedActivity = selectedRole.activities.find(e => e === id);
  
@@ -250,7 +250,9 @@ export const createNewRole = (role) => dispatch => {
 export const resetRoleActivities = () => (dispatch) => {
     dispatch({
          type: actions.RESET_ACTIVITIES,
-         payload: []
+         payload: {
+            name: '', roleId: '', activities: []
+        }
      });
  }
 // export const deleteEachRole = (itemsId) => {

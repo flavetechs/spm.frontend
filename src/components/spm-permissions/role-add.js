@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,36 +6,30 @@ import { permissionLocations } from "../../router/spm-path-locations";
 import { Link } from "react-router-dom";
 import {
   createNewRole,
-  getAllParentRole,
+  getAllParentActivity,
   resetRoleActivities,
   updateRoleActivityOnSelect,
-  updateRoleActivityState,
   updateRoleNameState,
 } from "../../store/actions/role-actions";
 import { getAllActivities } from "../../store/actions/activity-actions";
 
 const RoleAdd = () => {
   const dispatch = useDispatch();
-  const [parentValue, setParentValue] = useState("session-management");
-  const previousCheckedValue = useRef("");
+  const [parentValue, setParentValue] = useState("");
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedRole, parentRole } = state.roles;
+  const { selectedRole, parentActivity } = state.roles;
   const { activities } = state.activities;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllActivities()(dispatch);
-    getAllParentRole()(dispatch);
-    // return()=>{
-    //   resetRoleActivities()(dispatch);
-    // }
+    getAllParentActivity()(dispatch);
+    return () => {
+      resetRoleActivities()(dispatch);
+    };
   }, []);
-
-  React.useEffect(() => {
-    previousCheckedValue.current = parentValue;
-  }, [parentValue]);
 
   const handleSelect = (event) => {
     const activityId = event.target.id;
@@ -43,9 +37,7 @@ const RoleAdd = () => {
     updateRoleActivityOnSelect(
       activityId,
       checkBoxValue,
-      selectedRole,
-      previousCheckedValue.current,
-      parentValue
+      selectedRole
     )(dispatch);
   };
 
@@ -54,11 +46,7 @@ const RoleAdd = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
-  const filteredActivities = activities.filter(
-    (item, idx) => parentValue == item.parentName
-  );
-  console.log("parentRole", previousCheckedValue.current, parentValue);
-  console.log("selectedRole", selectedRole);
+  console.log("selectedRole", selectedRole?.activities);
   return (
     <>
       <div>
@@ -67,7 +55,7 @@ const RoleAdd = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title w-100">
-                  <Form.Group className="form-group w-75">
+                  <Form.Group className="form-group">
                     <Form.Label htmlFor="role-name" className="">
                       Role Name
                     </Form.Label>
@@ -80,22 +68,21 @@ const RoleAdd = () => {
                     />
                   </Form.Group>
                   <Form.Group className="form-group">
+                    <Form.Label htmlFor="role-name" className="">
+                      Parent Activity
+                    </Form.Label>
                     <select
-                      name="name"
+                      name="display-name"
                       className="form-select"
-                      id="name"
+                      id="display-name"
                       onChange={(e) => {
                         setParentValue(e.target.value);
                       }}
                     >
-                      <option value="">Select Role</option>
-                      {parentRole?.map((role, idx) => (
-                        <option
-                          key={idx}
-                          value={role.name}
-                          selected={role.name == "session-management"}
-                        >
-                          {role.name}
+                      <option value="">Select Parent Activity</option>
+                      {parentActivity?.map((activity, idx) => (
+                        <option key={idx} value={activity.parentActivityId}>
+                          {activity.displayName}
                         </option>
                       ))}
                     </select>
@@ -113,7 +100,7 @@ const RoleAdd = () => {
                   >
                     <thead>
                       <tr className="ligth">
-                        <th className="text-center" width="300px">
+                        <th className="" width="300px">
                           Activities
                         </th>
                         <th className="text-center">Select</th>
@@ -122,20 +109,17 @@ const RoleAdd = () => {
                     <tbody>
                       {activities.map(
                         (item, idx) =>
-                          parentValue == item.parentName && (
+                          parentValue == item.parentId && (
                             <tr key={idx}>
-                              <td className="text-uppercase">
-                                {parentValue == item.parentName && item.name}
-                              </td>
+                              <td className="text-uppercase">{item.name}</td>
 
                               <td className="text-center">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id={
-                                    parentValue == item.parentName &&
-                                    item.activityId
-                                  }
+                                  checked={selectedRole?.activities.find(
+                                    (id) => id === item.activityId)}
+                                  id={item.activityId}
                                   onChange={handleSelect}
                                 />
                               </td>

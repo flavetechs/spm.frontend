@@ -79,14 +79,14 @@ export const rolesReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-      parentRole: payload,
+      parentActivity: payload,
       };
     }
     case actions.FETCH_PARENT_ROLE_FAILED: {
       return {
         ...state,
         loading: false,
-        parentRole: null,
+        parentActivity: null,
       };
     }
 
