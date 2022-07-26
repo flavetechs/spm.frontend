@@ -73,35 +73,35 @@ const mapDispatchToProps = dispatch => ({
 const Index = (props) => {
 
 
-    useEffect(() => {
-    AOS.init({
-        startEvent: 'DOMContentLoaded',
-        disable:  function() {
-          var maxWidth = 996;
-          return window.innerWidth < maxWidth;
-        },
-        throttleDelay: 10,
-        once: true,
-        duration: 700,
-        offset: 10
-      });
-    //   customizer
-    const colorcustomizerMode = sessionStorage.getItem('color-customizer-mode');
-    const colorcustomizerinfoMode = sessionStorage.getItem('colorcustominfo-mode');
-    const colorcustomizerprimaryMode = sessionStorage.getItem('colorcustomprimary-mode');
-    if(colorcustomizerMode===null){
-        props.ColorCustomizerAction(props.customizerMode, props.cololrinfomode, props.colorprimarymode);
-        document.documentElement.style.setProperty('--bs-info', props.cololrinfomode );
+    // useEffect(() => {
+    // AOS.init({
+    //     startEvent: 'DOMContentLoaded',
+    //     disable:  function() {
+    //       var maxWidth = 996;
+    //       return window.innerWidth < maxWidth;
+    //     },
+    //     throttleDelay: 10,
+    //     once: true,
+    //     duration: 700,
+    //     offset: 10
+    //   });
+    // //   customizer
+    // const colorcustomizerMode = sessionStorage.getItem('color-customizer-mode');
+    // const colorcustomizerinfoMode = sessionStorage.getItem('colorcustominfo-mode');
+    // const colorcustomizerprimaryMode = sessionStorage.getItem('colorcustomprimary-mode');
+    // if(colorcustomizerMode===null){
+    //     props.ColorCustomizerAction(props.customizerMode, props.cololrinfomode, props.colorprimarymode);
+    //     document.documentElement.style.setProperty('--bs-info', props.cololrinfomode );
        
-    }
-    else{
-        props.ColorCustomizerAction(colorcustomizerMode, colorcustomizerinfoMode, colorcustomizerprimaryMode);
-        document.documentElement.style.setProperty('--bs-info', colorcustomizerinfoMode);
+    // }
+    // else{
+    //     props.ColorCustomizerAction(colorcustomizerMode, colorcustomizerinfoMode, colorcustomizerprimaryMode);
+    //     document.documentElement.style.setProperty('--bs-info', colorcustomizerinfoMode);
             
-    }
+    // }
     
       
-    })
+    // })
 
     const chart1={
         options : {
@@ -277,7 +277,24 @@ const Index = (props) => {
     }
         return (
             <>
-               <AdminDashboard />
+               <AdminDashboard
+               darkMode={props.darkMode} 
+               customizerMode={props.customizerMode} 
+               cololrinfomode={props.cololrinfomode} 
+               colorprimarymode={props.colorprimarymode} 
+               schemeDirMode={props.schemeDirMode} 
+               sidebarcolorMode={props.sidebarcolorMode} 
+               sidebarTypeMode={props.sidebarTypeMode} 
+               sidebaractivestyleMode={props.sidebaractivestyleMode} 
+               navbarstylemode={props.navbarstylemode}
+
+               ModeAction={ModeAction}
+               SchemeDirAction={SchemeDirAction}
+               SidebarColorAction={SidebarColorAction}
+               SidebarActiveStyleAction={SidebarActiveStyleAction}
+               NavbarstyleAction={NavbarstyleAction}
+               ColorCustomizerAction={ColorCustomizerAction}
+               />
             </>
         )
     }

@@ -33,32 +33,32 @@ import { getAllDashboardCount } from '../../store/actions/dashboard-actions.js'
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
-const mapStateToProps = (state) => {
-    return {
-        darkMode: getDarkMode(state),
-        customizerMode: getcustomizerMode(state),
-        cololrinfomode: getcustomizerinfoMode(state),
-        colorprimarymode: getcustomizerprimaryMode(state),
-        schemeDirMode: getDirMode(state),
-        sidebarcolorMode: getSidebarColorMode(state),
-        sidebarTypeMode: getSidebarTypeMode(state),
-        sidebaractivestyleMode: getSidebarActiveMode(state),
-        navbarstylemode: getNavbarStyleMode(state),
-    };
-}
-const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(
-        {
-            ModeAction,
-            SchemeDirAction,
-            SidebarColorAction,
-            SidebarActiveStyleAction,
-            NavbarstyleAction,
-            ColorCustomizerAction,
-        },
-        dispatch
-    )
-})
+// const mapStateToProps = (state) => {
+//     return {
+//         darkMode: getDarkMode(state),
+//         customizerMode: getcustomizerMode(state),
+//         cololrinfomode: getcustomizerinfoMode(state),
+//         colorprimarymode: getcustomizerprimaryMode(state),
+//         schemeDirMode: getDirMode(state),
+//         sidebarcolorMode: getSidebarColorMode(state),
+//         sidebarTypeMode: getSidebarTypeMode(state),
+//         sidebaractivestyleMode: getSidebarActiveMode(state),
+//         navbarstylemode: getNavbarStyleMode(state),
+//     };
+// }
+// const mapDispatchToProps = dispatch => ({
+//     ...bindActionCreators(
+//         {
+//             ModeAction,
+//             SchemeDirAction,
+//             SidebarColorAction,
+//             SidebarActiveStyleAction,
+//             NavbarstyleAction,
+//             ColorCustomizerAction,
+//         },
+//         dispatch
+//     )
+// })
 
 
 
@@ -874,4 +874,6 @@ const AdminDashboard = (props) => {
     )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard)
+// export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard)
+
+export default AdminDashboard;
