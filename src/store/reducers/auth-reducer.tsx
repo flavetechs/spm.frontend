@@ -16,10 +16,10 @@ export const authReducer = (state = _state, { type, payload }: any) => {
 
         case actions.LOGIN_USER_SUCCESS: {
             localStorage.removeItem('token');
-            localStorage.setItem('token', payload.authResult.token);
+            localStorage.removeItem('permissions');
             const decodedToken = jwt<any>(payload.authResult.token);
-            console.log('decodedTken', decodedToken);
-            localStorage.setItem('permissions', decodedToken.permissions);
+            localStorage.setItem('token', payload.authResult.token);
+            localStorage.setItem('permissions', decodedToken.permissions.split(','));
             
             return {
                 ...state,
@@ -28,7 +28,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 refreshToken: payload.authResult.refreshToken,
                 message: '',
                 isSuccessful: true,
-                permissions: decodedToken.permissions,
+                permissions: decodedToken.permissions.split(','),
                 schoolProps: decodedToken.schoolProperties
             }
         }
