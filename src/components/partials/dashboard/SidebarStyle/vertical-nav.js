@@ -55,11 +55,8 @@ const VerticalNav = () => {
                     </Link>
                 </li>
 
-                {
-                    hasAccess(NavPermissions.dashboard)
-                    && <DashboardLink
-                        minisidebar={minisidebar} />
-                }
+                <DashboardLink
+                    minisidebar={minisidebar} />
 
                 <PermissionLink
                     minisidebar={minisidebar}
@@ -71,6 +68,8 @@ const VerticalNav = () => {
                     CustomToggle={CustomToggle}
                     setActiveMenu={setActiveMenu}
                 />
+
+
 
                 <ClassLink
                     minisidebar={minisidebar}
