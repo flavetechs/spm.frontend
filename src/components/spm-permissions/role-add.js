@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -128,16 +128,10 @@ const RoleAdd = () => {
                         </th>
                         <th className="text-center">
                           Select{" "}
-                          {activities.map(
-                            (item, idx) =>
-                              parentValue == item.parentId && (
-                                <input
-                                  type="checkbox"
-                                  onChange={(e) => handleSelectAll(e)}
-                                />
-                              )
-                          )
-                          }
+                          <input
+                            type="checkbox"
+                            onChange={(e) => handleSelectAll(e)}
+                          />
                         </th>
                       </tr>
                     </thead>
