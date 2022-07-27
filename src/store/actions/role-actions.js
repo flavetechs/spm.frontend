@@ -20,6 +20,24 @@ export const getAllRoles = () => (dispatch) => {
             })
         });
 }
+export const getAllParentActivity = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PARENT_ROLE_LOADING
+    });
+
+    axiosInstance.get('/role/api/v1/getall-activity-parent')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PARENT_ROLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_PARENT_ROLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
 export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
     dispatch({
@@ -108,7 +126,7 @@ export const fetchSingleRole = (roleId) => dispatch => {
     });
 
 
-    console.log('roleId', roleId)
+
     axiosInstance.get(`/role/api/v1/get/${roleId}?roldeId=${roleId}`)
         .then((res) => {
             dispatch({
@@ -123,90 +141,30 @@ export const fetchSingleRole = (roleId) => dispatch => {
         });
 }
 
-export const updateRoleActivityState = (id, value, selectedRole, action) => dispatch => {
-    const otherActivities = selectedRole.activities.filter(e => e.activityId !== id);
-    let targetActivity = selectedRole.activities.find(e => e.activityId === id);
-    if (targetActivity) {
-        switch (action) {
-            case 'canCreate':
-                targetActivity.canCreate = value;
-                break;
-            case 'canUpdate':
-                targetActivity.canUpdate = value;
-                break;
-            case 'canDelete':
-                targetActivity.canDelete = value;
-                break;
-            case 'canImport':
-                targetActivity.canImport = value;
-                break;
-            case 'canExport':
-                targetActivity.canExport = value;
-                break;
-            default:
-                break;
-        }
 
-        if (!targetActivity.canCreate && !targetActivity.canUpdate && !targetActivity.canDelete && !targetActivity.canImport && !targetActivity.canExport) {
-            selectedRole.activities = [...otherActivities];
-        } else {
-            selectedRole.activities = [...otherActivities, targetActivity];
+export const updateRoleActivityOnSelectAll = (id, isChecked, selectedRole ) => dispatch => {
+    const otherSelectedActivity = selectedRole.activities.filter(e => e !== id);
+        const newActivity = id;
+        if (isChecked === false) {
+            selectedRole.activities = otherSelectedActivity.filter(o=>!id.includes(o))
+        } 
+        else{
+        selectedRole.activities = [...otherSelectedActivity, newActivity].flat().filter(
+            (item, index, self) =>
+              index === self.findIndex((a) => a === item)
+          );
         }
         dispatch({
             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
             payload: selectedRole
         });
-    } else {
-
-        const newActivity = addNewActivityToRole(id, value, action)
-        selectedRole.activities = [...otherActivities, newActivity];
-        dispatch({
-            type: actions.UPDATE_ROLE_ACTIVITY_STATE,
-            payload: selectedRole
-        });
-    }
 }
 
-const addNewActivityToRole = (id, value, action) => {
-    const activityId = id;
-    let canCreate = false;
-    let canUpdate = false;
-    let canDelete = false;
-    let canImport = false;
-    let canExport = false;
-    switch (action) {
-        case 'canCreate':
-            canCreate = value;
-            break;
-        case 'canUpdate':
-            canUpdate = value;
-            break;
-        case 'canDelete':
-            canDelete = value;
-            break;
-        case 'canImport':
-            canImport = value;
-            break;
-        case 'canExport':
-            canExport = value;
-            break;
-        default:
-            break;
-    }
 
-    return {
-        activityId,
-        canCreate,
-        canUpdate,
-        canDelete,
-        canImport,
-        canExport
-    };
-}
 
-export const updateRoleActivityOnSelect = (id, isChecked, selectedRole) => dispatch => {
-    const otherSelectedActivity = selectedRole.activities.filter(e => e.activityId !== id);
-    let selectedActivity = selectedRole.activities.find(e => e.activityId === id);
+export const updateRoleActivityOnSelect = (id, isChecked, selectedRole ) => dispatch => {
+    const otherSelectedActivity = selectedRole.activities.filter(e => e !== id);
+    let selectedActivity = selectedRole.activities.find(e => e === id);
  
     if (selectedActivity) {
            if (isChecked === false) {
@@ -219,14 +177,20 @@ export const updateRoleActivityOnSelect = (id, isChecked, selectedRole) => dispa
             payload: selectedRole
         });
     } else {
-        const newActivity = {activityId : id};
+        const newActivity = id;
+        if (isChecked === false) {
+            selectedRole.activities = [...otherSelectedActivity];
+        } 
+        else{
         selectedRole.activities = [...otherSelectedActivity, newActivity];
+        }
         dispatch({
             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
             payload: selectedRole
         });
     }
 }
+
 
 export const updateRoleNameState = (name, selectedRole) => dispatch => {
     selectedRole.name = name;
@@ -246,13 +210,13 @@ export const updateModifiedRole = (role) => dispatch => {
     axiosInstance.post('/role/api/v1/update', role)
         .then((res) => {
             dispatch({
-                type: actions.UPDATE_ROLE_LOADING,
+                type: actions.UPDATE_ROLE_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
-                type: actions.UPDATE_ROLE_LOADING,
+                type: actions.UPDATE_ROLE_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
@@ -261,25 +225,56 @@ export const updateModifiedRole = (role) => dispatch => {
 
 export const createNewRole = (role) => dispatch => {
     dispatch({
-        type: actions.UPDATE_ROLE_LOADING
+        type: actions.CREATE_ROLE_LOADING
     });
     axiosInstance.post('/role/api/v1/create', role)
         .then((res) => {
             dispatch({
-                type: actions.UPDATE_ROLE_LOADING,
+                type: actions.CREATE_ROLE_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
-                type: actions.UPDATE_ROLE_LOADING,
+                type: actions.CREATE_ROLE_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+export const resetRoleActivities = () => (dispatch) => {
+    dispatch({
+         type: actions.RESET_ACTIVITIES,
+         payload: {
+            name: '', roleId: '', activities: []
+        }
+     });
+ }
 
+ // export const updateRoleActivityState = (id, value, selectedRole, action) => dispatch => {
+//     const otherActivities = selectedRole.activities.filter(e => e !== id);
+//     let targetActivity = selectedRole.activities.find(e => e === id);
+//     if (targetActivity) {
 
+//         if (!targetActivity) {
+//             selectedRole.activities = [...otherActivities];
+//         } else {
+//             selectedRole.activities = [...otherActivities, targetActivity];
+//         }
+//         dispatch({
+//             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+//             payload: selectedRole
+//         });
+//     } else {
+
+//         const newActivity = id
+//         selectedRole.activities = [...otherActivities, newActivity];
+//         dispatch({
+//             type: actions.UPDATE_ROLE_ACTIVITY_STATE,
+//             payload: selectedRole
+//         });
+//     }
+// }
 // export const deleteEachRole = (itemsId) => {
 //         console.log('id', itemsId);
 //         return {
