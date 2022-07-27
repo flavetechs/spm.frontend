@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
+import { Accordion } from 'react-bootstrap'
 import { resultManagement } from '../../../../../router/spm-path-locations'
+import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function ResultLink(props){
     var location = useLocation()
     return(
@@ -17,6 +18,8 @@ export function ResultLink(props){
                             </svg>
                         </i>
                     </props.CustomToggle>
+                    {
+                    hasAccess(NavPermissions.scoreEntry) &&
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -34,6 +37,9 @@ export function ResultLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                  }
+                   {
+                    hasAccess(NavPermissions.publishResult) &&
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -52,6 +58,9 @@ export function ResultLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                     }
+                      {
+                    hasAccess(NavPermissions.masterList) &&
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -70,6 +79,9 @@ export function ResultLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
+                    {
+                    hasAccess(NavPermissions.printResult) &&
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -88,6 +100,9 @@ export function ResultLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
+                    {
+                    hasAccess(NavPermissions.cumulativeMasterList) &&
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -106,7 +121,7 @@ export function ResultLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
-
+                    }
                 </Accordion.Item>
         </>
     )
