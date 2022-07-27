@@ -23,6 +23,7 @@ import {
   getAllSession,
 } from "../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../store/actions/class-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 
 const EnrolledStudents = () => {
@@ -220,6 +221,8 @@ const EnrolledStudents = () => {
                       ))}
                     </select>
                   </div>
+                  {hasAccess(NavPermissions.unenrollStudents) && (
+                  <div>
                   {showUnenrollButton ? (
                     <button
                       type="button"
@@ -308,6 +311,8 @@ const EnrolledStudents = () => {
                       <span> Unenroll selected Student</span>
                     </button>
                   )}{" "}
+                  </div>
+                  )}
                 </div>
               </div>
               <Card.Body className="px-0">
@@ -444,6 +449,7 @@ const EnrolledStudents = () => {
                                     </Tooltip>
                                   }
                                 >
+                                   {hasAccess(NavPermissions.unenrollStudents) && (
                                   <Link
                                     className="btn btn-sm btn-icon btn-danger"
                                     data-toggle="tooltip"
@@ -479,6 +485,7 @@ const EnrolledStudents = () => {
                                       </svg>
                                     </span>
                                   </Link>
+                                   )}
                                 </OverlayTrigger>
                               </div>
                             </td>

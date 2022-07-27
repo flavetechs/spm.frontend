@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { permissionLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
+import { hasAccess, NavPermissions } from '../../utils/permissions';
 
 const RoleList = () => {
   //VARIABLE DECLARATIONS
@@ -195,6 +196,7 @@ const RoleList = () => {
                     <span> Delete Selected</span>
                   </button>
                 )}
+                {hasAccess(NavPermissions.newRole) && (
                 <Link
                   to={permissionLocations.roleAdd}
                   className="d-flex justify-content-end"
@@ -222,6 +224,7 @@ const RoleList = () => {
                     <span>New Role</span>
                   </button>
                 </Link>
+                )}
               </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -336,6 +339,7 @@ const RoleList = () => {
                                 placement="top"
                                 overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
                               >
+                                 {hasAccess(NavPermissions.editRole) && (
                               <Link
                                 className="btn btn-sm btn-icon btn-warning"
                                 data-toggle="tooltip"
@@ -377,6 +381,7 @@ const RoleList = () => {
                                   </svg>
                                 </span>
                               </Link>
+                                 )}
                               </OverlayTrigger>{" "}
                               {isNotToBeDeleted(item.name) ? (null) : (
                                 <OverlayTrigger

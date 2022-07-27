@@ -12,10 +12,11 @@ import { sessionLocations } from "../../router/spm-path-locations";
 import {
   respondToDeleteDialog,
   showErrorToast,
-  showSingleDeleteDialog
+  showSingleDeleteDialog,
 } from "../../store/actions/toaster-actions";
 import { removeId } from "../../store/actions/session-actions";
 import { getGeneralActiveSession } from "../../store/actions/general-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
@@ -39,29 +40,28 @@ const SessionClassList = () => {
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
   }, [activeSession]);
-  
 
   //DELETE HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === 'continue') {
+    if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
-        showErrorToast('No Item selected to be deleted')(dispatch);
+        showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         deleteSessionClass(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton)
+        setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
-        respondToDeleteDialog('')(dispatch);
+        respondToDeleteDialog("")(dispatch);
       }
     } else {
-      setDeleteButton(true)
-      setShowCheckBoxes(false)
-      selectedIds.forEach(id => {
-        dispatch(removeId(id))
+      setDeleteButton(true);
+      setShowCheckBoxes(false);
+      selectedIds.forEach((id) => {
+        dispatch(removeId(id));
       });
     }
     return () => {
-      respondToDeleteDialog('')(dispatch);
-    }
+      respondToDeleteDialog("")(dispatch);
+    };
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
@@ -77,33 +77,35 @@ const SessionClassList = () => {
                 </div>
               </Card.Header>
               <div className="d-flex justify-content-end">
-                <Link
-                  to={sessionLocations.sessionClassAdd}
-                  className="d-flex justify-content-end"
-                >
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                {hasAccess(NavPermissions.createSessionClass) && (
+                  <Link
+                    to={sessionLocations.sessionClassAdd}
+                    className="d-flex justify-content-end"
                   >
-                    <i className="btn-inner">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span>New Session Class</span>
-                  </button>
-                </Link>
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span>New Session Class</span>
+                    </button>
+                  </Link>
+                )}
               </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -128,28 +130,45 @@ const SessionClassList = () => {
                     <tbody>
                       {itemList.map((item, idx) => (
                         <tr key={idx}>
-                          <td className=""><b>{idx + 1}</b></td>
-                          <td><strong>{item.class}</strong> </td>
-                          <td className="text-uppercase"><b>{item.formTeacher}</b></td>
-                          <td><b>{item.examScore}</b></td>
-                          <td><b>{item.assessmentScore}</b></td>
-                          <td><b>{item.passMark}</b></td>
+                          <td className="">
+                            <b>{idx + 1}</b>
+                          </td>
+                          <td>
+                            <strong>{item.class}</strong>{" "}
+                          </td>
+                          <td className="text-uppercase">
+                            <b>{item.formTeacher}</b>
+                          </td>
+                          <td>
+                            <b>{item.examScore}</b>
+                          </td>
+                          <td>
+                            <b>{item.assessmentScore}</b>
+                          </td>
+                          <td>
+                            <b>{item.passMark}</b>
+                          </td>
 
                           <td>
                             <div className="flex align-items-center list-user-action">
-                            <OverlayTrigger
+                              <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> details</Tooltip>}
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    details
+                                  </Tooltip>
+                                }
                               >
-                            <Link
-                                className="btn btn-sm btn-icon btn-success"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title=""
-                                data-original-title="Details"
-                                to={`${sessionLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
-                              >
-                                <span className="btn-inner">
+                                <Link
+                                  className="btn btn-sm btn-icon btn-success"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Details"
+                                  to={`${sessionLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
+                                >
+                                  <span className="btn-inner">
                                     <svg
                                       width="32"
                                       viewBox="0 0 24 24"
@@ -180,104 +199,117 @@ const SessionClassList = () => {
                                         strokeLinejoin="round"
                                       ></path>
                                     </svg>
-                                </span>
-                              </Link>
+                                  </span>
+                                </Link>
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
+                                overlay={
+                                  <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                }
                               >
-                              <Link
-                                className="btn btn-sm btn-icon btn-warning"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title=""
-                                data-original-title="Edit"
-                                to={`${sessionLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
-                              >
-                                <span className="btn-inner">
-                                  <svg
-                                    width="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                {hasAccess(NavPermissions.editSessionClass) && (
+                                  <Link
+                                    className="btn btn-sm btn-icon btn-warning"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title=""
+                                    data-original-title="Edit"
+                                    to={`${sessionLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
                                   >
-                                    <path
-                                      d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      fillRule="evenodd"
-                                      clipRule="evenodd"
-                                      d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M15.1655 4.60254L19.7315 9.16854"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                  </svg>
-                                </span>
-                              </Link>
+                                    <span className="btn-inner">
+                                      <svg
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M15.1655 4.60254L19.7315 9.16854"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  </Link>
+                                )}
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> delete</Tooltip>}
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    delete
+                                  </Tooltip>
+                                }
                               >
-                              <Link
-                                className="btn btn-sm btn-icon btn-danger"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title=""
-                                data-original-title="Delete"
-                                to="#"
-                                data-id={item.sessionClassId}
-                                onClick={() => {
-                                  dispatch(pushSessionClassId(item.sessionClassId));
-                                  showSingleDeleteDialog(true)(dispatch);
-                                }}
-                              >
-                                <span className="btn-inner">
-                                  <svg
-                                    width="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    stroke="currentColor"
+                                {hasAccess(NavPermissions.deleteSessionClass) && (
+                                  <Link
+                                    className="btn btn-sm btn-icon btn-danger"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title=""
+                                    data-original-title="Delete"
+                                    to="#"
+                                    data-id={item.sessionClassId}
+                                    onClick={() => {
+                                      dispatch(
+                                        pushSessionClassId(item.sessionClassId)
+                                      );
+                                      showSingleDeleteDialog(true)(dispatch);
+                                    }}
                                   >
-                                    <path
-                                      d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M20.708 6.23975H3.75"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                    <path
-                                      d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                      stroke="currentColor"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    ></path>
-                                  </svg>
-                                </span>
-                              </Link>
+                                    <span className="btn-inner">
+                                      <svg
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        stroke="currentColor"
+                                      >
+                                        <path
+                                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M20.708 6.23975H3.75"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  </Link>
+                                )}
                               </OverlayTrigger>
                             </div>
                           </td>

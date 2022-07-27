@@ -128,10 +128,16 @@ const RoleAdd = () => {
                         </th>
                         <th className="text-center">
                           Select{" "}
-                          <input
-                            type="checkbox"
-                            onChange={(e) => handleSelectAll(e)}
-                          />
+                          {activities.map(
+                            (item, idx) =>
+                              parentValue == item.parentId && (
+                                <input
+                                  type="checkbox"
+                                  onChange={(e) => handleSelectAll(e)}
+                                />
+                              )
+                          )
+                          }
                         </th>
                       </tr>
                     </thead>
