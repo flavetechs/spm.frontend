@@ -51,11 +51,11 @@ import UsedPins from '../components/smp-pin-management/used-pins';
 import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
 import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
-import AttendanceBoard from '../components/spm-class/attendance-board';
 import AttendancePresence from '../components/spm-class/attendance-presence';
 import Announcement from '../components/smp-notifications/announcement';
 import MakeAnnouncement from '../components/smp-notifications/make-announcement';
 import AnnouncementDetails from '../components/smp-notifications/announcement-details';
+import AttendanceBoard from '../components/spm-class/attendance-board';
 
 const DashboardRouter = () => {
 

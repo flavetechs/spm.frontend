@@ -101,7 +101,7 @@ const RoleList = () => {
   return (
     <>
       <div>
-        <Row>
+        <Row >
           <Col sm="12">
             <Card>
               <Card.Header className="d-flex justify-content-between">
@@ -245,7 +245,7 @@ const RoleList = () => {
 
                         </th>
                         <th>Name</th>
-                        <th>ID</th>
+                        <th className='text-center'>ID</th>
                         <th>Status</th>
                         <th min-width="100px">Action</th>
                       </tr>
@@ -377,9 +377,12 @@ const RoleList = () => {
                                   </svg>
                                 </span>
                               </Link>
-                              </OverlayTrigger>
+                              </OverlayTrigger>{" "}
                               {isNotToBeDeleted(item.name) ? (null) : (
-
+                                <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2">delete</Tooltip>}
+                              >
                                 <Link
                                   className="btn btn-sm btn-icon btn-danger"
                                   data-toggle="tooltip"
@@ -426,6 +429,7 @@ const RoleList = () => {
                                     </svg>
                                   </span>
                                 </Link>
+                                </OverlayTrigger>
                               )}
 
                             </div>

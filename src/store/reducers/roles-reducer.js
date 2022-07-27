@@ -68,6 +68,28 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         roles: payload,
       };
     }
+
+    case actions.FETCH_PARENT_ROLE_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_PARENT_ROLE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+      parentActivity: payload,
+      };
+    }
+    case actions.FETCH_PARENT_ROLE_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        parentActivity: null,
+      };
+    }
+
     case actions.FETCH_SINGLE_ROLE_LOADING: {
       return {
         ...state,
@@ -88,6 +110,65 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         selectedRole: null,
       };
     }
+  
+    case actions.RESET_ACTIVITIES:
+      return {
+        ...state,
+        selectedRole:payload,
+        submitSuccessful:false,
+      };
+
+    case actions.CREATE_ROLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        submitSuccessful:false,
+        message: "",
+      };
+    case actions.CREATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        submitSuccessful:true,
+        loading: false,
+        message: payload,
+      };
+    case actions.CREATE_ROLE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        submitSuccessful:false,
+        loading: false,
+        message: payload,
+      };
+
+      
+    case actions.UPDATE_ROLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        submitSuccessful:false,
+        message: "",
+      };
+    case actions.UPDATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        submitSuccessful:true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_ROLE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        submitSuccessful:false,
+        loading: false,
+        message: payload,
+      };
+
     case actions.UPDATE_ROLE_ACTIVITY_STATE:
       return {
         ...state,
