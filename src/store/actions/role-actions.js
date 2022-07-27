@@ -146,7 +146,7 @@ export const updateRoleActivityOnSelectAll = (id, isChecked, selectedRole ) => d
     const otherSelectedActivity = selectedRole.activities.filter(e => e !== id);
         const newActivity = id;
         if (isChecked === false) {
-            selectedRole.activities = []
+            selectedRole.activities = otherSelectedActivity.filter(o=>!id.includes(o))
         } 
         else{
         selectedRole.activities = [...otherSelectedActivity, newActivity].flat().filter(

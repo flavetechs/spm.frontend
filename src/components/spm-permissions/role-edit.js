@@ -175,9 +175,9 @@ const RoleEdit = () => {
                                   className="form-check-input"
                                   type="checkbox"
                                   checked={selectedRole?.activities.find(
-                                    (id) => id === item.activityId.toLowerCase()
+                                    (id) => id === item.activityId
                                   )}
-                                  id={item.activityId.toLowerCase()}
+                                  id={item.activityId}
                                   onChange={(e) => {
                                     handleSelect(e);
                                   }}

@@ -64,7 +64,6 @@ const RoleAdd = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
-  console.log(selectedRole);
 
   return (
     <>
