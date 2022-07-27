@@ -64,6 +64,6 @@ export const NavPermissions = {
 
 
 export const hasAccess = (nav) => {
-    const permissions = localStorage.getItem('permissions').split(',');
+    const permissions = localStorage.getItem('permissions')?.split(',');
     return permissions.find(d => d == nav) ? true : false;
 }
