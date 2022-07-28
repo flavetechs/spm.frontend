@@ -7,7 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import {
   createNewRole,
   getAllParentActivity,
-  resetRoleActivities,
+  resetRoleState,
   updateRoleActivityOnSelect,
   updateRoleActivityOnSelectAll,
   updateRoleNameState,
@@ -29,7 +29,7 @@ const RoleAdd = () => {
     getAllActivities()(dispatch);
     getAllParentActivity()(dispatch);
     return () => {
-      resetRoleActivities()(dispatch);
+      resetRoleState()(dispatch);
     };
   }, []);
 
@@ -128,10 +128,12 @@ const RoleAdd = () => {
                         </th>
                         <th className="text-center">
                           Select{" "}
+                          {parentActivity?.map(a=>
+                          parentValue == a.parentActivityId &&
                           <input
                             type="checkbox"
                             onChange={(e) => handleSelectAll(e)}
-                          />
+                          />)}
                         </th>
                       </tr>
                     </thead>
@@ -148,7 +150,7 @@ const RoleAdd = () => {
                                   type="checkbox"
                                   checked={selectedRole?.activities.find(
                                     (id) => id === item.activityId
-                                  )}
+                                  )||false}
                                   id={item.activityId}
                                   onChange={(e) => {
                                     handleSelect(e);
