@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { staffLocations } from "../../router/spm-path-locations";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
+import { hasAccess, NavPermissions } from '../../utils/permissions';
 
 
 
@@ -94,6 +95,7 @@ const StaffList = () => {
                   <h4 className="card-title"><b>Staff List</b></h4>
                 </div>
               </Card.Header>
+              {hasAccess(NavPermissions.deleteStaff) && (
               <div className="d-flex justify-content-end">
                 {showDeleteButton ? (
                   <button
@@ -180,6 +182,7 @@ const StaffList = () => {
                     <span> Delete Selected</span>
                   </button>
                 )}
+                 {hasAccess(NavPermissions.createStaff) && (
                 <Link
                   to={staffLocations.staffAdd}
                   className="d-flex justify-content-end"
@@ -207,7 +210,9 @@ const StaffList = () => {
                     <span>New Staff List</span>
                   </button>
                 </Link>
+                 )}
               </div>
+              )}
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -307,6 +312,7 @@ const StaffList = () => {
                               </OverlayTrigger>{" "}
                               <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Delete Staff</Tooltip>}
                               >
+                                 {hasAccess(NavPermissions.deleteStaff) && (
                                 <Link
                                   className="btn btn-sm btn-icon btn-danger"
                                   data-toggle="tooltip"
@@ -353,6 +359,7 @@ const StaffList = () => {
                                     </svg>
                                   </span>
                                 </Link>
+                                 )}
                               </OverlayTrigger>
                             </div>
                           </td>

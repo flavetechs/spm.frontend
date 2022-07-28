@@ -16,6 +16,7 @@ import {connect, useDispatch, useSelector} from "react-redux"
 import { getActiveSession } from '../../../../store/actions/session-actions'
 import { getGeneralActiveSession } from '../../../../store/actions/general-actions'
 import { notificationManagement } from '../../../../router/spm-path-locations'
+import { hasAccess, NavPermissions } from '../../../../utils/permissions'
 
 const mapStateToProps = (state) => {
     return {
@@ -69,6 +70,7 @@ const SubHeader = (props) => {
                                     <p>We are on a mission to help developers like you build successful projects for FREE.</p>
                                 </div>
                                 <div className="d-flex align-items-center">
+                                {hasAccess(NavPermissions.announcementList) && (
                                     <Link to={notificationManagement.announcement} className="btn btn-link btn-soft-light">
                                         <svg width="20" className="me-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M11.8251 15.2171H12.1748C14.0987 15.2171 15.731 13.985 16.3054 12.2764C16.3887 12.0276 16.1979 11.7713 15.9334 11.7713H14.8562C14.5133 11.7713 14.2362 11.4977 14.2362 11.16C14.2362 10.8213 14.5133 10.5467 14.8562 10.5467H15.9005C16.2463 10.5467 16.5263 10.2703 16.5263 9.92875C16.5263 9.58722 16.2463 9.31075 15.9005 9.31075H14.8562C14.5133 9.31075 14.2362 9.03619 14.2362 8.69849C14.2362 8.35984 14.5133 8.08528 14.8562 8.08528H15.9005C16.2463 8.08528 16.5263 7.8088 16.5263 7.46728C16.5263 7.12575 16.2463 6.84928 15.9005 6.84928H14.8562C14.5133 6.84928 14.2362 6.57472 14.2362 6.23606C14.2362 5.89837 14.5133 5.62381 14.8562 5.62381H15.9886C16.2483 5.62381 16.4343 5.3789 16.3645 5.13113C15.8501 3.32401 14.1694 2 12.1748 2H11.8251C9.42172 2 7.47363 3.92287 7.47363 6.29729V10.9198C7.47363 13.2933 9.42172 15.2171 11.8251 15.2171Z" fill="currentColor"></path>
@@ -76,6 +78,7 @@ const SubHeader = (props) => {
                                         </svg>
                                         Announcements
                                     </Link>
+                                )}
                                 </div>
                             </div>
                         </Col>

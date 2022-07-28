@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../router/spm-path-locations";
 import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 import "./announcement.scss";
 
 const Announcement = () => {
@@ -53,6 +54,7 @@ const Announcement = () => {
                   </svg>
                 </div>
               </OverlayTrigger>
+              {hasAccess(NavPermissions.createAnnouncement) && (
               <button
                 type="button"
                 onClick={() => {
@@ -78,6 +80,7 @@ const Announcement = () => {
                 </i>
                 <span>Make Announcement</span>
               </button>
+              )}
             </div>
           </Card.Body>
           <hr className="mb-0 mt-2" />

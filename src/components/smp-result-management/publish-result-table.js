@@ -14,6 +14,7 @@ import {
 } from "../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllStudentResult } from "../../store/actions/results-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const PublishResultTable = ({
   idsObj,
@@ -98,6 +99,7 @@ const PublishResultTable = ({
                         <Tooltip id="button-tooltip-2"> Preview Result</Tooltip>
                       }
                     >
+                       {hasAccess(NavPermissions.viewResultsToPublish) && (
                       <Link
                         className="btn btn-sm btn-icon btn-primary"
                         data-toggle="tooltip"
@@ -142,6 +144,7 @@ const PublishResultTable = ({
                           </svg>
                         </span>
                       </Link>
+                      )}
                     </OverlayTrigger>{" "}
                     <OverlayTrigger
                       placement="top"

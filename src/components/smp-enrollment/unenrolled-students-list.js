@@ -16,6 +16,7 @@ import {
   showHideModal,
 } from "../../store/actions/toaster-actions";
 import { ClassesModal } from "./classesModal";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const UnenrolledStudentsList = () => {
   //VARIABLE DECLARATIONS
@@ -147,6 +148,7 @@ const UnenrolledStudentsList = () => {
                     </div>
                   </div>
                 </div>
+                {hasAccess(NavPermissions.enrollStudents) && (
                 <div className="d-flex justify-content-end px-2">
                   {showEnrollButton ? (
                     <button
@@ -261,6 +263,7 @@ const UnenrolledStudentsList = () => {
                     </button>
                   )}
                 </div>
+                )}
               </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -385,6 +388,7 @@ const UnenrolledStudentsList = () => {
                                   </Tooltip>
                                 }
                               >
+                                {hasAccess(NavPermissions.enrollStudents) && (
                                 <Link
                                   className="btn btn-sm btn-icon btn-warning"
                                   data-toggle="tooltip"
@@ -443,6 +447,7 @@ const UnenrolledStudentsList = () => {
                                     </svg>
                                   </span>
                                 </Link>
+                                )}
                               </OverlayTrigger>
                             </div>
                           </td>

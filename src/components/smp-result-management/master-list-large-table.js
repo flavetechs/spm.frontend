@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
 import { ExportCSV } from "../../utils/export-csv";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const MasterListLargeTable = ({ masterEntry }) => {
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
@@ -22,6 +23,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
+        {hasAccess(NavPermissions.exportMasterList) && (
           <Button
             type="button"
             className="btn-sm mx-2 d-flex"
@@ -85,6 +87,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
               )}
             </div>
           </Button>
+        )}
         </div>
 
         <Table
