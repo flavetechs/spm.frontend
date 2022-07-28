@@ -137,8 +137,8 @@ const RoleEdit = () => {
                         </th>
                         <th className="text-center">
                           Select{" "}
-                          {parentActivity?.map(a=>
-                          parentValue == a.parentActivityId &&
+                          {parentActivity?.map((activity,idx)=>
+                          parentValue == activity.parentActivityId &&
                           <input
                             type="checkbox"
                             onChange={(e) => handleSelectAll(e)}
