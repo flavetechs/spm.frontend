@@ -3,5 +3,8 @@ export const _state = {
     message: "",
     isSuccessful: false,
     announcementList:[],
+    announcementIds:[],
     announcementDetails:null,
+    selectedIds: [],
+    selectedItem: null,
     }

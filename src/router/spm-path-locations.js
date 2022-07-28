@@ -102,4 +102,5 @@ export const notificationManagement = {
   announcement: "/dashboard/smp-notification/announcement",
   makeAnnouncement: "/dashboard/smp-notification/make-announcement",
   announcementDetails: "/dashboard/smp-notification/announcement-details",
+  announcementEdit: "/dashboard/smp-notification/announcement-edit",
 }

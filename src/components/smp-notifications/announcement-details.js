@@ -1,7 +1,8 @@
 import React from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { notificationManagement } from "../../router/spm-path-locations";
 import { updateSeenAnnouncement } from "../../store/actions/notification-actions";
 
 const AnnouncementDetails = () => {
@@ -95,6 +96,15 @@ const AnnouncementDetails = () => {
                   </svg>{" "}
                   Back
                 </button>
+                <Button
+                  type="button"
+                  variant="btn btn-primary"
+                  onClick={() => history.push(
+                    `${notificationManagement.announcementEdit}?announcementsId=${announcementDetails?.announcementsId}`
+                  )}
+                >
+                  Edit
+                </Button>
               </div>
             </Card.Body>
           </Card>
