@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Form } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Form, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
 
@@ -133,7 +133,9 @@ const Pins = () => {
                             <b>{item.numberOfTimesUsed}</b>
                           </td>
                           <td>
-                            <b>{item.pinStatus}</b>
+                          <Badge bg={"success"}>
+                              {item.pinStatus}
+                            </Badge>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">

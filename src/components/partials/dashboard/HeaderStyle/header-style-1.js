@@ -29,6 +29,7 @@ import shapes5 from '../../../../assets/images/shapes/05.png'
 // logo
 import Logo from '../../components/logo'
 const HeaderStyle1 = () => {
+    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
     return (
         <>   
             <Navbar expand="xl" className="nav  iq-navbar">
@@ -37,7 +38,7 @@ const HeaderStyle1 = () => {
                         <Navbar.Brand as="div" className="col-lg-2 col-lg-3 ">
                             <Link to="/dashboard" className="d-flex">
                                 <Logo color={true} />
-                                <h4 className="logo-title">Hope UI</h4>
+                                <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                             </Link>
                         </Navbar.Brand>
                         <HorizontalNav />

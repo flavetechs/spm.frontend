@@ -1,9 +1,9 @@
-import {useEffect} from 'react'
-import { Navbar,Container,Nav,Dropdown} from 'react-bootstrap'
+import { useEffect } from 'react'
+import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
-import {bindActionCreators} from "redux"
-import {loginOutUser} from '../../../../store/actions/auth-actions'
+import { bindActionCreators } from "redux"
+import { loginOutUser } from '../../../../store/actions/auth-actions'
 
 //img
 // import flag1 from '../../../../assets/images/Flag/flag001.png'
@@ -27,8 +27,8 @@ import avatars6 from '../../../../assets/images/avatars/avtar_5.png'
 import Logo from '../../components/logo'
 
 // store
-import {NavbarstyleAction, getDirMode, SchemeDirAction,  getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../../../store/setting/setting'
-import {connect, useDispatch} from "react-redux"
+import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
+import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 
 const mapStateToProps = (state) => {
@@ -60,26 +60,27 @@ const Header = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-         // navbarstylemode
-         const navbarstyleMode1 = sessionStorage.getItem('Navbarstyle-mode');
-         if(navbarstyleMode1===null){
-             props.NavbarstyleAction(props.navbarstylemode);
-         }
-         else{
-             props.NavbarstyleAction(navbarstyleMode1);
-         }
-  })
-    const minisidebar =() =>{
+        // navbarstylemode
+        const navbarstyleMode1 = sessionStorage.getItem('Navbarstyle-mode');
+        if (navbarstyleMode1 === null) {
+            props.NavbarstyleAction(props.navbarstylemode);
+        }
+        else {
+            props.NavbarstyleAction(navbarstyleMode1);
+        }
+    })
+    const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
-    
+
+    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
                 <Container fluid className="navbar-inner">
                     <Link to="/dashboard" className="navbar-brand">
                         <Logo color={true} />
-                        <h4 className="logo-title">Hope UI</h4>
+                        <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar}>
                         <i className="icon">
@@ -95,7 +96,7 @@ const Header = (props) => {
                                 <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                             </svg>
                         </span>
-                        <input type="search" className="form-control" placeholder="Search..."/>
+                        <input type="search" className="form-control" placeholder="Search..." />
                     </div>
                     <Navbar.Toggle aria-controls="navbarSupportedContent">
                         <span className="navbar-toggler-icon">
@@ -104,26 +105,26 @@ const Header = (props) => {
                             <span className="navbar-toggler-bar bar3"></span>
                         </span>
                     </Navbar.Toggle>
-                    <Navbar.Collapse  id="navbarSupportedContent">
+                    <Navbar.Collapse id="navbarSupportedContent">
                         <Nav as="ul" className="mb-2 ms-auto navbar-list mb-lg-0">
                             <Dropdown as="li" className="nav-item">
                                 <Dropdown.Toggle as={CustomToggle} variant=" nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src={avatars1} alt="User-Profile" className="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded"/>
-                                    <img src={avatars2} alt="User-Profile" className="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded"/>
-                                    <img src={avatars3} alt="User-Profile" className="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded"/>
-                                    <img src={avatars5} alt="User-Profile" className="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded"/>
-                                    <img src={avatars6}alt="User-Profile" className="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded"/>
-                                    <img src={avatars4} alt="User-Profile" className="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded"/>
+                                    <img src={avatars1} alt="User-Profile" className="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded" />
+                                    <img src={avatars2} alt="User-Profile" className="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded" />
+                                    <img src={avatars3} alt="User-Profile" className="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded" />
+                                    <img src={avatars5} alt="User-Profile" className="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded" />
+                                    <img src={avatars6} alt="User-Profile" className="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded" />
+                                    <img src={avatars4} alt="User-Profile" className="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded" />
                                     <div className="caption ms-3 d-none d-md-block ">
-                                        <h6 className="mb-0 caption-title">Austin Robertson</h6>
-                                        <p className="mb-0 caption-sub-title">Marketing Administrator</p>
+                                        <h6 className="mb-0 caption-title">{userDetail?.userName}</h6>
+                                        <p className="mb-0 caption-sub-title">{userDetail?.userType}</p>
                                     </div>
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu  className="dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <Dropdown.Item href="/">Profile</Dropdown.Item>
 
                                     <Dropdown.Divider />
-                                    <Dropdown.Item href={authLocations.login} onClick={()=> {
+                                    <Dropdown.Item href={authLocations.login} onClick={() => {
                                         dispatch(loginOutUser());
                                     }}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>

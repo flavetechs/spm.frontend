@@ -17,9 +17,12 @@ export const authReducer = (state = _state, { type, payload }: any) => {
         case actions.LOGIN_USER_SUCCESS: {
             localStorage.removeItem('token');
             localStorage.removeItem('permissions');
+            localStorage.removeItem('userDetail');
             const decodedToken = jwt<any>(payload.authResult.token);
             localStorage.setItem('token', payload.authResult.token);
             localStorage.setItem('permissions', decodedToken.permissions);
+            localStorage.setItem('userDetail', JSON.stringify(payload.userDetail));
+            
             
             return {
                 ...state,
@@ -28,7 +31,6 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 refreshToken: payload.authResult.refreshToken,
                 message: '',
                 isSuccessful: true,
-                schoolProps: decodedToken.schoolProperties
             }
         }
 
@@ -40,12 +42,12 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 refreshToken: null,
                 message: payload,
                 isSuccessful: false,
-                permissions: [],
-                schoolProps: null
             }
 
         case actions.LOG_OUT_USER: {
             localStorage.removeItem('token');
+            localStorage.removeItem('permissions');
+            localStorage.removeItem('userDetail');
             return {
                 message: '',
                 token: '',

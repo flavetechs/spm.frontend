@@ -4,6 +4,6 @@ export const _state = {
     refreshToken: '',
     message: '',
     isSuccessful: false,
-    permissions:[],
-    schoolProps:null
+    permissions: [],
+    userDetail: null
 }

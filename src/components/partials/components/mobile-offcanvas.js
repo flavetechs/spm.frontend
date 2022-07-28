@@ -9,6 +9,7 @@ const MobildeOffcanvas =()=> {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
     return(
         <>
             <button data-trigger="navbar_main" className="d-xl-none btn btn-primary rounded-pill p-1 pt-0" type="button" onClick={handleShow}>
@@ -25,7 +26,7 @@ const MobildeOffcanvas =()=> {
                             <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor"/>
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor"/>
                         </svg>
-                        <h4 className="logo-title">Hope UI</h4>
+                        <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                     </div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>

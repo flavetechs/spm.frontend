@@ -141,7 +141,7 @@ const SessionList = () => {
               <div className="d-flex row justify-content-end px-4 pt-2 pb-0 mb-0">
 
                 <Col sm="12" md="6" className='d-flex justify-content-start round-2'>
-                  <span className='display-6 text-white  bg-primary'>{ordinalSuffixOf(activeSession?.sessionTerm.charAt(0))} Term {activeSession?.session}</span>
+                  <span className='display-6 text-white  bg-primary'>{ activeSession ? ordinalSuffixOf(activeSession?.sessionTerm.charAt(0)) : ''} Term {activeSession?.session}</span>
                 </Col>
 
                 <Col as={'nav'} sm="12" md="6" className='d-flex justify-content-end' >
