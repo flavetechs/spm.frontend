@@ -110,8 +110,7 @@ const Announcement = () => {
                           style={{ width: "5%" }}
                           className="py-2 item-table"
                         >
-                          <input type="checkbox" name="" id="" />
-                          {/* {item.isSeen == false ? (
+                          {item.isSeen == false ? (
                             <svg
                               width="22"
                               viewBox="0 0 24 24"
@@ -206,7 +205,7 @@ const Announcement = () => {
                                 fill="white"
                               ></circle>
                             </svg>
-                          )} */}
+                          )}
                         </div>
                         <div
                           className="py-2  item-table"
