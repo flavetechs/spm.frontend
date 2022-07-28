@@ -22,8 +22,6 @@ const SignIn = () => {
     var permissions = localStorage.getItem('permissions');
 
     useEffect(() => {
-        console.log('token', token);
-        console.log('permissions', permissions);
         if(token){
             history.push('/dashboard')
         }

@@ -59,11 +59,6 @@ const PromotionSetup = () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse]);
-  
-  // const allClass = () => {
-  //   classesToPromoteTo
-  // }
-  console.log('classesToPromoteTo', classesToPromoteTo);
   return (
     <>
       <div>

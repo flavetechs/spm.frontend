@@ -52,6 +52,7 @@ export const getAllSession = () => (dispatch) => {
 
     axiosInstance.get('session/api/v1/getall')
         .then((res) => {
+            console.log('res.data.result', res.data.result);
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
                 payload: res.data.result
