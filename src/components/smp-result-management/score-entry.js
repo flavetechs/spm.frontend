@@ -15,6 +15,7 @@ import LargeTable from "./score-entry-large-table";
 import Preview from "./score-entry-preview";
 import { Link } from "react-router-dom";
 import { resultManagement } from "../../router/spm-path-locations";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
@@ -101,6 +102,7 @@ const ScoreEntry = () => {
                       <Form>
                         <Row>
                           <div className="d-flex justify-content-end">
+                          {hasAccess(NavPermissions.previousTermsScores) && (
                           <Link
                             to={resultManagement.adminScoreEntry}
                           >
@@ -137,7 +139,9 @@ const ScoreEntry = () => {
                               </svg>{" "}
                               Update Previous Terms Scores
                             </button>
-                          </Link></div>
+                          </Link>
+                          )}
+                          </div>
                           <Col md="6">
                             {touched.sessionClassId &&
                               errors.sessionClassId && (

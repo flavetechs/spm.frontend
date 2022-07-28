@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
+import { Accordion } from 'react-bootstrap'
 import { sessionLocations } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function SessionLink(props) {
@@ -91,7 +91,8 @@ export function SessionLink(props) {
                     </Accordion.Collapse>
                 }
 
-
+                {
+                    hasAccess(NavPermissions.sessionClass) &&
                 <Accordion.Collapse eventKey="sidebar-session" >
                     <ul className="sub-nav">
                         <li className="nav-item">
@@ -110,7 +111,9 @@ export function SessionLink(props) {
                         </li>
                     </ul>
                 </Accordion.Collapse>
-
+              }
+               {
+                    hasAccess(NavPermissions.promotionList) &&
                 <Accordion.Collapse eventKey="sidebar-session">
                     <ul className="sub-nav">
                         <li className="nav-item">
@@ -129,6 +132,7 @@ export function SessionLink(props) {
                         </li>
                     </ul>
                 </Accordion.Collapse>
+                }
             </Accordion.Item>
         </>
     )

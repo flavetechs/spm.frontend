@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
+import { Accordion } from 'react-bootstrap'
 import { permissionLocations } from '../../../../../router/spm-path-locations'
+import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function PermissionLink(props){
     var location = useLocation()
     return(
@@ -21,6 +22,8 @@ export function PermissionLink(props){
                             </svg>
                         </i>
                     </props.CustomToggle>
+                    {
+                    hasAccess(NavPermissions.roleList) &&
                     <Accordion.Collapse eventKey="sidebar-user">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -40,6 +43,7 @@ export function PermissionLink(props){
 
                         </ul>
                     </Accordion.Collapse>
+                  }
                 </Accordion.Item>
         </>
     )

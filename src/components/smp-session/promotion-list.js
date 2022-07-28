@@ -17,6 +17,7 @@ import { getAllSessionClasses } from "../../store/actions/class-actions";
 import { sessionLocations } from "../../router/spm-path-locations";
 import { getAllPromotionList, promoteStudent } from "../../store/actions/promotion-actions";
 import { getActiveSession } from "../../store/actions/session-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const PromotionSetup = () => {
   //VARIABLE DECLARATIONS
@@ -208,6 +209,7 @@ const PromotionSetup = () => {
                                       </Tooltip>
                                     }
                                   >
+                                    {hasAccess(NavPermissions.promoteStudents) && (
                                     <Link
                                       style={{ visibility: item.isPromoted ? 'hidden' : 'visible' }}
                                       className="btn btn-sm btn-icon btn-success"
@@ -257,6 +259,7 @@ const PromotionSetup = () => {
                                         </svg>
                                       </span>
                                     </Link>
+                                    )}
                                   </OverlayTrigger>{" "}
                                 </div>
                               </td>
