@@ -19,6 +19,7 @@ import {
   updateStaffAccount,
 } from "../../store/actions/staff-actions";
 import { fetchSingleItem } from "../../store/actions/class-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const StaffDetails = () => {
   //VARIABLE DECLARATIONS
@@ -327,6 +328,7 @@ const StaffDetails = () => {
                           >
                             Cancel
                           </Button>{" "}
+                          {hasAccess(NavPermissions.editStaff) && (
                           <Button
                             type="button"
                             variant="btn btn-primary"
@@ -341,6 +343,7 @@ const StaffDetails = () => {
                           >
                             Edit Details
                           </Button>
+                          )}
                         </div>
                       </div>
                     </div>

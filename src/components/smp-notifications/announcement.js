@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../router/spm-path-locations";
 import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, returnList, updateSeenAnnouncement } from "../../store/actions/notification-actions";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from "../../store/actions/toaster-actions";
+// import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 import "./announcement.scss";
 
 const Announcement = () => {
@@ -184,6 +186,7 @@ const Announcement = () => {
                   <span> Delete Selected</span>
                 </button>
               )}
+              {hasAccess(NavPermissions.createAnnouncement) && (
               <button
                 type="button"
                 onClick={() => {
@@ -209,6 +212,7 @@ const Announcement = () => {
                 </i>
                 <span>Make Announcement</span>
               </button>
+              )}
             </div>
           </Card.Body>
           <hr className="mb-0 mt-2" />

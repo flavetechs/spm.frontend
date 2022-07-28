@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Row, Button, Table, Badge } from "react-bootstrap";
 import { ExportCSV } from "../../utils/export-csv";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
@@ -28,6 +29,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
+        {hasAccess(NavPermissions.exportCummulativeMaster) && (
         <Button
             type="button"
             className="btn-sm mx-2 d-flex"
@@ -91,6 +93,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
               )}
             </div>
           </Button>
+        )}
         </div>
 
         <Table

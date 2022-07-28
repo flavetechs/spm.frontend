@@ -20,6 +20,7 @@ import {
   respondDialog,
   showHideDialog,
 } from "../../store/actions/toaster-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const AttendanceBoard = () => {
   //VARIABLE DECLARATIONS
@@ -402,6 +403,7 @@ const AttendanceBoard = () => {
                                           </svg>
                                           Rename
                                         </div>
+                                        {hasAccess(NavPermissions.deleteClassRegister) && (
                                         <div
                                           onClick={() => {
                                             setClassRegisterId(
@@ -447,6 +449,7 @@ const AttendanceBoard = () => {
                                           </svg>
                                           Delete
                                         </div>
+                                        )}
                                       </div>
                                     )}
                                   </div>

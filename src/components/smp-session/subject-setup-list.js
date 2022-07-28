@@ -17,6 +17,7 @@ import {
   showErrorToast,
   showSingleDeleteDialog,
 } from "../../store/actions/toaster-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const SubjectSetupList = () => {
   //VARIABLE DECLARATIONS
@@ -91,9 +92,12 @@ const SubjectSetupList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title"><b>Subject List</b></h4>
+                  <h4 className="card-title">
+                    <b>Subject List</b>
+                  </h4>
                 </div>
               </Card.Header>
+              {hasAccess(NavPermissions.deleteSubjectSetup) && (
               <div className="d-flex justify-content-end">
                 {showDeleteButton ? (
                   <button
@@ -179,34 +183,37 @@ const SubjectSetupList = () => {
                     <span> Delete Selected</span>
                   </button>
                 )}
-                <Link
-                  to={sessionLocations.addSubjectSetup}
-                  className="d-flex justify-content-end"
-                >
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                {hasAccess(NavPermissions.createSubjectSetup) && (
+                  <Link
+                    to={sessionLocations.addSubjectSetup}
+                    className="d-flex justify-content-end"
                   >
-                    <i className="btn-inner">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span>New Subject</span>
-                  </button>
-                </Link>
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span>New Subject</span>
+                    </button>
+                  </Link>
+                )}
               </div>
+              )}
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -253,8 +260,12 @@ const SubjectSetupList = () => {
                               />
                             ) : null}
                           </td>
-                          <td><b>{idx + 1}</b></td>
-                          <td className="text-uppercase"><b>{item.name}</b></td>
+                          <td>
+                            <b>{idx + 1}</b>
+                          </td>
+                          <td className="text-uppercase">
+                            <b>{item.name}</b>
+                          </td>
                           <td>
                             <span
                               className={
@@ -274,6 +285,7 @@ const SubjectSetupList = () => {
                                   <Tooltip id="button-tooltip-2"> edit</Tooltip>
                                 }
                               >
+                                 {hasAccess(NavPermissions.editSubjectSetup) && (
                                 <a
                                   onClick={() => {
                                     fetchSingleItem(item.lookupId)(dispatch);
@@ -321,6 +333,7 @@ const SubjectSetupList = () => {
                                     </svg>
                                   </span>
                                 </a>
+                                 )}
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
@@ -331,6 +344,7 @@ const SubjectSetupList = () => {
                                   </Tooltip>
                                 }
                               >
+                                 {hasAccess(NavPermissions.deleteSubjectSetup) && (
                                 <Link
                                   className="btn btn-sm btn-icon btn-danger"
                                   data-toggle="tooltip"
@@ -376,6 +390,7 @@ const SubjectSetupList = () => {
                                     </svg>
                                   </span>
                                 </Link>
+                                 )}
                               </OverlayTrigger>
                             </div>
                           </td>

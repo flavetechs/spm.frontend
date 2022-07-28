@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
-import { classLocations, gradeSetting, permissionLocations, pinManagement, portalSetting, resultManagement, sessionLocations, staffLocations, studentsLocations } from '../../../../router/spm-path-locations';
 import { DashboardLink } from './Navigations/dashboard-links';
 import { PermissionLink } from './Navigations/permission-links';
+import { hasAccess, NavPermissions } from '../../../../utils/permissions';
 import { SessionLink } from './Navigations/session-links';
 import { ClassLink } from './Navigations/class-links';
 import { StaffLink } from './Navigations/staff-links';
@@ -29,13 +29,13 @@ function CustomToggle({ children, eventKey, onClick }) {
         </Link>
     );
 }
-const minisidebar =() => {
+const minisidebar = () => {
 
-    if(window.innerWidth < 800){
-        if(!document.getElementsByTagName('ASIDE')[0]?.classList.contains('sidebar-mini')){
+    if (window.innerWidth < 800) {
+        if (!document.getElementsByTagName('ASIDE')[0]?.classList.contains('sidebar-mini')) {
             document.getElementsByTagName('ASIDE')[0]?.classList?.add('sidebar-mini');
         }
-      }
+    }
 }
 
 const VerticalNav = () => {
@@ -43,6 +43,7 @@ const VerticalNav = () => {
     //location
     // console.log(activeMenu);
     let location = useLocation();
+
 
     return (
         <>
@@ -54,58 +55,54 @@ const VerticalNav = () => {
                     </Link>
                 </li>
 
-               <DashboardLink 
-                minisidebar={minisidebar}/>
+                <DashboardLink
+                    minisidebar={minisidebar} />
 
-                <PermissionLink 
-                    minisidebar={minisidebar} 
-                    CustomToggle={CustomToggle} 
-                    setActiveMenu={setActiveMenu}/>
+                <PermissionLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu} />
 
-               <SessionLink
-                 minisidebar={minisidebar} 
-                 CustomToggle={CustomToggle} 
-                 setActiveMenu={setActiveMenu}
-               />
+                <SessionLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu}
+                />
 
-                <ClassLink 
-                    minisidebar={minisidebar} 
-                    CustomToggle={CustomToggle} 
+
+
+                <ClassLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
                     setActiveMenu={setActiveMenu}
                 />
 
                 <li><hr className="hr-horizontal" /></li>
-                {/* <li className="nav-item static-item">
-                    <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
-                        <span className="default-icon">Users</span>
-                        <span className="mini-icon">-</span>
-                    </Link>
-                </li> */}
 
-                <StaffLink 
-                   minisidebar={minisidebar} 
-                   CustomToggle={CustomToggle} 
-                   setActiveMenu={setActiveMenu}
+                <StaffLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu}
                 />
 
-              <StudentLink 
-              minisidebar={minisidebar} 
-              CustomToggle={CustomToggle} 
-              setActiveMenu={setActiveMenu}
-              />
-              
+                <StudentLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu}
+                />
+
                 <li><hr className="hr-horizontal" /></li>
 
-              <ResultLink 
-              minisidebar={minisidebar} 
-              CustomToggle={CustomToggle} 
-              setActiveMenu={setActiveMenu}
-              />
-               
-                <PinLink 
-                  minisidebar={minisidebar} 
-                  CustomToggle={CustomToggle} 
-                  setActiveMenu={setActiveMenu}
+                <ResultLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu}
+                />
+
+                <PinLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu}
                 />
 
                 <li className="nav-item static-item">
@@ -116,11 +113,11 @@ const VerticalNav = () => {
                 </li>
                 <li><hr className="hr-horizontal" /></li>
 
-             <PortalSettingsLink 
-                minisidebar={minisidebar} 
-                CustomToggle={CustomToggle} 
-                setActiveMenu={setActiveMenu}
-             />
+                <PortalSettingsLink
+                    minisidebar={minisidebar}
+                    CustomToggle={CustomToggle}
+                    setActiveMenu={setActiveMenu}
+                />
 
 
 

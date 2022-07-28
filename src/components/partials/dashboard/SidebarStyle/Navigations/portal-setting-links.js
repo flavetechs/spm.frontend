@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
 import { gradeSetting, portalSetting } from '../../../../../router/spm-path-locations'
+import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 
 export function PortalSettingsLink(props){
     var location = useLocation()
@@ -22,6 +23,8 @@ export function PortalSettingsLink(props){
                             </svg>
                         </i>
                     </props.CustomToggle>
+                    {
+                    hasAccess(NavPermissions.portalSetting) &&
                     <Accordion.Collapse eventKey="sidebar-setting">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -39,6 +42,9 @@ export function PortalSettingsLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
+                    {
+                    hasAccess(NavPermissions.templateSetting) &&
                     <Accordion.Collapse eventKey="sidebar-setting">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -56,6 +62,9 @@ export function PortalSettingsLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
+                    {
+                    hasAccess(NavPermissions.gradeSetting) &&
                     <Accordion.Collapse eventKey="sidebar-setting">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -73,7 +82,7 @@ export function PortalSettingsLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
-
+                    }
                 </Accordion.Item>
         </>
     )

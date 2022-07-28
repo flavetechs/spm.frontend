@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
+import { Accordion } from 'react-bootstrap'
 import { studentsLocations } from '../../../../../router/spm-path-locations'
+import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function StudentLink(props){
     var location = useLocation()
     return(
@@ -20,6 +21,8 @@ export function StudentLink(props){
                             </svg>
                         </i>
                     </props.CustomToggle>
+                    {
+                    hasAccess(NavPermissions.studentList) &&
                     <Accordion.Collapse eventKey="sidebar-student">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -38,6 +41,9 @@ export function StudentLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
+                    {
+                    hasAccess(NavPermissions.enrolledStudentsList) &&
                     <Accordion.Collapse eventKey="sidebar-student">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -56,6 +62,9 @@ export function StudentLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
+                    {
+                    hasAccess(NavPermissions.unenrolledStudentsList) &&
                     <Accordion.Collapse eventKey="sidebar-student">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -74,6 +83,7 @@ export function StudentLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    }
                 </Accordion.Item>
         </>
     )

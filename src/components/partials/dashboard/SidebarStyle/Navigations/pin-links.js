@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
 import { pinManagement } from '../../../../../router/spm-path-locations'
+import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function PinLink(props){
     var location = useLocation()
     return(
@@ -20,6 +21,8 @@ export function PinLink(props){
                             </svg>
                         </i>
                     </props.CustomToggle>
+                    {
+                    hasAccess(NavPermissions.totalPins) &&
                     <Accordion.Collapse eventKey="sidebar-pin">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -37,6 +40,9 @@ export function PinLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                 }
+                 {
+                    hasAccess(NavPermissions.usedPins) &&
                     <Accordion.Collapse eventKey="sidebar-pin">
                         <ul className="sub-nav">
                             <li className="nav-item">
@@ -54,6 +60,7 @@ export function PinLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                }
                 </Accordion.Item>
         </>
     )
