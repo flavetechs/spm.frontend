@@ -56,6 +56,7 @@ import Announcement from '../components/smp-notifications/announcement';
 import MakeAnnouncement from '../components/smp-notifications/make-announcement';
 import AnnouncementDetails from '../components/smp-notifications/announcement-details';
 import AttendanceBoard from '../components/spm-class/attendance-board';
+import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
 import AddUser from '../components/spm-permissions/role-add-user';
 
 const DashboardRouter = () => {
@@ -143,6 +144,7 @@ const DashboardRouter = () => {
                       <Route path={notificationManagement.announcement} exact component={Announcement} />
                       <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
                       <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
+                      <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
