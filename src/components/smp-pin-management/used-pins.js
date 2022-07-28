@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
 
@@ -39,7 +39,7 @@ const UsedPins = () => {
       return item;
     }
   });
-  
+
   return (
     <>
       <div>
@@ -52,32 +52,32 @@ const UsedPins = () => {
                 </div>
               </Card.Header>
               <div className="input-group">
-                  <span className="input-group-text border-0" id="">
-                    <svg
-                      width="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M4.56517 3C3.70108 3 3 3.71286 3 4.5904V5.52644C3 6.17647 3.24719 6.80158 3.68936 7.27177L8.5351 12.4243L8.53723 12.4211C9.47271 13.3788 9.99905 14.6734 9.99905 16.0233V20.5952C9.99905 20.9007 10.3187 21.0957 10.584 20.9516L13.3436 19.4479C13.7602 19.2204 14.0201 18.7784 14.0201 18.2984V16.0114C14.0201 14.6691 14.539 13.3799 15.466 12.4243L20.3117 7.27177C20.7528 6.80158 21 6.17647 21 5.52644V4.5904C21 3.71286 20.3 3 19.4359 3H4.56517Z"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                    </svg>
-                  </span>
-                  <div>
-                    <input
-                      type="search"
-                      className="form-control text-lowercase"
-                      placeholder="Filter..."
-                      onChange={(event) => setFilterQuery(event.target.value)}
-                    />
-                  </div>
+                <span className="input-group-text border-0" id="">
+                  <svg
+                    width="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M4.56517 3C3.70108 3 3 3.71286 3 4.5904V5.52644C3 6.17647 3.24719 6.80158 3.68936 7.27177L8.5351 12.4243L8.53723 12.4211C9.47271 13.3788 9.99905 14.6734 9.99905 16.0233V20.5952C9.99905 20.9007 10.3187 21.0957 10.584 20.9516L13.3436 19.4479C13.7602 19.2204 14.0201 18.7784 14.0201 18.2984V16.0114C14.0201 14.6691 14.539 13.3799 15.466 12.4243L20.3117 7.27177C20.7528 6.80158 21 6.17647 21 5.52644V4.5904C21 3.71286 20.3 3 19.4359 3H4.56517Z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
+                  </svg>
+                </span>
+                <div>
+                  <input
+                    type="search"
+                    className="form-control text-lowercase"
+                    placeholder="Filter..."
+                    onChange={(event) => setFilterQuery(event.target.value)}
+                  />
+                </div>
               </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -107,7 +107,9 @@ const UsedPins = () => {
                             <b>{item.numberOfTimesUsed}</b>
                           </td>
                           <td>
-                            <b>{item.pinStatus}</b>
+                            <Badge bg={"danger"}>
+                              {item.pinStatus}
+                            </Badge>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">

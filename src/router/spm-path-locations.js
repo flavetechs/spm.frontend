@@ -7,6 +7,7 @@ export const permissionLocations = {
   roleList: "/dashboard/smp-permissions/role-list",
   roleEdit: "/dashboard/smp-permissions/role-edit",
   roleAdd: "/dashboard/smp-permissions/role-add",
+  addUser:"/dashboard/smp-permissions/add-user",
 };
 
 export const dashboardLocations = {

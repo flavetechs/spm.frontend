@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Form } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Form, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../Card";
 
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { pinManagement } from "../../router/spm-path-locations";
 import { getAllUnusedPinList, upLoadPinFile } from "../../store/actions/pin-management-actions";
 import { showErrorToast } from "../../store/actions/toaster-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const Pins = () => {
   //VARIABLE DECLARATIONS
@@ -64,6 +65,7 @@ const Pins = () => {
                     />
                   </div>
                   <div className="">
+                  {hasAccess(NavPermissions.uploadPins) && (
                     <button
                       type="button"
                       className="text-center btn-primary btn-icon me-2  btn btn-primary"
@@ -101,6 +103,7 @@ const Pins = () => {
                       </i>
                       <span> Upload</span>
                     </button>
+                  )}
                   </div>
                 </div>
               </Form>
@@ -133,7 +136,9 @@ const Pins = () => {
                             <b>{item.numberOfTimesUsed}</b>
                           </td>
                           <td>
-                            <b>{item.pinStatus}</b>
+                          <Badge bg={"success"}>
+                              {item.pinStatus}
+                            </Badge>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">

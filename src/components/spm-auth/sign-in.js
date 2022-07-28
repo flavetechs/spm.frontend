@@ -11,6 +11,7 @@ import { dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
 import { useEffect } from 'react';
+import SmpLoader from '../loader/smp-loader';
 
 const SignIn = () => {
     let history = useHistory();
@@ -18,7 +19,11 @@ const SignIn = () => {
     const state = useSelector((state) => state);
     const { message } = state.auth;
     var token = localStorage.getItem('token');
+    var permissions = localStorage.getItem('permissions');
+
     useEffect(() => {
+        console.log('token', token);
+        console.log('permissions', permissions);
         if(token){
             history.push('/dashboard')
         }
@@ -33,10 +38,10 @@ const SignIn = () => {
             .min(8, 'Password must be a minimum of 8 characters'),
     });
 
-
     return (
         <>
             <section className="login-content">
+                <SmpLoader />
                 <Row className="m-0 align-items-center bg-white vh-100">
                     <Col md="6">
                         <Row className="justify-content-center">
@@ -50,7 +55,7 @@ const SignIn = () => {
                                                 <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                                                 <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                                             </svg>
-                                            <h4 className="logo-title ms-3">Hope UI</h4>
+                                            <h4 className="logo-title ms-3">FLAVTECH</h4>
                                         </Link>
                                         <h2 className="mb-2 text-center">Sign In</h2>
                                         <p className="text-center">Login to stay connected.</p>

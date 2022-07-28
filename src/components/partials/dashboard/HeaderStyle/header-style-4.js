@@ -3,15 +3,18 @@ import {Link} from 'react-router-dom'
 import {Navbar,Container,Nav,NavDropdown} from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
+import { getUserDetails } from '../../../../utils/permissions'
 
 const HeaderStyle4 = () => {
+    var userDetail = getUserDetails();
+    
     return (
         <>
             <Navbar bg='dark' expand="lg" variant="dark" className="fixed-top iq-navbar" aria-label="Main navigation">
                 <Container fluid>
                     <Link to="/dashboard" className="navbar-brand d-flex align-items-center">
                         <Logo color={true} />
-                        <h4 className="logo-title text-light ms-3 mb-0">Hope UI</h4>
+                        <h4 className="logo-title text-light ms-3 mb-0"> {userDetail?.schoolAbbreviation ?? ''}</h4>
                     </Link>
                     <Navbar.Toggle className="p-0 border-0"  aria-controls="navbarSideCollapse" >
                         <span className="navbar-toggler-icon">

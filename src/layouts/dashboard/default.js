@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { bindActionCreators } from "redux"
 
 //header
@@ -24,6 +24,7 @@ import { DecisionDialog } from '../../components/partials/components/hoc-tools/d
 import { SingleDeleteDialog } from '../../components/partials/components/hoc-tools/delete-dialogs'
 import { ErrorToast, SuccessToast } from '../../components/partials/components/hoc-tools/alert'
 import SmpLoader from '../../components/loader/smp-loader'
+import { getUserDetails } from '../../utils/permissions'
 
 const mapStateToProps = (state) => {
     return {
@@ -85,12 +86,11 @@ const Default = (props) => {
             props.SchemeDirAction(rtlMode);
         }
     })
-
+    
     var token = localStorage.getItem('token');
     let history = useHistory();
 
-
-
+    
     if (!token) {
         history.push(authLocations.login);
     }
