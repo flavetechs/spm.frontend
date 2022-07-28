@@ -92,7 +92,7 @@ export function SessionLink(props) {
                 }
 
                 {
-                    hasAccess(NavPermissions.sessionClass) &&
+                    hasAccess(NavPermissions.sessionSessionClass) &&
                 <Accordion.Collapse eventKey="sidebar-session" >
                     <ul className="sub-nav">
                         <li className="nav-item">

@@ -23,7 +23,7 @@ export function StaffLink(props){
                         </i>
                     </props.CustomToggle>
                     {
-                    hasAccess(NavPermissions.totalStaff) &&
+                    hasAccess(NavPermissions.staffList) &&
                     <Accordion.Collapse eventKey="sidebar-staff">
                         <ul className="sub-nav">
                             <li className="nav-item">
