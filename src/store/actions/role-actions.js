@@ -125,8 +125,6 @@ export const fetchSingleRole = (roleId) => dispatch => {
         type: actions.FETCH_SINGLE_ROLE_LOADING
     });
 
-
-
     axiosInstance.get(`/role/api/v1/get/${roleId}?roldeId=${roleId}`)
         .then((res) => {
             dispatch({
@@ -242,7 +240,7 @@ export const createNewRole = (role) => dispatch => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
-export const resetRoleActivities = () => (dispatch) => {
+export const resetRoleState = () => (dispatch) => {
     dispatch({
          type: actions.RESET_ACTIVITIES,
          payload: {
@@ -250,6 +248,52 @@ export const resetRoleActivities = () => (dispatch) => {
         }
      });
  }
+
+ export const getAllNonAddedUsers = (roleId) => dispatch => {
+
+    dispatch({
+        type: actions.FETCH_NON_ADDED_USERS_LOADING
+    });
+
+    axiosInstance.get(`/role/api/v1/get/not-added-users/${roleId}?roldeId=${roleId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_NON_ADDED_USERS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_NON_ADDED_USERS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const addUserToRoles = (roleId,userIds) => dispatch => {
+
+    dispatch({
+        type: actions.ADD_USER_TO_ROLE_LOADING
+    });
+    const payload ={
+        userIds,
+        roleId
+      }
+
+    axiosInstance.post(`/role/api/v1/assign/user-to-role`, payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_USER_TO_ROLE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch(err => {
+            dispatch({
+                type: actions.ADD_USER_TO_ROLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
 
  // export const updateRoleActivityState = (id, value, selectedRole, action) => dispatch => {
 //     const otherActivities = selectedRole.activities.filter(e => e !== id);

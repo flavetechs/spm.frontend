@@ -7,7 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import {
   fetchSingleRole,
   getAllParentActivity,
-  resetRoleActivities,
+  resetRoleState,
   updateModifiedRole,
   updateRoleActivityOnSelect,
   updateRoleActivityOnSelectAll,
@@ -36,7 +36,7 @@ const RoleEdit = () => {
     getAllParentActivity()(dispatch);
     getAllActivities()(dispatch);
     return () => {
-      resetRoleActivities()(dispatch);
+      resetRoleState()(dispatch);
     };
   }, []);
 
@@ -48,7 +48,7 @@ const RoleEdit = () => {
     const checkBoxValue = event.target.checked;
     const activityId = activities
       ?.filter((a) => parentValue == a.parentId)
-      ?.map((a) => a.activityId);
+      ?.map((a) => a.activityId.toLowerCase());
     updateRoleActivityOnSelectAll(
       activityId,
       checkBoxValue,
@@ -71,7 +71,7 @@ const RoleEdit = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
-
+ 
   return (
     <>
       <div>
@@ -94,26 +94,6 @@ const RoleEdit = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group className="form-group">
-                    <Form.Label htmlFor="role-name" className="">
-                      Roles
-                    </Form.Label>
-                    <select
-                      name="display-name"
-                      className="form-select"
-                      id="display-name"
-                      onChange={(e) => {
-                        setParentValue(e.target.value);
-                      }}
-                    >
-                      <option value="">Select Parent Activity</option>
-                      {parentActivity?.map((activity, idx) => (
-                        <option key={idx} value={activity.parentActivityId}>
-                          {activity.displayName}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.Group>
                   <Row className="">
                     <Form.Group className="form-group col-md-8">
                       <Form.Label htmlFor="role-name" className="">
@@ -157,10 +137,13 @@ const RoleEdit = () => {
                         </th>
                         <th className="text-center">
                           Select{" "}
+                          {parentActivity?.map((activity,idx)=>
+                          parentValue == activity.parentActivityId &&
                           <input
                             type="checkbox"
                             onChange={(e) => handleSelectAll(e)}
-                          />{" "}
+                          />
+                          )}
                         </th>
                       </tr>
                     </thead>
@@ -175,9 +158,9 @@ const RoleEdit = () => {
                                   className="form-check-input"
                                   type="checkbox"
                                   checked={selectedRole?.activities.find(
-                                    (id) => id === item.activityId
-                                  )}
-                                  id={item.activityId}
+                                    (id) => id === item.activityId.toLowerCase()
+                                  ) || false}
+                                  id={item.activityId.toLowerCase()}
                                   onChange={(e) => {
                                     handleSelect(e);
                                   }}

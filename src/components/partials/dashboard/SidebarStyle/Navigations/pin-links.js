@@ -22,7 +22,7 @@ export function PinLink(props){
                         </i>
                     </props.CustomToggle>
                     {
-                    hasAccess(NavPermissions.totalPins) &&
+                    hasAccess(NavPermissions.unusedPins) &&
                     <Accordion.Collapse eventKey="sidebar-pin">
                         <ul className="sub-nav">
                             <li className="nav-item">

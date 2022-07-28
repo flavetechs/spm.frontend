@@ -282,15 +282,16 @@ const RoleList = () => {
                             <div className="flex align-items-center list-user-action">
                             <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip-2"> </Tooltip>}
+                                overlay={<Tooltip id="button-tooltip-2">add user</Tooltip>}
                               >
+                                 {hasAccess(NavPermissions.addUser) && (
                               <Link
                                 className="btn btn-sm btn-icon btn-success"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Add"
-                                to="#"
+                                to={`${permissionLocations.addUser}?roleId=${item.roleId}`}
                               >
                                 <span className="btn-inner">
                                   <svg
@@ -334,6 +335,7 @@ const RoleList = () => {
                                   </svg>
                                 </span>
                               </Link>
+                                 )}
                               </OverlayTrigger>{" "}
                               <OverlayTrigger
                                 placement="top"
