@@ -1,8 +1,8 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import VerticalNav from '../SidebarStyle/vertical-nav'
 import Scrollbar from 'smooth-scrollbar'
-import {bindActionCreators} from "redux"
+import { bindActionCreators } from "redux"
 // import SidebarDark from '../../components/settingoffcanvas'
 
 // export const SidebarDark =() =>{
@@ -10,8 +10,9 @@ import {bindActionCreators} from "redux"
 // }
 
 // store
-import {NavbarstyleAction, getDirMode, SchemeDirAction,  getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../../../store/setting/setting'
-import {connect} from "react-redux"
+import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
+import { connect } from "react-redux"
+import { getUserDetails } from '../../../../utils/permissions'
 
 const mapStateToProps = (state) => {
     return {
@@ -38,72 +39,72 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Sidebar = (props) => {
-    
-    
-    
+
+
+
     useEffect(
-        () =>{
+        () => {
             // sidebarcolormode
             const sidebarcolorMode1 = sessionStorage.getItem('sidebarcolor-mode');
-            if(sidebarcolorMode1===null){
+            if (sidebarcolorMode1 === null) {
                 props.SidebarColorAction(props.sidebarcolorMode);
             }
-            else{
+            else {
                 props.SidebarColorAction(sidebarcolorMode1);
             }
 
             // sidebarstylemode
             const sidebarstyleMode = sessionStorage.getItem('sidebarstyle-mode');
-            if(sidebarstyleMode===null){
+            if (sidebarstyleMode === null) {
                 props.SidebarActiveStyleAction(props.sidebaractivestyleMode);
             }
-            else{
+            else {
                 props.SidebarActiveStyleAction(sidebarstyleMode);
             }
             Scrollbar.init(document.querySelector('#my-scrollbar'))
         }
-        
-         
-    
+
+
+
     )
-    const minisidebar =() =>{
+    const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
-    
+
     const [dimensions, setDimensions] = React.useState({
         width: window.innerWidth,
         height: window.innerHeight,
-      });
-      const handleResize = () => {
+    });
+    const handleResize = () => {
         setDimensions({
-          width: window.innerWidth,
-          height: window.innerHeight,
+            width: window.innerWidth,
+            height: window.innerHeight,
         });
-      }
-      React.useEffect(() => {
+    }
+    React.useEffect(() => {
         window.addEventListener("resize", handleResize, false);
 
-        setTimeout(function(){
-            if(dimensions.width < 800){
-                if(!document.getElementsByTagName('ASIDE')[0]?.classList.contains('sidebar-mini')){
+        setTimeout(function () {
+            if (dimensions.width < 800) {
+                if (!document.getElementsByTagName('ASIDE')[0]?.classList.contains('sidebar-mini')) {
                     document.getElementsByTagName('ASIDE')[0]?.classList?.add('sidebar-mini');
                 }
-              }
+            }
         }, 1000)
-        
-      });
-      var userDetail = JSON.parse(localStorage.getItem('userDetail'));
-     
+
+    });
+    var userDetail = getUserDetails();
+
     return (
         <>
             <aside className="sidebar sidebar-default navs-rounded-all {{ sidebarVariants }}">
                 <div className="sidebar-header d-flex align-items-center justify-content-start">
                     <Link to="/dashboard" className="navbar-brand">
                         <svg width="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor"/>
-                            <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor"/>
-                            <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor"/>
-                            <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor"/>
+                            <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
+                            <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
+                            <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
+                            <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg>
                         <h4 className="logo-title"> {userDetail?.schoolAbbreviation ?? ''} </h4>
                     </Link>
@@ -119,7 +120,7 @@ const Sidebar = (props) => {
                 <div className="pt-0 sidebar-body data-scrollbar" data-scroll="1" id="my-scrollbar">
                     {/* sidebar-list class to be added after replace css */}
                     <div className="sidebar-list navbar-collapse" id="sidebar">
-                      <VerticalNav />
+                        <VerticalNav />
                     </div>
                 </div>
                 <div className="sidebar-footer"></div>

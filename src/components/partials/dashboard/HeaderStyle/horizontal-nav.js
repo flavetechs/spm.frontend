@@ -1,6 +1,7 @@
 import React from 'react'
 import { Offcanvas,Navbar,Container,Nav} from 'react-bootstrap'
 import { Link,useLocation } from 'react-router-dom'
+import { getUserDetails } from '../../../../utils/permissions';
 
 const HorizontalNav = () => {
 //     const [show, setShow] = useState(false);
@@ -9,7 +10,7 @@ const HorizontalNav = () => {
 //   const handleClose = () => setShow(false);
 //location
 let location = useLocation();
-var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+var userDetail = getUserDetails();
 
     return (
         <>

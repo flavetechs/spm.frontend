@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { getUserDetails } from '../../../../utils/permissions';
 
 const SidebarSmall = () => {
-    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+    var userDetail = getUserDetails();
    
     return (
         <>

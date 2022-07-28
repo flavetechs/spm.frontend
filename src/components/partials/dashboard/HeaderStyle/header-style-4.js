@@ -3,9 +3,10 @@ import {Link} from 'react-router-dom'
 import {Navbar,Container,Nav,NavDropdown} from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
+import { getUserDetails } from '../../../../utils/permissions'
 
 const HeaderStyle4 = () => {
-    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+    var userDetail = getUserDetails();
     
     return (
         <>

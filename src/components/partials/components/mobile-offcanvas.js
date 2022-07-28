@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Offcanvas ,Nav} from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
+import { getUserDetails } from '../../../utils/permissions';
 
 const MobildeOffcanvas =()=> {
     //location
@@ -9,7 +10,7 @@ const MobildeOffcanvas =()=> {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+    var userDetail = getUserDetails()
     return(
         <>
             <button data-trigger="navbar_main" className="d-xl-none btn btn-primary rounded-pill p-1 pt-0" type="button" onClick={handleShow}>

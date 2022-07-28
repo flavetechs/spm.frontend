@@ -29,8 +29,9 @@ import shapes5 from '../../../../assets/images/shapes/05.png'
 import Logo from '../../components/logo'
 // mobile-offcanvas
 import MobildeOffcanvas from '../../components/mobile-offcanvas'
+import { getUserDetails } from '../../../../utils/permissions'
 const HeaderStyle2 = () => {
-var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+var userDetail = getUserDetails();
     return (
         <>
             <Navbar expand="lg" className="nav  iq-navbar">

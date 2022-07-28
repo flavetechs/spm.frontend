@@ -19,7 +19,11 @@ const SignIn = () => {
     const state = useSelector((state) => state);
     const { message } = state.auth;
     var token = localStorage.getItem('token');
+    var permissions = localStorage.getItem('permissions');
+
     useEffect(() => {
+        console.log('token', token);
+        console.log('permissions', permissions);
         if(token){
             history.push('/dashboard')
         }

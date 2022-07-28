@@ -30,6 +30,7 @@ import Logo from '../../components/logo'
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
 import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
+import { getUserDetails } from '../../../../utils/permissions'
 
 const mapStateToProps = (state) => {
     return {
@@ -73,7 +74,7 @@ const Header = (props) => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
 
-    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+    var userDetail = getUserDetails();
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">

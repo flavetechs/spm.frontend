@@ -28,8 +28,9 @@ import shapes4 from '../../../../assets/images/shapes/04.png'
 import shapes5 from '../../../../assets/images/shapes/05.png'
 // logo
 import Logo from '../../components/logo'
+import { getUserDetails } from '../../../../utils/permissions'
 const HeaderStyle1 = () => {
-    var userDetail = JSON.parse(localStorage.getItem('userDetail'));
+    var userDetail = getUserDetails();
     return (
         <>   
             <Navbar expand="xl" className="nav  iq-navbar">
