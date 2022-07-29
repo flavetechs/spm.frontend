@@ -63,13 +63,13 @@ const ResultSetting = () => {
                 onSubmit={(values) => {
                     values.filepath = images;
                     const params = new FormData();
-                    params.append("resultSettingId", values.resultSettingId);
-                    params.append("promoteByPassmark", values.promoteByPassmark);
-                    params.append("promoteAll", values.promoteAll);
-                    params.append("showPositionOnResult", values.showPositionOnResult);
-                    params.append("cumulativeResult", values.cumulativeResult);
-                    params.append("showNewsletter", values.showNewsletter);
-                    params.append("batchPrinting", values.batchPrinting);
+                    params.append("resultSettingId", values.resultSettingId ?? "");
+                    params.append("promoteByPassmark", values.promoteByPassmark ?? false);
+                    params.append("promoteAll", values.promoteAll ?? false);
+                    params.append("showPositionOnResult", values.showPositionOnResult ?? false);
+                    params.append("cumulativeResult", values.cumulativeResult ?? false);
+                    params.append("showNewsletter", values.showNewsletter ?? false);
+                    params.append("batchPrinting", values.batchPrinting ?? false);
                     params.append("principalStamp", values.principalStamp);
                     params.append("filepath", values.filepath);
                     setSaveButton(!saveButton);
