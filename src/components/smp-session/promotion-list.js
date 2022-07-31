@@ -104,7 +104,7 @@ const PromotionSetup = () => {
                       </tr>
                     </thead>
                         <tbody>
-                          {promotionList.map((item, idx) => (
+                          {promotionList?.map((item, idx) => (
                             <tr key={idx}>
                               <td className="h4">{idx + 1}</td>
                               <td className="h5 text-center">
@@ -181,7 +181,7 @@ const PromotionSetup = () => {
                                       Select promotion class
                                     </option>
                                     {/* .slice(idx - 1, classesToPromoteTo.length) */}
-                                    {classesToPromoteTo.filter(d => d.class != item.sessionClassName)
+                                    {classesToPromoteTo?.filter(d => d.class != item.sessionClassName)
                                       .map((promoteTo, idx) => (
                                         <option
                                           key={idx}
@@ -196,6 +196,7 @@ const PromotionSetup = () => {
                               </td>
                               <td>
                                 <div className="flex align-items-center list-user-action">
+                                   {hasAccess(NavPermissions.promoteStudents) && (
                                   <OverlayTrigger
                                     placement="top"
                                     overlay={
@@ -204,7 +205,6 @@ const PromotionSetup = () => {
                                       </Tooltip>
                                     }
                                   >
-                                    {hasAccess(NavPermissions.promoteStudents) && (
                                     <Link
                                       style={{ visibility: item.isPromoted ? 'hidden' : 'visible' }}
                                       className="btn btn-sm btn-icon btn-success"
@@ -254,8 +254,8 @@ const PromotionSetup = () => {
                                         </svg>
                                       </span>
                                     </Link>
-                                    )}
-                                  </OverlayTrigger>{" "}
+                                    
+                                  </OverlayTrigger>)}{" "}
                                 </div>
                               </td>
                             </tr>

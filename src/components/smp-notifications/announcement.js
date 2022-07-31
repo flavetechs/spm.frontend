@@ -101,6 +101,8 @@ const Announcement = () => {
                   </svg>
                 </div>
               </OverlayTrigger>
+              {hasAccess(NavPermissions.deleteAnnouncement) && (
+              <div>
               {showDeleteButton ? (
                 <button
                   type="button"
@@ -185,6 +187,8 @@ const Announcement = () => {
                   </i>
                   <span> Delete Selected</span>
                 </button>
+              )}
+              </div>
               )}
               {hasAccess(NavPermissions.createAnnouncement) && (
               <button

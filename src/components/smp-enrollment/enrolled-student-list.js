@@ -214,7 +214,7 @@ const EnrolledStudents = () => {
                       }}
                     >
                       <option value="">Select Class</option>
-                      {classList.map((item, idx) => (
+                      {classList?.map((item, idx) => (
                         <option key={idx} value={item.sessionClassId}>
                           {item.class}
                         </option>
@@ -487,8 +487,6 @@ const EnrolledStudents = () => {
                                         </svg>
                                       </span>
                                     </Link>
-
-
                                   </OverlayTrigger>
                                 )}
                               </div>

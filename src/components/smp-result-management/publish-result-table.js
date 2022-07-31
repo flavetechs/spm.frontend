@@ -93,13 +93,14 @@ const PublishResultTable = ({
                 </td>
                 <td>
                   <div className="flex align-items-center list-user-action">
+                     {hasAccess(NavPermissions.viewResultsToPublish) && (
                     <OverlayTrigger
                       placement="top"
                       overlay={
                         <Tooltip id="button-tooltip-2"> Preview Result</Tooltip>
                       }
                     >
-                       {hasAccess(NavPermissions.viewResultsToPublish) && (
+                      
                       <Link
                         className="btn btn-sm btn-icon btn-primary"
                         data-toggle="tooltip"
@@ -144,8 +145,7 @@ const PublishResultTable = ({
                           </svg>
                         </span>
                       </Link>
-                      )}
-                    </OverlayTrigger>{" "}
+                    </OverlayTrigger>  )}{" "}
                     <OverlayTrigger
                       placement="top"
                       overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
