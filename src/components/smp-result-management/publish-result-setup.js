@@ -252,6 +252,7 @@ const PublishResult = () => {
                         indexRow={indexRow}
                         isPreviewMode={isPreviewMode}
                         idsForPreview={idsForPreview}
+                        selectedSession={selectedSession}
                       />
                     ) : (
                       <Preview

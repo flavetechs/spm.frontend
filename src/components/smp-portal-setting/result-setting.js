@@ -25,6 +25,7 @@ const ResultSetting = () => {
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
     const [disable, setDisable] = useState(true);
+    const [isChecked, setIsChecked] = useState(resultSettingList.promoteAll)
     //VARIABLE DECLARATIONS
 
     React.useEffect(() => {
@@ -34,7 +35,8 @@ const ResultSetting = () => {
     }, []);
 
     React.useEffect(() => {
-        setImages(resultSettingList?.filepath)
+        setImages(resultSettingList?.filepath);
+        setIsChecked(resultSettingList?.promoteAll)
     }, [resultSettingList]);
 
 
@@ -49,9 +51,8 @@ const ResultSetting = () => {
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    resultSettingId: resultSettingList.resultSettingId,
-                    promoteByPassmark: resultSettingList.promoteByPassmark,
-                    promoteAll: resultSettingList.promoteAll,
+                    resultSettingId: resultSettingList?.resultSettingId,
+                    promoteAll: resultSettingList?.promoteAll,
                     showPositionOnResult: resultSettingList?.showPositionOnResult,
                     cumulativeResult: resultSettingList?.cumulativeResult,
                     showNewsletter: resultSettingList?.showNewsletter,
@@ -61,10 +62,15 @@ const ResultSetting = () => {
                 }}
 
                 onSubmit={(values) => {
+                    values.resultSettingId = values.resultSettingId;
+                    values.promoteAll = isChecked;
+                    values.showPositionOnResult = values.showPositionOnResult;
+                    values.cumulativeResult = values.cumulativeResult;
+                    values.showNewsletter = values.showNewsletter;
+                    values.batchPrinting = values.batchPrinting;
                     values.filepath = images;
                     const params = new FormData();
                     params.append("resultSettingId", values.resultSettingId);
-                    params.append("promoteByPassmark", values.promoteByPassmark);
                     params.append("promoteAll", values.promoteAll);
                     params.append("showPositionOnResult", values.showPositionOnResult);
                     params.append("cumulativeResult", values.cumulativeResult);
@@ -106,33 +112,35 @@ const ResultSetting = () => {
                                                 <div className="form-check mb-3 form-Check col-md-6">
                                                     <Field
                                                         disabled={disable}
-                                                        type="checkbox"
-                                                        id="promoteByPassmark"
+                                                        type="radio"
+                                                        id="promoteAll"
                                                         className="form-check-input"
-                                                        name="promoteByPassmark"
-                                                        defaultChecked={resultSettingList?.promoteByPassmark || false}
+                                                        name="PromoteAll"
+                                                        value={true}
+                                                        checked={isChecked}
                                                         onChange={(e) => {
-                                                            setFieldValue("promoteByPassmark",e.target.checked);
-                                                        }}
+                                                            setIsChecked(!isChecked);
+                                                          }}
                                                     />
-                                                    <label htmlFor="promoteByPassmark" className="check-label">
-                                                        Promote by pass mark{" "}
+                                                    <label htmlFor="promoteAll" className="check-label">
+                                                        Promote All{" "}
                                                     </label>
                                                 </div>
                                                 <div className="form-check mb-3 form-Check col-md-6">
                                                     <Field
                                                         disabled={disable}
-                                                        type="checkbox"
-                                                        id="promoteAll"
+                                                        type="radio"
+                                                        id="PromoteAll"
                                                         className="form-check-input"
-                                                        name="promoteAll"
-                                                        defaultChecked={resultSettingList?.promoteAll|| false}
+                                                        name="PromoteAll"
+                                                        checked={isChecked == false ? true : false}
+                                                        value={false}
                                                         onChange={(e) => {
-                                                            setFieldValue("promoteAll",e.target.checked);
-                                                        }}
+                                                            setIsChecked(!isChecked);
+                                                          }}
                                                     />
                                                     <label htmlFor="promoteAll" className="check-label">
-                                                        Promote all{" "}
+                                                        Promote By Pass mark{" "}
                                                     </label>
                                                 </div>
                                                 <div className="form-check mb-3 form-Check col-md-6">
@@ -285,9 +293,9 @@ const ResultSetting = () => {
                                                                 className=" img-fluid mt-4"
                                                                 id="displayImg"
                                                                 src={images}
-                                                                alt="profile"
-                                                                height='200px'
-                                                                width='200px'
+                                                                alt="Principal Stamp"
+                                                                height='180px'
+                                                                width='180px'
                                                             />
                                                         ) : null}
                                                     </div>
@@ -324,7 +332,6 @@ const ResultSetting = () => {
                             </div>
                         </Card.Body>{" "}
                     </Row>
-
                 )}
             </Formik>
         </>

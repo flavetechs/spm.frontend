@@ -3,7 +3,7 @@ import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstra
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
+import { sessionLocations, studentsLocations } from "../../router/spm-path-locations";
 import { fetchFailedStudentList } from "../../store/actions/promotion-actions";
 
 
@@ -124,11 +124,14 @@ const PromotionFailedList = () => {
                 <div className="d-flex justify-content-end mx-30">
                   <Button
                     type="button"
-                    variant="btn btn-danger mx-2"
-                    onClick={() => history.goBack()}
+                    className="btn-sm mt-4 me-4"
+                    variant="btn btn-danger"
+                    onClick={() => {
+                      history.push(sessionLocations.promotionSetup)
+                    }}
                   >
                     Cancel
-                  </Button>{" "}
+                  </Button>{ " " }
                 </div>
               </Card.Body>
             </Card>
