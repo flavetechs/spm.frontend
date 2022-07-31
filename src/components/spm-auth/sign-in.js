@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
 import { useEffect } from 'react';
 import SmpLoader from '../loader/smp-loader';
+import Logo from '../partials/components/logo';
 
 const SignIn = () => {
     let history = useHistory();
@@ -47,12 +48,7 @@ const SignIn = () => {
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
                                         <Link to={dashboardLocations.dashboard} className="navbar-brand d-flex align-items-center mb-3">
-                                            <svg width="30" className="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
-                                                <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
-                                                <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
-                                                <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-                                            </svg>
+                                           <Logo color={true}/>
                                             <h4 className="logo-title ms-3">FLAVTECH</h4>
                                         </Link>
                                         <h2 className="mb-2 text-center">Sign In</h2>
