@@ -52,7 +52,7 @@ const PublishResultTable = ({
             <Button
               type="button"
               className="btn-sm"
-              variant="btn btn-primary"
+              variant="btn btn-danger"
               onClick={() => {
                 updatePublishedResult(
                   idsObj?.sessionClassId,

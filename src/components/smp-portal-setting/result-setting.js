@@ -307,19 +307,19 @@ const ResultSetting = () => {
                                                 {saveButton ? (
                                                     <Button
                                                         type="button"
-                                                        variant="btn btn-danger mx-2"
+                                                        variant="btn btn-primary mx-2"
                                                         onClick={() => {
                                                             setSaveButton(!saveButton)
                                                             setEditButton(!editButton)
                                                             setDisable(!disable);
                                                         }}
                                                     >
-                                                        Edit Setting
+                                                        Click to Edit
                                                     </Button>
                                                 ) : (
                                                     <Button
                                                         type="button"
-                                                        variant="btn btn-primary mx-2"
+                                                        variant="btn btn-danger mx-2"
                                                         onClick={handleSubmit}
                                                     >
                                                         Save Changes
