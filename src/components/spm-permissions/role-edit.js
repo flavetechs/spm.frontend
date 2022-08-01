@@ -71,7 +71,7 @@ const RoleEdit = () => {
     if (roleName.length === 0) return;
     updateRoleNameState(roleName, selectedRole)(dispatch);
   };
- 
+
   return (
     <>
       <div>
@@ -137,12 +137,14 @@ const RoleEdit = () => {
                         </th>
                         <th className="text-center">
                           Select{" "}
-                          {parentActivity?.map((activity,idx)=>
-                          parentValue == activity.parentActivityId &&
-                          <input
-                            type="checkbox"
-                            onChange={(e) => handleSelectAll(e)}
-                          />
+                          {parentActivity?.map(
+                            (activity, idx) =>
+                              parentValue == activity.parentActivityId && (
+                                <input
+                                  type="checkbox"
+                                  onChange={(e) => handleSelectAll(e)}
+                                />
+                              )
                           )}
                         </th>
                       </tr>
@@ -157,9 +159,12 @@ const RoleEdit = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  checked={selectedRole?.activities.find(
-                                    (id) => id === item.activityId.toLowerCase()
-                                  ) || false}
+                                  checked={
+                                    selectedRole?.activities.find(
+                                      (id) =>
+                                        id === item.activityId.toLowerCase()
+                                    ) || false
+                                  }
                                   id={item.activityId.toLowerCase()}
                                   onChange={(e) => {
                                     handleSelect(e);

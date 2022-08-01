@@ -12,4 +12,5 @@ export const _state = {
     selectedIds: [],
     parentActivity:null,
     nonAddedUsers:null,
+    addedUsers:null,
 }

@@ -58,6 +58,7 @@ import AnnouncementDetails from '../components/smp-notifications/announcement-de
 import AttendanceBoard from '../components/spm-class/attendance-board';
 import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
 import AddUser from '../components/spm-permissions/role-add-user';
+import RemoveUser from '../components/spm-permissions/role-remove-user';
 
 const DashboardRouter = () => {
 
@@ -74,6 +75,7 @@ const DashboardRouter = () => {
                     <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
                     <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
                     <Route path={permissionLocations.addUser} exact component={AddUser} />
+                    <Route path={permissionLocations.removeUser} exact component={RemoveUser} />
 
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />

@@ -23,7 +23,7 @@ export function ClassLink(props){
                     </props.CustomToggle>
 
                     {
-                    hasAccess(NavPermissions.classClass) &&
+                    hasAccess(NavPermissions.sessionClass) &&
                     <Accordion.Collapse eventKey="sidebar-special" >
                         <ul className="sub-nav">
                             <li className="nav-item">

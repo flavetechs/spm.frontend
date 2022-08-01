@@ -199,7 +199,7 @@ const CumulativeMasterList = () => {
                               id="sessionClassId"
                             >
                               <option value="">Select Class</option>
-                              {classList.map((item, idx) => (
+                              {classList?.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}

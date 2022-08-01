@@ -1,129 +1,170 @@
-import React, { useState, useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Accordion, useAccordionButton, AccordionContext } from 'react-bootstrap'
-import { DashboardLink } from './Navigations/dashboard-links';
-import { PermissionLink } from './Navigations/permission-links';
-import { hasAccess, NavPermissions } from '../../../../utils/permissions';
-import { SessionLink } from './Navigations/session-links';
-import { ClassLink } from './Navigations/class-links';
-import { StaffLink } from './Navigations/staff-links';
-import { StudentLink } from './Navigations/student-links';
-import { ResultLink } from './Navigations/result-links';
-import { PinLink } from './Navigations/pin-links';
-import { PortalSettingsLink } from './Navigations/portal-setting-links';
-
+import React, { useState, useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Accordion,
+  useAccordionButton,
+  AccordionContext,
+} from "react-bootstrap";
+import { DashboardLink } from "./Navigations/dashboard-links";
+import { PermissionLink } from "./Navigations/permission-links";
+import {
+  hasAccess,
+  hasAccess2,
+  NavPermissions,
+} from "../../../../utils/permissions";
+import { SessionLink } from "./Navigations/session-links";
+import { ClassLink } from "./Navigations/class-links";
+import { StaffLink } from "./Navigations/staff-links";
+import { StudentLink } from "./Navigations/student-links";
+import { ResultLink } from "./Navigations/result-links";
+import { PinLink } from "./Navigations/pin-links";
+import { PortalSettingsLink } from "./Navigations/portal-setting-links";
 
 function CustomToggle({ children, eventKey, onClick }) {
+  const { activeEventKey } = useContext(AccordionContext);
 
-    const { activeEventKey } = useContext(AccordionContext);
+  const decoratedOnClick = useAccordionButton(eventKey, (active) =>
+    onClick({ state: !active, eventKey: eventKey })
+  );
 
-    const decoratedOnClick = useAccordionButton(eventKey, (active) => onClick({ state: !active, eventKey: eventKey }));
+  const isCurrentEventKey = activeEventKey === eventKey;
 
-    const isCurrentEventKey = activeEventKey === eventKey;
-
-    return (
-        <Link to="#" aria-expanded={isCurrentEventKey ? 'true' : 'false'} className="nav-link" role="button" onClick={(e) => {
-            decoratedOnClick(isCurrentEventKey)
-        }}>
-            {children}
-        </Link>
-    );
+  return (
+    <Link
+      to="#"
+      aria-expanded={isCurrentEventKey ? "true" : "false"}
+      className="nav-link"
+      role="button"
+      onClick={(e) => {
+        decoratedOnClick(isCurrentEventKey);
+      }}
+    >
+      {children}
+    </Link>
+  );
 }
 const minisidebar = () => {
-
-    if (window.innerWidth < 800) {
-        if (!document.getElementsByTagName('ASIDE')[0]?.classList.contains('sidebar-mini')) {
-            document.getElementsByTagName('ASIDE')[0]?.classList?.add('sidebar-mini');
-        }
+  if (window.innerWidth < 800) {
+    if (
+      !document
+        .getElementsByTagName("ASIDE")[0]
+        ?.classList.contains("sidebar-mini")
+    ) {
+      document.getElementsByTagName("ASIDE")[0]?.classList?.add("sidebar-mini");
     }
-}
+  }
+};
 
 const VerticalNav = () => {
-    const [activeMenue, setActiveMenu] = useState(false)
-    //location
-    // console.log(activeMenu);
-    let location = useLocation();
+  const [activeMenue, setActiveMenu] = useState(false);
+  //location
+  // console.log(activeMenu);
+  let location = useLocation();
 
+  return (
+    <>
+      <Accordion as="ul" className="navbar-nav iq-main-menu">
+        <li className="nav-item static-item">
+          <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
+            <span className="default-icon">Home</span>
+            <span className="mini-icon">-</span>
+          </Link>
+        </li>
 
-    return (
-        <>
-            <Accordion as="ul" className="navbar-nav iq-main-menu">
-                <li className="nav-item static-item">
-                    <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
-                        <span className="default-icon">Home</span>
-                        <span className="mini-icon">-</span>
-                    </Link>
-                </li>
+        <DashboardLink minisidebar={minisidebar} />
 
-                <DashboardLink
-                    minisidebar={minisidebar} />
+        {hasAccess(NavPermissions.roleList) && (
+          <PermissionLink
+            minisidebar={minisidebar}
+            CustomToggle={CustomToggle}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
 
-                <PermissionLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu} />
+        {hasAccess(NavPermissions.sessionSetup) && (
+          <SessionLink
+            minisidebar={minisidebar}
+            CustomToggle={CustomToggle}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
 
-                <SessionLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
+        {hasAccess(NavPermissions.sessionClass) && (
+          <ClassLink
+            minisidebar={minisidebar}
+            CustomToggle={CustomToggle}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
 
+        {hasAccess(NavPermissions.staffList) && (
+          <>
+            <li>
+              <hr className="hr-horizontal" />
+            </li>
+            <StaffLink
+              minisidebar={minisidebar}
+              CustomToggle={CustomToggle}
+              setActiveMenu={setActiveMenu}
+            />
+          </>
+        )}
 
+        {hasAccess(NavPermissions.studentList) && (
+          <StudentLink
+            minisidebar={minisidebar}
+            CustomToggle={CustomToggle}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
 
-                <ClassLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
+        {hasAccess2([NavPermissions.scoreEntry]) && (
+          <>
+            <li>
+              <hr className="hr-horizontal" />
+            </li>
+            <ResultLink
+              minisidebar={minisidebar}
+              CustomToggle={CustomToggle}
+              setActiveMenu={setActiveMenu}
+            />
+          </>
+        )}
 
-                <li><hr className="hr-horizontal" /></li>
+        {hasAccess(NavPermissions.unusedPins) && (
+          <PinLink
+            minisidebar={minisidebar}
+            CustomToggle={CustomToggle}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
 
-                <StaffLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
+        {hasAccess(NavPermissions.portalSetting) && (
+          <>
+            <li className="nav-item static-item">
+              <Link
+                className="nav-link static-item disabled"
+                to="#"
+                tabIndex="-1"
+              >
+                <span className="default-icon">settings</span>
+                <span className="mini-icon">-</span>
+              </Link>
+            </li>
+            <li>
+              <hr className="hr-horizontal" />
+            </li>
+            <PortalSettingsLink
+              minisidebar={minisidebar}
+              CustomToggle={CustomToggle}
+              setActiveMenu={setActiveMenu}
+            />
+          </>
+        )}
 
-                <StudentLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
+        {/* NB: DO NOT TAKE OFF */}
 
-                <li><hr className="hr-horizontal" /></li>
-
-                <ResultLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
-
-                <PinLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
-
-                <li className="nav-item static-item">
-                    <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
-                        <span className="default-icon">settings</span>
-                        <span className="mini-icon">-</span>
-                    </Link>
-                </li>
-                <li><hr className="hr-horizontal" /></li>
-
-                <PortalSettingsLink
-                    minisidebar={minisidebar}
-                    CustomToggle={CustomToggle}
-                    setActiveMenu={setActiveMenu}
-                />
-
-
-
-                {/* NB: DO NOT TAKE OFF */}
-
-                {/* <li className="nav-item static-item">
+        {/* <li className="nav-item static-item">
                     <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
                         <span className="default-icon">Pages</span>
                         <span className="mini-icon">-</span>
@@ -717,9 +758,9 @@ const VerticalNav = () => {
                         </ul>
                     </Accordion.Collapse>
                 </Accordion.Item> */}
-            </Accordion>
-        </>
-    )
-}
+      </Accordion>
+    </>
+  );
+};
 
-export default VerticalNav
+export default VerticalNav;

@@ -294,7 +294,7 @@ const StudentEdit = () => {
                             className="form-select text-dark"
                             id="sessionClassId"
                           >
-                            {itemList.map((item, idx) => (
+                            {itemList?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.sessionClassId}

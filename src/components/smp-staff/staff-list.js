@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
-import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-import Card from '../Card'
+import React, { useState } from "react";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import Card from "../Card";
 import {
   deleteStaffAccount,
   fetchSingleItem,
   getAllStaffAccount,
   pushId,
   removeId,
-  returnList
-} from '../../store/actions/staff-actions';
+  returnList,
+} from "../../store/actions/staff-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { staffLocations } from "../../router/spm-path-locations";
-import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from '../../store/actions/toaster-actions';
-import { hasAccess, NavPermissions } from '../../utils/permissions';
-
-
+import {
+  respondToDeleteDialog,
+  showErrorToast,
+  showSingleDeleteDialog,
+} from "../../store/actions/toaster-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const StaffList = () => {
   //VARIABLE DECLARATIONS
@@ -23,7 +25,6 @@ const StaffList = () => {
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
-
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -37,32 +38,32 @@ const StaffList = () => {
 
   //DELETE HANDLER
   React.useEffect(() => {
-    if (deleteDialogResponse === 'continue') {
+    if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
-        showErrorToast('No Item selected to be deleted')(dispatch);
+        showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
         deleteStaffAccount(selectedIds)(dispatch);
-        setDeleteButton(!showDeleteButton)
+        setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
-        respondToDeleteDialog('')(dispatch);
+        respondToDeleteDialog("")(dispatch);
       }
     } else {
-      setDeleteButton(true)
-      setShowCheckBoxes(false)
-      selectedIds.forEach(id => {
-        dispatch(removeId(id))
+      setDeleteButton(true);
+      setShowCheckBoxes(false);
+      selectedIds.forEach((id) => {
+        dispatch(removeId(id));
       });
     }
     return () => {
-      respondToDeleteDialog('')(dispatch);
-    }
+      respondToDeleteDialog("")(dispatch);
+    };
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
   const checkSingleItem = (isChecked, teacherUserAccountId, stafflists) => {
-    stafflists.forEach(item => {
+    stafflists.forEach((item) => {
       if (item.teacherUserAccountId === teacherUserAccountId) {
-        item.isChecked = isChecked
+        item.isChecked = isChecked;
       }
     });
     if (isChecked) {
@@ -70,19 +71,18 @@ const StaffList = () => {
     } else {
       dispatch(removeId(teacherUserAccountId));
     }
-  }
+  };
   const checkAllItems = (isChecked, stafflists) => {
-    stafflists.forEach(item => {
-      item.isChecked = isChecked
+    stafflists.forEach((item) => {
+      item.isChecked = isChecked;
       if (item.isChecked) {
-        dispatch(pushId(item.teacherUserAccountId))
+        dispatch(pushId(item.teacherUserAccountId));
       } else {
-        dispatch(removeId(item.teacherUserAccountId))
+        dispatch(removeId(item.teacherUserAccountId));
       }
     });
-    returnList(stafflists)(dispatch)
-  }
-
+    returnList(stafflists)(dispatch);
+  };
 
   return (
     <>
@@ -92,126 +92,127 @@ const StaffList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title"><b>Staff List</b></h4>
+                  <h4 className="card-title">
+                    <b>Staff List</b>
+                  </h4>
                 </div>
               </Card.Header>
               {hasAccess(NavPermissions.deleteStaff) && (
-              <div className="d-flex justify-content-end">
-                {showDeleteButton ? (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      setDeleteButton(!showDeleteButton)
-                      setShowCheckBoxes(!showCheckBoxes)
-                    }
-                    }
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
+                <div className="d-flex justify-content-end">
+                  {showDeleteButton ? (
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                      onClick={() => {
+                        setDeleteButton(!showDeleteButton);
+                        setShowCheckBoxes(!showCheckBoxes);
+                      }}
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          width="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          stroke="currentColor"
+                        >
+                          <path
+                            d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M20.708 6.23975H3.75"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span> Delete</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                      onClick={() => {
+                        showSingleDeleteDialog(true)(dispatch);
+                      }}
+                    >
+                      <i className="btn-inner">
+                        <svg
+                          width="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          stroke="currentColor"
+                        >
+                          <path
+                            d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M20.708 6.23975H3.75"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                          <path
+                            d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                        </svg>
+                      </i>
+                      <span> Delete Selected</span>
+                    </button>
+                  )}
+                  {hasAccess(NavPermissions.createStaff) && (
+                    <Link
+                      to={staffLocations.staffAdd}
+                      className="d-flex justify-content-end"
+                    >
+                      <button
+                        type="button"
+                        className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                       >
-                        <path
-                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M20.708 6.23975H3.75"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Delete</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    onClick={() => {
-                      showSingleDeleteDialog(true)(dispatch)
-                    }}
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        width="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M20.708 6.23975H3.75"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                        <path
-                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span> Delete Selected</span>
-                  </button>
-                )}
-                 {hasAccess(NavPermissions.createStaff) && (
-                <Link
-                  to={staffLocations.staffAdd}
-                  className="d-flex justify-content-end"
-                >
-                  <button
-                    type="button"
-                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                  >
-                    <i className="btn-inner">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
-                      </svg>
-                    </i>
-                    <span>New Staff List</span>
-                  </button>
-                </Link>
-                 )}
-              </div>
+                        <i className="btn-inner">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            ></path>
+                          </svg>
+                        </i>
+                        <span>New Staff List</span>
+                      </button>
+                    </Link>
+                  )}
+                </div>
               )}
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -224,21 +225,36 @@ const StaffList = () => {
                     <thead>
                       <tr className="ligth">
                         <th>
-                          {showCheckBoxes ? <input
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkAllItems(e.target.checked, staffList);
-                            }}
-                          /> : "S/No"}
-
+                          {showCheckBoxes ? (
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                checkAllItems(e.target.checked, staffList);
+                              }}
+                            />
+                          ) : (
+                            "S/No"
+                          )}
                         </th>
-                        <th><b>First Name</b></th>
-                        <th><b>Last Name</b></th>
-                        <th><b>MIddle Name</b></th>
-                        <th><b>Email</b></th>
-                        <th><b>Phone Number</b></th>
-                        <th min-width="100px"><b>Action</b></th>
+                        <th>
+                          <b>First Name</b>
+                        </th>
+                        <th>
+                          <b>Last Name</b>
+                        </th>
+                        <th>
+                          <b>MIddle Name</b>
+                        </th>
+                        <th>
+                          <b>Email</b>
+                        </th>
+                        <th>
+                          <b>Phone Number</b>
+                        </th>
+                        <th min-width="100px">
+                          <b>Action</b>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -249,24 +265,43 @@ const StaffList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-
                                 checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(e.target.checked, item.teacherUserAccountId, staffList);
+                                  checkSingleItem(
+                                    e.target.checked,
+                                    item.teacherUserAccountId,
+                                    staffList
+                                  );
                                 }}
                               />
                             ) : (
                               idx + 1
                             )}
                           </td>
-                          <td className="text-uppercase"><b>{item.firstName}</b></td>
-                          <td className="text-uppercase"><b>{item.lastName}</b></td>
-                          <td className="text-uppercase"><b>{item.middleName}</b></td>
-                          <td><b>{item.email}</b></td>
-                          <td><b>{item.phone}</b></td>
+                          <td className="text-uppercase">
+                            <b>{item.firstName}</b>
+                          </td>
+                          <td className="text-uppercase">
+                            <b>{item.lastName}</b>
+                          </td>
+                          <td className="text-uppercase">
+                            <b>{item.middleName}</b>
+                          </td>
+                          <td>
+                            <b>{item.email}</b>
+                          </td>
+                          <td>
+                            <b>{item.phone}</b>
+                          </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
-                              <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Staff Details</Tooltip>}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    Staff Details
+                                  </Tooltip>
+                                }
                               >
                                 <Link
                                   className="btn btn-sm btn-icon btn-success"
@@ -310,57 +345,64 @@ const StaffList = () => {
                                   </span>
                                 </Link>
                               </OverlayTrigger>{" "}
-                              <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip-2">Delete Staff</Tooltip>}
-                              >
-                                 {hasAccess(NavPermissions.deleteStaff) && (
-                                <Link
-                                  className="btn btn-sm btn-icon btn-danger"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title=""
-                                  data-original-title="Delete"
-                                  to="#"
-                                  data-id={item.teacherUserAccountId}
-                                  onClick={() => {
-                                    dispatch(pushId(item.teacherUserAccountId))
-                                    showSingleDeleteDialog(true)(dispatch)
-                                  }
+                              {hasAccess(NavPermissions.deleteStaff) && (
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      Delete Staff
+                                    </Tooltip>
                                   }
                                 >
-                                  <span className="btn-inner">
-                                    <svg
-                                      width="20"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                  <Link
+                                    className="btn btn-sm btn-icon btn-danger"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title=""
+                                    data-original-title="Delete"
+                                    to="#"
+                                    data-id={item.teacherUserAccountId}
+                                    onClick={() => {
+                                      dispatch(
+                                        pushId(item.teacherUserAccountId)
+                                      );
+                                      showSingleDeleteDialog(true)(dispatch);
+                                    }}
+                                  >
+                                    <span className="btn-inner">
+                                      <svg
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
                                         stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        d="M20.708 6.23975H3.75"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                    </svg>
-                                  </span>
-                                </Link>
-                                 )}
-                              </OverlayTrigger>
+                                      >
+                                        <path
+                                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M20.708 6.23975H3.75"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  </Link>
+                                </OverlayTrigger>
+                              )}
                             </div>
                           </td>
                         </tr>
