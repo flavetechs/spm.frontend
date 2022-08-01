@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Form, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
-import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
 import { getNotificationSettingList, updateNotificationSetting } from "../../store/actions/portal-setting-action";
-// import "./student-add.scss"
 
 const NotificationSetting = () => {
     //VARIABLE DECLARATIONS
@@ -36,13 +33,13 @@ const NotificationSetting = () => {
                 initialValues={{
                     notificationSettingId: notificationSettingList?.notificationSettingId,
                     notifyByEmail: notificationSettingList?.notifyByEmail,
-                    // notifyBySms: notificationSettingList?.notifyBySms,
+                    notifyBySms: notificationSettingList?.notifyBySms,
                 }}
 
                 onSubmit={(values) => {
                     values.notificationSettingId = values.notificationSettingId;
                     values.notifyByEmail = values.notifyByEmail;
-                    // values.notifyBySms = values.notifyBySms;
+                    values.notifyBySms = values.notifyBySms;
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
@@ -96,7 +93,7 @@ const NotificationSetting = () => {
                                                         id="notifyBySms"
                                                         className="form-check-input"
                                                         name="notifyBySms"
-                                                        // defaultChecked={notificationSettingList?.notifyByEmail || false}
+                                                        defaultChecked={notificationSettingList?.notifyBySms || false}
                                                         onChange={(e) => {
                                                             setFieldValue("notifyBySms", e.target.checked);
                                                         }}
@@ -112,19 +109,19 @@ const NotificationSetting = () => {
                                                 {saveButton ? (
                                                     <Button
                                                         type="button"
-                                                        variant="btn btn-danger mx-2"
+                                                        variant="btn btn-primary mx-2"
                                                         onClick={() => {
                                                             setSaveButton(!saveButton)
                                                             setEditButton(!editButton)
                                                             setDisable(!disable);
                                                         }}
                                                     >
-                                                        Edit Setting
+                                                        Click to Edit
                                                     </Button>
                                                 ) : (
                                                     <Button
                                                         type="button"
-                                                        variant="btn btn-primary mx-2"
+                                                        variant="btn btn-danger mx-2"
                                                         onClick={handleSubmit}
                                                     >
                                                         Save Changes
