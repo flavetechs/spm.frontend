@@ -1,3 +1,5 @@
+import { jsPDF } from "jspdf";
+import  'jspdf-autotable';
 export function ExportCSV(tableId, fileName = '') {
 
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -28,14 +30,9 @@ export function ExportCSV(tableId, fileName = '') {
 
 }
 
-export function ExportCSVPin(tableId) {
-    var dataType = 'application/vnd.ms.excel';
-    var tableSelect = document.getElementById(tableId);
-    var tableHtml = tableSelect.outerHTML.replace(/ /g, '%20');
+export function PrintCSV(tableId, fileName) {
+    var pdf = new jsPDF();
+    pdf.autoTable(tableId)
+    pdf.save(fileName + ".pdf");
 
-        var file = new File(['\ufeff', tableHtml], tableId + ".xls", {
-            type: dataType
-        });
-        const params = new FormData();
-        params.append("fileTable", file);
 }

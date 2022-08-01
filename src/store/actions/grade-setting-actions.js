@@ -71,3 +71,29 @@ export const updateGradeSetting = (values) => (dispatch) => {
         showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
       });
   };
+
+  export const deleteGradeSetting = (value) => (dispatch) => {
+    dispatch({
+      type: actions.UPDATE_GRADE_LOADING,
+    });
+    const payload = {
+      item: value
+    }
+    axiosInstance
+      .post("/grade/api/v1/delete", payload)
+      .then((res) => {
+        dispatch({
+          type: actions.UPDATE_GRADE_SUCCESS,
+          payload: res.data.message.friendlyMessage,
+        });
+        showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        getPreviousGrades()(dispatch);
+      })
+      .catch((err) => {
+        dispatch({
+          type: actions.UPDATE_GRADE_FAILED,
+          payload: err.response.data.message.friendlyMessage,
+        });
+        showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+      });
+  };

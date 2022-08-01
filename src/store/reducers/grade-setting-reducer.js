@@ -67,6 +67,28 @@ export const gradeReducer = (state = _state, { type, payload }) => {
         message: payload,
       };
 
+      case actions.DELETE_GRADE_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+          message: "",
+        };
+      case actions.DELETE_GRADE_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload,
+        };
+      case actions.DELETE_GRADE_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          loading: false,
+          message: payload,
+        };
+
     default:
       return state;
   }
