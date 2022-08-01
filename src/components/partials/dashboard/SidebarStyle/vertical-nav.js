@@ -7,7 +7,11 @@ import {
 } from "react-bootstrap";
 import { DashboardLink } from "./Navigations/dashboard-links";
 import { PermissionLink } from "./Navigations/permission-links";
-import { hasAccess, NavPermissions } from "../../../../utils/permissions";
+import {
+  hasAccess,
+  hasAccess2,
+  NavPermissions,
+} from "../../../../utils/permissions";
 import { SessionLink } from "./Navigations/session-links";
 import { ClassLink } from "./Navigations/class-links";
 import { StaffLink } from "./Navigations/staff-links";
@@ -85,7 +89,7 @@ const VerticalNav = () => {
           />
         )}
 
-        {hasAccess(NavPermissions.classClass) && (
+        {hasAccess(NavPermissions.sessionClass) && (
           <ClassLink
             minisidebar={minisidebar}
             CustomToggle={CustomToggle}
@@ -93,16 +97,17 @@ const VerticalNav = () => {
           />
         )}
 
-        <li>
-          <hr className="hr-horizontal" />
-        </li>
-
         {hasAccess(NavPermissions.staffList) && (
-          <StaffLink
-            minisidebar={minisidebar}
-            CustomToggle={CustomToggle}
-            setActiveMenu={setActiveMenu}
-          />
+          <>
+            <li>
+              <hr className="hr-horizontal" />
+            </li>
+            <StaffLink
+              minisidebar={minisidebar}
+              CustomToggle={CustomToggle}
+              setActiveMenu={setActiveMenu}
+            />
+          </>
         )}
 
         {hasAccess(NavPermissions.studentList) && (
@@ -113,16 +118,17 @@ const VerticalNav = () => {
           />
         )}
 
-        <li>
-          <hr className="hr-horizontal" />
-        </li>
-
-        {hasAccess(NavPermissions.scoreEntry) && (
-          <ResultLink
-            minisidebar={minisidebar}
-            CustomToggle={CustomToggle}
-            setActiveMenu={setActiveMenu}
-          />
+        {hasAccess2([NavPermissions.scoreEntry]) && (
+          <>
+            <li>
+              <hr className="hr-horizontal" />
+            </li>
+            <ResultLink
+              minisidebar={minisidebar}
+              CustomToggle={CustomToggle}
+              setActiveMenu={setActiveMenu}
+            />
+          </>
         )}
 
         {hasAccess(NavPermissions.unusedPins) && (
@@ -133,22 +139,27 @@ const VerticalNav = () => {
           />
         )}
 
-        <li className="nav-item static-item">
-          <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
-            <span className="default-icon">settings</span>
-            <span className="mini-icon">-</span>
-          </Link>
-        </li>
-        <li>
-          <hr className="hr-horizontal" />
-        </li>
-
         {hasAccess(NavPermissions.portalSetting) && (
-          <PortalSettingsLink
-            minisidebar={minisidebar}
-            CustomToggle={CustomToggle}
-            setActiveMenu={setActiveMenu}
-          />
+          <>
+            <li className="nav-item static-item">
+              <Link
+                className="nav-link static-item disabled"
+                to="#"
+                tabIndex="-1"
+              >
+                <span className="default-icon">settings</span>
+                <span className="mini-icon">-</span>
+              </Link>
+            </li>
+            <li>
+              <hr className="hr-horizontal" />
+            </li>
+            <PortalSettingsLink
+              minisidebar={minisidebar}
+              CustomToggle={CustomToggle}
+              setActiveMenu={setActiveMenu}
+            />
+          </>
         )}
 
         {/* NB: DO NOT TAKE OFF */}

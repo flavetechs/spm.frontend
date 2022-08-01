@@ -11,6 +11,7 @@ const ResultTemplateOne = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   // ACCESSING STATE FROM REDUX STORE
+
   return (
     <>
       <div className="col-md-12 mx-auto">

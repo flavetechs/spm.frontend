@@ -2,8 +2,8 @@ export const NavPermissions = {
   addSessionSetup: 'add-session-setup',
   addUser: "add-user",
   announcementList: 'announcement-list',
+  changeSessionInUnenrolled:"change-session-in-unenrolled",
   classAttendance: 'class-attendance',
-  classClass: 'class-class',
   classSetup: 'class-setup',
   createAnnouncement:'create-announcement',
   createClassSetup:'create-class-setup',
@@ -42,6 +42,7 @@ export const NavPermissions = {
   publishResult: "publish-result",
   roleList: "role-list",
   scoreEntry: "score-entry",
+  sessionClass: "session-class",
   sessionSessionClass: "session-session-class",
   sessionSetup: "session-setup",
   studentList: "student-list",
@@ -68,6 +69,14 @@ export const hasAccess = (nav) => {
         return permissions.find((d) => d == nav) ? true : false;
     return false;
 };
+
+export const hasAccess2 = (navs = [] ) => {
+  const permissions = localStorage.getItem("permissions")?.split(",");
+  if(permissions)
+        return permissions.find((d) => navs.includes(d)) ? true : false;
+    return false;
+};
+
 
 export const getUserDetails = () => {
     var userDetail = localStorage.getItem('userDetail');

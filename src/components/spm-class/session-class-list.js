@@ -105,7 +105,7 @@ const SessionClassList2 = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {itemList.map((item, idx) => (
+                      {itemList?.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">{idx + 1}</td>
                           {/* <td>{item.session}</td> */}

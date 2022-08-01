@@ -54,7 +54,7 @@ const AddUser = () => {
           <Col sm="8">
             <Card>
               <Card.Header className="d-flex justify-content-between">
-                <h6>Add user(s) to {nonAddedUsers?.roleName}</h6>
+                <h4 className="fw-bold">Add user(s) to {nonAddedUsers?.roleName}</h4>
               </Card.Header>
 
               <Card.Body className="px-0">

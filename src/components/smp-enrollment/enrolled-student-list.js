@@ -182,7 +182,8 @@ const EnrolledStudents = () => {
                   </div>
                 </div>
                 <div className="d-xl-flex justify-content-end px-2">
-                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-4 mt-2 mt-xl-0">
+                {hasAccess(NavPermissions.changeSessionInUnenrolled) && (
+                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-5 mt-2 mt-xl-0">
                     <select
                       name="sessionId"
                       className="form-select"
@@ -204,7 +205,8 @@ const EnrolledStudents = () => {
                       ))}
                     </select>
                   </div>
-                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-4 mt-2 mt-xl-0">
+                )}
+                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-5 mt-2 mt-xl-0">
                     <select
                       name="sessionClassId"
                       className="form-select"
