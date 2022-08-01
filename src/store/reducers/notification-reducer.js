@@ -36,12 +36,14 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
+        announcementSuccessful:true,
         message: "",
       };
     case actions.CREATE_ANNOUNCEMENT_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
+        announcementSuccessful:true,
         loading: false,
         message: payload,
       };
@@ -49,6 +51,7 @@ export const notificationReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: false,
+        announcementSuccessful:false,
         loading: false,
         message: payload,
       };
@@ -101,12 +104,14 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
+        announcementSuccessful:false,
         message: ''
       };
     case actions.UPDATE_ANNOUNCEMENT_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
+        announcementSuccessful:true,
         loading: false,
         message: payload
       };
@@ -115,7 +120,8 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         message: '',
-        isSuccessful: false
+        isSuccessful: false,
+        announcementSuccessful:false,
       };
 
     case actions.DELETE_ANNOUNCEMENT_LOADING:
