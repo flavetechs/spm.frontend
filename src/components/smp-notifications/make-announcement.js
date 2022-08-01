@@ -33,6 +33,7 @@ const MakeAnnouncement = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     createAnnouncement(values)(dispatch);
+                    
                   }}
                 >
                   {({

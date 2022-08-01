@@ -42,6 +42,7 @@ export const createAnnouncement = (values) => (dispatch) => {
                 type: actions.CREATE_ANNOUNCEMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
