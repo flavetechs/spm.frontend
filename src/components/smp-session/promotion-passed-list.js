@@ -6,7 +6,7 @@ import {
   getAllStudents,
 } from "../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { studentsLocations } from "../../router/spm-path-locations";
+import { sessionLocations, studentsLocations } from "../../router/spm-path-locations";
 import { fetchPassedStudentList } from "../../store/actions/promotion-actions";
 
 const PromotionPassedList = () => {
@@ -130,8 +130,11 @@ const PromotionPassedList = () => {
                 <div className="d-flex justify-content-end mx-30">
                   <Button
                     type="button"
-                    variant="btn btn-danger mx-2"
-                    onClick={() => history.goBack()}
+                    className="btn-sm mt-4 me-4"
+                    variant="btn btn-danger"
+                    onClick={() => {
+                      history.push(sessionLocations.promotionSetup)
+                    }}
                   >
                     Cancel
                   </Button>{" "}

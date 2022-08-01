@@ -11,7 +11,6 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getSchoolSettingList, updateSchoolSetting } from "../../store/actions/portal-setting-action";
-// import "./student-add.scss"
 
 const SchoolSetting = () => {
     //VARIABLE DECLARATIONS
@@ -26,7 +25,6 @@ const SchoolSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { schoolSettingList } = state.portal;
-    console.log('schoolSettingList now', schoolSettingList);
     // ACCESSING STATE FROM REDUX STORE
     React.useEffect(() => {
         setSaveButton(true)
@@ -182,7 +180,7 @@ const SchoolSetting = () => {
                                                         className="form-select text-dark"
                                                         id="country"
                                                     >
-                                                        <option value="Select City">Select Country</option>
+                                                        <option value="Select City">{schoolSettingList?.country}</option>
                                                         <option value="Lagos">Benin Republic</option>
                                                         <option value="Ibadan">Cameroun</option>
                                                         <option value="Port-harcourt">Chad</option>
@@ -202,7 +200,7 @@ const SchoolSetting = () => {
                                                         className="form-select text-dark"
                                                         id="state"
                                                     >
-                                                        <option value="Select State">Select State</option>
+                                                        <option value="Select State">{schoolSettingList?.state}</option>
                                                         <option value="Lagos">Lagos</option>
                                                         <option value="Oyo">Oyo</option>
                                                         <option value="Rivers">Rivers</option>
@@ -355,9 +353,9 @@ const SchoolSetting = () => {
                                                                 className=" img-fluid mt-4"
                                                                 id="displayImg"
                                                                 src={images}
-                                                                alt="profile"
-                                                                height='200px'
-                                                                width='200px'
+                                                                alt="School Logo"
+                                                                height='180px'
+                                                                width='180px'
                                                             />
                                                         ) : null}
                                                     </div>
@@ -369,19 +367,19 @@ const SchoolSetting = () => {
                                                 {saveButton ? (
                                                     <Button
                                                         type="button"
-                                                        variant="btn btn-danger mx-2"
+                                                        variant="btn btn-primary mx-2"
                                                         onClick={() => {
                                                             setSaveButton(!saveButton)
                                                             setEditButton(!editButton)
                                                             setDisable(!disable)
                                                         }}
                                                     >
-                                                        Edit Setting
+                                                        Click to Edit
                                                     </Button>
                                                 ) : (
                                                     <Button
                                                         type="button"
-                                                        variant="btn btn-primary mx-2"
+                                                        variant="btn btn-danger mx-2"
                                                         onClick={handleSubmit}
                                                     >
                                                         Save Changes

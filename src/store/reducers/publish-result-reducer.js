@@ -126,6 +126,29 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.UPDATE_PUBLISH_RESULT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPDATE_PUBLISH_RESULT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_PUBLISH_RESULT_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+      };
+
+
 
     case actions.RESET_RESULT_PUBLISH_LIST: {
       return {
