@@ -1,10 +1,11 @@
 import { Field, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
-import { updateAnnouncement } from "../../store/actions/notification-actions";
+import { notificationManagement } from "../../router/spm-path-locations";
+import { resetAnnouncementSuccessfulState, updateAnnouncement } from "../../store/actions/notification-actions";
 
 const AnnouncementEdit = () => {
 
@@ -12,7 +13,7 @@ const AnnouncementEdit = () => {
     const dispatch = useDispatch();
     const locations = useLocation();
     const state = useSelector((state) => state);
-    const { announcementDetails } = state.notification;
+    const { announcementDetails,announcementSuccessful } = state.notification;
 
     //VALIDATION
     const validation = Yup.object().shape({
@@ -21,6 +22,11 @@ const AnnouncementEdit = () => {
         assignedTo: Yup.string().required("Please enter who to send"),
     });
     //VALIDATION
+
+    useEffect(() => {
+        announcementSuccessful && history.push(notificationManagement.announcement);
+      }, [announcementSuccessful]);
+
     return (
         <>
             <div className="col-md-8 mx-auto">

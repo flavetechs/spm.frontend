@@ -105,7 +105,7 @@ const GradeSetting = () => {
           <Col sm="12" lg="10">
             <Card className="p-2">
               <Card.Body id="form">
-                <Formik 
+                <Formik
                   initialValues={{
                     gradeGroupName: gradeToEdit?.gradeGroupName || gGroupName,
                     gradeName: gradeToEdit?.gradeName,
@@ -144,7 +144,13 @@ const GradeSetting = () => {
                     }
                   }}
                 >
-                  {({ handleSubmit, touched, errors, values, setFieldValue }) => (
+                  {({
+                    handleSubmit,
+                    touched,
+                    errors,
+                    values,
+                    setFieldValue,
+                  }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <Row className="border p-3 px-4 d-sm-block">
@@ -377,6 +383,15 @@ const GradeSetting = () => {
                             }}
                           >
                             Edit
+                          </a>{" "}
+                          <a
+                            style={{ cursor: "pointer" }}
+                            className="text-capitalize badge btn-danger mx-2 border-0 btn btn-sm"
+                            onClick={() => {
+                             // handleEditClick(item);
+                            }}
+                          >
+                            Delete
                           </a>
                         </div>
 

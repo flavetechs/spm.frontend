@@ -146,6 +146,12 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
+      case actions.RESET_ANNOUNCEMENT_SUCCESSFUL:
+        return {
+          ...state,
+          announcementSuccessful:false,
+        };
+
     default:
       return state;
   }

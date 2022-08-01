@@ -54,17 +54,17 @@ const Pins = () => {
               </Card.Header>
               <Form>
                 <div className="d-flex d-xs-block justify-content-end">
-                  <div className="">
+                  <div className="col-3">
                     <input
                       type="file"
                       id="file"
                       name="file"
-                      className="form-control px-1"
+                      className="form-control p-1"
                       accept=".xlsx, .xls, .csv"
                       onChange={handleFileSelect}
                     />
                   </div>
-                  <div className="">
+                  <div className="mx-3">
                   {hasAccess(NavPermissions.uploadPins) && (
                     <button
                       type="button"
