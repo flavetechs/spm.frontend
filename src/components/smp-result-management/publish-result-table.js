@@ -169,7 +169,7 @@ const PublishResultTable = ({
                                 list.studentContactId
                               )(dispatch);
                             }}
-                            to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}&termId=${idsObj.termId}&sessionClassId=${idsObj.sessionClassId}`}
+                            to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}`}
                           >
                             <span className="btn-inner">
                               <svg
