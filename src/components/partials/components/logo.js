@@ -6,10 +6,10 @@ const Logo = (props) => {
 			<svg
 				version="1.1" id="Layer_1"
 				xmlns="http://www.w3.org/2000/svg"
-				 x="0px" y="0px"
-				width="100" viewBox="0 0 1945 537"
+				x="0px" y="0px"
+				width="200" viewBox="0 0 1945 537"
 				enable-background="new 0 0 1945 537"
-				>
+			>
 				<path fill="#FFFFFF" opacity="1.000000" stroke="none"
 					d="
 M1255.000000,538.000000 
@@ -5727,6 +5727,8 @@ z"/>
 		</>
 	)
 }
+
+
 
 export default Logo
 {/* <svg width="30" className={`${props.color === true ? 'text-primary' : ''}`} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

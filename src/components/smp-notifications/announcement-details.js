@@ -69,8 +69,9 @@ const AnnouncementDetails = () => {
                   <br />
                 </div>
               </div>
-              <div>
-                <p className="my-4">{announcementDetails?.content}</p>
+              <div
+              dangerouslySetInnerHTML={{ __html: announcementDetails?.content }}
+              >
               </div>
               <hr />
 

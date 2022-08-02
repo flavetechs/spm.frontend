@@ -12,8 +12,8 @@ import { bindActionCreators } from "redux"
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
 import { connect } from "react-redux"
-import { getUserDetails } from '../../../../utils/permissions'
-import Logo from '../../components/logo'
+import { getUserDetails } from '../../../../utils/permissions';
+import Icon from '../../components/Icon'
 
 const mapStateToProps = (state) => {
     return {
@@ -107,7 +107,7 @@ const Sidebar = (props) => {
                             <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg> */}
-                        <Logo color={true} />
+                        <Icon color={true} />
                         <h4 className="logo-title"> {userDetail?.schoolAbbreviation ?? ''} </h4>
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >

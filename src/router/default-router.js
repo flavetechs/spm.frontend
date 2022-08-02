@@ -55,7 +55,7 @@ import AttendancePresence from '../components/spm-class/attendance-presence';
 import Announcement from '../components/smp-notifications/announcement';
 import MakeAnnouncement from '../components/smp-notifications/make-announcement';
 import AnnouncementDetails from '../components/smp-notifications/announcement-details';
-import AttendanceBoard from '../components/spm-class/attendance-board';
+import AttendanceRegisterList from '../components/spm-class/attendance-register-list';
 import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
 import AddUser from '../components/spm-permissions/role-add-user';
 import RemoveUser from '../components/spm-permissions/role-remove-user';
@@ -83,7 +83,7 @@ const DashboardRouter = () => {
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
-                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                     <Route path={classLocations.assignment} exact component={AssignmentList} />
                     <Route path={classLocations.createAssignment} exact component={CreateAssignment} />
