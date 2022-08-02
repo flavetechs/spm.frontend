@@ -1,5 +1,3 @@
-import { jsPDF } from "jspdf";
-import  'jspdf-autotable';
 export function ExportCSV(tableId, fileName = '') {
 
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
