@@ -96,14 +96,14 @@ const AnnouncementEdit = () => {
                                                         <div className="text-danger">{errors.header}</div>
                                                     )}
                                                 </Col>
-                                                <Col md="11" className="form-group text-dark">
+                                                <Col md="11" className="form-group text-dark ">
                                                     <label className="form-label" htmlFor="header">
                                                         <b>Title:</b>
                                                     </label>
                                                     <Field
                                                         type="text"
                                                         name="header"
-                                                        className="form-control"
+                                                        className="form-control border-secondary"
                                                         id="header"
                                                         placeholder="Enter subject..."
                                                     />
@@ -125,7 +125,7 @@ const AnnouncementEdit = () => {
                                                         style={{ height: '300px' }}
                                                     />
                                                 </Col>
-                                                <Col md="11">
+                                                <Col md="11" className="mt-5">
                                                     {touched.assignedTo && errors.assignedTo && (
                                                         <div className="text-danger">
                                                             {errors.assignedTo}
@@ -139,7 +139,7 @@ const AnnouncementEdit = () => {
                                                     <Field
                                                         as="select"
                                                         name="assignedTo"
-                                                        className="form-select"
+                                                        className="form-select border-secondary"
                                                         id="assignedTo"
                                                         onChange={(e) => {
                                                             setFieldValue("assignedTo", e.target.value);
