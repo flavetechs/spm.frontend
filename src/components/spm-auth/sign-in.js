@@ -49,7 +49,7 @@ const SignIn = () => {
                                     <Card.Body>
                                         <Link to={dashboardLocations.dashboard} className="navbar-brand d-flex align-items-center mb-3">
                                            <Logo color={true}/>
-                                            <h4 className="logo-title ms-3">FLAVTECH</h4>
+                                            {/* <h4 className="logo-title ms-3">FLAVTECH</h4> */}
                                         </Link>
                                         <h2 className="mb-2 text-center">Sign In</h2>
                                         <p className="text-center">Login to stay connected.</p>
