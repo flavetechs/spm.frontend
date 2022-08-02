@@ -183,7 +183,7 @@ const EnrolledStudents = () => {
                 </div>
                 <div className="d-xl-flex justify-content-end px-2">
                 {hasAccess(NavPermissions.changeSessionInUnenrolled) && (
-                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-5 mt-2 mt-xl-0">
+                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-6 mt-2 mt-xl-0">
                     <select
                       name="sessionId"
                       className="form-select"
@@ -206,7 +206,7 @@ const EnrolledStudents = () => {
                     </select>
                   </div>
                 )}
-                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-5 mt-2 mt-xl-0">
+                  <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-6 mt-2 mt-xl-0">
                     <select
                       name="sessionClassId"
                       className="form-select"
@@ -228,7 +228,7 @@ const EnrolledStudents = () => {
                       {showUnenrollButton ? (
                         <button
                           type="button"
-                          className="text-center btn-primary btn-icon me-2  mt-3 mt-xl-0  btn btn-primary"
+                          className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
                           onClick={() => {
                             setUnenrollButton(!showUnenrollButton);
                             setShowCheckBoxes(!showCheckBoxes);
