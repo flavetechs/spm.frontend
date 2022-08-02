@@ -36,7 +36,7 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
-        announcementSuccessful:true,
+        announcementSuccessful:false,
         message: "",
       };
     case actions.CREATE_ANNOUNCEMENT_SUCCESS:

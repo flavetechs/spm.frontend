@@ -3,7 +3,6 @@ import { Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { getAllStudentResult, resetStudentResultState } from "../../../store/actions/results-actions";
-import { PrintCSV } from "../../../utils/export-csv";
 import Card from "../../Card";
 
 const ResultTemplateOne = () => {
@@ -51,7 +50,7 @@ const ResultTemplateOne = () => {
                     {studentResult?.isPreview && (
                       <Button
                         variant="btn btn-primary btn-sm mx-2"
-                        onClick={() => {PrintCSV("result-table","result-table")}}
+                        onClick={() => {}}
                       >
                         Print
                       </Button>

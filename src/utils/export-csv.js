@@ -31,8 +31,7 @@ export function ExportCSV(tableId, fileName = '') {
 }
 
 export function PrintCSV(tableId, fileName) {
-    var pdf = new jsPDF();
-    pdf.autoTable(tableId)
-    pdf.save(fileName + ".pdf");
-
+    // var pdf = new jsPDF();
+    // pdf.autoTable({html:`#${tableId}`})
+    // pdf.save(fileName + ".pdf");
 }

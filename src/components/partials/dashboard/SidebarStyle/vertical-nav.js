@@ -81,7 +81,13 @@ const VerticalNav = () => {
           />
         )}
 
-        {hasAccess(NavPermissions.sessionSetup) && (
+        {hasAccess2([
+          NavPermissions.sessionSetup,
+          NavPermissions.classSetup,
+          NavPermissions.subjectSetup,
+          NavPermissions.sessionSessionClass,
+          NavPermissions.promotionList
+        ]) && (
           <SessionLink
             minisidebar={minisidebar}
             CustomToggle={CustomToggle}
@@ -89,7 +95,10 @@ const VerticalNav = () => {
           />
         )}
 
-        {hasAccess(NavPermissions.sessionClass) && (
+        {hasAccess2([
+          NavPermissions.sessionClass,
+          NavPermissions.classAttendance
+        ]) && (
           <ClassLink
             minisidebar={minisidebar}
             CustomToggle={CustomToggle}
@@ -110,7 +119,11 @@ const VerticalNav = () => {
           </>
         )}
 
-        {hasAccess(NavPermissions.studentList) && (
+        {hasAccess2([
+          NavPermissions.studentList,
+          NavPermissions.enrolledStudentsList,
+          NavPermissions.unenrolledStudentsList
+        ]) && (
           <StudentLink
             minisidebar={minisidebar}
             CustomToggle={CustomToggle}
@@ -118,7 +131,13 @@ const VerticalNav = () => {
           />
         )}
 
-        {hasAccess2([NavPermissions.scoreEntry]) && (
+        {hasAccess2([
+          NavPermissions.scoreEntry,
+          NavPermissions.publishResult,
+          NavPermissions.masterList,
+          NavPermissions.printResult,
+          NavPermissions.cummulativeMasterList
+        ]) && (
           <>
             <li>
               <hr className="hr-horizontal" />
@@ -131,7 +150,7 @@ const VerticalNav = () => {
           </>
         )}
 
-        {hasAccess(NavPermissions.unusedPins) && (
+        {hasAccess2([NavPermissions.unusedPins, NavPermissions.usedPins]) && (
           <PinLink
             minisidebar={minisidebar}
             CustomToggle={CustomToggle}
@@ -139,7 +158,11 @@ const VerticalNav = () => {
           />
         )}
 
-        {hasAccess(NavPermissions.portalSetting) && (
+        {hasAccess2([
+          NavPermissions.portalSetting,
+          NavPermissions.templateSetting,
+          NavPermissions.gradeSetting
+        ]) && (
           <>
             <li className="nav-item static-item">
               <Link
