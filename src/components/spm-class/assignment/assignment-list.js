@@ -72,22 +72,22 @@ const AssignmentList = () => {
   }, [sessionClassIdQuery]);
   const assignmentList = [{}]
 
-  const filteredAssignmentList = assignmentList?.filter((register) => {
+  const filteredAssignmentList = assignmentList?.filter((item) => {
     if (searchQuery === "") {
       //if query is empty
-      return register;
+      return item;
     } else if (
-      register.classRegisterLabel
+      item.classRegisterLabel
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
-      return register;
+      return item;
     } else if (
-      register.dateTime.toLowerCase().includes(searchQuery.toLowerCase())
+      item.dateTime.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
-      return register;
+      return item;
     }
   });
 
@@ -124,7 +124,7 @@ const AssignmentList = () => {
                 }}
                 enableReinitialize={true}
                 onSubmit={(values) => {
-                  createRegister(values)(dispatch);
+                history.push(classLocations.createAssignment)
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -250,7 +250,7 @@ const AssignmentList = () => {
                                     ></path>
                                   </svg>
                                 </i>
-                                <span>Add Attendance</span>
+                                <span>Create Assignment</span>
                               </button>
                             </div>
                           </div>
@@ -326,7 +326,7 @@ const AssignmentList = () => {
                                       >
                                         <div
                                           onClick={() => {
-                                
+                                history.push(classLocations.assignmentDetails)
                                             setShowMenuDropdown(false);
                                           }}
                                           // className={
@@ -336,6 +336,7 @@ const AssignmentList = () => {
                                           //     ? "dropdown-item disabled"
                                           //     : "dropdown-item"
                                           // }
+                                          className="dropdown-item"
                                           role="button"
                                           draggable="true"
                                         >
@@ -381,7 +382,7 @@ const AssignmentList = () => {
                                         </div>
                                         <div
                                           onClick={() => {
-                                            setIndexRow(idx);
+                                           history.push(classLocations.editAssignment)
                                             setShowMenuDropdown(false);
                                           }}
                                           className="dropdown-item"
@@ -419,7 +420,7 @@ const AssignmentList = () => {
                                               strokeLinejoin="round"
                                             ></path>
                                           </svg>
-                                          Edit
+                                          edit
                                         </div>
                                         
                                         <div
@@ -465,7 +466,7 @@ const AssignmentList = () => {
                                               strokeLinejoin="round"
                                             ></path>
                                           </svg>
-                                          Delete
+                                          delete
                                         </div>
                                       
                                       </div>
@@ -473,101 +474,29 @@ const AssignmentList = () => {
                                   </div>
                                 </div>
 
-                                {!isEditMode ? (
-                                  <h6 className="mb-3">
-                                    {item.classRegisterLabel}
+                                  <h6 className="mb-3 text-uppercase">
+                                    {/* {item.assignmentLabel} */}
+                                    The placement of things 
                                   </h6>
-                                ) : indexRow == idx ? (
-                                  <div className="input-group mb-3">
-                                    <input
-                                      type="text"
-                                      ref={textInput}
-                                      defaultValue={item.classRegisterLabel}
-                                      className="form-control"
-                                      name="classRegisterLabel"
-                                    />
-                                    <button
-                                      className="btn btn-outline-secondary"
-                                      onClick={() => {
-                                        updateRegisterLabel(
-                                          item.classRegisterId,
-                                          textInput.current.value,
-                                          sessionClassIdQuery
-                                        )(dispatch);
-                                        setEditMode(!isEditMode);
-                                      }}
-                                      type="button"
-                                      id="button-addon2"
-                                    >
-                                      OK
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <h6 className="mb-3">
-                                    {item.classRegisterLabel}
-                                  </h6>
-                                )}
-                                <div className="d-flex align-items-center mb-3">
-                                  <div>
-                                    <div>Present</div>
-                                    <div
-                                      className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
-                                      onClick={() => {
-                                        history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${item.classRegisterId}`
-                                        );
-                                        getAllStudentsPresent(
-                                          item.classRegisterId
-                                        )(dispatch);
-                                      }}
-                                    >
-                                      <div className="btn-inner">
-                                        {item.totalStudentPresent}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="px-3">
-                                    <div>Absent</div>
-                                    <div
-                                      className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
-                                      onClick={() => {
-                                        history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${item.classRegisterId}`
-                                        );
-                                        getAllStudentsAbsent(
-                                          item.classRegisterId
-                                        )(dispatch);
-                                      }}
-                                    >
-                                      <div className="btn-inner">
-                                        {item.totalStudentAbsent}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <div className="text-center">
-                                      All Students
-                                    </div>
-                                    <div
-                                      className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
-                                      style={{ cursor: "default" }}
-                                    >
-                                      <div className="btn-inner">
-                                        {item.totalStudentInClass}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                               
                                 <div className="d-flex">
                                   <div className="" draggable="false">
+                                   Created:
                                     <div className="text-success">
-                                      {item.dateTime.split(" ")[0]}
+                                      {/* {item.dateTime
+                                       .split(" ")[0]
+                                      } */}
+                                      18-07-2022
                                     </div>
                                   </div>
-                                  <div className="px-2" draggable="false">
+                                  <div className="px-3" draggable="false">
+                                     Deadline:
                                     <div className=" text-warning">
-                                      {item.dateTime.split(" ")[1]}
-                                    </div>
+                                      {/* {item.dateTime
+                                       .split(" ")[1]
+                                      } */}
+                                      20-07-2022
+                                    </div> 
                                   </div>
                                 </div>
                               </Card.Body>

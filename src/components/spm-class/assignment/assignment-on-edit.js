@@ -8,7 +8,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 
-const CreateAssignment = () => {
+const EditAssignment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -175,4 +175,4 @@ const CreateAssignment = () => {
   )
 }
 
-export default CreateAssignment
+export default EditAssignment

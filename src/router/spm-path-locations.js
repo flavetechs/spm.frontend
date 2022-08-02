@@ -28,6 +28,7 @@ export const classLocations = {
   assignment:"/dashboard/smp-class/assignment",
   assignmentDetails:"/dashboard/smp-class/assignment-details",
   createAssignment:"/dashboard/smp-class/create-assignment",
+  editAssignment:"/dashboard/smp-class/edit-assignment",
 };
 
 export const sessionLocations = {

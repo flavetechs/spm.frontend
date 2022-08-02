@@ -62,6 +62,7 @@ import RemoveUser from '../components/spm-permissions/role-remove-user';
 import AssignmentDetails from '../components/spm-class/assignment/assignment-details';
 import CreateAssignment from '../components/spm-class/assignment/assignment-on-create';
 import AssignmentList from '../components/spm-class/assignment/assignment-list';
+import EditAssignment from '../components/spm-class/assignment/assignment-on-edit';
 
 const DashboardRouter = () => {
 
@@ -87,6 +88,7 @@ const DashboardRouter = () => {
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                     <Route path={classLocations.assignment} exact component={AssignmentList} />
                     <Route path={classLocations.createAssignment} exact component={CreateAssignment} />
+                    <Route path={classLocations.editAssignment} exact component={EditAssignment} />
                     <Route path={classLocations.assignmentDetails} exact component={AssignmentDetails} />
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
