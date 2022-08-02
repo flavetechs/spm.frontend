@@ -10,7 +10,7 @@ import {
   getPreviousGrades,
   updateGradeSetting,
 } from "../../store/actions/grade-setting-actions";
-import { showErrorToast } from "../../store/actions/toaster-actions";
+import { respondDialog, showErrorToast, showHideDialog } from "../../store/actions/toaster-actions";
 
 const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
@@ -24,6 +24,7 @@ const GradeSetting = () => {
   const [gradeSetups, setGradeSetup] = useState([]);
   const [gGroupName, setgGroupName] = useState("");
   const [gradeToEdit, setGradeToEdit] = useState(null);
+  const { dialogResponse } = state.alert;
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -41,7 +42,17 @@ const GradeSetting = () => {
       .required("required"),
   });
 
-  //VALIDATIONS SCHEMA
+  React.useEffect(() => {
+    if (dialogResponse === "continue") {
+      deleteGradeSetting(gGroupId)(dispatch);
+      showHideDialog(false, null)(dispatch);
+      respondDialog("")(dispatch);
+    }
+    return () => {
+      respondDialog("")(dispatch);
+    };
+  }, [dialogResponse]);
+
 
   React.useEffect(() => {
     getPreviousGrades()(dispatch);
@@ -389,7 +400,11 @@ const GradeSetting = () => {
                             style={{ cursor: "pointer" }}
                             className="text-capitalize badge btn-danger mx-2 border-0 btn btn-sm"
                             onClick={() => {
-                              deleteGradeSetting(item.gradeGroupId)(dispatch);
+                              showHideDialog(
+                                true,
+                                `Are you sure you want to delete ${item.gradeGroupName}`
+                              )(dispatch);
+                              setgGroupId(item.gradeGroupId)
                             }}
                           >
                             Delete

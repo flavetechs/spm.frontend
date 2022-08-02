@@ -47,7 +47,7 @@ const ResultTemplateOne = () => {
                     >
                       Back
                     </Button>
-                    {studentResult?.isPreview && (
+                    {!studentResult?.isPreview && (
                       <Button
                         variant="btn btn-primary btn-sm mx-2"
                         onClick={() => {}}
