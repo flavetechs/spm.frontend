@@ -4,17 +4,11 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import { notificationManagement } from "../../router/spm-path-locations";
-import {
-  createAnnouncement,
-  resetAnnouncementSuccessfulState,
-} from "../../store/actions/notification-actions";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { textEditorModules } from "../../utils/text-editor-modules";
-import { showErrorToast } from "../../store/actions/toaster-actions";
+import { showErrorToast } from "../../../store/actions/toaster-actions";
 
-const MakeAnnouncement = () => {
+const CreateAssignment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -22,14 +16,13 @@ const MakeAnnouncement = () => {
   //VALIDATION
   const validation = Yup.object().shape({
     header: Yup.string().required("Subject is required"),
-    assignedTo: Yup.string().required("Please enter who to send"),
+    deadline: Yup.string().required("Please enter who to send"),
   });
   //VALIDATION
-  useEffect(() => {
-    announcementSuccessful && history.push(notificationManagement.announcement);
-  }, [announcementSuccessful]);
+  // useEffect(() => {
+  //   announcementSuccessful && history.push(notificationManagement.announcement);
+  // }, [announcementSuccessful]);
 
-  
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({
     toolbar: {
@@ -46,10 +39,9 @@ const MakeAnnouncement = () => {
       //   }
     },
   }), []);
-
   return (
-    <>
-      <div className="col-md-8 mx-auto">
+<>
+<div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -58,7 +50,7 @@ const MakeAnnouncement = () => {
                   initialValues={{
                     header: "",
                     content: "",
-                    assignedTo: "",
+                    deadline: "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -69,7 +61,7 @@ const MakeAnnouncement = () => {
                       return;
                     }
                     values.content = content;
-                    createAnnouncement(values)(dispatch);
+                  
                   }}
                 >
                   {({
@@ -88,14 +80,14 @@ const MakeAnnouncement = () => {
                         </Col>
                         <Col md="11" className="form-group text-dark">
                           <label className="form-label" htmlFor="header">
-                            <b>Subject:</b>
+                            <b>Topic:</b>
                           </label>
                           <Field
                             type="text"
                             name="header"
                             className="form-control border-secondary"
                             id="header"
-                            placeholder="Enter subject..."
+                            placeholder="Enter assignment topic..."
                           />
                         </Col>
                         <Col md="11">
@@ -103,9 +95,9 @@ const MakeAnnouncement = () => {
                             <div className="text-danger">{errors.content}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark">
+                        <Col md="11" className="form-group text-dark ">
                           <label className="form-label" htmlFor="content">
-                            <b>Announcement:</b>
+                            <b>Description:</b>
                           </label>
                           <ReactQuill
                             theme="snow"
@@ -116,32 +108,36 @@ const MakeAnnouncement = () => {
                           />
                         </Col>
 
-                        <Col md="11" className="mt-5">
-                          {touched.assignedTo && errors.assignedTo && (
-                            <div className="text-danger">
-                              {errors.assignedTo}
-                            </div>
+                        <Col md="11" className="form-group text-dark mt-5">
+                          <label className="form-label" htmlFor="comment">
+                            <b>Comment:</b>
+                          </label>
+                          <Field
+                            as="textarea"
+                            name="comment"
+                            className="form-control border-secondary"
+                            id="comment"
+                            onChange={(e) => {
+                              setFieldValue("comment", e.target.value);
+                            }}
+                          />
+                        </Col>
+                        <Col md="11">
+                          {touched.deadline && errors.deadline  && (
+                            <div className="text-danger">{errors.deadline}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="assignedTo">
-                            <b>Send To:</b>
+                          <label className="form-label" htmlFor="deadline">
+                            <b>Deadline:</b>
                           </label>
                           <Field
-                            as="select"
-                            name="assignedTo"
-                            className="form-select border-secondary"
-                            id="assignedTo"
-                            onChange={(e) => {
-                              setFieldValue("assignedTo", e.target.value);
-                            }}
-                          >
-                            <option value="">Select Send Option</option>
-                            <option value="admin">Admin</option>
-                            <option value="teacher">Teachers</option>
-                            <option value="parent">Parents</option>
-                            <option value="student">Students</option>
-                          </Field>
+                            type="date"
+                            name="deadline"
+                            className="form-control border-secondary"
+                            id="deadline"
+                            placeholder="Enter date of submission..."
+                          />
                         </Col>
 
                         <div className="d-flex justify-content-end">
@@ -175,8 +171,8 @@ const MakeAnnouncement = () => {
           </Col>
         </Row>
       </div>
-    </>
-  );
-};
+</>
+  )
+}
 
-export default MakeAnnouncement;
+export default CreateAssignment

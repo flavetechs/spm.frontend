@@ -59,6 +59,10 @@ import AttendanceRegisterList from '../components/spm-class/attendance-register-
 import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
 import AddUser from '../components/spm-permissions/role-add-user';
 import RemoveUser from '../components/spm-permissions/role-remove-user';
+import AssignmentDetails from '../components/spm-class/assignment/assignment-details';
+import CreateAssignment from '../components/spm-class/assignment/assignment-on-create';
+import AssignmentList from '../components/spm-class/assignment/assignment-list';
+import EditAssignment from '../components/spm-class/assignment/assignment-on-edit';
 
 const DashboardRouter = () => {
 
@@ -82,7 +86,10 @@ const DashboardRouter = () => {
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
                     <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
-                
+                    <Route path={classLocations.assignment} exact component={AssignmentList} />
+                    <Route path={classLocations.createAssignment} exact component={CreateAssignment} />
+                    <Route path={classLocations.editAssignment} exact component={EditAssignment} />
+                    <Route path={classLocations.assignmentDetails} exact component={AssignmentDetails} />
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />

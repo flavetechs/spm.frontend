@@ -19,12 +19,13 @@ const Announcement = () => {
   const state = useSelector((state) => state);
   const { deleteDialogResponse } = state.alert;
   const { announcementList, selectedIds } = state.notification;
-
+  
   React.useEffect(() => {
     getAllAnnouncement()(dispatch);
   }, []);
 
   function truncateString(str) {
+    str= str.replace("<br>","<div></div>");
     if (window.innerWidth >= 1400) {
       return str?.length > 60 ? str.slice(0, 60) + "..." : str;
     } else if (window.innerWidth >= 1200) {
@@ -37,6 +38,7 @@ const Announcement = () => {
       return str?.length > 25 ? str.slice(0, 25) + "..." : str;
     }
   }
+
 
   //DELETE HANDLER
   React.useEffect(() => {
