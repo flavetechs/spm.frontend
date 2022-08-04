@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { resetStudentResultState } from "../../../store/actions/results-actions";
+import { useHistory, useLocation } from "react-router-dom";
+import { getAllStudentResult, resetStudentResultState } from "../../../store/actions/results-actions";
 import Card from "../../Card";
 
 const ResultTemplateTwo = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
+  const locations = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const tableRef = useRef(null);
   // ACCESSING STATE FROM REDUX STORE
+  useEffect(() => {
+    const queryParams = new URLSearchParams(locations.search);
+    const studentContactId = queryParams.get("studentContactId");
+    const sessionClassId = queryParams.get("sessionClassId");
+    const termId = queryParams.get("termId");
+   if(termId){
+    getAllStudentResult(
+      sessionClassId,
+      termId,
+      studentContactId
+    )(dispatch);
+
+   }
+  }, []);
  
   return (
     <>
-      <div className="col-md-12 mx-auto">
+      <div className="col-md-12 mx-auto"id="result-table" ref={tableRef}>
         <Row>
           <Col sm="12">
             <Card>
@@ -31,6 +47,14 @@ const ResultTemplateTwo = () => {
                     >
                       Back
                     </Button>
+                    {!studentResult?.isPreview && (
+                      <Button
+                        variant="btn btn-primary btn-sm mx-2"
+                    onClick={() => {}}
+                      >
+                        Print
+                      </Button>
+                    )}
                   </div>
                   <Col
                     xs="12"

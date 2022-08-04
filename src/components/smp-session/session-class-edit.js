@@ -149,8 +149,8 @@ const SessionClassEdit = () => {
   const getSubjectId = (event, subjectId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
-      "",
-      "",
+      examScore,
+      assessmentScore,
       subjectId,
       "",
       classSubjects,

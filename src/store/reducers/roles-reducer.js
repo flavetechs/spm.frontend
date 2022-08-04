@@ -132,6 +132,27 @@ export const rolesReducer = (state = _state, { type, payload }) => {
               message: payload
             };
       
+
+    case actions.REMOVE_USER_FROM_ROLE_LOADING:
+      return {
+                ...state,
+                loading: true,
+                submitSuccessful: false,
+              };
+    case actions.REMOVE_USER_FROM_ROLE_SUCCESS:
+        return {
+                ...state,
+                submitSuccessful: true,
+                loading: false,
+                message: payload
+              };
+    case actions.REMOVE_USER_FROM_ROLE_FAILED:
+        return {
+                ...state,
+                submitSuccessful: false,
+                loading: false,
+                message: payload
+              };
   
     case actions.FETCH_NON_ADDED_USERS_LOADING: {
       return {
@@ -151,6 +172,27 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         nonAddedUsers: null,
+      };
+    }
+
+    case actions.FETCH_ADDED_USERS_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_ADDED_USERS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        addedUsers: payload,
+      };
+    }
+    case actions.FETCH_ADDED_USERS_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        addedUsers: null,
       };
     }
 

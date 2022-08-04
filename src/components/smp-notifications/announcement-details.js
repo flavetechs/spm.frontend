@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { notificationManagement } from "../../router/spm-path-locations";
 import { updateSeenAnnouncement } from "../../store/actions/notification-actions";
+import { hasAccess, NavPermissions } from "../../utils/permissions";
 
 const AnnouncementDetails = () => {
   const history = useHistory();
@@ -68,8 +69,9 @@ const AnnouncementDetails = () => {
                   <br />
                 </div>
               </div>
-              <div>
-                <p className="my-4">{announcementDetails?.content}</p>
+              <div
+              dangerouslySetInnerHTML={{ __html: announcementDetails?.content }}
+              >
               </div>
               <hr />
 
@@ -96,6 +98,7 @@ const AnnouncementDetails = () => {
                   </svg>{" "}
                   Back
                 </button>
+                {hasAccess(NavPermissions.editAnnouncement) && (
                 <Button
                   type="button"
                   variant="btn btn-primary"
@@ -105,6 +108,7 @@ const AnnouncementDetails = () => {
                 >
                   Edit
                 </Button>
+                )}
               </div>
             </Card.Body>
           </Card>

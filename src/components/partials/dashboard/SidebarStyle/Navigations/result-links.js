@@ -102,7 +102,7 @@ export function ResultLink(props){
                     </Accordion.Collapse>
                     }
                     {
-                    hasAccess(NavPermissions.cumulativeMasterList) &&
+                    hasAccess(NavPermissions.cummulativeMasterList) &&
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">

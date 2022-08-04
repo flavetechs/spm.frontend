@@ -185,7 +185,6 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
-                    console.log('values', values);
                     createSessionClass(values)(dispatch);
                   }}
                 >

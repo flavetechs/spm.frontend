@@ -195,7 +195,7 @@ const AttendanceBoard = () => {
                                 }}
                               >
                                 <option value="">Select Class</option>
-                                {staffClasses.map((item, idx) => (
+                                {staffClasses?.map((item, idx) => (
                                   <option key={idx} value={item.sessionClassId}>
                                     {item.sessionClass}
                                   </option>

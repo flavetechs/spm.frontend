@@ -52,16 +52,21 @@ import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
 import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
 import AttendancePresence from '../components/spm-class/attendance-presence';
-import Announcement from '../components/smp-notifications/announcement';
+import AnnouncementList from '../components/smp-notifications/announcement-list';
 import MakeAnnouncement from '../components/smp-notifications/make-announcement';
 import AnnouncementDetails from '../components/smp-notifications/announcement-details';
-import AttendanceBoard from '../components/spm-class/attendance-board';
+import AttendanceRegisterList from '../components/spm-class/attendance-register-list';
 import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
 import AddUser from '../components/spm-permissions/role-add-user';
 import StaffProfilePage from '../components/smp-user-profile/staff-profile-page';
 import StudentProfilePage from '../components/smp-user-profile/student-profile-page';
 import StudentProfileEdit from '../components/smp-user-profile/student-profile-edit';
 import StaffProfileEdit from '../components/smp-user-profile/staff-profile-edit';
+import RemoveUser from '../components/spm-permissions/role-remove-user';
+import AssignmentDetails from '../components/spm-class/assignment/assignment-details';
+import CreateAssignment from '../components/spm-class/assignment/assignment-on-create';
+import AssignmentList from '../components/spm-class/assignment/assignment-list';
+import EditAssignment from '../components/spm-class/assignment/assignment-on-edit';
 
 const DashboardRouter = () => {
 
@@ -78,13 +83,17 @@ const DashboardRouter = () => {
                     <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
                     <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
                     <Route path={permissionLocations.addUser} exact component={AddUser} />
+                    <Route path={permissionLocations.removeUser} exact component={RemoveUser} />
 
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
                     <Route path={classLocations.classAttendance} exact component={Attendance} />
-                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceBoard} />
+                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
-                
+                    <Route path={classLocations.assignment} exact component={AssignmentList} />
+                    <Route path={classLocations.createAssignment} exact component={CreateAssignment} />
+                    <Route path={classLocations.editAssignment} exact component={EditAssignment} />
+                    <Route path={classLocations.assignmentDetails} exact component={AssignmentDetails} />
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
@@ -145,7 +154,7 @@ const DashboardRouter = () => {
                       <Route path={portalSetting.setting} exact component={Setting} />
 
                        {/* notificationManagement */}
-                      <Route path={notificationManagement.announcement} exact component={Announcement} />
+                      <Route path={notificationManagement.announcement} exact component={AnnouncementList} />
                       <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
                       <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
                       <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />

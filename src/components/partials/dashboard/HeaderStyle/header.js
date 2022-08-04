@@ -77,21 +77,7 @@ const Header = (props) => {
     }
 
     var userDetail = getUserDetails();
-    // console.log('userDetail now', userDetail);
-    // React.useEffect(() => {
-    //     let userProfileType = userDetail.userType;
-    //     console.log('userProfileType :', userProfileType);
-    // }, [userDetail])
-
-    if(userDetail.userType == "Teacher"){
-
-    }else if (userDetail.userType == "Admin") {
-
-    }else {
-        
-    }
-    
-
+    console.log('userDetail', userDetail);
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
@@ -139,35 +125,17 @@ const Header = (props) => {
                                     </div>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <Dropdown.Item>
-                                        <Link to={authLocations.studentProfilePage}>
-                                            Profile
-                                        </Link>
-                                    </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item href={authLocations.login} onClick={() => {
-                                        dispatch(loginOutUser());
-                                    }}>Logout</Dropdown.Item>
-                                </Dropdown.Menu>
-                                {/* <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <Dropdown.Item>
-                                        <Link to={authLocations.staffProfilePage}>
-                                            Profile
-                                        </Link>
-                                    </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item href={authLocations.login} onClick={() => {
-                                        dispatch(loginOutUser());
-                                    }}>Logout</Dropdown.Item>
-                                </Dropdown.Menu> */}
-                                {/* <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <Dropdown.Item href={authLocations.staffProfilePage}>Profile</Dropdown.Item>
+                                    {
+                                        userDetail.userType == "Teacher"
+                                            ? (<Dropdown.Item href="/">Teacher Profile</Dropdown.Item>)
+                                            : <Dropdown.Item href="/">Student Profile</Dropdown.Item>
+                                    }
 
                                     <Dropdown.Divider />
                                     <Dropdown.Item href={authLocations.login} onClick={() => {
                                         dispatch(loginOutUser());
                                     }}>Logout</Dropdown.Item>
-                                </Dropdown.Menu> */}
+                                </Dropdown.Menu>
                             </Dropdown>
                         </Nav>
                     </Navbar.Collapse>

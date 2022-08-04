@@ -269,6 +269,26 @@ export const resetRoleState = () => (dispatch) => {
         });
 }
 
+export const getAllAddedUsers = (roleId) => dispatch => {
+
+    dispatch({
+        type: actions.FETCH_ADDED_USERS_LOADING
+    });
+
+    axiosInstance.get(`/role/api/v1/get-role-users?roleId=${roleId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ADDED_USERS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_ADDED_USERS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const addUserToRoles = (roleId,userIds) => dispatch => {
 
     dispatch({
@@ -295,6 +315,28 @@ export const addUserToRoles = (roleId,userIds) => dispatch => {
         });
 }
 
+export const removeUserFromRoles = (roleId,userId) => dispatch => {
+
+    dispatch({
+        type: actions.REMOVE_USER_FROM_ROLE_LOADING
+    });
+
+    axiosInstance.post(`/role/api/v1/remove-user/from-role?UserId=${userId}&RoleId=${roleId}`,)
+        .then((res) => {
+            dispatch({
+                type: actions.REMOVE_USER_FROM_ROLE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllAddedUsers(roleId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch(err => {
+            dispatch({
+                type: actions.REMOVE_USER_FROM_ROLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
  // export const updateRoleActivityState = (id, value, selectedRole, action) => dispatch => {
 //     const otherActivities = selectedRole.activities.filter(e => e !== id);
 //     let targetActivity = selectedRole.activities.find(e => e === id);

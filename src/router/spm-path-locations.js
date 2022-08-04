@@ -8,6 +8,7 @@ export const permissionLocations = {
   roleEdit: "/dashboard/smp-permissions/role-edit",
   roleAdd: "/dashboard/smp-permissions/role-add",
   addUser:"/dashboard/smp-permissions/add-user",
+  removeUser:"/dashboard/smp-permissions/remove-user"
 };
 
 export const dashboardLocations = {
@@ -28,6 +29,10 @@ export const classLocations = {
   classAttendance: "/dashboard/smp-class/class-attendance",
   classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
   attendancePresence:"/dashboard/smp-class/attendance-presence",
+  assignment:"/dashboard/smp-class/assignment",
+  assignmentDetails:"/dashboard/smp-class/assignment-details",
+  createAssignment:"/dashboard/smp-class/create-assignment",
+  editAssignment:"/dashboard/smp-class/edit-assignment",
 };
 
 export const sessionLocations = {

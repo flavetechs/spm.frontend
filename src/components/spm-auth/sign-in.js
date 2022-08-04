@@ -34,7 +34,7 @@ const SignIn = () => {
             .max(50, 'Username Too Long!')
             .required('Username is required to login'),
         password: Yup.string().required("Password Required")
-            .min(8, 'Password must be a minimum of 8 characters'),
+            .min(4, 'Password must be a minimum of 4 characters'),
     });
 
     return (
@@ -49,7 +49,7 @@ const SignIn = () => {
                                     <Card.Body>
                                         <Link to={dashboardLocations.dashboard} className="navbar-brand d-flex align-items-center mb-3">
                                            <Logo color={true}/>
-                                            <h4 className="logo-title ms-3">FLAVTECH</h4>
+                                            {/* <h4 className="logo-title ms-3">FLAVTECH</h4> */}
                                         </Link>
                                         <h2 className="mb-2 text-center">Sign In</h2>
                                         <p className="text-center">Login to stay connected.</p>

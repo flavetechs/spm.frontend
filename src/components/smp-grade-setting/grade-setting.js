@@ -6,10 +6,11 @@ import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import {
   createGradeSetting,
+  deleteGradeSetting,
   getPreviousGrades,
   updateGradeSetting,
 } from "../../store/actions/grade-setting-actions";
-import { showErrorToast } from "../../store/actions/toaster-actions";
+import { respondDialog, showErrorToast, showHideDialog } from "../../store/actions/toaster-actions";
 
 const GradeSetting = () => {
   // ACCESSING STATE FROM REDUX STORE
@@ -23,6 +24,7 @@ const GradeSetting = () => {
   const [gradeSetups, setGradeSetup] = useState([]);
   const [gGroupName, setgGroupName] = useState("");
   const [gradeToEdit, setGradeToEdit] = useState(null);
+  const { dialogResponse } = state.alert;
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -40,7 +42,17 @@ const GradeSetting = () => {
       .required("required"),
   });
 
-  //VALIDATIONS SCHEMA
+  React.useEffect(() => {
+    if (dialogResponse === "continue") {
+      deleteGradeSetting(gGroupId)(dispatch);
+      showHideDialog(false, null)(dispatch);
+      respondDialog("")(dispatch);
+    }
+    return () => {
+      respondDialog("")(dispatch);
+    };
+  }, [dialogResponse]);
+
 
   React.useEffect(() => {
     getPreviousGrades()(dispatch);
@@ -105,7 +117,7 @@ const GradeSetting = () => {
           <Col sm="12" lg="10">
             <Card className="p-2">
               <Card.Body id="form">
-                <Formik 
+                <Formik
                   initialValues={{
                     gradeGroupName: gradeToEdit?.gradeGroupName || gGroupName,
                     gradeName: gradeToEdit?.gradeName,
@@ -144,7 +156,13 @@ const GradeSetting = () => {
                     }
                   }}
                 >
-                  {({ handleSubmit, touched, errors, values, setFieldValue }) => (
+                  {({
+                    handleSubmit,
+                    touched,
+                    errors,
+                    values,
+                    setFieldValue,
+                  }) => (
                     <Form>
                       {message && <div className="text-danger">{message}</div>}
                       <Row className="border p-3 px-4 d-sm-block">
@@ -164,7 +182,7 @@ const GradeSetting = () => {
 
                         <Col className="pt-4">
                           <div className="d-md-flex justify-content-around">
-                            <div className="form-group col-lg-1">
+                            <div className="form-group col-lg-2">
                               <label
                                 className="form-label d-block h6"
                                 htmlFor="gradeName"
@@ -181,7 +199,7 @@ const GradeSetting = () => {
                               <div className="d-sm-flex d-md-block">
                                 <Field
                                   type="text"
-                                  className="form-control w-75 fw-bolder text-secondary border-secondary text-uppercase"
+                                  className="form-control w-75 col-lg-1 fw-bolder text-secondary border-secondary text-uppercase"
                                   name="gradeName"
                                   id="gradeName"
                                   aria-describedby="gradeName"
@@ -377,6 +395,19 @@ const GradeSetting = () => {
                             }}
                           >
                             Edit
+                          </a>{" "}
+                          <a
+                            style={{ cursor: "pointer" }}
+                            className="text-capitalize badge btn-danger mx-2 border-0 btn btn-sm"
+                            onClick={() => {
+                              showHideDialog(
+                                true,
+                                `Are you sure you want to delete ${item.gradeGroupName}`
+                              )(dispatch);
+                              setgGroupId(item.gradeGroupId)
+                            }}
+                          >
+                            Delete
                           </a>
                         </div>
 

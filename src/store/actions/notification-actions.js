@@ -42,6 +42,7 @@ export const createAnnouncement = (values) => (dispatch) => {
                 type: actions.CREATE_ANNOUNCEMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            resetAnnouncementSuccessfulState()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -134,6 +135,7 @@ export const updateAnnouncement = (values) => (dispatch) => {
                 type: actions.UPDATE_ANNOUNCEMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            resetAnnouncementSuccessfulState()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -143,3 +145,9 @@ export const updateAnnouncement = (values) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+export const  resetAnnouncementSuccessfulState = () => (dispatch) => {
+    dispatch({
+          type: actions.RESET_ANNOUNCEMENT_SUCCESSFUL,
+          payload: null
+      });
+  }

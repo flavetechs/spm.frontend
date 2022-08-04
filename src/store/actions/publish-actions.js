@@ -263,6 +263,7 @@ export const updatePublishedResult = (sessionClassId, sessionTermId, publish) =>
         payload: res.data.result
       });
       showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+      getAllResultList(sessionClassId, sessionTermId)(dispatch);
     }).catch((err) => {
       dispatch({
         type: actions.UPDATE_PUBLISH_RESULT_FAILED,
