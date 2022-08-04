@@ -126,3 +126,23 @@ export const fetchSingleStudent = (studentAccountId) => dispatch => {
 
 }
 
+export const updateStudentProfile = (updatedProfile) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_STUDENT_PROFILE_LOADING
+    });
+    axiosInstance.post('/student/api/v1/update/by-student', updatedProfile)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_STUDENT_PROFILE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_STUDENT_PROFILE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
