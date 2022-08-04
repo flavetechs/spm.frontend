@@ -34,61 +34,42 @@ const PublishResultTable = ({
   //ACCESSING STATE FROM REDUX STORE
 
   //DECLARING VARIABLES
-  const [publishedButton, setPublisedButton] = useState();
-  const [publishNow, setPublishNow] = useState();
-  let value = publishResults?.isPublished;
+  
+  
   //DECLARING VARIABLES
-
-  React.useEffect(() => {
-    setPublisedButton(value);
-    setPublishNow(!value);
-  }, [publishResults]);
 
   return (
     <>
       <Row className="pt-3">
         <div className="d-flex justify-content-end">
-          {publishedButton ? (
-            <Button
-              type="button"
-              className="btn-sm"
-              variant="btn btn-danger"
-              onClick={() => {
-                updatePublishedResult(
-                  idsObj?.sessionClassId,
-                  selectedSession?.sessionTermId,
-                  publishNow
-                )(dispatch);
-                getAllResultList(
-                  idsObj?.sessionClassId,
-                  selectedSession?.sessionTermId
-                )(dispatch);
-                setPublisedButton(!publishedButton);
-              }}
-            >
-              UnPublish Result
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              className="btn-sm"
-              variant="btn btn-success"
-              onClick={() => {
-                updatePublishedResult(
-                  idsObj?.sessionClassId,
-                  selectedSession?.sessionTermId,
-                  publishNow
-                )(dispatch);
-                getAllResultList(
-                  idsObj?.sessionClassId,
-                  selectedSession?.sessionTermId
-                )(dispatch);
-                setPublisedButton(!publishedButton);
-              }}
-            >
-              Publish Result
-            </Button>
-          )}
+          {
+            publishResults?.isPublished ? (
+              <Button
+                type="button"
+                className="btn-sm"
+                variant="btn btn-danger"
+                onClick={() => {
+                  updatePublishedResult(idsObj?.sessionClassId,  selectedSession?.sessionTermId, false)(dispatch);
+                  
+                }}
+              >
+                UnPublish Result
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                className="btn-sm"
+                variant="btn btn-success"
+                onClick={() => {
+                  updatePublishedResult(idsObj?.sessionClassId,  selectedSession?.sessionTermId, true)(dispatch);
+                }}
+              >
+                Publish Result
+              </Button>
+            )
+          }
+
+
         </div>
         <Table size="md" hover bordered responsive className="mt-2">
           <thead>

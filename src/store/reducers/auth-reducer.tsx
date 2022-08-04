@@ -22,6 +22,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
             localStorage.setItem('token', payload.authResult.token);
             localStorage.setItem('permissions', decodedToken.permissions);
             localStorage.setItem('userDetail', JSON.stringify(payload.userDetail));
+       
             
             return {
                 ...state,

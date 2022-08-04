@@ -9,7 +9,7 @@ import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from ".
 import { hasAccess, NavPermissions } from "../../utils/permissions";
 import "./announcement.scss";
 
-const Announcement = () => {
+const AnnouncementList = () => {
 
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
@@ -226,7 +226,7 @@ const Announcement = () => {
             <div className="tab-content iq-tab-fade-up" id="myTabContent-2">
               <div className="tab-pane fade show active">
                 {announcementList?.map((item, idx) => (
-                  <div key={idx}>
+                  <div key={idx} >
                     <div className="">
                       <div
                         className={
@@ -376,6 +376,7 @@ const Announcement = () => {
                           {item.header}
                         </div>
                         <div className="w-50 py-2 item-table"
+                        style={{border:'1px solid red', fontSize: '25px !important'}}
                           dangerouslySetInnerHTML={{ __html: truncateString(item.content) }}
                           onClick={() => {
                             history.push(
@@ -412,4 +413,4 @@ const Announcement = () => {
   );
 };
 
-export default Announcement;
+export default AnnouncementList;

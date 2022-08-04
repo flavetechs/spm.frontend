@@ -52,7 +52,7 @@ import PinDetails from '../components/smp-pin-management/pin-details';
 import TemplateSetting from '../components/smp-portal-setting/template-setting';
 import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
 import AttendancePresence from '../components/spm-class/attendance-presence';
-import Announcement from '../components/smp-notifications/announcement';
+import AnnouncementList from '../components/smp-notifications/announcement-list';
 import MakeAnnouncement from '../components/smp-notifications/make-announcement';
 import AnnouncementDetails from '../components/smp-notifications/announcement-details';
 import AttendanceRegisterList from '../components/spm-class/attendance-register-list';
@@ -150,7 +150,7 @@ const DashboardRouter = () => {
                       <Route path={portalSetting.setting} exact component={Setting} />
 
                        {/* notificationManagement */}
-                      <Route path={notificationManagement.announcement} exact component={Announcement} />
+                      <Route path={notificationManagement.announcement} exact component={AnnouncementList} />
                       <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
                       <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
                       <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />

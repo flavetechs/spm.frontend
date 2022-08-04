@@ -34,7 +34,7 @@ const SignIn = () => {
             .max(50, 'Username Too Long!')
             .required('Username is required to login'),
         password: Yup.string().required("Password Required")
-            .min(8, 'Password must be a minimum of 8 characters'),
+            .min(4, 'Password must be a minimum of 4 characters'),
     });
 
     return (

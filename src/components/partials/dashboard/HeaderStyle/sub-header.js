@@ -43,8 +43,8 @@ const mapDispatchToProps = dispatch => ({
 
 
 const SubHeader = (props) => {
-    const state = useSelector((state) => state);
-    const { announcementList, selectedIds } = state.notification;
+    // const state = useSelector((state) => state);
+    // const { announcementList, selectedIds } = state.notification;
 
     useEffect(() => {
         // navbarstylemode
@@ -65,7 +65,6 @@ const SubHeader = (props) => {
                         <Col md="12">
                             <div className="d-flex justify-content-between flex-wrap">
                                 <div>
-                                    {/* <h1>{activeSession?.termName} TERM {activeSession?.session}</h1> */}
                                     <h1>We got it</h1>
                                     <p>We are on a mission to help developers like you build successful projects for FREE.</p>
                                 </div>

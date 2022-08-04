@@ -8,7 +8,7 @@ const Logo = (props) => {
 				xmlns="http://www.w3.org/2000/svg"
 				x="0px" y="0px"
 				width="200" viewBox="0 0 1945 537"
-				enable-background="new 0 0 1945 537"
+				enableBackground="new 0 0 1945 537"
 			>
 				<path fill="#FFFFFF" opacity="1.000000" stroke="none"
 					d="
