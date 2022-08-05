@@ -7,9 +7,10 @@ import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, returnList, u
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from "../../store/actions/toaster-actions";
 // import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
 import { hasAccess, NavPermissions } from "../../utils/permissions";
+import { stripHtml } from "../../utils/tools";
 import "./announcement.scss";
 
-const Announcement = () => {
+const AnnouncementList = () => {
 
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
@@ -226,7 +227,7 @@ const Announcement = () => {
             <div className="tab-content iq-tab-fade-up" id="myTabContent-2">
               <div className="tab-pane fade show active">
                 {announcementList?.map((item, idx) => (
-                  <div key={idx}>
+                  <div key={idx} >
                     <div className="">
                       <div
                         className={
@@ -376,7 +377,7 @@ const Announcement = () => {
                           {item.header}
                         </div>
                         <div className="w-50 py-2 item-table"
-                          dangerouslySetInnerHTML={{ __html: truncateString(item.content) }}
+                          dangerouslySetInnerHTML={{ __html: stripHtml(truncateString(item.content)) }}
                           onClick={() => {
                             history.push(
                               `${notificationManagement.announcementDetails
@@ -412,4 +413,4 @@ const Announcement = () => {
   );
 };
 
-export default Announcement;
+export default AnnouncementList;

@@ -75,6 +75,7 @@ const Header = (props) => {
     }
 
     var userDetail = getUserDetails();
+    console.log('userDetail', userDetail);
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
@@ -122,7 +123,12 @@ const Header = (props) => {
                                     </div>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <Dropdown.Item href="/">Profile</Dropdown.Item>
+                                    {
+                                        userDetail.userType == "Teacher"
+                                            ? (<Dropdown.Item href="/">Teacher Profile</Dropdown.Item>)
+                                            : <Dropdown.Item href="/">Student Profile</Dropdown.Item>
+                                    }
+
 
                                     <Dropdown.Divider />
                                     <Dropdown.Item href={authLocations.login} onClick={() => {
