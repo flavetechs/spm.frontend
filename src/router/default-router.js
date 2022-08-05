@@ -63,6 +63,10 @@ import AssignmentDetails from '../components/spm-class/assignment/assignment-det
 import CreateAssignment from '../components/spm-class/assignment/assignment-on-create';
 import AssignmentList from '../components/spm-class/assignment/assignment-list';
 import EditAssignment from '../components/spm-class/assignment/assignment-on-edit';
+import LessonNotes from '../components/spm-class/lesson-notes/lesson-notes';
+import CreateLessonNote from '../components/spm-class/lesson-notes/lesson-note-on-create';
+import EditLessonNote from '../components/spm-class/lesson-notes/lesson-note-on-edit';
+import LessonNoteDetails from '../components/spm-class/lesson-notes/lesson-note-details';
 
 const DashboardRouter = () => {
 
@@ -90,6 +94,10 @@ const DashboardRouter = () => {
                     <Route path={classLocations.createAssignment} exact component={CreateAssignment} />
                     <Route path={classLocations.editAssignment} exact component={EditAssignment} />
                     <Route path={classLocations.assignmentDetails} exact component={AssignmentDetails} />
+                    <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
+                    <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
+                    <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
+                    <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />

@@ -604,6 +604,186 @@ export const classReducer = (state = _state, { type, payload }) => {
       }
     //ATTENDANCE
 
+    //LESSON NOTES
+    case actions.CREATE_LESSON_NOTES_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.CREATE_LESSON_NOTES_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        createSuccessful:true,
+        message:payload,
+        loading: false,
+      };
+    case actions.CREATE_LESSON_NOTES_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        message:payload,
+        createSuccessful:false,
+        loading: false,
+      };
+
+      case actions.UPDATE_LESSON_NOTES_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.UPDATE_LESSON_NOTES_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          message:payload,
+          loading: false,
+        };
+      case actions.UPDATE_LESSON_NOTES_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          createSuccessful:false,
+          message:payload,
+          loading: false,
+        };
+
+        case actions.FETCH_STAFFACCOUNT_LOADING:
+          return {
+              ...state,
+              loading: true,
+              message: '',
+              isSuccessful: false
+          };
+  
+      case actions.FETCH_STAFFACCOUNT_SUCCESS:
+          return {
+              ...state,
+              loading: false,
+              otherStaffList: payload,
+          };
+  
+      case actions.FETCH_STAFFACCOUNT_FAILED:
+          return {
+              ...state,
+              loading: false,
+              isSuccessful: false,
+              message: payload
+          };
+
+        case actions.SHARE_LESSON_NOTES_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+          };
+        case actions.SHARE_LESSON_NOTES_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            loading: false,
+            message:payload,
+          };
+        case actions.SHARE_LESSON_NOTES_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            loading: false,
+            message:payload,
+          };
+
+          case actions.DELETE_LESSON_NOTES_LOADING:
+            return {
+              ...state,
+              loading: true,
+              isSuccessful: false,
+            };
+          case actions.DELETE_LESSON_NOTES_SUCCESS:
+            return {
+              ...state,
+              isSuccessful: true,
+              loading: false,
+              message:payload,
+            };
+          case actions.DELETE_LESSON_NOTES_FAILED:
+            return {
+              ...state,
+              isSuccessful: false,
+              loading: false,
+              message:payload,
+            };
+
+            case actions.FETCH_SINGLE_LESSON_NOTES_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                singleLessonNotes:null,
+              };
+            }
+            case actions.FETCH_SINGLE_LESSON_NOTES_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                singleLessonNotes: payload,
+              };
+            }
+            case actions.FETCH_SINGLE_LESSON_NOTES_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                singleLessonNotes: null,
+              };
+            }
+
+
+    case actions.FETCH_UNAPPROVED_LESSON_NOTES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        unapprovedLessonNotes:[],
+      };
+    }
+    case actions.FETCH_UNAPPROVED_LESSON_NOTES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        unapprovedLessonNotes: payload,
+      };
+    }
+    case actions.FETCH_UNAPPROVED_LESSON_NOTES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        unapprovedLessonNotes: [],
+      };
+    }
+
+    case actions.FETCH_LESSON_NOTES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        lessonNotes: [],
+      };
+    }
+    case actions.FETCH_LESSON_NOTES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        lessonNotes: payload,
+      };
+    }
+    case actions.FETCH_LESSON_NOTES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        lessonNotes: [],
+      };
+    }
+    //LESSON NOTES
+
     default:
       return state;
   }

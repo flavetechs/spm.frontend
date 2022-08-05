@@ -32,6 +32,7 @@ export const classLocations = {
   lessonNotes:"/dashboard/smp-class/lesson-notes",
   createLessonNotes:"/dashboard/smp-class/create-lesson-notes",
   editLessonNotes:"/dashboard/smp-class/edit-lesson-notes",
+  lessonNotesDetails:"/dashboard/smp-class/lesson-note-details",
 };
 
 export const sessionLocations = {
