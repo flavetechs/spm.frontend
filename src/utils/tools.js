@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export function ordinalSuffixOf(i) {
     var j = i % 10,
         k = i % 100;
@@ -22,4 +20,13 @@ export function isNumber (evt) {
     return true;
 }
 
+
+export function stripHtml(html)
+{
+   let tmp = document.createElement("DIV");
+   tmp.innerHTML = html;
+   let result = tmp.textContent || tmp.innerText || "";
+   tmp.innerHTML = '';
+   return result;
+}
 
