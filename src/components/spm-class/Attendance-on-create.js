@@ -19,7 +19,7 @@ const Attendance = () => {
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { newClassRegister, registerLabelUpdateSuccessful, createSuccessful } = state.class;
+  const { newClassRegister, registerLabelUpdateSuccessful } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -30,14 +30,6 @@ const Attendance = () => {
    }
   }, [registerLabelUpdateSuccessful]);
 
-// if(!createSuccessful){
-//     const queryParams = new URLSearchParams(locations.search);
-//     const sessionClassId = queryParams.get("sessionClassId");
-// history.push(
-//       `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
-//     );
-// }
-console.log('createSuccessful',createSuccessful);
   return (
     <>
       <div>

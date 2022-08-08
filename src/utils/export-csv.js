@@ -33,3 +33,26 @@ export function PrintCSV(tableId, fileName) {
     // pdf.autoTable({html:`#${tableId}`})
     // pdf.save(fileName + ".pdf");
 }
+
+export const openFullscreen = (id) => {
+    var elementId = document.getElementById(id);
+    if (elementId.requestFullscreen) {
+      elementId.requestFullscreen();
+    } else if (elementId.webkitRequestFullscreen) {
+      /* Safari */
+      elementId.webkitRequestFullscreen();
+    } else if (elementId.msRequestFullscreen) {
+      /* IE11 */
+      elementId.msRequestFullscreen();
+    }
+  };
+
+  export const closeFullscreen = (id) => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+  }

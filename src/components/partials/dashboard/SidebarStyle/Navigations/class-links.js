@@ -82,6 +82,24 @@ export function ClassLink(props){
                             </li>
                         </ul>
                     </Accordion.Collapse>
+                    <Accordion.Collapse eventKey="sidebar-special" >
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === classLocations.lessonNotes ? 'active' : ''} nav-link`} to={classLocations.lessonNotes}
+                                onClick={ props.minisidebar}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> LN </i>
+                                    <span className="item-name">Lesson Notes</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
                 </Accordion.Item>
         </>
     )

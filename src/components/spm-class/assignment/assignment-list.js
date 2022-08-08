@@ -263,7 +263,7 @@ const AssignmentList = () => {
                         <div className="jumbotron jumbotron-fluid">
                           <div className="container d-flex justify-content-center mt-5 bg-white">
                             <h2 className="display-4">
-                              Please select a class to view class register
+                              Please select a class to view Assignment List
                             </h2>
                           </div>
                         </div>

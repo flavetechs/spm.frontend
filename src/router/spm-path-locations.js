@@ -29,6 +29,10 @@ export const classLocations = {
   assignmentDetails:"/dashboard/smp-class/assignment-details",
   createAssignment:"/dashboard/smp-class/create-assignment",
   editAssignment:"/dashboard/smp-class/edit-assignment",
+  lessonNotes:"/dashboard/smp-class/lesson-notes",
+  createLessonNotes:"/dashboard/smp-class/create-lesson-notes",
+  editLessonNotes:"/dashboard/smp-class/edit-lesson-notes",
+  lessonNotesDetails:"/dashboard/smp-class/lesson-note-details",
 };
 
 export const sessionLocations = {
