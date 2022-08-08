@@ -695,6 +695,52 @@ export const classReducer = (state = _state, { type, payload }) => {
             message:payload,
           };
 
+          case actions.APPROVE_NOTES_LOADING:
+            return {
+              ...state,
+              loading: true,
+              isSuccessful: false,
+              createSuccessful:false,
+            };
+          case actions.APPROVE_NOTES_SUCCESS:
+            return {
+              ...state,
+              isSuccessful: true,
+              loading: false,
+              message:payload,
+              createSuccessful:true,
+            };
+          case actions.APPROVE_NOTES_FAILED:
+            return {
+              ...state,
+              isSuccessful: false,
+              createSuccessful:false,
+              loading: false,
+              message:payload,
+            };
+
+            case actions.SEND_FOR_APPROVAL_LOADING:
+              return {
+                ...state,
+                loading: true,
+                isSuccessful: false,
+                createSuccessful:false,
+              };
+            case actions.SEND_FOR_APPROVAL_SUCCESS:
+              return {
+                ...state,
+                isSuccessful: true,
+                loading: false,
+                createSuccessful:true,
+              };
+            case actions.SEND_FOR_APPROVAL_FAILED:
+              return {
+                ...state,
+                isSuccessful: false,
+                createSuccessful:false,
+                loading: false,
+              };
+
           case actions.DELETE_LESSON_NOTES_LOADING:
             return {
               ...state,
@@ -738,6 +784,27 @@ export const classReducer = (state = _state, { type, payload }) => {
               };
             }
 
+            case actions.FETCH_COMMENTS_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                comments:[],
+              };
+            }
+            case actions.FETCH_COMMENTS_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                comments: payload,
+              };
+            }
+            case actions.FETCH_COMMENTS_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                comments: [],
+              };
+            }
 
     case actions.FETCH_UNAPPROVED_LESSON_NOTES_LOADING: {
       return {
@@ -782,6 +849,49 @@ export const classReducer = (state = _state, { type, payload }) => {
         lessonNotes: [],
       };
     }
+
+    case actions.ADD_COMMENTS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.ADD_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        message:payload,
+        loading: false,
+      };
+    case actions.ADD_COMMENTS_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        message:payload,
+        loading: false,
+      };
+
+      case actions.ADD_REPLIES_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.ADD_REPLIES_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          message:payload,
+          loading: false,
+        };
+      case actions.ADD_REPLIES_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          message:payload,
+          loading: false,
+        };
+
     //LESSON NOTES
 
     default:

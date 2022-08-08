@@ -23,4 +23,5 @@ export const _state = {
   unapprovedLessonNotes:[],
   singleLessonNotes:null,
   otherStaffList:[],
+  comments:[],
 };

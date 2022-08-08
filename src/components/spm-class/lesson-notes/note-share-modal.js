@@ -45,6 +45,7 @@ export function NoteShareModal(props) {
                 type="checkbox"
                 name="staff"
                 id={staff.teacherAccountId}
+                defaultChecked={staff.isShared==true||false}
                 onChange={(e) => {
                   handleStaffArray(e);
                 }}

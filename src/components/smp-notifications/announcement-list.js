@@ -25,7 +25,7 @@ const AnnouncementList = () => {
     getAllAnnouncement()(dispatch);
   }, []);
 
-  function truncateString(str) {
+   function truncateString(str) {
     str= str.replace("<br>","<div></div>");
     if (window.innerWidth >= 1400) {
       return str?.length > 60 ? str.slice(0, 60) + "..." : str;
@@ -38,7 +38,7 @@ const AnnouncementList = () => {
     } else if (window.innerWidth < 768) {
       return str?.length > 25 ? str.slice(0, 25) + "..." : str;
     }
-  }
+   }
 
 
   //DELETE HANDLER

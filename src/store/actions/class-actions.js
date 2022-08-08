@@ -567,7 +567,7 @@ export const continueClassRegister = (classRegisterId) => (dispatch) => {
 export const updateAttendance = (classRegisterId, studentContactId, isPresent) => (dispatch) => {
     axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
     .then((res) => {
-        console.log('success', res.data.result);
+        
     }).catch((err) => {
         showErrorToast('Ooopsss.... unable to update attendance')(dispatch);
     });
@@ -749,6 +749,58 @@ const payload = {
         });
 }
 
+export const approveNotes = (classNoteId, shouldApprove) => (dispatch) => {
+    dispatch({
+        type: actions.APPROVE_NOTES_LOADING
+    });
+const values = {
+    classNoteId,
+    shouldApprove
+  }
+  
+    axiosInstance.post('/classnotes/api/v1/approve-or-dissaprove/classnote', values)
+        .then((res) => {
+            dispatch({
+                type: actions.APPROVE_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.APPROVE_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const sendForApproval = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.SEND_FOR_APPROVAL_LOADING
+    });
+const payload = {
+    classNoteId,
+  }
+  console.log("values",payload);
+    axiosInstance.post('/classnotes/api/v1/send/classnotes/for-approval', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SEND_FOR_APPROVAL_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.SEND_FOR_APPROVAL_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+
 export const getAllLessonNotes = (subjectId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_LESSON_NOTES_LOADING,
@@ -806,6 +858,25 @@ export const getAllUnapprovedLessonNotes = () => (dispatch) => {
         });
 }
 
+export const getAllComments = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_COMMENTS_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get-classnote/comments?classNoteId=${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_COMMENTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_COMMENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const deleteLessonNotes = (item,subjectId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
@@ -830,5 +901,56 @@ const payload= {
         });
 }
 
+export const addComments = (classNoteId,comment) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_COMMENTS_LOADING
+    });
+const payload ={
+        classNoteId,
+        comment,
+}
+
+    axiosInstance.post('/classnotes/api/v1/add-comment/to-classnote', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_COMMENTS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllComments(classNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_COMMENTS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const addReplies = (commentId,comment,classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_REPLIES_LOADING
+    });
+const payload ={
+        commentId,
+        comment,
+}
+
+    axiosInstance.post('/classnotes/api/v1/reply/classnote-comment', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_REPLIES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllComments(classNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_REPLIES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
 
 //LESSON NOTE ACTION

@@ -78,9 +78,10 @@ const LessonNotes = () => {
 
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId");
+  const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     if (subjectIdQuery) {
-      getAllLessonNotes(subjectId)(dispatch);
+      getAllLessonNotes(subjectIdQuery)(dispatch);
       setSubjectId(subjectIdQuery);
     }
   }, [subjectIdQuery]);
@@ -91,24 +92,27 @@ const LessonNotes = () => {
     }
   }, [subjectIdQuery]);
 
-  const filteredLessonNotes = lessonNotes?.filter((item) => {
-    if (searchQuery === "") {
-      //if query is empty
-      return item;
-    } else if (
-      item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return item;
-    } else if (
-      item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return item;
-    }
-  });
-
-  console.log("lessonNote", lessonNotes);
+  const filteredLessonNotes = lessonNotes
+    ?.filter((item) =>
+      sessionClassIdQuery ? item.classes == sessionClassIdQuery : item
+    )
+    ?.filter((item) => {
+      if (searchQuery === "") {
+        //if query is empty
+        return item;
+      } else if (
+        item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        //returns filtered array
+        return item;
+      } else if (
+        item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        //returns filtered array
+        return item;
+      }
+    });
+console.log("lessonNotes",lessonNotes);
   return (
     <>
       <div>
@@ -117,7 +121,48 @@ const LessonNotes = () => {
             <Card className="bg-transparent">
               <Card.Header className="d-flex justify-content-between bg-transparent">
                 <div className="header-title">
-                  <h4 className="card-title mt-3">Lesson Notes</h4>
+                  <h4 className="card-title mt-3 mb-n3">Lesson Notes</h4>
+                </div>
+                <div className=" d-flex align-items-center mt-3 mb-n3">
+                  <div className="input-group search-input">
+                    <span
+                      className="input-group-text border-0 bg-transparent mb-3"
+                      id="search-input"
+                    >
+                      <svg
+                        width="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="11.7669"
+                          cy="11.7666"
+                          r="8.98856"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></circle>
+                        <path
+                          d="M18.0186 18.4851L21.5426 22"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </span>
+                    <div>
+                      <input
+                        type="search"
+                        className="form-control text-lowercase "
+                        placeholder="Search..."
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        onClick={()=>{setShowMenuDropdown(false)}}
+                      />
+                    </div>
+                  </div>
                 </div>
               </Card.Header>
               <NoteShareModal classNoteId={classNoteId} />
@@ -135,54 +180,16 @@ const LessonNotes = () => {
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
-                  <Card.Body className="px-0 bg-transparent">
-                    <Card>
-                      <Card.Body>
-                        <div className="d-flex align-items-center justify-content-between flex-wrap">
-                          <div className="mb-md-0 mb-2 d-flex align-items-center">
-                            <div className="input-group search-input">
-                              <span
-                                className="input-group-text border-0"
-                                id="search-input"
-                              >
-                                <svg
-                                  width="18"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <circle
-                                    cx="11.7669"
-                                    cy="11.7666"
-                                    r="8.98856"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  ></circle>
-                                  <path
-                                    d="M18.0186 18.4851L21.5426 22"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  ></path>
-                                </svg>
-                              </span>
-                              <div>
-                                <input
-                                  type="search"
-                                  className="form-control text-lowercase"
-                                  placeholder="Search..."
-                                  onChange={(event) =>
-                                    setSearchQuery(event.target.value)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center flex-wrap">
-                            <div className=" me-3 dropdown">
+                  <Card.Body>
+                    <Card
+                      onClick={() => {
+                        setShowMenuDropdown(false);
+                      }}
+                    >
+                      <Card.Body className="p-3">
+                        <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
+                          <div className="d-xl-flex align-items-center flex-wrap">
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {touched.sessionClassId &&
                                   errors.sessionClassId && (
@@ -205,6 +212,11 @@ const LessonNotes = () => {
                                   getStaffClassSubjects(e.target.value)(
                                     dispatch
                                   );
+                                  e.target.value == ""
+                                    ? history.push(classLocations.lessonNotes)
+                                    : history.push(
+                                        `${classLocations.lessonNotes}?classId=${e.target.value}`
+                                      );
                                 }}
                               >
                                 <option value="">Select Class</option>
@@ -215,7 +227,7 @@ const LessonNotes = () => {
                                 ))}
                               </Field>
                             </div>
-                            <div className=" me-3 dropdown">
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {touched.subjectId && errors.subjectId && (
                                   <div className="text-danger">
@@ -234,7 +246,7 @@ const LessonNotes = () => {
                                   e.target.value == ""
                                     ? history.push(classLocations.lessonNotes)
                                     : history.push(
-                                        `${classLocations.lessonNotes}?subjectId=${e.target.value}`
+                                        `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${e.target.value}`
                                       );
                                 }}
                               >
@@ -246,13 +258,13 @@ const LessonNotes = () => {
                                 ))}
                               </Field>
                             </div>
-                            <div className="text-body me-3 align-items-center d-flex">
+                            <div className="text-body me-3 mt-3 mt-xl-0 align-items-center d-flex">
                               <button
                                 type="button"
                                 onClick={() => {
                                   handleSubmit();
                                 }}
-                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                                className="text-center btn-primary btn-icon  mt-3 mt-xl-0 btn btn-primary"
                               >
                                 <i className="btn-inner">
                                   <svg
@@ -272,6 +284,16 @@ const LessonNotes = () => {
                                 </i>
                                 <span>Create Notes</span>
                               </button>
+                              <button
+                                type="button"
+                                onClick={() => { history.push(
+                                  `${classLocations.lessonNotesDetails}?teacherClassNoteId=${teacherClassNoteId}`
+                                );}}
+                                className="text-center btn-primary btn-icon mx-2 mt-3 mt-xl-0 btn btn-primary"
+                              >
+                                <i className="btn-inner"></i>
+                                <span>Approve Notes</span>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -283,8 +305,8 @@ const LessonNotes = () => {
                           <Card>
                             <Card.Body>
                               <div className="d-flex justify-content-between">
-                                <div className="mb-0">Topic</div>
-                                <div className="dropdown show">
+                                <div className="mb-0">Title</div>
+                                <div className="dropdown show bg-light">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="24"
@@ -512,22 +534,22 @@ const LessonNotes = () => {
                                 {item.noteTitle}
                               </h6>
 
-                              <div className="d-flex">
-                                <div className="" draggable="false">
-                                  Approval:
+                              <div className="d-flex justify-content-between">
+                                <small className="" draggable="false">
+                                  status:
                                   <div className="text-danger">
                                     {item.approvalStatusName}
                                   </div>
-                                </div>
-                                <div className="mx-2" draggable="false">
-                                  Created:
+                                </small>
+                                <small className="mx-2" draggable="false">
+                                  date:
                                   <div className="text-success">
                                     {item.dateCreated}
                                   </div>
-                                </div>
+                                </small>
                               </div>
                             </Card.Body>
-                            <span className="remove"></span>
+                            <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">{item.subjectName}</small>
                           </Card>
                         </Col>
                       ))}
