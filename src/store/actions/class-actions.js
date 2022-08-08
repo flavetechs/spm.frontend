@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/class-action-types";
-import { showErrorToast, showSuccessToast } from "./toaster-actions";
+import { respondModal, showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
 export const pushId = (itemId) => {
@@ -462,13 +462,6 @@ export const pushSessionClassId = (itemId) => {
 
 }
 
-
-
-
-
-
-
-
 //ATTENTANCE ACTION//
 export const createRegister = (sessionClass) => (dispatch) => {
     dispatch({
@@ -664,3 +657,178 @@ export const resetCreateSuccessfulState = () => (dispatch) => {
       });
   }
 //ATTENTANCE ACTION//
+
+//LESSON NOTE ACTION
+export const createLessonNotes = (values) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_LESSON_NOTES_LOADING
+    });
+
+    axiosInstance.post('/classnotes/api/v1/create/classnote', values)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const updateLessonNotes = (values) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_LESSON_NOTES_LOADING
+    });
+
+    axiosInstance.post('/classnotes/api/v1/update/classnote', values)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const getAllOtherStaff = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STAFFACCOUNT_LOADING
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get-note/other-teachers?classNoteId=${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STAFFACCOUNT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_STAFFACCOUNT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const shareLessonNotes = (classNoteId,teacherId) => (dispatch) => {
+    dispatch({
+        type: actions.SHARE_LESSON_NOTES_LOADING
+    });
+const payload = {
+    classNoteId,
+    teacherId,
+}
+
+    axiosInstance.post('/classnotes/api/v1/share/classnote', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SHARE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            respondModal("cancel")(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SHARE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            respondModal("cancel")(dispatch);
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const getAllLessonNotes = (subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_LESSON_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?subjectId=${subjectId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_LESSON_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_LESSON_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_LESSON_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/single/teacher-classnote?TeacherClassNoteId=${teacherClassNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_LESSON_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_LESSON_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getAllUnapprovedLessonNotes = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_UNAPPROVED_LESSON_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/not-approved/classnotes`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_UNAPPROVED_LESSON_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_UNAPPROVED_LESSON_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const deleteLessonNotes = (item,subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_LESSON_NOTES_LOADING
+    });
+const payload= {
+    item
+}
+    axiosInstance.post(`/classnotes/api/v1/delete/teacher/classnotes`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllLessonNotes(subjectId)(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+//LESSON NOTE ACTION

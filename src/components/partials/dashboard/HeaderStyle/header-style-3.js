@@ -35,7 +35,7 @@ const HeaderStyle3 = () => {
                 <Container fluid className="navbar-inner">
                        <MobildeOffcanvas/>
                         <Link to="/dashboard" className="logo-center navbar-brand col-md-3 col-lg-3">
-                            <Logo color={true} />
+                            {/* <Logo color={true} /> */}
                             <h4 className="logo-title">Hope UI</h4>
                         </Link>
                         <Navbar.Toggle aria-controls="navbarSupportedContent">

@@ -18,4 +18,9 @@ export const _state = {
   registerLabelUpdateSuccessful:false,
   studentsPresence:null,
   createSuccessful:false,
+
+  lessonNotes: [],
+  unapprovedLessonNotes:[],
+  singleLessonNotes:null,
+  otherStaffList:[],
 };

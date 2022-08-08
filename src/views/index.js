@@ -181,7 +181,7 @@ const Index = (props) => {
                     <Navbar bg="white" expand="lg" className="top-1 rounded">
                         <Container>
                             <Navbar.Brand href="#" className="mx-2 d-flex align-items-center">
-                                <Logo color={true} />
+                                {/* <Logo color={true} /> */}
                                 <h5 className="logo-title mx-3">Hope UI</h5>
                             </Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
