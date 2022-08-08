@@ -194,7 +194,7 @@ const LessonNoteDetails = () => {
                 <Card.Body>
                   {comments?.map((comment, idx) => (
                     <>
-                      <Card className="shadow-none bg-transparent border my-3 mt-5">
+                      <Card className="shadow-none bg-transparent border my-3">
                         <Card.Body>
                           <div>
                             <div className="d-flex justify-content-between align-items-center my-2 my-lg-0 col-12">
@@ -217,7 +217,7 @@ const LessonNoteDetails = () => {
                           </div>
                         </Card.Body>
                       </Card>
-                     <h6 className="mt-n2"> Replies:</h6> 
+                     <h6 className="mb-2"> Replies:</h6> 
                       {row.showRow && row.indexRow == idx && (
                         <>
                         <div className="d-flex justify-content-end">
@@ -274,7 +274,7 @@ const LessonNoteDetails = () => {
                             </div>
                           </div>
                         </Card>
-                      ))}
+                      ))} <hr/>
                     </>
                   ))}
                 </Card.Body>
