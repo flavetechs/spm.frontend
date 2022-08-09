@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
 import { bindActionCreators } from "redux"
-import { loginOutUser } from '../../../../store/actions/auth-actions'
+import { loginOutUser } from '../../../../store/actions/auth-actions';
 
 //img
 // import flag1 from '../../../../assets/images/Flag/flag001.png'
@@ -31,6 +31,7 @@ import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, get
 import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
+import { getAllActiveSubjects } from '../../../../store/actions/class-actions'
 
 const mapStateToProps = (state) => {
     return {
@@ -58,7 +59,9 @@ const mapDispatchToProps = dispatch => ({
 
 const Header = (props) => {
 
+
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         // navbarstylemode
@@ -69,13 +72,13 @@ const Header = (props) => {
         else {
             props.NavbarstyleAction(navbarstyleMode1);
         }
-    })
+    }, [])
     const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
 
     var userDetail = getUserDetails();
-    console.log('userDetail', userDetail);
+
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
@@ -124,11 +127,19 @@ const Header = (props) => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     {
-                                        userDetail.userType == "Teacher"
-                                            ? (<Dropdown.Item href="/">Teacher Profile</Dropdown.Item>)
-                                            : <Dropdown.Item href="/">Student Profile</Dropdown.Item>
+                                        userDetail?.userType == "Teacher"
+                                            ? (
+                                            <Dropdown.Item onClick={() => {
+                                                history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
+                                            }}>
+                                                <span>  Profile</span>
+                                            </Dropdown.Item>)
+                                            : <Dropdown.Item onClick={() => {
+                                                history.push(`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`)
+                                            }}>
+                                                <span> Profile</span>
+                                            </Dropdown.Item>
                                     }
-
 
                                     <Dropdown.Divider />
                                     <Dropdown.Item href={authLocations.login} onClick={() => {

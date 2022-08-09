@@ -140,7 +140,6 @@ const AddUser = () => {
                       {filteredNonAddedUsers?.map((user, idx) => (
                         <tr key={idx}>
                           <td className="text-uppercase">{user.userName}</td>
-
                           <td className="text-center">
                             <input
                               className="form-check-input"
