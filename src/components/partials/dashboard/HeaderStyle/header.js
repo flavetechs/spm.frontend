@@ -71,7 +71,6 @@ const Header = (props) => {
         else {
             props.NavbarstyleAction(navbarstyleMode1);
         }
-        getAllActiveSubjects()(dispatch)
     }, [])
     const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
