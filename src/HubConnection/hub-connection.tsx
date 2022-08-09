@@ -1,10 +1,10 @@
 import React from "react";
-import * as signalR from "@microsoft/signalr";
+import {HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 import { useEffect, useState } from "preact/hooks";
 
 function Connection() {
-    const hubConnection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information).withUrl('http://localhost:3000/notifications').build();
+    const hubConnection = new HubConnectionBuilder()
+    .configureLogging(LogLevel.Information).withUrl('http://localhost:3000/notifications').build();
     hubConnection.start();
 
     var list: string[] = [];
@@ -18,7 +18,7 @@ function Connection() {
         const [date, setDate] = useState<Date>();
 
         useEffect(() => {
-            messagePops.HubConnection.on('sendToReact', (message: any) => {
+            hubConnection.on('addNotification', (message: any) => {
                 list.push(message);
             });
             setDate(new Date());
