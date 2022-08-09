@@ -572,7 +572,7 @@ console.log("lessonNotes",lessonNotes);
                               </div>
                             </Card.Body>
                             <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                              {item.subjectName}
+                              {item.className}-{item.subjectName}
                             </small>
                           </Card>
                         </Col>

@@ -1012,37 +1012,6 @@ const payload ={
         });
 }
 
-export const getDetails = (classNoteId) => (dispatch) => {
-    dispatch({
-        type: actions.ADD_REPLIES_LOADING
-    });
-// const payload ={
-//         commentId,
-//         comment,
-// }
-
-        Promise.all([`/classnotes/api/v1/get/classnote-viewers?classNoteId=${classNoteId}`])
-       .then((res) => {
-        console.log(res[0]);
-        // dispatch({
-        //     type: actions.FETCH_NOTE_VIEWERS_SUCCESS,
-        //     payload: res[0].data.result
-        // });
-//     console.log(response[1]);
-//    console.log(response[2]);
-//    console.log(response[3]);
-// console.log(response[4]);
-  })
-  .catch((err) => {
-    // dispatch({
-    //     type: actions.FETCH_NOTE_VIEWERS_FAILED,
-    //     payload: err[0].response.data.result
-    // })
-    console.error(err.message)
-  });
-}
-
-
 export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
 
     var classNoteCommentUrl =  axiosInstance.get(`/classnotes/api/v1/get-classnote/comments?classNoteId=${classNoteId}`);

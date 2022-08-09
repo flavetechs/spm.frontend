@@ -48,8 +48,7 @@ const LessonNoteDetails = () => {
 
   useEffect(() => {
     if (singleLessonNotes?.classNoteId) {
-
-      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch)
+      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
 
@@ -66,9 +65,6 @@ const LessonNoteDetails = () => {
               >
                 <Card.Body>
                   <div className="d-flex justify-content-between mt-3 flex-wrap">
-                    {/* <div>
-                    <h6>{singleLessonNotes?.authorName}</h6>
-                  </div> */}
                     <div>
                       <button
                         type="button"
@@ -261,6 +257,10 @@ const LessonNoteDetails = () => {
                                   reply.comment,
                                   singleLessonNotes?.classNoteId
                                 )(dispatch);
+                                setRow({
+                                  indexRow: "",
+                                  showRow: false,
+                                });
                               }}
                             >
                               <svg
@@ -282,7 +282,7 @@ const LessonNoteDetails = () => {
                             </div>
                           </div>
                           <textarea
-                            className="w-100"
+                            className="form-control w-100 border-secondary"
                             onChange={(e) => {
                               setReply({
                                 comment: e.target.value,
@@ -314,6 +314,7 @@ const LessonNoteDetails = () => {
                           <textarea
                             id="message"
                             className="form-control w-100 border-secondary"
+                            value={comment}
                             onChange={(e) => {
                               setComment(e.target.value);
                             }}
@@ -328,6 +329,7 @@ const LessonNoteDetails = () => {
                               singleLessonNotes?.classNoteId,
                               comment
                             )(dispatch);
+                            setComment("");
                           }}
                         >
                           <svg
