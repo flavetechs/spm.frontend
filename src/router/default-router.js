@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/spm-permissions/role-list';
 import RoleEdit from '../components/spm-permissions/role-edit';
 import RoleAdd from '../components/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations } from './spm-path-locations';
 import StudentList from '../components/smp-students/student-list';
 import StudentAdd from '../components/smp-students/student-add';
 import StudentEdit from '../components/smp-students/student-edit';
@@ -58,6 +58,10 @@ import AnnouncementDetails from '../components/smp-notifications/announcement-de
 import AttendanceRegisterList from '../components/spm-class/attendance-register-list';
 import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
 import AddUser from '../components/spm-permissions/role-add-user';
+import StaffProfilePage from '../components/smp-user-profile/staff-profile-page';
+import StudentProfilePage from '../components/smp-user-profile/student-profile-page';
+import StudentProfileEdit from '../components/smp-user-profile/student-profile-edit';
+import StaffProfileEdit from '../components/smp-user-profile/staff-profile-edit';
 import RemoveUser from '../components/spm-permissions/role-remove-user';
 import AssignmentDetails from '../components/spm-class/assignment/assignment-details';
 import CreateAssignment from '../components/spm-class/assignment/assignment-on-create';
@@ -162,6 +166,12 @@ const DashboardRouter = () => {
                       <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
                       <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
                       <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />
+
+                      {/* user profile page */}
+                      <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />
+                      <Route path={authLocations.studentProfilePage} exact component={StudentProfilePage} />
+                      <Route path={authLocations.studentProfileEdit} exact component={StudentProfileEdit} />
+                      <Route path={authLocations.staffProfileEdit} exact component={StaffProfileEdit} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
