@@ -126,11 +126,11 @@ export const fetchSingleStudent = (studentAccountId) => dispatch => {
 
 }
 
-export const updateStudentProfile = (updatedStudentProfile, formData) => (dispatch) => {
+export const updateStudentProfile = ( formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_STUDENT_PROFILE_LOADING
     });           
-    axiosInstance.post('/student/api/v1/update/by-student', formData, updatedStudentProfile)
+    axiosInstance.post('/student/api/v1/update/by-student', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_STUDENT_PROFILE_SUCCESS,

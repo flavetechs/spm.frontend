@@ -107,8 +107,7 @@ const StudentProfileEdit = () => {
                     params.append("Hobbies", values.Hobbies);
                     params.append("BestSubjectIds", values.BestSubjectIds);
                     params.append("File", values.File);
-                    updateStudentProfile(values, params)(dispatch);
-                    // history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);
+                    updateStudentProfile(params)(dispatch);
                 }}
                 enableReinitialize={true}
             >
