@@ -136,7 +136,6 @@ export const updateStudentProfile = (updatedStudentProfile, formData) => (dispat
                 type: actions.UPDATE_STUDENT_PROFILE_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            // fetchSingleStudent(updatedStudentProfile)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

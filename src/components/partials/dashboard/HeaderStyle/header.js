@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
@@ -28,8 +28,7 @@ import Logo from '../../components/logo'
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch, useSelector } from "react-redux"
-import { useLocation, useHistory } from "react-router-dom";
+import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
 import { getAllActiveSubjects } from '../../../../store/actions/class-actions'
@@ -59,17 +58,6 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Header = (props) => {
-
-    const [showUser, setShowUser] = useState()
-
-    //VARIABLE DECLARATIONS
-    const history = useHistory();
-
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { message, selectedStudent } = state.student;
-    const { activeSubjects } = state.class;
-    const { decodedToken } = state.auth;
 
 
     const dispatch = useDispatch();
@@ -143,7 +131,6 @@ const Header = (props) => {
                                             ? (<Dropdown.Item>
                                                 <Link
                                                     to={`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`}
-                                                // to={authLocations.staffProfilePage}
                                                 >
                                                     Teacher Profile
                                                 </Link>
@@ -151,7 +138,6 @@ const Header = (props) => {
                                             : <Dropdown.Item>
                                                 <Link
                                                     to={`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`}
-                                                    // to={authLocations.studentProfilePage}
                                                     >
                                                     Student Profile
                                                 </Link>
