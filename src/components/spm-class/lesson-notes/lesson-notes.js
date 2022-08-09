@@ -7,6 +7,7 @@ import { classLocations } from "../../../router/spm-path-locations";
 import {
   deleteLessonNotes,
   getAllLessonNotes,
+  getClassNotesByStatus,
 } from "../../../store/actions/class-actions";
 import {
   getAllStaffClasses,
@@ -112,7 +113,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-console.log("lessonNotes",lessonNotes);
+
   return (
     <>
       <div>
@@ -159,7 +160,9 @@ console.log("lessonNotes",lessonNotes);
                         className="form-control text-lowercase "
                         placeholder="Search..."
                         onChange={(event) => setSearchQuery(event.target.value)}
-                        onClick={()=>{setShowMenuDropdown(false)}}
+                        onClick={() => {
+                          setShowMenuDropdown(false);
+                        }}
                       />
                     </div>
                   </div>
@@ -258,42 +261,61 @@ console.log("lessonNotes",lessonNotes);
                                 ))}
                               </Field>
                             </div>
-                            <div className="text-body me-3 mt-3 mt-xl-0 align-items-center d-flex">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  handleSubmit();
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                handleSubmit();
+                              }}
+                              className="text-center btn-primary btn-icon  mt-3 mt-xl-0 btn btn-primary"
+                            >
+                              <i className="btn-inner">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-6 w-6"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                  ></path>
+                                </svg>
+                              </i>
+                              <span>Create Notes</span>
+                            </button>
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <Field
+                                as="select"
+                                name="approvalStatus"
+                                className="form-select mx-3"
+                                id="approvalStatus"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "approvalStatus",
+                                    e.target.value
+                                  );
+                                  e.target.value !== "all" ? (
+                                    getClassNotesByStatus(
+                                      values.subjectId,
+                                      e.target.value
+                                    )(dispatch)) : (getAllLessonNotes("")(dispatch))
                                 }}
-                                className="text-center btn-primary btn-icon  mt-3 mt-xl-0 btn btn-primary"
                               >
-                                <i className="btn-inner">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                    ></path>
-                                  </svg>
-                                </i>
-                                <span>Create Notes</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => { history.push(
-                                  `${classLocations.lessonNotesDetails}?teacherClassNoteId=${teacherClassNoteId}`
-                                );}}
-                                className="text-center btn-primary btn-icon mx-2 mt-3 mt-xl-0 btn btn-primary"
-                              >
-                                <i className="btn-inner"></i>
-                                <span>Approve Notes</span>
-                              </button>
+                                <option value="">Select Status</option>
+                                {/* {subjectId  ? ( */}
+                                <>
+                                  <option value="all">Select All</option>
+                                  <option value="0">Not Approved</option>
+                                  <option value="1">Approved</option>
+                                  <option value="2">Saved</option>
+                                  <option value="3">In progress</option>
+                                </>
+                                {/* ):""} */}
+                              </Field>
                             </div>
                           </div>
                         </div>
@@ -549,7 +571,9 @@ console.log("lessonNotes",lessonNotes);
                                 </small>
                               </div>
                             </Card.Body>
-                            <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">{item.subjectName}</small>
+                            <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
+                              {item.subjectName}
+                            </small>
                           </Card>
                         </Col>
                       ))}

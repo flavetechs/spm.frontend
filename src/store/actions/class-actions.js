@@ -738,6 +738,7 @@ const payload = {
                 payload: res.data.message.friendlyMessage
             });
             respondModal("cancel")(dispatch);
+            getAllOtherStaff(classNoteId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -782,7 +783,7 @@ export const sendForApproval = (classNoteId) => (dispatch) => {
 const payload = {
     classNoteId,
   }
-  console.log("values",payload);
+  
     axiosInstance.post('/classnotes/api/v1/send/classnotes/for-approval', payload)
         .then((res) => {
             dispatch({
@@ -820,6 +821,7 @@ export const getAllLessonNotes = (subjectId) => (dispatch) => {
         });
 }
 
+
 export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_LESSON_NOTES_LOADING,
@@ -834,6 +836,25 @@ export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_SINGLE_LESSON_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getClassNotesByStatus = (subjectId,status) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STATUS_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/teacher-classnote/by-status?subjectId=${subjectId}&status=${status}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STATUS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STATUS_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -872,6 +893,44 @@ export const getAllComments = (classNoteId) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_COMMENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getClassNoteViewers = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_NOTE_VIEWERS_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/classnote-viewers?classNoteId=${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_NOTE_VIEWERS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_NOTE_VIEWERS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getRelatedNotes = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_RELATED_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/related-classnote?classNoteId=${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_RELATED_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_RELATED_NOTES_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -953,4 +1012,33 @@ const payload ={
         });
 }
 
+export const getDetails = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_REPLIES_LOADING
+    });
+// const payload ={
+//         commentId,
+//         comment,
+// }
+
+        Promise.all([`/classnotes/api/v1/get/classnote-viewers?classNoteId=${classNoteId}`])
+       .then((res) => {
+        console.log(res[0]);
+        // dispatch({
+        //     type: actions.FETCH_NOTE_VIEWERS_SUCCESS,
+        //     payload: res[0].data.result
+        // });
+//     console.log(response[1]);
+//    console.log(response[2]);
+//    console.log(response[3]);
+// console.log(response[4]);
+  })
+  .catch((err) => {
+    // dispatch({
+    //     type: actions.FETCH_NOTE_VIEWERS_FAILED,
+    //     payload: err[0].response.data.result
+    // })
+    console.error(err.message)
+  });
+}
 //LESSON NOTE ACTION

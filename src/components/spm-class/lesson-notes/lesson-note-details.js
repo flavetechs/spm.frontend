@@ -2,20 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { setCommentRange } from "typescript";
 import { classLocations } from "../../../router/spm-path-locations";
 import {
   addComments,
   addReplies,
   approveNotes,
   getAllComments,
+  getClassNoteViewers,
+  getDetails,
+  getRelatedNotes,
   getSingleLessonNotes,
 } from "../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
 
 const LessonNoteDetails = () => {
   const state = useSelector((state) => state);
-  const { singleLessonNotes, createSuccessful, comments } = state.class;
+  const {
+    singleLessonNotes,
+    createSuccessful,
+    comments,
+    viewers,
+    relatedNotes,
+  } = state.class;
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const location = useLocation();
@@ -39,8 +47,11 @@ const LessonNoteDetails = () => {
 
   useEffect(() => {
     getAllComments(singleLessonNotes?.classNoteId)(dispatch);
+    getRelatedNotes(singleLessonNotes?.classNoteId)(dispatch);
+    getClassNoteViewers(singleLessonNotes?.classNoteId)(dispatch);
+     //getDetails(singleLessonNotes?.classNoteId)(dispatch);
   }, [singleLessonNotes]);
-  console.log("lessonNotes",singleLessonNotes);
+  console.log(comments);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -198,7 +209,7 @@ const LessonNoteDetails = () => {
                         <Card.Body>
                           <div>
                             <div className="d-flex justify-content-between align-items-center my-2 my-lg-0 col-12">
-                              <h6 className="mb-0">Jackson Jones</h6>
+                              <h6 className="mb-0">{comment.name}</h6>
                               <h6
                                 className="mb-0"
                                 style={{ cursor: "pointer" }}
@@ -217,64 +228,70 @@ const LessonNoteDetails = () => {
                           </div>
                         </Card.Body>
                       </Card>
-                     <h6 className="mb-2"> Replies:</h6> 
-                      {row.showRow && row.indexRow == idx && (
-                        <>
-                        <div className="d-flex justify-content-end">
-                          <div className=" badge bg-primary border-0 mb-2 mt-n3" style={{cursor:"pointer"}}
-                       onClick={() => {
-                        addReplies(
-                          reply.commentId,
-                          reply.comment,
-                          singleLessonNotes?.classNoteId
-                        )(dispatch);
-                          }}>
-                        <svg
-                          className="icon-32 me-2"
-                          width="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg> 
-                         ok
-                        </div>
-                        </div>
-                            <textarea
-                              className="w-100"
-                              onChange={(e) => {
-                                setReply({
-                                  comment: e.target.value,
-                                  commentId: comment.commentId,
-                                });
-                              }}
-                            />
-                        
-                        </>
-                      )}
+                      <h6 className="mb-2"> Replies:</h6>
                       {comment?.repliedComments?.map((replied, idx) => (
-                        <Card className="bg-light shadow-none border py-1 mb-1 px-3">
+                        <Card
+                          key={idx}
+                          className="bg-light shadow-none border py-1 mb-1 px-3"
+                        >
                           <div className="d-flex flex-sm-nowrap flex-wrap">
                             <div>
                               <div
                                 className="d-flex justify-content-between align-items-center my-2 my-lg-0 "
                                 style={{ cursor: "pointer" }}
                               >
-                                <h6 className="mb-0">Jackson Jones</h6>
+                                <h6 className="mb-0">{replied.name}</h6>
                               </div>
                               {/* <small className="text-primary">March 01st 2021</small> */}
                               <p className="mt-2 mb-0">{replied.comment}</p>
                             </div>
                           </div>
                         </Card>
-                      ))} <hr/>
+                      ))}{" "}
+                       {row.showRow && row.indexRow == idx && (
+                        <>
+                          <div className="d-flex justify-content-end mt-4">
+                            <div
+                              className=" badge bg-primary border-0 mb-2 mt-n3"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                addReplies(
+                                  reply.commentId,
+                                  reply.comment,
+                                  singleLessonNotes?.classNoteId
+                                )(dispatch);
+                              }}
+                            >
+                              <svg
+                                className="icon-32 me-2"
+                                width="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                ></path>
+                              </svg>
+                              ok
+                            </div>
+                          </div>
+                          <textarea
+                            className="w-100"
+                            onChange={(e) => {
+                              setReply({
+                                comment: e.target.value,
+                                commentId: comment.commentId,
+                              });
+                            }}
+                          />
+                        </>
+                      )}
+                      <hr />
                     </>
                   ))}
                 </Card.Body>
@@ -302,29 +319,32 @@ const LessonNoteDetails = () => {
                           />
                         </div>
 
-                    <div className="badge bg-primary border-0 mb-3" style={{cursor:"pointer"}}
-                       onClick={() => {
+                        <div
+                          className="badge bg-primary border-0 mb-3"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
                             addComments(
                               singleLessonNotes?.classNoteId,
                               comment
                             )(dispatch);
-                          }}>
-                        <svg
-                          className="icon-32 me-2"
-                          width="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                          }}
                         >
-                          <path
-                            d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg> 
-                         ok
+                          <svg
+                            className="icon-32 me-2"
+                            width="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                          </svg>
+                          ok
                         </div>
                       </div>
                       <div className="col-lg-12 d-flex ">
@@ -389,7 +409,7 @@ const LessonNoteDetails = () => {
                   />
                   <div>
                     <h6 className="mb-3 text-primary">
-                      {singleLessonNotes?.authorName}
+                      {singleLessonNotes?.noteAuthordetail?.fullName}
                     </h6>
                     <p className="mt-3">
                       Elit vitae neque velit mattis elementum egestas non, Sem
@@ -401,85 +421,42 @@ const LessonNoteDetails = () => {
             </Card>
             <Card>
               <Card.Body>
-                <h4 className="mb-3">Categories</h4>
+                <h4 className="mb-3">Related Notes</h4>
                 <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">Beauty</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (8)
-                      </span>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">SkinCare</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (2)
-                      </span>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">HairCare</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (6)
-                      </span>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">Makeup</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (6)
-                      </span>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">Business</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (5)
-                      </span>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">Salon</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (4)
-                      </span>
-                    </div>
-                  </li>
-                  <li className="">
-                    <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                      <h6 className="iq-categories-name mb-0">Toner</h6>
-                      <p className="iq-categories-indicator line-around-2 mb-0">
-                        <span className="px-5"></span>
-                      </p>
-                      <span className="px-3 d-flex align-items-center">
-                        (8)
-                      </span>
-                    </div>
-                  </li>
+                  {relatedNotes?.map((notes, idx) => (
+                    <li key={idx} className="">
+                      <div className="iq-blog-categories d-flex justify-content-between align-items-center">
+                        <h6
+                          className="iq-categories-name mb-0"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            history.push(
+                              `${classLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`
+                            );
+                            getSingleLessonNotes(notes.teacherClassNoteId)(dispatch);
+                          }}
+                        >
+                          {notes.noteTitle}
+                        </h6>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </Card.Body>
+            </Card>
+            <Card>
+              <Card.Body>
+                <h4 className="mb-3">Viewers</h4>
+                <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
+                  {viewers?.map((viewer, idx) => (
+                    <li key={idx} className="">
+                      <div className="iq-blog-categories d-flex justify-content-between align-items-center">
+                        <h6 className="iq-categories-name mb-0">
+                          {viewer.fullName}
+                        </h6>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </Card.Body>
             </Card>
