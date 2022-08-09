@@ -113,7 +113,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-
+console.log("lessonNotes",lessonNotes);
   return (
     <>
       <div>
