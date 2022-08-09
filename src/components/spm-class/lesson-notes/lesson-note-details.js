@@ -10,6 +10,7 @@ import {
   getAllComments,
   getClassNoteViewers,
   getDetails,
+  getLessonNoteDetails,
   getRelatedNotes,
   getSingleLessonNotes,
 } from "../../../store/actions/class-actions";
@@ -46,10 +47,10 @@ const LessonNoteDetails = () => {
   }, []);
 
   useEffect(() => {
-    getAllComments(singleLessonNotes?.classNoteId)(dispatch);
-    getRelatedNotes(singleLessonNotes?.classNoteId)(dispatch);
-    getClassNoteViewers(singleLessonNotes?.classNoteId)(dispatch);
-     //getDetails(singleLessonNotes?.classNoteId)(dispatch);
+    if (singleLessonNotes?.classNoteId) {
+
+      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch)
+    }
   }, [singleLessonNotes]);
 
   return (
@@ -248,7 +249,7 @@ const LessonNoteDetails = () => {
                           </div>
                         </Card>
                       ))}{" "}
-                       {row.showRow && row.indexRow == idx && (
+                      {row.showRow && row.indexRow == idx && (
                         <>
                           <div className="d-flex justify-content-end mt-4">
                             <div
@@ -358,7 +359,7 @@ const LessonNoteDetails = () => {
                             setIsChecked(e.target.checked);
                           }}
                         />
-                        <label for="html">approve</label>
+                        <label htmlFor="html">approve</label>
                         <input
                           type="radio"
                           id="disapprove"
@@ -366,7 +367,7 @@ const LessonNoteDetails = () => {
                           value="disapprove"
                           className="mx-1 form-check-input"
                         />
-                        <label for="css">disapprove</label>
+                        <label htmlFor="css">disapprove</label>
                       </div>
                     </Row>
                   </form>
