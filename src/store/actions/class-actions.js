@@ -1041,4 +1041,33 @@ export const getDetails = (classNoteId) => (dispatch) => {
     console.error(err.message)
   });
 }
+
+
+export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
+
+    var classNoteCommentUrl =  axiosInstance.get(`/classnotes/api/v1/get-classnote/comments?classNoteId=${classNoteId}`);
+    var relatedNotes =  axiosInstance.get(`/classnotes/api/v1/get/related-classnote?classNoteId=${classNoteId}`);
+    var canSeeNoteUrl =  axiosInstance.get(`/classnotes/api/v1/get/classnote-viewers?classNoteId=${classNoteId}`);
+
+    var urls = [classNoteCommentUrl, relatedNotes, canSeeNoteUrl];
+    Promise.all(urls).then(response => {
+        dispatch({
+            type: actions.FETCH_COMMENTS_SUCCESS,
+            payload:  response[0].data.result
+        });
+
+        dispatch({
+            type: actions.FETCH_RELATED_NOTES_SUCCESS,
+            payload:  response[1].data.result
+        });
+        dispatch({
+            type: actions.FETCH_NOTE_VIEWERS_SUCCESS,
+            payload:  response[2].data.result
+        });
+        
+
+    }).catch(er => {
+        console.log(er);
+    })
+}
 //LESSON NOTE ACTION
