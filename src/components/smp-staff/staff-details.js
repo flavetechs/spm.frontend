@@ -47,6 +47,7 @@ const StaffDetails = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { isSuccessful, message, selectedItem } = state.staff;
+  console.log('selectedItem ', selectedItem);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {

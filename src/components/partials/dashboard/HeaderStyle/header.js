@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
 import { bindActionCreators } from "redux"
-import { loginOutUser } from '../../../../store/actions/auth-actions'
+import { loginOutUser } from '../../../../store/actions/auth-actions';
 
 //img
 // import flag1 from '../../../../assets/images/Flag/flag001.png'
@@ -28,9 +28,11 @@ import Logo from '../../components/logo'
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch } from "react-redux"
+import { connect, useDispatch, useSelector } from "react-redux"
+import { useLocation, useHistory } from "react-router-dom";
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
+import { getAllActiveSubjects } from '../../../../store/actions/class-actions'
 
 const mapStateToProps = (state) => {
     return {
@@ -60,6 +62,16 @@ const Header = (props) => {
 
     const [showUser, setShowUser] = useState()
 
+    //VARIABLE DECLARATIONS
+    const history = useHistory();
+
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { message, selectedStudent } = state.student;
+    const { activeSubjects } = state.class;
+    const { decodedToken } = state.auth;
+
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -71,13 +83,14 @@ const Header = (props) => {
         else {
             props.NavbarstyleAction(navbarstyleMode1);
         }
-    })
+        getAllActiveSubjects()(dispatch)
+    }, [])
     const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
 
     var userDetail = getUserDetails();
-    console.log('userDetail', userDetail);
+
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
@@ -126,9 +139,23 @@ const Header = (props) => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     {
-                                        userDetail.userType == "Teacher"
-                                            ? (<Dropdown.Item href="/">Teacher Profile</Dropdown.Item>)
-                                            : <Dropdown.Item href="/">Student Profile</Dropdown.Item>
+                                        userDetail?.userType == "Teacher"
+                                            ? (<Dropdown.Item>
+                                                <Link
+                                                    to={`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`}
+                                                // to={authLocations.staffProfilePage}
+                                                >
+                                                    Teacher Profile
+                                                </Link>
+                                            </Dropdown.Item>)
+                                            : <Dropdown.Item>
+                                                <Link
+                                                    to={`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`}
+                                                    // to={authLocations.studentProfilePage}
+                                                    >
+                                                    Student Profile
+                                                </Link>
+                                            </Dropdown.Item>
                                     }
 
                                     <Dropdown.Divider />

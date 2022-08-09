@@ -1,34 +1,25 @@
 import React from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import {
     fetchSingleStudent,
 } from "../../store/actions/student-actions";
-import avatars1 from "../../assets/images/avatars/01.png";
-import avatars2 from "../../assets/images/avatars/avtar_1.png";
-import avatars3 from "../../assets/images/avatars/avtar_2.png";
-import avatars4 from "../../assets/images/avatars/avtar_3.png";
-import avatars5 from "../../assets/images/avatars/avtar_4.png";
-import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { getAllActiveSubjects, getAllSessionClasses } from "../../store/actions/class-actions";
-import { getAllResultList } from "../../store/actions/publish-actions";
 import { authLocations } from "../../router/spm-path-locations";
+import './profilePage.scss';
 
 const StudentProfilePage = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const locations = useLocation();
     const dispatch = useDispatch();
-    let profilePhoto = "https://highwaymail.co.za/wp-content/uploads/sites/50/2017/09/Themba-Dloti.jpg"
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { message, selectedStudent } = state.student;
-    const {  activeSubjects } = state.class;
-    console.log('activeSubjects :', activeSubjects);
+    const { selectedStudent } = state.student;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -39,7 +30,6 @@ const StudentProfilePage = () => {
     }, []);
 
     React.useEffect(() => {
-        getAllSessionClasses()(dispatch);
         getAllActiveSubjects()(dispatch);
     }, []);
 
@@ -58,7 +48,7 @@ const StudentProfilePage = () => {
                                     justifyContent: 'center',
 
                                 }}>
-                                    <img src={profilePhoto} alt="profilePhoto"
+                                    <img src={selectedStudent?.photo} alt="Profile Photo"
                                         className="d-block justify-content-center mb-3"
                                         width="220px"
                                         height="220px"
@@ -66,17 +56,25 @@ const StudentProfilePage = () => {
                                     />
                                 </div>
 
-                                <h5 className="d-flex justify-content-center text-dark">Benson David E.</h5>
-                                <h6 className="d-flex justify-content-center text-dark">ABC/000000927/XYX</h6>
+                                <h5 className="d-flex justify-content-center text-dark">{selectedStudent?.firstName} {selectedStudent?.middleName} {selectedStudent?.lastName}</h5>
+                                <h6 className="d-flex justify-content-center text-dark">{selectedStudent?.registrationNumber}</h6>
                                 <hr className="fw-bold" />
-                                <p className=""><span>Status: </span>{" "}
-                                    <span className="text-dark fwd-bold ps-2"><b>Student</b></span></p>
-                                <p className=""><span>Hobbies: </span>{" "}
-                                    <span className="text-dark fwd-bold ps-2"><b>Reading, Dancing, Football, Coding</b></span>
-                                </p>
-                                <p className=""><span>Best Subject: </span>{" "}
-                                    <span className="text-dark fwd-bold ps-2"><b>English, Mathematics, Physics</b></span>
-                                </p>
+                                <p className="text-dark fw-bold mb-1">Hobbies: </p>
+                                <div className="container text-capitalize text-dark">
+                                    {selectedStudent?.hobbies.map(name => (
+                                        <li>
+                                            {name}
+                                        </li>
+                                    ))}
+                                </div>
+                                <p className="text-dark fw-bold mt-4 mb-1">Best Subject: </p>
+                                <div className="container">
+                                    {selectedStudent?.bestSubjectNames.map(name => (
+                                        <li className="best-language">
+                                            {name}
+                                        </li>
+                                    ))}
+                                </div>
                                 <div className="mt-5 d-flex justify-content-end">
                                     <Button className="me-3"
                                         type="button"
@@ -89,51 +87,11 @@ const StudentProfilePage = () => {
                                         type="button"
                                         variant="btn btn-primary"
                                         onClick={() => {
-                                            history.push(authLocations.studentProfileEdit)
+                                            history.push(`${authLocations.studentProfileEdit}?studentAccountId=${selectedStudent.studentAccountId}`)
                                         }}
                                     >Edit Profile</Button>
                                 </div>
                             </div>
-                            {/* <Form className="">
-                <div className="form-group">
-                  {!selectedStudent?.photo ? (
-                    <div>
-                      <img
-                        src={avatars1}
-                        alt="User-Profile"
-                        className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars2}
-                        alt="User-Profile"
-                        className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars3}
-                        alt="User-Profile"
-                        className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars5}
-                        alt="User-Profile"
-                        className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars6}
-                        alt="User-Profile"
-                        className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars4}
-                        alt="User-Profile"
-                        className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                    </div>
-                  ) : (
-                    <img  className="img-fluid mt-4" src={selectedStudent?.photo} alt="profile" />
-                  )}
-                </div>
-              </Form> */}
                         </div>
                     </Card>
                 </Col>
@@ -160,20 +118,9 @@ const StudentProfilePage = () => {
                         <Card.Body>
                             {" "}
                             <div className="new-user-info">
-                                <Form>
-                                    {message && <div className="text-danger">{message}</div>}
                                     <div className="row">
                                         <div className="col-md-12  form-group">
                                         </div>
-                                        {/* <div className="col-md-6 form-group">
-                      <p><span>First Name:</span> <span className="h6"> {selectedStudent?.firstName}</span></p>
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <p><span>Last Name:</span> <span className="h6"> {selectedStudent?.lastName}</span></p>
-                    </div> */}
-                                        {/* <div className="col-md-6 form-group">
-                      <p> <span>Middle Name:</span><span className="h6 text-capitalize"> {selectedStudent?.middleName}</span></p>
-                    </div> */}
                                         <div className="col-md-6 form-group">
                                             <p className="text-dark">
                                                 <span>
@@ -182,17 +129,8 @@ const StudentProfilePage = () => {
                                                         <path opacity="0.4" d="M14.3558 2.00793C14.1328 1.97595 13.9087 2.04191 13.7304 2.18381C13.5472 2.32771 13.4326 2.53557 13.4078 2.76841C13.355 3.23908 13.6946 3.66479 14.1646 3.71776C17.4063 4.07951 19.9259 6.60477 20.2904 9.85654C20.3392 10.2922 20.7047 10.621 21.1409 10.621C21.1738 10.621 21.2057 10.619 21.2385 10.615C21.4666 10.59 21.6698 10.4771 21.8132 10.2972C21.9556 10.1174 22.0203 9.89351 21.9944 9.66467C21.5403 5.60746 18.4002 2.45862 14.3558 2.00793Z" fill="currentColor" />
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M11.0317 12.9724C15.0208 16.9604 15.9258 12.3467 18.4656 14.8848C20.9143 17.3328 22.3216 17.8232 19.2192 20.9247C18.8306 21.237 16.3616 24.9943 7.6846 16.3197C-0.993478 7.644 2.76158 5.17244 3.07397 4.78395C6.18387 1.67385 6.66586 3.08938 9.11449 5.53733C11.6544 8.0765 7.04266 8.98441 11.0317 12.9724Z" fill="currentColor" />
                                                     </svg>
-                                                    {/* <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M14.353 2.5C18.054 2.911 20.978 5.831 21.393 9.532" stroke="currentColor" strokeWidth="1.5"
-                                                            strokeLinecap="round" strokeLinejoin="round" />
-                                                        <path d="M14.353 6.04297C16.124 6.38697 17.508 7.77197 17.853 9.54297" stroke="currentColor" strokeWidth="1.5"
-                                                            strokeLinecap="round" strokeLinejoin="round" />
-                                                        <path fillRule="evenodd" clipRule="evenodd"
-                                                            d="M11.0315 12.4724C15.0205 16.4604 15.9254 11.8467 18.4653 14.3848C20.9138 16.8328 22.3222 17.3232 19.2188 20.4247C18.8302 20.737 16.3613 24.4943 7.68447 15.8197C-0.993406 7.144 2.76157 4.67244 3.07394 4.28395C6.18377 1.17385 6.66682 2.58938 9.11539 5.03733C11.6541 7.5765 7.04254 8.48441 11.0315 12.4724Z"
-                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    </svg> */}
                                                 </span>{" "}
-                                                <span>Mobile Number:</span> <span className="h6">08057494883</span>
+                                                <span>Mobile Number:</span> <span className="h6">{selectedStudent?.phone}</span>
                                             </p>
                                         </div>
                                         <div className="col-md-6 form-group">
@@ -201,13 +139,8 @@ const StudentProfilePage = () => {
                                                     <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M11.5317 12.4724C15.5208 16.4604 16.4258 11.8467 18.9656 14.3848C21.4143 16.8328 22.8216 17.3232 19.7192 20.4247C19.3306 20.737 16.8616 24.4943 8.1846 15.8197C-0.493478 7.144 3.26158 4.67244 3.57397 4.28395C6.68387 1.17385 7.16586 2.58938 9.61449 5.03733C12.1544 7.5765 7.54266 8.48441 11.5317 12.4724Z" fill="currentColor" />
                                                     </svg>
-                                                    {/* <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fillRule="evenodd" clipRule="evenodd"
-                                                            d="M11.5317 12.4724C15.5208 16.4604 16.4258 11.8467 18.9656 14.3848C21.4143 16.8328 22.8216 17.3232 19.7192 20.4247C19.3306 20.737 16.8616 24.4943 8.1846 15.8197C-0.493478 7.144 3.26158 4.67244 3.57397 4.28395C6.68387 1.17385 7.16586 2.58938 9.61449 5.03733C12.1544 7.5765 7.54266 8.48441 11.5317 12.4724Z"
-                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    </svg> */}
                                                 </span>{" "}
-                                                <span>Home Phone Number:</span> <span className="h6">08098487494</span></p>
+                                                <span>Home Phone Number:</span> <span className="h6">{selectedStudent?.homePhone}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
                                             <p className="text-dark">
@@ -219,7 +152,7 @@ const StudentProfilePage = () => {
                                                     </svg>
                                                 </span>{" "}
                                                 <span>Emergency Phone Number:{" "}</span>
-                                                <span className="h6">09098737373</span>
+                                                <span className="h6">{selectedStudent?.emergencyPhone}</span>
                                             </p>
                                         </div>
                                         <div className="col-md-6 form-group">
@@ -229,15 +162,8 @@ const StudentProfilePage = () => {
                                                         <path opacity="0.4" d="M22 15.94C22 18.73 19.76 20.99 16.97 21H16.96H7.05C4.27 21 2 18.75 2 15.96V15.95C2 15.95 2.006 11.524 2.014 9.298C2.015 8.88 2.495 8.646 2.822 8.906C5.198 10.791 9.447 14.228 9.5 14.273C10.21 14.842 11.11 15.163 12.03 15.163C12.95 15.163 13.85 14.842 14.56 14.262C14.613 14.227 18.767 10.893 21.179 8.977C21.507 8.716 21.989 8.95 21.99 9.367C22 11.576 22 15.94 22 15.94Z" fill="currentColor" />
                                                         <path d="M21.4759 5.67351C20.6099 4.04151 18.9059 2.99951 17.0299 2.99951H7.04988C5.17388 2.99951 3.46988 4.04151 2.60388 5.67351C2.40988 6.03851 2.50188 6.49351 2.82488 6.75151L10.2499 12.6905C10.7699 13.1105 11.3999 13.3195 12.0299 13.3195C12.0339 13.3195 12.0369 13.3195 12.0399 13.3195C12.0429 13.3195 12.0469 13.3195 12.0499 13.3195C12.6799 13.3195 13.3099 13.1105 13.8299 12.6905L21.2549 6.75151C21.5779 6.49351 21.6699 6.03851 21.4759 5.67351Z" fill="currentColor" />
                                                     </svg>{" "}
-                                                    {/* <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M17.9028 8.85107L13.4596 12.4641C12.6201 13.1301 11.4389 13.1301 10.5994 12.4641L6.11865 8.85107"
-                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                        <path fillRule="evenodd" clipRule="evenodd"
-                                                            d="M16.9089 21C19.9502 21.0084 22 18.5095 22 15.4384V8.57001C22 5.49883 19.9502 3 16.9089 3H7.09114C4.04979 3 2 5.49883 2 8.57001V15.4384C2 18.5095 4.04979 21.0084 7.09114 21H16.9089Z"
-                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    </svg>{" "} */}
                                                 </span>
-                                                <span>Email Address:</span> <span className="h6 text-capitalize">davidbffffen@gmail.com</span></p>
+                                                <span>Email Address:</span> <span className="h6 text-capitalize">{selectedStudent?.email}</span></p>
                                         </div>
                                         <div className="col-md-6  form-group">
                                             <p className="text-dark">
@@ -248,29 +174,8 @@ const StudentProfilePage = () => {
                                                         <path d="M8.30465 6.59C8.73934 6.59 9.06535 6.261 9.06535 5.82V2.771C9.06535 2.33 8.73934 2 8.30465 2C7.86996 2 7.54395 2.33 7.54395 2.771V5.82C7.54395 6.261 7.86996 6.59 8.30465 6.59Z" fill="currentColor" />
                                                         <path d="M15.6953 6.59C16.1201 6.59 16.456 6.261 16.456 5.82V2.771C16.456 2.33 16.1201 2 15.6953 2C15.2606 2 14.9346 2.33 14.9346 2.771V5.82C14.9346 6.261 15.2606 6.59 15.6953 6.59Z" fill="currentColor" />
                                                     </svg>
-                                                    {/* <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M3.09277 9.40421H20.9167" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M16.442 13.3097H16.4512" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M12.0045 13.3097H12.0137" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M7.55818 13.3097H7.56744" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M16.442 17.1962H16.4512" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M12.0045 17.1962H12.0137" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M7.55818 17.1962H7.56744" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                                            strokeLinejoin="round" />
-                                                        <path d="M16.0433 2V5.29078" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                        <path d="M7.96515 2V5.29078" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                        <path fillRule="evenodd" clipRule="evenodd"
-                                                            d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z"
-                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    </svg> */}
                                                 </span>{" "}
-                                                <span>Date Of Birth:</span> <span className="h6">10-06-2001</span></p>
+                                                <span>Date Of Birth:</span> <span className="h6">{selectedStudent?.dob}</span></p>
                                         </div>
                                         <div className="col-sm-6 form-group">
                                             <p className="text-dark">
@@ -278,13 +183,8 @@ const StudentProfilePage = () => {
                                                     <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M9.14373 20.7821V17.7152C9.14372 16.9381 9.77567 16.3067 10.5584 16.3018H13.4326C14.2189 16.3018 14.8563 16.9346 14.8563 17.7152V20.7732C14.8562 21.4473 15.404 21.9951 16.0829 22H18.0438C18.9596 22.0023 19.8388 21.6428 20.4872 21.0007C21.1356 20.3586 21.5 19.4868 21.5 18.5775V9.86585C21.5 9.13139 21.1721 8.43471 20.6046 7.9635L13.943 2.67427C12.7785 1.74912 11.1154 1.77901 9.98539 2.74538L3.46701 7.9635C2.87274 8.42082 2.51755 9.11956 2.5 9.86585V18.5686C2.5 20.4637 4.04738 22 5.95617 22H7.87229C8.19917 22.0023 8.51349 21.8751 8.74547 21.6464C8.97746 21.4178 9.10793 21.1067 9.10792 20.7821H9.14373Z" fill="currentColor" />
                                                     </svg>
-                                                    {/* <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M9.15722 20.7714V17.7047C9.1572 16.9246 9.79312 16.2908 10.581 16.2856H13.4671C14.2587 16.2856 14.9005 16.9209 14.9005 17.7047V17.7047V20.7809C14.9003 21.4432 15.4343 21.9845 16.103 22H18.0271C19.9451 22 21.5 20.4607 21.5 18.5618V18.5618V9.83784C21.4898 9.09083 21.1355 8.38935 20.538 7.93303L13.9577 2.6853C12.8049 1.77157 11.1662 1.77157 10.0134 2.6853L3.46203 7.94256C2.86226 8.39702 2.50739 9.09967 2.5 9.84736V18.5618C2.5 20.4607 4.05488 22 5.97291 22H7.89696C8.58235 22 9.13797 21.4499 9.13797 20.7714V20.7714"
-                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    </svg> */}
                                                 </span>{" "}
-                                                <span>Home Address:</span> <span className="h6 text-capitalize">Igwuruta lekki phase 2</span></p>
+                                                <span>Home Address:</span> <span className="h6 text-capitalize">{selectedStudent?.homeAddress}</span></p>
                                         </div>
                                         <div className="col-md-6  form-group">
                                             <p className="text-dark">
@@ -294,7 +194,7 @@ const StudentProfilePage = () => {
                                                         <ellipse opacity="0.4" cx="12" cy="21" rx="5" ry="1" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>City:</span> <span className="h6 text-capitalize"> Island City</span></p>
+                                                <span>City:</span> <span className="h6 text-capitalize">{selectedStudent?.cityId}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
                                             <p className="text-dark">
@@ -306,7 +206,7 @@ const StudentProfilePage = () => {
                                                         <path d="M16.6398 12.9956C16.1775 12.9956 15.8042 13.3689 15.8042 13.8312V17.0756C15.8042 17.5289 16.1775 17.9023 16.6309 17.9023C17.0931 17.9023 17.4664 17.5289 17.4664 17.0756V13.8312C17.4664 13.3689 17.0931 12.9956 16.6398 12.9956Z" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>State:</span> <span className="h6 text-capitalize"> {selectedStudent?.stateId} Lagos</span></p>
+                                                <span>State:</span> <span className="h6 text-capitalize">{selectedStudent?.stateId}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group text-capitalize">
                                             <p className="text-dark">
@@ -316,7 +216,7 @@ const StudentProfilePage = () => {
                                                         <ellipse opacity="0.4" cx="12" cy="21" rx="5" ry="1" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>Country:</span><span className="h6 text-capitalize">Nigeria</span></p>
+                                                <span>Country:</span>{" "}<span className="h6 text-capitalize">{selectedStudent?.countryId}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group text-capitalize">
                                             <p className="text-dark">
@@ -326,7 +226,7 @@ const StudentProfilePage = () => {
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M11.3144 11.2484H17.0144C17.4244 11.2484 17.7644 11.5884 17.7644 11.9984V13.8484C17.7644 14.2684 17.4244 14.5984 17.0144 14.5984C16.5944 14.5984 16.2644 14.2684 16.2644 13.8484V12.7484H14.9344V13.8484C14.9344 14.2684 14.5944 14.5984 14.1844 14.5984C13.7644 14.5984 13.4344 14.2684 13.4344 13.8484V12.7484H11.3144C10.9944 13.8184 10.0144 14.5984 8.84437 14.5984C7.40437 14.5984 6.23438 13.4384 6.23438 11.9984C6.23438 10.5684 7.40437 9.39844 8.84437 9.39844C10.0144 9.39844 10.9944 10.1784 11.3144 11.2484ZM7.73438 11.9984C7.73438 12.6084 8.23438 13.0984 8.84438 13.0984C9.44438 13.0984 9.94438 12.6084 9.94438 11.9984C9.94438 11.3884 9.44438 10.8984 8.84438 10.8984C8.23438 10.8984 7.73438 11.3884 7.73438 11.9984Z" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>Zip Code:</span> <span className="h6">50081</span></p>
+                                                <span>Zip Code:</span> <span className="h6">{selectedStudent?.zipCode}</span></p>
                                         </div>
                                     </div>
                                     <hr />
@@ -340,7 +240,7 @@ const StudentProfilePage = () => {
                                                         <path opacity="0.4" d="M11.9971 12.5838C14.9351 12.5838 17.2891 10.2288 17.2891 7.29176C17.2891 4.35476 14.9351 1.99976 11.9971 1.99976C9.06008 1.99976 6.70508 4.35476 6.70508 7.29176C6.70508 10.2288 9.06008 12.5838 11.9971 12.5838Z" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>Name:</span> <span className="h6 text-capitalize">Benson Desmond</span></p>
+                                                <span>Name:</span> <span className="h6 text-capitalize">{selectedStudent?.parentOrGuardianName}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
                                             <p className="text-dark">
@@ -352,7 +252,7 @@ const StudentProfilePage = () => {
                                                     </svg>
                                                 </span>{" "}
                                                 <span>Relationship:</span>{" "}
-                                                <span className="h6 text-capitalize">Father</span>
+                                                <span className="h6 text-capitalize">{selectedStudent?.parentOrGuardianRelationship}</span>
                                             </p>
                                         </div>
                                         <div className="col-md-6 form-group">
@@ -364,7 +264,7 @@ const StudentProfilePage = () => {
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M11.0317 12.9724C15.0208 16.9604 15.9258 12.3467 18.4656 14.8848C20.9143 17.3328 22.3216 17.8232 19.2192 20.9247C18.8306 21.237 16.3616 24.9943 7.6846 16.3197C-0.993478 7.644 2.76158 5.17244 3.07397 4.78395C6.18387 1.67385 6.66586 3.08938 9.11449 5.53733C11.6544 8.0765 7.04266 8.98441 11.0317 12.9724Z" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>Mobile Number:</span> <span className="h6">0808983773</span>
+                                                <span>Mobile Number:</span> <span className="h6">{selectedStudent?.parentOrGuardianPhone}</span>
                                             </p>
                                         </div>
                                         <div className="col-md-6 form-group">
@@ -375,26 +275,10 @@ const StudentProfilePage = () => {
                                                         <path d="M21.4759 5.67351C20.6099 4.04151 18.9059 2.99951 17.0299 2.99951H7.04988C5.17388 2.99951 3.46988 4.04151 2.60388 5.67351C2.40988 6.03851 2.50188 6.49351 2.82488 6.75151L10.2499 12.6905C10.7699 13.1105 11.3999 13.3195 12.0299 13.3195C12.0339 13.3195 12.0369 13.3195 12.0399 13.3195C12.0429 13.3195 12.0469 13.3195 12.0499 13.3195C12.6799 13.3195 13.3099 13.1105 13.8299 12.6905L21.2549 6.75151C21.5779 6.49351 21.6699 6.03851 21.4759 5.67351Z" fill="currentColor" />
                                                     </svg>
                                                 </span>{" "}
-                                                <span>Email Address:</span> <span className="h6">bensin@gmail.com</span>
+                                                <span>Email Address:</span> <span className="h6">{selectedStudent?.parentOrGuardianEmail}</span>
                                             </p>
                                         </div>
                                     </div>
-                                    {/* <div className="d-flex justify-content-end">
-                                        <Button
-                                            type="button"
-                                            variant="btn btn-danger mx-2"
-                                        // onClick={() => {
-                                        //     history.goBack();
-                                        //     const queryParams = new URLSearchParams(locations.search);
-                                        //     const sessionClassId = queryParams.get("sessionClassId");
-                                        //     const termId = queryParams.get("termId");
-                                        //     getAllResultList(sessionClassId, termId)(dispatch);
-                                        // }}
-                                        >
-                                            Cancel
-                                        </Button>{" "}
-                                    </div> */}
-                                </Form>
                             </div>{" "}
                         </Card.Body>{" "}
                     </div>
