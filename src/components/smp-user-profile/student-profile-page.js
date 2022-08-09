@@ -6,7 +6,6 @@ import { useLocation, useHistory } from "react-router-dom";
 import {
     fetchSingleStudent,
 } from "../../store/actions/student-actions";
-import { getAllActiveSubjects, getAllSessionClasses } from "../../store/actions/class-actions";
 import { authLocations } from "../../router/spm-path-locations";
 import './profilePage.scss';
 
@@ -29,9 +28,6 @@ const StudentProfilePage = () => {
         fetchSingleStudent(studentAccountId)(dispatch);
     }, []);
 
-    React.useEffect(() => {
-        getAllActiveSubjects()(dispatch);
-    }, []);
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
 import { bindActionCreators } from "redux"
 import { loginOutUser } from '../../../../store/actions/auth-actions';
@@ -61,6 +61,7 @@ const Header = (props) => {
 
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         // navbarstylemode
@@ -127,19 +128,16 @@ const Header = (props) => {
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     {
                                         userDetail?.userType == "Teacher"
-                                            ? (<Dropdown.Item>
-                                                <Link
-                                                    to={`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`}
-                                                >
-                                                    Teacher Profile
-                                                </Link>
+                                            ? (
+                                            <Dropdown.Item onClick={() => {
+                                                history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
+                                            }}>
+                                                <span>  Profile</span>
                                             </Dropdown.Item>)
-                                            : <Dropdown.Item>
-                                                <Link
-                                                    to={`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`}
-                                                    >
-                                                    Student Profile
-                                                </Link>
+                                            : <Dropdown.Item onClick={() => {
+                                                history.push(`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`)
+                                            }}>
+                                                <span> Profile</span>
                                             </Dropdown.Item>
                                     }
 

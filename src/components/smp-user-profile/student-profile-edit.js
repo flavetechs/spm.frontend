@@ -13,10 +13,11 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import { authLocations } from "../../router/spm-path-locations";
+import { getAllActiveSubjects } from "../../store/actions/class-actions";
 
 const StudentProfileEdit = () => {
     //VARIABLE DECLARATIONS
-    const [userArray, setUserArray] = useState([]);
+    const [subjectIds, setSubjectIds] = useState([]);
     const [tags, setTags] = useState([])
     const history = useHistory();
     const dispatch = useDispatch();
@@ -38,12 +39,16 @@ const StudentProfileEdit = () => {
         fetchSingleStudent(studentAccountId)(dispatch);
     }, []);
 
+    React.useEffect(() => {
+        getAllActiveSubjects()(dispatch);
+    }, []);
+
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
         }
     };
-
+    console.log('subjectIds', subjectIds);
     //HANDLING ENTER KEY FUNCTION
     function handleKeyDown(e) {
         if (e.key !== 'Enter') return
@@ -55,7 +60,7 @@ const StudentProfileEdit = () => {
     //HANDLING ENTER KEY FUNCTION
 
     React.useEffect(() => {
-        submitSuccessful &&  history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);;
+        submitSuccessful && history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);;
     }, [submitSuccessful]);
 
     //CLOSING ICON ON INPUT TAG REMOVE FUNCTION
@@ -65,18 +70,25 @@ const StudentProfileEdit = () => {
 
     const handleUserArray = (event) => {
         const checkBoxValue = event.target.checked;
-        const userId = event.target.id;
+        const subjectId = event.target.id;
         let selectedUserArray;
-        const otherSelectedUsers = userArray.filter((user) => user != userId);
+        const otherSelectedUsers = subjectIds.filter((user) => user != subjectId);
         if (checkBoxValue === false) {
             selectedUserArray = [...otherSelectedUsers];
         } else {
-            selectedUserArray = [...otherSelectedUsers, userId];
+            selectedUserArray = [...otherSelectedUsers, subjectId];
         }
-        setUserArray(selectedUserArray);
+        setSubjectIds(selectedUserArray);
     };
     React.useEffect(() => {
         setImage(selectedStudent?.photo);
+        if (selectedStudent?.hobbies) {
+            setTags([...selectedStudent?.hobbies]);
+        }
+
+        if (selectedStudent?.bestSubjectIds) {
+            setSubjectIds([...selectedStudent?.bestSubjectIds])
+        }
     }, [selectedStudent]);
 
     //USING USEREF TO CREATE ADD HOBBIES BUTTON
@@ -94,14 +106,14 @@ const StudentProfileEdit = () => {
             <Formik
                 initialValues={{
                     StudentContactId: selectedStudent?.studentAccountId,
-                    Hobbies: "",
-                    BestSubjectIds: "",
-                    File: selectedStudent?.studentAccountId,
+                    Hobbies: [],
+                    BestSubjectIds: [],
+                    File: null,
                 }}
                 onSubmit={(values) => {
                     values.StudentContactId = values.StudentContactId;
                     values.Hobbies = tags;
-                    values.BestSubjectIds = userArray;
+                    values.BestSubjectIds = subjectIds;
                     const params = new FormData();
                     params.append("StudentContactId", values.StudentContactId);
                     params.append("Hobbies", values.Hobbies);
@@ -234,7 +246,7 @@ const StudentProfileEdit = () => {
                                                         <b>Hobbies:</b>
                                                     </label>
                                                     <div className="tags-input-container">
-                                                        {tags.map((tag, index) => (
+                                                        {tags?.map((tag, index) => (
                                                             <div className="tag-item" key={index}>
                                                                 <span className="text">{tag}</span>
                                                                 <span className="close text-danger" onClick={() => removeTag(index)}>&times;</span>
@@ -267,8 +279,7 @@ const StudentProfileEdit = () => {
                                                                             type="checkbox"
                                                                             name="BestSubjectIds"
                                                                             className="form-check-input"
-                                                                            checked={userArray.find(
-                                                                                (id) => id === subject.userId
+                                                                            checked={subjectIds.find((id) => id === subject.lookupId
                                                                             )}
                                                                             id={subject.lookupId}
                                                                             onChange={(event) => {
