@@ -117,6 +117,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         selectedStudent: payload,
+        submitSuccessful: false,
       };
     case actions.FETCH_SINGLE_STUDENT_FAILED:
       return {
@@ -131,6 +132,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: true,
         isSuccessful: false,
         message: "",
+        submitSuccessful: false,
       };
     case actions.UPDATE_STUDENT_PROFILE_SUCCESS:
       return {
@@ -138,6 +140,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
+        submitSuccessful: true,
       };
     case actions.UPDATE_STUDENT_PROFILE_FAILED:
       return {
@@ -145,6 +148,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
+        submitSuccessful: false,
       };
 
 

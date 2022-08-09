@@ -28,7 +28,7 @@ const StudentProfileEdit = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const { activeSubjects } = state.class;
-    const { selectedStudent } = state.student;
+    const { selectedStudent, submitSuccessful } = state.student;
     //ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -53,6 +53,10 @@ const StudentProfileEdit = () => {
         e.target.value = ''
     }
     //HANDLING ENTER KEY FUNCTION
+
+    React.useEffect(() => {
+        submitSuccessful &&  history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);;
+    }, [submitSuccessful]);
 
     //CLOSING ICON ON INPUT TAG REMOVE FUNCTION
     function removeTag(index) {
@@ -104,7 +108,7 @@ const StudentProfileEdit = () => {
                     params.append("BestSubjectIds", values.BestSubjectIds);
                     params.append("File", values.File);
                     updateStudentProfile(values, params)(dispatch);
-                    history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);
+                    // history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);
                 }}
                 enableReinitialize={true}
             >
