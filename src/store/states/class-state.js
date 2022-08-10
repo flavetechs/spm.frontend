@@ -24,4 +24,6 @@ export const _state = {
   singleLessonNotes:null,
   otherStaffList:[],
   comments:[],
+  viewers:[],
+  relatedNotes:[],
 };
