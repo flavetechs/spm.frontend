@@ -19,9 +19,14 @@ import {
   showHideDialog,
   showHideModal,
 } from "../../../store/actions/toaster-actions";
-import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import {
+  getUserDetails,
+  hasAccess,
+  NavPermissions,
+} from "../../../utils/permissions";
 import { NoteShareModal } from "./note-share-modal";
 import * as Yup from "yup";
+import { NoteSendModal } from "./note-send-modal";
 
 const LessonNotes = () => {
   //VARIABLE DECLARATIONS
@@ -33,6 +38,7 @@ const LessonNotes = () => {
   const [sessionClassId, setSessionClassId] = useState("");
   const [classNoteId, setClassNoteId] = useState("");
   const [teacherClassNoteId, setTeacherClassNoteId] = useState("");
+  const [noteSendModal, setNoteSendModal] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -42,6 +48,7 @@ const LessonNotes = () => {
   const { lessonNotes } = state.class;
   const { staffClasses, staffClassSubjects } = state.results;
   const { dialogResponse, modalResponse } = state.alert;
+  var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION
@@ -95,7 +102,7 @@ const LessonNotes = () => {
 
   const filteredLessonNotes = lessonNotes
     ?.filter((item) =>
-      sessionClassIdQuery ? item.classes == sessionClassIdQuery : item
+      sessionClassIdQuery ? item.classes.find(i=>i == sessionClassIdQuery) : item
     )
     ?.filter((item) => {
       if (searchQuery === "") {
@@ -113,7 +120,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-console.log("lessonNotes",lessonNotes);
+
   return (
     <>
       <div>
@@ -168,7 +175,11 @@ console.log("lessonNotes",lessonNotes);
                   </div>
                 </div>
               </Card.Header>
-              <NoteShareModal classNoteId={classNoteId} />
+              {!noteSendModal ? (
+                <NoteShareModal classNoteId={classNoteId} />
+              ) : (
+                <NoteSendModal teacherClassNoteId={teacherClassNoteId}/>
+              )}
               <Formik
                 initialValues={{
                   sessionClassId: sessionClassId,
@@ -215,6 +226,7 @@ console.log("lessonNotes",lessonNotes);
                                   getStaffClassSubjects(e.target.value)(
                                     dispatch
                                   );
+                                  e.target.value == "" && getAllLessonNotes("")(dispatch);
                                   e.target.value == ""
                                     ? history.push(classLocations.lessonNotes)
                                     : history.push(
@@ -298,11 +310,12 @@ console.log("lessonNotes",lessonNotes);
                                     "approvalStatus",
                                     e.target.value
                                   );
-                                  e.target.value !== "all" ? (
-                                    getClassNotesByStatus(
-                                      values.subjectId,
-                                      e.target.value
-                                    )(dispatch)) : (getAllLessonNotes("")(dispatch))
+                                  e.target.value !== "all"
+                                    ? getClassNotesByStatus(
+                                        values.subjectId,
+                                        e.target.value
+                                      )(dispatch)
+                                    : getAllLessonNotes("")(dispatch);
                                 }}
                               >
                                 <option value="">Select Status</option>
@@ -429,77 +442,126 @@ console.log("lessonNotes",lessonNotes);
                                         </svg>
                                         view/details
                                       </div>
-                                      <div
-                                        onClick={() => {
-                                          history.push(
-                                            `${classLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
-                                          );
-                                          setShowMenuDropdown(false);
-                                        }}
-                                        className="dropdown-item"
-                                        role="button"
-                                        draggable="false"
-                                      >
-                                        <svg
-                                          width="20"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          className="me-2"
+
+                                      {item.author == userDetail?.userAccountId && (
+                                        <div
+                                          onClick={() => {
+                                            history.push(
+                                              `${classLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                            );
+                                            setShowMenuDropdown(false);
+                                          }}
+                                          className="dropdown-item"
+                                          role="button"
+                                          draggable="false"
                                         >
-                                          <path
-                                            d="M13.7476 20.4428H21.0002"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          ></path>
-                                          <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          ></path>
-                                          <path
-                                            d="M11.021 6.00098L16.4732 10.1881"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          ></path>
-                                        </svg>
-                                        edit
-                                      </div>
+                                          <svg
+                                            width="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="me-2"
+                                          >
+                                            <path
+                                              d="M13.7476 20.4428H21.0002"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                            <path
+                                              fillRule="evenodd"
+                                              clipRule="evenodd"
+                                              d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                            <path
+                                              d="M11.021 6.00098L16.4732 10.1881"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                          </svg>
+                                          edit
+                                        </div>
+                                      )}
+
+                                      {item.author == userDetail?.userAccountId && (
+                                        <div
+                                          onClick={() => {
+                                            showHideModal(true)(dispatch);
+                                            setShowMenuDropdown(false);
+                                            setNoteSendModal(false);
+                                            setClassNoteId(item.classNoteId);
+                                          }}
+                                          className="dropdown-item"
+                                          role="button"
+                                          draggable="true"
+                                        >
+                                          <svg
+                                            className="icon-32 me-2"
+                                            width="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                          </svg>
+                                          share
+                                        </div>
+                                      )}
 
                                       <div
                                         onClick={() => {
                                           showHideModal(true)(dispatch);
                                           setShowMenuDropdown(false);
-                                          setClassNoteId(item.classNoteId);
+                                          setNoteSendModal(true);
+                                          setTeacherClassNoteId(item.teacherClassNoteId);
                                         }}
                                         className="dropdown-item"
                                         role="button"
                                         draggable="true"
                                       >
                                         <svg
-                                          className="icon-32 me-2"
                                           width="20"
                                           viewBox="0 0 24 24"
                                           fill="none"
+                                          className="me-2"
                                           xmlns="http://www.w3.org/2000/svg"
                                         >
                                           <path
-                                            d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
+                                            d="M15.016 7.38948V6.45648C15.016 4.42148 13.366 2.77148 11.331 2.77148H6.45597C4.42197 2.77148 2.77197 4.42148 2.77197 6.45648V17.5865C2.77197 19.6215 4.42197 21.2715 6.45597 21.2715H11.341C13.37 21.2715 15.016 19.6265 15.016 17.5975V16.6545"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                          <path
+                                            d="M21.8096 12.0215H9.76855"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                          <path
+                                            d="M18.8813 9.1062L21.8093 12.0212L18.8813 14.9372"
                                             stroke="currentColor"
                                             strokeWidth="1.5"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                           ></path>
                                         </svg>
-                                        share
+                                        send
                                       </div>
 
                                       <div
@@ -572,7 +634,7 @@ console.log("lessonNotes",lessonNotes);
                               </div>
                             </Card.Body>
                             <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                              {item.className}-{item.subjectName}
+                              {item.subjectName}
                             </small>
                           </Card>
                         </Col>

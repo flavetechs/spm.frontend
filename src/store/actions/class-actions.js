@@ -750,6 +750,33 @@ const payload = {
         });
 }
 
+export const sendLessonNotes = (teacherClassNoteId,classes) => (dispatch) => {
+    dispatch({
+        type: actions.SHARE_LESSON_NOTES_LOADING
+    });
+const payload = {
+    teacherClassNoteId,
+    classes,
+}
+
+    axiosInstance.post('/classnotes/api/v1/send/classnotes/to-students', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SHARE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            respondModal("cancel")(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SHARE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            respondModal("cancel")(dispatch);
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
 export const approveNotes = (classNoteId, shouldApprove) => (dispatch) => {
     dispatch({
         type: actions.APPROVE_NOTES_LOADING
