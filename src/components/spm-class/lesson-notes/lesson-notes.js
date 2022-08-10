@@ -122,7 +122,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-   
+
   return (
     <>
       <div>
@@ -227,13 +227,14 @@ const LessonNotes = () => {
                                   getStaffClassSubjects(e.target.value)(
                                     dispatch
                                   );
-                                  e.target.value == "" &&
+                                  if (e.target.value == "") {
                                     getAllLessonNotes("")(dispatch);
-                                  e.target.value == ""
-                                    ? history.push(classLocations.lessonNotes)
-                                    : history.push(
-                                        `${classLocations.lessonNotes}?classId=${e.target.value}`
-                                      );
+                                    history.push(classLocations.lessonNotes);
+                                  } else {
+                                    history.push(
+                                      `${classLocations.lessonNotes}?classId=${e.target.value}`
+                                    );
+                                  }
                                 }}
                               >
                                 <option value="">Select Class</option>
