@@ -102,7 +102,9 @@ const LessonNotes = () => {
 
   const filteredLessonNotes = lessonNotes
     ?.filter((item) =>
-      sessionClassIdQuery ? item.classes.find(i=>i == sessionClassIdQuery) : item
+      sessionClassIdQuery
+        ? item.classes.find((i) => i == sessionClassIdQuery)
+        : item
     )
     ?.filter((item) => {
       if (searchQuery === "") {
@@ -120,7 +122,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-
+   
   return (
     <>
       <div>
@@ -178,7 +180,7 @@ const LessonNotes = () => {
               {!noteSendModal ? (
                 <NoteShareModal classNoteId={classNoteId} />
               ) : (
-                <NoteSendModal teacherClassNoteId={teacherClassNoteId}/>
+                <NoteSendModal teacherClassNoteId={teacherClassNoteId} />
               )}
               <Formik
                 initialValues={{
@@ -205,12 +207,11 @@ const LessonNotes = () => {
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {touched.sessionClassId &&
-                                  errors.sessionClassId && (
-                                    <div className="text-danger">
-                                      {errors.sessionClassId}
-                                    </div>
-                                  )}
+                                {errors.sessionClassId && (
+                                  <div className="text-danger">
+                                    {errors.sessionClassId}
+                                  </div>
+                                )}
                               </div>
                               <Field
                                 as="select"
@@ -226,7 +227,8 @@ const LessonNotes = () => {
                                   getStaffClassSubjects(e.target.value)(
                                     dispatch
                                   );
-                                  e.target.value == "" && getAllLessonNotes("")(dispatch);
+                                  e.target.value == "" &&
+                                    getAllLessonNotes("")(dispatch);
                                   e.target.value == ""
                                     ? history.push(classLocations.lessonNotes)
                                     : history.push(
@@ -244,7 +246,7 @@ const LessonNotes = () => {
                             </div>
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {touched.subjectId && errors.subjectId && (
+                                {errors.subjectId && (
                                   <div className="text-danger">
                                     {errors.subjectId}
                                   </div>
@@ -443,7 +445,8 @@ const LessonNotes = () => {
                                         view/details
                                       </div>
 
-                                      {item.author == userDetail?.userAccountId && (
+                                      {item.author ==
+                                        userDetail?.userAccountId && (
                                         <div
                                           onClick={() => {
                                             history.push(
@@ -490,7 +493,8 @@ const LessonNotes = () => {
                                         </div>
                                       )}
 
-                                      {item.author == userDetail?.userAccountId && (
+                                      {item.author ==
+                                        userDetail?.userAccountId && (
                                         <div
                                           onClick={() => {
                                             showHideModal(true)(dispatch);
@@ -526,7 +530,9 @@ const LessonNotes = () => {
                                           showHideModal(true)(dispatch);
                                           setShowMenuDropdown(false);
                                           setNoteSendModal(true);
-                                          setTeacherClassNoteId(item.teacherClassNoteId);
+                                          setTeacherClassNoteId(
+                                            item.teacherClassNoteId
+                                          );
                                         }}
                                         className="dropdown-item"
                                         role="button"

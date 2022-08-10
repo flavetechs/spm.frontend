@@ -84,7 +84,7 @@ const EditLessonNote = () => {
       setContent(atob(reader.result.split(",")[1]));
     };
   }
-
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">

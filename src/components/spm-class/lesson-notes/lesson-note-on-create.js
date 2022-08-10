@@ -78,7 +78,7 @@ const CreateLessonNote = () => {
                         }
                         values.noteContent = content;
                         values.subjectId = subjectId;
-                        values.classId = classId;
+                        values.classes = [classId];
                         createLessonNotes(values)(dispatch);
                       }}
                     >
