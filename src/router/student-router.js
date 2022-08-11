@@ -5,7 +5,12 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
 import { studentsLocations } from './spm-path-locations';
-import { onlineClassLocations } from './students-path-locations';
+import { announcementLocations, assignmentLocations, lessonNoteLocations, onlineClassLocations, printResultLocations, profileLocations, timeTableLocations } from './students-path-locations';
+import CreateLessonNote from '../components/students-area/lesson-notes/lesson-note-on-create';
+import EditLessonNote from '../components/students-area/lesson-notes/lesson-note-on-edit';
+import LessonNoteDetails from '../components/students-area/lesson-notes/lesson-note-details';
+import LessonNotes from '../components/students-area/lesson-notes/lesson-notes';
+import OnlineClass from '../components/students-area/class/online-class';
 
 
 
@@ -19,8 +24,29 @@ const StudentDashboardRouter = () => {
                     <Route exact path="/" component={studentIndex}></Route>
                     <Route path={studentsLocations.dashboard} exact component={studentIndex} />
 
-                    {/* dashboard */}
-                    <Route path={onlineClassLocations.onlineClass} exact component={studentIndex} />
+                    {/* onlineClass */}
+                    <Route path={onlineClassLocations.onlineClass} exact component={OnlineClass} />
+
+                    {/* assignment */}
+                    {/* <Route path={assignmentLocations.assignment} exact component={studentIndex} />  */}
+
+                    {/* lessonNote */}
+                    <Route path={lessonNoteLocations.lessonNotes} exact component={LessonNotes} />
+                    <Route path={lessonNoteLocations.createLessonNotes} exact component={CreateLessonNote} />
+                    <Route path={lessonNoteLocations.editLessonNotes} exact component={EditLessonNote} />
+                    <Route path={lessonNoteLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
+
+                    {/* announcement */}
+                    {/* <Route path={announcementLocations.announcement} exact component={studentIndex} /> */}
+
+                     {/* timeTable */}
+             {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
+
+                    {/* printResult */}
+                    {/* <Route path={printResultLocations.printResult} exact component={studentIndex} /> */}
+
+                    {/* profile */}
+                     {/* <Route path={profileLocations.profile} exact component={studentIndex} />  */}
 
                 </Switch>
             </CSSTransition>

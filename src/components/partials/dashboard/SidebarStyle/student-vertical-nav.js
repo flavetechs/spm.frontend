@@ -21,6 +21,12 @@ import { PinLink } from "./Navigations/pin-links";
 import { PortalSettingsLink } from "./Navigations/portal-setting-links";
 import { DashboardLink } from "./Navigations/student-navigations/dashboard-link";
 import { OnlineClassLink } from "./Navigations/student-navigations/online-class-link";
+import { AssignmentLink } from "./Navigations/student-navigations/assignment-link";
+import { LessonNoteLink } from "./Navigations/student-navigations/lesson-notes-link";
+import { AnnouncementLink } from "./Navigations/student-navigations/announcement-link";
+import { TimeTableLink } from "./Navigations/student-navigations/time-table-link";
+import { PrintResultLink } from "./Navigations/student-navigations/print-result-link";
+
 
 function CustomToggle({ children, eventKey, onClick }) {
   const { activeEventKey } = useContext(AccordionContext);
@@ -76,6 +82,17 @@ const StudentsVerticalNav = () => {
         <DashboardLink minisidebar={minisidebar} />
 
         <OnlineClassLink minisidebar={minisidebar} />
+
+        <AssignmentLink minisidebar={minisidebar} />
+
+        <LessonNoteLink minisidebar={minisidebar} />
+
+        <AnnouncementLink minisidebar={minisidebar} />
+
+        <TimeTableLink minisidebar={minisidebar} />
+
+        <PrintResultLink minisidebar={minisidebar} />
+
       </Accordion>
     </>
   );
