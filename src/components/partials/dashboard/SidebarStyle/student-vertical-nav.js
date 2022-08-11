@@ -5,7 +5,6 @@ import {
     useAccordionButton,
     AccordionContext,
 } from "react-bootstrap";
-import { DashboardLink } from "./Navigations/dashboard-links";
 import { PermissionLink } from "./Navigations/permission-links";
 import {
     getUserDetails,
@@ -20,6 +19,7 @@ import { StudentLink } from "./Navigations/student-links";
 import { ResultLink } from "./Navigations/result-links";
 import { PinLink } from "./Navigations/pin-links";
 import { PortalSettingsLink } from "./Navigations/portal-setting-links";
+import { DashboardLink } from "./Navigations/student-navigations/dashboard-link";
 
 function CustomToggle({ children, eventKey, onClick }) {
     const { activeEventKey } = useContext(AccordionContext);
