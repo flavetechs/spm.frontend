@@ -26,6 +26,7 @@ import { ErrorToast, SuccessToast } from '../../components/partials/components/h
 import SmpLoader from '../../components/loader/smp-loader'
 import { getUserDetails } from '../../utils/permissions'
 import StudentDashboardRouter from '../../router/student-router'
+import StudentSideBar from '../../components/partials/dashboard/SidebarStyle/student-side-bar'
 
 const mapStateToProps = (state) => {
     return {
@@ -99,7 +100,7 @@ const StudentDefault = (props) => {
         <>
             {/* <Loader /> */}
             <SmpLoader />
-            <Sidebar />
+            <StudentSideBar />
             <main className="main-content">
                 <div className="position-relative">
                     <Header />
