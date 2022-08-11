@@ -129,11 +129,11 @@ const Header = (props) => {
                                     {
                                         userDetail?.userType == "Teacher"
                                             ? (
-                                            <Dropdown.Item onClick={() => {
-                                                history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
-                                            }}>
-                                                <span>  Profile</span>
-                                            </Dropdown.Item>)
+                                                <Dropdown.Item onClick={() => {
+                                                    history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
+                                                }}>
+                                                    <span>  Profile</span>
+                                                </Dropdown.Item>)
                                             : <Dropdown.Item onClick={() => {
                                                 history.push(`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`)
                                             }}>
@@ -142,8 +142,9 @@ const Header = (props) => {
                                     }
 
                                     <Dropdown.Divider />
-                                    <Dropdown.Item href={authLocations.login} onClick={() => {
+                                    <Dropdown.Item onClick={() => {
                                         dispatch(loginOutUser());
+                                        history.push(authLocations.login)
                                     }}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>

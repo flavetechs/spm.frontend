@@ -13,35 +13,27 @@ import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 
 const IndexRouters = () => {
-    let userDetails = null;
-    console.log('userDetails', userDetails);
-    const [isLoggedIn,setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userDetail, setUserDetail] = useState(null);
+
     React.useEffect(() => {
-        userDetails = getUserDetails();
-        if(userDetails)setIsLoggedIn(true)
+        setUserDetail(getUserDetails());
+        if (userDetail)
+            setIsLoggedIn(true)
     }, [isLoggedIn])
-    
+
+    console.log('userDetails', userDetail);
     return (
         <>
             <Switch>
-
                 {
-                    isLoggedIn ?(
-                    userDetails?.userType === 'Teacher' ? (
-                        <>
-                            <Route exact path="/" component={Default}></Route>
-                            <Route path="/dashboard" component={Default}></Route></>
-                    ) :(
-                        <>
-                            <Route exact path="/" component={studentDefault}></Route>
-                            <Route path="/dashboard" component={studentDefault}></Route></>
-                    )
-                ):(
                     <>
-                    <Route path={authLocations.login} component={SignIn}></Route>
-                    <Route path="/errors" component={Simple}></Route>  
+                        <Route exact path="/" component={ userDetail?.userType === 'Teacher' ? Default : studentDefault}></Route>
+                        <Route path="/dashboard" component={ userDetail?.userType === 'Teacher' ? Default : studentDefault}></Route>
+                        <Route path={authLocations.login} component={SignIn}></Route>
+                        <Route path="/errors" component={Simple}></Route>
                     </>
-                )}
+                }
             </Switch>
         </>
     )
