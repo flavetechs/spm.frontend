@@ -354,7 +354,7 @@ const LessonNotes = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={(e) => {
                                       setShowMenuDropdown(!showMenuDropdown);
-                                      setIndexRow(idx);
+                                      setIndexRow(idx); 
                                     }}
                                   >
                                     <g>
