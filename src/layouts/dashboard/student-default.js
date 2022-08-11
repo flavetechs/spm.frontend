@@ -25,6 +25,7 @@ import { SingleDeleteDialog } from '../../components/partials/components/hoc-too
 import { ErrorToast, SuccessToast } from '../../components/partials/components/hoc-tools/alert'
 import SmpLoader from '../../components/loader/smp-loader'
 import { getUserDetails } from '../../utils/permissions'
+import StudentDashboardRouter from '../../router/student-router'
 
 const mapStateToProps = (state) => {
     return {
@@ -53,7 +54,7 @@ const mapDispatchToProps = dispatch => ({
     )
 })
 
-const Default = (props) => {
+const StudentDefault = (props) => {
     useEffect(() => {
         //   darkmode
         const colorMode = sessionStorage.getItem('color-mode');
@@ -110,7 +111,7 @@ const Default = (props) => {
                     <SuccessToast />
                     <SingleDeleteDialog />
                     <ErrorToast />
-                    <DashboardRouter />
+                    <StudentDashboardRouter />
                 </div>
                 <Footer />
             </main>
@@ -120,4 +121,4 @@ const Default = (props) => {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Default)
+export default connect(mapStateToProps, mapDispatchToProps)(StudentDefault)
