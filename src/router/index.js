@@ -22,7 +22,6 @@ const IndexRouters = () => {
             setIsLoggedIn(true)
     }, [isLoggedIn])
 
-    console.log('userDetails', userDetail);
     return (
         <>
             <Switch>
