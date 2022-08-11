@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
 import { studentsLocations } from './spm-path-locations';
+import { onlineClassLocations } from './students-path-locations';
 
 
 
@@ -17,6 +18,9 @@ const StudentDashboardRouter = () => {
                     {/* dashboard */}
                     <Route exact path="/" component={studentIndex}></Route>
                     <Route path={studentsLocations.dashboard} exact component={studentIndex} />
+
+                    {/* dashboard */}
+                    <Route path={onlineClassLocations.onlineClass} exact component={studentIndex} />
 
                 </Switch>
             </CSSTransition>
