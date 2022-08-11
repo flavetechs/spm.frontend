@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 
 //router
@@ -13,14 +13,21 @@ import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 
 const IndexRouters = () => {
-    const userDetails = getUserDetails();
+    let userDetails = null;
     console.log('userDetails', userDetails);
+    const [isLoggedIn,setIsLoggedIn] = useState(false);
+    React.useEffect(() => {
+        userDetails = getUserDetails();
+        if(userDetails)setIsLoggedIn(true)
+    }, [isLoggedIn])
+    
     return (
         <>
             <Switch>
 
                 {
-                    userDetails.userType === 'Teacher' ? (
+                    isLoggedIn ?(
+                    userDetails?.userType === 'Teacher' ? (
                         <>
                             <Route exact path="/" component={Default}></Route>
                             <Route path="/dashboard" component={Default}></Route></>
@@ -29,9 +36,12 @@ const IndexRouters = () => {
                             <Route exact path="/" component={studentDefault}></Route>
                             <Route path="/dashboard" component={studentDefault}></Route></>
                     )
-                }
-                <Route path={authLocations.login} component={SignIn}></Route>
-                <Route path="/errors" component={Simple}></Route>
+                ):(
+                    <>
+                    <Route path={authLocations.login} component={SignIn}></Route>
+                    <Route path="/errors" component={Simple}></Route>  
+                    </>
+                )}
             </Switch>
         </>
     )
