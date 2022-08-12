@@ -4,7 +4,6 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { fetchSingleStudent, updateStudentProfile } from "../../../store/actions/student-actions";
-import * as Yup from "yup";
 import './profilePage.scss';
 
 import avatars1 from "../../../assets/images/avatars/01.png";
@@ -13,7 +12,6 @@ import avatars3 from "../../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
-import { authLocations } from "../../../router/spm-path-locations";
 import { getAllActiveSubjects } from "../../../store/actions/class-actions";
 import { profileLocations } from "../../../router/students-path-locations";
 
@@ -33,15 +31,6 @@ const StudentProfileEdit = () => {
     const { activeSubjects } = state.class;
     const { selectedStudent, submitSuccessful } = state.student;
     //ACCESSING STATE FROM REDUX STORE
-
-
-    //VALIDATIONS SCHEMA
-    const validation = Yup.object().shape({
-        // Hobbies: Yup.string()
-        //     .min(2, "Enter a valid hobbies activities")
-        //     .required("Enter at least 2 Hobbies"),
-    });
-    //VALIDATIONS SCHEMA
 
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);
@@ -120,7 +109,6 @@ const StudentProfileEdit = () => {
                     BestSubjectIds: [],
                     File: null,
                 }}
-                validationSchema={validation}
                 onSubmit={(values) => {
                     values.StudentContactId = values.StudentContactId;
                     values.Hobbies = tags;
@@ -253,7 +241,6 @@ const StudentProfileEdit = () => {
                                         <Form className="mx-auto" onSubmit={e => { e.preventDefault(); }} >
                                             <Row className="d-flex justify-content-center">
                                                 <Col md="11" className="form-group text-dark">
-                                                    {(touched.Hobbies && errors.Hobbies) && <div className='text-danger'>{errors.Hobbies}</div>}
                                                     <label className="form-label mb-1" htmlFor="Hobbies">
                                                         <b>Hobbies:</b>
                                                     </label>
