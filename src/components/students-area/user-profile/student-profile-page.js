@@ -1,12 +1,12 @@
 import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
-import Card from "../Card";
+import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import {
     fetchSingleStudent,
-} from "../../store/actions/student-actions";
-import { authLocations } from "../../router/spm-path-locations";
+} from "../../../store/actions/student-actions";
+import { authLocations } from "../../../router/spm-path-locations";
 import './profilePage.scss';
 
 const StudentProfilePage = () => {

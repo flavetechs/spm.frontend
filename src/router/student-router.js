@@ -2,12 +2,15 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { dashboardLocations, lessonNoteLocations, onlineClassLocations } from './students-path-locations';
+import { dashboardLocations, lessonNoteLocations, onlineClassLocations, profileLocations } from './students-path-locations';
 import CreateLessonNote from '../components/students-area/lesson-notes/lesson-note-on-create';
 import EditLessonNote from '../components/students-area/lesson-notes/lesson-note-on-edit';
 import LessonNoteDetails from '../components/students-area/lesson-notes/lesson-note-details';
 import LessonNotes from '../components/students-area/lesson-notes/lesson-notes';
 import OnlineClass from '../components/students-area/class/online-class';
+
+import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
+import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
 
 
 
@@ -36,14 +39,16 @@ const StudentDashboardRouter = () => {
                     {/* announcement */}
                     {/* <Route path={announcementLocations.announcement} exact component={studentIndex} /> */}
 
-                     {/* timeTable */}
-             {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
+                    {/* timeTable */}
+                    {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
 
                     {/* printResult */}
                     {/* <Route path={printResultLocations.printResult} exact component={studentIndex} /> */}
 
                     {/* profile */}
-                     {/* <Route path={profileLocations.profile} exact component={studentIndex} />  */}
+
+                    <Route path={profileLocations.profile} exact component={StudentProfilePage} />
+                    <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />
 
                 </Switch>
             </CSSTransition>

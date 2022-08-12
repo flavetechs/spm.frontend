@@ -3,18 +3,18 @@ import React, { useRef, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { fetchSingleStudent, updateStudentProfile } from "../../store/actions/student-actions";
+import { fetchSingleStudent, updateStudentProfile } from "../../../store/actions/student-actions";
 import * as Yup from "yup";
 import './profilePage.scss';
 
-import avatars1 from "../../assets/images/avatars/01.png";
-import avatars2 from "../../assets/images/avatars/avtar_1.png";
-import avatars3 from "../../assets/images/avatars/avtar_2.png";
-import avatars4 from "../../assets/images/avatars/avtar_3.png";
-import avatars5 from "../../assets/images/avatars/avtar_4.png";
-import avatars6 from "../../assets/images/avatars/avtar_5.png";
-import { authLocations } from "../../router/spm-path-locations";
-import { getAllActiveSubjects } from "../../store/actions/class-actions";
+import avatars1 from "../../../assets/images/avatars/01.png";
+import avatars2 from "../../../assets/images/avatars/avtar_1.png";
+import avatars3 from "../../../assets/images/avatars/avtar_2.png";
+import avatars4 from "../../../assets/images/avatars/avtar_3.png";
+import avatars5 from "../../../assets/images/avatars/avtar_4.png";
+import avatars6 from "../../../assets/images/avatars/avtar_5.png";
+import { authLocations } from "../../../router/spm-path-locations";
+import { getAllActiveSubjects } from "../../../store/actions/class-actions";
 
 const StudentProfileEdit = () => {
     //VARIABLE DECLARATIONS

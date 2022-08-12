@@ -1,10 +1,10 @@
 import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
-import Card from "../Card";
+import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import { authLocations } from "../../router/spm-path-locations";
-import { fetchSingleStaff, fetchSingleTeacherClassesAndSubjects } from "../../store/actions/staff-actions";
+import { authLocations } from "../../../router/spm-path-locations";
+import { fetchSingleStaff, fetchSingleTeacherClassesAndSubjects } from "../../../store/actions/staff-actions";
 import './profilePage.scss';
 
 const StaffProfilePage = () => {
