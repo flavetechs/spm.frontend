@@ -8,6 +8,7 @@ import {
 } from "../../../store/actions/student-actions";
 import { authLocations } from "../../../router/spm-path-locations";
 import './profilePage.scss';
+import { profileLocations } from "../../../router/students-path-locations";
 
 const StudentProfilePage = () => {
     //VARIABLE DECLARATIONS
@@ -90,7 +91,7 @@ const StudentProfilePage = () => {
                                         type="button"
                                         variant="btn btn-primary"
                                         onClick={() => {
-                                            history.push(`${authLocations.studentProfileEdit}?studentAccountId=${selectedStudent.studentAccountId}`)
+                                            history.push(`${profileLocations.profileEdit}?studentAccountId=${selectedStudent.studentAccountId}`)
                                         }}
                                     >Edit Profile</Button>
                                 </div>

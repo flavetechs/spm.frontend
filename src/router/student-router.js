@@ -46,7 +46,6 @@ const StudentDashboardRouter = () => {
                     {/* <Route path={printResultLocations.printResult} exact component={studentIndex} /> */}
 
                     {/* profile */}
-
                     <Route path={profileLocations.profile} exact component={StudentProfilePage} />
                     <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />
 
