@@ -20,15 +20,20 @@ const IndexRouters = () => {
         setUserDetail(getUserDetails());
         if (userDetail)
             setIsLoggedIn(true)
-    }, [isLoggedIn])
+    }, [isLoggedIn]);
+
 
     return (
         <>
             <Switch>
                 {
                     <>
-                        <Route exact path="/" component={ userDetail?.userType === 'Teacher' ? Default : studentDefault}></Route>
-                        <Route path="/dashboard" component={ userDetail?.userType === 'Teacher' ? Default : studentDefault}></Route>
+                        <Route exact path="/"
+                            component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
+
+                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : "/dashboard"}
+                            component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
+
                         <Route path={authLocations.login} component={SignIn}></Route>
                         <Route path="/errors" component={Simple}></Route>
                     </>

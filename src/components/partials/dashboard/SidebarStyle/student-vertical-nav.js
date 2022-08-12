@@ -1,31 +1,17 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Accordion,
   useAccordionButton,
   AccordionContext,
 } from "react-bootstrap";
-import { PermissionLink } from "./Navigations/permission-links";
-import {
-  getUserDetails,
-  hasAccess,
-  hasAccess2,
-  NavPermissions,
-} from "../../../../utils/permissions";
-import { SessionLink } from "./Navigations/session-links";
-import { ClassLink } from "./Navigations/class-links";
-import { StaffLink } from "./Navigations/staff-links";
-import { StudentLink } from "./Navigations/student-links";
-import { ResultLink } from "./Navigations/result-links";
-import { PinLink } from "./Navigations/pin-links";
-import { PortalSettingsLink } from "./Navigations/portal-setting-links";
-import { DashboardLink } from "./Navigations/student-navigations/dashboard-link";
 import { OnlineClassLink } from "./Navigations/student-navigations/online-class-link";
 import { AssignmentLink } from "./Navigations/student-navigations/assignment-link";
 import { LessonNoteLink } from "./Navigations/student-navigations/lesson-notes-link";
 import { AnnouncementLink } from "./Navigations/student-navigations/announcement-link";
 import { TimeTableLink } from "./Navigations/student-navigations/time-table-link";
 import { PrintResultLink } from "./Navigations/student-navigations/print-result-link";
+import { StudentDashboardLink } from "./Navigations/student-navigations/dashboard-link";
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -79,7 +65,7 @@ const StudentsVerticalNav = () => {
           </Link>
         </li>
 
-        <DashboardLink minisidebar={minisidebar} />
+        <StudentDashboardLink minisidebar={minisidebar} />
 
         <OnlineClassLink minisidebar={minisidebar} />
 

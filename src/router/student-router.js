@@ -1,11 +1,8 @@
-import React from 'react'
-import Index from '../views/dashboard/index'
 import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { studentsLocations } from './spm-path-locations';
-import { announcementLocations, assignmentLocations, lessonNoteLocations, onlineClassLocations, printResultLocations, profileLocations, timeTableLocations } from './students-path-locations';
+import { dashboardLocations, lessonNoteLocations, onlineClassLocations } from './students-path-locations';
 import CreateLessonNote from '../components/students-area/lesson-notes/lesson-note-on-create';
 import EditLessonNote from '../components/students-area/lesson-notes/lesson-note-on-edit';
 import LessonNoteDetails from '../components/students-area/lesson-notes/lesson-note-details';
@@ -22,7 +19,7 @@ const StudentDashboardRouter = () => {
                 <Switch>
                     {/* dashboard */}
                     <Route exact path="/" component={studentIndex}></Route>
-                    <Route path={studentsLocations.dashboard} exact component={studentIndex} />
+                    <Route path={dashboardLocations.dashboard} exact component={studentIndex} />
 
                     {/* onlineClass */}
                     <Route path={onlineClassLocations.onlineClass} exact component={OnlineClass} />

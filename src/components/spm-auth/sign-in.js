@@ -20,11 +20,20 @@ const SignIn = () => {
     const state = useSelector((state) => state);
     const { message } = state.auth;
     var token = localStorage.getItem('token');
+    var userDetail = localStorage.getItem('userDetail')
     var permissions = localStorage.getItem('permissions');
 
     useEffect(() => {
-        if(token){
-            history.push('/dashboard')
+        debugger
+        if (userDetail) {
+            if (JSON.parse(userDetail).userType == 'Student') {
+                // history.push('/stds-dashboard')
+                window.location.href = '/stds-dashboard';
+            } else {
+                window.location.href = '/dashboard';
+                // history.push('/dashboard')
+            }
+
         }
     }, [token])
 
@@ -48,7 +57,7 @@ const SignIn = () => {
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
                                         <Link to={dashboardLocations.dashboard} className="navbar-brand d-flex align-items-center mb-3">
-                                           <Logo color={true}/>
+                                            <Logo color={true} />
                                             {/* <h4 className="logo-title ms-3">FLAVTECH</h4> */}
                                         </Link>
                                         <h2 className="mb-2 text-center">Sign In</h2>

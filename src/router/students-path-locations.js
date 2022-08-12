@@ -1,34 +1,34 @@
 export const dashboardLocations = {
-    dashboard: "/dashboard",
+    dashboard: "/stds-dashboard",
   };
   
   export const onlineClassLocations = {
-    onlineClass: "/dashboard/student-online-class",
+    onlineClass: "/stds-dashboard/student-online-class",
   };
 
   export const assignmentLocations = {
-    assignment: "/dashboard/student-assignment",
+    assignment: "/stds-dashboard/student-assignment",
   };
 
   export const lessonNoteLocations = {
-    lessonNotes: "/dashboard/student-lesson-note",
-    createLessonNotes:"/dashboard/student-lesson-note/create-lesson-notes",
-    editLessonNotes:"/dashboard/student-lesson-note/edit-lesson-notes",
-    lessonNotesDetails:"/dashboard/student-lesson-note/lesson-note-details",
+    lessonNotes: "/stds-dashboard/student-lesson-note",
+    createLessonNotes:"/stds-dashboard/student-lesson-note/create-lesson-notes",
+    editLessonNotes:"/stds-dashboard/student-lesson-note/edit-lesson-notes",
+    lessonNotesDetails:"/stds-dashboard/student-lesson-note/lesson-note-details",
   };
 
   export const announcementLocations = {
-    announcement: "/dashboard/student-announcement",
+    announcement: "/stds-dashboard/student-announcement",
   };
 
   export const timeTableLocations = {
-    timeTable: "/dashboard/student-time-table",
+    timeTable: "/stds-dashboard/student-time-table",
   };
 
   export const printResultLocations = {
-    printResult: "/dashboard/student-print-result",
+    printResult: "/stds-dashboard/student-print-result",
   };
 
   export const profileLocations = {
-    profile: "/dashboard/student-profile",
+    profile: "/stds-dashboard/student-profile",
   };
