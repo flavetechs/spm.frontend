@@ -15,6 +15,7 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { authLocations } from "../../../router/spm-path-locations";
 import { getAllActiveSubjects } from "../../../store/actions/class-actions";
+import { profileLocations } from "../../../router/students-path-locations";
 
 const StudentProfileEdit = () => {
     //VARIABLE DECLARATIONS
@@ -36,9 +37,9 @@ const StudentProfileEdit = () => {
 
     //VALIDATIONS SCHEMA
     const validation = Yup.object().shape({
-        Hobbies: Yup.string()
-            .min(2, "Enter a valid hobbies activities")
-            .required("Enter at least 2 Hobbies"),
+        // Hobbies: Yup.string()
+        //     .min(2, "Enter a valid hobbies activities")
+        //     .required("Enter at least 2 Hobbies"),
     });
     //VALIDATIONS SCHEMA
 
@@ -69,12 +70,12 @@ const StudentProfileEdit = () => {
     //HANDLING ENTER KEY FUNCTION
 
     React.useEffect(() => {
-        submitSuccessful && history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);;
+        submitSuccessful && history.push(`${profileLocations.profile}?studentAccountId=${selectedStudent?.studentAccountId}`);;
     }, [submitSuccessful]);
 
     //CLOSING ICON ON INPUT TAG REMOVE FUNCTION
     function removeTag(index) {
-        setTags(tags.filter((el, i) => i !== index))
+        setTags(tags.filter((el, i) => i !== index))    
     }
 
     const handleUserArray = (event) => {
