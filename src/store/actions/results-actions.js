@@ -1,5 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
-import TemplateSetting from "../../components/smp-portal-setting/template-setting";
+import TemplateSetting from "../../components/teachers-area/smp-portal-setting/template-setting";
 import { actions } from "../action-types/results-action-types"
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 

@@ -738,6 +738,34 @@ const payload = {
                 payload: res.data.message.friendlyMessage
             });
             respondModal("cancel")(dispatch);
+            getAllOtherStaff(classNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SHARE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            respondModal("cancel")(dispatch);
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const sendLessonNotes = (teacherClassNoteId,classes) => (dispatch) => {
+    dispatch({
+        type: actions.SHARE_LESSON_NOTES_LOADING
+    });
+const payload = {
+    teacherClassNoteId,
+    classes,
+}
+
+    axiosInstance.post('/classnotes/api/v1/send/classnotes/to-students', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SHARE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            respondModal("cancel")(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -782,7 +810,7 @@ export const sendForApproval = (classNoteId) => (dispatch) => {
 const payload = {
     classNoteId,
   }
-  console.log("values",payload);
+  
     axiosInstance.post('/classnotes/api/v1/send/classnotes/for-approval', payload)
         .then((res) => {
             dispatch({
@@ -820,6 +848,7 @@ export const getAllLessonNotes = (subjectId) => (dispatch) => {
         });
 }
 
+
 export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_LESSON_NOTES_LOADING,
@@ -834,6 +863,25 @@ export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_SINGLE_LESSON_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getClassNotesByStatus = (subjectId,status) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STATUS_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/teacher-classnote/by-status?subjectId=${subjectId}&status=${status}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STATUS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STATUS_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -872,6 +920,44 @@ export const getAllComments = (classNoteId) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_COMMENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getClassNoteViewers = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_NOTE_VIEWERS_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/classnote-viewers?classNoteId=${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_NOTE_VIEWERS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_NOTE_VIEWERS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getRelatedNotes = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_RELATED_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get/related-classnote?classNoteId=${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_RELATED_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_RELATED_NOTES_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -953,4 +1039,31 @@ const payload ={
         });
 }
 
+export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
+
+    var classNoteCommentUrl =  axiosInstance.get(`/classnotes/api/v1/get-classnote/comments?classNoteId=${classNoteId}`);
+    var relatedNotes =  axiosInstance.get(`/classnotes/api/v1/get/related-classnote?classNoteId=${classNoteId}`);
+    var canSeeNoteUrl =  axiosInstance.get(`/classnotes/api/v1/get/classnote-viewers?classNoteId=${classNoteId}`);
+
+    var urls = [classNoteCommentUrl, relatedNotes, canSeeNoteUrl];
+    Promise.all(urls).then(response => {
+        dispatch({
+            type: actions.FETCH_COMMENTS_SUCCESS,
+            payload:  response[0].data.result
+        });
+
+        dispatch({
+            type: actions.FETCH_RELATED_NOTES_SUCCESS,
+            payload:  response[1].data.result
+        });
+        dispatch({
+            type: actions.FETCH_NOTE_VIEWERS_SUCCESS,
+            payload:  response[2].data.result
+        });
+        
+
+    }).catch(er => {
+        console.log(er);
+    })
+}
 //LESSON NOTE ACTION

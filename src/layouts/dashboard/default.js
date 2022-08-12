@@ -89,7 +89,6 @@ const Default = (props) => {
     
     var token = localStorage.getItem('token');
     let history = useHistory();
-
     
     if (!token) {
         history.push(authLocations.login);

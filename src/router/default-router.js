@@ -4,73 +4,72 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 //admin
-import RoleList from '../components/spm-permissions/role-list';
-import RoleEdit from '../components/spm-permissions/role-edit';
-import RoleAdd from '../components/spm-permissions/role-add';
+import RoleList from '../components/teachers-area/spm-permissions/role-list';
+import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
+import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
 import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations } from './spm-path-locations';
-import StudentList from '../components/smp-students/student-list';
-import StudentAdd from '../components/smp-students/student-add';
-import StudentEdit from '../components/smp-students/student-edit';
-import StudentDetails from '../components/smp-students/student-details';
-import UnenrolledStudentsList from '../components/smp-enrollment/unenrolled-students-list';
-import EnrolledStudents from '../components/smp-enrollment/enrolled-student-list';
-import StaffDetails from '../components/smp-staff/staff-details';
-import PromotionSetup from '../components/smp-session/promotion-list';
-import PromotionPassedList from '../components/smp-session/promotion-passed-list';
-import PromotionFailedList from '../components/smp-session/promotion-failed-list';
-import GradeSetting from '../components/smp-grade-setting/grade-setting';
-import ScoreEntry from '../components/smp-result-management/score-entry';
-import ClassSetupAdd from '../components/smp-session/class-setup-add';
-import ClassSetupList from '../components/smp-session/class-setup-list';
-import ClassSetupEdit from '../components/smp-session/class-setup-edit';
-import SubjectSetupList from '../components/smp-session/subject-setup-list';
-import SubjectSetupEdit from '../components/smp-session/subject-setup-edit';
-import SubjectSetupAdd from '../components/smp-session/subject-setup-add';
-import SessionClassList from '../components/smp-session/session-class-list';
-import SessionClassEdit from '../components/smp-session/session-class-edit';
-import SessionClassAdd from '../components/smp-session/session-class-add';
-import SessionClassDetails from '../components/smp-session/session-class-details';
-import SessionClassList2 from '../components/spm-class/session-class-list';
-import SessionList from '../components/smp-session/session-list';
-import SessionAdd from '../components/smp-session/session-add';
-import SessionDetails from '../components/smp-session/session-details';
-import StaffList from '../components/smp-staff/staff-list';
-import StaffAdd from '../components/smp-staff/staff-add';
-import StaffEdit from '../components/smp-staff/staff-edit';
-import PublishResult from '../components/smp-result-management/publish-result-setup';
-import AdminScoreEntry from '../components/smp-result-management/admin-score-entry';
-import MasterList from '../components/smp-result-management/master-list';
-import PublishResultEdit from '../components/smp-result-management/publish-result-edit';
-import CumulativeMasterList from '../components/smp-result-management/cumulative-master-list';
-import TemplateControl from '../components/smp-result-management/result-templates/template-control';
-import Attendance from '../components/spm-class/attendance-on-update';
-import PrintResult from '../components/smp-result-management/print-result';
-import Setting from '../components/smp-portal-setting/setting';
-import Pins from '../components/smp-pin-management/pins';
-import UsedPins from '../components/smp-pin-management/used-pins';
-import PinDetails from '../components/smp-pin-management/pin-details';
-import TemplateSetting from '../components/smp-portal-setting/template-setting';
-import UsedPinDetails from '../components/smp-pin-management/used-pin-details';
-import AttendancePresence from '../components/spm-class/attendance-presence';
-import AnnouncementList from '../components/smp-notifications/announcement-list';
-import MakeAnnouncement from '../components/smp-notifications/make-announcement';
-import AnnouncementDetails from '../components/smp-notifications/announcement-details';
-import AttendanceRegisterList from '../components/spm-class/attendance-register-list';
-import AnnouncementEdit from '../components/smp-notifications/announcement-edit';
-import AddUser from '../components/spm-permissions/role-add-user';
-import StaffProfilePage from '../components/smp-user-profile/staff-profile-page';
-import StudentProfilePage from '../components/smp-user-profile/student-profile-page';
-import StudentProfileEdit from '../components/smp-user-profile/student-profile-edit';
-import StaffProfileEdit from '../components/smp-user-profile/staff-profile-edit';
-import RemoveUser from '../components/spm-permissions/role-remove-user';
-import AssignmentDetails from '../components/spm-class/assignment/assignment-details';
-import CreateAssignment from '../components/spm-class/assignment/assignment-on-create';
-import AssignmentList from '../components/spm-class/assignment/assignment-list';
-import EditAssignment from '../components/spm-class/assignment/assignment-on-edit';
-import LessonNotes from '../components/spm-class/lesson-notes/lesson-notes';
-import CreateLessonNote from '../components/spm-class/lesson-notes/lesson-note-on-create';
-import EditLessonNote from '../components/spm-class/lesson-notes/lesson-note-on-edit';
-import LessonNoteDetails from '../components/spm-class/lesson-notes/lesson-note-details';
+import StudentList from '../components/teachers-area/smp-students/student-list';
+import StudentAdd from '../components/teachers-area/smp-students/student-add';
+import StudentEdit from '../components/teachers-area/smp-students/student-edit';
+import StudentDetails from '../components/teachers-area/smp-students/student-details';
+import UnenrolledStudentsList from '../components/teachers-area/smp-enrollment/unenrolled-students-list';
+import EnrolledStudents from '../components/teachers-area/smp-enrollment/enrolled-student-list';
+import StaffDetails from '../components/teachers-area/smp-staff/staff-details';
+import PromotionSetup from '../components/teachers-area/smp-session/promotion-list';
+import PromotionPassedList from '../components/teachers-area/smp-session/promotion-passed-list';
+import PromotionFailedList from '../components/teachers-area/smp-session/promotion-failed-list';
+import GradeSetting from '../components/teachers-area/smp-grade-setting/grade-setting';
+import ClassSetupAdd from '../components/teachers-area/smp-session/class-setup-add';
+import ClassSetupList from '../components/teachers-area/smp-session/class-setup-list';
+import ClassSetupEdit from '../components/teachers-area/smp-session/class-setup-edit';
+import SubjectSetupList from '../components/teachers-area/smp-session/subject-setup-list';
+import SubjectSetupEdit from '../components/teachers-area/smp-session/subject-setup-edit';
+import SubjectSetupAdd from '../components/teachers-area/smp-session/subject-setup-add';
+import SessionClassList from '../components/teachers-area/smp-session/session-class-list';
+import SessionClassEdit from '../components/teachers-area/smp-session/session-class-edit';
+import SessionClassAdd from '../components/teachers-area/smp-session/session-class-add';
+import SessionClassDetails from '../components/teachers-area/smp-session/session-class-details';
+import SessionList from '../components/teachers-area/smp-session/session-list';
+import SessionAdd from '../components/teachers-area/smp-session/session-add';
+import SessionDetails from '../components/teachers-area/smp-session/session-details';
+import StaffList from '../components/teachers-area/smp-staff/staff-list';
+import StaffAdd from '../components/teachers-area/smp-staff/staff-add';
+import StaffEdit from '../components/teachers-area/smp-staff/staff-edit';
+import Setting from '../components/teachers-area/smp-portal-setting/setting';
+import Pins from '../components/teachers-area/smp-pin-management/pins';
+import UsedPins from '../components/teachers-area/smp-pin-management/used-pins';
+import PinDetails from '../components/teachers-area/smp-pin-management/pin-details';
+import TemplateSetting from '../components/teachers-area/smp-portal-setting/template-setting';
+import UsedPinDetails from '../components/teachers-area/smp-pin-management/used-pin-details';
+import AnnouncementList from '../components/teachers-area/smp-notifications/announcement-list';
+import MakeAnnouncement from '../components/teachers-area/smp-notifications/make-announcement';
+import AnnouncementDetails from '../components/teachers-area/smp-notifications/announcement-details';
+import AnnouncementEdit from '../components/teachers-area/smp-notifications/announcement-edit';
+import AddUser from '../components/teachers-area/spm-permissions/role-add-user';
+import StaffProfilePage from '../components/teachers-area/smp-user-profile/staff-profile-page';
+import StudentProfilePage from '../components/teachers-area/smp-user-profile/student-profile-page';
+import StudentProfileEdit from '../components/teachers-area/smp-user-profile/student-profile-edit';
+import RemoveUser from '../components/teachers-area/spm-permissions/role-remove-user';
+import AssignmentDetails from '../components/teachers-area/spm-class/assignment/assignment-details';
+import CreateAssignment from '../components/teachers-area/spm-class/assignment/assignment-on-create';
+import AssignmentList from '../components/teachers-area/spm-class/assignment/assignment-list';
+import EditAssignment from '../components/teachers-area/spm-class/assignment/assignment-on-edit';
+import LessonNotes from '../components/teachers-area/spm-class/lesson-notes/lesson-notes';
+import CreateLessonNote from '../components/teachers-area/spm-class/lesson-notes/lesson-note-on-create';
+import EditLessonNote from '../components/teachers-area/spm-class/lesson-notes/lesson-note-on-edit';
+import LessonNoteDetails from '../components/teachers-area/spm-class/lesson-notes/lesson-note-details';
+import StaffProfileEdit from '../components/teachers-area/smp-user-profile/staff-profile-edit';
+import SessionClassList2 from '../components/teachers-area/spm-class/session-class-list';
+import Attendance from '../components/teachers-area/spm-class/attendance-on-create';
+import AttendanceRegisterList from '../components/teachers-area/spm-class/attendance-register-list';
+import AttendancePresence from '../components/teachers-area/spm-class/attendance-presence';
+import ScoreEntry from '../components/teachers-area/smp-result-management/score-entry';
+import PublishResult from '../components/teachers-area/smp-result-management/publish-result-setup';
+import AdminScoreEntry from '../components/teachers-area/smp-result-management/admin-score-entry';
+import MasterList from '../components/teachers-area/smp-result-management/master-list';
+import PublishResultEdit from '../components/teachers-area/smp-result-management/publish-result-edit';
+import CumulativeMasterList from '../components/teachers-area/smp-result-management/cumulative-master-list';
+import PrintResult from '../components/teachers-area/smp-result-management/print-result';
 
 const DashboardRouter = () => {
 
@@ -105,7 +104,6 @@ const DashboardRouter = () => {
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
-                    {/* <Route path={sessionLocations.sessionEdit} exact component={SessionEdit} /> */}
                     <Route path={sessionLocations.sessionDetails} exact component={SessionDetails} />
                     <Route path={sessionLocations.classSetupList} exact component={ClassSetupList} />
                     <Route path={sessionLocations.classSetupAdd} exact component={ClassSetupAdd} />
@@ -156,7 +154,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
                       <Route path={resultManagement.printResult} exact component={PrintResult} />
-                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
+                      {/* <Route path={resultManagement.resultTemplate} exact component={TemplateControl} /> */}
 
                       {/* portal setting */}
                       <Route path={portalSetting.setting} exact component={Setting} />

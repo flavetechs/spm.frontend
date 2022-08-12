@@ -806,6 +806,73 @@ export const classReducer = (state = _state, { type, payload }) => {
               };
             }
 
+            case actions.FETCH_STATUS_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                lessonNotes:[],
+              };
+            }
+            case actions.FETCH_STATUS_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                lessonNotes: payload,
+              };
+            }
+            case actions.FETCH_STATUS_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                lessonNotes: [],
+              };
+            }
+
+            case actions.FETCH_NOTE_VIEWERS_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                viewers:[],
+              };
+            }
+            case actions.FETCH_NOTE_VIEWERS_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                viewers: payload,
+              };
+            }
+            case actions.FETCH_NOTE_VIEWERS_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                viewers: [],
+              };
+            }
+
+            case actions.FETCH_RELATED_NOTES_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                relatedNotes:[],
+              };
+            }
+            case actions.FETCH_RELATED_NOTES_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                relatedNotes: payload,
+              };
+            }
+            case actions.FETCH_RELATED_NOTES_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                relatedNotes: [],
+              };
+            }
+
+
     case actions.FETCH_UNAPPROVED_LESSON_NOTES_LOADING: {
       return {
         ...state,
