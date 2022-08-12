@@ -4,6 +4,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { fetchSingleStudent, updateStudentProfile } from "../../store/actions/student-actions";
+import * as Yup from "yup";
 import './profilePage.scss';
 
 import avatars1 from "../../assets/images/avatars/01.png";
@@ -32,6 +33,15 @@ const StudentProfileEdit = () => {
     const { selectedStudent, submitSuccessful } = state.student;
     //ACCESSING STATE FROM REDUX STORE
 
+
+    //VALIDATIONS SCHEMA
+    const validation = Yup.object().shape({
+        Hobbies: Yup.string()
+            .min(2, "Enter a valid hobbies activities")
+            .required("Enter at least 2 Hobbies"),
+    });
+    //VALIDATIONS SCHEMA
+
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);
         const studentAccountId = queryParams.get("studentAccountId");
@@ -48,7 +58,6 @@ const StudentProfileEdit = () => {
             setImage(URL.createObjectURL(event.target.files[0]));
         }
     };
-    console.log('subjectIds', subjectIds);
     //HANDLING ENTER KEY FUNCTION
     function handleKeyDown(e) {
         if (e.key !== 'Enter') return
@@ -110,6 +119,7 @@ const StudentProfileEdit = () => {
                     BestSubjectIds: [],
                     File: null,
                 }}
+                validationSchema={validation}
                 onSubmit={(values) => {
                     values.StudentContactId = values.StudentContactId;
                     values.Hobbies = tags;
@@ -236,12 +246,13 @@ const StudentProfileEdit = () => {
                             <Col className="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Card className="">
                                     <Card.Header className="ms-3 col-ms-1">
-                                        <h4>Edit Student Profile</h4>
+                                        <h4 className="ms-3">Edit Student Profile</h4>
                                     </Card.Header>
                                     <Card.Body>
                                         <Form className="mx-auto" onSubmit={e => { e.preventDefault(); }} >
                                             <Row className="d-flex justify-content-center">
                                                 <Col md="11" className="form-group text-dark">
+                                                    {(touched.Hobbies && errors.Hobbies) && <div className='text-danger'>{errors.Hobbies}</div>}
                                                     <label className="form-label mb-1" htmlFor="Hobbies">
                                                         <b>Hobbies:</b>
                                                     </label>

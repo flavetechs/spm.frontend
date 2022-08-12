@@ -27,8 +27,6 @@ const StudentProfilePage = () => {
         if (!studentAccountId) return;
         fetchSingleStudent(studentAccountId)(dispatch);
     }, []);
-
-
     return (
         <>
             <Row>
@@ -51,24 +49,33 @@ const StudentProfilePage = () => {
                                         style={{ borderRadius: "50%", }}
                                     />
                                 </div>
-
-                                <h5 className="d-flex justify-content-center text-dark">{selectedStudent?.firstName} {selectedStudent?.middleName} {selectedStudent?.lastName}</h5>
-                                <h6 className="d-flex justify-content-center text-dark">{selectedStudent?.registrationNumber}</h6>
+                                <h5 className="d-flex justify-content-center text-uppercase text-dark">{selectedStudent?.firstName} {selectedStudent?.middleName} {selectedStudent?.lastName}</h5>
+                                <h6 className="d-flex justify-content-center text-dark bg-light">{selectedStudent?.registrationNumber}</h6>
                                 <hr className="fw-bold" />
                                 <p className="text-dark fw-bold mb-1">Hobbies: </p>
-                                <div className="container text-capitalize text-dark">
-                                    {selectedStudent?.hobbies.map((name, index) => (
-                                        <li key={index} className="text-lowercase text-dark">
-                                            {name}
-                                        </li>
+                                <div className="">
+                                    {selectedStudent?.hobbies.map((tag, index) => (
+                                        <div className="tag-item bg-light m-1 text-dark text-capitalize" key={index}>
+                                            <span className="text">{tag}</span>
+                                            <span className="p-1">
+                                                <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" clipRule="evenodd"
+                                                        d="M2.87187 11.5983C1.79887 8.24832 3.05287 4.41932 6.56987 3.28632C8.41987 2.68932 10.4619 3.04132 11.9999 4.19832C13.4549 3.07332 15.5719 2.69332 17.4199 3.28632C20.9369 4.41932 22.1989 8.24832 21.1269 11.5983C19.4569 16.9083 11.9999 20.9983 11.9999 20.9983C11.9999 20.9983 4.59787 16.9703 2.87187 11.5983Z"
+                                                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                    <path d="M16 6.69995C17.07 7.04595 17.826 8.00095 17.917 9.12195" stroke="currentColor" strokeWidth="1.5"
+                                                        strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </span>
+                                        </div>
                                     ))}
                                 </div>
                                 <p className="text-dark fw-bold mt-4 mb-1">Best Subject: </p>
-                                <div className="container">
-                                    {selectedStudent?.bestSubjectNames.map((name, index) => (
-                                        <li key={index} className="best-language text-lowercase text-dark">
-                                            {name}
-                                        </li>
+                                <div className="">
+                                    {selectedStudent?.bestSubjectNames.map((tag, index) => (
+                                        <div className="tag-item bg-light m-1 text-dark text-capitalize" key={index}>
+                                            <span className="text">{tag}</span>
+                                            <span className="p-1">&#128366;</span>
+                                        </div>
                                     ))}
                                 </div>
                                 <div className="mt-5 d-flex justify-content-end">
@@ -116,6 +123,18 @@ const StudentProfilePage = () => {
                             <div className="new-user-info">
                                 <div className="row">
                                     <div className="col-md-12  form-group">
+                                    </div>
+                                    <div className="col-md-6 form-group">
+                                        <p className="text-dark">
+                                            <span>
+                                                <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path opacity="0.4" d="M18.8088 9.021C18.3573 9.021 17.7592 9.011 17.0146 9.011C15.1987 9.011 13.7055 7.508 13.7055 5.675V2.459C13.7055 2.206 13.5036 2 13.253 2H7.96363C5.49517 2 3.5 4.026 3.5 6.509V17.284C3.5 19.889 5.59022 22 8.16958 22H16.0463C18.5058 22 20.5 19.987 20.5 17.502V9.471C20.5 9.217 20.299 9.012 20.0475 9.013C19.6247 9.016 19.1177 9.021 18.8088 9.021Z" fill="currentColor" />
+                                                    <path opacity="0.4" d="M16.0842 2.56737C15.7852 2.25637 15.2632 2.47037 15.2632 2.90137V5.53837C15.2632 6.64437 16.1742 7.55437 17.2802 7.55437C17.9772 7.56237 18.9452 7.56437 19.7672 7.56237C20.1882 7.56137 20.4022 7.05837 20.1102 6.75437C19.0552 5.65737 17.1662 3.69137 16.0842 2.56737Z" fill="currentColor" />
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M8.97398 11.3877H12.359C12.77 11.3877 13.104 11.0547 13.104 10.6437C13.104 10.2327 12.77 9.89868 12.359 9.89868H8.97398C8.56298 9.89868 8.22998 10.2327 8.22998 10.6437C8.22998 11.0547 8.56298 11.3877 8.97398 11.3877ZM8.97408 16.3819H14.4181C14.8291 16.3819 15.1631 16.0489 15.1631 15.6379C15.1631 15.2269 14.8291 14.8929 14.4181 14.8929H8.97408C8.56308 14.8929 8.23008 15.2269 8.23008 15.6379C8.23008 16.0489 8.56308 16.3819 8.97408 16.3819Z" fill="currentColor" />
+                                                </svg>
+                                            </span>{" "}
+                                            <span>Class:</span> <span className="h6">{selectedStudent?.sessionClass}</span>
+                                        </p>
                                     </div>
                                     <div className="col-md-6 form-group">
                                         <p className="text-dark">

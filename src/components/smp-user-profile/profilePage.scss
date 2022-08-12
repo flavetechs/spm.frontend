@@ -1,7 +1,7 @@
 .tags-input-container{
     border: 1px solid rgb(237, 235, 235);
     padding: .5em;
-    border-radius: 3px;
+    border-radius: 1px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -13,7 +13,7 @@
     background-color: rgb(228, 226, 216);
     display: inline-block;
     padding: 3px 5px;
-    border-radius: 5px;
+    border-radius: 1px;
 }
 .tag-item .close{
     height: 20px;
@@ -35,3 +35,12 @@
     outline: none;
 }
 
+  .column-divider{
+    border-left: 3px solid rgb(212, 211, 207);
+  }
+
+  @media screen and (max-width: 478px) {
+    .column-divider {
+        border: none;
+    }
+  }
