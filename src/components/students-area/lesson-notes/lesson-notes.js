@@ -3,30 +3,30 @@ import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
 import {
   deleteLessonNotes,
   getAllLessonNotes,
   getClassNotesByStatus,
-} from "../../../../store/actions/class-actions";
+} from "../../../store/actions/class-actions";
 import {
   getAllStaffClasses,
   getStaffClassSubjects,
-} from "../../../../store/actions/results-actions";
+} from "../../../store/actions/results-actions";
 import {
   respondDialog,
   respondModal,
   showHideDialog,
   showHideModal,
-} from "../../../../store/actions/toaster-actions";
+} from "../../../store/actions/toaster-actions";
 import {
   getUserDetails,
   hasAccess,
   NavPermissions,
-} from "../../../../utils/permissions";
+} from "../../../utils/permissions";
 import { NoteShareModal } from "./note-share-modal";
 import * as Yup from "yup";
 import { NoteSendModal } from "./note-send-modal";
+import { lessonNoteLocations } from "../../../router/students-path-locations";
 
 const LessonNotes = () => {
   //VARIABLE DECLARATIONS
@@ -191,7 +191,7 @@ const LessonNotes = () => {
                 validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
-                    `${classLocations.createLessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}`
+                    `${lessonNoteLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}`
                   );
                 }}
               >
@@ -229,10 +229,10 @@ const LessonNotes = () => {
                                   );
                                   if (e.target.value == "") {
                                     getAllLessonNotes("")(dispatch);
-                                    history.push(classLocations.lessonNotes);
+                                    history.push(lessonNoteLocations.lessonNotes);
                                   } else {
                                     history.push(
-                                      `${classLocations.lessonNotes}?classId=${e.target.value}`
+                                      `${lessonNoteLocations.lessonNotes}?classId=${e.target.value}`
                                     );
                                   }
                                 }}
@@ -262,9 +262,9 @@ const LessonNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   setSubjectId(e.target.value);
                                   e.target.value == ""
-                                    ? history.push(classLocations.lessonNotes)
+                                    ? history.push(lessonNoteLocations.lessonNotes)
                                     : history.push(
-                                        `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${e.target.value}`
+                                        `${lessonNoteLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${e.target.value}`
                                       );
                                 }}
                               >
@@ -397,7 +397,7 @@ const LessonNotes = () => {
                                       <div
                                         onClick={() => {
                                           history.push(
-                                            `${classLocations.lessonNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                            `${lessonNoteLocations.lessonNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}
@@ -451,7 +451,7 @@ const LessonNotes = () => {
                                         <div
                                           onClick={() => {
                                             history.push(
-                                              `${classLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                              `${lessonNoteLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
