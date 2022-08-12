@@ -24,7 +24,6 @@ const SignIn = () => {
     var permissions = localStorage.getItem('permissions');
 
     useEffect(() => {
-        debugger
         if (userDetail) {
             if (JSON.parse(userDetail).userType == 'Student') {
                 // history.push('/stds-dashboard')
