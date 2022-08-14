@@ -31,4 +31,5 @@ export const dashboardLocations = {
 
   export const profileLocations = {
     profile: "/stds-dashboard/student-profile",
+    profileEdit: "/stds-dashboard/smp-user/edit-student-profile",
   };
