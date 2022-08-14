@@ -12,8 +12,8 @@ import avatars3 from "../../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
-import { authLocations } from "../../../router/spm-path-locations";
 import { getAllActiveSubjects } from "../../../store/actions/class-actions";
+import { profileLocations } from "../../../router/students-path-locations";
 
 const StudentProfileEdit = () => {
     //VARIABLE DECLARATIONS
@@ -48,7 +48,6 @@ const StudentProfileEdit = () => {
             setImage(URL.createObjectURL(event.target.files[0]));
         }
     };
-    console.log('subjectIds', subjectIds);
     //HANDLING ENTER KEY FUNCTION
     function handleKeyDown(e) {
         if (e.key !== 'Enter') return
@@ -60,12 +59,12 @@ const StudentProfileEdit = () => {
     //HANDLING ENTER KEY FUNCTION
 
     React.useEffect(() => {
-        submitSuccessful && history.push(`${authLocations.studentProfilePage}?studentAccountId=${selectedStudent?.studentAccountId}`);;
+        submitSuccessful && history.push(`${profileLocations.profile}?studentAccountId=${selectedStudent?.studentAccountId}`);;
     }, [submitSuccessful]);
 
     //CLOSING ICON ON INPUT TAG REMOVE FUNCTION
     function removeTag(index) {
-        setTags(tags.filter((el, i) => i !== index))
+        setTags(tags.filter((el, i) => i !== index))    
     }
 
     const handleUserArray = (event) => {
@@ -236,7 +235,7 @@ const StudentProfileEdit = () => {
                             <Col className="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Card className="">
                                     <Card.Header className="ms-3 col-ms-1">
-                                        <h4>Edit Student Profile</h4>
+                                        <h4 className="ms-3">Edit Student Profile</h4>
                                     </Card.Header>
                                     <Card.Body>
                                         <Form className="mx-auto" onSubmit={e => { e.preventDefault(); }} >
