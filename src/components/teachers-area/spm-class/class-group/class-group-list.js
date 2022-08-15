@@ -1,30 +1,84 @@
 import { Field, Formik } from "formik";
-import React from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { getAllClassStudents } from "../../../../store/actions/class-actions";
+import { deleteClassGroup, getAllClassStudents, pushId, removeId, returnList } from "../../../../store/actions/class-actions";
 import * as Yup from "yup";
 import { getAllStaffClasses, getStaffClassSubjects } from "../../../../store/actions/results-actions";
+import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from "../../../../store/actions/toaster-actions";
 
 const ClassGroup = () => {
   // ACCESSING STATE FROM REDUX STORE
   const history = useHistory();
   const dispatch = useDispatch();
+  const [showDeleteButton, setDeleteButton] = useState(true);
+  const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  const [sessionClassId, setSessionClassId] = useState("");
   const state = useSelector((state) => state);
+  const { itemList, selectedIds } = state.class;
+  const { deleteDialogResponse } = state.alert;
   const { staffClasses,staffClassSubjects } = state.results;
   // const { classStudents } = state.class;
   // ACCESSING STATE FROM REDUX STORE
   //VALIDATION
   const validation = Yup.object().shape({
     sessionClassId: Yup.string().required("Class is required"),
+    subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION
+
+  //DELETE HANDLER
+  React.useEffect(() => {
+    if (deleteDialogResponse === "continue") {
+      if (selectedIds.length === 0) {
+        showErrorToast("No Item selected to be deleted")(dispatch);
+      } else {
+        deleteClassGroup(selectedIds,sessionClassId)(dispatch);
+        setDeleteButton(!showDeleteButton);
+        setShowCheckBoxes(false);
+        respondToDeleteDialog("")(dispatch);
+      }
+    } else {
+      setDeleteButton(true);
+      setShowCheckBoxes(false);
+      selectedIds.forEach((id) => {
+        dispatch(removeId(id));
+      });
+    }
+    return () => {
+      respondToDeleteDialog("")(dispatch);
+    };
+  }, [deleteDialogResponse]);
+  //DELETE HANDLER
+
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, []);
-
+  const checkSingleItem = (isChecked, userAccountId, itemList) => {
+    itemList?.forEach((item) => {
+      if (item.userAccountId === userAccountId) {
+        item.isChecked = isChecked;
+      }
+    });
+    if (isChecked) {
+      dispatch(pushId(userAccountId));
+    } else {
+      dispatch(removeId(userAccountId));
+    }
+  };
+  const checkAllItems = (isChecked, itemList) => {
+    itemList.forEach((item) => {
+      item.isChecked = isChecked;
+      if (item.isChecked) {
+        dispatch(pushId(item.userAccountId));
+      } else {
+        dispatch(removeId(item.userAccountId));
+      }
+    });
+    returnList(itemList)(dispatch);
+  };
   return (
     <>
       <div>
@@ -70,6 +124,7 @@ const ClassGroup = () => {
                               "sessionClassId",
                               e.target.value
                             );
+                            setSessionClassId(e.target.value);
                             getStaffClassSubjects(e.target.value)(
                               dispatch
                             );
@@ -144,6 +199,90 @@ const ClassGroup = () => {
                           <span> Add Class Group </span>
                         </button>
                       </div>
+                      {showDeleteButton ? (
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                          onClick={() => {
+                            setDeleteButton(!showDeleteButton);
+                            setShowCheckBoxes(!showCheckBoxes);
+                          }}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              stroke="currentColor"
+                            >
+                              <path
+                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M20.708 6.23975H3.75"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> Delete</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                          onClick={() => {
+                            showSingleDeleteDialog(true)(dispatch);
+                          }}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              stroke="currentColor"
+                            >
+                              <path
+                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M20.708 6.23975H3.75"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> Delete Selected</span>
+                        </button>
+                      )}
                     </div>
                   )}
                 </Formik>
@@ -156,7 +295,19 @@ const ClassGroup = () => {
                   >
                     <thead>
                       <tr className="ligth">
-                        <th>S/No</th>
+                      <th>
+                          {showCheckBoxes ? (
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              onChange={(e) => {
+                                checkAllItems(e.target.checked, itemList);
+                              }}
+                            />
+                          ) : (
+                            "S/No"
+                          )}
+                        </th>
                         <th>Group Name</th>
                         <th>No of Students in Grp</th>
                         <th>No of Students not in Grp</th>
@@ -164,10 +315,28 @@ const ClassGroup = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {itemList?.map((item, idx) => (
+                       {itemList?.map((item, idx) => (
                       <tr key={idx}>
-                        <td className="">{idx + 1}</td>
-                        {/* //<td>{item.session}</td> 
+                       <td className="">
+                            <b>
+                              {showCheckBoxes ? (
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  checked={item.isChecked || false}
+                                  onChange={(e) => {
+                                    checkSingleItem(
+                                      e.target.checked,
+                                      item.userAccountId,
+                                      itemList
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                idx + 1
+                              )}
+                            </b>
+           </td>
                         <td>
                           <strong>{item.class}</strong>{" "}
                         </td>
@@ -198,7 +367,7 @@ const ClassGroup = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Edit"
-                                    to={`${studentsLocations.studentEdit}?studentAccountId=${student.studentAccountId}`}
+                                    to={`${classLocations.studentEdit}?studentAccountId=${item.studentAccountId}`}
                                   >
                                     <span className="btn-inner">
                                       <svg
@@ -234,10 +403,66 @@ const ClassGroup = () => {
                                     </span>
                                   </Link>
                                 </OverlayTrigger>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      {" "}
+                                      delete
+                                    </Tooltip>
+                                  }
+                                >
+                                  <Link
+                                    className="btn btn-sm btn-icon btn-danger"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title=""
+                                    data-original-title="Delete"
+                                    to="#"
+                                    data-id={item.userAccountId}
+                                    onClick={() => {
+                                      dispatch(pushId(item.userAccountId));
+                                      showSingleDeleteDialog(true)(dispatch);
+                                    }}
+                                  >
+                                    <span className="btn-inner">
+                                      <svg
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        stroke="currentColor"
+                                      >
+                                        <path
+                                          d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M20.708 6.23975H3.75"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  </Link>
+
+                                </OverlayTrigger>
                           </div>
                         </td>
                       </tr>
-                    ))} */}
+                    ))} 
                     </tbody>
                   </table>
                 </div>

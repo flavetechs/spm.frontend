@@ -1088,12 +1088,12 @@ export const getAllClassGroup = (sessionClassId) => (dispatch) => {
         });
 }
 
-export const deleteClassGroup = (item) => (dispatch) => {
+export const deleteClassGroup = (items,sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_GROUP_LOADING
     });
 const payload= {
-    item
+    items
 }
     axiosInstance.post(`/class/api/v1/delete/class-group`,payload)
         .then((res) => {
@@ -1101,6 +1101,7 @@ const payload= {
                 type: actions.DELETE_GROUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllClassGroup(sessionClassId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1111,12 +1112,17 @@ const payload= {
         });
 }
 
-export const createClassGroup = (values) => (dispatch) => {
+export const createClassGroup = (groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray) => (dispatch) => {
     dispatch({
         type: actions.CREATE_GROUP_LOADING
     });
-
-    axiosInstance.post('/class/api/v1/create/class-group', values)
+const payload = {
+    groupName,
+    sessionClassId,
+    sessionClassSubjectId,
+    studentContactIds : studentContactIdArray
+}
+    axiosInstance.post('/class/api/v1/create/class-group',payload)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_GROUP_SUCCESS,

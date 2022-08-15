@@ -1,20 +1,21 @@
-import { Field, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getAllClassStudents } from "../../../../store/actions/class-actions";
+import { createClassGroup, getAllClassStudents } from "../../../../store/actions/class-actions";
 
 const AddClassGroup = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { classStudents } = state.class;
+  const { classStudents } = state.class;  
+  const [studentContactIdArray, setStudentContactIdArray] = useState([]);
+  const [groupName, setGroupName] = useState("");
+  const [validation, setValidation] = useState("");
+  
  //VALIDATION
- const validation = Yup.object().shape({
-  groupName: Yup.string().required("Group name is required"),
-});
+
 //VALIDATION
 
   React.useEffect(() => {
@@ -24,44 +25,43 @@ const AddClassGroup = () => {
       getAllClassStudents(sessionClassId)(dispatch);
     }
   }, []);
+  const handleStudentContactIds = (event) => {
+    const checkBoxValue = event.target.checked;
+    const studentContactId = event.target.id;
+    let selectedStudentContactIds;
+    const otherSelectedStudentContactIds = studentContactIdArray.filter((item) => item != studentContactId);
+    if (checkBoxValue === false) {
+      selectedStudentContactIds = [...otherSelectedStudentContactIds];
+    } else {
+      selectedStudentContactIds = [...otherSelectedStudentContactIds, studentContactId];
+    }
+    setStudentContactIdArray(selectedStudentContactIds);
+  };
   console.log(classStudents);
   return (
     <>
       <div>
         <Row className="d-flex justify-content-center">
           <Col sm="8">
-            <Formik
-              initialValues={{
-                groupName: "",
-              }}
-              enableReinitialize={true}
-              //validationSchema={validation}
-              onSubmit={(values) => {
-                const queryParams = new URLSearchParams(locations.search);
-                const sessionClassId = queryParams.get("sessionClassId");
-                const sessionClassSubjectId = queryParams.get("subjectId");
-                values.sessionClassId = sessionClassId;
-                values.sessionClassSubjectId = sessionClassSubjectId;
-              }}
-            >
-              {({ handleSubmit, values, setFieldValue, touched, errors }) => (
                 <Card>
                   <Card.Header className="d-flex justify-content-between">
                     <div className="header-title w-100">
                       <Form.Group className="form-group">
-                        <div>
-                          {errors.groupName && (
+                      <div>
+                          {!groupName && validation && (
                             <div className="text-danger">
-                              {errors.groupName}
+                              group name is required
                             </div>
                           )}
-                        </div>
+                          </div>
                         <Form.Label className="">Group Name</Form.Label>
-                        <Field
+                        <input
                           type="text"
                           className="w-100 form-control"
                           name="groupName"
                           placeholder="Enter group name..."
+                          onBlur={()=>setValidation(true)}
+                          onChange={(e)=>setGroupName(e.target.value)}
                         />
                       </Form.Group>
                     </div>
@@ -94,9 +94,9 @@ const AddClassGroup = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id={item.activityId}
+                                  id={item.studentAccountId}
                                   onChange={(e) => {
-                                    handleSelect(e);
+                                    handleStudentContactIds(e);
                                   }}
                                 />
                               </td>
@@ -115,7 +115,11 @@ const AddClassGroup = () => {
                         </button>
                         <button
                           onClick={() => {
-                            //createNewRole(selectedRole)(dispatch);
+                            const queryParams = new URLSearchParams(locations.search);
+                            const sessionClassId = queryParams.get("sessionClassId");
+                            const sessionClassSubjectId = queryParams.get("subjectId");
+                            groupName &&
+                            createClassGroup(groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray)(dispatch);
                           }}
                           type="button"
                           className="btn btn-primary mx-2"
@@ -127,8 +131,6 @@ const AddClassGroup = () => {
                     </div>
                   </Card.Body>
                 </Card>
-              )}
-            </Formik>
           </Col>
         </Row>
       </div>

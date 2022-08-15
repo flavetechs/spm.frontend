@@ -961,6 +961,50 @@ export const classReducer = (state = _state, { type, payload }) => {
 
     //LESSON NOTES
 
+    //GROUP
+    case actions.DELETE_LESSON_NOTES_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.DELETE_LESSON_NOTES_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message:payload,
+      };
+    case actions.DELETE_LESSON_NOTES_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message:payload,
+      };
+
+      case actions.FETCH_SINGLE_LESSON_NOTES_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          singleLessonNotes:null,
+        };
+      }
+      case actions.FETCH_SINGLE_LESSON_NOTES_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          singleLessonNotes: payload,
+        };
+      }
+      case actions.FETCH_SINGLE_LESSON_NOTES_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          singleLessonNotes: null,
+        };
+      }
+
     default:
       return state;
   }
