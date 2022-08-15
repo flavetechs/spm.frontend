@@ -5,24 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
-  continueClassRegister,
-  createRegister,
   deleteClassRegister,
   getAllClassRegister,
-  getAllStudentsAbsent,
-  getAllStudentsPresent,
   resetclassRegisterState,
   resetCreateSuccessfulState,
   updateRegisterLabel,
 } from "../../../../store/actions/class-actions";
-import { getAllStaffClasses, getStaffClassSubjects } from "../../../../store/actions/results-actions";
+import {
+  getAllStaffClasses,
+  getStaffClassSubjects,
+} from "../../../../store/actions/results-actions";
 import {
   respondDialog,
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../../utils/permissions";
 
-const AssignmentList = () => {
+const AssessmentList = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
@@ -40,7 +39,7 @@ const AssignmentList = () => {
   const textInput = React.createRef();
   const { classRegister, createSuccessful, newClassRegister } = state.class;
 
-  const { staffClasses,staffClassSubjects } = state.results;
+  const { staffClasses, staffClassSubjects } = state.results;
   const { dialogResponse } = state.alert;
 
   // ACCESSING STATE FROM REDUX STORE
@@ -70,16 +69,14 @@ const AssignmentList = () => {
       setSessionClassId(sessionClassIdQuery);
     }
   }, [sessionClassIdQuery]);
-  const assignmentList = [{}]
+  const assessmentList = [{}];
 
-  const filteredAssignmentList = assignmentList?.filter((item) => {
+  const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
       //if query is empty
       return item;
     } else if (
-      item.classRegisterLabel
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
+      item.classRegisterLabel.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return item;
@@ -111,169 +108,195 @@ const AssignmentList = () => {
       <div>
         <Row>
           <Col sm="12">
-            <Card className="bg-transparent">
-              <Card.Header className="d-flex justify-content-between bg-transparent">
-                <div className="header-title">
-                  <h4 className="card-title mt-3">Assignment Board</h4>
-                </div>
-              </Card.Header>
-              <Formik
-                initialValues={{
-                  sessionClassId: sessionClassId,
-                  subjectId: "",
-                }}
-                enableReinitialize={true}
-                onSubmit={(values) => {
-                history.push(classLocations.createAssignment)
-                }}
-              >
-                {({ handleSubmit, values, setFieldValue, touched, errors }) => (
+            <Formik
+              initialValues={{
+                sessionClassId: sessionClassId,
+                subjectId: "",
+              }}
+              enableReinitialize={true}
+              onSubmit={(values) => {
+                history.push(classLocations.createAssessment);
+              }}
+            >
+              {({ handleSubmit, values, setFieldValue, touched, errors }) => (
+                <Card className="bg-transparent">
+                  <Card.Header className="d-flex justify-content-between bg-transparent">
+                    <div className="header-title">
+                      <h4 className="card-title mt-3">Assessment Board</h4>
+                    </div>
+                    <div className=" d-flex align-items-center mt-3 mb-n3">
+                      <div className="input-group search-input">
+                        <span
+                          className="input-group-text border-0 bg-transparent mb-3"
+                          id="search-input"
+                        >
+                          <svg
+                            width="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="11.7669"
+                              cy="11.7666"
+                              r="8.98856"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></circle>
+                            <path
+                              d="M18.0186 18.4851L21.5426 22"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                        <div>
+                          <input
+                            type="search"
+                            className="form-control text-lowercase "
+                            placeholder="Search..."
+                            onChange={(event) =>
+                              setSearchQuery(event.target.value)
+                            }
+                            onClick={() => {
+                              setShowMenuDropdown(false);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-body me-3 align-items-center d-flex mt-3 mt-lg-0">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleSubmit();
+                        }}
+                        className="btn btn-primary btn-icon  mt-lg-0 mt-3"
+                      >
+                        <i className="btn-inner">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            ></path>
+                          </svg>
+                        </i>
+                        <span>Create Assessment</span>
+                      </button>
+                    </div>
+                  </Card.Header>
                   <Card.Body className="px-0 bg-transparent">
                     <Card>
                       <Card.Body>
-                        <div className="d-flex align-items-center justify-content-between flex-wrap">
-                          <div className="mb-md-0 mb-2 d-flex align-items-center">
-                            <div className="input-group search-input">
-                              <span
-                                className="input-group-text border-0"
-                                id="search-input"
-                              >
-                                <svg
-                                  width="18"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <circle
-                                    cx="11.7669"
-                                    cy="11.7666"
-                                    r="8.98856"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  ></circle>
-                                  <path
-                                    d="M18.0186 18.4851L21.5426 22"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  ></path>
-                                </svg>
-                              </span>
-                              <div>
-                                <input
-                                  type="search"
-                                  className="form-control text-lowercase"
-                                  placeholder="Search..."
-                                  onChange={(event) =>
-                                    setSearchQuery(event.target.value)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center flex-wrap">
-                            <div className=" me-3 dropdown">
-                              <Field
+                        <div className="d-lg-flex align-items-center ">
+                          <div className=" d-flex align-items-center">
+                            <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
+                              <select
                                 as="select"
-                                name="sessionClassId"
+                                name="group"
                                 className="form-select"
-                                id="sessionClassId"
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    "sessionClassId",
-                                    e.target.value
-                                  );
-                                  getStaffClassSubjects(e.target.value)(dispatch);
-                                  setSessionClassId(e.target.value);
-                                  // e.target.value == ""
-                                  //   ? history.push(
-                                  //       classLocations.assignment
-                                  //     )
-                                  //   : history.push(
-                                  //       `${classLocations.assignment}?sessionClassId=${e.target.value}`
-                                  //     );
-                                }}
+                                id="group"
+                                onChange={(e) => {}}
                               >
-                                <option value="">Select Class</option>
+                                <option value="">Select Group</option>
                                 {staffClasses?.map((item, idx) => (
                                   <option key={idx} value={item.sessionClassId}>
                                     {item.sessionClass}
                                   </option>
                                 ))}
-                              </Field>
-                            </div>
-                            <div className=" me-3 dropdown">
-                              <Field
-                                as="select"
-                                name="subjectId"
-                                className="form-select"
-                                id="subjectId"
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    "subjectId",
-                                    e.target.value
-                                  );
-                                  }}
-                              >
-                                <option value="">Select Subject</option>
-                                {staffClassSubjects?.map((item, idx) => (
-                                  <option key={idx} value={item.subjectId}>
-                                    {item.subjectName}
-                                  </option>
-                                ))}
-                              </Field>
-                            </div>
-                            <div className="text-body me-3 align-items-center d-flex">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  handleSubmit();
-                                }}
-                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                              >
-                                <i className="btn-inner">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                    ></path>
-                                  </svg>
-                                </i>
-                                <span>Create Assignment</span>
-                              </button>
+                              </select>
                             </div>
                           </div>
+                          <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
+                            <Field
+                              as="select"
+                              name="sessionClassId"
+                              className="form-select"
+                              id="sessionClassId"
+                              onChange={(e) => {
+                                setFieldValue("sessionClassId", e.target.value);
+                                getStaffClassSubjects(e.target.value)(dispatch);
+                                setSessionClassId(e.target.value);
+                              }}
+                            >
+                              <option value="">Select Class</option>
+                              {staffClasses?.map((item, idx) => (
+                                <option key={idx} value={item.sessionClassId}>
+                                  {item.sessionClass}
+                                </option>
+                              ))}
+                            </Field>
+                          </div>
+
+                          <div className=" me-3 mt-3 mt-lg-0 dropdown">
+                            <Field
+                              as="select"
+                              name="subjectId"
+                              className="form-select"
+                              id="subjectId"
+                              onChange={(e) => {
+                                setFieldValue("subjectId", e.target.value);
+                              }}
+                            >
+                              <option value="">Select Subject</option>
+                              {staffClassSubjects?.map((item, idx) => (
+                                <option key={idx} value={item.subjectId}>
+                                  {item.subjectName}
+                                </option>
+                              ))}
+                            </Field>
+                          </div>
+                          <div className=" me-3 mt-3 mt-lg-0 dropdown">
+                            <Field
+                              as="select"
+                              name="type"
+                              className="form-select"
+                              id="type"
+                              onChange={(e) => {}}
+                            >
+                              <option value="">Select Type</option>
+                              <option value="assignment">
+                                Home Assessment
+                              </option>
+                              <option value="assignment">
+                                Class Assessment
+                              </option>
+                              <option value="cbt">CBT</option>
+                            </Field>
+                          </div>
                         </div>
+                        {/* </div> */}
                       </Card.Body>
                     </Card>
                     <Row className="">
-                      {filteredAssignmentList?.length === 0 &&
+                      {filteredAssessmentList?.length === 0 &&
                       !sessionClassIdQuery ? (
                         <div className="jumbotron jumbotron-fluid">
                           <div className="container d-flex justify-content-center mt-5 bg-white">
                             <h2 className="display-4">
-                              Please select a class to view Assignment List
+                              Please select a class to view Assessment List
                             </h2>
                           </div>
                         </div>
                       ) : (
-                        filteredAssignmentList?.map((item, idx) => (
+                        filteredAssessmentList?.map((item, idx) => (
                           <Col md="6" lg="4" xxl="3" className="" key={idx}>
                             <Card>
                               <Card.Body>
                                 <div className="d-flex justify-content-between">
-                                  <div className="mb-0">Topic</div>
+                                  <div className="mb-0">Title</div>
                                   <div className="dropdown show">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -326,7 +349,9 @@ const AssignmentList = () => {
                                       >
                                         <div
                                           onClick={() => {
-                                history.push(classLocations.assignmentDetails)
+                                            history.push(
+                                              classLocations.assessmentDetails
+                                            );
                                             setShowMenuDropdown(false);
                                           }}
                                           // className={
@@ -378,11 +403,13 @@ const AssignmentList = () => {
                                               strokeLinejoin="round"
                                             ></path>
                                           </svg>
-                                         view/details
+                                          view/details
                                         </div>
                                         <div
                                           onClick={() => {
-                                           history.push(classLocations.editAssignment)
+                                            history.push(
+                                              classLocations.editAssessment
+                                            );
                                             setShowMenuDropdown(false);
                                           }}
                                           className="dropdown-item"
@@ -422,7 +449,7 @@ const AssignmentList = () => {
                                           </svg>
                                           edit
                                         </div>
-                                        
+
                                         <div
                                           onClick={() => {
                                             // setClassRegisterId(
@@ -430,7 +457,7 @@ const AssignmentList = () => {
                                             // );
                                             showHideDialog(
                                               true,
-                                              "Are you sure you want to delete this assignment"
+                                              "Are you sure you want to delete this assessment"
                                             )(dispatch);
                                           }}
                                           className="dropdown-item"
@@ -468,48 +495,51 @@ const AssignmentList = () => {
                                           </svg>
                                           delete
                                         </div>
-                                      
                                       </div>
                                     )}
                                   </div>
                                 </div>
 
-                                  <h6 className="mb-3 text-uppercase">
-                                    {/* {item.assignmentLabel} */}
-                                    The placement of things 
-                                  </h6>
-                               
-                                <div className="d-flex">
-                                  <div className="" draggable="false">
-                                   Created:
+                                <h6 className="mb-3 text-uppercase">
+                                  {/* {item.assessmentLabel} */}
+                                  The placement of things
+                                </h6>
+
+                                <div className="d-flex justify-content-between">
+                                  <small className="" draggable="false">
+                                    Created:
                                     <div className="text-success">
                                       {/* {item.dateTime
                                        .split(" ")[0]
                                       } */}
                                       18-07-2022
                                     </div>
-                                  </div>
-                                  <div className="px-3" draggable="false">
-                                     Deadline:
+                                  </small>
+                                  <small className="px-3" draggable="false">
+                                    Deadline:
                                     <div className=" text-warning">
                                       {/* {item.dateTime
                                        .split(" ")[1]
                                       } */}
                                       20-07-2022
-                                    </div> 
-                                  </div>
+                                    </div>
+                                  </small>
                                 </div>
                               </Card.Body>
-                              <span className="remove"></span>
+                              <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
+                                <div>{"group"}</div>
+                                <div>{"type"}</div>
+                                <div>{"English"}</div>
+                              </small>
                             </Card>
                           </Col>
                         ))
                       )}
                     </Row>
                   </Card.Body>
-                )}
-              </Formik>
-            </Card>
+                </Card>
+              )}
+            </Formik>
           </Col>
         </Row>
       </div>
@@ -517,4 +547,4 @@ const AssignmentList = () => {
   );
 };
 
-export default AssignmentList;
+export default AssessmentList;

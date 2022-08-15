@@ -1067,3 +1067,90 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
     })
 }
 //LESSON NOTE ACTION
+
+//GROUP ACTION
+export const getAllClassGroup = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_GROUP_LOADING,
+    });
+
+    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_GROUP_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_GROUP_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const deleteClassGroup = (item) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_GROUP_LOADING
+    });
+const payload= {
+    item
+}
+    axiosInstance.post(`/class/api/v1/delete/class-group`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_GROUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_GROUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const createClassGroup = (values) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_GROUP_LOADING
+    });
+
+    axiosInstance.post('/class/api/v1/create/class-group', values)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_GROUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_GROUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const updateClassGroup = (values) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_GROUP_LOADING
+    });
+
+    axiosInstance.post('/class/api/v1/update/class-group', values)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_GROUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_GROUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}

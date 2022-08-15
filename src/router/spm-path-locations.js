@@ -29,14 +29,16 @@ export const classLocations = {
   classAttendance: "/dashboard/smp-class/class-attendance",
   classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
   attendancePresence:"/dashboard/smp-class/attendance-presence",
-  assignment:"/dashboard/smp-class/assignment",
-  assignmentDetails:"/dashboard/smp-class/assignment-details",
-  createAssignment:"/dashboard/smp-class/create-assignment",
-  editAssignment:"/dashboard/smp-class/edit-assignment",
+  assessment:"/dashboard/smp-class/assessment",
+  assessmentDetails:"/dashboard/smp-class/assessment-details",
+  createAssessment:"/dashboard/smp-class/create-assessment",
+  editAssessment:"/dashboard/smp-class/edit-assessment",
   lessonNotes:"/dashboard/smp-class/lesson-notes",
   createLessonNotes:"/dashboard/smp-class/create-lesson-notes",
   editLessonNotes:"/dashboard/smp-class/edit-lesson-notes",
   lessonNotesDetails:"/dashboard/smp-class/lesson-note-details",
+  classGroup:"/dashboard/smp-class/class-group",
+  addClassGroup:"/dashboard/smp-class/add-class-group",
 };
 
 export const sessionLocations = {
