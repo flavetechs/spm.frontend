@@ -6,14 +6,14 @@ import { Link, useHistory } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import { getAllClassStudents } from "../../../../store/actions/class-actions";
 import * as Yup from "yup";
-import { getAllStaffClasses } from "../../../../store/actions/results-actions";
+import { getAllStaffClasses, getStaffClassSubjects } from "../../../../store/actions/results-actions";
 
 const ClassGroup = () => {
   // ACCESSING STATE FROM REDUX STORE
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { staffClasses } = state.results;
+  const { staffClasses,staffClassSubjects } = state.results;
   // const { classStudents } = state.class;
   // ACCESSING STATE FROM REDUX STORE
   //VALIDATION
@@ -41,15 +41,16 @@ const ClassGroup = () => {
               <Formik
                   initialValues={{
                     sessionClassId: "",
+                    subjectId:""
                   }}
                   enableReinitialize={true}
                   validationSchema={validation}
                   onSubmit={(values) => {
                     getAllClassStudents(values.sessionClassId)(dispatch);
-                    history.push(`${classLocations.addClassGroup}?sessionClassId=${values.sessionClassId}`)
+                    history.push(`${classLocations.addClassGroup}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`)
                   }}
                 >
-                  {({ handleSubmit, values, touched, errors }) => (
+                  {({ handleSubmit, setFieldValue, values, touched, errors }) => (
                     <div className="d-md-flex justify-content-end mb-3">
                       <div className=" me-3 mt-3 mt-xl-0 dropdown">
                         <div>
@@ -64,6 +65,22 @@ const ClassGroup = () => {
                           name="sessionClassId"
                           className="form-select"
                           id="sessionClassId"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "sessionClassId",
+                              e.target.value
+                            );
+                            getStaffClassSubjects(e.target.value)(
+                              dispatch
+                            );
+                            if (e.target.value == "") {
+                              history.push(classLocations.lessonNotes);
+                            } else {
+                              history.push(
+                                `${classLocations.classGroup}?sessionClassId=${e.target.value}`
+                              );
+                            }
+                          }}
                         >
                           <option value="">Select Class</option>
                           {staffClasses?.map((item, idx) => (
@@ -73,6 +90,35 @@ const ClassGroup = () => {
                           ))}
                         </Field>
                       </div>
+                      <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <div>
+                                {errors.subjectId && (
+                                  <div className="text-danger">
+                                    {errors.subjectId}
+                                  </div>
+                                )}
+                              </div>
+                              <Field
+                                as="select"
+                                name="subjectId"
+                                className="form-select"
+                                id="subjectId"
+                                onChange={(e) => {
+                                  setFieldValue("subjectId", e.target.value);
+                                  e.target.value != ""
+                                    &&history.push(
+                                        `${classLocations.classGroup}?sessionClassId=${values.sessionClassId}&subjectId=${e.target.value}`
+                                      );
+                                }}
+                              >
+                                <option value="">Select Subject</option>
+                                {staffClassSubjects?.map((item, idx) => (
+                                  <option key={idx} value={item.subjectId}>
+                                    {item.subjectName}
+                                  </option>
+                                ))}
+                              </Field>
+                            </div>
                       <div className="me-3 mt-3 mt-md-0 ">
                         <button
                           type="button"
