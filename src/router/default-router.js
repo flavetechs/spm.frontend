@@ -72,6 +72,7 @@ import CumulativeMasterList from '../components/teachers-area/smp-result-managem
 import PrintResult from '../components/teachers-area/smp-result-management/print-result';
 import ClassGroup from '../components/teachers-area/spm-class/class-group/class-group-list';
 import AddClassGroup from '../components/teachers-area/spm-class/class-group/add-class-group';
+import EditClassGroup from '../components/teachers-area/spm-class/class-group/edit-class-group';
 
 const DashboardRouter = () => {
 
@@ -105,6 +106,7 @@ const DashboardRouter = () => {
                     <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
                     <Route path={classLocations.classGroup} exact component={ClassGroup} />
                     <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
+                    <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />

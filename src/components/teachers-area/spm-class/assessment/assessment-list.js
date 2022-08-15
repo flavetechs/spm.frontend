@@ -124,7 +124,8 @@ const AssessmentList = () => {
                     <div className="header-title">
                       <h4 className="card-title mt-3">Assessment Board</h4>
                     </div>
-                    <div className=" d-flex align-items-center mt-3 mb-n3">
+                    <div className="d-flex align-items-center mt-3 mb-n3">
+                    <div className=" d-flex">
                       <div className="input-group search-input">
                         <span
                           className="input-group-text border-0 bg-transparent mb-3"
@@ -169,13 +170,13 @@ const AssessmentList = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="text-body me-3 align-items-center d-flex mt-3 mt-lg-0">
+                    <div className="text-body mx-2 mt-n1">
                       <button
                         type="button"
                         onClick={() => {
                           handleSubmit();
                         }}
-                        className="btn btn-primary btn-icon  mt-lg-0 mt-3"
+                        className="btn btn-primary btn-icon  mt-lg-0 mt-3 "
                       >
                         <i className="btn-inner">
                           <svg
@@ -195,6 +196,7 @@ const AssessmentList = () => {
                         </i>
                         <span>Create Assessment</span>
                       </button>
+                    </div>
                     </div>
                   </Card.Header>
                   <Card.Body className="px-0 bg-transparent">

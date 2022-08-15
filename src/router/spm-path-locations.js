@@ -39,6 +39,7 @@ export const classLocations = {
   lessonNotesDetails:"/dashboard/smp-class/lesson-note-details",
   classGroup:"/dashboard/smp-class/class-group",
   addClassGroup:"/dashboard/smp-class/add-class-group",
+  editClassGroup:"/dashboard/smp-class/edit-class-group",
 };
 
 export const sessionLocations = {

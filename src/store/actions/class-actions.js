@@ -1088,12 +1088,12 @@ export const getAllClassGroup = (sessionClassId) => (dispatch) => {
         });
 }
 
-export const getSingleClassGroup = (sessionClassId) => (dispatch) => {
+export const getSingleClassGroup = (groupId,sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_GROUP_LOADING,
     });
 
-    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}`)
+    axiosInstance.get(`/class/api/v1/getall/single/class-group?groupId=${groupId}&sessionClassId=${sessionClassId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_GROUP_SUCCESS,
@@ -1147,7 +1147,7 @@ const payload = {
                 type: actions.CREATE_GROUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-
+            resetCreateSuccessfulState()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -1158,7 +1158,7 @@ const payload = {
         });
 }
 
-export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSubjectId,isActive,studentContactIdArray) => (dispatch) => {
+export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_GROUP_LOADING
     });
@@ -1168,7 +1168,7 @@ export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSu
         groupName,
         sessionClassId,
         sessionClassSubjectId,
-        isActive,
+        isActive:true,
         studentContactIds : studentContactIdArray
     }
 
@@ -1178,7 +1178,7 @@ export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSu
                 type: actions.UPDATE_GROUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-
+            resetCreateSuccessfulState()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -1186,5 +1186,24 @@ export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSu
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const getClassSubjects = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CLASS_SUBJECTS_LOADING,
+        payload: sessionClassId
+    });
+    axiosInstance.get(`/class/api/v1/getall/class-subjects?sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CLASS_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CLASS_SUBJECTS_FAILED,
+                payload: err.response.data.result
+            })
         });
 }

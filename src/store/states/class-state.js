@@ -28,4 +28,5 @@ export const _state = {
   relatedNotes:[],
   groupList: [],
   singleGroupList:null,
+  classSubjects:[],
 };

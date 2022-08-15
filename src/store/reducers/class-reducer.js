@@ -1005,6 +1005,28 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
       }
 
+      case actions.FETCH_CLASS_SUBJECTS_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          classSubjects: [],
+        };
+      }
+      case actions.FETCH_CLASS_SUBJECTS_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          classSubjects: payload,
+        };
+      }
+      case actions.FETCH_CLASS_SUBJECTS_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          classSubjects: [],
+        };
+      }
+
       case actions.FETCH_SINGLE_GROUP_LOADING: {
         return {
           ...state,

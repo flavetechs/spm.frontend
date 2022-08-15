@@ -182,7 +182,7 @@ const CreateAssessment = () => {
                             <Field
                               type="checkbox"
                               name="shouldSendForApproval"
-                              className="form-check-input border-dark"
+                              className="form-check-input "
                               id="shouldSendForApproval"
                             />
                             <label
@@ -203,7 +203,7 @@ const CreateAssessment = () => {
                             type="readonly"
                             name="assessment"
                             readOnly
-                            className="form-control border-dark py-0"
+                            className="form-control  py-0"
                             />
                           </Col>
                           <Col md="2" className="form-group">
@@ -216,7 +216,7 @@ const CreateAssessment = () => {
                             type="text"
                             name="remaining"
                             readOnly
-                            className="form-control border-dark py-0"
+                            className="form-control  py-0"
                             />
                           </Col>
                           <Col md="2" className="form-group">

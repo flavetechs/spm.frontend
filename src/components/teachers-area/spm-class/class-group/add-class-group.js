@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { classLocations } from "../../../../router/spm-path-locations";
 import { createClassGroup, getAllClassStudents } from "../../../../store/actions/class-actions";
 
 const AddClassGroup = () => {
@@ -9,22 +10,26 @@ const AddClassGroup = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { classStudents } = state.class;  
+  const { classStudents, createSuccessful } = state.class;  
   const [studentContactIdArray, setStudentContactIdArray] = useState([]);
   const [groupName, setGroupName] = useState("");
   const [validation, setValidation] = useState("");
+    const [sessionClassIdQuery, setSessionClassIdQuery] = useState("");
   
  //VALIDATION
 
 //VALIDATION
+React.useEffect(() => {
+  createSuccessful && history.push(classLocations.classGroup);
+}, [createSuccessful]);
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const sessionClassId = queryParams.get("sessionClassId");
-    if (sessionClassId) {
-      getAllClassStudents(sessionClassId)(dispatch);
-    }
+    setSessionClassIdQuery(sessionClassId);
+     getAllClassStudents(sessionClassId)(dispatch);
   }, []);
+
   const handleStudentContactIds = (event) => {
     const checkBoxValue = event.target.checked;
     const studentContactId = event.target.id;
@@ -37,7 +42,7 @@ const AddClassGroup = () => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-  console.log(classStudents);
+  console.log('yh',classStudents);
   return (
     <>
       <div>
@@ -109,7 +114,7 @@ const AddClassGroup = () => {
                           type="button"
                           className="btn btn-danger"
                           style={{ cursor: "pointer" }}
-                          onClick={() => history.goBack()}
+                          onClick={() => history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassIdQuery}`)}
                         >
                           Back
                         </button>
@@ -117,7 +122,7 @@ const AddClassGroup = () => {
                           onClick={() => {
                             const queryParams = new URLSearchParams(locations.search);
                             const sessionClassId = queryParams.get("sessionClassId");
-                            const sessionClassSubjectId = queryParams.get("subjectId");
+                            const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
                             groupName &&
                             createClassGroup(groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray)(dispatch);
                           }}
