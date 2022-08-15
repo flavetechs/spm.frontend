@@ -962,20 +962,20 @@ export const classReducer = (state = _state, { type, payload }) => {
     //LESSON NOTES
 
     //GROUP
-    case actions.DELETE_LESSON_NOTES_LOADING:
+    case actions.DELETE_GROUP_LOADING:
       return {
         ...state,
         loading: true,
         isSuccessful: false,
       };
-    case actions.DELETE_LESSON_NOTES_SUCCESS:
+    case actions.DELETE_GROUP_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
         loading: false,
         message:payload,
       };
-    case actions.DELETE_LESSON_NOTES_FAILED:
+    case actions.DELETE_GROUP_FAILED:
       return {
         ...state,
         isSuccessful: false,
@@ -983,27 +983,97 @@ export const classReducer = (state = _state, { type, payload }) => {
         message:payload,
       };
 
-      case actions.FETCH_SINGLE_LESSON_NOTES_LOADING: {
+      case actions.FETCH_GROUP_LOADING: {
         return {
           ...state,
           loading: true,
-          singleLessonNotes:null,
+          groupList:[],
         };
       }
-      case actions.FETCH_SINGLE_LESSON_NOTES_SUCCESS: {
+      case actions.FETCH_GROUP_SUCCESS: {
         return {
           ...state,
           loading: false,
-          singleLessonNotes: payload,
+          groupList: payload,
         };
       }
-      case actions.FETCH_SINGLE_LESSON_NOTES_FAILED: {
+      case actions.FETCH_GROUP_FAILED: {
         return {
           ...state,
           loading: false,
-          singleLessonNotes: null,
+          groupList: [],
         };
       }
+
+      case actions.FETCH_SINGLE_GROUP_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          singleGroupList:null,
+        };
+      }
+      case actions.FETCH_SINGLE_GROUP_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          singleGroupList: payload,
+        };
+      }
+      case actions.FETCH_SINGLE_GROUP_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          singleGroupList: null,
+        };
+      }
+
+      case actions.CREATE_GROUP_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.CREATE_GROUP_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          message:payload,
+          loading: false,
+        };
+      case actions.CREATE_GROUP_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          message:payload,
+          createSuccessful:false,
+          loading: false,
+        };
+  
+        case actions.UPDATE_GROUP_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+          };
+        case actions.UPDATE_GROUP_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            createSuccessful:true,
+            message:payload,
+            loading: false,
+          };
+        case actions.UPDATE_GROUP_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            message:payload,
+            loading: false,
+          };
+  
+    
 
     default:
       return state;

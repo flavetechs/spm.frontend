@@ -1088,6 +1088,25 @@ export const getAllClassGroup = (sessionClassId) => (dispatch) => {
         });
 }
 
+export const getSingleClassGroup = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_GROUP_LOADING,
+    });
+
+    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_GROUP_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_GROUP_FAILED,
+                payload: err.response.data.result
+            })
+        });
+    }
+
 export const deleteClassGroup = (items,sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_GROUP_LOADING
@@ -1139,12 +1158,21 @@ const payload = {
         });
 }
 
-export const updateClassGroup = (values) => (dispatch) => {
+export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSubjectId,isActive,studentContactIdArray) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_GROUP_LOADING
     });
 
-    axiosInstance.post('/class/api/v1/update/class-group', values)
+    const payload = {
+        groupId,
+        groupName,
+        sessionClassId,
+        sessionClassSubjectId,
+        isActive,
+        studentContactIds : studentContactIdArray
+    }
+
+    axiosInstance.post('/class/api/v1/update/class-group', payload)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_GROUP_SUCCESS,

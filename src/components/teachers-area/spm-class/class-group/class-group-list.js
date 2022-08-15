@@ -17,7 +17,7 @@ const ClassGroup = () => {
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [sessionClassId, setSessionClassId] = useState("");
   const state = useSelector((state) => state);
-  const { itemList, selectedIds } = state.class;
+  const { groupList, selectedIds } = state.class;
   const { deleteDialogResponse } = state.alert;
   const { staffClasses,staffClassSubjects } = state.results;
   // const { classStudents } = state.class;
@@ -68,8 +68,8 @@ const ClassGroup = () => {
       dispatch(removeId(userAccountId));
     }
   };
-  const checkAllItems = (isChecked, itemList) => {
-    itemList.forEach((item) => {
+  const checkAllItems = (isChecked, groupList) => {
+    groupList.forEach((item) => {
       item.isChecked = isChecked;
       if (item.isChecked) {
         dispatch(pushId(item.userAccountId));
@@ -77,7 +77,7 @@ const ClassGroup = () => {
         dispatch(removeId(item.userAccountId));
       }
     });
-    returnList(itemList)(dispatch);
+    returnList(groupList)(dispatch);
   };
   return (
     <>
@@ -106,7 +106,7 @@ const ClassGroup = () => {
                 >
                   {({ handleSubmit, setFieldValue, values, touched, errors }) => (
                     <div className="d-md-flex justify-content-end mb-3">
-                      <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                      <div className=" me-2 mt-3 mt-xl-0 dropdown">
                         <div>
                           {errors.sessionClassId && (
                             <div className="text-danger">
@@ -145,7 +145,7 @@ const ClassGroup = () => {
                           ))}
                         </Field>
                       </div>
-                      <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                      <div className=" me-2 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {errors.subjectId && (
                                   <div className="text-danger">
@@ -174,7 +174,7 @@ const ClassGroup = () => {
                                 ))}
                               </Field>
                             </div>
-                      <div className="me-3 mt-3 mt-md-0 ">
+                      <div className="me-2 mt-3 mt-md-0 ">
                         <button
                           type="button"
                           onClick={() => handleSubmit()}
@@ -301,7 +301,7 @@ const ClassGroup = () => {
                               className="form-check-input"
                               type="checkbox"
                               onChange={(e) => {
-                                checkAllItems(e.target.checked, itemList);
+                                checkAllItems(e.target.checked,  groupList);
                               }}
                             />
                           ) : (
@@ -315,7 +315,7 @@ const ClassGroup = () => {
                       </tr>
                     </thead>
                     <tbody>
-                       {itemList?.map((item, idx) => (
+                       {groupList?.map((item, idx) => (
                       <tr key={idx}>
                        <td className="">
                             <b>
@@ -328,7 +328,7 @@ const ClassGroup = () => {
                                     checkSingleItem(
                                       e.target.checked,
                                       item.userAccountId,
-                                      itemList
+                                       groupList
                                     );
                                   }}
                                 />
