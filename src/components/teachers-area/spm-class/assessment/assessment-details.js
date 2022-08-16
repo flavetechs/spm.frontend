@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
-const AssignmentDetails = () => {
+const AssessmentDetails = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   //VARIABLE DECLARATIONS
@@ -48,4 +48,4 @@ const AssignmentDetails = () => {
   );
 };
 
-export default AssignmentDetails;
+export default AssessmentDetails;

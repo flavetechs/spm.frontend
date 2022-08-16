@@ -575,28 +575,28 @@ export const updateAttendance = (classRegisterId, studentContactId, isPresent) =
 
 
     export const createAttendance = (classRegisterId, studentContactId, isPresent, newClassRegister) => (dispatch) => {
-        const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
-        let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
-        if (entry) {
-            entry.ispresent = isPresent
-           newClassRegister[0].attendanceList[entryIndex] = entry;
-        dispatch({
-                   type: actions.CREATE_ATTENDANCE,
-                   payload: newClassRegister
-               });
+        // const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
+        // let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
+        // if (entry) {
+        //     entry.ispresent = isPresent
+        //    newClassRegister[0].attendanceList[entryIndex] = entry;
+        // dispatch({
+        //            type: actions.CREATE_ATTENDANCE,
+        //            payload: newClassRegister
+        //        });
       
                axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
                    .then((res) => {
-                      entry.isPresent = res.data.result.isPresent;
-                      newClassRegister[0].attendanceList[entryIndex] = entry
-                       dispatch({
-                           type: actions.CREATE_ATTENDANCE,
-                           payload: newClassRegister
-                       });
+                    //   entry.isPresent = res.data.result.isPresent;
+                    //   newClassRegister[0].attendanceList[entryIndex] = entry
+                    //    dispatch({
+                    //        type: actions.CREATE_ATTENDANCE,
+                    //        payload: newClassRegister
+                    //    });
                    }).catch((err) => {
                        showErrorToast('Ooopsss.... unable to add attendance, please confirm entries')(dispatch);
                    });
-           }
+        //    }
         }
        export const getAllStudentsPresent = (classRegisterId) => (dispatch) => {
         dispatch({
@@ -1067,3 +1067,143 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
     })
 }
 //LESSON NOTE ACTION
+
+//GROUP ACTION
+export const getAllClassGroup = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_GROUP_LOADING,
+    });
+
+    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_GROUP_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_GROUP_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getSingleClassGroup = (groupId,sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_GROUP_LOADING,
+    });
+
+    axiosInstance.get(`/class/api/v1/getall/single/class-group?groupId=${groupId}&sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_GROUP_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_GROUP_FAILED,
+                payload: err.response.data.result
+            })
+        });
+    }
+
+export const deleteClassGroup = (items,sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_GROUP_LOADING
+    });
+const payload= {
+    items
+}
+    axiosInstance.post(`/class/api/v1/delete/class-group`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_GROUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllClassGroup(sessionClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_GROUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const createClassGroup = (groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_GROUP_LOADING
+    });
+const payload = {
+    groupName,
+    sessionClassId,
+    sessionClassSubjectId,
+    studentContactIds : studentContactIdArray
+}
+    axiosInstance.post('/class/api/v1/create/class-group',payload)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_GROUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_GROUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const updateClassGroup = (groupId,groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_GROUP_LOADING
+    });
+
+    const payload = {
+        groupId,
+        groupName,
+        sessionClassId,
+        sessionClassSubjectId,
+        isActive:true,
+        studentContactIds : studentContactIdArray
+    }
+
+    axiosInstance.post('/class/api/v1/update/class-group', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_GROUP_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_GROUP_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const getClassSubjects = (sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CLASS_SUBJECTS_LOADING,
+        payload: sessionClassId
+    });
+    axiosInstance.get(`/class/api/v1/getall/class-subjects?sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CLASS_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CLASS_SUBJECTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}

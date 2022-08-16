@@ -308,7 +308,7 @@ const LessonNoteDetails = () => {
                     <Row>
                       <div className="col-lg-12">
                         <div className="form-group">
-                          <label className="form-label text-dark">
+                          <label className="form-label h6">
                             Enter your Comment:
                           </label>
                           <textarea

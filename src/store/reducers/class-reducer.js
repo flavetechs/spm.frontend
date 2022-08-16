@@ -600,6 +600,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         return {
           ...state,
           createSuccessful: payload,
+          singleGroupList:null
         };
       }
     //ATTENDANCE
@@ -960,6 +961,142 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
 
     //LESSON NOTES
+
+    //GROUP
+    case actions.DELETE_GROUP_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.DELETE_GROUP_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message:payload,
+      };
+    case actions.DELETE_GROUP_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message:payload,
+      };
+
+      case actions.FETCH_GROUP_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          groupList:[],
+        };
+      }
+      case actions.FETCH_GROUP_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          groupList: payload,
+        };
+      }
+      case actions.FETCH_GROUP_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          groupList: [],
+        };
+      }
+
+      case actions.FETCH_CLASS_SUBJECTS_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          classSubjects: [],
+        };
+      }
+      case actions.FETCH_CLASS_SUBJECTS_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          classSubjects: payload,
+        };
+      }
+      case actions.FETCH_CLASS_SUBJECTS_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          classSubjects: [],
+        };
+      }
+
+      case actions.FETCH_SINGLE_GROUP_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          singleGroupList:null,
+        };
+      }
+      case actions.FETCH_SINGLE_GROUP_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          singleGroupList: payload,
+        };
+      }
+      case actions.FETCH_SINGLE_GROUP_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          singleGroupList: null,
+        };
+      }
+
+      case actions.CREATE_GROUP_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.CREATE_GROUP_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          message:payload,
+          loading: false,
+        };
+      case actions.CREATE_GROUP_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          message:payload,
+          createSuccessful:false,
+          loading: false,
+        };
+  
+        case actions.UPDATE_GROUP_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+          };
+        case actions.UPDATE_GROUP_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            createSuccessful:true,
+            message:payload,
+            loading: false,
+          };
+        case actions.UPDATE_GROUP_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            message:payload,
+            loading: false,
+          };
+  
+    
 
     default:
       return state;

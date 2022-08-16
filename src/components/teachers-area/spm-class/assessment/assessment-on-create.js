@@ -8,7 +8,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
 
-const CreateAssignment = () => {
+const CreateAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -17,6 +17,7 @@ const CreateAssignment = () => {
   const validation = Yup.object().shape({
     header: Yup.string().required("Subject is required"),
     deadline: Yup.string().required("Please enter who to send"),
+    group:Yup.string().required("Please select group"),
   });
   //VALIDATION
   // useEffect(() => {
@@ -24,23 +25,30 @@ const CreateAssignment = () => {
   // }, [announcementSuccessful]);
 
   const [content, setContent] = useState("");
+  const [comment, setComment] = useState("");
   const textEditorModules = useMemo(
     () => ({
       toolbar: {
         container: [
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          ['bold', 'italic', 'underline', "strike"],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' },
-          { 'indent': '-1' }, { 'indent': '+1' }],
-          ['image', "link",],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          ["bold", "italic", "underline", "strike"],
+          [
+            { list: "ordered" },
+            { list: "bullet" },
+            { indent: "-1" },
+            { indent: "+1" },
+          ],
+          ["image", "link"],
           [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
-        ],
+      ],
         //   handlers: {
         //     image: imageHandler
         //   }
       },
-    }), []);
- 
+    }),
+    []
+  );
+
   return (
     <>
       <div className="col-md-8 mx-auto">
@@ -62,6 +70,7 @@ const CreateAssignment = () => {
                       return;
                     }
                     values.content = content;
+                    values.comment = comment;
                   }}
                 >
                   {({
@@ -78,25 +87,47 @@ const CreateAssignment = () => {
                             <div className="text-danger">{errors.header}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="header">
-                            <b>Topic:</b>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label">
+                            <b>Title:</b>
                           </label>
                           <Field
                             type="text"
                             name="header"
                             className="form-control border-secondary"
                             id="header"
-                            placeholder="Enter assignment topic..."
+                            placeholder="Enter assessment topic..."
                           />
+                        </Col>
+                        {touched.group && errors.group && (
+                            <div className="text-danger">{errors.group}</div>
+                          )}
+                        <Col md="11" className="form-group h6">
+                        <label className="form-label" htmlFor="content">
+                            <b>Group:</b>
+                          </label>
+                            <select
+                              as="select"
+                              name="group"
+                              className="form-select"
+                              id="group"
+                              onChange={(e) => {}}
+                            >
+                              <option value="">Select Group</option>
+                              {[]?.map((item, idx) => (
+                                <option key={idx} value={item.sessionClassId}>
+                                  {item.sessionClass}
+                                </option>
+                              ))}
+                            </select>
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
                             <div className="text-danger">{errors.content}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark ">
-                          <label className="form-label" htmlFor="content">
+                        <Col md="11" className="form-group h6 ">
+                          <label className="form-label">
                             <b>Description:</b>
                           </label>
                           <ReactQuill
@@ -108,11 +139,18 @@ const CreateAssignment = () => {
                           />
                         </Col>
 
-                        <Col md="11" className="form-group text-dark mt-5">
+                        <Col md="11" className="form-group h6 mt-5">
                           <label className="form-label" htmlFor="comment">
                             <b>Comment:</b>
                           </label>
-                          <Field
+                          <ReactQuill
+                            theme="snow"
+                            value={comment}
+                            onChange={setComment}
+                            modules={textEditorModules}
+                            style={{ height: "100px" }}
+                          />
+                          {/* <Field
                             as="textarea"
                             name="comment"
                             className="form-control border-secondary"
@@ -120,14 +158,14 @@ const CreateAssignment = () => {
                             onChange={(e) => {
                               setFieldValue("comment", e.target.value);
                             }}
-                          />
+                          /> */}
                         </Col>
                         <Col md="11">
                           {touched.deadline && errors.deadline && (
                             <div className="text-danger">{errors.deadline}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark">
+                        <Col md="11" className="form-group h6 mt-5">
                           <label className="form-label" htmlFor="deadline">
                             <b>Deadline:</b>
                           </label>
@@ -140,6 +178,61 @@ const CreateAssignment = () => {
                           />
                         </Col>
 
+                        <Col md="11" className="form-group ">
+                            <Field
+                              type="checkbox"
+                              name="shouldSendForApproval"
+                              className="form-check-input "
+                              id="shouldSendForApproval"
+                            />
+                            <label
+                              className="form-label mx-1"
+                            >
+                              <h6>Send to group</h6>
+                            </label>
+                          </Col>
+
+                          <Row className="d-flex">
+                          <Col md="2" className="form-group">
+                            <label
+                              className="form-label"
+                            >
+                              <h6>assessment</h6>
+                            </label>
+                            <Field
+                            type="readonly"
+                            name="assessment"
+                            readOnly
+                            className="form-control  py-0"
+                            />
+                          </Col>
+                          <Col md="2" className="form-group">
+                            <label
+                              className="form-label"
+                            >
+                              <h6>remaining</h6>
+                            </label>
+                            <Field
+                            type="text"
+                            name="remaining"
+                            readOnly
+                            className="form-control  py-0"
+                            />
+                          </Col>
+                          <Col md="2" className="form-group">
+                            <label
+                              className="form-label"
+                            >
+                              <h6>type</h6>
+                            </label>
+                            <Field
+                            type="text"
+                            name="type"
+                            className="form-control border-dark py-0"
+                            />
+                          </Col>
+                          </Row>
+                    
                         <div className="d-flex justify-content-end">
                           <Button
                             type="button"
@@ -162,6 +255,7 @@ const CreateAssignment = () => {
                             Send
                           </Button>
                         </div>
+                        
                       </Row>
                     </Form>
                   )}
@@ -175,4 +269,4 @@ const CreateAssignment = () => {
   );
 };
 
-export default CreateAssignment;
+export default CreateAssessment;

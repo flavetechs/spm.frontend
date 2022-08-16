@@ -8,7 +8,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
 
-const EditAssignment = () => {
+const EditAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -17,6 +17,7 @@ const EditAssignment = () => {
   const validation = Yup.object().shape({
     header: Yup.string().required("Subject is required"),
     deadline: Yup.string().required("Please enter who to send"),
+    group:Yup.string().required("Please select group"),
   });
   //VALIDATION
   // useEffect(() => {
@@ -24,6 +25,7 @@ const EditAssignment = () => {
   // }, [announcementSuccessful]);
 
   const [content, setContent] = useState('');
+  const [comment, setComment] = useState("");
   const textEditorModules = useMemo(() => ({
     toolbar: {
       container: [
@@ -61,6 +63,7 @@ const EditAssignment = () => {
                       return;
                     }
                     values.content = content;
+                    values.comment = comment;
                   
                   }}
                 >
@@ -78,7 +81,7 @@ const EditAssignment = () => {
                             <div className="text-danger">{errors.header}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label" htmlFor="header">
                             <b>Topic:</b>
                           </label>
@@ -87,7 +90,7 @@ const EditAssignment = () => {
                             name="header"
                             className="form-control border-secondary"
                             id="header"
-                            placeholder="Enter assignment topic..."
+                            placeholder="Enter assessment topic..."
                           />
                         </Col>
                         <Col md="11">
@@ -95,7 +98,7 @@ const EditAssignment = () => {
                             <div className="text-danger">{errors.content}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark ">
+                        <Col md="11" className="form-group h6 ">
                           <label className="form-label" htmlFor="content">
                             <b>Description:</b>
                           </label>
@@ -108,18 +111,16 @@ const EditAssignment = () => {
                           />
                         </Col>
 
-                        <Col md="11" className="form-group text-dark mt-5">
+                        <Col md="11" className="form-group h6 mt-5">
                           <label className="form-label" htmlFor="comment">
                             <b>Comment:</b>
                           </label>
-                          <Field
-                            as="textarea"
-                            name="comment"
-                            className="form-control border-secondary"
-                            id="comment"
-                            onChange={(e) => {
-                              setFieldValue("comment", e.target.value);
-                            }}
+                          <ReactQuill
+                            theme="snow"
+                            value={comment}
+                            onChange={setComment}
+                            modules={textEditorModules}
+                            style={{ height: "100px" }}
                           />
                         </Col>
                         <Col md="11">
@@ -127,7 +128,7 @@ const EditAssignment = () => {
                             <div className="text-danger">{errors.deadline}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label" htmlFor="deadline">
                             <b>Deadline:</b>
                           </label>
@@ -175,4 +176,4 @@ const EditAssignment = () => {
   )
 }
 
-export default EditAssignment
+export default EditAssessment

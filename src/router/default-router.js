@@ -48,10 +48,10 @@ import AnnouncementEdit from '../components/teachers-area/smp-notifications/anno
 import AddUser from '../components/teachers-area/spm-permissions/role-add-user';
 import StaffProfilePage from '../components/teachers-area/smp-user-profile/staff-profile-page';
 import RemoveUser from '../components/teachers-area/spm-permissions/role-remove-user';
-import AssignmentDetails from '../components/teachers-area/spm-class/assignment/assignment-details';
-import CreateAssignment from '../components/teachers-area/spm-class/assignment/assignment-on-create';
-import AssignmentList from '../components/teachers-area/spm-class/assignment/assignment-list';
-import EditAssignment from '../components/teachers-area/spm-class/assignment/assignment-on-edit';
+import AssessmentDetails from '../components/teachers-area/spm-class/assessment/assessment-details';
+import CreateAssessment from '../components/teachers-area/spm-class/assessment/assessment-on-create';
+import AssessmentList from '../components/teachers-area/spm-class/assessment/assessment-list';
+import EditAssessment from '../components/teachers-area/spm-class/assessment/assessment-on-edit';
 import LessonNotes from '../components/teachers-area/spm-class/lesson-notes/lesson-notes';
 import CreateLessonNote from '../components/teachers-area/spm-class/lesson-notes/lesson-note-on-create';
 import EditLessonNote from '../components/teachers-area/spm-class/lesson-notes/lesson-note-on-edit';
@@ -68,6 +68,11 @@ import MasterList from '../components/teachers-area/smp-result-management/master
 import PublishResultEdit from '../components/teachers-area/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/teachers-area/smp-result-management/cumulative-master-list';
 import PrintResult from '../components/teachers-area/smp-result-management/print-result';
+import ClassGroup from '../components/teachers-area/spm-class/class-group/class-group-list';
+import AddClassGroup from '../components/teachers-area/spm-class/class-group/add-class-group';
+import EditClassGroup from '../components/teachers-area/spm-class/class-group/edit-class-group';
+import UpdateAttendance from '../components/teachers-area/spm-class/attendance-on-update';
+import CreateAttendance from '../components/teachers-area/spm-class/attendance-on-create';
 
 const DashboardRouter = () => {
 
@@ -88,17 +93,21 @@ const DashboardRouter = () => {
 
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
-                    <Route path={classLocations.classAttendance} exact component={Attendance} />
+                    <Route path={classLocations.updateClassAttendance} exact component={UpdateAttendance} />
+                    <Route path={classLocations.createClassAttendance} exact component={CreateAttendance} />
                     <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
-                    <Route path={classLocations.assignment} exact component={AssignmentList} />
-                    <Route path={classLocations.createAssignment} exact component={CreateAssignment} />
-                    <Route path={classLocations.editAssignment} exact component={EditAssignment} />
-                    <Route path={classLocations.assignmentDetails} exact component={AssignmentDetails} />
+                    <Route path={classLocations.assessment} exact component={AssessmentList} />
+                    <Route path={classLocations.createAssessment} exact component={CreateAssessment} />
+                    <Route path={classLocations.editAssessment} exact component={EditAssessment} />
+                    <Route path={classLocations.assessmentDetails} exact component={AssessmentDetails} />
                     <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
                     <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
                     <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
                     <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
+                    <Route path={classLocations.classGroup} exact component={ClassGroup} />
+                    <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
+                    <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />

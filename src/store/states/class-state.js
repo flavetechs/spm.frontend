@@ -26,4 +26,7 @@ export const _state = {
   comments:[],
   viewers:[],
   relatedNotes:[],
+  groupList: [],
+  singleGroupList:null,
+  classSubjects:[],
 };
