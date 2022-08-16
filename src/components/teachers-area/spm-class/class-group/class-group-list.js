@@ -101,7 +101,7 @@ const ClassGroup = () => {
     });
     returnList(groupList)(dispatch);
   };
-  console.log("list", groupList);
+
   return (
     <>
       <div>

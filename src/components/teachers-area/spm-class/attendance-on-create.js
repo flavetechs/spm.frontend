@@ -108,11 +108,9 @@ const Attendance = () => {
                 <div className="d-flex justify-content-end">
                   <button
                     onClick={() => {
-                      alert('ok')
                         resetCreateSuccessfulState()(dispatch);
                         const queryParams = new URLSearchParams(locations.search);
                         const sessionClassId = queryParams.get("sessionClassId");
-                        console.log("sessionClassId",sessionClassId);
                         history.push(
                             `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
                           );

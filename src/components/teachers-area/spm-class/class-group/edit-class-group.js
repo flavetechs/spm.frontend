@@ -19,12 +19,18 @@ const EditClassGroup = () => {
   const [groupName, setGroupName] = useState("");
   const [validation, setValidation] = useState("");
   React.useEffect(() => {
-    createSuccessful && history.push(classLocations.classGroup);
+    createSuccessful &&  history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`)
   }, [createSuccessful]);
 
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
+
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
+    setGroupName(singleGroupList?.groupName);
+    setStudentContactIdArray(singleGroupList?.classGroupStudents?.map(c=>c.studentContactId));
+  }, [singleGroupList])
+
+  React.useEffect(() => {
     const groupId = queryParams.get("groupId");
     if (sessionClassId) {
       getAllClassStudents(sessionClassId)(dispatch);
@@ -48,7 +54,7 @@ const EditClassGroup = () => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-  console.log("list2", singleGroupList);
+
   return (
     <>
       <div>
@@ -70,7 +76,7 @@ const EditClassGroup = () => {
                       type="text"
                       className="w-100 form-control"
                       name="groupName"
-                      defaultValue={singleGroupList?.find((i) => i)?.groupName}
+                      defaultValue={singleGroupList?.groupName}
                       onBlur={() => setValidation(true)}
                       onChange={(e) => setGroupName(e.target.value)}
                     />
@@ -106,12 +112,10 @@ const EditClassGroup = () => {
                               className="form-check-input"
                               type="checkbox"
                               id={item.studentAccountId}
-                              defaultChecked={
-                                singleGroupList
-                                  ?.find((i) => i)
-                                  ?.classGroupStudents?.filter(
-                                    (i) =>
-                                      i.studentContactId ==
+                              checked={
+                               studentContactIdArray?.find(
+                                    (arr) =>
+                                      arr ===
                                       item.studentAccountId
                                   ) || false
                               }
@@ -129,27 +133,20 @@ const EditClassGroup = () => {
                       type="button"
                       className="btn btn-danger"
                       style={{ cursor: "pointer" }}
-                      onClick={() => history.goBack()}
+                      onClick={() => {
+                        history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`)
+                      }}
                     >
                       Back
                     </button>
                     <button
                       onClick={() => {
-                        const queryParams = new URLSearchParams(
-                          locations.search
-                        );
-                        const sessionClassId =
-                          queryParams.get("sessionClassId");
                         groupName &&
                           updateClassGroup(
-                            singleGroupList
-                            ?.find((i) => i)
-                            ?.groupId,
+                            singleGroupList?.groupId,
                             groupName,
                             sessionClassId,
-                            singleGroupList
-                            ?.find((i) => i)
-                            ?.sessionClassSubjectId,
+                            singleGroupList?.sessionClassSubjectId,
                             studentContactIdArray
                           )(dispatch);
                       }}

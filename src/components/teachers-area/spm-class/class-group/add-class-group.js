@@ -14,19 +14,14 @@ const AddClassGroup = () => {
   const [studentContactIdArray, setStudentContactIdArray] = useState([]);
   const [groupName, setGroupName] = useState("");
   const [validation, setValidation] = useState("");
-    const [sessionClassIdQuery, setSessionClassIdQuery] = useState("");
   
- //VALIDATION
-
-//VALIDATION
+const queryParams = new URLSearchParams(locations.search);
+const sessionClassId = queryParams.get("sessionClassId");
 React.useEffect(() => {
-  createSuccessful && history.push(classLocations.classGroup);
+  createSuccessful && history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`);
 }, [createSuccessful]);
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
-    setSessionClassIdQuery(sessionClassId);
      getAllClassStudents(sessionClassId)(dispatch);
   }, []);
 
@@ -42,7 +37,7 @@ React.useEffect(() => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-  console.log('yh',classStudents);
+ 
   return (
     <>
       <div>
@@ -114,7 +109,9 @@ React.useEffect(() => {
                           type="button"
                           className="btn btn-danger"
                           style={{ cursor: "pointer" }}
-                          onClick={() => history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassIdQuery}`)}
+                          onClick={() => {
+                            history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`)
+                          }}
                         >
                           Back
                         </button>

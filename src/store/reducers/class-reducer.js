@@ -600,6 +600,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         return {
           ...state,
           createSuccessful: payload,
+          singleGroupList:null
         };
       }
     //ATTENDANCE
