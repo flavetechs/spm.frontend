@@ -94,7 +94,7 @@ const AttendanceRegisterList = () => {
     if (createSuccessful) {
       resetCreateSuccessfulState()(dispatch);
       history.push(
-        `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
+        `${classLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
       );
     }
   }, [createSuccessful]);
@@ -306,7 +306,7 @@ const AttendanceRegisterList = () => {
                                               register.classRegisterId
                                             )(dispatch);
                                             history.push(
-                                              `${classLocations.classAttendance}?classRegisterId=${register.classRegisterId}`
+                                              `${classLocations.updateClassAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassId}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
@@ -496,7 +496,7 @@ const AttendanceRegisterList = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}`
+                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}&sessionClassId=${sessionClassId}`
                                         );
                                         getAllStudentsPresent(
                                           register.classRegisterId
@@ -514,7 +514,7 @@ const AttendanceRegisterList = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}`
+                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}&sessionClassId=${sessionClassId}`
                                         );
                                         getAllStudentsAbsent(
                                           register.classRegisterId

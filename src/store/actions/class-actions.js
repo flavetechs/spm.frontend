@@ -575,28 +575,28 @@ export const updateAttendance = (classRegisterId, studentContactId, isPresent) =
 
 
     export const createAttendance = (classRegisterId, studentContactId, isPresent, newClassRegister) => (dispatch) => {
-        const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
-        let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
-        if (entry) {
-            entry.ispresent = isPresent
-           newClassRegister[0].attendanceList[entryIndex] = entry;
-        dispatch({
-                   type: actions.CREATE_ATTENDANCE,
-                   payload: newClassRegister
-               });
+        // const entryIndex = newClassRegister[0]?.attendanceList.findIndex(e => e.studentContactId === studentContactId)
+        // let entry = newClassRegister[0]?.attendanceList.find(e => e.studentContactId == studentContactId);
+        // if (entry) {
+        //     entry.ispresent = isPresent
+        //    newClassRegister[0].attendanceList[entryIndex] = entry;
+        // dispatch({
+        //            type: actions.CREATE_ATTENDANCE,
+        //            payload: newClassRegister
+        //        });
       
                axiosInstance.post(`/attendance/api/v1/update/student-attendance`, {classRegisterId, studentContactId, isPresent})
                    .then((res) => {
-                      entry.isPresent = res.data.result.isPresent;
-                      newClassRegister[0].attendanceList[entryIndex] = entry
-                       dispatch({
-                           type: actions.CREATE_ATTENDANCE,
-                           payload: newClassRegister
-                       });
+                    //   entry.isPresent = res.data.result.isPresent;
+                    //   newClassRegister[0].attendanceList[entryIndex] = entry
+                    //    dispatch({
+                    //        type: actions.CREATE_ATTENDANCE,
+                    //        payload: newClassRegister
+                    //    });
                    }).catch((err) => {
                        showErrorToast('Ooopsss.... unable to add attendance, please confirm entries')(dispatch);
                    });
-           }
+        //    }
         }
        export const getAllStudentsPresent = (classRegisterId) => (dispatch) => {
         dispatch({

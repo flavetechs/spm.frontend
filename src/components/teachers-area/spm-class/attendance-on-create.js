@@ -11,7 +11,7 @@ import {
   updateRegisterLabel,
 } from "../../../store/actions/class-actions";
 
-const Attendance = () => {
+const CreateAttendance = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Attendance = () => {
     continueClassRegister(classRegisterId)(dispatch);
    }
   }, [registerLabelUpdateSuccessful]);
-
+console.log("here",newClassRegister);
   return (
     <>
       <div>
@@ -38,21 +38,6 @@ const Attendance = () => {
             <Card>
               <Card.Body>
                 <div className="d-flex justify-content-center">
-                  <Formik
-                    initialValues={{
-                    
-                    }}
-                    // validationSchema={validation}
-                    enableReinitialize={true}
-                    onSubmit={(values) => {}}
-                  >
-                    {({
-                      handleSubmit,
-                      values,
-                      setFieldValue,
-                      touched,
-                      errors,
-                    }) => (
                       <div>
                         <Table size="md" responsive striped style={{ width: "60vw" }}>
                           <thead>
@@ -85,7 +70,6 @@ const Attendance = () => {
                                     <input
                                       type="checkbox"
                                       id=""
-                                      defaultChecked={student.isPresent}
                                       onChange={(e) => {
                                         createAttendance(
                                           newClassRegister?.classRegisterId,
@@ -102,8 +86,6 @@ const Attendance = () => {
                           </tbody>
                         </Table>
                       </div>
-                    )}
-                  </Formik>
                 </div>
                 <div className="d-flex justify-content-end">
                   <button
@@ -129,4 +111,4 @@ const Attendance = () => {
   );
 };
 
-export default Attendance;
+export default CreateAttendance;

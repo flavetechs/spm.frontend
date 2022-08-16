@@ -24,7 +24,8 @@ export const authLocations = {
 export const classLocations = {
   active: 'smp-class',
   sessionClassList2: "/dashboard/smp-class/session-class",
-  classAttendance: "/dashboard/smp-class/class-attendance",
+  updateClassAttendance: "/dashboard/smp-class/update-class-attendance",
+  createClassAttendance: "/dashboard/smp-class/create-class-attendance",
   classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
   attendancePresence:"/dashboard/smp-class/attendance-presence",
   assessment:"/dashboard/smp-class/assessment",

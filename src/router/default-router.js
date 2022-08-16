@@ -71,6 +71,8 @@ import PrintResult from '../components/teachers-area/smp-result-management/print
 import ClassGroup from '../components/teachers-area/spm-class/class-group/class-group-list';
 import AddClassGroup from '../components/teachers-area/spm-class/class-group/add-class-group';
 import EditClassGroup from '../components/teachers-area/spm-class/class-group/edit-class-group';
+import UpdateAttendance from '../components/teachers-area/spm-class/attendance-on-update';
+import CreateAttendance from '../components/teachers-area/spm-class/attendance-on-create';
 
 const DashboardRouter = () => {
 
@@ -91,7 +93,8 @@ const DashboardRouter = () => {
 
                     {/* class */}
                     <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
-                    <Route path={classLocations.classAttendance} exact component={Attendance} />
+                    <Route path={classLocations.updateClassAttendance} exact component={UpdateAttendance} />
+                    <Route path={classLocations.createClassAttendance} exact component={CreateAttendance} />
                     <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                     <Route path={classLocations.assessment} exact component={AssessmentList} />
