@@ -18,8 +18,6 @@ export const dashboardLocations = {
 export const authLocations = {
   login: "/smp/sign-in",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
-  studentProfilePage: "/dashboard/smp-user/student-profile",
-  studentProfileEdit: "/dashboard/smp-user/student-profile-edit",
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
 };
 
@@ -40,6 +38,7 @@ export const classLocations = {
   classGroup:"/dashboard/smp-class/class-group",
   addClassGroup:"/dashboard/smp-class/add-class-group",
   editClassGroup:"/dashboard/smp-class/edit-class-group",
+  classTimeTable:"/dashboard/smp-class/time-table",
 };
 
 export const sessionLocations = {

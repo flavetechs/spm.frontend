@@ -47,8 +47,6 @@ import AnnouncementDetails from '../components/teachers-area/smp-notifications/a
 import AnnouncementEdit from '../components/teachers-area/smp-notifications/announcement-edit';
 import AddUser from '../components/teachers-area/spm-permissions/role-add-user';
 import StaffProfilePage from '../components/teachers-area/smp-user-profile/staff-profile-page';
-import StudentProfilePage from '../components/teachers-area/smp-user-profile/student-profile-page';
-import StudentProfileEdit from '../components/teachers-area/smp-user-profile/student-profile-edit';
 import RemoveUser from '../components/teachers-area/spm-permissions/role-remove-user';
 import AssessmentDetails from '../components/teachers-area/spm-class/assessment/assessment-details';
 import CreateAssessment from '../components/teachers-area/spm-class/assessment/assessment-on-create';
@@ -173,8 +171,6 @@ const DashboardRouter = () => {
 
                       {/* user profile page */}
                       <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />
-                      <Route path={authLocations.studentProfilePage} exact component={StudentProfilePage} />
-                      <Route path={authLocations.studentProfileEdit} exact component={StudentProfileEdit} />
                       <Route path={authLocations.staffProfileEdit} exact component={StaffProfileEdit} />
                 </Switch>
             </CSSTransition>

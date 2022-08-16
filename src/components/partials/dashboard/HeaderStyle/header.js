@@ -32,6 +32,7 @@ import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
 import { getAllActiveSubjects } from '../../../../store/actions/class-actions'
+import { profileLocations } from '../../../../router/students-path-locations'
 
 const mapStateToProps = (state) => {
     return {
@@ -135,7 +136,7 @@ const Header = (props) => {
                                                     <span>  Profile</span>
                                                 </Dropdown.Item>)
                                             : <Dropdown.Item onClick={() => {
-                                                history.push(`${authLocations.studentProfilePage}?studentAccountId=${userDetail?.id}`)
+                                                history.push(`${profileLocations.profile}?studentAccountId=${userDetail?.id}`)
                                             }}>
                                                 <span> Profile</span>
                                             </Dropdown.Item>
