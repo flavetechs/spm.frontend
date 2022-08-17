@@ -10,6 +10,8 @@ import './profilePage.scss';
 import { profileLocations } from "../../../router/students-path-locations";
 
 const StudentProfilePage = () => {
+
+
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const locations = useLocation();
