@@ -99,9 +99,9 @@ const DashboardRouter = () => {
                     <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                     <Route path={classLocations.assessment} exact component={AssessmentList} />
-                    <Route path={classLocations.createAssessment} exact component={CreateAssessment} />
-                    <Route path={classLocations.editAssessment} exact component={EditAssessment} />
-                    <Route path={classLocations.assessmentDetails} exact component={AssessmentDetails} />
+                    <Route path={classLocations.createHomeAssessment} exact component={CreateAssessment} />
+                    <Route path={classLocations.editHomeAssessment} exact component={EditAssessment} />
+                    <Route path={classLocations.homeAssessmentDetails} exact component={AssessmentDetails} />
                     <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
                     <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
                     <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />

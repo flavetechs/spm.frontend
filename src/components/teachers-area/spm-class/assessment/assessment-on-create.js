@@ -1,31 +1,44 @@
 import { Field, Formik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
+import { classLocations } from "../../../../router/spm-path-locations";
+import { createHomeAssessment, getAllClassGroup, getAssessmentScore } from "../../../../store/actions/class-actions";
+import { openFullscreen } from "../../../../utils/export-csv";
 
 const CreateAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const locations = useLocation();
+  const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const { announcementSuccessful } = state.notification;
-  //VALIDATION
-  const validation = Yup.object().shape({
-    header: Yup.string().required("Subject is required"),
-    deadline: Yup.string().required("Please enter who to send"),
-    group:Yup.string().required("Please select group"),
-  });
-  //VALIDATION
-  // useEffect(() => {
-  //   announcementSuccessful && history.push(notificationManagement.announcement);
-  // }, [announcementSuccessful]);
+  const { createSuccessful, groupList,assessmentScore } = state.class;
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const typeQuery = queryParams.get("type");
+
+  //HOOKS
+  React.useEffect(() => {
+    getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getAssessmentScore(sessionClassSubjectIdQuery,sessionClassIdQuery)(dispatch);
+  }, []);
+
+  React.useEffect(() => {
+    createSuccessful &&
+      history.push(
+        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
+      );
+  }, [createSuccessful]);
 
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
+  const [fullScreen, setFullScreen] = useState(false);
   const textEditorModules = useMemo(
     () => ({
       toolbar: {
@@ -48,6 +61,18 @@ const CreateAssessment = () => {
     }),
     []
   );
+  //HOOKS
+
+ //VALIDATION
+ const validation = Yup.object().shape({
+  title: Yup.string().required("Subject is required"),
+  assessmentScore: Yup.number().required("Score is required")
+  .min(0, "Assessment score must not be below 0")
+  .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
+  // deadline: Yup.string().required("Please enter who to send"),
+  sessionClassGroupId: Yup.string().required("Please select group"),
+});
+//VALIDATION
 
   return (
     <>
@@ -58,8 +83,13 @@ const CreateAssessment = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    header: "",
+                    title: "",
                     content: "",
+                    assessmentScore: "",
+                    sessionClassId: sessionClassIdQuery,
+                    sessionClassSubjectId: sessionClassSubjectIdQuery,
+                    sessionClassGroupId: "",
+                    shouldSendToStudents: false,
                     deadline: "",
                   }}
                   validationSchema={validation}
@@ -71,6 +101,7 @@ const CreateAssessment = () => {
                     }
                     values.content = content;
                     values.comment = comment;
+                    createHomeAssessment(values)(dispatch);
                   }}
                 >
                   {({
@@ -83,8 +114,8 @@ const CreateAssessment = () => {
                     <Form className="mx-auto">
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
-                          {touched.header && errors.header && (
-                            <div className="text-danger">{errors.header}</div>
+                          {touched.title && errors.title && (
+                            <div className="text-danger">{errors.title}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
@@ -93,33 +124,36 @@ const CreateAssessment = () => {
                           </label>
                           <Field
                             type="text"
-                            name="header"
-                            className="form-control border-secondary"
-                            id="header"
+                            name="title"
+                            className="form-control border-secondary h6"
+                            id="title"
                             placeholder="Enter assessment topic..."
                           />
                         </Col>
-                        {touched.group && errors.group && (
-                            <div className="text-danger">{errors.group}</div>
+                        {touched.sessionClassGroupId &&
+                          errors.sessionClassGroupId && (
+                            <div className="text-danger">
+                              {errors.sessionClassGroupId}
+                            </div>
                           )}
                         <Col md="11" className="form-group h6">
-                        <label className="form-label" htmlFor="content">
+                          <label className="form-label">
                             <b>Group:</b>
                           </label>
-                            <select
-                              as="select"
-                              name="group"
-                              className="form-select"
-                              id="group"
-                              onChange={(e) => {}}
-                            >
-                              <option value="">Select Group</option>
-                              {[]?.map((item, idx) => (
-                                <option key={idx} value={item.sessionClassId}>
-                                  {item.sessionClass}
-                                </option>
-                              ))}
-                            </select>
+                          <Field
+                            as="select"
+                            name="sessionClassGroupId"
+                            className="form-select h6"
+                            id=" sessionClassGroupId"
+                          >
+                            <option value="">Select Group</option>
+                            <option value="all-students">All Students</option>
+                            {groupList?.map((item, idx) => (
+                              <option key={idx} value={item.groupId}>
+                                {item.groupName}
+                              </option>
+                            ))}
+                          </Field>
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
@@ -127,15 +161,43 @@ const CreateAssessment = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group h6 ">
-                          <label className="form-label">
+                          <label  className="form-label d-flex justify-content-between">
                             <b>Description:</b>
+                            <div className="">
+                              {/* {!fullScreen ? ( */}
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      view full screen
+                                    </Tooltip>
+                                  }
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    className="mx-2"
+                                    onClick={() => {
+                                      openFullscreen("assessment-editor");
+                                      setFullScreen(true);
+                                    }}
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
+                                  </svg>
+                                </OverlayTrigger>
+                            </div>
                           </label>
                           <ReactQuill
                             theme="snow"
                             value={content}
                             onChange={setContent}
                             modules={textEditorModules}
-                            style={{ height: "300px" }}
+                            ref={elementRef}
+                            id="assessment-editor"
+                            style={{ height: "300px" , background:"white"}}
                           />
                         </Col>
 
@@ -172,74 +234,79 @@ const CreateAssessment = () => {
                           <Field
                             type="date"
                             name="deadline"
-                            className="form-control border-secondary"
+                            className="form-control h6 border-secondary"
                             id="deadline"
                             placeholder="Enter date of submission..."
                           />
                         </Col>
 
                         <Col md="11" className="form-group ">
-                            <Field
-                              type="checkbox"
-                              name="shouldSendForApproval"
-                              className="form-check-input "
-                              id="shouldSendForApproval"
-                            />
-                            <label
-                              className="form-label mx-1"
-                            >
-                              <h6>Send to group</h6>
-                            </label>
-                          </Col>
+                          <Field
+                            type="checkbox"
+                            name="shouldSendToStudents"
+                            className="form-check-input "
+                            id="shouldSendToStudents"
+                          />
+                          <label className="form-label mx-1">
+                            <h6>Send to Students</h6>
+                          </label>
+                        </Col>
 
-                          <Row className="d-flex">
+                        <Row>
+                           <div>
+                              {touched.assessmentScore &&
+                                errors.assessmentScore && (
+                                  <div className="text-danger">
+                                    {errors.assessmentScore}
+                                  </div>
+                                )}
+                            </div>
+                          </Row>
+                        <Row className="d-flex">
                           <Col md="2" className="form-group">
-                            <label
-                              className="form-label"
-                            >
+                            <label className="form-label">
+                              <h6>total</h6>
+                            </label>
+                            <Field
+                              type="readonly"
+                              name="total"
+                              readOnly
+                              value={assessmentScore?.totalAssessment}
+                              className="form-control h6 py-0"
+                            />
+                          </Col>
+                          <Col md="2" className="form-group">
+                            <label className="form-label">
+                              <h6>used</h6>
+                            </label>
+                            <Field
+                              type="text"
+                              name="used"
+                              readOnly
+                              value={assessmentScore?.used}
+                              className="form-control h6 py-0"
+                            />
+                          </Col>
+                        
+                          <Col md="2" className="form-group">
+                            <label className="form-label">
                               <h6>assessment</h6>
                             </label>
                             <Field
-                            type="readonly"
-                            name="assessment"
-                            readOnly
-                            className="form-control  py-0"
+                              type="number"
+                              name="assessmentScore"
+                              className="form-control border-dark h6 py-0 px-1"
                             />
                           </Col>
-                          <Col md="2" className="form-group">
-                            <label
-                              className="form-label"
-                            >
-                              <h6>remaining</h6>
-                            </label>
-                            <Field
-                            type="text"
-                            name="remaining"
-                            readOnly
-                            className="form-control  py-0"
-                            />
-                          </Col>
-                          <Col md="2" className="form-group">
-                            <label
-                              className="form-label"
-                            >
-                              <h6>type</h6>
-                            </label>
-                            <Field
-                            type="text"
-                            name="type"
-                            className="form-control border-dark py-0"
-                            />
-                          </Col>
-                          </Row>
-                    
+                        </Row>
+
                         <div className="d-flex justify-content-end">
                           <Button
                             type="button"
                             className="btn-sm mt-4"
                             variant="btn btn-danger"
                             onClick={() => {
-                              history.goBack();
+                              history.goBack()
                             }}
                           >
                             Back
@@ -255,7 +322,6 @@ const CreateAssessment = () => {
                             Send
                           </Button>
                         </div>
-                        
                       </Row>
                     </Form>
                   )}
