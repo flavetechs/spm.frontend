@@ -28,5 +28,7 @@ export const _state = {
   relatedNotes:[],
   groupList: [],
   singleGroupList:null,
-  classSubjects:[],
+  homeAssessmentList:[],
+  singleHomeAssessmentList:null,
+  assessmentScore:null,
 };

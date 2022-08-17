@@ -962,7 +962,7 @@ export const classReducer = (state = _state, { type, payload }) => {
 
     //LESSON NOTES
 
-    //GROUP
+    //GROUP REDUCER
     case actions.DELETE_GROUP_LOADING:
       return {
         ...state,
@@ -1095,8 +1095,163 @@ export const classReducer = (state = _state, { type, payload }) => {
             message:payload,
             loading: false,
           };
-  
+  //ASSESSMENT REDUCER
+  case actions.DELETE_ASSESSMENT_LOADING:
+    return {
+      ...state,
+      loading: true,
+      isSuccessful: false,
+    };
+  case actions.DELETE_ASSESSMENT_SUCCESS:
+    return {
+      ...state,
+      isSuccessful: true,
+      loading: false,
+      message:payload,
+    };
+  case actions.DELETE_ASSESSMENT_FAILED:
+    return {
+      ...state,
+      isSuccessful: false,
+      loading: false,
+      message:payload,
+    };
+
+    case actions.FETCH_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        homeAssessmentList:[],
+      };
+    }
+    case actions.FETCH_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        homeAssessmentList: payload,
+      };
+    }
+    case actions.FETCH_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        homeAssessmentList: [],
+      };
+    }
+
+   
+    case actions.FETCH_SINGLE_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        singleHomeAssessmentList:null,
+      };
+    }
+    case actions.FETCH_SINGLE_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        singleHomeAssessmentList: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        singleHomeAssessmentList: null,
+      };
+    }
+
+    case actions.CREATE_ASSESSMENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.CREATE_ASSESSMENT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        createSuccessful:true,
+        message:payload,
+        loading: false,
+      };
+    case actions.CREATE_ASSESSMENT_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        message:payload,
+        createSuccessful:false,
+        loading: false,
+      };
+
+      case actions.UPDATE_ASSESSMENT_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.UPDATE_ASSESSMENT_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          message:payload,
+          loading: false,
+        };
+      case actions.UPDATE_ASSESSMENT_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          createSuccessful:false,
+          message:payload,
+          loading: false,
+        };
     
+        case actions.SEND_ASSESSMENT_TO_STUDENTS_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+            createSuccessful:false,
+          };
+        case actions.SEND_ASSESSMENT_TO_STUDENTS_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            loading: false,
+            createSuccessful:true,
+          };
+        case actions.SEND_ASSESSMENT_TO_STUDENTS_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            loading: false,
+          };
+
+          case actions.FETCH_ASSESSMENT_SCORE_LOADING: {
+            return {
+              ...state,
+              loading: true,
+              assessmentScore:null,
+            };
+          }
+          case actions.FETCH_ASSESSMENT_SCORE_SUCCESS: {
+            return {
+              ...state,
+              loading: false,
+              assessmentScore: payload,
+            };
+          }
+          case actions.FETCH_ASSESSMENT_SCORE_FAILED: {
+            return {
+              ...state,
+              loading: false,
+              assessmentScore: null,
+            };
+          }
+      
 
     default:
       return state;
