@@ -57,12 +57,12 @@ const AssessmentList = () => {
   }, []);
 
   React.useEffect(() => {
-    if(typeQuery || assessment == "home assessment"){
+    if(typeQuery  == "home assessment"){
     sessionClassSubjectId
       ? getAllHomeAssessment(sessionClassSubjectId)(dispatch)
       : getAllHomeAssessment(sessionClassSubjectIdQuery)(dispatch);
     }
-  }, [sessionClassSubjectIdQuery,assessment]);
+  }, [sessionClassSubjectIdQuery,typeQuery]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -93,7 +93,6 @@ const AssessmentList = () => {
     // }
   });
 
-  console.log("yh",homeAssessmentList);
   return (
     <>
       <div>
