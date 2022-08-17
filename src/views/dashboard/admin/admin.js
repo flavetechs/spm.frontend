@@ -15,8 +15,10 @@ const Admin =() =>{
     const handleShow1 = () => setShow1(true);
 
     const [show2, setShow2] = useState(false);
+    const [show5, setShow5] = useState(false);
 
     const handleClose2 = () => setShow2(false);
+    const handleClose5 = () => setShow5(false);
     // const handleShow2 = () => setShow2(true);
 
     const [show3, setShow3] = useState(false);
@@ -81,7 +83,7 @@ const Admin =() =>{
     }
     function permissionedit(permissionname, openmodal,permissionid){
         
-         setShow2(openmodal);
+         setShow5(openmodal);
          setEditname(permissionname); 
          setUpdate(permissionid);
     }
@@ -218,6 +220,28 @@ useEffect(
                                         <Button variant="danger" onClick={handleClose1}>
                                             Cancel
                                         </Button>
+                                    </Modal.Body>
+                                </Modal>
+                                <Modal show={show5}  onHide={handleClose5}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Edit Time</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                                                <Form.Label>Time</Form.Label>
+                                                <Form.Control type="text" defaultValue={editname}  onChange={e => setName(e.target.value)} placeholder="Permission Title" />
+                                        </Form.Group>
+                                        <div>
+                                            <div className="text-start mt-2 me-2">
+                                                <Button onClick={ 
+                                                    () =>{
+                                                        permissionupdate()
+                                                        handleClose()
+                                                    }
+                                                } >Update</Button>{' '}
+                                                <Button  variant="danger" onClick={handleClose2} >Cancel1</Button>
+                                            </div>
+                                        </div>
                                     </Modal.Body>
                                 </Modal>
                                 <Modal show={show2}  onHide={handleClose2}>
