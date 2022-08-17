@@ -12,7 +12,8 @@ export const _state = {
             timeTable: {
                 days: [
                     { day: "Monday", classTimeTableDayId: "4654346-646377-65575-653" },
-                    { day: "Tuesday", classTimeTableDayId: "3232321-646377-65575-653" }
+                    { day: "Tuesday", classTimeTableDayId: "3232321-670377-65575-653" },
+                    { day: "Wednesday", classTimeTableDayId: "3232321-64652-65575-653" }
                 ],
                 times: [
                     {
@@ -57,6 +58,7 @@ export const _state = {
 
 
 
-        },
+        }
+
     ]
 }

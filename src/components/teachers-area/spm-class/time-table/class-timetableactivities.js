@@ -308,11 +308,11 @@ const ClassTimeTableActivities = () => {
                         <Card.Body>
                             <div className="table-responsive">
                                 <table className="table striped='column' table-bordered border-3">
-                                    {timetableList?.map((itemsList, index) => (
+                                    {timetableList?.map((data, index) => (
                                         <thead>
-                                            <tr> 
+                                            <tr>
                                                 <th></th>
-                                                {itemsList?.timeTable.days.map((items, index) => (
+                                                {data?.timeTable.days.map((items, index) => (
                                                     <th className="text-center" key={index} >{items.day}
                                                         <div style={{ float: "right" }}>
                                                             <Link className="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" title="Edit User" to="#">
@@ -344,9 +344,14 @@ const ClassTimeTableActivities = () => {
                                         <tbody>
                                             {items.timeTable.times.map((item, index) => (
                                                 <tr>
-                                                    <td>
+                                                    <td onDoubleClick={handleClose2}>
                                                         {item.period}
                                                     </td>
+                                                    {
+                                                        item.periodActivties.map((activityItem, idx) => {
+                                                          return  <td>{activityItem.activity}</td>
+                                                        })
+                                                    }
                                                 </tr>
                                             ))}
                                         </tbody>
