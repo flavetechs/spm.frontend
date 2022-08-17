@@ -5,52 +5,68 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
-  deleteClassRegister,
-  getAllClassRegister,
-  resetclassRegisterState,
+  deleteHomeAssessment,
+  getAllClassGroup,
+  getAllHomeAssessment,
+  getClassSubjects,
   resetCreateSuccessfulState,
-  updateRegisterLabel,
 } from "../../../../store/actions/class-actions";
-import {
-  getAllStaffClasses,
-  getStaffClassSubjects,
-} from "../../../../store/actions/results-actions";
+import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import {
   respondDialog,
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../../utils/permissions";
+import * as Yup from "yup";
 
+//VALIDATION
+const validation = Yup.object().shape({
+  sessionClassId: Yup.string().required("Class is required"),
+  sessionClassSubjectId: Yup.string().required("Subject is required"),
+  groupId: Yup.string().required("Group is required"),
+});
+//VALIDATION
 const AssessmentList = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
-  const [isEditMode, setEditMode] = useState(false);
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [classRegisterId, setClassRegisterId] = useState("");
-  const [sessionClassId, setSessionClassId] = useState("");
+  const [homeAssessmentId, setHomeAssessmentId] = useState("");
+  const [assessment, setAssessment] = useState("");
+  const [sessionClassSubjectId, setSessionClassSubjectId] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const textInput = React.createRef();
-  const { classRegister, createSuccessful, newClassRegister } = state.class;
+  const { homeAssessmentList,  classSubjects, groupList } =
+    state.class;
 
-  const { staffClasses, staffClassSubjects } = state.results;
+  const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
 
   // ACCESSING STATE FROM REDUX STORE
-
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const typeQuery = queryParams.get("type");
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, []);
 
   React.useEffect(() => {
+    if(typeQuery || assessment == "home assessment"){
+    sessionClassSubjectId
+      ? getAllHomeAssessment(sessionClassSubjectId)(dispatch)
+      : getAllHomeAssessment(sessionClassSubjectIdQuery)(dispatch);
+    }
+  }, [sessionClassSubjectIdQuery,assessment]);
+
+  React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteClassRegister(classRegisterId, sessionClassId)(dispatch);
+      deleteHomeAssessment(homeAssessmentId, sessionClassSubjectId)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -61,48 +77,23 @@ const AssessmentList = () => {
     };
   }, [dialogResponse]);
 
-  const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  React.useEffect(() => {
-    if (sessionClassIdQuery) {
-      getAllClassRegister(sessionClassIdQuery)(dispatch);
-      setSessionClassId(sessionClassIdQuery);
-    }
-  }, [sessionClassIdQuery]);
-  const assessmentList = [{}];
-
-  const filteredAssessmentList = assessmentList?.filter((item) => {
+  const filteredAssessmentList = homeAssessmentList?.filter((item) => {
     if (searchQuery === "") {
       //if query is empty
       return item;
-    } else if (
-      item.classRegisterLabel.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return item;
-    } else if (
-      item.dateTime.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
+    } else if (item.title.toLowerCase().includes(searchQuery.toLowerCase())) {
       //returns filtered array
       return item;
     }
+    // else if (
+    //   item.dateTime.toLowerCase().includes(searchQuery.toLowerCase())
+    // ) {
+    //   //returns filtered array
+    //   return item;
+    // }
   });
 
-  React.useEffect(() => {
-    if (createSuccessful) {
-      resetCreateSuccessfulState()(dispatch);
-      history.push(
-        `${classLocations.classAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
-      );
-    }
-  }, [createSuccessful]);
-
-  React.useEffect(() => {
-    if (!sessionClassIdQuery) {
-      resetclassRegisterState()(dispatch);
-    }
-  }, [sessionClassIdQuery]);
-
+  console.log("yh",homeAssessmentList);
   return (
     <>
       <div>
@@ -110,176 +101,253 @@ const AssessmentList = () => {
           <Col sm="12">
             <Formik
               initialValues={{
-                sessionClassId: sessionClassId,
-                subjectId: "",
+                sessionClassId: sessionClassSubjectId,
+                sessionClassSubjectId: sessionClassSubjectId,
+                groupId: "",
+                type: "",
               }}
+              validationSchema={validation}
               enableReinitialize={true}
               onSubmit={(values) => {
-                history.push(classLocations.createAssessment);
+                history.push(`${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`);
               }}
             >
-              {({ handleSubmit, values, setFieldValue, touched, errors }) => (
-                <Card className="bg-transparent">
-                  <Card.Header className="d-flex justify-content-between bg-transparent">
+              {({ handleSubmit, values, setFieldValue, errors }) => (
+                <Card
+                  className="bg-transparent"
+                >
+                  <Card.Header className="d-flex justify-content-between bg-transparent"  
+                  onClick={() => {
+                    setShowMenuDropdown(false);
+                  }}>
                     <div className="header-title">
                       <h4 className="card-title mt-3">Assessment Board</h4>
                     </div>
                     <div className="d-flex align-items-center mt-3 mb-n3">
-                    <div className=" d-flex">
-                      <div className="input-group search-input">
-                        <span
-                          className="input-group-text border-0 bg-transparent mb-3"
-                          id="search-input"
-                        >
-                          <svg
-                            width="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                      <div className=" d-flex">
+                        <div className="input-group search-input">
+                          <span
+                            className="input-group-text border-0 bg-transparent mb-3"
+                            id="search-input"
                           >
-                            <circle
-                              cx="11.7669"
-                              cy="11.7666"
-                              r="8.98856"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></circle>
-                            <path
-                              d="M18.0186 18.4851L21.5426 22"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                        </span>
-                        <div>
-                          <input
-                            type="search"
-                            className="form-control text-lowercase "
-                            placeholder="Search..."
-                            onChange={(event) =>
-                              setSearchQuery(event.target.value)
-                            }
-                            onClick={() => {
-                              setShowMenuDropdown(false);
-                            }}
-                          />
+                            <svg
+                              width="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <circle
+                                cx="11.7669"
+                                cy="11.7666"
+                                r="8.98856"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></circle>
+                              <path
+                                d="M18.0186 18.4851L21.5426 22"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </span>
+                          <div>
+                            <input
+                              type="search"
+                              className="form-control text-lowercase "
+                              placeholder="Search..."
+                              onChange={(event) =>
+                                setSearchQuery(event.target.value)
+                              }
+                              onClick={() => {
+                                setShowMenuDropdown(false);
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="text-body mx-2 mt-n1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          handleSubmit();
-                        }}
-                        className="btn btn-primary btn-icon  mt-lg-0 mt-3 "
-                      >
-                        <i className="btn-inner">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                            ></path>
-                          </svg>
-                        </i>
-                        <span>Create Assessment</span>
-                      </button>
-                    </div>
+                      <div className="text-body mx-2 mt-n1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleSubmit();
+                          }}
+                          className="btn btn-primary btn-icon  mt-lg-0 mt-3 "
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span>Create Assessment</span>
+                        </button>
+                      </div>
                     </div>
                   </Card.Header>
                   <Card.Body className="px-0 bg-transparent">
-                    <Card>
+                    <Card
+                    onClick={() => {
+                      setShowMenuDropdown(false);
+                    }}
+                    >
                       <Card.Body>
                         <div className="d-lg-flex align-items-center ">
                           <div className=" d-flex align-items-center">
-                            <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
-                              <select
-                                as="select"
-                                name="group"
-                                className="form-select"
-                                id="group"
-                                onChange={(e) => {}}
-                              >
-                                <option value="">Select Group</option>
-                                {staffClasses?.map((item, idx) => (
-                                  <option key={idx} value={item.sessionClassId}>
-                                    {item.sessionClass}
+                            <div>
+                              <div>
+                                {errors.sessionClassId && (
+                                  <div className="text-danger">
+                                    {errors.sessionClassId}
+                                  </div>
+                                )}
+                              </div>
+                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
+                                <Field
+                                  as="select"
+                                  name="sessionClassId"
+                                  className="form-select"
+                                  id="sessionClassId"
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      "sessionClassId",
+                                      e.target.value
+                                    );
+                                    getAllClassGroup(e.target.value)(dispatch);
+                                    getClassSubjects(e.target.value)(dispatch);
+                                    if (e.target.value == "") {
+                                      history.push(classLocations.assessment);
+                                    } else {
+                                      history.push(
+                                        `${classLocations.assessment}?sessionClassId=${e.target.value}`
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select Class</option>
+                                  {staffClasses?.map((item, idx) => (
+                                    <option
+                                      key={idx}
+                                      value={item.sessionClassId}
+                                    >
+                                      {item.sessionClass}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </div>
+                            </div>
+                            <div>
+                              <div>
+                                {errors.sessionClassSubjectId && (
+                                  <div className="text-danger">
+                                    {errors.sessionClassSubjectId}
+                                  </div>
+                                )}
+                              </div>
+                              <div className=" me-3 mt-3 mt-lg-0 dropdown">
+                                <Field
+                                  as="select"
+                                  name="sessionClassSubjectId"
+                                  className="form-select"
+                                  id="sessionClassSubjectId"
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      "sessionClassSubjectId",
+                                      e.target.value
+                                    );
+                                    setSessionClassSubjectId(e.target.value);
+                                    e.target.value &&
+                                      history.push(
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${e.target.value}&type=${typeQuery}`
+                                      );
+                                  }}
+                                >
+                                  <option value="">Select Subject</option>
+                                  {classSubjects?.map((item, idx) => (
+                                    <option
+                                      key={idx}
+                                      value={item.sessionClassSubjectId}
+                                    >
+                                      {item.subjectName}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </div>
+                            </div>
+                            <div>
+                              <div>
+                                {errors.groupId && (
+                                  <div className="text-danger">
+                                    {errors.groupId}
+                                  </div>
+                                )}
+                              </div>
+                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
+                                <Field
+                                  as="select"
+                                  name="groupId"
+                                  className="form-select"
+                                  id="groupId"
+                                >
+                                  <option value="">Select Group</option>
+                                  <option value="all-students">All Students</option>
+                                  {groupList?.map((item, idx) => (
+                                    <option key={idx} value={item.groupId}>
+                                      {item.groupName}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </div>
+                            </div>
+                            <div>
+                              <div>
+                                {errors.type && (
+                                  <div className="text-danger">
+                                    {errors.type}
+                                  </div>
+                                )}
+                              </div>
+                              <div className=" me-3 mt-3 mt-lg-0 dropdown">
+                                <Field
+                                  as="select"
+                                  name="type"
+                                  className="form-select"
+                                  id="type"
+                                  onChange={(e) => {
+                                    setFieldValue("type",e.target.value)
+                                    setAssessment(e.target.value);
+                                    e.target.value &&
+                                      history.push(
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${e.target.value}`
+                                      );
+                                  }}
+                                >
+                                  <option value="">Select Type</option>
+                                  <option value="home assessment">
+                                    Home Assessment
                                   </option>
-                                ))}
-                              </select>
+                                  <option value="assessment">
+                                    Class Assessment
+                                  </option>
+                                  <option value="cbt">CBT</option>
+                                </Field>
+                              </div>
                             </div>
                           </div>
-                          <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
-                            <Field
-                              as="select"
-                              name="sessionClassId"
-                              className="form-select"
-                              id="sessionClassId"
-                              onChange={(e) => {
-                                setFieldValue("sessionClassId", e.target.value);
-                                getStaffClassSubjects(e.target.value)(dispatch);
-                                setSessionClassId(e.target.value);
-                              }}
-                            >
-                              <option value="">Select Class</option>
-                              {staffClasses?.map((item, idx) => (
-                                <option key={idx} value={item.sessionClassId}>
-                                  {item.sessionClass}
-                                </option>
-                              ))}
-                            </Field>
-                          </div>
-
-                          <div className=" me-3 mt-3 mt-lg-0 dropdown">
-                            <Field
-                              as="select"
-                              name="subjectId"
-                              className="form-select"
-                              id="subjectId"
-                              onChange={(e) => {
-                                setFieldValue("subjectId", e.target.value);
-                              }}
-                            >
-                              <option value="">Select Subject</option>
-                              {staffClassSubjects?.map((item, idx) => (
-                                <option key={idx} value={item.subjectId}>
-                                  {item.subjectName}
-                                </option>
-                              ))}
-                            </Field>
-                          </div>
-                          <div className=" me-3 mt-3 mt-lg-0 dropdown">
-                            <Field
-                              as="select"
-                              name="type"
-                              className="form-select"
-                              id="type"
-                              onChange={(e) => {}}
-                            >
-                              <option value="">Select Type</option>
-                              <option value="assignment">
-                                Home Assessment
-                              </option>
-                              <option value="assignment">
-                                Class Assessment
-                              </option>
-                              <option value="cbt">CBT</option>
-                            </Field>
-                          </div>
                         </div>
-                        {/* </div> */}
                       </Card.Body>
                     </Card>
                     <Row className="">
@@ -288,7 +356,7 @@ const AssessmentList = () => {
                         <div className="jumbotron jumbotron-fluid">
                           <div className="container d-flex justify-content-center mt-5 bg-white">
                             <h2 className="display-4">
-                              Please select a class to view Assessment List
+                              Please select inputs above to view Assessment List
                             </h2>
                           </div>
                         </div>
@@ -352,17 +420,10 @@ const AssessmentList = () => {
                                         <div
                                           onClick={() => {
                                             history.push(
-                                              classLocations.assessmentDetails
+                                              `${classLocations.homeAssessmentDetails}?homeAssessmentId=${item.homeAssessmentId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
-                                          // className={
-                                          //   Number(
-                                          //     item.dateTime.split("-")[0]
-                                          //   ) != new Date().getDate()
-                                          //     ? "dropdown-item disabled"
-                                          //     : "dropdown-item"
-                                          // }
                                           className="dropdown-item"
                                           role="button"
                                           draggable="true"
@@ -410,7 +471,7 @@ const AssessmentList = () => {
                                         <div
                                           onClick={() => {
                                             history.push(
-                                              classLocations.editAssessment
+                                              `${classLocations.editHomeAssessment}?homeAssessmentId=${item.homeAssessmentId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
@@ -454,9 +515,9 @@ const AssessmentList = () => {
 
                                         <div
                                           onClick={() => {
-                                            // setClassRegisterId(
-                                            //   item.classRegisterId
-                                            // );
+                                            setHomeAssessmentId(
+                                              item.homeAssessmentId
+                                            );
                                             showHideDialog(
                                               true,
                                               "Are you sure you want to delete this assessment"
@@ -503,8 +564,7 @@ const AssessmentList = () => {
                                 </div>
 
                                 <h6 className="mb-3 text-uppercase">
-                                  {/* {item.assessmentLabel} */}
-                                  The placement of things
+                                  {item.title}
                                 </h6>
 
                                 <div className="d-flex justify-content-between">
@@ -529,9 +589,9 @@ const AssessmentList = () => {
                                 </div>
                               </Card.Body>
                               <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
-                                <div>{"group"}</div>
-                                <div>{"type"}</div>
-                                <div>{"English"}</div>
+                                <div>{item.status}</div>
+                                <div>{item.sessionClassGroupName}</div>
+                                <div>{item.sessionClassSubjectName}</div>
                               </small>
                             </Card>
                           </Col>
