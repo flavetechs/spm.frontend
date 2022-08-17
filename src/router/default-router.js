@@ -68,7 +68,7 @@ import MasterList from '../components/teachers-area/smp-result-management/master
 import PublishResultEdit from '../components/teachers-area/smp-result-management/publish-result-edit';
 import CumulativeMasterList from '../components/teachers-area/smp-result-management/cumulative-master-list';
 import PrintResult from '../components/teachers-area/smp-result-management/print-result';
-import ClassTimeTable from '../components/teachers-area/smp-timetable/class-timetable';
+import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
 
 const DashboardRouter = () => {
 
@@ -101,6 +101,8 @@ const DashboardRouter = () => {
                     <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
                     <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
                     <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
+
+                    
                     {/* session */}
                     <Route path={sessionLocations.sessionList} exact component={SessionList} />
                     <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
