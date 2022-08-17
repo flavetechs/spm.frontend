@@ -138,7 +138,10 @@ useEffect(
     () =>{
         return role;
     },[role,name1]
-)                                       
+)                
+    const timetableResult = timetableResult.map((itemsList, index)).timeTable.map((items, index) => (items.period))
+    console.log('timetableResult', timetableResult);
+
     return(
         <>
             <Row>
