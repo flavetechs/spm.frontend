@@ -91,7 +91,7 @@ const AssessmentList = () => {
     //   return item;
     // }
   });
-  console.log("single",homeAssessmentList,typeQuery);
+  
   return (
     <>
       <div>
@@ -469,7 +469,7 @@ const AssessmentList = () => {
                                         <div
                                           onClick={() => {
                                             history.push(
-                                              `${classLocations.editHomeAssessment}?homeAssessmentId=${item.homeAssessmentId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
+                                              `${classLocations.editHomeAssessment}?homeAssessmentId=${item.homeAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}

@@ -26,6 +26,7 @@ const EditAssessment = () => {
   const { createSuccessful, groupList, singleHomeAssessmentList,assessmentScore } = state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   const typeQuery = queryParams.get("type");
 
@@ -47,7 +48,7 @@ const EditAssessment = () => {
   useEffect(() => {
     createSuccessful &&
       history.push(
-        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
+        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${typeQuery}`
       );
   }, [createSuccessful]);
 
@@ -93,7 +94,7 @@ const EditAssessment = () => {
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
-
+console.log("hi",sessionClassSubjectIdQuery);
   return (
     <>
       <div className="col-md-8 mx-auto">

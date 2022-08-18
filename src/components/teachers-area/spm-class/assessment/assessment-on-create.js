@@ -33,7 +33,7 @@ const CreateAssessment = () => {
   React.useEffect(() => {
     createSuccessful &&
       history.push(
-        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
+        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${typeQuery}`
       );
   }, [createSuccessful]);
 
