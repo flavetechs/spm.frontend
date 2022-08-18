@@ -9,7 +9,6 @@ import {
   getAllClassGroup,
   getAllHomeAssessment,
   getClassSubjects,
-  resetCreateSuccessfulState,
 } from "../../../../store/actions/class-actions";
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import {
@@ -92,7 +91,7 @@ const AssessmentList = () => {
     //   return item;
     // }
   });
-
+  console.log("single",homeAssessmentList,typeQuery);
   return (
     <>
       <div>
@@ -366,7 +365,7 @@ const AssessmentList = () => {
                               <Card.Body>
                                 <div className="d-flex justify-content-between">
                                   <div className="mb-0">Title</div>
-                                  <div className="dropdown show">
+                                  <div className="dropdown show bg-light">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="24"
@@ -590,7 +589,7 @@ const AssessmentList = () => {
                               <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
                                 <div>{item.status}</div>
                                 <div>{item.sessionClassGroupName}</div>
-                                <div>{item.sessionClassSubjectName}</div>
+                                <div className="text-lowercase">{item.sessionClassSubjectName}</div>
                               </small>
                             </Card>
                           </Col>

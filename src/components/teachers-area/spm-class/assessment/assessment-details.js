@@ -3,12 +3,7 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { getSingleHomeAssessment } from "../../../../store/actions/class-actions";
-import {
-  respondModal,
-  showHideModal,
-} from "../../../../store/actions/toaster-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
-import { StudentListModal } from "./student-list-modal";
 
 const AssessmentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -19,7 +14,6 @@ const AssessmentDetails = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
   const { singleHomeAssessmentList } = state.class;
-  const { modalResponse } = state.alert;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
@@ -33,26 +27,16 @@ const AssessmentDetails = () => {
     )(dispatch);
   }, []);
 
-  React.useEffect(() => {
-    if (modalResponse == "cancel") {
-      showHideModal(false)(dispatch);
-    }
-    return () => {
-      respondModal("")(dispatch);
-    };
-  }, [modalResponse]);
-
   return (
     <>
       <div>
         <Row className="d-md-flex justify-content-center">
-          <Col sm="8">
+          <Col sm="7">
             <Card
               id="details"
               ref={elementRef}
               style={{ overflow: fullScreen && "scroll" }}
             >
-              <StudentListModal/>
               <Card.Body>
                 <div className="d-flex justify-content-between mt-3 flex-wrap">
                   <div>
@@ -115,15 +99,6 @@ const AssessmentDetails = () => {
                     )}
                   </div>
                   <div>
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-sm mx-2"
-                      onClick={() => {
-                        showHideModal(true)(dispatch);
-                      }}
-                    >
-                      student List
-                    </button>
                     Deadline:
                     <span className="text-end text-primary">
                       {/* {singleHomeAssessmentList?.find(i=>i)?.title} */}
@@ -210,6 +185,45 @@ const AssessmentDetails = () => {
                   Back
                 </button>
               </div>
+            </Card>
+          </Col>
+          <Col sm="5">
+            <Card>
+              <Card.Body>
+                <h4 className="mb-3">Student List</h4>
+                <div className="table-responsive">
+                  <table
+                    id="role-list-table"
+                    className="table table-striped table-bordered table-sm"
+                    role="grid"
+                    data-toggle="data-table"
+                  >
+                    <thead>
+                      <tr className="ligth">
+                        <th className="" width="300px">
+                          Student Name
+                        </th>
+                        <th className="text-center">
+                        Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {singleHomeAssessmentList?.studentList.map(
+                        (item, idx) =>
+                            <tr key={idx}>
+                              <td className="text-uppercase">{item.studentName}</td>
+
+                              <td className="text-center">
+                              <div className={item.status == "submitted" ? "badge bg-success":"badge bg-danger"}>{item.status}</div>
+                              </td>
+                            </tr>
+                      )}
+                    </tbody>
+                  </table>
+              
+                </div>
+              </Card.Body>
             </Card>
           </Col>
         </Row>
