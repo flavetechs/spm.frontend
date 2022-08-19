@@ -8,7 +8,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { createHomeAssessment, getAllClassGroup, getAssessmentScore } from "../../../../store/actions/class-actions";
+import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 
 const CreateAssessment = () => {
@@ -17,7 +17,7 @@ const CreateAssessment = () => {
   const locations = useLocation();
   const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const { createSuccessful, groupList,assessmentScore } = state.class;
+  const { createSuccessful, groupList,assessmentScore,classSubjects } = state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
@@ -27,12 +27,13 @@ const CreateAssessment = () => {
   React.useEffect(() => {
     getAllClassGroup(sessionClassIdQuery)(dispatch);
     getAssessmentScore(sessionClassSubjectIdQuery,sessionClassIdQuery)(dispatch);
+    getClassSubjects(sessionClassIdQuery)(dispatch);
   }, []);
 
   React.useEffect(() => {
     createSuccessful &&
       history.push(
-        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
+        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${typeQuery}`
       );
   }, [createSuccessful]);
 
@@ -130,6 +131,28 @@ const CreateAssessment = () => {
                             placeholder="Enter assessment topic..."
                           />
                         </Col>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label">
+                            <b>Subject:</b>
+                          </label>
+                             <Field
+                                  as="select"
+                                  name="sessionClassSubjectId"
+                                  className="form-select"
+                                  id="sessionClassSubjectId"
+                                >
+                                  <option value="">Select Subject</option>
+                                  {classSubjects?.map((item, idx) => (
+                                    <option
+                                      key={idx}
+                                      value={item.sessionClassSubjectId}
+                                    >
+                                      {item.subjectName}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </Col>
+
                         {touched.sessionClassGroupId &&
                           errors.sessionClassGroupId && (
                             <div className="text-danger">

@@ -6,8 +6,9 @@ export const dashboardLocations = {
     onlineClass: "/stds-dashboard/student-online-class",
   };
 
-  export const assignmentLocations = {
-    assignment: "/stds-dashboard/student-assignment",
+  export const assessmentLocations = {
+    assessment: "/stds-dashboard/student-assessment",
+    assessmentDetails: "/stds-dashboard/student-assessment-details",
   };
 
   export const lessonNoteLocations = {

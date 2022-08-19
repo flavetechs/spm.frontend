@@ -6,7 +6,7 @@ import {
   AccordionContext,
 } from "react-bootstrap";
 import { OnlineClassLink } from "./Navigations/student-navigations/online-class-link";
-import { AssignmentLink } from "./Navigations/student-navigations/assignment-link";
+import { AssessmentLink } from "./Navigations/student-navigations/assessment-link";
 import { LessonNoteLink } from "./Navigations/student-navigations/lesson-notes-link";
 import { AnnouncementLink } from "./Navigations/student-navigations/announcement-link";
 import { TimeTableLink } from "./Navigations/student-navigations/time-table-link";
@@ -69,7 +69,7 @@ const StudentsVerticalNav = () => {
 
         <OnlineClassLink minisidebar={minisidebar} />
 
-        <AssignmentLink minisidebar={minisidebar} />
+        <AssessmentLink minisidebar={minisidebar} />
 
         <LessonNoteLink minisidebar={minisidebar} />
 

@@ -389,7 +389,7 @@ const ClassGroup = () => {
                             <td className="text-uppercase text-center">
                               <b>{item.numberOfStudentsInGroup}</b>
                             </td>
-                            <td>
+                            <td className="text-uppercase text-center">
                               <b>{item.numberOfStudentNotInGroup}</b>
                             </td>
 

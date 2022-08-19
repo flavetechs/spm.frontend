@@ -1228,6 +1228,42 @@ export const getAllHomeAssessment = (sessionClassSubjectId) => (dispatch) => {
         });
 }
 
+export const getOpenStudentAssessment = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ASSESSMENT_LOADING,
+    });
+    axiosInstance.get(`/studentassessment/api/v1/get/open-assessments`)
+     .then((res) => {
+            dispatch({
+                type: actions.FETCH_ASSESSMENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_ASSESSMENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getStatusFilterForStudentAssessment = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ASSESSMENT_LOADING,
+    });
+    axiosInstance.get(`/studentassessment/api/v1/filter/home-assessments`)
+     .then((res) => {
+            dispatch({
+                type: actions.FETCH_ASSESSMENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_ASSESSMENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_ASSESSMENT_LOADING,
@@ -1246,6 +1282,25 @@ export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dis
             })
         });
     }
+
+    export const getSingleStudentAssessment = (homeassessmentFeedBackId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_SINGLE_ASSESSMENT_LOADING,
+        });
+    
+        axiosInstance.get(`/studentassessment/api/v1/get-single/home-assessments?homeassessmentFeedBackId=${homeassessmentFeedBackId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_ASSESSMENT_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_ASSESSMENT_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+        }
 
 export const deleteHomeAssessment = (item,sessionClassSubjectId) => (dispatch) => {
     dispatch({
@@ -1307,6 +1362,28 @@ export const updateHomeAssessment = (values) => (dispatch) => {
             });
             resetCreateSuccessfulState()(dispatch);
             getAllHomeAssessment(values.sessionClassSubjectId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_ASSESSMENT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const submitStudentAssessment = (formData) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_ASSESSMENT_LOADING
+    });
+
+    axiosInstance.post('/studentassessment/api/v1/submit/assessment-feedback', formData)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_ASSESSMENT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
