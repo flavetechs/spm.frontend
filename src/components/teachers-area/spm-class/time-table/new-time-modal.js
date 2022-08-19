@@ -91,7 +91,6 @@ export function NewTimeModal({ timetableList }) {
                             onClick={() => {
                                 createTimetablePeriod(newTime)(dispatch);
                                 showHideModal(false)(dispatch);
-                                getAllTimetable()(dispatch);
                             }}
                         >
                             Save
