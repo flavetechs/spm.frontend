@@ -9,15 +9,14 @@ import { NewDayModal } from './new-day-modal'
 import { UpdateDayModal } from './update-day-modal'
 import { UpdateTimeModal } from './update-time-modal'
 import { PeriodActivityModal } from './period-activity-modal'
-const ClassTimeTableActivities = () => {
+const ClassTimeTableActivities = ({ timetableList }) => {
 
     const dispatch = useDispatch();
 
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { timetableList } = state.timetable;
-    console.log('timetableList: ', timetableList);
+    // const { timetableList } = state.timetable;
     const { deleteDialogResponse } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
@@ -37,8 +36,9 @@ const ClassTimeTableActivities = () => {
                     <Card className='mt-0'>
                         <Card.Header className="d-flex justify-content-between flex-wrap">
                             <div className="header-title">
-                                <h4 className="card-title mb-0">JSS 1 Class Timetable</h4>
-
+                                {timetableList?.map((item, index) => (
+                                    <h4>{`${item.className} Class Timetable`}</h4>
+                                ))}
                             </div>
                             <div>
                                 <Button className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3"
@@ -72,7 +72,12 @@ const ClassTimeTableActivities = () => {
                             </div>
                         </Card.Header>
                         {modal == 'newDayModal' ?
-                            <NewDayModal /> : modal == 'newTimeModal' ? <NewTimeModal /> :
+                            <NewDayModal
+                                timetableList={timetableList}
+                            /> : modal == 'newTimeModal' ?
+                                <NewTimeModal
+                                    timetableList={timetableList}
+                                /> :
                                 modal == 'updateDayModal' ? <UpdateDayModal /> :
                                     modal == 'updateTimeModal' ? <UpdateTimeModal /> :
                                         modal == 'periodActivityModal' ? <PeriodActivityModal />
@@ -84,10 +89,10 @@ const ClassTimeTableActivities = () => {
                             <div className="table-responsive">
                                 <table className="table striped='column' table-bordered border-3">
                                     {timetableList?.map((data, index) => (
-                                        <thead>
+                                        <thead key={index}>
                                             <tr>
                                                 <th></th>
-                                                {data?.timeTable.days.map((items, index) => (
+                                                {data?.timetable?.days?.map((items, index) => (
                                                     <th className="text-center" key={index} >{items.day}
                                                         <div style={{ float: "right" }}>
                                                             <Link className="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" title="Edit User" to="#"
@@ -122,8 +127,8 @@ const ClassTimeTableActivities = () => {
                                         </thead>
                                     ))}
                                     {timetableList.map((items, index) => (
-                                        <tbody>
-                                            {items.timeTable.times.map((item, index) => (
+                                        <tbody key={index}>
+                                            {items.timetable.times.map((item, index) => (
                                                 <OverlayTrigger
                                                     placement="top"
                                                     key={index}
@@ -160,7 +165,7 @@ const ClassTimeTableActivities = () => {
                                                             </div>
                                                         </td>
                                                         {
-                                                            item.periodActivties.map((activityItem, idx) => {
+                                                            item?.periodActivities?.map((activityItem, idx) => {
                                                                 return <td
                                                                     key={idx}
                                                                     onDoubleClick={() => {

@@ -34,12 +34,11 @@ export const returnList = (items) => (dispatch) => {
 
 
 //TIMETABLE ACTION HANDLERS
-export const getAllTimetable = () => (dispatch) => {
+export const getAllTimetable = (classId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_TIMETABLE_LOADING
     });
-
-    axiosInstance.get('')
+    axiosInstance.get(`/api/v1/smp/timetable/get/class-time-table/${classId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_TIMETABLE_SUCCESS,
@@ -53,11 +52,30 @@ export const getAllTimetable = () => (dispatch) => {
         });
 }
 
-export const createTimetableDays = (values) => (dispatch) => {
+export const getTimetableActiveClass = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_TIMETABLE_ACTIVE_CLASS_LOADING
+    });
+    axiosInstance.get('/api/v1/smp/timetable/get/active-classes')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_TIMETABLE_ACTIVE_CLASS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_TIMETABLE_ACTIVE_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
+export const createTimetableDays = (day) => (dispatch) => {
     dispatch({
         type: actions.CREATE_TIMETABLE_DAYS_LOADING
     });
-    axiosInstance.post('', values)
+    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-day', day)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_DAYS_SUCCESS,
@@ -67,6 +85,27 @@ export const createTimetableDays = (values) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_DAYS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const createTimetablePeriod = (period) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_TIMETABLE_PERIOD_LOADING
+    });                 
+    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-time', period)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_TIMETABLE_PERIOD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_TIMETABLE_PERIOD_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)

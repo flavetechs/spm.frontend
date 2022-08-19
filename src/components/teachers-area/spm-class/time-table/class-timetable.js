@@ -8,6 +8,7 @@ import Tab from 'react-bootstrap/Tab';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
+import { getAllTimetable } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
 // import "./setting.scss";
 
@@ -16,19 +17,19 @@ function ClassTimeTable() {
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
     const history = useHistory();
-    const [showDeleteButton, setDeleteButton] = useState(true);
-    const [showCheckBoxes, setShowCheckBoxes] = useState(false);
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { activeClasses } = state.class;
     const { deleteDialogResponse } = state.alert;
+    const { timetableList } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
 
 
     React.useEffect(() => {
         getAllActiveClasses()(dispatch);
+        // getAllTimetable()(dispatch)
     }, ['123']);
 
     return (
@@ -46,6 +47,7 @@ function ClassTimeTable() {
                                         {activeClasses?.map((item, index) => (
                                             <Nav.Link eventKey={index + 1} href="#" className='py-3' key={index} onClick={() => {
                                                 console.log('call an api and pick from state')
+                                                getAllTimetable(item?.lookupId)(dispatch)
                                             }}>
                                                 <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.7161 16.2234H8.49609" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
@@ -66,7 +68,9 @@ function ClassTimeTable() {
                                 </Nav>
                             </Col>
                             <Col sm={9} className=''>
-                                <ClassTimeTableActivities />
+                                <ClassTimeTableActivities 
+                                timetableList={timetableList}
+                                />
                             </Col>
                         </Row>
                     </Tab.Container>
