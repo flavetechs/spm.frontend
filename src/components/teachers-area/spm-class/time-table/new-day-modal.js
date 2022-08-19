@@ -14,7 +14,9 @@ export function NewDayModal({ timetableList }) {
     const dispatch = useDispatch();
     const [newDay, setNewDay] = useState({});
     // console.log('newDay: ', newDay);
-    // console.log('newDay timetableList: ', timetableList);
+    console.log('newDay timetableList: ', timetableList);
+
+    
 
 
     return (
@@ -28,9 +30,10 @@ export function NewDayModal({ timetableList }) {
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
                                     <Form.Label>Week Day</Form.Label>
                                     <Form.Control
+                                        required
                                         type="text"
                                         placeholder="Add new Week Day"
-                                        onChange={(e) => setNewDay({ day: e.target.value, classTimeTableId: data.classTimeTableId})}
+                                        onChange={(e) => setNewDay({ day: e.target.value, classTimeTableId: data.classTimeTableId })}
                                     />
                                 </Form.Group>
                             </div>

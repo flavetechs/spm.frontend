@@ -71,7 +71,7 @@ export const getTimetableActiveClass = () => (dispatch) => {
 }
 
 
-export const createTimetableDays = (day) => (dispatch) => {
+export const createTimetableDays = (day, lookupId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_TIMETABLE_DAYS_LOADING
     });
@@ -82,6 +82,7 @@ export const createTimetableDays = (day) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllTimetable(lookupId)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_DAYS_FAILED,

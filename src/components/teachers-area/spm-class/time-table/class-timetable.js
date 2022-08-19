@@ -45,10 +45,14 @@ function ClassTimeTable() {
                                 <Nav variant="" className="flex-column portal-tab mt-4" >
                                     <Nav.Item className='border-3 '>
                                         {activeClasses?.map((item, index) => (
-                                            <Nav.Link eventKey={index + 1} href="#" className='py-3' key={index} onClick={() => {
-                                                console.log('call an api and pick from state')
-                                                getAllTimetable(item?.lookupId)(dispatch)
-                                            }}>
+                                            <Nav.Link eventKey={index + 1} className='py-3' key={index} onClick={() => {
+                                                getAllTimetable(item?.lookupId)(dispatch);
+                                                history.push({
+                                                    search: `classId=${item?.lookupId}`,
+                                                  });
+                                            }}
+                                            style={{cursor: 'pointer'}}
+                                            >
                                                 <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.7161 16.2234H8.49609" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                                                         strokeLinejoin="round" />
@@ -64,12 +68,10 @@ function ClassTimeTable() {
                                             </Nav.Link>
                                         ))}
                                     </Nav.Item>
-
                                 </Nav>
                             </Col>
                             <Col sm={9} className=''>
                                 <ClassTimeTableActivities 
-                                timetableList={timetableList}
                                 />
                             </Col>
                         </Row>

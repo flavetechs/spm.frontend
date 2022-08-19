@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Modal, Form, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { showHideModal } from '../../../../store/actions/toaster-actions'
 import Card from '../../../Card'
 import { NewTimeModal } from './new-time-modal'
@@ -9,25 +9,38 @@ import { NewDayModal } from './new-day-modal'
 import { UpdateDayModal } from './update-day-modal'
 import { UpdateTimeModal } from './update-time-modal'
 import { PeriodActivityModal } from './period-activity-modal'
-const ClassTimeTableActivities = ({ timetableList }) => {
+import { getAllTimetable } from '../../../../store/actions/timetable-actions'
+const ClassTimeTableActivities = () => {
 
-    const dispatch = useDispatch();
+   
 
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    // const { timetableList } = state.timetable;
+    const { timetableList } = state.timetable;
     const { deleteDialogResponse } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATION
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const locations = useLocation();
     const handleFocus = (event) => event.target.select();
     const [indexRow, setIndexRow] = useState("");
     const [isEditMode, setEditMode] = useState(false);
     const [modal, setModal] = useState('');
+    const [selectedClassId, setSelectedClassId] = useState("");
     //VARIABLE DECLARATION
 
+    React.useEffect(() => {
+        const queryParams = new URLSearchParams(locations.search);
+        const classId = queryParams.get("classId");
+        if (!classId) return;
+        getAllTimetable(classId)(dispatch);
+        setSelectedClassId(classId);
+    }, [selectedClassId]);
 
+    console.log('selectedClassId now', selectedClassId);
 
     return (
         <>
@@ -37,7 +50,7 @@ const ClassTimeTableActivities = ({ timetableList }) => {
                         <Card.Header className="d-flex justify-content-between flex-wrap">
                             <div className="header-title">
                                 {timetableList?.map((item, index) => (
-                                    <h4>{`${item.className} Class Timetable`}</h4>
+                                    <h4 key={index}>{`${item.className} Class Timetable`}</h4>
                                 ))}
                             </div>
                             <div>
@@ -171,6 +184,7 @@ const ClassTimeTableActivities = ({ timetableList }) => {
                                                                     onDoubleClick={() => {
                                                                         showHideModal(true)(dispatch);
                                                                         setModal('periodActivityModal');
+                                            
                                                                     }
                                                                     }
                                                                 >
