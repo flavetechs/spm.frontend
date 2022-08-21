@@ -8,29 +8,41 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
+import {
+  getAllClassGroup,
+  getAssessmentScore,
+  getClassSubjects,
+  getSingleHomeAssessment,
+  getStudentClassAssessment,
+  sendAssesmentToStudents,
+  updateHomeAssessment,
+  updateStudentClassAssessment,
+} from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 
-const CreateAssessment = () => {
+const EditClassAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
   const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const { createSuccessful, groupList,assessmentScore,classSubjects } = state.class;
+  const { createSuccessful, groupList, singleHomeAssessmentList,assessmentScore,studentClassAssessment,classSubjects } = state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const classAssessmentIdQuery = queryParams.get("classAssessmentId");
   const typeQuery = queryParams.get("type");
 
-  //HOOKS
-  React.useEffect(() => {
-    getAllClassGroup(sessionClassIdQuery)(dispatch);
+//HOOKS
+
+  useEffect(() => {
     getAssessmentScore(sessionClassSubjectIdQuery,sessionClassIdQuery)(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
+    getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     createSuccessful &&
       history.push(
         `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${typeQuery}`
@@ -40,6 +52,11 @@ const CreateAssessment = () => {
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
+
+  useEffect(() => {
+    setContent(singleHomeAssessmentList?.content);
+  }, [singleHomeAssessmentList]);
+
   const textEditorModules = useMemo(
     () => ({
       toolbar: {
@@ -62,18 +79,18 @@ const CreateAssessment = () => {
     }),
     []
   );
-  //HOOKS
+//HOOKS
 
- //VALIDATION
- const validation = Yup.object().shape({
-  title: Yup.string().required("Subject is required"),
-  assessmentScore: Yup.number().required("Score is required")
-  .min(0, "Assessment score must not be below 0")
-  .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
-  // deadline: Yup.string().required("Please enter who to send"),
-  sessionClassGroupId: Yup.string().required("Please select group"),
-});
 //VALIDATION
+     const validation = Yup.object().shape({
+      title: Yup.string().required("Subject is required"),
+      assessmentScore: Yup.number().required("Score is required")
+      .min(0, "Assessment score must not be below 0")
+      .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
+      // deadline: Yup.string().required("Please enter who to send"),
+      sessionClassGroupId: Yup.string().required("Please select group"),
+    });
+ //VALIDATION
 
   return (
     <>
@@ -84,25 +101,15 @@ const CreateAssessment = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    title: "",
-                    content: "",
-                    assessmentScore: "",
-                    sessionClassId: sessionClassIdQuery,
                     sessionClassSubjectId: sessionClassSubjectIdQuery,
-                    sessionClassGroupId: "",
-                    shouldSendToStudents: false,
-                    deadline: "",
+                    classAssessmentId: classAssessmentIdQuery,
+                    studentContactId:"",
+                    score:""
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    if (!content) {
-                      showErrorToast("Body is required")(dispatch);
-                      return;
-                    }
-                    values.content = content;
-                    values.comment = comment;
-                    createHomeAssessment(values)(dispatch);
+                    
                   }}
                 >
                   {({
@@ -120,15 +127,14 @@ const CreateAssessment = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label">
-                            <b>Title:</b>
+                          <label className="form-label" htmlFor="title">
+                            <b>Topic:</b>
                           </label>
                           <Field
                             type="text"
                             name="title"
                             className="form-control border-secondary h6"
                             id="title"
-                            placeholder="Enter assessment topic..."
                           />
                         </Col>
                         <Col md="11" className="form-group h6">
@@ -160,7 +166,7 @@ const CreateAssessment = () => {
                             </div>
                           )}
                         <Col md="11" className="form-group h6">
-                          <label className="form-label">
+                          <label className="form-label" htmlFor="content">
                             <b>Group:</b>
                           </label>
                           <Field
@@ -169,10 +175,15 @@ const CreateAssessment = () => {
                             className="form-select h6"
                             id=" sessionClassGroupId"
                           >
-                            <option value="">Select Group</option>
                             <option value="all-students">All Students</option>
                             {groupList?.map((item, idx) => (
-                              <option key={idx} value={item.groupId}>
+                              <option
+                                key={idx}
+                                value={item.groupId}
+                                selected={
+                                  singleHomeAssessmentList?.sessionClassGroupId == item.groupId
+                                }
+                              >
                                 {item.groupName}
                               </option>
                             ))}
@@ -184,95 +195,36 @@ const CreateAssessment = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group h6 ">
-                          <label  className="form-label d-flex justify-content-between">
-                            <b>Description:</b>
-                            <div className="">
-                              {/* {!fullScreen ? ( */}
-                                <OverlayTrigger
-                                  placement="top"
-                                  overlay={
-                                    <Tooltip id="button-tooltip-2">
-                                      view full screen
-                                    </Tooltip>
-                                  }
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    className="mx-2"
-                                    onClick={() => {
-                                      openFullscreen("assessment-editor");
-                                      setFullScreen(true);
-                                    }}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
-                                  </svg>
-                                </OverlayTrigger>
-                            </div>
-                          </label>
-                          <ReactQuill
-                            theme="snow"
-                            value={content}
-                            onChange={setContent}
-                            modules={textEditorModules}
-                            ref={elementRef}
-                            id="assessment-editor"
-                            style={{ height: "300px" , background:"white"}}
-                          />
-                        </Col>
+                        <div className="table-responsive">
+                  <table
+                    id="role-list-table"
+                    className="table  table-borderless table-sm"
+                    role="grid"
+                    data-toggle="data-table"
+                  >
+                    <tbody>
+                      <tr className="ligth">
+                        <td className="" width="300px">
+                          Student Name
+                        </td>
+                        <td className="text-center">
+                        Score
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody>
+                      {studentClassAssessment?.map(
+                        (item, idx) =>
+                            <tr key={idx}>
+                              <td className="text-uppercase">{item.studentName}</td>
 
-                        <Col md="11" className="form-group h6 mt-5">
-                          <label className="form-label" htmlFor="comment">
-                            <b>Comment:</b>
-                          </label>
-                          <ReactQuill
-                            theme="snow"
-                            value={comment}
-                            onChange={setComment}
-                            modules={textEditorModules}
-                            style={{ height: "100px" }}
-                          />
-                          {/* <Field
-                            as="textarea"
-                            name="comment"
-                            className="form-control border-secondary"
-                            id="comment"
-                            onChange={(e) => {
-                              setFieldValue("comment", e.target.value);
-                            }}
-                          /> */}
-                        </Col>
-                        <Col md="11">
-                          {touched.deadline && errors.deadline && (
-                            <div className="text-danger">{errors.deadline}</div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group h6 mt-5">
-                          <label className="form-label" htmlFor="deadline">
-                            <b>Deadline:</b>
-                          </label>
-                          <Field
-                            type="date"
-                            name="deadline"
-                            className="form-control h6 border-secondary"
-                            id="deadline"
-                            placeholder="Enter date of submission..."
-                          />
-                        </Col>
-
-                        <Col md="11" className="form-group ">
-                          <Field
-                            type="checkbox"
-                            name="shouldSendToStudents"
-                            className="form-check-input "
-                            id="shouldSendToStudents"
-                          />
-                          <label className="form-label mx-1">
-                            <h6>Send to Students</h6>
-                          </label>
+                              <td className="text-center"><Field type="text" className="w-25" name="score" id={item.studentContactId} onBlur={(e)=>updateStudentClassAssessment(sessionClassSubjectIdQuery,classAssessmentIdQuery,e.target.id,e.target.value)(dispatch)}/></td>
+                            </tr>
+                      )}
+                    </tbody>
+                  </table>
+              
+                </div>
                         </Col>
 
                         <Row>
@@ -295,7 +247,7 @@ const CreateAssessment = () => {
                               name="total"
                               readOnly
                               value={assessmentScore?.totalAssessment}
-                              className="form-control h6 py-0"
+                              className="form-control h6 py-0 px-1"
                             />
                           </Col>
                           <Col md="2" className="form-group">
@@ -307,7 +259,7 @@ const CreateAssessment = () => {
                               name="used"
                               readOnly
                               value={assessmentScore?.used}
-                              className="form-control h6 py-0"
+                              className="form-control h6 py-0 px-1"
                             />
                           </Col>
                         
@@ -358,4 +310,4 @@ const CreateAssessment = () => {
   );
 };
 
-export default CreateAssessment;
+export default EditClassAssessment;

@@ -8,44 +8,29 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { classLocations } from "../../../../router/spm-path-locations";
-import {
-  getAllClassGroup,
-  getAssessmentScore,
-  getSingleHomeAssessment,
-  sendAssesmentToStudents,
-  updateHomeAssessment,
-} from "../../../../store/actions/class-actions";
+import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 
-const EditAssessment = () => {
+const CreateAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
   const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const { createSuccessful, groupList, singleHomeAssessmentList,assessmentScore } = state.class;
+  const { createSuccessful, groupList,assessmentScore,classSubjects } = state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
-  const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   const typeQuery = queryParams.get("type");
 
-//HOOKS
-  useEffect(() => {
-    getSingleHomeAssessment(
-      homeAssessmentIdQuery,
-      sessionClassIdQuery
-    )(dispatch);
+  //HOOKS
+  React.useEffect(() => {
     getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getAssessmentScore(sessionClassSubjectIdQuery,sessionClassIdQuery)(dispatch);
+    getClassSubjects(sessionClassIdQuery)(dispatch);
   }, []);
 
-  useEffect(() => {
-    if(singleHomeAssessmentList?.sessionClassSubjectId){
-    getAssessmentScore(singleHomeAssessmentList?.sessionClassSubjectId,sessionClassIdQuery)(dispatch);
-    }
-  }, [singleHomeAssessmentList]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     createSuccessful &&
       history.push(
         `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${typeQuery}`
@@ -55,11 +40,6 @@ const EditAssessment = () => {
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
-
-  useEffect(() => {
-    setContent(singleHomeAssessmentList?.content);
-  }, [singleHomeAssessmentList]);
-
   const textEditorModules = useMemo(
     () => ({
       toolbar: {
@@ -82,19 +62,19 @@ const EditAssessment = () => {
     }),
     []
   );
-//HOOKS
+  //HOOKS
 
-//VALIDATION
-     const validation = Yup.object().shape({
-      title: Yup.string().required("Subject is required"),
-      assessmentScore: Yup.number().required("Score is required")
-      .min(0, "Assessment score must not be below 0")
-      .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
-      // deadline: Yup.string().required("Please enter who to send"),
-      sessionClassGroupId: Yup.string().required("Please select group"),
-    });
  //VALIDATION
-console.log("hi",sessionClassSubjectIdQuery);
+ const validation = Yup.object().shape({
+  title: Yup.string().required("Subject is required"),
+  assessmentScore: Yup.number().required("Score is required")
+  .min(0, "Assessment score must not be below 0")
+  .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
+  // deadline: Yup.string().required("Please enter who to send"),
+  sessionClassGroupId: Yup.string().required("Please select group"),
+});
+//VALIDATION
+
   return (
     <>
       <div className="col-md-8 mx-auto">
@@ -104,13 +84,13 @@ console.log("hi",sessionClassSubjectIdQuery);
               <Card.Body>
                 <Formik
                   initialValues={{
-                    homeAssessmentId: homeAssessmentIdQuery,
-                    title: singleHomeAssessmentList?.title,
-                    assessmentScore: singleHomeAssessmentList?.assessmentScore,
+                    title: "",
+                    content: "",
+                    assessmentScore: "",
                     sessionClassId: sessionClassIdQuery,
-                    sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
-                    sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
-                    shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
+                    sessionClassSubjectId: sessionClassSubjectIdQuery,
+                    sessionClassGroupId: "",
+                    shouldSendToStudents: false,
                     deadline: "",
                   }}
                   validationSchema={validation}
@@ -122,8 +102,7 @@ console.log("hi",sessionClassSubjectIdQuery);
                     }
                     values.content = content;
                     values.comment = comment;
-                    values.shouldSendToStudents == true && sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
-                    updateHomeAssessment(values)(dispatch);
+                    createHomeAssessment(values)(dispatch);
                   }}
                 >
                   {({
@@ -134,7 +113,6 @@ console.log("hi",sessionClassSubjectIdQuery);
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <div className="d-flex justify-content-end h6 mb-3">{singleHomeAssessmentList?.sessionClassSubjectName}</div>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.title && errors.title && (
@@ -142,16 +120,39 @@ console.log("hi",sessionClassSubjectIdQuery);
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="title">
-                            <b>Topic:</b>
+                          <label className="form-label">
+                            <b>Title:</b>
                           </label>
                           <Field
                             type="text"
                             name="title"
                             className="form-control border-secondary h6"
                             id="title"
+                            placeholder="Enter assessment topic..."
                           />
                         </Col>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label">
+                            <b>Subject:</b>
+                          </label>
+                             <Field
+                                  as="select"
+                                  name="sessionClassSubjectId"
+                                  className="form-select"
+                                  id="sessionClassSubjectId"
+                                >
+                                  <option value="">Select Subject</option>
+                                  {classSubjects?.map((item, idx) => (
+                                    <option
+                                      key={idx}
+                                      value={item.sessionClassSubjectId}
+                                    >
+                                      {item.subjectName}
+                                    </option>
+                                  ))}
+                                </Field>
+                              </Col>
+
                         {touched.sessionClassGroupId &&
                           errors.sessionClassGroupId && (
                             <div className="text-danger">
@@ -159,7 +160,7 @@ console.log("hi",sessionClassSubjectIdQuery);
                             </div>
                           )}
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="content">
+                          <label className="form-label">
                             <b>Group:</b>
                           </label>
                           <Field
@@ -168,15 +169,10 @@ console.log("hi",sessionClassSubjectIdQuery);
                             className="form-select h6"
                             id=" sessionClassGroupId"
                           >
+                            <option value="">Select Group</option>
                             <option value="all-students">All Students</option>
                             {groupList?.map((item, idx) => (
-                              <option
-                                key={idx}
-                                value={item.groupId}
-                                selected={
-                                  singleHomeAssessmentList?.sessionClassGroupId == item.groupId
-                                }
-                              >
+                              <option key={idx} value={item.groupId}>
                                 {item.groupName}
                               </option>
                             ))}
@@ -188,7 +184,7 @@ console.log("hi",sessionClassSubjectIdQuery);
                           )}
                         </Col>
                         <Col md="11" className="form-group h6 ">
-                          <label  className="form-label d-flex justify-content-between" htmlFor="content">
+                          <label  className="form-label d-flex justify-content-between">
                             <b>Description:</b>
                             <div className="">
                               {/* {!fullScreen ? ( */}
@@ -224,7 +220,7 @@ console.log("hi",sessionClassSubjectIdQuery);
                             modules={textEditorModules}
                             ref={elementRef}
                             id="assessment-editor"
-                            style={{ height: "300px", background:"white"}}
+                            style={{ height: "300px" , background:"white"}}
                           />
                         </Col>
 
@@ -239,36 +235,46 @@ console.log("hi",sessionClassSubjectIdQuery);
                             modules={textEditorModules}
                             style={{ height: "100px" }}
                           />
+                          {/* <Field
+                            as="textarea"
+                            name="comment"
+                            className="form-control border-secondary"
+                            id="comment"
+                            onChange={(e) => {
+                              setFieldValue("comment", e.target.value);
+                            }}
+                          /> */}
                         </Col>
                         <Col md="11">
                           {touched.deadline && errors.deadline && (
                             <div className="text-danger">{errors.deadline}</div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label mt-5" htmlFor="deadline">
+                        <Col md="11" className="form-group h6 mt-5">
+                          <label className="form-label" htmlFor="deadline">
                             <b>Deadline:</b>
                           </label>
                           <Field
                             type="date"
                             name="deadline"
-                            className="form-control border-secondary h6"
+                            className="form-control h6 border-secondary"
                             id="deadline"
                             placeholder="Enter date of submission..."
                           />
                         </Col>
+
                         <Col md="11" className="form-group ">
                           <Field
                             type="checkbox"
                             name="shouldSendToStudents"
                             className="form-check-input "
                             id="shouldSendToStudents"
-                       
                           />
                           <label className="form-label mx-1">
                             <h6>Send to Students</h6>
                           </label>
                         </Col>
+
                         <Row>
                            <div>
                               {touched.assessmentScore &&
@@ -289,7 +295,7 @@ console.log("hi",sessionClassSubjectIdQuery);
                               name="total"
                               readOnly
                               value={assessmentScore?.totalAssessment}
-                              className="form-control h6 py-0"
+                              className="form-control h6 py-0 px-1"
                             />
                           </Col>
                           <Col md="2" className="form-group">
@@ -301,7 +307,7 @@ console.log("hi",sessionClassSubjectIdQuery);
                               name="used"
                               readOnly
                               value={assessmentScore?.used}
-                              className="form-control h6 py-0"
+                              className="form-control h6 py-0 px-1"
                             />
                           </Col>
                         
@@ -352,4 +358,4 @@ console.log("hi",sessionClassSubjectIdQuery);
   );
 };
 
-export default EditAssessment;
+export default CreateAssessment;

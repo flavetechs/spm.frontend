@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getSingleHomeAssessment, getSingleStudentAssessment, submitStudentAssessment } from "../../../../store/actions/class-actions";
+import { getSingleHomeAssessment, getSingleStudentHomeAssessment, submitStudentAssessment } from "../../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -19,14 +19,14 @@ const StudentAssessmentDetails = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [filesArray, setFilesArray] = useState([]);
   const state = useSelector((state) => state);
-  const { singleHomeAssessmentList,createSuccessful } = state.class;
+  const { studentSingleHomeAssessmentList,createSuccessful } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   useEffect(() => {
     if (homeAssessmentFeedBackIdQuery != "null") {
-   getSingleStudentAssessment(
+   getSingleStudentHomeAssessment(
     homeAssessmentFeedBackIdQuery
   )(dispatch);
     } else {
@@ -36,12 +36,12 @@ const StudentAssessmentDetails = () => {
   }, []);
 
   React.useEffect(() => {
-    setContent(homeAssessmentFeedBackIdQuery !="null" && singleHomeAssessmentList?.content);
-  }, [singleHomeAssessmentList]);
+    setContent(homeAssessmentFeedBackIdQuery !="null" && studentSingleHomeAssessmentList?.content);
+  }, [studentSingleHomeAssessmentList]);
 
   React.useEffect(() => {
     createSuccessful &&  history.push(
-      `${assessmentLocations.assessment}?status=${singleHomeAssessmentList?.status}`
+      `${assessmentLocations.assessment}?status=${studentSingleHomeAssessmentList?.status}`
     );
   }, [createSuccessful]);
   
@@ -204,7 +204,7 @@ setFilesArray(files);
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {homeAssessmentFeedBackIdQuery !="null" ? singleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
+                      {homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.title : studentSingleHomeAssessmentList?.title}
                     </span>
                     <br />
                   </div>
@@ -212,7 +212,7 @@ setFilesArray(files);
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !="null" ? singleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
+                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.content : studentSingleHomeAssessmentList?.content,
                   }}
                 ></div>
                 <hr />
@@ -220,16 +220,16 @@ setFilesArray(files);
                 <div
                  style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !="null" ? singleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
+                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.comment : studentSingleHomeAssessmentList?.comment,
                   }}
                 ></div>
                 <hr />
                 <Formik
                       initialValues={{
-                        files:homeAssessmentFeedBackIdQuery !="null" && singleHomeAssessmentList?.files,
+                        files:homeAssessmentFeedBackIdQuery !="null" && studentSingleHomeAssessmentList?.files,
                         content: "",
-                        shouldSubmit: singleHomeAssessmentList?.status == 3 ?true : false,
-                        homeAssessmentId:singleHomeAssessmentList?.homeAssessmentId,
+                        shouldSubmit: studentSingleHomeAssessmentList?.status == 3 ?true : false,
+                        homeAssessmentId:studentSingleHomeAssessmentList?.homeAssessmentId,
                         homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !="null" ? homeAssessmentFeedBackIdQuery: "" ,
                       }}
                       enableReinitialize={true}

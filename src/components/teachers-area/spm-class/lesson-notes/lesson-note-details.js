@@ -54,9 +54,9 @@ const LessonNoteDetails = () => {
 
   return (
     <>
-      <div className="col-md-12 mx-auto">
+      <div className="col-sm-12 mx-auto">
         <Row>
-          <Col sm="7">
+          <Col lg="7">
             <Col sm="12">
               <Card
                 id="details"
@@ -400,7 +400,7 @@ const LessonNoteDetails = () => {
               </Card>
             </Col>
           </Col>
-          <Col sm="5">
+          <Col lg="5">
             <Card>
               <Card.Body>
                 <h4 className="mb-4">About Me</h4>
