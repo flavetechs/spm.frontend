@@ -1117,48 +1117,114 @@ export const classReducer = (state = _state, { type, payload }) => {
       message:payload,
     };
 
-    case actions.FETCH_ASSESSMENT_LOADING: {
+    case actions.FETCH_HOME_ASSESSMENT_LOADING: {
       return {
         ...state,
         loading: true,
-        homeAssessmentList:[],
+        assessmentList:[],
       };
     }
-    case actions.FETCH_ASSESSMENT_SUCCESS: {
+    case actions.FETCH_HOME_ASSESSMENT_SUCCESS: {
       return {
         ...state,
         loading: false,
-        homeAssessmentList: payload,
+        assessmentList: payload,
       };
     }
-    case actions.FETCH_ASSESSMENT_FAILED: {
+    case actions.FETCH_HOME_ASSESSMENT_FAILED: {
       return {
         ...state,
         loading: false,
-        homeAssessmentList: [],
+        assessmentList: [],
       };
     }
 
    
-    case actions.FETCH_SINGLE_ASSESSMENT_LOADING: {
+    case actions.FETCH_CLASS_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        assessmentList:[],
+      };
+    }
+    case actions.FETCH_CLASS_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: payload,
+      };
+    }
+    case actions.FETCH_CLASS_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: [],
+      };
+    }
+
+    case actions.FETCH_SINGLE_HOME_ASSESSMENT_LOADING: {
       return {
         ...state,
         loading: true,
         singleHomeAssessmentList:null,
       };
     }
-    case actions.FETCH_SINGLE_ASSESSMENT_SUCCESS: {
+    case actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS: {
       return {
         ...state,
         loading: false,
         singleHomeAssessmentList: payload,
       };
     }
-    case actions.FETCH_SINGLE_ASSESSMENT_FAILED: {
+    case actions.FETCH_SINGLE_HOME_ASSESSMENT_FAILED: {
       return {
         ...state,
         loading: false,
         singleHomeAssessmentList: null,
+      };
+    }
+
+    case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentClassAssessment:null,
+      };
+    }
+    case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentClassAssessment: payload,
+      };
+    }
+    case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentClassAssessment: null,
+      };
+    }
+    
+    case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentSingleHomeAssessmentList:null,
+      };
+    }
+    case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentSingleHomeAssessmentList: payload,
+      };
+    }
+    case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentSingleHomeAssessmentList: null,
       };
     }
 
@@ -1208,6 +1274,31 @@ export const classReducer = (state = _state, { type, payload }) => {
           loading: false,
         };
     
+        case actions.SUBMIT_ASSESSMENT_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+          };
+        case actions.SUBMIT_ASSESSMENT_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            createSuccessful:true,
+            message:payload,
+            loading: false,
+          };
+        case actions.SUBMIT_ASSESSMENT_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            message:payload,
+            loading: false,
+          };
+      
+
+
         case actions.SEND_ASSESSMENT_TO_STUDENTS_LOADING:
           return {
             ...state,

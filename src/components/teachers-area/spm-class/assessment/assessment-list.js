@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
+  addClassAssessment,
   deleteHomeAssessment,
+  getAllClassAssessment,
   getAllClassGroup,
   getAllHomeAssessment,
   getClassSubjects,
@@ -23,6 +25,7 @@ const validation = Yup.object().shape({
   sessionClassId: Yup.string().required("Class is required"),
   sessionClassSubjectId: Yup.string().required("Subject is required"),
   groupId: Yup.string().required("Group is required"),
+  type: Yup.string().required("Assessment type is required"),
 });
 //VALIDATION
 const AssessmentList = () => {
@@ -40,7 +43,7 @@ const AssessmentList = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { homeAssessmentList,  classSubjects, groupList } =
+  const { assessmentList,  classSubjects, groupList } =
     state.class;
 
   const { staffClasses } = state.results;
@@ -60,7 +63,9 @@ const AssessmentList = () => {
     sessionClassSubjectId
       ? getAllHomeAssessment(sessionClassSubjectId)(dispatch)
       : getAllHomeAssessment(sessionClassSubjectIdQuery)(dispatch);
-    }
+    } else if(typeQuery  == "class assessment"){
+         getAllClassAssessment()(dispatch);
+      }
   }, [sessionClassSubjectIdQuery,typeQuery]);
 
   React.useEffect(() => {
@@ -76,7 +81,7 @@ const AssessmentList = () => {
     };
   }, [dialogResponse]);
 
-  const filteredAssessmentList = homeAssessmentList?.filter((item) => {
+  const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
       //if query is empty
       return item;
@@ -107,10 +112,14 @@ const AssessmentList = () => {
               validationSchema={validation}
               enableReinitialize={true}
               onSubmit={(values) => {
-                history.push(`${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`);
-              }}
+                if(typeQuery  == "home assessment"){
+                  history.push(`${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`);
+                }else if(typeQuery  == "class assessment"){
+                   addClassAssessment({sessionClassSubjectId})(dispatch)
+                }
+                }}
             >
-              {({ handleSubmit, values, setFieldValue, errors }) => (
+              {({ handleSubmit, values, setFieldValue, errors,touched }) => (
                 <Card
                   className="bg-transparent"
                 >
@@ -204,10 +213,10 @@ const AssessmentList = () => {
                     >
                       <Card.Body>
                         <div className="d-lg-flex align-items-center ">
-                          <div className=" d-flex align-items-center">
+                          <div className=" d-lg-flex align-items-center">
                             <div>
                               <div>
-                                {errors.sessionClassId && (
+                                {touched.sessionClassId &&errors.sessionClassId && (
                                   <div className="text-danger">
                                     {errors.sessionClassId}
                                   </div>
@@ -249,13 +258,13 @@ const AssessmentList = () => {
                             </div>
                             <div>
                               <div>
-                                {errors.sessionClassSubjectId && (
+                                {touched.sessionClassSubjectId && errors.sessionClassSubjectId && (
                                   <div className="text-danger">
                                     {errors.sessionClassSubjectId}
                                   </div>
                                 )}
                               </div>
-                              <div className=" me-3 mt-3 mt-lg-0 dropdown">
+                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
                                   as="select"
                                   name="sessionClassSubjectId"
@@ -287,8 +296,8 @@ const AssessmentList = () => {
                             </div>
                             <div>
                               <div>
-                                {errors.groupId && (
-                                  <div className="text-danger">
+                                {touched.groupId && errors.groupId && (
+                                  <div className="text-danger ">
                                     {errors.groupId}
                                   </div>
                                 )}
@@ -312,13 +321,13 @@ const AssessmentList = () => {
                             </div>
                             <div>
                               <div>
-                                {errors.type && (
+                                {touched.type && errors.type && (
                                   <div className="text-danger">
                                     {errors.type}
                                   </div>
                                 )}
                               </div>
-                              <div className=" me-3 mt-3 mt-lg-0 dropdown">
+                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
                                   as="select"
                                   name="type"
@@ -337,7 +346,7 @@ const AssessmentList = () => {
                                   <option value="home assessment">
                                     Home Assessment
                                   </option>
-                                  <option value="assessment">
+                                  <option value="class assessment">
                                     Class Assessment
                                   </option>
                                   <option value="cbt">CBT</option>
@@ -468,8 +477,13 @@ const AssessmentList = () => {
                                         </div>
                                         <div
                                           onClick={() => {
+                                            typeQuery  == "home assessment" &&
                                             history.push(
                                               `${classLocations.editHomeAssessment}?homeAssessmentId=${item.homeAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
+                                            );
+                                            typeQuery  == "class assessment" &&
+                                            history.push(
+                                              `${classLocations.editClassAssessment}?classAssessmentId=${item.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
