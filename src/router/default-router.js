@@ -48,8 +48,8 @@ import AnnouncementEdit from '../components/teachers-area/smp-notifications/anno
 import AddUser from '../components/teachers-area/spm-permissions/role-add-user';
 import StaffProfilePage from '../components/teachers-area/smp-user-profile/staff-profile-page';
 import RemoveUser from '../components/teachers-area/spm-permissions/role-remove-user';
-import AssessmentDetails from '../components/teachers-area/spm-class/assessment/home-assessment-details';
-import CreateAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-create';
+import HomeAssessmentDetails from '../components/teachers-area/spm-class/assessment/home-assessment-details';
+import CreateHomeAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-create';
 import AssessmentList from '../components/teachers-area/spm-class/assessment/assessment-list';
 import EditClassAssessment from '../components/teachers-area/spm-class/assessment/class-assessment-on-edit';
 import LessonNotes from '../components/teachers-area/spm-class/lesson-notes/lesson-notes';
@@ -74,7 +74,7 @@ import EditClassGroup from '../components/teachers-area/spm-class/class-group/ed
 import UpdateAttendance from '../components/teachers-area/spm-class/attendance-on-update';
 import CreateAttendance from '../components/teachers-area/spm-class/attendance-on-create';
 import ViewStudentsAssessment from '../components/teachers-area/spm-class/assessment/view-students-assessment';
-import EditAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-edit';
+import EditHomeAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-edit';
 import TemplateControl from '../components/teachers-area/smp-result-management/result-templates/template-control';
 
 const DashboardRouter = () => {
@@ -101,10 +101,10 @@ const DashboardRouter = () => {
                     <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
                     <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
                     <Route path={classLocations.assessment} exact component={AssessmentList} />
-                    <Route path={classLocations.createHomeAssessment} exact component={CreateAssessment} />
-                    <Route path={classLocations.editHomeAssessment} exact component={EditAssessment} />
+                    <Route path={classLocations.createHomeAssessment} exact component={CreateHomeAssessment} />
+                    <Route path={classLocations.editHomeAssessment} exact component={EditHomeAssessment} />
                     <Route path={classLocations.editClassAssessment} exact component={EditClassAssessment} />
-                    <Route path={classLocations.homeAssessmentDetails} exact component={AssessmentDetails} />
+                    <Route path={classLocations.homeAssessmentDetails} exact component={HomeAssessmentDetails} />
                     <Route path={classLocations.viewStudentsHomeAssessment} exact component={ViewStudentsAssessment} />
                     <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
                     <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />

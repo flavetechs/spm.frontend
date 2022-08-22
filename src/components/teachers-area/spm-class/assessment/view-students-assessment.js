@@ -26,7 +26,7 @@ const ViewStudentsAssessment = () => {
       homeAssessmentIdQuery,homeAssessmentFeedBackIdQuery,sessionClassIdQuery
     )(dispatch);
   }, []);
-  console.log("stdsingleHomeAssessmentList", singleHomeAssessmentList?.studentList.find(s=>s.homeAsessmentFeedbackId == homeAssessmentFeedBackIdQuery).studentName);
+ 
   return (
     <>
       <div>
@@ -168,6 +168,7 @@ const ViewStudentsAssessment = () => {
                   dangerouslySetInnerHTML={{
                     __html: singleHomeAssessmentList?.content,
                   }}
+                 
                 ></div>
                 <hr />
                 <div style={{ minHeight: "25vh" }} className="h6"
@@ -190,29 +191,30 @@ const ViewStudentsAssessment = () => {
                             <input
                               type="number"
                               name="assessmentScore"
-                              className="form-control border-dark h6 py-0 px-1"
+                              className="form-control h6 py-0 px-1"
                               onChange={(e)=>{setScore(e.target.value) }}
                             />
                           </Col>
               </Card.Body>
               <div className="d-flex justify-content-end">
-              <button
-                  type="button"
-                  className="btn btn-primary btn-sm my-3"
-                  onClick={() => {
-                    submitHomeAssessmentScore(homeAssessmentFeedBackIdQuery,score)(dispatch)
-                  }}
-                >
-                  Send
-                </button>
                 <button
                   type="button"
-                  className="btn btn-danger btn-sm my-3 mx-2"
+                  className="btn btn-danger btn-sm my-3"
                   onClick={() => {
                     history.goBack();
                   }}
                 >
                   Back
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm my-3 mx-2"
+                  onClick={() => {
+                    submitHomeAssessmentScore(homeAssessmentFeedBackIdQuery,score,homeAssessmentIdQuery,sessionClassIdQuery)(dispatch)
+                  }}
+                >
+                  Mark
                 </button>
               </div>
             </Card>
