@@ -259,7 +259,7 @@ setFilesArray(files);
                         <Form className="mx-auto">
                           <Row className="d-flex justify-content-center">  
                             <Col md="11" className="form-group text-dark">
-                              <label className="form-label" >
+                              <label className="form-label h6" >
                                 <b>Upload file:</b>
                               </label>
                               <input
@@ -277,7 +277,7 @@ setFilesArray(files);
                               )}
                             </Col>
                             <Col md="11" className="form-group text-dark ">
-                              <label className="form-label d-flex justify-content-between">
+                              <label className="form-label d-flex justify-content-between h6">
                                 <b>Answer(s):</b>
                                 <OverlayTrigger
                                   placement="top"
@@ -323,7 +323,7 @@ setFilesArray(files);
                                 className="form-check-input"
                                 id="shouldSubmit"
                               />
-                                 <label className="form-label mx-1">
+                                 <label className="form-label mx-1 h6">
                                 <b>Submit Assessment</b>
                               </label>
                             </Col>
