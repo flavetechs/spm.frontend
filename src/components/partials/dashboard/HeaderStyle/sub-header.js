@@ -43,20 +43,13 @@ const mapDispatchToProps = dispatch => ({
 
 
 const SubHeader = (props) => {
-    // const state = useSelector((state) => state);
-    // const { announcementList, selectedIds } = state.notification;
-
+    
     useEffect(() => {
         // navbarstylemode
         const navbarstyleMode = sessionStorage.getItem('Navbarstyle-mode');
         props.NavbarstyleAction(navbarstyleMode);
     })
 
-    // useEffect(() => {
-    //     const lastUnreadAnnouncement = announcementList.find(x => x.isSeen === false)
-    //      seeLatestAnnoucement({ title: lastUnreadAnnouncement?.header, content: lastUnreadAnnouncement?.content });
-    //     console.log('latestAnnounceMent', lastUnreadAnnouncement);
-    // }, [latestAnnounceMent?.isSeen])
     return (
         <>
             <div className="iq-navbar-header" style={{ height: "215px" }}>
@@ -65,8 +58,8 @@ const SubHeader = (props) => {
                         <Col md="12">
                             <div className="d-flex justify-content-between flex-wrap">
                                 <div>
-                                    <h1>We got it</h1>
-                                    <p>We are on a mission to help developers like you build successful projects for FREE.</p>
+                                    <h1>Closing date </h1>
+                                    <p>Be informed that the term will be closing on the 12-12-2022. Please inform others.</p>
                                 </div>
                                 <div className="d-flex align-items-center">
                                     {hasAccess(NavPermissions.announcementList) && (

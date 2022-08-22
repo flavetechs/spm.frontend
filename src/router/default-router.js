@@ -75,6 +75,7 @@ import UpdateAttendance from '../components/teachers-area/spm-class/attendance-o
 import CreateAttendance from '../components/teachers-area/spm-class/attendance-on-create';
 import ViewStudentsAssessment from '../components/teachers-area/spm-class/assessment/view-students-assessment';
 import EditHomeAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-edit';
+import TemplateControl from '../components/teachers-area/smp-result-management/result-templates/template-control';
 
 const DashboardRouter = () => {
 
@@ -165,7 +166,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
                       <Route path={resultManagement.printResult} exact component={PrintResult} />
-                      {/* <Route path={resultManagement.resultTemplate} exact component={TemplateControl} /> */}
+                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
 
                       {/* portal setting */}
                       <Route path={portalSetting.setting} exact component={Setting} />
