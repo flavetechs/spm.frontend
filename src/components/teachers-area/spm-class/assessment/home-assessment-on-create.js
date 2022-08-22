@@ -11,7 +11,7 @@ import { classLocations } from "../../../../router/spm-path-locations";
 import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 
-const CreateAssessment = () => {
+const CreateHomeAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
@@ -77,7 +77,7 @@ const CreateAssessment = () => {
 
   return (
     <>
-      <div className="col-md-8 mx-auto">
+      <div className="col-md-12 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -358,4 +358,4 @@ const CreateAssessment = () => {
   );
 };
 
-export default CreateAssessment;
+export default CreateHomeAssessment;

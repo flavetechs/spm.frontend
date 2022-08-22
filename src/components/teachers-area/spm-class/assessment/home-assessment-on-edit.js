@@ -17,7 +17,7 @@ import {
 } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 
-const EditAssessment = () => {
+const EditHomeAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
@@ -97,7 +97,7 @@ const EditAssessment = () => {
 
   return (
     <>
-      <div className="col-md-8 mx-auto">
+      <div className="col-md-12 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -224,7 +224,7 @@ const EditAssessment = () => {
                             modules={textEditorModules}
                             ref={elementRef}
                             id="assessment-editor"
-                            style={{ height: "300px", background:"white"}}
+                            style={{ height: "300px", }}
                           />
                         </Col>
 
@@ -352,4 +352,4 @@ const EditAssessment = () => {
   );
 };
 
-export default EditAssessment;
+export default EditHomeAssessment;

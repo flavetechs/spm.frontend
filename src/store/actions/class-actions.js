@@ -1454,6 +1454,30 @@ export const updateHomeAssessment = (values) => (dispatch) => {
         });
 }
 
+export const updateClassAssessmentScore = (classAssessmentId,classAssessmentScore) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_ASSESSMENT_LOADING
+    });
+const payload = {
+    classAssessmentId,
+    classAssessmentScore
+}
+    axiosInstance.post('/classassessment/api/v1/update/class-assessment/score', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_ASSESSMENT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_ASSESSMENT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
 export const updateStudentClassAssessment = (sessionClassSubjectId,classAssessmentId,studentContactId,score) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_ASSESSMENT_LOADING
@@ -1481,7 +1505,7 @@ const payload = {
         });
 }
 
-export const submitHomeAssessmentScore = (homeAssessmentFeedBackId,score) => (dispatch) => {
+export const submitHomeAssessmentScore = (homeAssessmentFeedBackId,score,homeAssessmentId,sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.SUBMIT_ASSESSMENT_LOADING
     });
@@ -1496,6 +1520,7 @@ const payload = {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
+            getAllSingleHomeAssessment(homeAssessmentId,homeAssessmentFeedBackId,sessionClassId)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({

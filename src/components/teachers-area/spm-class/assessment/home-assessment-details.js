@@ -6,7 +6,7 @@ import { classLocations } from "../../../../router/spm-path-locations";
 import { getSingleHomeAssessment } from "../../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 
-const AssessmentDetails = () => {
+const HomeAssessmentDetails = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const location = useLocation();
@@ -166,6 +166,7 @@ const AssessmentDetails = () => {
                   dangerouslySetInnerHTML={{
                     __html: singleHomeAssessmentList?.content,
                   }}
+                  
                 ></div>
                 <hr />
                 <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
@@ -294,4 +295,4 @@ const AssessmentDetails = () => {
   );
 };
 
-export default AssessmentDetails;
+export default HomeAssessmentDetails;
