@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
@@ -24,14 +24,12 @@ import avatars4 from '../../../../assets/images/avatars/avtar_3.png'
 import avatars5 from '../../../../assets/images/avatars/avtar_4.png'
 import avatars6 from '../../../../assets/images/avatars/avtar_5.png'
 // logo
-import Logo from '../../components/logo'
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
 import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
-import { getAllActiveSubjects } from '../../../../store/actions/class-actions'
 import { profileLocations } from '../../../../router/students-path-locations'
 
 const mapStateToProps = (state) => {
@@ -85,7 +83,7 @@ const Header = (props) => {
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
                 <Container fluid className="navbar-inner">
                     <Link to="/dashboard" className="navbar-brand">
-                        <Logo color={true} />
+                        {/* <Logo color={true} /> */}
                         <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar}>

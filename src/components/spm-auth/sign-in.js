@@ -21,16 +21,13 @@ const SignIn = () => {
     const { message } = state.auth;
     var token = localStorage.getItem('token');
     var userDetail = localStorage.getItem('userDetail')
-    var permissions = localStorage.getItem('permissions');
 
     useEffect(() => {
         if (userDetail) {
             if (JSON.parse(userDetail).userType == 'Student') {
-                // history.push('/stds-dashboard')
                 window.location.href = '/stds-dashboard';
             } else {
                 window.location.href = '/dashboard';
-                // history.push('/dashboard')
             }
 
         }
