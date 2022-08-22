@@ -22,7 +22,7 @@ const StudentAssessmentList = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { homeAssessmentList } = state.class;
+  const { assessmentList } = state.class;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
@@ -94,7 +94,7 @@ const StudentAssessmentList = () => {
                   </Card.Body>
                 </Card>
                 <Row className="">
-                  {homeAssessmentList?.map((item, idx) => (
+                  {assessmentList?.map((item, idx) => (
                     <Col md="6" lg="4" xxl="3" className="" key={idx}>
                       <Card>
                         <Card.Body>
