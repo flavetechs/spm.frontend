@@ -19,7 +19,7 @@ const StudentAssessmentDetails = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [filesArray, setFilesArray] = useState([]);
   const state = useSelector((state) => state);
-  const { studentSingleHomeAssessmentList,createSuccessful } = state.class;
+  const { studentSingleHomeAssessmentList, singleHomeAssessmentList, createSuccessful } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
@@ -74,7 +74,7 @@ setFilesArray(files);
     <>
       <div>
         <Row className="d-md-flex justify-content-center">
-          <Col sm="8">
+          <Col sm="12">
             <Card
               id="details"
               ref={elementRef}
@@ -204,7 +204,7 @@ setFilesArray(files);
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.title : studentSingleHomeAssessmentList?.title}
+                      {homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
                     </span>
                     <br />
                   </div>
@@ -212,7 +212,7 @@ setFilesArray(files);
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.content : studentSingleHomeAssessmentList?.content,
+                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
                   }}
                 ></div>
                 <hr />
@@ -220,7 +220,7 @@ setFilesArray(files);
                 <div
                  style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.comment : studentSingleHomeAssessmentList?.comment,
+                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
                   }}
                 ></div>
                 <hr />
