@@ -37,7 +37,7 @@ const IndexRouters = () => {
 
                         <Route path={authLocations.login} component={SignIn}></Route>
                         
-                        {/* <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route> */}
+                        <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
                         <Route path="/errors" component={Simple}></Route>
                     </>
                 }
