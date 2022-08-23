@@ -63,12 +63,6 @@ const PublishResult = () => {
     )(dispatch);
   }, [activeSession]);
 
-  React.useEffect(() => {
-    if (publishResults) {
-      history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`);
-    }
-
-  }, [publishResults]);
 
   return (
     <>
@@ -92,6 +86,7 @@ const PublishResult = () => {
                       values.sessionClassId,
                       values.sessionTermId
                     )(dispatch);
+                    history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`);
                   }}
                 >
                   {({

@@ -21,6 +21,7 @@ const CreateHomeAssessment = () => {
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const sessionGroupIdQuery = queryParams.get("sessionGroupId");
   const typeQuery = queryParams.get("type");
 
   //HOOKS
@@ -89,7 +90,7 @@ const CreateHomeAssessment = () => {
                     assessmentScore: "",
                     sessionClassId: sessionClassIdQuery,
                     sessionClassSubjectId: sessionClassSubjectIdQuery,
-                    sessionClassGroupId: "",
+                    sessionClassGroupId: sessionGroupIdQuery,
                     shouldSendToStudents: false,
                     deadline: "",
                   }}
@@ -138,7 +139,7 @@ const CreateHomeAssessment = () => {
                              <Field
                                   as="select"
                                   name="sessionClassSubjectId"
-                                  className="form-select"
+                                  className="form-select h6"
                                   id="sessionClassSubjectId"
                                 >
                                   <option value="">Select Subject</option>

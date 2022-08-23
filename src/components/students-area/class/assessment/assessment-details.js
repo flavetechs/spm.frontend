@@ -229,7 +229,7 @@ setFilesArray(files);
                         files:homeAssessmentFeedBackIdQuery !="null" && studentSingleHomeAssessmentList?.files,
                         content: "",
                         shouldSubmit: studentSingleHomeAssessmentList?.status == 3 ?true : false,
-                        homeAssessmentId:studentSingleHomeAssessmentList?.homeAssessmentId,
+                        homeAssessmentId:homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId ,
                         homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !="null" ? homeAssessmentFeedBackIdQuery: "" ,
                       }}
                       enableReinitialize={true}

@@ -355,8 +355,8 @@ const ClassGroup = () => {
                             )}
                           </th>
                           <th>Group Name</th>
-                          <th>No of Students in Grp</th>
-                          <th>No of Students not in Grp</th>
+                          <th className="text-center">No of Students in Grp</th>
+                          <th className="text-center">No of Students not in Grp</th>
                           <th min-width="100px">Action</th>
                         </tr>
                       </thead>
