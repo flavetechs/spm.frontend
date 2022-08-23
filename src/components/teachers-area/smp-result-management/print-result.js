@@ -82,7 +82,7 @@ const PrintResult = () => {
   }, [activeSession]);
 
   React.useEffect(() => {
-    if (studentResult) {
+    if (printSingle && studentResult) {
       history.push(resultManagement.resultTemplate);
     }
   }, [studentResult]);
@@ -197,7 +197,7 @@ const PrintResult = () => {
                         )}
                       </Col>
                       <Col md="11" className="form-group text-dark">
-                        <label className="form-label" htmlFor="printOption">
+                        <label className="form-label">
                           <b>Print Option:</b>
                         </label>
                         <Field
@@ -231,10 +231,7 @@ const PrintResult = () => {
                             )}
                           </Col>
                           <Col md="11" className="form-group text-dark">
-                            <label
-                              className="form-label"
-                              htmlFor="studentRegNo"
-                            >
+                            <label className="form-label">
                               <b>Student Registration No:</b>
                             </label>
                             <Field
@@ -252,7 +249,7 @@ const PrintResult = () => {
                             )}
                           </Col>
                           <Col md="11" className="form-group text-dark">
-                            <label className="form-label" htmlFor="ePin">
+                            <label className="form-label">
                               <b>E-pin:</b>
                             </label>
                             <Field
@@ -277,10 +274,7 @@ const PrintResult = () => {
                               )}
                           </Col>
                           <Col md="11" className="form-group text-dark">
-                            <label
-                              className="form-label"
-                              htmlFor="sessionClassId"
-                            >
+                            <label className="form-label">
                               <b>Classes:</b>
                             </label>
                             <Field

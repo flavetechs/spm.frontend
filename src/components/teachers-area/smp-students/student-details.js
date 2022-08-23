@@ -181,10 +181,6 @@ const StudentDetails = () => {
                       variant="btn btn-danger mx-2"
                       onClick={() => {
                         history.goBack();
-                        const queryParams = new URLSearchParams(locations.search);
-                        const sessionClassId = queryParams.get("sessionClassId");
-                        const termId = queryParams.get("termId");
-                        getAllResultList(sessionClassId, termId)(dispatch);
                       }}
                     >
                       Cancel

@@ -95,6 +95,7 @@ export const resultManagement = {
   adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
   scoreEntry: "/dashboard/smp-result/score-entry",
   publishResult: "/dashboard/smp-result/publish-result",
+  publishResultTable:"/dashboard/smp-result/publish-result-table",
   publishResultEdit: "/dashboard/smp-result/edit-publish-result",
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",

@@ -7,7 +7,7 @@ import {
   Tooltip,
   Badge,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {
   resultManagement,
   studentsLocations,
@@ -17,59 +17,75 @@ import { getAllStudentResult } from "../../../store/actions/results-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import {
   getAllResultList,
+  resetPublishPage,
   updatePublishedResult,
 } from "../../../store/actions/publish-actions";
 
-const PublishResultTable = ({
-  idsObj,
-  isEditMode,
-  setEditMode,
-  setIndexRow,
-  selectedSession,
-}) => {
+const PublishResultTable = () => {
   //ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { publishResults } = state.publish;
   const dispatch = useDispatch();
+  const locations = useLocation();
+  const history = useHistory();
   //ACCESSING STATE FROM REDUX STORE
 
   //DECLARING VARIABLES
-  
-  
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
+  const sessionTermId = queryParams.get("sessionTermId");
   //DECLARING VARIABLES
+
+  React.useEffect(() => {
+    getAllResultList(sessionClassId, sessionTermId)(dispatch);
+  }, []);
 
   return (
     <>
       <Row className="pt-3">
-        <div className="d-flex justify-content-end">
-          {
-            publishResults?.isPublished ? (
-              <Button
-                type="button"
-                className="btn-sm"
-                variant="btn btn-danger"
-                onClick={() => {
-                  updatePublishedResult(idsObj?.sessionClassId,  selectedSession?.sessionTermId, false)(dispatch);
-                  
-                }}
-              >
-                UnPublish Result
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                className="btn-sm"
-                variant="btn btn-success"
-                onClick={() => {
-                  updatePublishedResult(idsObj?.sessionClassId,  selectedSession?.sessionTermId, true)(dispatch);
-                }}
-              >
-                Publish Result
-              </Button>
-            )
-          }
-
-
+        <div className="d-flex justify-content-end mt-4">
+          <Button
+            type="button"
+            className="btn-sm"
+            variant="btn btn-danger"
+            onClick={() => {
+              history.goBack()
+              resetPublishPage()(dispatch)
+            }}
+          >
+            Back
+          </Button>
+          {publishResults?.isPublished ? (
+            <Button
+              type="button"
+              className="btn-sm"
+              variant="btn btn-danger mx-2"
+              onClick={() => {
+                updatePublishedResult(
+                  sessionClassId,
+                  sessionTermId,
+                  false
+                )(dispatch);
+              }}
+            >
+              UnPublish Result
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              className="btn-sm"
+              variant="btn btn-success mx-2"
+              onClick={() => {
+                updatePublishedResult(
+                  sessionClassId,
+                  sessionTermId,
+                  true
+                )(dispatch);
+              }}
+            >
+              Publish Result
+            </Button>
+          )}
         </div>
         <Table size="md" hover bordered responsive className="mt-2">
           <thead>
@@ -97,10 +113,6 @@ const PublishResultTable = ({
                 style={{ maxHeight: "30px" }}
                 key={index}
                 className="text-center"
-                onDoubleClick={() => {
-                  setEditMode(!isEditMode);
-                  setIndexRow(index);
-                }}
               >
                 <td className="fw-bold">{index + 1}</td>
                 <td className="fw-bold text-start text-uppercase">
@@ -145,12 +157,12 @@ const PublishResultTable = ({
                             data-original-title="Details"
                             onClick={() => {
                               getAllStudentResult(
-                                idsObj.sessionClassId,
-                                idsObj.termId,
+                                sessionClassId,
+                                sessionTermId,
                                 list.studentContactId
                               )(dispatch);
                             }}
-                            to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}`}
+                            to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}`}
                           >
                             <span className="btn-inner">
                               <svg
@@ -198,7 +210,7 @@ const PublishResultTable = ({
                         data-placement="top"
                         title=""
                         data-original-title="Edit"
-                        to={`${resultManagement.publishResultEdit}?studentContactId=${list.studentContactId}&sessionClassId=${idsObj.sessionClassId}&termId=${idsObj.termId}`}
+                        to={`${resultManagement.publishResultEdit}?studentContactId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}`}
                       >
                         <span className="btn-inner">
                           <svg
@@ -246,7 +258,7 @@ const PublishResultTable = ({
                         data-placement="top"
                         title=""
                         data-original-title="Details"
-                        to={`${studentsLocations.studentDetails}?studentAccountId=${list.studentContactId}&sessionClassId=${idsObj.sessionClassId}&termId=${idsObj.termId}`}
+                        to={`${studentsLocations.studentDetails}?studentAccountId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}`}
                       >
                         <span className="btn-inner">
                           <svg

@@ -49,7 +49,7 @@ const MakeAnnouncement = () => {
 
   return (
     <>
-      <div className="col-md-8 mx-auto">
+      <div className="col-md-12 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">
@@ -87,7 +87,7 @@ const MakeAnnouncement = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="header">
+                          <label className="form-label h6">
                             <b>Subject:</b>
                           </label>
                           <Field
@@ -104,7 +104,7 @@ const MakeAnnouncement = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="content">
+                          <label className="form-label h6">
                             <b>Announcement:</b>
                           </label>
                           <ReactQuill
@@ -113,6 +113,7 @@ const MakeAnnouncement = () => {
                             onChange={setContent}
                             modules={textEditorModules}
                             style={{height: '300px'}}
+                            className="h6"
                           />
                         </Col>
 
@@ -124,7 +125,7 @@ const MakeAnnouncement = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group text-dark">
-                          <label className="form-label" htmlFor="assignedTo">
+                          <label className="form-label h6" >
                             <b>Send To:</b>
                           </label>
                           <Field
