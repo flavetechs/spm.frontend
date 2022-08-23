@@ -49,7 +49,7 @@ const ResultTemplateOne = () => {
     { behaviour: "Evaluation", remark: "good" },
     { behaviour: "Remembrance", remark: "good" },
   ];
-
+console.log("studentResult",studentResult);
   return (
     <>
       <div className={studentResult?.isPreview ? "col-md-12 mx-auto isPreview":"col-md-12 mx-auto isPrint" } draggable="false" id="result-table" ref={tableRef}>
