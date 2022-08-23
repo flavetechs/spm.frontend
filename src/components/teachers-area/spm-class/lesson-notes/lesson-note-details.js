@@ -407,7 +407,7 @@ const LessonNoteDetails = () => {
                 <div className="d-flex align-items-center gap-3">
                   <img
                     className="img-fluid rounded-circle avatar-130"
-                    src={singleLessonNotes?.photo}
+                    src={singleLessonNotes?.noteAuthordetail?.photo}
                     alt="user-img"
                   />
                   <div>
@@ -415,8 +415,7 @@ const LessonNoteDetails = () => {
                       {singleLessonNotes?.noteAuthordetail?.fullName}
                     </h6>
                     <p className="mt-3">
-                      Elit vitae neque velit mattis elementum egestas non, Sem
-                      eget.
+                    {singleLessonNotes?.noteAuthordetail?.shortBio}
                     </p>
                   </div>
                 </div>
