@@ -2,13 +2,16 @@ import React, { useEffect, useRef } from "react";
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { getResultSettingList, getSchoolSettingList } from "../../../../store/actions/portal-setting-action";
 import { getAllStudentResult, resetStudentResultState } from "../../../../store/actions/results-actions";
 import Card from "../../../Card";
+import "./template.scss";
 
 const ResultTemplateTwo = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
+  const { schoolSettingList,resultSettingList } = state.portal;
   const locations = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -28,10 +31,14 @@ const ResultTemplateTwo = () => {
 
    }
   }, []);
+  useEffect(() => {
+    getSchoolSettingList()(dispatch);
+    getResultSettingList()(dispatch);
+  }, [])
  
   return (
     <>
-      <div className="col-md-12 mx-auto"id="result-table" ref={tableRef}>
+      <div className={studentResult?.isPreview ? "col-md-12 mx-auto isPreview":"col-md-12 mx-auto isPrint"} draggable="false" id="result-table" ref={tableRef}>
         <Row>
           <Col sm="12">
             <Card>
@@ -47,9 +54,9 @@ const ResultTemplateTwo = () => {
                     >
                       Back
                     </Button>
-                    {!studentResult?.isPreview && (
+                    {studentResult?.isPreview && (
                       <Button
-                        variant="btn btn-primary btn-sm mx-2"
+                        variant="btn btn-danger btn-sm mx-2"
                     onClick={() => {}}
                       >
                         Print
@@ -63,12 +70,13 @@ const ResultTemplateTwo = () => {
                     <div className="d-flex justify-content-center">
                       <img
                         style={{ width: "15%" }}
-                        src="https://thumbs.dreamstime.com/b/education-people-school-logo-design-template-education-people-school-logo-design-template-117344868.jpg"
+                        src={schoolSettingList?.filepath}
                         alt="logo"
+                        draggable="false"
                       />
                     </div>
-                    <h4 className="text-center text-uppercase ">
-                      School Name International Model
+                    <h4 className="text-center text-uppercase mt-2 "draggable="false">
+                    {schoolSettingList?.schoolName}
                     </h4>
                   </Col>
                 </Row>
@@ -79,28 +87,28 @@ const ResultTemplateTwo = () => {
                     Result for{" "}
                     {`${studentResult?.session} ${studentResult?.term} TERM`}
                   </h5>
-                  <div className="text-dark fw-bold mt-4 d-md-flex justify-content-around">
+                  <div className="text-dark fw-bold mt-4 d-md-flex justify-content-around" draggable="false">
                     <div>
-                      <div className="py-2">
+                      <div className="py-2 h6">
                         STUDENT NAME:{" "}
                         <span className="text-capitalize">
                           {studentResult?.studentName}
                         </span>
                       </div>
-                      <div className="py-2">
+                      <div className="py-2 h6">
                         REGISTRATION NUMBER:{" "}
                         <span className="text-capitalize">
                           {studentResult?.registrationNumber}
                         </span>
                       </div>
-                      <div className="py-2">
+                      <div className="py- h6">
                         CLASS:{" "}
                         <span className="text-capitalize">
                           {studentResult?.sessionClassName}
                         </span>
                       </div>
                     </div>
-                    <div className="px-2">
+                    <div className="px-2 h6">
                       <div className="py-2">
                         POSITION:{" "}
                         <span className="">
@@ -108,7 +116,7 @@ const ResultTemplateTwo = () => {
                           {studentResult?.noOfStudents} student(s)
                         </span>
                       </div>
-                      <div className="py-2">
+                      <div className="py-2 h6">
                         TOTAL:{" "}
                         <span className="text-capitalize">
                           {studentResult?.total}/{studentResult?.totalScores}
@@ -133,19 +141,20 @@ const ResultTemplateTwo = () => {
                     bordered
                     responsive
                     className="mt-4 border-secondary"
+                    draggable="false"
                   >
                     <thead>
                       <tr
                         className="text-center text-uppercase h6 fw-bold"
-                        style={{ background: "#59a9ea" }}
+                        style={{ background: "#59a9ea",color:"red" }}
                       >
-                        <td className="">S/No</td>
-                        <td className=" text-start">Subject</td>
-                        <td className="">Assessment Score</td>
-                        <td className="">Exam Score</td>
-                        <td className="">Total Score</td>
-                        <td className="px-2">Grade</td>
-                        <td className="px-2">Remark</td>
+                        <td style={{ color:"#fff" }}>S/No</td>
+                        <td  style={{ color:"#fff" }}className=" text-start">Subject</td>
+                        <td style={{ color:"#fff" }} className="">Assessment Score</td>
+                        <td style={{ color:"#fff" }} className="">Exam Score</td>
+                        <td style={{ color:"#fff" }} className="">Total Score</td>
+                        <td style={{ color:"#fff" }} className="px-2">Grade</td>
+                        <td style={{ color:"#fff" }} className="px-2">Remark</td>
                       </tr>
                     </thead>
                     <tbody>
@@ -167,12 +176,15 @@ const ResultTemplateTwo = () => {
                 </Row>
                 <div className="d-md-flex justify-content-around mt-5">
                   <div>
-                    <div className="d-flex justify-content-center">
-                      <div>
-                        <img src="" alt="" />
-                      </div>
-                    </div>
                     <div className="h6 text-center">
+                    <div>
+                        <img
+                          src={resultSettingList?.filepath}
+                          alt="stamp"
+                          style={{ width: "12%" }}
+                          draggable="false"
+                        />
+                      </div>
                       Principal's signature and Stamp
                     </div>
                   </div>

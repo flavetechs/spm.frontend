@@ -1,14 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getAllStudentResult, resetStudentResultState } from "../../../../store/actions/results-actions";
+import {
+  getResultSettingList,
+  getSchoolSettingList,
+} from "../../../../store/actions/portal-setting-action";
+import {
+  getAllStudentResult,
+  resetStudentResultState,
+} from "../../../../store/actions/results-actions";
 import Card from "../../../Card";
+import "./template.scss";
 
 const ResultTemplateOne = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
+  const { schoolSettingList, resultSettingList } = state.portal;
   const locations = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -19,19 +28,31 @@ const ResultTemplateOne = () => {
     const studentContactId = queryParams.get("studentContactId");
     const sessionClassId = queryParams.get("sessionClassId");
     const termId = queryParams.get("termId");
-   if(termId){
-    getAllStudentResult(
-      sessionClassId,
-      termId,
-      studentContactId
-    )(dispatch);
-
-   }
+    if (termId) {
+      getAllStudentResult(sessionClassId, termId, studentContactId)(dispatch);
+    }
+    return()=>{
+      resetStudentResultState()(dispatch);
+    }
+  }, []);
+  useEffect(() => {
+    getSchoolSettingList()(dispatch);
+    getResultSettingList()(dispatch);
   }, []);
 
+
+
+  const cognitiveBehaviour = [
+    { behaviour: "Analyzing", remark: "good" },
+    { behaviour: "Application", remark: "good" },
+    { behaviour: "Creativity", remark: "good" },
+    { behaviour: "Evaluation", remark: "good" },
+    { behaviour: "Remembrance", remark: "good" },
+  ];
+console.log("studentResult",studentResult);
   return (
     <>
-      <div className="col-md-12 mx-auto" id="result-table" ref={tableRef}>
+      <div className={studentResult?.isPreview ? "col-md-12 mx-auto isPreview":"col-md-12 mx-auto isPrint" } draggable="false" id="result-table" ref={tableRef}>
         <Row>
           <Col sm="12">
             <Card>
@@ -63,12 +84,13 @@ const ResultTemplateOne = () => {
                     <div className="d-flex justify-content-center">
                       <img
                         style={{ width: "15%" }}
-                        src="https://thumbs.dreamstime.com/b/education-people-school-logo-design-template-education-people-school-logo-design-template-117344868.jpg"
+                        src={schoolSettingList?.filepath}
                         alt="logo"
+                        draggable="false"
                       />
                     </div>
-                    <h4 className="text-center text-uppercase ">
-                      School Name International Model
+                    <h4 className="text-center text-uppercase mt-2" draggable="false">
+                      {schoolSettingList?.schoolName}
                     </h4>
                   </Col>
                 </Row>
@@ -90,6 +112,7 @@ const ResultTemplateOne = () => {
                         bordered
                         size="sm"
                         className=" table-bordered border-dark"
+                        draggable="false"
                       >
                         <tbody>
                           {studentResult?.gradeSetting.map((result, idx) => (
@@ -111,6 +134,7 @@ const ResultTemplateOne = () => {
                       size="sm"
                       className=" table-bordered border-dark"
                       style={{ background: "#b9d7f7" }}
+                      draggable="false"
                     >
                       <tbody>
                         <tr>
@@ -217,20 +241,19 @@ const ResultTemplateOne = () => {
                         bordered
                         size="sm"
                         className=" table-bordered border-dark"
+                        draggable="false"
                       >
                         <tbody>
-                          {studentResult?.cognitiveBehaviour?.map(
-                            (cognitive, idx) => (
-                              <tr key={idx}>
-                                <th className="fw-bold h6 text-uppercase">
-                                  {cognitive.behaviour}
-                                </th>
-                                <td className="fw-bold text-uppercase">
-                                  {cognitive.remark}
-                                </td>
-                              </tr>
-                            )
-                          )}
+                          {cognitiveBehaviour?.map((cognitive, idx) => (
+                            <tr key={idx}>
+                              <th className="fw-bold h6 text-uppercase">
+                                {cognitive.behaviour}
+                              </th>
+                              <td className="fw-bold text-uppercase">
+                                {cognitive.remark}
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </Table>
                     </div>
@@ -240,6 +263,7 @@ const ResultTemplateOne = () => {
                     bordered
                     responsive
                     className="mt-4 border-secondary"
+                    draggable="false"
                   >
                     <tbody>
                       <tr
@@ -283,12 +307,15 @@ const ResultTemplateOne = () => {
                 </Row>
                 <div className="d-md-flex justify-content-end mt-5">
                   <div>
-                    <div className="d-flex justify-content-center">
-                      <div>
-                        <img src="" alt="" />
-                      </div>
-                    </div>
                     <div className="h6 text-center">
+                      <div>
+                        <img
+                          src={resultSettingList?.filepath}
+                          alt="stamp"
+                          style={{ width: "12%" }}
+                          draggable="false"
+                        />
+                      </div>
                       Principal's signature and Stamp
                     </div>
                   </div>
