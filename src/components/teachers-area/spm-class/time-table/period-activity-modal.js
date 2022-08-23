@@ -1,25 +1,48 @@
 import {
     Button, Form,
 } from "react-bootstrap";
-import { Field, Formik } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-// import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
-import React from "react";
+import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
+import { updateTimetableActivity } from "../../../../store/actions/timetable-actions";
 
-export function PeriodActivityModal() {
+export function PeriodActivityModal({ selectedActivityId, selectedClassId, periodActivity }) {
     const dispatch = useDispatch();
+
+    console.log('periodActivity', periodActivity);
+    console.log('selectedActivityId', selectedActivityId);
+    const [activity, setActivity] = useState('');
+    // const handleChange = (event) => {
+    //     setActivity( ...activity, event.target.value );
+    // };
+
+    // console.log('periodActivity now', periodActivity);
+   
+    React.useEffect(() => {
+        setActivity(periodActivity);
+    }, [periodActivity]);
+
+    console.log('newActivity now', activity);
+
+
+    // console.log('activity now', newActivity);
 
     return (
 
-        <SmpModal title={'Create Activity'}>
+        <SmpModal title={'Update Activity.'}>
             <div>
                 <div className="mb-3">
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Period Activity</Form.Label>
-                        <Form.Control type="text" placeholder="Activity" />
+                        <Form.Control
+                            type="text"
+                            name="activity"
+                            placeholder="Enter Activity"
+                            value={activity}
+                             onChange={(e) => setActivity(e.target.value)}
+                            // onChange={handleChange}
+                        />
                     </Form.Group>
                 </div>
 
@@ -37,6 +60,10 @@ export function PeriodActivityModal() {
                     <Button
                         variant="primary"
                         className=""
+                        onClick={() => {
+                            updateTimetableActivity(activity,selectedActivityId, selectedClassId)(dispatch);
+                            showHideModal(false)(dispatch);
+                        }}
                     >
                         Save
                     </Button>

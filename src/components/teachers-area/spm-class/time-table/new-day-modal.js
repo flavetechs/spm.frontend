@@ -1,23 +1,15 @@
 import {
     Button, Form,
 } from "react-bootstrap";
-import { Field, Formik } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-// import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
-import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { createTimetableDays } from "../../../../store/actions/timetable-actions";
 
-export function NewDayModal({ timetableList }) {
+export function NewDayModal({ timetableList, selectedClassId }) {
     const dispatch = useDispatch();
     const [newDay, setNewDay] = useState({});
-    // console.log('newDay: ', newDay);
-    console.log('newDay timetableList: ', timetableList);
-
-    
-
 
     return (
 
@@ -54,7 +46,7 @@ export function NewDayModal({ timetableList }) {
                             variant="primary"
                             className=""
                             onClick={() => {
-                                createTimetableDays(newDay)(dispatch);
+                                createTimetableDays(newDay, selectedClassId)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
                         >

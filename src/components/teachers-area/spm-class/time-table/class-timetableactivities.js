@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Modal, Form, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory, useLocation } from 'react-router-dom'
-import { showHideModal } from '../../../../store/actions/toaster-actions'
+import { respondToDeleteDialog, showErrorToast, showHideModal, showSingleDeleteDialog } from '../../../../store/actions/toaster-actions'
 import Card from '../../../Card'
+import './timetable.scss';
 import { NewTimeModal } from './new-time-modal'
 import { NewDayModal } from './new-day-modal'
 import { UpdateDayModal } from './update-day-modal'
 import { UpdateTimeModal } from './update-time-modal'
 import { PeriodActivityModal } from './period-activity-modal'
-import { getAllTimetable } from '../../../../store/actions/timetable-actions'
-const ClassTimeTableActivities = () => {
+import { deleteClassTimetabledays, deleteClassTimetableTime, getAllTimetable, pushId, removeId } from '../../../../store/actions/timetable-actions'
 
-   
 
+const ClassTimeTableActivities = ({ timetableList, selectedClassId }) => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { timetableList } = state.timetable;
-    const { deleteDialogResponse } = state.alert;
+    const { selectedIds } = state.timetable;
+    const { deleteDialogResponse, dialogResponse } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATION
@@ -26,21 +26,41 @@ const ClassTimeTableActivities = () => {
     const history = useHistory();
     const locations = useLocation();
     const handleFocus = (event) => event.target.select();
-    const [indexRow, setIndexRow] = useState("");
+    const [selectedActivityId, setSelectedActivityId] = useState("");
     const [isEditMode, setEditMode] = useState(false);
+    const [deleteIds, setDeleteIds] = useState('');
     const [modal, setModal] = useState('');
-    const [selectedClassId, setSelectedClassId] = useState("");
+    const [periodActivity, setPeriodActivity] = useState("");
+    const [currentDay, setCurrentDay] = useState("");
+    const [currentPeriod, setCurrentPeriod] = useState("");
     //VARIABLE DECLARATION
 
+    //DELETE HANDLER
     React.useEffect(() => {
-        const queryParams = new URLSearchParams(locations.search);
-        const classId = queryParams.get("classId");
-        if (!classId) return;
-        getAllTimetable(classId)(dispatch);
-        setSelectedClassId(classId);
-    }, [selectedClassId]);
+        if (deleteDialogResponse === "continue") {
+            if (selectedIds.length === 0) {
+                showErrorToast("No Item selected to be deleted")(dispatch);
+            } else {
+                if (deleteIds === 'day') {
+                    deleteClassTimetabledays(selectedIds, selectedClassId)(dispatch);
+                    respondToDeleteDialog("")(dispatch);
+                } else if (deleteIds === 'time') {
+                    deleteClassTimetableTime(selectedIds, selectedClassId)(dispatch);
+                    respondToDeleteDialog("")(dispatch);
+                }
+            }
+        } else {
+            selectedIds.forEach((id) => {
+                dispatch(removeId(id));
+            });
+        }
+        return () => {
+            respondToDeleteDialog("")(dispatch);
+        };
+    }, [deleteDialogResponse]);
+    //DELETE HANDLER
 
-    console.log('selectedClassId now', selectedClassId);
+    // console.log('timetableId', timetableId);
 
     return (
         <>
@@ -50,10 +70,10 @@ const ClassTimeTableActivities = () => {
                         <Card.Header className="d-flex justify-content-between flex-wrap">
                             <div className="header-title">
                                 {timetableList?.map((item, index) => (
-                                    <h4 key={index}>{`${item.className} Class Timetable`}</h4>
+                                        <h4 key={index}>{`${item.className} Class Timetable`}</h4>
                                 ))}
                             </div>
-                            <div>
+                            <div className='d-flex justify-content-end'>
                                 <Button className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3"
                                     onClick={() => {
                                         showHideModal(true)(dispatch);
@@ -87,14 +107,20 @@ const ClassTimeTableActivities = () => {
                         {modal == 'newDayModal' ?
                             <NewDayModal
                                 timetableList={timetableList}
+                                selectedClassId={selectedClassId}
                             /> : modal == 'newTimeModal' ?
                                 <NewTimeModal
                                     timetableList={timetableList}
+                                    selectedClassId={selectedClassId}
                                 /> :
-                                modal == 'updateDayModal' ? <UpdateDayModal /> :
-                                    modal == 'updateTimeModal' ? <UpdateTimeModal /> :
-                                        modal == 'periodActivityModal' ? <PeriodActivityModal />
-
+                                modal == 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} timetableList={timetableList} currentDay={currentDay}/> :
+                                    modal == 'updateTimeModal' ? <UpdateTimeModal timetableList={timetableList} selectedClassId={selectedClassId} currentPeriod={currentPeriod}
+                                    /> :
+                                        modal == 'periodActivityModal' ? <PeriodActivityModal
+                                            selectedActivityId={selectedActivityId}
+                                            selectedClassId={selectedClassId}
+                                            periodActivity={periodActivity}
+                                        />
                                             :
                                             ' '
                         }
@@ -112,6 +138,7 @@ const ClassTimeTableActivities = () => {
                                                                 onClick={() => {
                                                                     showHideModal(true)(dispatch);
                                                                     setModal('updateDayModal');
+                                                                    setCurrentDay(items.day)
                                                                 }
                                                                 }
                                                             >
@@ -123,7 +150,16 @@ const ClassTimeTableActivities = () => {
                                                                     </svg>
                                                                 </span>
                                                             </Link>
-                                                            <Link className="btn btn-sm btn-icon text-danger" data-bs-toggle="tooltip" title="Delete User" to="#" >
+                                                            <Link className="btn btn-sm btn-icon text-danger" data-bs-toggle="tooltip" title="Delete" to="#"
+                                                                data-original-title="Delete"
+                                                                data-id={items.classTimeTableDayId}
+                                                                onClick={() => {
+                                                                    dispatch(pushId(items.classTimeTableDayId));
+                                                                    showSingleDeleteDialog(true)(dispatch);
+                                                                    setDeleteIds('day');
+                                                                }
+                                                                }
+                                                            >
                                                                 <span className="btn-inner">
                                                                     <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                                                         <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
@@ -155,6 +191,7 @@ const ClassTimeTableActivities = () => {
                                                                     onClick={() => {
                                                                         showHideModal(true)(dispatch);
                                                                         setModal('updateTimeModal');
+                                                                        setCurrentPeriod(item?.period);
                                                                     }
                                                                     }
                                                                 >
@@ -166,7 +203,14 @@ const ClassTimeTableActivities = () => {
                                                                         </svg>
                                                                     </span>
                                                                 </Link>
-                                                                <Link className="btn btn-sm btn-icon text-danger" data-bs-toggle="tooltip" title="Delete User" to="#" >
+                                                                <Link className="btn btn-sm btn-icon text-danger" data-bs-toggle="tooltip" title="Delete User" to="#"
+                                                                    onClick={() => {
+                                                                        dispatch(pushId(item.classTimeTableTimeId));
+                                                                        showSingleDeleteDialog(true)(dispatch);
+                                                                        setDeleteIds('time');
+                                                                    }
+                                                                    }
+                                                                >
                                                                     <span className="btn-inner">
                                                                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                                                             <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
@@ -184,7 +228,8 @@ const ClassTimeTableActivities = () => {
                                                                     onDoubleClick={() => {
                                                                         showHideModal(true)(dispatch);
                                                                         setModal('periodActivityModal');
-                                            
+                                                                        setSelectedActivityId(activityItem?.activityId);
+                                                                        setPeriodActivity(activityItem?.activity);
                                                                     }
                                                                     }
                                                                 >

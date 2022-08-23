@@ -3,8 +3,6 @@ import { actions } from "../action-types/timetable-action-types"
 import { showErrorToast, showSuccessToast } from "./toaster-actions"
 
 
-
-
 export const pushId = (itemId) => {
     return {
         type: actions.PUSH_ITEM_ID,
@@ -24,13 +22,13 @@ export const returnList = (items) => (dispatch) => {
     })
 }
 
-// export const fetchSingleItem = (teacherAccountId) => dispatch => {
-//     dispatch({
-//         type: actions.GET_SINGLE_ITEM,
-//         payload: teacherAccountId
-//     });
+export const fetchSingleItem = (classTimeTableTimeId) => dispatch => {
+    dispatch({
+        type: actions.GET_SINGLE_ITEM,
+        payload: classTimeTableTimeId
+    });
 
-// }
+}
 
 
 //TIMETABLE ACTION HANDLERS
@@ -71,7 +69,7 @@ export const getTimetableActiveClass = () => (dispatch) => {
 }
 
 
-export const createTimetableDays = (day, lookupId) => (dispatch) => {
+export const createTimetableDays = (day, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_TIMETABLE_DAYS_LOADING
     });
@@ -82,7 +80,7 @@ export const createTimetableDays = (day, lookupId) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
-            getAllTimetable(lookupId)(dispatch);
+            getAllTimetable(selectedClassId)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_DAYS_FAILED,
@@ -93,17 +91,18 @@ export const createTimetableDays = (day, lookupId) => (dispatch) => {
 }
 
 
-export const createTimetablePeriod = (period) => (dispatch) => {
+export const createTimetableTime = (time, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_TIMETABLE_PERIOD_LOADING
-    });                 
-    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-time', period)
+    });
+    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-time', time)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_PERIOD_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllTimetable(selectedClassId)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_PERIOD_FAILED,
@@ -113,6 +112,152 @@ export const createTimetablePeriod = (period) => (dispatch) => {
         });
 }
 
+export const updateTimetableActivity = (activity, activityId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_TIMETABLE_ACTIVITY_LOADING
+    });
+    const payload = {
+        activity,
+        activityId
+    }
+    axiosInstance.post('/api/v1/smp/timetable/update/class-timetable-time-activity', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_TIMETABLE_ACTIVITY_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_TIMETABLE_ACTIVITY_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteClassTimetabledays = (classTimeTableDayId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_TIMETABLE_DAYS_LOADING
+    });
+    const payload = {
+        item: classTimeTableDayId[0]
+    }
+
+    axiosInstance.post('/api/v1/smp/timetable/delete/class-timetable-day', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_TIMETABLE_DAYS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_TIMETABLE_DAYS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const deleteClassTimetableTime = (timeId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_TIMETABLE_TIME_LOADING
+    });
+    const payload = {
+        item: timeId[0]
+    }
+
+    axiosInstance.post('/api/v1/smp/timetable/delete/class-timetable-time', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_TIMETABLE_TIME_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_TIMETABLE_TIME_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+export const deleteClassTimetableActivity = (selectedIds, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_TIMETABLE_ACTIVITY_LOADING
+    });
+    const payload = {
+        item: selectedIds[0]
+    }
+
+    axiosInstance.post('/api/v1/smp/timetable/delete/class-timetable-activity', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_TIMETABLE_ACTIVITY_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_TIMETABLE_ACTIVITY_FALED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const updateTimetableDays = (day,classTimeTableId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_TIMETABLE_DAYS_LOADING
+    });
+    const payload = {
+        day,
+        classTimeTableId
+    }
+    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-day', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_TIMETABLE_DAYS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_TIMETABLE_DAYS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const updateTimetableTime = (time, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_TIMETABLE_TIME_LOADING
+    });
+    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-time', time)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_TIMETABLE_TIME_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_TIMETABLE_TIME_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
 
 
 //TIMETABLE ACTION HANDLERS

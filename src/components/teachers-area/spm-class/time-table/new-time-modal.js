@@ -8,10 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showErrorToast, showHideModal } from "../../../../store/actions/toaster-actions";
-import { createTimetablePeriod, getAllTimetable, getTimetableActiveClass } from "../../../../store/actions/timetable-actions";
+import { createTimetableTime, getAllTimetable, getTimetableActiveClass } from "../../../../store/actions/timetable-actions";
 import { useHistory, useLocation } from "react-router-dom";
 
-export function NewTimeModal() {
+export function NewTimeModal({selectedClassId, timetableList}) {
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export function NewTimeModal() {
     const { deleteDialogResponse } = state.alert;
     const { activeClasses } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
-    const { timetableList } = state.timetable;
+    // const { timetableList } = state.timetable;
 
     // ACCESSING STATE FROM REDUX STORE
 
@@ -36,47 +36,20 @@ export function NewTimeModal() {
     const [validated, setValidated] = useState(false);
     //VARIABLE DECLARATION
 
-    React.useEffect(() => {
-        const queryParams = new URLSearchParams(locations.search);
-        const classId = queryParams.get("classId");
-        if (!classId) return;
-        getAllTimetable(classId)(dispatch);
-    }, [timetableList]);
-
     let result = timetableList.find(id => id.classTimeTableId);
-
-
-    React.useEffect(() => {
-        getTimetableActiveClass()(dispatch);
-    }, [])
 
     const [newTime, setNewTime] = useState({
         start: ",",
         end: "",
         classTimeTableId: result?.classTimeTableId,
+        classId: selectedClassId
     });
 
     const handleChange = (event) => {
         setNewTime({ ...newTime, [event.target.name]: event.target.value });
     };
 
-    // const handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     if (form.checkValidity() === false) {
-    //         event.preventDefault();
-    //         event.stopPropagation();
-    //     }
-
-    //     setValidated(true);
-    // };
-
-    function handleSubmitTime(){
-        if(newTime.start == "" || newTime.end == ""){
-            showErrorToast('please enter time values');
-        }
-        createTimetablePeriod(newTime)(dispatch);
-        showHideModal(false)(dispatch);
-    }
+    console.log('newtime', newTime);
 
 
     return (
@@ -126,7 +99,10 @@ export function NewTimeModal() {
                         <Button
                             variant="primary"
                             className=""
-                            onClick={handleSubmitTime}
+                            onClick={() => {
+                                createTimetableTime(newTime, selectedClassId)(dispatch);
+                                showHideModal(false)(dispatch);
+                            }}
                         >
                             Save
                         </Button>

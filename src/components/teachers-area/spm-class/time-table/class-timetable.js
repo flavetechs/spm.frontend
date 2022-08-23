@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
 import { getAllTimetable } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
@@ -17,7 +17,12 @@ function ClassTimeTable() {
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
     const history = useHistory();
+    const locations = useLocation();
+
+    const [selectedClassId, setSelectedClassId] = useState("");
     //VARIABLE DECLARATIONS
+
+    // console.log('currentClassId now', selectedClassId);
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
@@ -31,6 +36,19 @@ function ClassTimeTable() {
         getAllActiveClasses()(dispatch);
         // getAllTimetable()(dispatch)
     }, ['123']);
+
+    
+    //VARIABLE DECLARATION
+
+    // React.useEffect(() => {
+    //     const queryParams = new URLSearchParams(locations.search);
+    //     const classId = queryParams.get("classId");
+    //     if (!classId) return;
+    //     getAllTimetable(classId)(dispatch);
+    //     setSelectedClassId(classId);
+    // }, []);
+
+    // console.log('selectedClassId now', selectedClassId);
 
     return (
         <>
@@ -46,12 +64,13 @@ function ClassTimeTable() {
                                     <Nav.Item className='border-3 '>
                                         {activeClasses?.map((item, index) => (
                                             <Nav.Link eventKey={index + 1} className='py-3' key={index} onClick={() => {
+                                                // history.push({
+                                                //     search: `classId=${item?.lookupId}`,
+                                                // });
+                                                setSelectedClassId(item?.lookupId);
                                                 getAllTimetable(item?.lookupId)(dispatch);
-                                                history.push({
-                                                    search: `classId=${item?.lookupId}`,
-                                                  });
                                             }}
-                                            style={{cursor: 'pointer'}}
+                                                style={{ cursor: 'pointer' }}
                                             >
                                                 <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.7161 16.2234H8.49609" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
@@ -71,7 +90,9 @@ function ClassTimeTable() {
                                 </Nav>
                             </Col>
                             <Col sm={9} className=''>
-                                <ClassTimeTableActivities 
+                                <ClassTimeTableActivities
+                                timetableList={timetableList}
+                                selectedClassId={selectedClassId}
                                 />
                             </Col>
                         </Row>
