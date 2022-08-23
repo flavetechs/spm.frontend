@@ -75,8 +75,8 @@ import UpdateAttendance from '../components/teachers-area/spm-class/attendance-o
 import CreateAttendance from '../components/teachers-area/spm-class/attendance-on-create';
 import ViewStudentsAssessment from '../components/teachers-area/spm-class/assessment/view-students-assessment';
 import EditHomeAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-edit';
-import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 import TemplateControl from '../components/teachers-area/smp-result-management/result-templates/template-control';
+import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 
 const DashboardRouter = () => {
 

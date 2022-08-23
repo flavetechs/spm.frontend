@@ -86,3 +86,28 @@ export const ResetPassword = ({ userId, password, resetToken }) => (dispatch) =>
             })
         })
 }
+
+export const changeMyPassword = ({ userId, oldPassword, newPassword }) => (dispatch) => {
+    dispatch({
+        type: actions.LOGIN_USER_LOADING
+    });
+
+    const payload = {
+        userId,
+        oldPassword,
+        newPassword
+    }
+
+    axiosInstance.post('user/api/v1/first-time/change-password', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.LOGIN_USER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.LOGIN_USER_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}

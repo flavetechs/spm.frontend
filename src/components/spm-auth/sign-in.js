@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // img
 import auth1 from '../../assets/images/auth/01.png'
-import { dashboardLocations } from '../../router/spm-path-locations';
+import { authLocations, dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/auth-actions';
 import { useEffect } from 'react';
@@ -21,18 +21,23 @@ const SignIn = () => {
     const { message } = state.auth;
     var token = localStorage.getItem('token');
     var userDetail = localStorage.getItem('userDetail')
-    var permissions = localStorage.getItem('permissions');
 
     useEffect(() => {
         if (userDetail) {
-            if (JSON.parse(userDetail).userType == 'Student') {
-                // history.push('/stds-dashboard')
-                window.location.href = '/stds-dashboard';
-            } else {
-                window.location.href = '/dashboard';
-                // history.push('/dashboard')
+            console.log('userDetail', userDetail);
+            if(JSON.parse(userDetail).isFirstTimeLogin === false){
+                if (JSON.parse(userDetail).userType == 'Student') {
+                    window.location.href = '/stds-dashboard';
+                } else {
+                    window.location.href = '/dashboard';
+                }
+            }else{
+                localStorage.removeItem('token');
+                localStorage.removeItem('userDetail')
+                localStorage.removeItem('permissions')
+                history.push(authLocations.firstTimeLogin+'?id='+ JSON.parse(userDetail).userAccountId)
             }
-
+           
         }
     }, [token])
 
@@ -103,7 +108,7 @@ const SignIn = () => {
                                                                 <Field type="checkbox" id="customCheck1" className="form-check-input" />
                                                                 <label htmlFor="customCheck1" className='check-label'>Remember Me </label>
                                                             </div>
-                                                            <Link to="/auth/recoverpw">Forgot Password?</Link>
+                                                            <Link to={authLocations.firstTimeLogin}>Forgot Password?</Link>
                                                         </Col>
                                                     </Row>
                                                     <div className="d-flex justify-content-center">
@@ -111,9 +116,9 @@ const SignIn = () => {
                                                             handleSubmit()
                                                         }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                                     </div>
-                                                    <p className="mt-3 text-center">
+                                                    {/* <p className="mt-3 text-center">
                                                         Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
-                                                    </p>
+                                                    </p> */}
                                                 </Form>
                                             )}
                                         </Formik>
