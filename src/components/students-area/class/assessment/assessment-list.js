@@ -60,7 +60,7 @@ const StudentAssessmentList = () => {
                   <Card.Body>
                     <div className="d-md-flex align-items-center justify-content-end">
                       <div className="d-flex">
-                        <div className="h5 mt-2">filter: </div>
+                        <div className="h5 mt-3">filter: </div>
                         <div className=" mx-3 mt-3 mt-lg-0 dropdown">
                           <select
                             as="select"

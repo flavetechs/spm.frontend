@@ -51,7 +51,7 @@ const LessonNoteDetails = () => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
-
+  console.log(singleLessonNotes);
   return (
     <>
       <div className="col-sm-12 mx-auto">
@@ -407,7 +407,7 @@ const LessonNoteDetails = () => {
                 <div className="d-flex align-items-center gap-3">
                   <img
                     className="img-fluid rounded-circle avatar-130"
-                    src="https://templates.iqonic.design/hope-ui/pro/html/blog/assets/images/blog-avatar/01.png"
+                    src={singleLessonNotes?.photo}
                     alt="user-img"
                   />
                   <div>

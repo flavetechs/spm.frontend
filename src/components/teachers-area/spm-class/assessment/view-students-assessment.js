@@ -106,7 +106,7 @@ const ViewStudentsAssessment = () => {
                   </div>
                 </div>
 
-                <div className="mt-3">{singleHomeAssessmentList?.studentList.find(s=>s.homeAsessmentFeedbackId == homeAssessmentFeedBackIdQuery).studentName}</div>
+                <div className="mt-3 text-uppercase fw-bold d-flex justify-content-center">{singleHomeAssessmentList?.studentList.find(s=>s.homeAsessmentFeedbackId == homeAssessmentFeedBackIdQuery).studentName}</div>
                         
                 <div className="d-flex justify-content-start my-2">
                   <div>
@@ -170,12 +170,13 @@ const ViewStudentsAssessment = () => {
                   }}
                  
                 ></div>
-                <hr />
+                <Card className="shadow-none bg-transparent border border-secondary my-3 p-3">
                 <div style={{ minHeight: "25vh" }} className="h6"
                     dangerouslySetInnerHTML={{
                     __html: studentSingleHomeAssessmentList?.content,
                   }}>
                 </div>
+                </Card>
                 <hr />
                 <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
                 <textarea

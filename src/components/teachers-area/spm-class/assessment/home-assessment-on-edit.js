@@ -95,7 +95,7 @@ const EditHomeAssessment = () => {
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
- console.log(singleHomeAssessmentList);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
