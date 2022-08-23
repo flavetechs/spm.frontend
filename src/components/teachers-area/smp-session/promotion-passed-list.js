@@ -28,9 +28,9 @@ const PromotionPassedList = () => {
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
-    if (!sessionClassId) return;
-    fetchPassedStudentList(sessionClassId)(dispatch)
+    const studentIds = queryParams.get("passedStudentIds");
+    if (!studentIds) return;
+    fetchPassedStudentList(studentIds)(dispatch)
   }, []);
 
   return (

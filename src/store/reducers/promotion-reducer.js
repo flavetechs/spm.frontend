@@ -41,12 +41,14 @@ export const promotionReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-    case actions.FETCH_PROMOTION_SUCCESS:
+    case actions.FETCH_PROMOTION_SUCCESS:{
       return {
         ...state,
         loading: false,
         promotionList: payload,
       };
+    }
+      
 
     case actions.FETCH_PROMOTION_FAILED:
       return {
