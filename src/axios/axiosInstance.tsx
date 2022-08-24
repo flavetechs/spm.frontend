@@ -1,8 +1,8 @@
 import axios from 'axios';
-//http://flavetech-001-site3.etempurl.com/,
+//https://localhost:44373/,
 // http://flavetech-001-site1.etempurl.com/
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:44373/',
+    baseURL: 'http://flavetech-001-site3.etempurl.com/',
     headers: {
         Authorization: '',
     },
