@@ -120,7 +120,7 @@ const ClassGroup = () => {
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    getAllClassStudents(values.sessionClassId)(dispatch);
+                    getAllClassStudents(sessionClassIdQuery)(dispatch);
                     history.push(
                       `${classLocations.addClassGroup}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${values.sessionClassSubjectId}`
                     );
