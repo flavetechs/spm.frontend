@@ -77,6 +77,7 @@ import ViewStudentsAssessment from '../components/teachers-area/spm-class/assess
 import EditHomeAssessment from '../components/teachers-area/spm-class/assessment/home-assessment-on-edit';
 import TemplateControl from '../components/teachers-area/smp-result-management/result-templates/template-control';
 import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
+import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
 
 const DashboardRouter = () => {
 
@@ -111,6 +112,9 @@ const DashboardRouter = () => {
                     <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
                     <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
                     <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
+                    <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
+
+                    
                     <Route path={classLocations.classGroup} exact component={ClassGroup} />
                     <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
                     <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
