@@ -17,8 +17,9 @@ const AddClassGroup = () => {
   
 const queryParams = new URLSearchParams(locations.search);
 const sessionClassId = queryParams.get("sessionClassId");
+const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
 React.useEffect(() => {
-  createSuccessful && history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`);
+  createSuccessful && history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}`);
 }, [createSuccessful]);
 
   React.useEffect(() => {
@@ -110,16 +111,14 @@ React.useEffect(() => {
                           className="btn btn-danger"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`)
+                            history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}`)
                           }}
                         >
                           Back
                         </button>
                         <button
                           onClick={() => {
-                            const queryParams = new URLSearchParams(locations.search);
-                            const sessionClassId = queryParams.get("sessionClassId");
-                            const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
+                        
                             groupName &&
                             createClassGroup(groupName,sessionClassId,sessionClassSubjectId,studentContactIdArray)(dispatch);
                           }}

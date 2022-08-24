@@ -104,8 +104,8 @@ const AssessmentList = () => {
           <Col sm="12">
             <Formik
               initialValues={{
-                sessionClassId: sessionClassSubjectId,
-                sessionClassSubjectId: sessionClassSubjectId,
+                sessionClassId:"",
+                sessionClassSubjectId: "",
                 groupId: "",
                 type: "",
               }}
@@ -113,7 +113,7 @@ const AssessmentList = () => {
               enableReinitialize={true}
               onSubmit={(values) => {
                 if(typeQuery  == "home assessment"){
-                  history.push(`${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectId}&sessionClassId=${sessionClassIdQuery}&type=${typeQuery}`);
+                  history.push(`${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectId}&sessionClassId=${sessionClassIdQuery}&sessionGroupId=${values.groupId}&type=${typeQuery}`);
                 }else if(typeQuery  == "class assessment"){
                    addClassAssessment({sessionClassSubjectId})(dispatch)
                 }

@@ -16,14 +16,15 @@ const EditClassGroup = () => {
   const state = useSelector((state) => state);
   const { classStudents, singleGroupList, createSuccessful } = state.class;
   const [studentContactIdArray, setStudentContactIdArray] = useState([]);
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
+  const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
+
   const [groupName, setGroupName] = useState("");
   const [validation, setValidation] = useState("");
   React.useEffect(() => {
-    createSuccessful &&  history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`)
+    createSuccessful &&  history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}`)
   }, [createSuccessful]);
-
-  const queryParams = new URLSearchParams(locations.search);
-  const sessionClassId = queryParams.get("sessionClassId");
 
   React.useEffect(() => {
     setGroupName(singleGroupList?.groupName);
@@ -54,7 +55,7 @@ const EditClassGroup = () => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-
+  
   return (
     <>
       <div>

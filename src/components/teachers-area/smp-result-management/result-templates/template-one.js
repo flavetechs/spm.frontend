@@ -31,9 +31,6 @@ const ResultTemplateOne = () => {
     if (termId) {
       getAllStudentResult(sessionClassId, termId, studentContactId)(dispatch);
     }
-    return()=>{
-      resetStudentResultState()(dispatch);
-    }
   }, []);
   useEffect(() => {
     getSchoolSettingList()(dispatch);
@@ -49,7 +46,7 @@ const ResultTemplateOne = () => {
     { behaviour: "Evaluation", remark: "good" },
     { behaviour: "Remembrance", remark: "good" },
   ];
-console.log("studentResult",studentResult);
+
   return (
     <>
       <div className={studentResult?.isPreview ? "col-md-12 mx-auto isPreview":"col-md-12 mx-auto isPrint" } draggable="false" id="result-table" ref={tableRef}>
@@ -60,18 +57,17 @@ console.log("studentResult",studentResult);
                 <Row>
                   <div className="m-4">
                     <Button
-                      variant="btn btn-danger btn-sm"
+                      variant="btn btn-danger btn-sm isPreview"
                       onClick={() => {
                         history.goBack();
-                        resetStudentResultState()(dispatch);
                       }}
                     >
                       Back
                     </Button>
-                    {!studentResult?.isPreview && (
+                    {studentResult?.isPrint && (
                       <Button
-                        variant="btn btn-primary btn-sm mx-2"
-                        onClick={() => {}}
+                        variant="btn btn-primary btn-sm mx-2 isPreview"
+                        onClick={() => {window.print()}}
                       >
                         Print
                       </Button>
