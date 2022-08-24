@@ -63,13 +63,13 @@ const ClassGroup = () => {
 
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
-
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, []);
 
   React.useEffect(() => {
-    getAllClassGroup(sessionClassSubjectId)(dispatch);
+    getAllClassGroup(sessionClassIdQuery,sessionClassSubjectIdQuery)(dispatch);
   }, [sessionClassSubjectId]);
 
   React.useEffect(() => {

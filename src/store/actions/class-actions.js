@@ -1069,12 +1069,12 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
 //LESSON NOTE ACTION
 
 //GROUP ACTION
-export const getAllClassGroup = (sessionClassSubjectId) => (dispatch) => {
+export const getAllClassGroup = (sessionClassId,sessionClassSubjectId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_GROUP_LOADING,
     });
 
-    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassSubjectId}`)
+    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_GROUP_SUCCESS,

@@ -5,7 +5,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
   getAllSingleHomeAssessment,
-  getSingleStudentHomeAssessment,
   submitHomeAssessmentScore,
 } from "../../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
@@ -16,6 +15,8 @@ const ViewStudentsAssessment = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const elementRef = useRef(null);
+  const studentListRef =  useRef(null);
+  const scrollToStudentList=()=>studentListRef.current.scrollIntoView();
   const [fullScreen, setFullScreen] = useState(false);
   const [score, setScore] = useState("");
   const state = useSelector((state) => state);
@@ -117,11 +118,11 @@ const ViewStudentsAssessment = () => {
 
                 <div className="mt-3 text-uppercase fw-bold d-flex justify-content-center">
                   {
-                    singleHomeAssessmentList?.studentList.find(
+                    singleHomeAssessmentList?.studentList?.find(
                       (s) =>
                         s.homeAsessmentFeedbackId ==
                         homeAssessmentFeedBackIdQuery
-                    ).studentName
+                    )?.studentName
                   }
                 </div>
 
@@ -187,10 +188,10 @@ const ViewStudentsAssessment = () => {
                     __html: studentSingleHomeAssessmentList?.content,
                   }}
                 ></div>
-                <Card className="shadow-none bg-transparent border border-secondary my-3 p-3">
+                <Card className="shadow-none bg-transparent border border-secondary my-3 p-4">
                   <div
                     style={{ minHeight: "25vh" }}
-                    className="h6"
+                    className="h6 font-italic"
                     dangerouslySetInnerHTML={{
                       __html: singleHomeAssessmentList?.content,
                     }}
@@ -242,6 +243,7 @@ const ViewStudentsAssessment = () => {
                       homeAssessmentIdQuery,
                       sessionClassIdQuery
                     )(dispatch);
+                    scrollToStudentList();
                   }}
                 >
                   Mark
@@ -251,7 +253,7 @@ const ViewStudentsAssessment = () => {
           </Col>
           <Col lg="5">
             <Card>
-              <Card.Body>
+              <Card.Body ref={studentListRef} >
                 <h4 className="mb-3">Student List</h4>
                 <div className="table-responsive">
                   <table
