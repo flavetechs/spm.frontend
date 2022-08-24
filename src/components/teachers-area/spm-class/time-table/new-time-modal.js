@@ -31,7 +31,7 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
         <SmpModal title={'Add New Time'}>
             <Form className="pt-3">
                 <div>
-                    <div className="mb-3" key={index}>
+                    <div className="mb-3">
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Start Time</Form.Label>
                             <Form.Control
