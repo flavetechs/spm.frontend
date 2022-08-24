@@ -5,12 +5,12 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
+import './timetable.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
 import { getAllTimetable } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
-// import "./setting.scss";
 
 function ClassTimeTable() {
 
@@ -18,11 +18,8 @@ function ClassTimeTable() {
     const dispatch = useDispatch();
     const history = useHistory();
     const locations = useLocation();
-
     const [selectedClassId, setSelectedClassId] = useState("");
     //VARIABLE DECLARATIONS
-
-    // console.log('currentClassId now', selectedClassId);
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
@@ -34,39 +31,22 @@ function ClassTimeTable() {
 
     React.useEffect(() => {
         getAllActiveClasses()(dispatch);
-        // getAllTimetable()(dispatch)
     }, ['123']);
-
-    
-    //VARIABLE DECLARATION
-
-    // React.useEffect(() => {
-    //     const queryParams = new URLSearchParams(locations.search);
-    //     const classId = queryParams.get("classId");
-    //     if (!classId) return;
-    //     getAllTimetable(classId)(dispatch);
-    //     setSelectedClassId(classId);
-    // }, []);
-
-    // console.log('selectedClassId now', selectedClassId);
 
     return (
         <>
             <Card>
                 <Card.Body className=''>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                        <Row className='mt-5 gx-3'>
-                            <Col sm={3} className='col-md-2 mt-5 mb-4'>
+                        <Row className=''>
+                            <Col className='col-md-2 mt-5 mb-4 col-12 col-sm-12 class-time-table-left-col'>
                                 <Card>
 
                                 </Card>
                                 <Nav variant="" className="flex-column portal-tab mt-4" >
-                                    <Nav.Item className='border-3 '>
+                                    <Nav.Item className='border-3 class-time-table-nav-item'>
                                         {activeClasses?.map((item, index) => (
                                             <Nav.Link eventKey={index + 1} className='py-3' key={index} onClick={() => {
-                                                // history.push({
-                                                //     search: `classId=${item?.lookupId}`,
-                                                // });
                                                 setSelectedClassId(item?.lookupId);
                                                 getAllTimetable(item?.lookupId)(dispatch);
                                             }}
@@ -89,7 +69,7 @@ function ClassTimeTable() {
                                     </Nav.Item>
                                 </Nav>
                             </Col>
-                            <Col sm={9} className=''>
+                            <Col className='col-md-9 col-12 col-sm-12'>
                                 <ClassTimeTableActivities
                                 timetableList={timetableList}
                                 selectedClassId={selectedClassId}

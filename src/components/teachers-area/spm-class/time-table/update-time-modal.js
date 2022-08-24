@@ -1,100 +1,66 @@
 import {
     Button, Form,
 } from "react-bootstrap";
-import { Field, Formik } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { updateTimetableTime } from "../../../../store/actions/timetable-actions";
 
-export function UpdateTimeModal({selectedClassId, timetableList, currentPeriod}) {
+export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeId }) {
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
-    const history = useHistory();
-    //VARIABLE DECLARATIONS
-
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { deleteDialogResponse } = state.alert;
-    const { activeClasses } = state.timetable;
-    // ACCESSING STATE FROM REDUX STORE
-    // const { timetableList } = state.timetable;
-
-    // ACCESSING STATE FROM REDUX STORE
-
-    //VARIABLE DECLARATION
-    const locations = useLocation();
-    const handleFocus = (event) => event.target.select();
-    const [indexRow, setIndexRow] = useState("");
-    const [isEditMode, setEditMode] = useState(false);
-    const [modal, setModal] = useState('');
-    const [validated, setValidated] = useState(false);
-    let result = timetableList.find(id => id.classTimeTableId);
-    const [timetableId, setTimetableId] = useState(result?.classTimeTableId);
-    //VARIABLE DECLARATION
-
-   
-
     const [newTime, setNewTime] = useState({
-        start: ",",
+        start: "",
         end: "",
-        classTimeTableId: timetableId,
-        classId: selectedClassId
+        classTimeTableTimeId: "",
     });
+    const currentPeriodValue = currentPeriod.split(" ");
+    const startTime = currentPeriodValue[0];
+    let endTime = currentPeriodValue[2];
+    //VARIABLE DECLARATIONS
 
     const handleChange = (event) => {
         setNewTime({ ...newTime, [event.target.name]: event.target.value });
     };
 
-    console.log('newtime', newTime);
-
-    console.log('currentPeriod', currentPeriod.split(', '));
-
-    // React.useEffect(() => {
-    //     setNewTime()
-    // })
-
+    React.useEffect(() => {
+        newTime.start = startTime
+        newTime.end = endTime
+        newTime.classTimeTableTimeId = timetableTimeId
+    }, [timetableTimeId]);
 
     return (
 
-        <SmpModal title={'Add New Time'}>
-            <Form>
+        <SmpModal title={'Update Time'}>
+            <Form className="pt-3">
                 <div>
-                    {timetableList?.map((data, index) => {
-                        return (
-                            <div className="mb-3" key={index}>
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <Form.Label>Start Time</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        name="start"
-                                        value={newTime.start}
-                                        placeholder="Start Time"
-                                        onChange={handleChange}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <Form.Label>End Time</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        name="end"
-                                        value={newTime.end}
-                                        placeholder="End Time"
-                                        onChange={handleChange}
-                                    />
-                                </Form.Group>
-                            </div>
-                        )
-                    })}
-
-
-                    <div className="d-flex justify-content-end">
+                    <div className="mb-3">
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Start Time</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                name="start"
+                                value={newTime.start}
+                                placeholder="Start Time"
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>End Time</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                name="end"
+                                value={newTime.end}
+                                placeholder="End Time"
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    </div>
+                    <div className="d-flex justify-content-end mt-5">
                         <Button
                             variant="danger"
                             className="mx-2"

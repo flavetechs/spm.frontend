@@ -36,7 +36,7 @@ export const getAllTimetable = (classId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_TIMETABLE_LOADING
     });
-    axiosInstance.get(`/api/v1/smp/timetable/get/class-time-table/${classId}`)
+    axiosInstance.get(`/smp/api/v1/timetable/get/class-time-table/${classId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_TIMETABLE_SUCCESS,
@@ -54,7 +54,7 @@ export const getTimetableActiveClass = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_TIMETABLE_ACTIVE_CLASS_LOADING
     });
-    axiosInstance.get('/api/v1/smp/timetable/get/active-classes')
+    axiosInstance.get('/smp/api/v1/timetable/get/active-classes')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_TIMETABLE_ACTIVE_CLASS_SUCCESS,
@@ -73,7 +73,7 @@ export const createTimetableDays = (day, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_TIMETABLE_DAYS_LOADING
     });
-    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-day', day)
+    axiosInstance.post('/smp/api/v1/timetable/create/class-timetable-day', day)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_DAYS_SUCCESS,
@@ -94,8 +94,8 @@ export const createTimetableDays = (day, selectedClassId) => (dispatch) => {
 export const createTimetableTime = (time, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_TIMETABLE_PERIOD_LOADING
-    });
-    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-time', time)
+    });           
+    axiosInstance.post('/smp/api/v1/timetable/create/class-timetable-time', time)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_TIMETABLE_PERIOD_SUCCESS,
@@ -120,7 +120,7 @@ export const updateTimetableActivity = (activity, activityId, selectedClassId) =
         activity,
         activityId
     }
-    axiosInstance.post('/api/v1/smp/timetable/update/class-timetable-time-activity', payload)
+    axiosInstance.post('/smp/api/v1/timetable/update/class-timetable-time-activity', payload)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_TIMETABLE_ACTIVITY_SUCCESS,
@@ -145,7 +145,7 @@ export const deleteClassTimetabledays = (classTimeTableDayId, selectedClassId) =
         item: classTimeTableDayId[0]
     }
 
-    axiosInstance.post('/api/v1/smp/timetable/delete/class-timetable-day', payload)
+    axiosInstance.post('/smp/api/v1/timetable/delete/class-timetable-day', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_TIMETABLE_DAYS_SUCCESS,
@@ -170,8 +170,7 @@ export const deleteClassTimetableTime = (timeId, selectedClassId) => (dispatch) 
     const payload = {
         item: timeId[0]
     }
-
-    axiosInstance.post('/api/v1/smp/timetable/delete/class-timetable-time', payload)
+    axiosInstance.post('/smp/api/v1/timetable/delete/class-timetable-time', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_TIMETABLE_TIME_SUCCESS,
@@ -195,7 +194,7 @@ export const deleteClassTimetableActivity = (selectedIds, selectedClassId) => (d
         item: selectedIds[0]
     }
 
-    axiosInstance.post('/api/v1/smp/timetable/delete/class-timetable-activity', payload)
+    axiosInstance.post('/smp/api/v1/timetable/delete/class-timetable-activity', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_TIMETABLE_ACTIVITY_SUCCESS,
@@ -213,15 +212,16 @@ export const deleteClassTimetableActivity = (selectedIds, selectedClassId) => (d
 }
 
 
-export const updateTimetableDays = (day,classTimeTableId, selectedClassId) => (dispatch) => {
+export const updateTimetableDays = (day, classTimeTableId,classTimeTableDayId, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_TIMETABLE_DAYS_LOADING
     });
     const payload = {
         day,
-        classTimeTableId
+        classTimeTableId,
+        classTimeTableDayId,
     }
-    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-day', payload)
+    axiosInstance.post('/smp/api/v1/timetable/update/class-timetable-day', payload)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_TIMETABLE_DAYS_SUCCESS,
@@ -242,14 +242,14 @@ export const updateTimetableTime = (time, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_TIMETABLE_TIME_LOADING
     });
-    axiosInstance.post('/api/v1/smp/timetable/create/class-timetable-time', time)
+    axiosInstance.post('/smp/api/v1/timetable/update/class-timetable-time', time)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_TIMETABLE_TIME_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
             getAllTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_TIMETABLE_TIME_FAILED,
@@ -258,6 +258,5 @@ export const updateTimetableTime = (time, selectedClassId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
-
 
 //TIMETABLE ACTION HANDLERS

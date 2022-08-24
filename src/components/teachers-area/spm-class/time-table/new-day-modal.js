@@ -14,8 +14,8 @@ export function NewDayModal({ timetableList, selectedClassId }) {
     return (
 
         <SmpModal title={'Add New day'}>
-            <Form>
-                <div>
+            <Form className="pt-3">
+                <div className="">
                     {timetableList?.map((data, index) => {
                         return (
                             <div className="mb-3" key={index}>
@@ -24,14 +24,14 @@ export function NewDayModal({ timetableList, selectedClassId }) {
                                     <Form.Control
                                         required
                                         type="text"
-                                        placeholder="Add new Week Day"
+                                        placeholder="Enter Week Day"
                                         onChange={(e) => setNewDay({ day: e.target.value, classTimeTableId: data.classTimeTableId })}
                                     />
                                 </Form.Group>
                             </div>
                         )
                     })}
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end mt-5">
                         <Button
                             variant="danger"
                             className="mx-2"

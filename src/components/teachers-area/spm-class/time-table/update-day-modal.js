@@ -7,42 +7,25 @@ import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { updateTimetableDays } from "../../../../store/actions/timetable-actions";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 
-export function UpdateDayModal({ timetableList, selectedClassId, currentDay }) {
+export function UpdateDayModal({ timetableList, selectedClassId, currentDay, timetableDayId }) {
 
-
+    //VARIABLE DECLARATION
     const dispatch = useDispatch();
     const [newDay, setNewDay] = useState('');
-
     let result = timetableList.find(id => id.classTimeTableId);
     const [timetableId, setTimetableId] = useState(result?.classTimeTableId);
-
+    //VARIABLE DECLARATION
 
     React.useEffect(() => {
         setNewDay(currentDay);
     }, [currentDay])
 
-    console.log('newDay now', newDay);
 
     return (
 
         <SmpModal title={'Update day.'}>
-            <Form>
+            <Form className="pt-3">
                 <div>
-                    {/* {timetableList?.map((data, index) => {
-                        return (
-                            <div className="mb-3" key={index}>
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <Form.Label>Week Day</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Add new Week Day"
-                                        onChange={(e) => setNewDay({ day: e.target.value, classTimeTableId: data.classTimeTableId })}
-                                    />
-                                </Form.Group>
-                            </div>
-                        )
-                    })} */}
                     <div className="mb-3">
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Week Day</Form.Label>
@@ -55,7 +38,7 @@ export function UpdateDayModal({ timetableList, selectedClassId, currentDay }) {
                             />
                         </Form.Group>
                     </div>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end mt-5">
                         <Button
                             variant="danger"
                             className="mx-2"
@@ -70,7 +53,7 @@ export function UpdateDayModal({ timetableList, selectedClassId, currentDay }) {
                             variant="primary"
                             className=""
                             onClick={() => {
-                                updateTimetableDays(newDay, timetableId, selectedClassId)(dispatch);
+                                updateTimetableDays(newDay, timetableId,timetableDayId, selectedClassId)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
                         >
