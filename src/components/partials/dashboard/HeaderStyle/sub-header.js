@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from "redux"
@@ -16,7 +16,7 @@ import { connect, useDispatch, useSelector } from "react-redux"
 import { getActiveSession } from '../../../../store/actions/session-actions'
 import { getGeneralActiveSession } from '../../../../store/actions/general-actions'
 import { notificationManagement } from '../../../../router/spm-path-locations'
-import { hasAccess, NavPermissions } from '../../../../utils/permissions'
+import { getUserDetails, hasAccess, NavPermissions } from '../../../../utils/permissions'
 
 const mapStateToProps = (state) => {
     return {
@@ -43,13 +43,15 @@ const mapDispatchToProps = dispatch => ({
 
 
 const SubHeader = (props) => {
+    const[session] = useState(localStorage.getItem('currentSession'));
     
     useEffect(() => {
         // navbarstylemode
         const navbarstyleMode = sessionStorage.getItem('Navbarstyle-mode');
         props.NavbarstyleAction(navbarstyleMode);
+      
     })
-
+  console.log('session', session);
     return (
         <>
             <div className="iq-navbar-header" style={{ height: "215px" }}>
@@ -58,6 +60,7 @@ const SubHeader = (props) => {
                         <Col md="12">
                             <div className="d-flex justify-content-between flex-wrap">
                                 <div>
+                                    <small>{session}</small>
                                     <h1>Closing date </h1>
                                     <p>Be informed that the term will be closing on the 12-12-2022. Please inform others.</p>
                                 </div>

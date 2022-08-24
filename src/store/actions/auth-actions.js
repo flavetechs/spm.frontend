@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/auth-action-types"
+import { getActiveSession } from "./session-actions";
 
 export const loginUser = ({ userName, password }) => (dispatch) => {
 
@@ -18,6 +19,7 @@ export const loginUser = ({ userName, password }) => (dispatch) => {
                 type: actions.LOGIN_USER_SUCCESS,
                 payload: res.data.result
             });
+            getActiveSession()(dispatch)
         }).catch(err => {
             dispatch({
                 type: actions.LOGIN_USER_FAILED,

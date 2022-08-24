@@ -147,7 +147,7 @@ export const getActiveSession = () => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_FAILED,
-                payload: err.data.result
+                payload: err?.data?.result
             })
         });
 }
