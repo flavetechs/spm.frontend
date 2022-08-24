@@ -37,13 +37,16 @@ const ClassGroup = () => {
   // ACCESSING STATE FROM REDUX STORE
 
 
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteClassGroup(selectedIds, sessionClassIdQuery)(dispatch);
+        deleteClassGroup(selectedIds, sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);
@@ -61,9 +64,6 @@ const ClassGroup = () => {
   }, [deleteDialogResponse]);
   //DELETE HANDLER
 
-  const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, []);
@@ -116,7 +116,7 @@ const ClassGroup = () => {
                 <Formik
                   initialValues={{
                     sessionClassId: "",
-                    sessionClassSubjectId: "",
+                    sessionClassSubjectId: sessionClassSubjectIdQuery,
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {
@@ -168,7 +168,14 @@ const ClassGroup = () => {
                         <div className="me-2 mt-3 mt-md-0 ">
                           <button
                             type="button"
-                            onClick={() => handleSubmit()}
+                            onClick={() => {
+                              if(!values.sessionClassSubjectId){
+                                showErrorToast("Subject is required to create a class group")(dispatch);
+                                return;
+                              }else{
+                                handleSubmit()
+                              }
+                            }}
                             className="text-center btn-primary btn-icon me-2 mx-2 py-2 btn btn-primary"
                           >
                             <i className="btn-inner">
@@ -410,14 +417,13 @@ const ClassGroup = () => {
                                     </Tooltip>
                                   }
                                 >
-                                  <Link
+                                  <button
                                     className="btn btn-sm btn-icon btn-danger mx-2"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title=""
                                     data-original-title="Delete"
-                                    to="#"
-                                    data-id={item.groupId}
+                                   
                                     onClick={() => {
                                       dispatch(pushId(item.groupId));
                                       showSingleDeleteDialog(true)(dispatch);
@@ -454,7 +460,7 @@ const ClassGroup = () => {
                                         ></path>
                                       </svg>
                                     </span>
-                                  </Link>
+                                  </button>
                                 </OverlayTrigger>
                               </div>
                             </td>

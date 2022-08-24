@@ -1107,7 +1107,7 @@ export const getSingleClassGroup = (groupId,sessionClassId) => (dispatch) => {
         });
     }
 
-export const deleteClassGroup = (items,sessionClassId) => (dispatch) => {
+export const deleteClassGroup = (items,sessionClassId,sessionClassSubjectIdQuery) => (dispatch) => {
     dispatch({
         type: actions.DELETE_GROUP_LOADING
     });
@@ -1120,7 +1120,7 @@ const payload= {
                 type: actions.DELETE_GROUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassGroup(sessionClassId)(dispatch);
+            getAllClassGroup(sessionClassId, sessionClassSubjectIdQuery)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
