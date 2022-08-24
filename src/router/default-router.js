@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -78,6 +78,7 @@ import EditHomeAssessment from '../components/teachers-area/spm-class/assessment
 import TemplateControl from '../components/teachers-area/smp-result-management/result-templates/template-control';
 import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
+import InProgress from '../components/teachers-area/in-progress';
 
 const DashboardRouter = () => {
 
@@ -186,6 +187,9 @@ const DashboardRouter = () => {
                       {/* user profile page */}
                       <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />
                       <Route path={authLocations.staffProfileEdit} exact component={StaffProfileEdit} />
+
+                       {/* user profile page */}
+                       <Route path={inprogress.unactivated} exact component={InProgress} />
                 </Switch>
             </CSSTransition>
         </TransitionGroup>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { classLocations, inprogress } from "../../../../router/spm-path-locations";
 import {
   addClassAssessment,
   deleteHomeAssessment,
@@ -336,8 +336,7 @@ const AssessmentList = () => {
                                   onChange={(e) => {
                                     setFieldValue("type",e.target.value)
                                     setAssessment(e.target.value);
-                                    e.target.value &&
-                                      history.push(
+                                    e.target.value === "cbt"? history.push(inprogress.unactivated) : history.push(
                                         `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${e.target.value}`
                                       );
                                   }}
