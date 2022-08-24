@@ -29,6 +29,7 @@ const CreateLessonNote = () => {
     }, [createSuccessful]);
   
     const [content, setContent] = useState('');
+    const [comment, setComment] = useState("");
     const textEditorModules = useMemo(() => ({
       toolbar: {
         container: [
@@ -96,19 +97,19 @@ const CreateLessonNote = () => {
                                 <div className="text-danger">{errors.noteTitle}</div>
                               )}
                             </Col>
-                            <Col md="11" className="form-group text-dark">
+                            <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Title:</b>
                           </label>
                           <Field
                             type="text"
                             name="noteTitle"
-                            className="form-control border-secondary text-dark"
+                            className="form-control border-secondary h6"
                             id="noteTitle"
                             placeholder="Enter note title..."
                           />
                         </Col>
-                            <Col md="11" className="form-group text-dark">
+                            <Col md="11" className="form-group h6">
                               <label className="form-label" >
                                 <b>Upload note(text,word,excel):</b>
                               </label>
@@ -127,7 +128,7 @@ const CreateLessonNote = () => {
                                 <div className="text-danger">{errors.noteContent}</div>
                               )}
                             </Col>
-                            <Col md="11" className="form-group text-dark ">
+                            <Col md="11" className="form-group h6 ">
                               <label className="form-label d-flex justify-content-between">
                                 <b>Note:</b>
                                 <OverlayTrigger
@@ -167,7 +168,7 @@ const CreateLessonNote = () => {
                             </Col>
     
                            
-                            <Col md="11" className="form-group text-dark mt-5">
+                            <Col md="11" className="form-group h6 mt-5">
                               <Field
                                 type="checkbox"
                                 name="shouldSendForApproval"

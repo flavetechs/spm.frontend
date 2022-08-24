@@ -20,7 +20,7 @@ const AnnouncementDetails = () => {
   }, []);
 
   return (
-    <div className="col-md-8 mx-auto">
+    <div className="col-md-12 mx-auto">
       <Row>
         <Col sm="12">
           <Card className="">

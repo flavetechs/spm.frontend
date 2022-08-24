@@ -25,11 +25,11 @@ export const returnList = (items) => (dispatch) => {
 }
 
 
-export const fetchPassedStudentList = (sessionClassId) => dispatch => {
+export const fetchPassedStudentList = (studentIds) => dispatch => {
     dispatch({
         type: actions.FETCH_PASSED_STUDENT_LOADING,
     });
-    axiosInstance.get(`/promotion/api/v1/get/passed-students${sessionClassId}?sessioinClassId=${sessionClassId}`)
+    axiosInstance.post(`/promotion/api/v1/get/passed-students`, { studentIds: studentIds })
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PASSED_STUDENT_SUCCESS,
@@ -42,11 +42,11 @@ export const fetchPassedStudentList = (sessionClassId) => dispatch => {
             })
         });
 }
-export const fetchFailedStudentList = (sessionClassId) => dispatch => {
+export const fetchFailedStudentList = (studentIds) => dispatch => {
     dispatch({
         type: actions.FETCH_FAILED_STUDENT_LOADING,
     });
-    axiosInstance.get(`/promotion/api/v1/get/failed-students${sessionClassId}?sessioinClassId=${sessionClassId}`)
+    axiosInstance.post(`/promotion/api/v1/get/failed-students`, { studentIds: studentIds })
         .then((res) => {
             dispatch({
                 type: actions.FETCH_FAILED_STUDENT_SUCCESS,

@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { dashboardLocations, lessonNoteLocations, onlineClassLocations, profileLocations } from './students-path-locations';
+import { assessmentLocations, dashboardLocations, lessonNoteLocations, onlineClassLocations, profileLocations } from './students-path-locations';
 import CreateLessonNote from '../components/students-area/lesson-notes/lesson-note-on-create';
 import EditLessonNote from '../components/students-area/lesson-notes/lesson-note-on-edit';
 import LessonNoteDetails from '../components/students-area/lesson-notes/lesson-note-details';
@@ -11,6 +11,8 @@ import OnlineClass from '../components/students-area/class/online-class';
 
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
+import StudentAssessmentList from '../components/students-area/class/assessment/assessment-list';
+import StudentAssessmentDetails from '../components/students-area/class/assessment/assessment-details';
 
 
 
@@ -27,9 +29,9 @@ const StudentDashboardRouter = () => {
                     {/* onlineClass */}
                     <Route path={onlineClassLocations.onlineClass} exact component={OnlineClass} />
 
-                    {/* assignment */}
-                    {/* <Route path={assignmentLocations.assignment} exact component={studentIndex} />  */}
-
+                    {/* assessment */}
+                    <Route path={assessmentLocations.assessment} exact component={StudentAssessmentList} /> 
+                    <Route path={assessmentLocations.assessmentDetails} exact component={StudentAssessmentDetails} />
                     {/* lessonNote */}
                     <Route path={lessonNoteLocations.lessonNotes} exact component={LessonNotes} />
                     <Route path={lessonNoteLocations.createLessonNotes} exact component={CreateLessonNote} />

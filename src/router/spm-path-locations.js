@@ -7,8 +7,8 @@ export const permissionLocations = {
   roleList: "/dashboard/smp-permissions/role-list",
   roleEdit: "/dashboard/smp-permissions/role-edit",
   roleAdd: "/dashboard/smp-permissions/role-add",
-  addUser:"/dashboard/smp-permissions/add-user",
-  removeUser:"/dashboard/smp-permissions/remove-user"
+  addUser: "/dashboard/smp-permissions/add-user",
+  removeUser: "/dashboard/smp-permissions/remove-user"
 };
 
 export const dashboardLocations = {
@@ -17,6 +17,7 @@ export const dashboardLocations = {
 
 export const authLocations = {
   login: "/smp/sign-in",
+  firstTimeLogin: "/smp/change-password-on-login",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
 };
@@ -24,18 +25,24 @@ export const authLocations = {
 export const classLocations = {
   active: 'smp-class',
   sessionClassList2: "/dashboard/smp-class/session-class",
-  classAttendance: "/dashboard/smp-class/class-attendance",
+  updateClassAttendance: "/dashboard/smp-class/update-class-attendance",
+  createClassAttendance: "/dashboard/smp-class/create-class-attendance",
   classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
-  attendancePresence:"/dashboard/smp-class/attendance-presence",
-  assignment:"/dashboard/smp-class/assignment",
-  assignmentDetails:"/dashboard/smp-class/assignment-details",
-  createAssignment:"/dashboard/smp-class/create-assignment",
-  editAssignment:"/dashboard/smp-class/edit-assignment",
-  lessonNotes:"/dashboard/smp-class/lesson-notes",
-  createLessonNotes:"/dashboard/smp-class/create-lesson-notes",
-  editLessonNotes:"/dashboard/smp-class/edit-lesson-notes",
-  lessonNotesDetails:"/dashboard/smp-class/lesson-note-details",
-  classTimeTable:"/dashboard/smp-class/time-table",
+  attendancePresence: "/dashboard/smp-class/attendance-presence",
+  assessment: "/dashboard/smp-class/assessment",
+  homeAssessmentDetails: "/dashboard/smp-class/home-assessment-details",
+  createHomeAssessment: "/dashboard/smp-class/create-home-assessment",
+  editClassAssessment: "/dashboard/smp-class/edit-class-assessment",
+  editHomeAssessment: "/dashboard/smp-class/edit-home-assessment",
+  viewStudentsHomeAssessment: "/dashboard/smp-class/view-student-home-assessment",
+  lessonNotes: "/dashboard/smp-class/lesson-notes",
+  createLessonNotes: "/dashboard/smp-class/create-lesson-notes",
+  editLessonNotes: "/dashboard/smp-class/edit-lesson-notes",
+  lessonNotesDetails: "/dashboard/smp-class/lesson-note-details",
+  classGroup: "/dashboard/smp-class/class-group",
+  addClassGroup: "/dashboard/smp-class/add-class-group",
+  editClassGroup: "/dashboard/smp-class/edit-class-group",
+  classTimeTable: "/dashboard/smp-class/time-table",
 };
 
 export const sessionLocations = {
@@ -61,10 +68,10 @@ export const sessionLocations = {
 
 export const staffLocations = {
   active: 'smp-staff',
-    staffList: '/dashboard/smp-staff/staff-list',
-    staffAdd: '/dashboard/smp-staff/add-setup',
-    staffEdit: '/dashboard/smp-staff/edit-setup',
-    staffDetails: '/dashboard/smp-staff/details-setup',
+  staffList: '/dashboard/smp-staff/staff-list',
+  staffAdd: '/dashboard/smp-staff/add-setup',
+  staffEdit: '/dashboard/smp-staff/edit-setup',
+  staffDetails: '/dashboard/smp-staff/details-setup',
 }
 
 export const studentsLocations = {
@@ -89,6 +96,7 @@ export const resultManagement = {
   adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
   scoreEntry: "/dashboard/smp-result/score-entry",
   publishResult: "/dashboard/smp-result/publish-result",
+  publishResultTable:"/dashboard/smp-result/publish-result-table",
   publishResultEdit: "/dashboard/smp-result/edit-publish-result",
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
@@ -100,7 +108,7 @@ export const resultManagement = {
 export const portalSetting = {
   active: 'smp-setting',
   setting: "/dashboard/smp-setting",
-  templateSetting:"/dashboard/smp-template-setting"
+  templateSetting: "/dashboard/smp-template-setting"
 };
 
 export const pinManagement = {

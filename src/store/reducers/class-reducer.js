@@ -600,6 +600,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         return {
           ...state,
           createSuccessful: payload,
+          singleGroupList:null
         };
       }
     //ATTENDANCE
@@ -960,6 +961,388 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
 
     //LESSON NOTES
+
+    //GROUP REDUCER
+    case actions.DELETE_GROUP_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.DELETE_GROUP_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message:payload,
+      };
+    case actions.DELETE_GROUP_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message:payload,
+      };
+
+      case actions.FETCH_GROUP_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          groupList:[],
+        };
+      }
+      case actions.FETCH_GROUP_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          groupList: payload,
+        };
+      }
+      case actions.FETCH_GROUP_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          groupList: [],
+        };
+      }
+
+      case actions.FETCH_CLASS_SUBJECTS_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          classSubjects: [],
+        };
+      }
+      case actions.FETCH_CLASS_SUBJECTS_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          classSubjects: payload,
+        };
+      }
+      case actions.FETCH_CLASS_SUBJECTS_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          classSubjects: [],
+        };
+      }
+
+      case actions.FETCH_SINGLE_GROUP_LOADING: {
+        return {
+          ...state,
+          loading: true,
+          singleGroupList:null,
+        };
+      }
+      case actions.FETCH_SINGLE_GROUP_SUCCESS: {
+        return {
+          ...state,
+          loading: false,
+          singleGroupList: payload,
+        };
+      }
+      case actions.FETCH_SINGLE_GROUP_FAILED: {
+        return {
+          ...state,
+          loading: false,
+          singleGroupList: null,
+        };
+      }
+
+      case actions.CREATE_GROUP_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.CREATE_GROUP_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          message:payload,
+          loading: false,
+        };
+      case actions.CREATE_GROUP_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          message:payload,
+          createSuccessful:false,
+          loading: false,
+        };
+  
+        case actions.UPDATE_GROUP_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+          };
+        case actions.UPDATE_GROUP_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            createSuccessful:true,
+            message:payload,
+            loading: false,
+          };
+        case actions.UPDATE_GROUP_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            message:payload,
+            loading: false,
+          };
+  //ASSESSMENT REDUCER
+  case actions.DELETE_ASSESSMENT_LOADING:
+    return {
+      ...state,
+      loading: true,
+      isSuccessful: false,
+    };
+  case actions.DELETE_ASSESSMENT_SUCCESS:
+    return {
+      ...state,
+      isSuccessful: true,
+      loading: false,
+      message:payload,
+    };
+  case actions.DELETE_ASSESSMENT_FAILED:
+    return {
+      ...state,
+      isSuccessful: false,
+      loading: false,
+      message:payload,
+    };
+
+    case actions.FETCH_HOME_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        assessmentList:[],
+      };
+    }
+    case actions.FETCH_HOME_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: payload,
+      };
+    }
+    case actions.FETCH_HOME_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: [],
+      };
+    }
+
+   
+    case actions.FETCH_CLASS_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        assessmentList:[],
+      };
+    }
+    case actions.FETCH_CLASS_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: payload,
+      };
+    }
+    case actions.FETCH_CLASS_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: [],
+      };
+    }
+
+    case actions.FETCH_SINGLE_HOME_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        singleHomeAssessmentList:null,
+      };
+    }
+    case actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        singleHomeAssessmentList: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_HOME_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        singleHomeAssessmentList: null,
+      };
+    }
+
+    case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentClassAssessment:null,
+      };
+    }
+    case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentClassAssessment: payload,
+      };
+    }
+    case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentClassAssessment: null,
+      };
+    }
+    
+    case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentSingleHomeAssessmentList:null,
+      };
+    }
+    case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentSingleHomeAssessmentList: payload,
+      };
+    }
+    case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentSingleHomeAssessmentList: null,
+      };
+    }
+
+    case actions.CREATE_ASSESSMENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.CREATE_ASSESSMENT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        createSuccessful:true,
+        message:payload,
+        loading: false,
+      };
+    case actions.CREATE_ASSESSMENT_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        message:payload,
+        createSuccessful:false,
+        loading: false,
+      };
+
+      case actions.UPDATE_ASSESSMENT_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.UPDATE_ASSESSMENT_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          message:payload,
+          loading: false,
+        };
+      case actions.UPDATE_ASSESSMENT_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          createSuccessful:false,
+          message:payload,
+          loading: false,
+        };
+    
+        case actions.SUBMIT_ASSESSMENT_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+          };
+        case actions.SUBMIT_ASSESSMENT_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            createSuccessful:true,
+            message:payload,
+            loading: false,
+          };
+        case actions.SUBMIT_ASSESSMENT_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            message:payload,
+            loading: false,
+          };
+      
+
+
+        case actions.SEND_ASSESSMENT_TO_STUDENTS_LOADING:
+          return {
+            ...state,
+            loading: true,
+            isSuccessful: false,
+            createSuccessful:false,
+          };
+        case actions.SEND_ASSESSMENT_TO_STUDENTS_SUCCESS:
+          return {
+            ...state,
+            isSuccessful: true,
+            loading: false,
+            createSuccessful:true,
+          };
+        case actions.SEND_ASSESSMENT_TO_STUDENTS_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            createSuccessful:false,
+            loading: false,
+          };
+
+          case actions.FETCH_ASSESSMENT_SCORE_LOADING: {
+            return {
+              ...state,
+              loading: true,
+              assessmentScore:null,
+            };
+          }
+          case actions.FETCH_ASSESSMENT_SCORE_SUCCESS: {
+            return {
+              ...state,
+              loading: false,
+              assessmentScore: payload,
+            };
+          }
+          case actions.FETCH_ASSESSMENT_SCORE_FAILED: {
+            return {
+              ...state,
+              loading: false,
+              assessmentScore: null,
+            };
+          }
+      
 
     default:
       return state;

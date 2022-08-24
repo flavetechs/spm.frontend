@@ -306,7 +306,7 @@ const AttendanceBoard = () => {
                                               register.classRegisterId
                                             )(dispatch);
                                             history.push(
-                                              `${classLocations.classAttendance}?classRegisterId=${register.classRegisterId}`
+                                              `${classLocations.classAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassId}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
@@ -496,7 +496,7 @@ const AttendanceBoard = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}`
+                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}sessionClassId=${sessionClassId}`
                                         );
                                         getAllStudentsPresent(
                                           register.classRegisterId
@@ -514,7 +514,7 @@ const AttendanceBoard = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}`
+                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}sessionClassId=${sessionClassId}`
                                         );
                                         getAllStudentsAbsent(
                                           register.classRegisterId
