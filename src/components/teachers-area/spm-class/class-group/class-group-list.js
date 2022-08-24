@@ -28,28 +28,25 @@ const ClassGroup = () => {
   const locations = useLocation();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [sessionClassId, setSessionClassId] = useState("");
-  const [sessionClassIdQuery, setSessionClassIdQuery] = useState("");
+  const [sessionClassSubjectId, setSessionClassSubjectId] = useState("");
   const state = useSelector((state) => state);
   const { groupList, selectedIds, classSubjects } = state.class;
   const { deleteDialogResponse } = state.alert;
   const { staffClasses } = state.results;
   // const { classStudents } = state.class;
   // ACCESSING STATE FROM REDUX STORE
-  //VALIDATION
-  const validation = Yup.object().shape({
-    sessionClassId: Yup.string().required("Class is required"),
-    sessionClassSubjectId: Yup.string().required("Subject is required"),
-  });
-  //VALIDATION
 
+
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteClassGroup(selectedIds, sessionClassId)(dispatch);
+        deleteClassGroup(selectedIds, sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);
@@ -70,14 +67,15 @@ const ClassGroup = () => {
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, []);
+
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassIdQuery = queryParams.get("sessionClassId");
-    setSessionClassIdQuery(sessionClassIdQuery);
-    sessionClassId
-      ? getAllClassGroup(sessionClassId)(dispatch)
-      : getAllClassGroup(sessionClassIdQuery)(dispatch);
-  }, [sessionClassId]);
+    getAllClassGroup(sessionClassIdQuery,sessionClassSubjectIdQuery)(dispatch);
+  }, [sessionClassSubjectId]);
+
+  React.useEffect(() => {
+      getClassSubjects(sessionClassIdQuery)(dispatch);
+  }, [sessionClassIdQuery]);
+
   const checkSingleItem = (isChecked, groupId, groupList) => {
     groupList?.forEach((item) => {
       if (item.groupId === groupId) {
@@ -118,14 +116,13 @@ const ClassGroup = () => {
                 <Formik
                   initialValues={{
                     sessionClassId: "",
-                    sessionClassSubjectId: "",
+                    sessionClassSubjectId: sessionClassSubjectIdQuery,
                   }}
                   enableReinitialize={true}
-                  validationSchema={validation}
                   onSubmit={(values) => {
-                    getAllClassStudents(values.sessionClassId)(dispatch);
+                    getAllClassStudents(sessionClassIdQuery)(dispatch);
                     history.push(
-                      `${classLocations.addClassGroup}?sessionClassId=${values.sessionClassId}&sessionClassSubjectId=${values.sessionClassSubjectId}`
+                      `${classLocations.addClassGroup}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${values.sessionClassSubjectId}`
                     );
                   }}
                 >
@@ -137,51 +134,8 @@ const ClassGroup = () => {
                     errors,
                   }) => (
                     <div>
-                      <div className="mx-4">
-                        <div>
-                          {errors.sessionClassSubjectId && (
-                            <div className="text-danger">
-                              {errors.sessionClassSubjectId}
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {errors.sessionClassId && (
-                            <div className="text-danger">
-                              {errors.sessionClassId}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
                       <div className="d-md-flex justify-content-end mb-3">
-                        <div className=" me-2 mt-3 mt-xl-0 dropdown">
-                          <Field
-                            as="select"
-                            name="sessionClassId"
-                            className="form-select"
-                            id="sessionClassId"
-                            onChange={(e) => {
-                              setFieldValue("sessionClassId", e.target.value);
-                              setSessionClassId(e.target.value);
-                              getClassSubjects(e.target.value)(dispatch);
-                              if (e.target.value == "") {
-                                history.push(classLocations.lessonNotes);
-                              } else {
-                                history.push(
-                                  `${classLocations.classGroup}?sessionClassId=${e.target.value}`
-                                );
-                              }
-                            }}
-                          >
-                            <option value="">Select Class</option>
-                            {staffClasses?.map((item, idx) => (
-                              <option key={idx} value={item.sessionClassId}>
-                                {item.sessionClass}
-                              </option>
-                            ))}
-                          </Field>
-                        </div>
+                       
                         <div className=" me-2 mt-3 mt-xl-0 dropdown">
                           <Field
                             as="select"
@@ -189,6 +143,7 @@ const ClassGroup = () => {
                             className="form-select"
                             id="sessionClassSubjectId"
                             onChange={(e) => {
+                              setSessionClassSubjectId(e.target.value);
                               setFieldValue(
                                 "sessionClassSubjectId",
                                 e.target.value
@@ -213,7 +168,14 @@ const ClassGroup = () => {
                         <div className="me-2 mt-3 mt-md-0 ">
                           <button
                             type="button"
-                            onClick={() => handleSubmit()}
+                            onClick={() => {
+                              if(!values.sessionClassSubjectId){
+                                showErrorToast("Subject is required to create a class group")(dispatch);
+                                return;
+                              }else{
+                                handleSubmit()
+                              }
+                            }}
                             className="text-center btn-primary btn-icon me-2 mx-2 py-2 btn btn-primary"
                           >
                             <i className="btn-inner">
@@ -355,8 +317,8 @@ const ClassGroup = () => {
                             )}
                           </th>
                           <th>Group Name</th>
-                          <th>No of Students in Grp</th>
-                          <th>No of Students not in Grp</th>
+                          <th className="text-center">No of Students in Grp</th>
+                          <th className="text-center">No of Students not in Grp</th>
                           <th min-width="100px">Action</th>
                         </tr>
                       </thead>
@@ -455,14 +417,13 @@ const ClassGroup = () => {
                                     </Tooltip>
                                   }
                                 >
-                                  <Link
+                                  <button
                                     className="btn btn-sm btn-icon btn-danger mx-2"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title=""
                                     data-original-title="Delete"
-                                    to="#"
-                                    data-id={item.groupId}
+                                   
                                     onClick={() => {
                                       dispatch(pushId(item.groupId));
                                       showSingleDeleteDialog(true)(dispatch);
@@ -499,7 +460,7 @@ const ClassGroup = () => {
                                         ></path>
                                       </svg>
                                     </span>
-                                  </Link>
+                                  </button>
                                 </OverlayTrigger>
                               </div>
                             </td>

@@ -1069,12 +1069,12 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
 //LESSON NOTE ACTION
 
 //GROUP ACTION
-export const getAllClassGroup = (sessionClassId) => (dispatch) => {
+export const getAllClassGroup = (sessionClassId,sessionClassSubjectId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_GROUP_LOADING,
     });
 
-    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}`)
+    axiosInstance.get(`/class/api/v1/getall/class-group?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_GROUP_SUCCESS,
@@ -1107,7 +1107,7 @@ export const getSingleClassGroup = (groupId,sessionClassId) => (dispatch) => {
         });
     }
 
-export const deleteClassGroup = (items,sessionClassId) => (dispatch) => {
+export const deleteClassGroup = (items,sessionClassId,sessionClassSubjectIdQuery) => (dispatch) => {
     dispatch({
         type: actions.DELETE_GROUP_LOADING
     });
@@ -1120,7 +1120,7 @@ const payload= {
                 type: actions.DELETE_GROUP_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassGroup(sessionClassId)(dispatch);
+            getAllClassGroup(sessionClassId, sessionClassSubjectIdQuery)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1250,7 +1250,7 @@ export const getOpenStudentAssessment = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_HOME_ASSESSMENT_LOADING,
     });
-    axiosInstance.get(`/studentassessment/api/v1/get/open-assessments`)
+    axiosInstance.get(`/smp/studentassessment/api/v1/get/open-assessments`)
      .then((res) => {
             dispatch({
                 type: actions.FETCH_HOME_ASSESSMENT_SUCCESS,
@@ -1268,7 +1268,7 @@ export const getStatusFilterForStudentAssessment = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_HOME_ASSESSMENT_LOADING,
     });
-    axiosInstance.get(`/studentassessment/api/v1/filter/home-assessments`)
+    axiosInstance.get(`/smp/studentassessment/api/v1/filter/home-assessments`)
      .then((res) => {
             dispatch({
                 type: actions.FETCH_HOME_ASSESSMENT_SUCCESS,
@@ -1325,7 +1325,7 @@ export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dis
             type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_LOADING,
         });
     
-        axiosInstance.get(`/studentassessment/api/v1/get-single/home-assessments?homeassessmentFeedBackId=${homeassessmentFeedBackId}`)
+        axiosInstance.get(`/smp/studentassessment/api/v1/get-single/home-assessments?homeassessmentFeedBackId=${homeassessmentFeedBackId}`)
             .then((res) => {
                 dispatch({
                     type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS,
@@ -1343,7 +1343,7 @@ export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dis
         export const getAllSingleHomeAssessment = (homeassessmentId,homeassessmentFeedBackId,sessionClassId) => (dispatch) => {
 
             var teacherHomeAssessmentUrl =  axiosInstance.get(`/homeassessment/api/v1/get/single/home-assessments?homeassessmentId=${homeassessmentId}&sessionClassId=${sessionClassId}`)
-            var studentHomeAssessmentUrl =   axiosInstance.get(`/studentassessment/api/v1/get-single/home-assessments?homeassessmentFeedBackId=${homeassessmentFeedBackId}`)
+            var studentHomeAssessmentUrl =   axiosInstance.get(`/smp/studentassessment/api/v1/get-single/home-assessments?homeassessmentFeedBackId=${homeassessmentFeedBackId}`)
         
             var urls = [teacherHomeAssessmentUrl,studentHomeAssessmentUrl];
             Promise.all(urls).then(response => {
@@ -1536,7 +1536,7 @@ export const submitStudentAssessment = (formData) => (dispatch) => {
         type: actions.SUBMIT_ASSESSMENT_LOADING
     });
 
-    axiosInstance.post('/studentassessment/api/v1/submit/assessment-feedback', formData)
+    axiosInstance.post('/smp/studentassessment/api/v1/submit/assessment-feedback', formData)
     .then((res) => {
         dispatch({
             type: actions.SUBMIT_ASSESSMENT_SUCCESS,

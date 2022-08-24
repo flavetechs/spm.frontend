@@ -13,7 +13,7 @@ import {
   studentsLocations,
 } from "../../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllStudentResult } from "../../../store/actions/results-actions";
+import { getAllStudentResult, resetStudentResultState } from "../../../store/actions/results-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import {
   getAllResultList,

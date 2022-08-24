@@ -58,6 +58,7 @@ const EditHomeAssessment = () => {
 
   useEffect(() => {
     setContent(singleHomeAssessmentList?.content);
+    setComment(singleHomeAssessmentList?.comment)
   }, [singleHomeAssessmentList]);
 
   const textEditorModules = useMemo(
@@ -159,7 +160,7 @@ const EditHomeAssessment = () => {
                             </div>
                           )}
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="content">
+                          <label className="form-label" >
                             <b>Group:</b>
                           </label>
                           <Field

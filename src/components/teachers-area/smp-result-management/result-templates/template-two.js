@@ -46,18 +46,17 @@ const ResultTemplateTwo = () => {
                 <Row>
                   <div className="m-4">
                     <Button
-                      variant="btn btn-primary btn-sm"
+                      variant="btn btn-primary btn-sm isPreview"
                       onClick={() => {
                         history.goBack();
-                        resetStudentResultState()(dispatch);
                       }}
                     >
                       Back
                     </Button>
                     {studentResult?.isPreview && (
                       <Button
-                        variant="btn btn-danger btn-sm mx-2"
-                    onClick={() => {}}
+                        variant="btn btn-danger btn-sm mx-2 isPreview"
+                    onClick={() => {window.print()}}
                       >
                         Print
                       </Button>

@@ -229,7 +229,7 @@ setFilesArray(files);
                         files:homeAssessmentFeedBackIdQuery !="null" && studentSingleHomeAssessmentList?.files,
                         content: "",
                         shouldSubmit: studentSingleHomeAssessmentList?.status == 3 ?true : false,
-                        homeAssessmentId:studentSingleHomeAssessmentList?.homeAssessmentId,
+                        homeAssessmentId:homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId ,
                         homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !="null" ? homeAssessmentFeedBackIdQuery: "" ,
                       }}
                       enableReinitialize={true}
@@ -257,6 +257,7 @@ setFilesArray(files);
                         errors,
                       }) => (
                         <Form className="mx-auto">
+                        <div className="h5 text-secondary fw-bold mb-2"> Answer(s)</div>
                           <Row className="d-flex justify-content-center">  
                             <Col md="11" className="form-group text-dark">
                               <label className="form-label h6" >
@@ -277,8 +278,7 @@ setFilesArray(files);
                               )}
                             </Col>
                             <Col md="11" className="form-group text-dark ">
-                              <label className="form-label d-flex justify-content-between h6">
-                                <b>Answer(s):</b>
+                              <label className="form-label d-flex justify-content-end h6">
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={

@@ -217,7 +217,7 @@ const HomeAssessmentDetails = () => {
                       </tr>
                     </tbody>
                     <tbody>
-                      {singleHomeAssessmentList?.studentList.map(
+                      {singleHomeAssessmentList?.studentList?.map(
                         (item, idx) =>
                             <tr key={idx}>
                               <td className="text-uppercase">{item.studentName}</td>

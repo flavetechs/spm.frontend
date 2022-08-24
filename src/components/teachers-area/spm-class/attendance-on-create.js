@@ -8,7 +8,7 @@ import {
   continueClassRegister,
   createAttendance,
   resetCreateSuccessfulState,
-  updateRegisterLabel,
+  resetSingleClassRegisterState,
 } from "../../../store/actions/class-actions";
 
 const CreateAttendance = () => {
@@ -19,7 +19,7 @@ const CreateAttendance = () => {
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { newClassRegister, registerLabelUpdateSuccessful } = state.class;
+  const { newClassRegister } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -28,8 +28,11 @@ const CreateAttendance = () => {
    if(classRegisterId){
     continueClassRegister(classRegisterId)(dispatch);
    }
-  }, [registerLabelUpdateSuccessful]);
-console.log("here",newClassRegister);
+   return () => {
+    resetSingleClassRegisterState()(dispatch)
+  }
+  }, []);
+
   return (
     <>
       <div>
