@@ -54,7 +54,7 @@ const EditClassGroup = () => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-
+console.log(singleGroupList?.classGroupStudents?.map(c=>c.studentContactId));
   return (
     <>
       <div>
