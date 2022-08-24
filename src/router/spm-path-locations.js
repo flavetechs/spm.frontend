@@ -15,6 +15,10 @@ export const dashboardLocations = {
   dashboard: "/dashboard",
 };
 
+export const inprogress = {
+  unactivated: "/dashboard/smp/unactivated",
+};
+
 export const authLocations = {
   login: "/smp/sign-in",
   firstTimeLogin: "/smp/change-password-on-login",

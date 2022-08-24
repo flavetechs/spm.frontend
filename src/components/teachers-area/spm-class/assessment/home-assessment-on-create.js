@@ -17,17 +17,16 @@ const CreateHomeAssessment = () => {
   const locations = useLocation();
   const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const { createSuccessful, groupList,assessmentScore,classSubjects } = state.class;
+  const { createSuccessful, groupList, assessmentScore, classSubjects } = state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
-  const sessionGroupIdQuery = queryParams.get("sessionGroupId");
   const typeQuery = queryParams.get("type");
 
   //HOOKS
   React.useEffect(() => {
     getAllClassGroup(sessionClassIdQuery)(dispatch);
-    getAssessmentScore(sessionClassSubjectIdQuery,sessionClassIdQuery)(dispatch);
+    getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
   }, []);
 
@@ -55,7 +54,7 @@ const CreateHomeAssessment = () => {
           ],
           ["image", "link"],
           [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
-      ],
+        ],
         //   handlers: {
         //     image: imageHandler
         //   }
@@ -65,16 +64,16 @@ const CreateHomeAssessment = () => {
   );
   //HOOKS
 
- //VALIDATION
- const validation = Yup.object().shape({
-  title: Yup.string().required("Subject is required"),
-  assessmentScore: Yup.number().required("Score is required")
-  .min(0, "Assessment score must not be below 0")
-  .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
-  // deadline: Yup.string().required("Please enter who to send"),
-  sessionClassGroupId: Yup.string().required("Please select group"),
-});
-//VALIDATION
+  //VALIDATION
+  const validation = Yup.object().shape({
+    title: Yup.string().required("Subject is required"),
+    assessmentScore: Yup.number().required("Score is required")
+      .min(0, "Assessment score must not be below 0")
+      .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
+    // deadline: Yup.string().required("Please enter who to send"),
+    sessionClassGroupId: Yup.string().required("Please select group"),
+  });
+  //VALIDATION
 
   return (
     <>
@@ -88,9 +87,9 @@ const CreateHomeAssessment = () => {
                     title: "",
                     content: "",
                     assessmentScore: "",
-                    sessionClassId: sessionClassIdQuery,
-                    sessionClassSubjectId: sessionClassSubjectIdQuery,
-                    sessionClassGroupId: sessionGroupIdQuery,
+                    sessionClassId: sessionClassIdQuery || '',
+                    sessionClassSubjectId: sessionClassSubjectIdQuery || '',
+                    sessionClassGroupId: "",
                     shouldSendToStudents: false,
                     deadline: "",
                   }}
@@ -136,23 +135,23 @@ const CreateHomeAssessment = () => {
                           <label className="form-label">
                             <b>Subject:</b>
                           </label>
-                             <Field
-                                  as="select"
-                                  name="sessionClassSubjectId"
-                                  className="form-select h6"
-                                  id="sessionClassSubjectId"
-                                >
-                                  <option value="">Select Subject</option>
-                                  {classSubjects?.map((item, idx) => (
-                                    <option
-                                      key={idx}
-                                      value={item.sessionClassSubjectId}
-                                    >
-                                      {item.subjectName}
-                                    </option>
-                                  ))}
-                                </Field>
-                              </Col>
+                          <Field
+                            as="select"
+                            name="sessionClassSubjectId"
+                            className="form-select"
+                            id="sessionClassSubjectId"
+                          >
+                            <option value="">Select Subject</option>
+                            {classSubjects?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item?.sessionClassSubjectId || ''}
+                              >
+                                {item.subjectName}
+                              </option>
+                            ))}
+                          </Field>
+                        </Col>
 
                         {touched.sessionClassGroupId &&
                           errors.sessionClassGroupId && (
@@ -185,33 +184,33 @@ const CreateHomeAssessment = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group h6 ">
-                          <label  className="form-label d-flex justify-content-between">
+                          <label className="form-label d-flex justify-content-between">
                             <b>Description:</b>
                             <div className="">
                               {/* {!fullScreen ? ( */}
-                                <OverlayTrigger
-                                  placement="top"
-                                  overlay={
-                                    <Tooltip id="button-tooltip-2">
-                                      view full screen
-                                    </Tooltip>
-                                  }
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    view full screen
+                                  </Tooltip>
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  className="mx-2"
+                                  onClick={() => {
+                                    openFullscreen("assessment-editor");
+                                    setFullScreen(true);
+                                  }}
+                                  style={{ cursor: "pointer" }}
                                 >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    className="mx-2"
-                                    onClick={() => {
-                                      openFullscreen("assessment-editor");
-                                      setFullScreen(true);
-                                    }}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
-                                  </svg>
-                                </OverlayTrigger>
+                                  <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
+                                </svg>
+                              </OverlayTrigger>
                             </div>
                           </label>
                           <ReactQuill
@@ -221,7 +220,7 @@ const CreateHomeAssessment = () => {
                             modules={textEditorModules}
                             ref={elementRef}
                             id="assessment-editor"
-                            style={{ height: "300px" , background:"white"}}
+                            style={{ height: "300px", background: "white" }}
                           />
                         </Col>
 
@@ -277,15 +276,15 @@ const CreateHomeAssessment = () => {
                         </Col>
 
                         <Row>
-                           <div>
-                              {touched.assessmentScore &&
-                                errors.assessmentScore && (
-                                  <div className="text-danger">
-                                    {errors.assessmentScore}
-                                  </div>
-                                )}
-                            </div>
-                          </Row>
+                          <div>
+                            {touched.assessmentScore &&
+                              errors.assessmentScore && (
+                                <div className="text-danger">
+                                  {errors.assessmentScore}
+                                </div>
+                              )}
+                          </div>
+                        </Row>
                         <Row className="d-flex">
                           <Col md="2" className="form-group">
                             <label className="form-label">
@@ -311,7 +310,7 @@ const CreateHomeAssessment = () => {
                               className="form-control h6 py-0 px-1"
                             />
                           </Col>
-                        
+
                           <Col md="2" className="form-group">
                             <label className="form-label">
                               <h6>assessment</h6>

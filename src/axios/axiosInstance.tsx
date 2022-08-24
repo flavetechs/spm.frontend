@@ -1,6 +1,6 @@
 import axios from 'axios';
-//https://localhost:44373/,
-// http://flavetech-001-site3.etempurl.com/
+//http://flavetech-001-site3.etempurl.com/,
+// https://localhost:44373/
 const axiosInstance = axios.create({
     baseURL: 'http://flavetech-001-site1.etempurl.com/',
     headers: {
@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
-    if(error.response.status === 401){
+    if(error.response.status === 401) {
         localStorage.removeItem('token');
     }
     throw error;
