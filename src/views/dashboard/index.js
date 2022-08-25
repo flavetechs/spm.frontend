@@ -311,7 +311,7 @@ const Index = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Students</p>
-                                                <h4 className="counter"><CountUp start={0} end={560} duration={3} />K</h4>
+                                                <h4 className="counter"><CountUp start={0} end={0} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -326,7 +326,7 @@ const Index = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Teachers</p>
-                                                <h4 className="counter"><CountUp start={0} end={30} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={15} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -341,7 +341,7 @@ const Index = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Total Pin</p>
-                                                <h4 className="counter">$<CountUp start={120} end={378} duration={3} />K</h4>
+                                                <h4 className="counter"><CountUp start={0} end={150} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -356,7 +356,7 @@ const Index = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Used Pins</p>
-                                                <h4 className="counter"><CountUp start={212} end={742} duration={3} />K</h4>
+                                                <h4 className="counter"><CountUp start={0} end={50} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -371,7 +371,7 @@ const Index = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Revenue</p>
-                                                <h4 className="counter"><CountUp start={35} end={150} duration={3} />K</h4>
+                                                <h4 className="counter"><CountUp start={0} end={0} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -386,7 +386,7 @@ const Index = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Unused Pins</p>
-                                                <h4 className="counter"><CountUp start={652} end={4600} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={0} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -400,8 +400,8 @@ const Index = (props) => {
                                                 </svg>
                                             </Circularprogressbar>
                                             <div className="progress-detail">
-                                                <p className="mb-2">Revenue</p>
-                                                <h4 className="counter"><CountUp start={2} end={11.2} duration={3} decimals={1} />M</h4>
+                                                <p className="mb-2">Express</p>
+                                                <h4 className="counter"><CountUp start={2} end={0} duration={3} decimals={1} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -418,7 +418,7 @@ const Index = (props) => {
                             <div className="card" data-aos="fade-up" data-aos-delay="800">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
                                     <div className="header-title">
-                                        <h4 className="card-title">387K</h4>
+                                        <h4 className="card-title">0</h4>
                                         <p className="mb-0">Pin Sales</p>
                                     </div>
                                     <div className="d-flex align-items-center align-self-center">
@@ -459,11 +459,11 @@ const Index = (props) => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="12" xl="6">
+                      <Col md="12" xl="6">
                             <div className="card" data-aos="fade-up" data-aos-delay="900">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
                                     <div className="header-title">
-                                        <h4 className="card-title">Earnings</h4>
+                                        <h4 className="card-title">Students</h4>
                                     </div>
                                     <Dropdown>
                                         <Dropdown.Toggle as={Button} href="#" variant=" text-secondary" id="dropdownMenuButton1" aria-expanded="false">
@@ -487,8 +487,8 @@ const Index = (props) => {
                                                     </g>
                                                 </svg>
                                                 <div className="ms-3">
-                                                    <span className="text-secondary">Fashion</span>
-                                                    <h6>251K</h6>
+                                                    <span className="text-secondary">Enrolled</span>
+                                                    <h6>0</h6>
                                                 </div>
                                             </div>
                                             <div className="d-flex align-items-start">
@@ -498,8 +498,8 @@ const Index = (props) => {
                                                     </g>
                                                 </svg>
                                                 <div className="ms-3">
-                                                    <span className="text-secondary">Accessories</span>
-                                                    <h6>176K</h6>
+                                                    <span className="text-secondary">Unenrolled</span>
+                                                    <h6>0</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -507,7 +507,7 @@ const Index = (props) => {
                                 </div>
                             </div>
                         </Col>
-                        <Col md="12" xl="6">
+                        {/*   <Col md="12" xl="6">
                             <div className="card" data-aos="fade-up" data-aos-delay="1000">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
                                     <div className="header-title">
@@ -690,7 +690,7 @@ const Index = (props) => {
                                     </div>
                                 </div>
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Col>
                 <Col md="12" lg="4">
@@ -762,7 +762,7 @@ const Index = (props) => {
                                     </div>
                                     <div className="mb-4">
                                         <div className="flex-wrap d-flex justify-content-between">
-                                            <h2 className="mb-2">$405,012,300</h2>
+                                            <h2 className="mb-2">000</h2>
                                             <div>
                                                 <span className="badge bg-success rounded-pill">YoY 24%</span>
                                             </div>
@@ -789,7 +789,7 @@ const Index = (props) => {
                                 </div>
                             </div> */}
                         </Col>
-                        <Col md="12">
+                        {/* <Col md="12">
                             <div className="card" data-aos="fade-up" data-aos-delay="600">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
                                     <div className="header-title">
@@ -840,7 +840,7 @@ const Index = (props) => {
                                     </div>
                                 </div>
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Col>
             </Row>

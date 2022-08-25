@@ -82,7 +82,7 @@ const ClassTimeTableActivities = ({ timetableList, selectedClassId }) => {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                     </i>
-                                    <span>Add New Time</span>
+                                    <span>Add Time</span>
                                 </Button>
                                 <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3"
                                     onClick={() => {
@@ -96,7 +96,7 @@ const ClassTimeTableActivities = ({ timetableList, selectedClassId }) => {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                     </i>
-                                    <span>Add New Day</span>
+                                    <span>Add Day</span>
                                 </Button>
                             </div>
                         </Card.Header>

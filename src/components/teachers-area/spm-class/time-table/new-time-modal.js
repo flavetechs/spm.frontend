@@ -11,35 +11,41 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
-    let result = timetableList.find(id => id.classTimeTableId);
     const [newTime, setNewTime] = useState({
         start: "",
         end: "",
-        classTimeTableId: result?.classTimeTableId,
+        classTimeTableId: timetableList[0]?.classTimeTableId,
         classId: selectedClassId
     });
     //VARIABLE DECLARATIONS
 
-    const handleChange = (event) => {
-        setNewTime({ ...newTime, [event.target.name]: event.target.value });
+    const handleStartDateChange = (event) => {
+        newTime.start = event.target.value
+        setNewTime(newTime);
     };
 
-
-
+    const handleEndDateChange = (event) => {
+        newTime.end = event.target.value
+        setNewTime(newTime);
+    };
+ 
     return (
 
         <SmpModal title={'Add New Time'}>
             <Form className="pt-3">
                 <div>
                     <div className="mb-3">
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Group className="mb-3" controlId="formBasicPassword" formData={newTime}>
                             <Form.Label>Start Time</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
                                 name="start"
                                 placeholder="Start Time"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    newTime.start = e.target.value;
+                                    setNewTime(newTime);
+                                }}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -49,7 +55,10 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                                 type="text"
                                 name="end"
                                 placeholder="End Time"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    newTime.end = e.target.value;
+                                    setNewTime(newTime);
+                                }}
                             />
                         </Form.Group>
                     </div>
@@ -68,6 +77,7 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                             variant="primary"
                             className=""
                             onClick={() => {
+                                console.log('newTime', newTime);
                                 createTimetableTime(newTime, selectedClassId)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
