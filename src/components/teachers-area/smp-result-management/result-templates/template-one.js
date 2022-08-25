@@ -79,7 +79,7 @@ const ResultTemplateOne = () => {
                   >
                     <div className="d-flex justify-content-center">
                       <img
-                        style={{ width: "15%" }}
+                        style={{ maxWidth: "15%" }}
                         src={schoolSettingList?.filepath}
                         alt="logo"
                         draggable="false"
@@ -308,7 +308,7 @@ const ResultTemplateOne = () => {
                         <img
                           src={resultSettingList?.filepath}
                           alt="stamp"
-                          style={{ width: "12%" }}
+                          style={{ maxWidth: "12%" }}
                           draggable="false"
                         />
                       </div>

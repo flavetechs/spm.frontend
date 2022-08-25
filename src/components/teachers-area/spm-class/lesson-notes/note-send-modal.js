@@ -7,7 +7,7 @@ import {
 } from "../../../../store/actions/toaster-actions";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { sendLessonNotes } from "../../../../store/actions/class-actions";
-import { getAllStaffClasses } from "../../../../store/actions/results-actions";
+import { getAllSharedOnStaffClasses} from "../../../../store/actions/results-actions";
 
 export function NoteSendModal(props) {
   const dispatch = useDispatch();
@@ -19,8 +19,12 @@ export function NoteSendModal(props) {
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllStaffClasses()(dispatch);
-  }, []);
+    getAllSharedOnStaffClasses(props.teacherClassNoteId)(dispatch);
+  }, [props.teacherClassNoteId]);
+
+  React.useEffect(() => {
+    setClassArray(staffClasses.filter(c=> c.isSent == true).map(c=>c.sessionClassId));
+  }, [staffClasses]);
 
   const handleClassArray = (event) => {
     const checkBoxValue = event.target.checked;
@@ -34,7 +38,7 @@ export function NoteSendModal(props) {
     }
     setClassArray(selectedClassArray);
   };
-
+  console.log(staffClasses,"selected",classArray);
   return (
     <>
     <SmpModal title={"Class List"}>
@@ -46,7 +50,7 @@ export function NoteSendModal(props) {
                 type="checkbox"
                 name="classes"
                 id={item.sessionClassId}
-                //defaultChecked={item.isShared==true||false}
+                checked={classArray.find(i=>i == item.sessionClassId)}
                 onChange={(e) => {
                   handleClassArray(e);
                 }}

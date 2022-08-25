@@ -44,19 +44,19 @@ const ResultTemplateTwo = () => {
             <Card>
               <div>
                 <Row>
-                  <div className="m-4">
+                <div className="m-4">
                     <Button
-                      variant="btn btn-primary btn-sm isPreview"
+                      variant="btn btn-danger btn-sm isPreview"
                       onClick={() => {
                         history.goBack();
                       }}
                     >
                       Back
                     </Button>
-                    {studentResult?.isPreview && (
+                    {studentResult?.isPrint && (
                       <Button
-                        variant="btn btn-danger btn-sm mx-2 isPreview"
-                    onClick={() => {window.print()}}
+                        variant="btn btn-primary btn-sm mx-2 isPreview"
+                        onClick={() => {window.print()}}
                       >
                         Print
                       </Button>

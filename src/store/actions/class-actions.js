@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/class-action-types";
+import { getAllSharedOnStaffClasses } from "./results-actions";
 import { respondModal, showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
@@ -766,6 +767,7 @@ const payload = {
                 payload: res.data.message.friendlyMessage
             });
             respondModal("cancel")(dispatch);
+            getAllSharedOnStaffClasses(teacherClassNoteId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1301,6 +1303,25 @@ export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dis
         });
     }
 
+    export const getSingleClassAssessment = (classAssessmentId) => (dispatch) => {
+        dispatch({
+            type: actions.FETCH_SINGLE_CLASS_ASSESSMENT_LOADING,
+        });
+    
+        axiosInstance.get(`/classassessment/api/v1/get-single/class-assessments?classAssessmentId=${classAssessmentId}`)
+            .then((res) => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_CLASS_ASSESSMENT_SUCCESS,
+                    payload: res.data.result
+                });
+            }).catch((err) => {
+                dispatch({
+                    type: actions.FETCH_SINGLE_CLASS_ASSESSMENT_FAILED,
+                    payload: err.response.data.result
+                })
+            });
+        }
+
     export const getStudentClassAssessment = (classAssessmentId) => (dispatch) => {
         dispatch({
             type: actions.FETCH_STUDENTS_CLASS_ASSESSMENT_LOADING,
@@ -1361,6 +1382,7 @@ export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dis
                 console.log(er);
             })
         }
+        
 export const deleteHomeAssessment = (item,sessionClassSubjectId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_ASSESSMENT_LOADING

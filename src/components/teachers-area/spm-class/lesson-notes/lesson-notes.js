@@ -10,6 +10,7 @@ import {
   getClassNotesByStatus,
 } from "../../../../store/actions/class-actions";
 import {
+  getAllSharedOnStaffClasses,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../../../store/actions/results-actions";
