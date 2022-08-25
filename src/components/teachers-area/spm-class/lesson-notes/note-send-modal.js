@@ -45,7 +45,7 @@ export function NoteSendModal(props) {
     }
     setClassArray(selectedClassArray);
   };
-console.log(staffClasses,"here",classArray);
+
   return (
     <>
     <SmpModal title={"Class List"}>
