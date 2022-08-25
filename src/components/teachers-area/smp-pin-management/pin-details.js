@@ -138,9 +138,7 @@ const PinDetails = () => {
                   </div>
                   <p className="text-info">{selectedUnusedPin?.pinStatus}</p>
                 </div>
-                <div className="grid-cols-3 d-grid gap">
-                  <div></div>
-                  <div></div>
+                <div className="d-md-flex justify-content-end">
                   <button
                     onClick={() => {
                       history.goBack();

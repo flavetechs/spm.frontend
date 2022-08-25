@@ -28,9 +28,9 @@ const UsedPinDetails = () => {
         <Row>
           <Col sm="12">
             <Card className="credit-card-widget">
-              <Card.Header className="pb-4 border-0 col-lg-9 col-xl-8 col-xxl-7">
-                <div className="p-4 border border-white rounded primary-gradient-card">
-                  <div className="d-flex justify-content-between align-items-center">
+              <Card.Header className="pb-4 border-0 ">
+                <div className="p-4  border border-white rounded primary-gradient-card">
+                  <div className="d-flex mt-n3 justify-content-between align-items-center">
                     <div>
                       <h5 className="font-weight-bold">FWS CARD </h5>
                       <p className="mb-0">PREMIUM ACCOUNT</p>
