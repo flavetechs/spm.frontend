@@ -16,6 +16,7 @@ export function NoteSendModal(props) {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { staffClasses } = state.results;
+  const { modalResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -25,6 +26,12 @@ export function NoteSendModal(props) {
   React.useEffect(() => {
     setClassArray(staffClasses.filter(c=> c.isSent == true).map(c=>c.sessionClassId));
   }, [staffClasses]);
+
+  React.useEffect(() => {
+    if(modalResponse == "cancel"){
+    setClassArray([])
+  }
+  }, [modalResponse]);
 
   const handleClassArray = (event) => {
     const checkBoxValue = event.target.checked;
@@ -38,7 +45,7 @@ export function NoteSendModal(props) {
     }
     setClassArray(selectedClassArray);
   };
-  console.log(staffClasses,"selected",classArray);
+console.log(staffClasses,"here",classArray);
   return (
     <>
     <SmpModal title={"Class List"}>
@@ -50,7 +57,7 @@ export function NoteSendModal(props) {
                 type="checkbox"
                 name="classes"
                 id={item.sessionClassId}
-                checked={classArray.find(i=>i == item.sessionClassId)}
+                checked={classArray.find(i=>i === item.sessionClassId)}
                 onChange={(e) => {
                   handleClassArray(e);
                 }}

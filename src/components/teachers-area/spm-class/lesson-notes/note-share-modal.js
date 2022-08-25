@@ -16,6 +16,7 @@ export function NoteShareModal(props) {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { otherStaffList } = state.class;
+  const { modalResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -25,6 +26,13 @@ export function NoteShareModal(props) {
   React.useEffect(() => {
     setStaffArray(otherStaffList.filter(c=> c.isShared == true).map(c=>c.teacherAccountId));
   }, [otherStaffList]);
+
+  React.useEffect(() => {
+    if(modalResponse == "cancel"){
+    setStaffArray([])
+  }
+  }, [modalResponse]);
+  
 
   const handleStaffArray = (event) => {
     const checkBoxValue = event.target.checked;
@@ -38,7 +46,8 @@ export function NoteShareModal(props) {
     }
     setStaffArray(selectedStaffArray);
   };
-  console.log(otherStaffList,"selected",staffArray);
+
+
   return (
     <>
     <SmpModal title={"Staff List"}>
