@@ -39,7 +39,7 @@ const EditLessonNote = () => {
   });
   //VALIDATION
   React.useEffect(() => {
-    createSuccessful && history.push(classLocations.lessonNotes);
+    createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   useEffect(() => {

@@ -25,7 +25,7 @@ const CreateLessonNote = () => {
     //VALIDATION
 
     React.useEffect(() => {
-      createSuccessful && history.push(classLocations.lessonNotes);
+      createSuccessful && history.goBack();
     }, [createSuccessful]);
   
     const [content, setContent] = useState('');

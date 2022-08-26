@@ -10,7 +10,6 @@ import {
   getClassNotesByStatus,
 } from "../../../../store/actions/class-actions";
 import {
-  getAllSharedOnStaffClasses,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../../../store/actions/results-actions";
@@ -36,7 +35,6 @@ const LessonNotes = () => {
   const [subjectId, setSubjectId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [sessionClassId, setSessionClassId] = useState("");
   const [classNoteId, setClassNoteId] = useState("");
   const [teacherClassNoteId, setTeacherClassNoteId] = useState("");
   const [noteSendModal, setNoteSendModal] = useState(false);
@@ -88,18 +86,25 @@ const LessonNotes = () => {
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId");
   const sessionClassIdQuery = queryParams.get("classId");
-  React.useEffect(() => {
-    if (subjectIdQuery) {
-      getAllLessonNotes(subjectIdQuery)(dispatch);
-      setSubjectId(subjectIdQuery);
-    }
-  }, [subjectIdQuery]);
+  const approvalStatusQuery = queryParams.get("approvalStatus");
 
   React.useEffect(() => {
-    if (!subjectIdQuery) {
+    sessionClassIdQuery && getStaffClassSubjects(sessionClassIdQuery)(dispatch);
+  }, [sessionClassIdQuery]);
+
+  React.useEffect(() => {
+    if (subjectIdQuery && !approvalStatusQuery) {
+      getAllLessonNotes(subjectIdQuery)(dispatch);
+    } 
+    else if (!subjectIdQuery&& !approvalStatusQuery) {
       getAllLessonNotes(subjectId)(dispatch);
+    } 
+    if (approvalStatusQuery) {
+      getClassNotesByStatus(subjectIdQuery, approvalStatusQuery)(dispatch);
     }
-  }, [subjectIdQuery]);
+  }, [approvalStatusQuery, subjectIdQuery]);
+
+  
 
   const filteredLessonNotes = lessonNotes
     ?.filter((item) =>
@@ -123,7 +128,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-
+  console.log("this", sessionClassIdQuery);
   return (
     <>
       <div>
@@ -185,8 +190,9 @@ const LessonNotes = () => {
               )}
               <Formik
                 initialValues={{
-                  sessionClassId: sessionClassId,
-                  subjectId: "",
+                  sessionClassId: sessionClassIdQuery ? sessionClassIdQuery : "",
+                  subjectId: subjectIdQuery ? subjectIdQuery:"",
+                  approvalStatus: approvalStatusQuery ? approvalStatusQuery: "",
                 }}
                 enableReinitialize={true}
                 validationSchema={validation}
@@ -208,7 +214,7 @@ const LessonNotes = () => {
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {errors.sessionClassId && (
+                                {touched.sessionClassId && errors.sessionClassId && (
                                   <div className="text-danger">
                                     {errors.sessionClassId}
                                   </div>
@@ -224,10 +230,7 @@ const LessonNotes = () => {
                                     "sessionClassId",
                                     e.target.value
                                   );
-                                  setSessionClassId(e.target.value);
-                                  getStaffClassSubjects(e.target.value)(
-                                    dispatch
-                                  );
+                                  
                                   if (e.target.value == "") {
                                     getAllLessonNotes("")(dispatch);
                                     history.push(classLocations.lessonNotes);
@@ -263,7 +266,9 @@ const LessonNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   setSubjectId(e.target.value);
                                   e.target.value == ""
-                                    ? history.push(classLocations.lessonNotes)
+                                    ? history.push(
+                                        `${classLocations.lessonNotes}?classId=${values.sessionClassId}`
+                                      )
                                     : history.push(
                                         `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${e.target.value}`
                                       );
@@ -314,12 +319,18 @@ const LessonNotes = () => {
                                     "approvalStatus",
                                     e.target.value
                                   );
-                                  e.target.value !== "all"
-                                    ? getClassNotesByStatus(
-                                        values.subjectId,
-                                        e.target.value
-                                      )(dispatch)
-                                    : getAllLessonNotes("")(dispatch);
+                                  if (e.target.value !== "all") {
+                                    approvalStatusQuery != e.target.value &&
+                                    getClassNotesByStatus(values.subjectId, e.target.value)(dispatch);
+                                    history.push(
+                                      `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}&approvalStatus=${e.target.value}`
+                                    );
+                                  } else {
+                                    getAllLessonNotes("")(dispatch);
+                                    history.push(
+                                      `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}`
+                                    );
+                                  }
                                 }}
                               >
                                 <option value="">Select Status</option>
@@ -355,7 +366,7 @@ const LessonNotes = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={(e) => {
                                       setShowMenuDropdown(!showMenuDropdown);
-                                      setIndexRow(idx); 
+                                      setIndexRow(idx);
                                     }}
                                   >
                                     <g>

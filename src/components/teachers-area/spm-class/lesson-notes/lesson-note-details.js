@@ -37,7 +37,7 @@ const LessonNoteDetails = () => {
   const [reply, setReply] = useState({});
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
-    createSuccessful && history.push(classLocations.lessonNotes);
+    createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const LessonNoteDetails = () => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
-  console.log(singleLessonNotes);
+
   return (
     <>
       <div className="col-sm-12 mx-auto">
