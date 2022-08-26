@@ -7,15 +7,15 @@ import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { updateTimetableDays } from "../../../../store/actions/timetable-actions";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 
-export function UpdateDayModal({ timetableList, selectedClassId, currentDay, timetableDayId }) {
+export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay, timetableDayId }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
     const [newDay, setNewDay] = useState('');
-    let result = timetableList.find(id => id.classTimeTableId);
-    const [timetableId, setTimetableId] = useState(result?.classTimeTableId);
+    const [timetableId, setTimetableId] = useState(selectedTimetable?.classTimeTableId);
     //VARIABLE DECLARATION
 
+    
     React.useEffect(() => {
         setNewDay(currentDay);
     }, [currentDay])

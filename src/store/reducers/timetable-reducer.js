@@ -6,7 +6,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
   switch (type) {
 
     case actions.GET_SINGLE_ITEM: {
-      const selectedItem = state.timetableList.find(d => d.classTimeTableTimeId == payload);
+      const selectedItem = state.selectedTimetable.find(d => d.classTimeTableTimeId == payload);
       if (selectedItem) {
         return {
           ...state,
@@ -28,7 +28,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
     case actions.RETURN_ITEM_LIST:
       return {
         ...state,
-        timetableList: payload,
+        selectedTimetable: payload,
       };
 
 
@@ -44,7 +44,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        timetableList: payload,
+        selectedTimetable: payload,
       };
     case actions.FETCH_TIMETABLE_FAILED:
       return {
@@ -230,27 +230,49 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
-      case actions.UPDATE_TIMETABLE_TIME_LOADING:
-        return {
-          ...state,
-          loading: true,
-          isSuccessful: false,
-          message: "",
-        };
-      case actions.UPDATE_TIMETABLE_TIME_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          message: payload,
-          isSuccessful: true,
-        };
-      case actions.UPDATE_TIMETABLE_TIME_FAILED:
-        return {
-          ...state,
-          loading: false,
-          message: payload,
-          isSuccessful: false,
-        };
+    case actions.UPDATE_TIMETABLE_TIME_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPDATE_TIMETABLE_TIME_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: true,
+      };
+    case actions.UPDATE_TIMETABLE_TIME_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.FETCH_STUDENT_TIMETABLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_STUDENT_TIMETABLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        studentselectedTimetable: payload,
+        isSuccessful: true,
+      };
+    case actions.FETCH_STUDENT_TIMETABLE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
 
 
     //TIMETABLE ACTION REDUCERS

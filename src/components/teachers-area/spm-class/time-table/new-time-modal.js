@@ -7,16 +7,24 @@ import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { createTimetableTime } from "../../../../store/actions/timetable-actions";
 
-export function NewTimeModal({ selectedClassId, timetableList }) {
+export function NewTimeModal({ selectedClassId, selectedTimetable }) {
+
+
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
     const [newTime, setNewTime] = useState({
         start: "",
         end: "",
-        classTimeTableId: timetableList[0]?.classTimeTableId,
-        classId: selectedClassId
+        classTimeTableId: "",
+        classId: "",
     });
+
+    React.useEffect(() => {
+        newTime.classTimeTableId = selectedTimetable?.classTimeTableId;
+        newTime.classId = selectedClassId;
+    }, [selectedTimetable])
+
     //VARIABLE DECLARATIONS
 
     const handleStartDateChange = (event) => {
@@ -35,7 +43,7 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
             <Form className="pt-3">
                 <div>
                     <div className="mb-3">
-                        <Form.Group className="mb-3" controlId="formBasicPassword" formData={newTime}>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Start Time</Form.Label>
                             <Form.Control
                                 required
@@ -44,7 +52,6 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                                 placeholder="Start Time"
                                 onChange={(e) => {
                                     newTime.start = e.target.value;
-                                    setNewTime(newTime);
                                 }}
                             />
                         </Form.Group>
@@ -57,7 +64,6 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                                 placeholder="End Time"
                                 onChange={(e) => {
                                     newTime.end = e.target.value;
-                                    setNewTime(newTime);
                                 }}
                             />
                         </Form.Group>
