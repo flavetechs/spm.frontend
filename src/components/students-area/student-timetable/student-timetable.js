@@ -1,15 +1,8 @@
-import React, { useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Row, Col } from "react-bootstrap";
 import Card from "../../Card";
-import { ReactReduxContext, useDispatch, useSelector } from "react-redux";
-import {
-  respondToDeleteDialog,
-  showErrorToast,
-  showSingleDeleteDialog,
-} from "../../../store/actions/toaster-actions";
+import { useDispatch, useSelector } from "react-redux";
 import { getStudentTimeTable } from "../../../store/actions/timetable-actions";
-
 
 
 const StudentTimeTable = () => {
@@ -27,8 +20,6 @@ const StudentTimeTable = () => {
     getStudentTimeTable()(dispatch);
   }, []);
 
-    console.log('studentselectedTimetable', studentselectedTimetable);
-
   return (
     <>
       <div>
@@ -38,64 +29,42 @@ const StudentTimeTable = () => {
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
                   <h4 className="card-title">
-                    <b>Student Timetable</b>
+                    <span>{`${studentselectedTimetable?.className} Class Timetable`}</span>
                   </h4>
                 </div>
               </Card.Header>
               <Card.Body className="px-0">
                 <div className="table-responsive">
-                  <table
-                    id="role-list-table"
-                    className="table table-striped"
-                    role="grid"
-                    data-toggle="data-table"
-                  >
+                  <table className="table striped='column' table-bordered border-3">
                     <thead>
-                      <tr className="ligth">
-                        <th>
-                        name
-                        </th>
-                        <th>
-                          <b>First Name</b>
-                        </th>
-                        <th>
-                          <b>Last Name</b>
-                        </th>
-                        <th>
-                          <b>MIddle Name</b>
-                        </th>
-                        <th>
-                          <b>Email</b>
-                        </th>
-                        <th>
-                          <b>Phone Number</b>
-                        </th>
-  
+                      <tr>
+                        <th></th>
+                        {studentselectedTimetable?.timetable?.days?.map((items, index) => (
+                          <th className="text-center" key={index} >{items.day}
+                          </th>
+
+                        ))}
                       </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                          <td className="text-dark">
-                          <b>name</b>
+                      {studentselectedTimetable?.timetable?.times?.map((item, index) => (
+                        <tr key={index}>
+                          <td >
+                            {item.period}
                           </td>
-                          <td className="text-uppercase">
-                            <b>dd</b>
-                          </td>
-                          <td className="text-uppercase">
-                            <b>dd</b>
-                          </td>
-                          <td className="text-uppercase">
-                            <b>dd</b>
-                          </td>
-                          <td>
-                            <b>ddd</b>
-                          </td>
-                          <td>
-                            <b>ff</b>
-                          </td>
-    
+                          {
+                            item?.periodActivities?.map((activityItem, idx) => {
+                              return (
+                                <td key={idx}
+                                >
+                                  {activityItem.activity}
+                                </td>
+                              )
+
+                            })
+                          }
                         </tr>
-              
+                      ))}
                     </tbody>
                   </table>
                 </div>

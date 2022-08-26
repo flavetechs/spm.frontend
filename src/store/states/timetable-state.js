@@ -7,5 +7,5 @@ export const _state = {
     submitSuccessful: false,
     activeClasses: [],
     selectedTimetable: null,
-    studentselectedTimetable: [],
+    studentselectedTimetable: null,
 }
