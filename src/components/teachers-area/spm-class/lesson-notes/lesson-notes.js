@@ -128,7 +128,7 @@ const LessonNotes = () => {
         return item;
       }
     });
-  console.log("this", sessionClassIdQuery);
+ 
   return (
     <>
       <div>

@@ -1377,7 +1377,7 @@ export const getSingleHomeAssessment = (homeassessmentId,sessionClassId) => (dis
                     type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS,
                     payload: response[1].data.result
                 });
-                console.log("er",response[1].data.result);
+               
             }).catch(er => {
                 console.log(er);
             })

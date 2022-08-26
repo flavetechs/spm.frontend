@@ -35,8 +35,8 @@ const ViewStudentsAssessment = () => {
       homeAssessmentFeedBackIdQuery,
       sessionClassIdQuery
     )(dispatch);
-  }, []);
-
+  }, [homeAssessmentFeedBackIdQuery]);
+  console.log("er",singleHomeAssessmentList,"stud",studentSingleHomeAssessmentList);
   return (
     <>
       <div>
@@ -308,7 +308,7 @@ const ViewStudentsAssessment = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
-                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}`}
+                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId}`}
                                   >
                                     <span className="btn-inner">
                                       <svg

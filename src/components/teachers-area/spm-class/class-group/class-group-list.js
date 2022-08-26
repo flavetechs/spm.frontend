@@ -118,8 +118,7 @@ const ClassGroup = () => {
               <Card.Body className="px-0 mt-n3">
                 <Formik
                   initialValues={{
-                    sessionClassId: "",
-                    sessionClassSubjectId: sessionClassSubjectIdQuery,
+                    sessionClassSubjectId: sessionClassSubjectIdQuery ? sessionClassSubjectIdQuery : "",
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {
@@ -152,7 +151,7 @@ const ClassGroup = () => {
                             history.push(classLocations.sessionClassList2);
                           }}
                           style={{ cursor: "pointer" }}
-                          className=" mx-3"
+                          className=" mx-3 text-primary"
                           width="32"
                           viewBox="0 0 24 24"
                           fill="none"

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { Row, Col, Button, Table } from "react-bootstrap";
+import { Row, Col, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 import {
   fetchSingleSessionClass,
   getAllActiveSubjects,
   getAllActiveTeachers,
   getAllClassStudents,
 } from "../../../store/actions/class-actions";
+import { studentsLocations } from "../../../router/spm-path-locations";
 
 const SessionClassDetails = () => {
   //VARIABLE DECLARATIONS
@@ -33,6 +34,7 @@ const SessionClassDetails = () => {
     getAllActiveTeachers()(dispatch);
     getAllClassStudents(sessionClassId)(dispatch);
   }, []);
+
   return (
     <>
       <div className="col-md-8 mx-auto">
@@ -173,8 +175,12 @@ const SessionClassDetails = () => {
                         </tr>
                         {classSubjects?.map((classSubject, id) => (
                           <tr key={id}>
-                            <td className='text-capitalize'>{classSubject.subjectName}</td>
-                            <td className='text-capitalize'>{classSubject.subjectTeacherName}</td>
+                            <td className="text-capitalize">
+                              {classSubject.subjectName}
+                            </td>
+                            <td className="text-capitalize">
+                              {classSubject.subjectTeacherName}
+                            </td>
                             <td>
                               <span className="badge bg-primary">
                                 {classSubject.examSCore}
@@ -207,16 +213,72 @@ const SessionClassDetails = () => {
                           <th>
                             <span className="h6">Registration No</span>
                           </th>
+                          <th>
+                            <span className="h6">Action</span>
+                          </th>
                         </tr>
                         {classStudents?.map((student, idx) => (
                           <tr key={idx}>
-                            <td className='text-capitalize'>
+                            <td className="text-capitalize">
                               {student.firstName} {student.lastName}
                             </td>
                             <td>
                               <span className="badge bg-primary">
                                 {student.registrationNumber}
                               </span>
+                            </td>
+                            <td>
+                              
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    details
+                                  </Tooltip>
+                                }
+                              >
+                                <Link
+                                  className="btn btn-sm btn-icon btn-success"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Details"
+                                  to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentAccountId}`}
+                                 >
+                                  <span className="btn-inner">
+                                    <svg
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9946 16V12"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9896 8.2041H11.9996"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                  </span>
+                                </Link>
+                              </OverlayTrigger>
                             </td>
                           </tr>
                         ))}
