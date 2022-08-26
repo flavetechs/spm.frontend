@@ -1184,6 +1184,28 @@ export const classReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.FETCH_SINGLE_CLASS_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        singleClassAssessmentList:null,
+      };
+    }
+    case actions.FETCH_SINGLE_CLASS_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        singleClassAssessmentList: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_CLASS_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        singleClassAssessmentList: null,
+      };
+    }
+
     case actions.FETCH_STUDENTS_CLASS_ASSESSMENT_LOADING: {
       return {
         ...state,

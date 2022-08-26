@@ -16,13 +16,13 @@ const TemplateSetting = () => {
   const imageData = [
     {
       image:
-        "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
+        "http://flavetech-001-site1.etempurl.com/ProfileImage/0cb16f26-cb41-4c75-99e1-4ed12ac1023d.PNG",
       isChecked: templateSetting == "template-one" ? true : false,
       templateName:"template-one",
     },
     {
       image:
-        "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/7.png",
+        "http://flavetech-001-site1.etempurl.com/ProfileImage/c3c356a9-2bb3-4132-b43b-a62c210e29c5.PNG",
       isChecked: templateSetting == "template-two" ? true : false,
       templateName:"template-two",
     },

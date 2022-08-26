@@ -8,6 +8,7 @@ import {
   getAllClassGroup,
   getAssessmentScore,
   getClassSubjects,
+  getSingleClassAssessment,
   getStudentClassAssessment,
   updateClassAssessmentScore,
   updateStudentClassAssessment,
@@ -18,7 +19,7 @@ const EditClassAssessment = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { createSuccessful,assessmentScore, studentClassAssessment, classSubjects } =
+  const { createSuccessful,assessmentScore, studentClassAssessment, classSubjects, singleClassAssessmentList } =
     state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
@@ -37,6 +38,7 @@ const EditClassAssessment = () => {
     )(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
     getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
     getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
   }, []);
 
@@ -70,14 +72,16 @@ const EditClassAssessment = () => {
                   <Row className="d-flex justify-content-center">
                     <Col md="11"></Col>
                     <Col md="11" className="form-group h6">
-                      <label className="form-label" htmlFor="title">
+                      <label className="form-label">
                         <b>Topic:</b>
                       </label>
                       <input
                         type="text"
                         name="title"
                         className="form-control border-secondary h6"
+                        readOnly
                         id="title"
+                        defaultValue={singleClassAssessmentList?.title}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -87,12 +91,13 @@ const EditClassAssessment = () => {
                       <select
                         as="select"
                         name="sessionClassSubjectId"
-                        className="form-select"
+                        className="form-select h6"
                         id="sessionClassSubjectId"
+
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
-                          <option key={idx} value={item.sessionClassSubjectId}>
+                          <option key={idx} value={item.sessionClassSubjectId} selected={item.sessionClassSubjectId}>
                             {item.subjectName}
                           </option>
                         ))}
@@ -180,6 +185,7 @@ const EditClassAssessment = () => {
                           onChange={(e) => {
                             setClassAssessmentScore(e.target.value);
                           }}
+                          defaultValue={singleClassAssessmentList?.assessmentScore}
                           className="form-control h6 py-0 px-1"
                         />
                       </Col>

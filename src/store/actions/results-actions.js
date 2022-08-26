@@ -22,6 +22,25 @@ export const getAllStaffClasses = () => (dispatch) => {
         });
 }
 
+export const getAllSharedOnStaffClasses = (teacherClassNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STAFF_CLASSES_LOADING
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get-note/shared-class?teacherClassNoteId=${teacherClassNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASSES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASSES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const getStaffClassSubjects = (sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STAFF_CLASS_SUBJECTS_LOADING,

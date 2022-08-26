@@ -30,6 +30,7 @@ export const _state = {
   singleGroupList:null,
   assessmentList:[],
   singleHomeAssessmentList:null,
+  singleClassAssessmentList:null,
   studentSingleHomeAssessmentList:null,
   assessmentScore:null,
   studentClassAssessment:null,
