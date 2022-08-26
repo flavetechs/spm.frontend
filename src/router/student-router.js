@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { assessmentLocations, dashboardLocations, lessonNoteLocations, onlineClassLocations, profileLocations } from './students-path-locations';
+import { assessmentLocations, dashboardLocations, lessonNoteLocations, onlineClassLocations, profileLocations, timeTableLocations } from './students-path-locations';
 import CreateLessonNote from '../components/students-area/lesson-notes/lesson-note-on-create';
 import EditLessonNote from '../components/students-area/lesson-notes/lesson-note-on-edit';
 import LessonNoteDetails from '../components/students-area/lesson-notes/lesson-note-details';
@@ -13,6 +13,7 @@ import StudentProfilePage from '../components/students-area/user-profile/student
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
 import StudentAssessmentList from '../components/students-area/class/assessment/assessment-list';
 import StudentAssessmentDetails from '../components/students-area/class/assessment/assessment-details';
+import StudentTimeTable from '../components/students-area/student-timetable/student-timetable';
 
 
 
@@ -43,6 +44,7 @@ const StudentDashboardRouter = () => {
 
                     {/* timeTable */}
                     {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
+                    <Route path={timeTableLocations.timeTable} exact component={StudentTimeTable} />
 
                     {/* printResult */}
                     {/* <Route path={printResultLocations.printResult} exact component={studentIndex} /> */}
