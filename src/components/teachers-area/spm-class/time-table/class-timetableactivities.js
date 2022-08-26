@@ -183,7 +183,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedTimetable.timetable.times.map((item, index) => (
+                                        {selectedTimetable?.timetable?.times?.map((item, index) => (
                                             <tr key={index}>
                                                 <td >
                                                     {item.period}
