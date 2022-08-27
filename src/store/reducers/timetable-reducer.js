@@ -80,21 +80,24 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
-        message: ''
+        message: '',
+        submitSuccessful: false,
       };
     case actions.CREATE_TIMETABLE_DAYS_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
         loading: false,
-        message: payload
+        message: payload,
+        submitSuccessful: true,
       };
     case actions.CREATE_TIMETABLE_DAYS_FAILED:
       return {
         ...state,
         isSuccessful: false,
         loading: false,
-        message: ''
+        message: '',
+        submitSuccessful: false,
       };
     case actions.CREATE_TIMETABLE_PERIOD_LOADING:
       return {
