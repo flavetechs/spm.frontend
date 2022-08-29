@@ -4,7 +4,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
-import { respondModal, showErrorToast, showHideModal } from "../../../../store/actions/toaster-actions";
+import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { createTimetableDays } from "../../../../store/actions/timetable-actions";
 
 export function NewDayModal({ selectedTimetable, selectedClassId }) {
@@ -20,32 +20,26 @@ export function NewDayModal({ selectedTimetable, selectedClassId }) {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { isSuccessful, submitSuccessful } = state.timetable;
+    const {  submitSuccessful } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
 
     const handeSubmit = () => {
         if (!newDay.day.trim()) {
-            setValidation("Enter valid week day");
+            setValidation("Day is required");
+            setTimeout(() => {
+                setValidation("");
+            }, 1000);
         } else {
             createTimetableDays(newDay, selectedClassId)(dispatch);
             showHideModal(false)(dispatch);
         }
     }
 
-    React.useEffect(()=>{
-        setValidation("")
-    }, [])
-
     React.useEffect(() => {
-        if(submitSuccessful){
+        if (submitSuccessful) {
             newDay.day = ""
         }
-    }, [submitSuccessful])
-
-    console.log('submitSuccessful', submitSuccessful);
-
-    console.log('newDay', newDay.day);
-    console.log('validation', validation);
+    }, [submitSuccessful]);
 
     return (
         <SmpModal title={'Add New day'}>
@@ -69,7 +63,6 @@ export function NewDayModal({ selectedTimetable, selectedClassId }) {
                             className="mx-2"
                             onClick={() => {
                                 showHideModal(false)(dispatch);
-                                setValidation("");
                                 respondModal('cancel')(dispatch);
                             }}
                         >

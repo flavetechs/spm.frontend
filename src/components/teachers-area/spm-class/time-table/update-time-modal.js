@@ -1,7 +1,7 @@
 import {
     Button, Form,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
@@ -19,7 +19,13 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
     const currentPeriodValue = currentPeriod.split(" ");
     const startTime = currentPeriodValue[0];
     let endTime = currentPeriodValue[2];
+    const [validation, setValidation] = useState("");
     //VARIABLE DECLARATIONS
+
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { submitSuccessful } = state.timetable;
+    // ACCESSING STATE FROM REDUX STORE
 
     const handleChange = (event) => {
         setNewTime({ ...newTime, [event.target.name]: event.target.value });
@@ -29,7 +35,26 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
         newTime.start = startTime
         newTime.end = endTime
         newTime.classTimeTableTimeId = timetableTimeId
-    }, [timetableTimeId]);
+    }, [currentPeriod]);
+
+    const handeSubmit = () => {
+        if (!newTime.start.trim() || !newTime.end.trim()) {
+            setValidation("Time is required");
+            setTimeout(() => {
+                setValidation("");
+            }, 1000);
+        } else {
+            updateTimetableTime(newTime, selectedClassId)(dispatch);
+            showHideModal(false)(dispatch);
+        }
+    }
+
+    React.useEffect(() => {
+        if (submitSuccessful) {
+            newTime.start = "";
+            newTime.end = "";
+        }
+    }, [submitSuccessful]);
 
     return (
 
@@ -37,6 +62,7 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
             <Form className="pt-3">
                 <div>
                     <div className="mb-3">
+                        <div className="text-danger mb-2">{validation}</div>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Start Time</Form.Label>
                             <Form.Control
@@ -74,10 +100,7 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
                         <Button
                             variant="primary"
                             className=""
-                            onClick={() => {
-                                updateTimetableTime(newTime, selectedClassId)(dispatch);
-                                showHideModal(false)(dispatch);
-                            }}
+                            onClick={handeSubmit}
                         >
                             Save
                         </Button>
