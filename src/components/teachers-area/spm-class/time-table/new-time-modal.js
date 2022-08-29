@@ -23,6 +23,7 @@ export function NewTimeModal({ selectedClassId, selectedTimetable }) {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { submitSuccessful } = state.timetable;
+    const { showModal } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -43,9 +44,6 @@ export function NewTimeModal({ selectedClassId, selectedTimetable }) {
     const handeSubmit = () => {
         if (!newTime.start.trim() || !newTime.end.trim()) {
             setValidation("Time is required");
-            setTimeout(() => {
-                setValidation("");
-            }, 1000);
         } else {
             createTimetableTime(newTime, selectedClassId)(dispatch);
             showHideModal(false)(dispatch);
@@ -54,11 +52,16 @@ export function NewTimeModal({ selectedClassId, selectedTimetable }) {
 
     React.useEffect(() => {
         if (submitSuccessful) {
-            newTime.start = "";
-            newTime.end = "";
+            setNewTime({ start: "", end: "", classTimeTableId: "", classId: "" });
         }
     }, [submitSuccessful]);
 
+    React.useEffect(() => {
+        if (showModal == false) {
+            setValidation("");
+            setNewTime({ start: "", end: "", classTimeTableId: "", classId: "" });
+        }
+    }, [showModal]);
     return (
 
         <SmpModal title={'Add New Time'}>

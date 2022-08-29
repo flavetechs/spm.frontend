@@ -25,6 +25,7 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { submitSuccessful } = state.timetable;
+    const { showModal } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     const handleChange = (event) => {
@@ -40,9 +41,6 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
     const handeSubmit = () => {
         if (!newTime.start.trim() || !newTime.end.trim()) {
             setValidation("Time is required");
-            setTimeout(() => {
-                setValidation("");
-            }, 1000);
         } else {
             updateTimetableTime(newTime, selectedClassId)(dispatch);
             showHideModal(false)(dispatch);
@@ -51,10 +49,16 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
 
     React.useEffect(() => {
         if (submitSuccessful) {
-            newTime.start = "";
-            newTime.end = "";
+            setNewTime({ start: startTime, end: endTime, classTimeTableTimeId: timetableTimeId });
         }
     }, [submitSuccessful]);
+
+    React.useEffect(() => {
+        if (showModal == false) {
+            setValidation("");
+            setNewTime({ start: startTime, end: endTime, classTimeTableTimeId: timetableTimeId });
+        }
+    }, [showModal]);
 
     return (
 
@@ -69,7 +73,7 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
                                 required
                                 type="text"
                                 name="start"
-                                value={newTime.start}
+                                defaultValue={startTime}
                                 placeholder="Start Time"
                                 onChange={handleChange}
                             />
@@ -80,7 +84,7 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
                                 required
                                 type="text"
                                 name="end"
-                                value={newTime.end}
+                                defaultValue={endTime}
                                 placeholder="End Time"
                                 onChange={handleChange}
                             />

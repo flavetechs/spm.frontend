@@ -20,15 +20,13 @@ export function NewDayModal({ selectedTimetable, selectedClassId }) {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const {  submitSuccessful } = state.timetable;
+    const { submitSuccessful } = state.timetable;
+    const { showModal } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     const handeSubmit = () => {
         if (!newDay.day.trim()) {
             setValidation("Day is required");
-            setTimeout(() => {
-                setValidation("");
-            }, 1000);
         } else {
             createTimetableDays(newDay, selectedClassId)(dispatch);
             showHideModal(false)(dispatch);
@@ -37,9 +35,17 @@ export function NewDayModal({ selectedTimetable, selectedClassId }) {
 
     React.useEffect(() => {
         if (submitSuccessful) {
-            newDay.day = ""
+            setNewDay({day: "", classTimeTableId: ""});
         }
     }, [submitSuccessful]);
+
+    React.useEffect(() => {
+        if (showModal == false) {
+            setValidation("");
+            setNewDay({day: "", classTimeTableId: "" });
+        }
+    }, [showModal]);
+
 
     return (
         <SmpModal title={'Add New day'}>

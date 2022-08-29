@@ -19,18 +19,16 @@ export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay,
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { submitSuccessful } = state.timetable;
+    const { showModal } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
         setNewDay(currentDay);
-    }, [timetableDayId]);
+    }, [currentDay]);
 
     const handeSubmit = () => {
         if (!newDay.trim()) {
             setValidation("Day is required");
-            setTimeout(() => {
-                setValidation("");
-            }, 1000);
         } else {
             updateTimetableDays(newDay, timetableId, timetableDayId, selectedClassId)(dispatch);
             showHideModal(false)(dispatch);
@@ -39,14 +37,21 @@ export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay,
 
     React.useEffect(() => {
         if (submitSuccessful) {
-            setNewDay("");
+            setNewDay(newDay);
         }
     }, [submitSuccessful]);
+
+    React.useEffect(() => {
+        if (showModal == false) {
+            setValidation("");
+            setNewDay(currentDay);
+        }
+    }, [showModal]);
 
 
     return (
 
-        <SmpModal title={'Update day'}>
+        <SmpModal title={'Update Day'}>
             <Form className="pt-3">
                 <div>
                     <div className="mb-3">
@@ -56,7 +61,7 @@ export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay,
                             <Form.Control
                                 required
                                 type="text"
-                                value={newDay}
+                                defaultValue={currentDay}
                                 placeholder="Update Week Day"
                                 onChange={(e) => setNewDay(e.target.value)}
                             />
