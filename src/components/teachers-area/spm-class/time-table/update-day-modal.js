@@ -48,7 +48,6 @@ export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay,
         }
     }, [showModal]);
 
-
     return (
 
         <SmpModal title={'Update Day'}>
