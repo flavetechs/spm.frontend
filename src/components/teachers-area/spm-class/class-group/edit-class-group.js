@@ -23,13 +23,15 @@ const EditClassGroup = () => {
   const [groupName, setGroupName] = useState("");
   const [validation, setValidation] = useState("");
   React.useEffect(() => {
-    createSuccessful &&  history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}`)
+    createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   React.useEffect(() => {
     setGroupName(singleGroupList?.groupName);
-    setStudentContactIdArray(singleGroupList?.classGroupStudents?.map(c=>c.studentContactId));
-  }, [singleGroupList])
+    setStudentContactIdArray(
+      singleGroupList?.classGroupStudents?.map((c) => c.studentContactId)
+    );
+  }, [singleGroupList]);
 
   React.useEffect(() => {
     const groupId = queryParams.get("groupId");
@@ -55,7 +57,7 @@ const EditClassGroup = () => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-  
+
   return (
     <>
       <div>
@@ -114,11 +116,9 @@ const EditClassGroup = () => {
                               type="checkbox"
                               id={item.studentAccountId}
                               checked={
-                               studentContactIdArray?.find(
-                                    (arr) =>
-                                      arr ===
-                                      item.studentAccountId
-                                  ) || false
+                                studentContactIdArray?.find(
+                                  (arr) => arr === item.studentAccountId
+                                ) || false
                               }
                               onChange={(e) => {
                                 handleStudentContactIds(e);
@@ -135,7 +135,7 @@ const EditClassGroup = () => {
                       className="btn btn-danger"
                       style={{ cursor: "pointer" }}
                       onClick={() => {
-                        history.push(`${classLocations.classGroup}?sessionClassId=${sessionClassId}`)
+                        history.goBack();
                       }}
                     >
                       Back

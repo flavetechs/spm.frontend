@@ -8,24 +8,32 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import { classLocations } from "../../../router/spm-path-locations";
-import { createLessonNotes } from "../../../store/actions/class-actions";
+import {  addStudentNotes, getAllStudentNotes, getSubjectTeacher } from "../../../store/actions/class-actions";
 import { openFullscreen } from "../../../utils/export-csv";
+import { getUserDetails } from "../../../utils/permissions";
+import { getAllStaffAccount } from "../../../store/actions/staff-actions";
 
-const CreateLessonNote = () => {
+const CreateStudentNote = () => {
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
     const elementRef = useRef(null);
     const state = useSelector((state) => state);
-    const { createSuccessful } = state.class;
+    const { createSuccessful,subjectTeacher } = state.class;
+    const { staffList } = state.staff;
+    const queryParams = new URLSearchParams(location.search);
+    const subjectId = queryParams.get("subjectId");
     //VALIDATION
     const validation = Yup.object().shape({
       noteTitle: Yup.string().required("Title is required"),
     });
     //VALIDATION
-
     React.useEffect(() => {
-      createSuccessful && history.push(classLocations.lessonNotes);
+      getAllStaffAccount()(dispatch);
+      getSubjectTeacher(subjectId)(dispatch);
+    }, [subjectId]);
+    React.useEffect(() => {
+      createSuccessful && history.goBack();
     }, [createSuccessful]);
   
     const [content, setContent] = useState('');
@@ -64,22 +72,19 @@ const CreateLessonNote = () => {
                       initialValues={{
                         noteTitle: "",
                         noteContent: "",
-                        shouldSendForApproval: false,
+                        submitForReview: false,
+                        teacherId:subjectTeacher,
                       }}
                       validationSchema={validation}
                       enableReinitialize={true}
                       onSubmit={(values) => {
-                      const queryParams = new URLSearchParams(location.search);
-                      const classId = queryParams.get("classId");
-                      const subjectId = queryParams.get("subjectId");
                         if(!content){
                           showErrorToast('Body is required')(dispatch);
                           return;
                         }
                         values.noteContent = content;
                         values.subjectId = subjectId;
-                        values.classes = [classId];
-                        createLessonNotes(values)(dispatch);
+                        addStudentNotes(values)(dispatch);
                       }}
                     >
                       {({
@@ -91,6 +96,19 @@ const CreateLessonNote = () => {
                       }) => (
                         <Form className="mx-auto">
                           <Row className="d-flex justify-content-center">
+                          <Col md="11" className="form-group text-dark">
+                          <label className="form-label" >
+                            <b>Subject Teacher:</b>
+                          </label>
+                          <input
+                            type="text"
+                            name="subjectTeacher"
+                            className="form-control border-secondary text-dark"
+                            id="noteTitle"
+                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName}
+                           readOnly
+                          />
+                        </Col>
                             <Col md="11">
                               {touched.noteTitle && errors.noteTitle && (
                                 <div className="text-danger">{errors.noteTitle}</div>
@@ -170,11 +188,11 @@ const CreateLessonNote = () => {
                             <Col md="11" className="form-group text-dark mt-5">
                               <Field
                                 type="checkbox"
-                                name="shouldSendForApproval"
+                                name="submitForReview"
                                 className="form-check-input"
-                                id="shouldSendForApproval"
+                                id="submitForReview"
                               />
-                                 <label className="form-label mx-1" htmlFor="shouldSendForApproval">
+                                 <label className="form-label mx-1" >
                                 <b>Submit for review</b>
                               </label>
                             </Col>
@@ -215,4 +233,4 @@ const CreateLessonNote = () => {
   )
 }
 
-export default CreateLessonNote
+export default CreateStudentNote

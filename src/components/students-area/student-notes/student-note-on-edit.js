@@ -16,42 +16,49 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import {
-  getSingleLessonNotes,
-  sendForApproval,
-  updateLessonNotes,
+  getSingleStudentNotes,
+  getSubjectTeacher,
+  sendForReview,
+  updateStudentNotes,
 } from "../../../store/actions/class-actions";
 import { classLocations } from "../../../router/spm-path-locations";
 import { read } from "xlsx";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
+import { getAllStaffAccount } from "../../../store/actions/staff-actions";
 
-const EditLessonNote = () => {
+const EditStudentNote = () => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
-  const { createSuccessful, singleLessonNotes } = state.class;
-
+  const { createSuccessful,  singleStudentNotes,subjectTeacher } = state.class;
+  const { staffList } = state.staff;
   //VALIDATION
   const validation = Yup.object().shape({
     noteTitle: Yup.string().required("Title is required"),
   });
   //VALIDATION
   React.useEffect(() => {
-    createSuccessful && history.push(classLocations.lessonNotes);
+    createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const teacherClassNoteId = queryParams.get("teacherClassNoteId");
-    getSingleLessonNotes(teacherClassNoteId)(dispatch);
+    const studentNoteId = queryParams.get("studentNoteId");
+    getSingleStudentNotes(studentNoteId)(dispatch);
   }, []);
+
+  React.useEffect(() => {
+    getAllStaffAccount()(dispatch);
+    getSubjectTeacher(singleStudentNotes?.subjectId)(dispatch);
+  }, [singleStudentNotes]);
 
   const [content, setContent] = useState("");
   useEffect(() => {
-    setContent(singleLessonNotes?.noteContent);
-  }, [singleLessonNotes]);
+    setContent(singleStudentNotes?.noteContent);
+  }, [singleStudentNotes]);
   const textEditorModules = useMemo(
     () => ({
       toolbar: {
@@ -94,10 +101,10 @@ const EditLessonNote = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    noteTitle: singleLessonNotes?.noteTitle,
-                    subjectId: singleLessonNotes?.subject,
-                    shouldSendForApproval: false,
-                    classId: singleLessonNotes?.classes,
+                    noteTitle: singleStudentNotes?.noteTitle,
+                    subjectId: singleStudentNotes?.subjectId,
+                    submitForReview: false,
+                    teacherId:subjectTeacher,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -107,9 +114,9 @@ const EditLessonNote = () => {
                       return;
                     }
                     values.noteContent = content;
-                    values.classNoteId = singleLessonNotes?.classNoteId;
-                    values.shouldSendForApproval == true && sendForApproval(singleLessonNotes?.classNoteId)(dispatch)
-                    updateLessonNotes(values)(dispatch);
+                    values.studentNoteId = singleStudentNotes?.studentNoteId;
+                    values.submitForReview == true && sendForReview(singleStudentNotes?.studentNoteId,true)(dispatch);
+                    updateStudentNotes(values)(dispatch);
                   }}
                 >
                   {({
@@ -121,6 +128,19 @@ const EditLessonNote = () => {
                   }) => (
                     <Form className="mx-auto">
                       <Row className="d-flex justify-content-center">
+                      <Col md="11" className="form-group text-dark">
+                          <label className="form-label" >
+                            <b>Subject Teacher:</b>
+                          </label>
+                          <input
+                            type="text"
+                            name="subjectTeacher"
+                            className="form-control border-secondary text-dark"
+                            id="noteTitle"
+                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName}
+                           readOnly
+                          />
+                        </Col>
                         <Col md="11">
                           {touched.noteTitle && errors.noteTitle && (
                             <div className="text-danger">
@@ -193,30 +213,7 @@ const EditLessonNote = () => {
                                     <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
                                   </svg>
                                 </OverlayTrigger>
-                              {/*  ) : (
-                              //   <OverlayTrigger 
-                              //     placement="top"
-                              //     overlay={
-                              //       <Tooltip id="button-tooltip-2">
-                              //         exit full screen
-                              //       </Tooltip>
-                              //     }
-                              //   >
-                              //     <svg
-                              //       xmlns="http://www.w3.org/2000/svg"
-                              //       width="24"
-                              //       height="24"
-                              //       viewBox="0 0 24 24"
-                              //       onClick={() => {
-                              //         closeFullscreen("note-editor");
-                              //         setFullScreen(false);
-                              //       }}
-                              //       style={{ cursor: "pointer" }}
-                              //     >
-                              //       <path d="M16.586 19.414l-2.586 2.586v-8h8l-2.586 2.586 4.586 4.586-2.828 2.828-4.586-4.586zm-13.758-19.414l-2.828 2.828 4.586 4.586-2.586 2.586h8v-8l-2.586 2.586-4.586-4.586zm16.586 7.414l2.586 2.586h-8v-8l2.586 2.586 4.586-4.586 2.828 2.828-4.586 4.586zm-19.414 13.758l2.828 2.828 4.586-4.586 2.586 2.586v-8h-8l2.586 2.586-4.586 4.586z" />
-                              //     </svg>
-                              //   </OverlayTrigger>
-                              // )}*/}
+                
                             </div>
                           </label>
                           <ReactQuill
@@ -231,17 +228,16 @@ const EditLessonNote = () => {
                           />
                         </Col>
 
-                        {singleLessonNotes?.approvalStatus == 2 && (
+                        {singleStudentNotes?.approvalStatus == 2 && (
                           <Col md="11" className="form-group text-secondary mt-5">
                             <Field
                               type="checkbox"
-                              name="shouldSendForApproval"
+                              name="submitForReview"
                               className="form-check-input"
-                              id="shouldSendForApproval"
+                              id="submitForReview"
                             />
                             <label
                               className="form-label mx-1"
-                              htmlFor="shouldSendForApproval"
                             >
                               <b>Submit for review</b>
                             </label>
@@ -283,4 +279,4 @@ const EditLessonNote = () => {
   );
 };
 
-export default EditLessonNote;
+export default EditStudentNote;

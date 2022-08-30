@@ -79,6 +79,8 @@ import TemplateControl from '../components/teachers-area/smp-result-management/r
 import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
 import InProgress from '../components/teachers-area/in-progress';
+import StudentNoteDetails from '../components/teachers-area/spm-class/student-note-details';
+import StudentNotes from '../components/teachers-area/spm-class/student-notes';
 
 const DashboardRouter = () => {
 
@@ -113,6 +115,8 @@ const DashboardRouter = () => {
                     <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
                     <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
                     <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
+                    <Route path={classLocations.studentNotes} exact component={StudentNotes} />
+                    <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
                     <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
 
                     

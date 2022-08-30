@@ -15,8 +15,8 @@ const ViewStudentsAssessment = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const elementRef = useRef(null);
-  const studentListRef =  useRef(null);
-  const scrollToStudentList=()=>studentListRef.current.scrollIntoView();
+  const studentListRef = useRef(null);
+  const scrollToStudentList = () => studentListRef.current.scrollIntoView();
   const [fullScreen, setFullScreen] = useState(false);
   const [score, setScore] = useState("");
   const state = useSelector((state) => state);
@@ -35,7 +35,8 @@ const ViewStudentsAssessment = () => {
       homeAssessmentFeedBackIdQuery,
       sessionClassIdQuery
     )(dispatch);
-  }, []);
+    setScore("");
+  }, [homeAssessmentFeedBackIdQuery]);
 
   return (
     <>
@@ -54,7 +55,13 @@ const ViewStudentsAssessment = () => {
                       type="button"
                       className="btn btn-danger btn-sm mx-2"
                       onClick={() => {
-                        history.goBack();
+                        history.push(
+                          `${
+                            classLocations.homeAssessmentDetails
+                          }?homeAssessmentId=${
+                            singleHomeAssessmentList.homeAssessmentId
+                          }&sessionClassId=${sessionClassIdQuery}&type=${"home assessment"}`
+                        );
                       }}
                     >
                       Back
@@ -215,6 +222,7 @@ const ViewStudentsAssessment = () => {
                       name="assessmentScore"
                       className="form-control h6 py-0 px-1"
                       placeholder="Enter mark..."
+                      value={score}
                       onChange={(e) => {
                         setScore(e.target.value);
                       }}
@@ -227,7 +235,13 @@ const ViewStudentsAssessment = () => {
                   type="button"
                   className="btn btn-danger btn-sm my-3"
                   onClick={() => {
-                    history.goBack();
+                    history.push(
+                      `${
+                        classLocations.homeAssessmentDetails
+                      }?homeAssessmentId=${
+                        singleHomeAssessmentList.homeAssessmentId
+                      }&sessionClassId=${sessionClassIdQuery}&type=${"home assessment"}`
+                    );
                   }}
                 >
                   Back
@@ -253,7 +267,7 @@ const ViewStudentsAssessment = () => {
           </Col>
           <Col lg="5">
             <Card>
-              <Card.Body ref={studentListRef} >
+              <Card.Body ref={studentListRef}>
                 <h4 className="mb-3">Student List</h4>
                 <div className="table-responsive">
                   <table
@@ -308,7 +322,7 @@ const ViewStudentsAssessment = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
-                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}`}
+                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId}`}
                                   >
                                     <span className="btn-inner">
                                       <svg

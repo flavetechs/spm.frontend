@@ -4,67 +4,55 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
-  deleteLessonNotes,
-  getAllLessonNotes,
-  getClassNotesByStatus,
+  deleteStudentNotes,
+  getAllStudentNotes,
+  getAllStudentSubjects,
+  getNotesByStatus,
 } from "../../../store/actions/class-actions";
 import {
-  getAllStaffClasses,
-  getStaffClassSubjects,
-} from "../../../store/actions/results-actions";
-import {
   respondDialog,
-  respondModal,
   showHideDialog,
-  showHideModal,
 } from "../../../store/actions/toaster-actions";
 import {
   getUserDetails,
   hasAccess,
   NavPermissions,
 } from "../../../utils/permissions";
-import { NoteShareModal } from "./note-share-modal";
 import * as Yup from "yup";
-import { NoteSendModal } from "./note-send-modal";
-import { lessonNoteLocations } from "../../../router/students-path-locations";
+import { studentNoteLocations } from "../../../router/students-path-locations";
 
-const LessonNotes = () => {
+const StudentNotes = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [subjectId, setSubjectId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [sessionClassId, setSessionClassId] = useState("");
-  const [classNoteId, setClassNoteId] = useState("");
-  const [teacherClassNoteId, setTeacherClassNoteId] = useState("");
-  const [noteSendModal, setNoteSendModal] = useState(false);
+  const [studentNoteId, setStudentNoteId] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { lessonNotes } = state.class;
-  const { staffClasses, staffClassSubjects } = state.results;
-  const { dialogResponse, modalResponse } = state.alert;
+  const { studentNotes,studentSubjectList } = state.class;
+  const { dialogResponse } = state.alert;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION
   const validation = Yup.object().shape({
-    sessionClassId: Yup.string().required("Class is required"),
     subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION
 
   React.useEffect(() => {
-    getAllStaffClasses()(dispatch);
+    getAllStudentSubjects(userDetail.userAccountId)(dispatch);
   }, []);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteLessonNotes(teacherClassNoteId, subjectId)(dispatch);
+      deleteStudentNotes(studentNoteId, subjectId)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -75,37 +63,23 @@ const LessonNotes = () => {
     };
   }, [dialogResponse]);
 
-  React.useEffect(() => {
-    if (modalResponse == "cancel") {
-      showHideModal(false)(dispatch);
-    }
-    return () => {
-      respondModal("")(dispatch);
-    };
-  }, [modalResponse]);
 
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId");
-  const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     if (subjectIdQuery) {
-      getAllLessonNotes(subjectIdQuery)(dispatch);
+      getAllStudentNotes(subjectIdQuery)(dispatch);
       setSubjectId(subjectIdQuery);
     }
   }, [subjectIdQuery]);
 
   React.useEffect(() => {
     if (!subjectIdQuery) {
-      getAllLessonNotes(subjectId)(dispatch);
+      getAllStudentNotes(subjectId)(dispatch);
     }
   }, [subjectIdQuery]);
 
-  const filteredLessonNotes = lessonNotes
-    ?.filter((item) =>
-      sessionClassIdQuery
-        ? item.classes.find((i) => i == sessionClassIdQuery)
-        : item
-    )
+  const filteredStudentNotes = studentNotes
     ?.filter((item) => {
       if (searchQuery === "") {
         //if query is empty
@@ -131,7 +105,7 @@ const LessonNotes = () => {
             <Card className="bg-transparent">
               <Card.Header className="d-flex justify-content-between bg-transparent">
                 <div className="header-title">
-                  <h4 className="card-title mt-3 mb-n3">Lesson Notes</h4>
+                  <h4 className="card-title mt-3 mb-n3">My Notes</h4>
                 </div>
                 <div className=" d-flex align-items-center mt-3 mb-n3">
                   <div className="input-group search-input">
@@ -177,21 +151,16 @@ const LessonNotes = () => {
                   </div>
                 </div>
               </Card.Header>
-              {!noteSendModal ? (
-                <NoteShareModal classNoteId={classNoteId} />
-              ) : (
-                <NoteSendModal teacherClassNoteId={teacherClassNoteId} />
-              )}
+             
               <Formik
                 initialValues={{
-                  sessionClassId: sessionClassId,
-                  subjectId: "",
+                  subjectId: subjectIdQuery ? subjectIdQuery : "",
                 }}
                 enableReinitialize={true}
                 validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
-                    `${lessonNoteLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}`
+                    `${studentNoteLocations.createStudentNotes}?subjectId=${values.subjectId}`
                   );
                 }}
               >
@@ -205,49 +174,10 @@ const LessonNotes = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
+                           
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {errors.sessionClassId && (
-                                  <div className="text-danger">
-                                    {errors.sessionClassId}
-                                  </div>
-                                )}
-                              </div>
-                              <Field
-                                as="select"
-                                name="sessionClassId"
-                                className="form-select"
-                                id="sessionClassId"
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    "sessionClassId",
-                                    e.target.value
-                                  );
-                                  setSessionClassId(e.target.value);
-                                  getStaffClassSubjects(e.target.value)(
-                                    dispatch
-                                  );
-                                  if (e.target.value == "") {
-                                    getAllLessonNotes("")(dispatch);
-                                    history.push(lessonNoteLocations.lessonNotes);
-                                  } else {
-                                    history.push(
-                                      `${lessonNoteLocations.lessonNotes}?classId=${e.target.value}`
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select Class</option>
-                                {staffClasses?.map((item, idx) => (
-                                  <option key={idx} value={item.sessionClassId}>
-                                    {item.sessionClass}
-                                  </option>
-                                ))}
-                              </Field>
-                            </div>
-                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
-                              <div>
-                                {errors.subjectId && (
+                                {touched.subjectId && errors.subjectId && (
                                   <div className="text-danger">
                                     {errors.subjectId}
                                   </div>
@@ -262,16 +192,16 @@ const LessonNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   setSubjectId(e.target.value);
                                   e.target.value == ""
-                                    ? history.push(lessonNoteLocations.lessonNotes)
+                                    ? history.push(studentNoteLocations.studentNotes)
                                     : history.push(
-                                        `${lessonNoteLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${e.target.value}`
+                                        `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
                                       );
                                 }}
                               >
                                 <option value="">Select Subject</option>
-                                {staffClassSubjects?.map((item, idx) => (
-                                  <option key={idx} value={item.subjectId}>
-                                    {item.subjectName}
+                                {studentSubjectList?.map((item, idx) => (
+                                  <option key={idx} value={item.value}>
+                                    {item.name}
                                   </option>
                                 ))}
                               </Field>
@@ -314,21 +244,20 @@ const LessonNotes = () => {
                                     e.target.value
                                   );
                                   e.target.value !== "all"
-                                    ? getClassNotesByStatus(
+                                    ? getNotesByStatus(
                                         values.subjectId,
                                         e.target.value
                                       )(dispatch)
-                                    : getAllLessonNotes("")(dispatch);
+                                    :   getAllStudentNotes("")(dispatch);
                                 }}
                               >
                                 <option value="">Select Status</option>
                                 {/* {subjectId  ? ( */}
                                 <>
                                   <option value="all">Select All</option>
-                                  <option value="0">Not Approved</option>
-                                  <option value="1">Approved</option>
-                                  <option value="2">Saved</option>
-                                  <option value="3">In progress</option>
+                                  <option value="2">Pending</option>
+                                  <option value="1">reviewed</option>
+                                  <option value="3">unreviewed</option>
                                 </>
                                 {/* ):""} */}
                               </Field>
@@ -338,7 +267,7 @@ const LessonNotes = () => {
                       </Card.Body>
                     </Card>
                     <Row className="">
-                      {filteredLessonNotes?.map((item, idx) => (
+                      {filteredStudentNotes?.map((item, idx) => (
                         <Col md="6" lg="4" xxl="3" className="" key={idx}>
                           <Card>
                             <Card.Body>
@@ -397,7 +326,7 @@ const LessonNotes = () => {
                                       <div
                                         onClick={() => {
                                           history.push(
-                                            `${lessonNoteLocations.lessonNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                            `${studentNoteLocations.studentNotesDetails}?studentNoteId=${item.studentNoteId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}
@@ -446,12 +375,10 @@ const LessonNotes = () => {
                                         view/details
                                       </div>
 
-                                      {item.author ==
-                                        userDetail?.userAccountId && (
                                         <div
                                           onClick={() => {
                                             history.push(
-                                              `${lessonNoteLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                              `${studentNoteLocations.editStudentNotes}?studentNoteId=${item.studentNoteId}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
@@ -492,89 +419,12 @@ const LessonNotes = () => {
                                           </svg>
                                           edit
                                         </div>
-                                      )}
-
-                                      {item.author ==
-                                        userDetail?.userAccountId && (
-                                        <div
-                                          onClick={() => {
-                                            showHideModal(true)(dispatch);
-                                            setShowMenuDropdown(false);
-                                            setNoteSendModal(false);
-                                            setClassNoteId(item.classNoteId);
-                                          }}
-                                          className="dropdown-item"
-                                          role="button"
-                                          draggable="true"
-                                        >
-                                          <svg
-                                            className="icon-32 me-2"
-                                            width="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                          </svg>
-                                          share
-                                        </div>
-                                      )}
+                                      
 
                                       <div
                                         onClick={() => {
-                                          showHideModal(true)(dispatch);
-                                          setShowMenuDropdown(false);
-                                          setNoteSendModal(true);
-                                          setTeacherClassNoteId(
-                                            item.teacherClassNoteId
-                                          );
-                                        }}
-                                        className="dropdown-item"
-                                        role="button"
-                                        draggable="true"
-                                      >
-                                        <svg
-                                          width="20"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          className="me-2"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M15.016 7.38948V6.45648C15.016 4.42148 13.366 2.77148 11.331 2.77148H6.45597C4.42197 2.77148 2.77197 4.42148 2.77197 6.45648V17.5865C2.77197 19.6215 4.42197 21.2715 6.45597 21.2715H11.341C13.37 21.2715 15.016 19.6265 15.016 17.5975V16.6545"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          ></path>
-                                          <path
-                                            d="M21.8096 12.0215H9.76855"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          ></path>
-                                          <path
-                                            d="M18.8813 9.1062L21.8093 12.0212L18.8813 14.9372"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          ></path>
-                                        </svg>
-                                        send
-                                      </div>
-
-                                      <div
-                                        onClick={() => {
-                                          setTeacherClassNoteId(
-                                            item.teacherClassNoteId
+                                          setStudentNoteId(
+                                            item.studentNoteId
                                           );
                                           showHideDialog(
                                             true,
@@ -658,4 +508,4 @@ const LessonNotes = () => {
   );
 };
 
-export default LessonNotes;
+export default StudentNotes;

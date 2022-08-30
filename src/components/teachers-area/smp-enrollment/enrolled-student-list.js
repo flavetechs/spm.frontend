@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -29,11 +29,15 @@ import { hasAccess, NavPermissions } from "../../../utils/permissions";
 const EnrolledStudents = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const locations = useLocation();
+  const history = useHistory();
   const [showUnenrollButton, setUnenrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [sessionClassId, setSessionClassId] = useState("");
   const [sessionId, setSessionId] = useState("");
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQuery = queryParams.get("classId");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -50,8 +54,9 @@ const EnrolledStudents = () => {
   }, []);
 
   React.useEffect(() => {
-    getAllEnrolledStudents(sessionClassId)(dispatch);
-  }, [sessionClassId]);
+    sessionClassIdQuery&&
+    getAllEnrolledStudents(sessionClassIdQuery)(dispatch);
+  }, [sessionClassIdQuery]);
 
   React.useEffect(() => {
     if (!sessionId) {
@@ -213,11 +218,18 @@ const EnrolledStudents = () => {
                       id="sessionClassId"
                       onChange={(e) => {
                         setSessionClassId(e.target.value);
+                        if (e.target.value == "") {
+                          history.push(studentsLocations.enrolledStudents);
+                        } else {
+                          history.push(
+                            `${studentsLocations.enrolledStudents}?classId=${e.target.value}`
+                          );
+                        }
                       }}
                     >
                       <option value="">Select Class</option>
                       {classList?.map((item, idx) => (
-                        <option key={idx} value={item.sessionClassId}>
+                        <option key={idx} value={item.sessionClassId} selected={sessionClassIdQuery}>
                           {item.class}
                         </option>
                       ))}
@@ -318,7 +330,7 @@ const EnrolledStudents = () => {
                 </div>
               </div>
               <Card.Body className="px-0">
-                {!sessionClassId ? (
+                {!sessionClassIdQuery ? (
                   <div className="jumbotron jumbotron-fluid">
                     <div className="container d-flex justify-content-center mt-5 bg-white">
                       <h2 className="display-4">

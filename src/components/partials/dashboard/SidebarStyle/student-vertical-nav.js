@@ -7,11 +7,12 @@ import {
 } from "react-bootstrap";
 import { OnlineClassLink } from "./Navigations/student-navigations/online-class-link";
 import { AssessmentLink } from "./Navigations/student-navigations/assessment-link";
-import { LessonNoteLink } from "./Navigations/student-navigations/lesson-notes-link";
+import { ClassNoteLink  } from "./Navigations/student-navigations/class-notes-link";
 import { AnnouncementLink } from "./Navigations/student-navigations/announcement-link";
 import { TimeTableLink } from "./Navigations/student-navigations/time-table-link";
 import { PrintResultLink } from "./Navigations/student-navigations/print-result-link";
 import { StudentDashboardLink } from "./Navigations/student-navigations/dashboard-link";
+import { StudentNoteLink } from "./Navigations/student-navigations/my-notes-link";
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -71,7 +72,9 @@ const StudentsVerticalNav = () => {
 
         <AssessmentLink minisidebar={minisidebar} />
 
-        <LessonNoteLink minisidebar={minisidebar} />
+        <ClassNoteLink minisidebar={minisidebar} />
+
+        <StudentNoteLink minisidebar={minisidebar} />
 
         <AnnouncementLink minisidebar={minisidebar} />
 

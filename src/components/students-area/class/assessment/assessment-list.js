@@ -83,8 +83,6 @@ const StudentAssessmentList = () => {
                           >
                              <option value="">Select All</option>
                             <option value={0}>Saved</option>
-                            <option value={1}>Opened</option>
-                            <option value={2}>Closed</option>
                             <option value={3}>submitted</option>
                           </select>
                         </div>

@@ -32,9 +32,7 @@ const CreateHomeAssessment = () => {
 
   React.useEffect(() => {
     createSuccessful &&
-      history.push(
-        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${typeQuery}`
-      );
+      history.goBack();
   }, [createSuccessful]);
 
   const [content, setContent] = useState("");

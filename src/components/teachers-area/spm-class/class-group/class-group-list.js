@@ -32,8 +32,6 @@ const ClassGroup = () => {
   const state = useSelector((state) => state);
   const { groupList, selectedIds, classSubjects } = state.class;
   const { deleteDialogResponse } = state.alert;
-  const { staffClasses } = state.results;
-  // const { classStudents } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
   const queryParams = new URLSearchParams(locations.search);
@@ -118,8 +116,7 @@ const ClassGroup = () => {
               <Card.Body className="px-0 mt-n3">
                 <Formik
                   initialValues={{
-                    sessionClassId: "",
-                    sessionClassSubjectId: sessionClassSubjectIdQuery,
+                    sessionClassSubjectId: sessionClassSubjectIdQuery ? sessionClassSubjectIdQuery : "",
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {
@@ -138,6 +135,7 @@ const ClassGroup = () => {
                   }) => (
                     <div>
                       <div className="d-md-flex justify-content-between mb-3">
+                        <div className="mx-3 mt-2">
                       <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -152,7 +150,7 @@ const ClassGroup = () => {
                             history.push(classLocations.sessionClassList2);
                           }}
                           style={{ cursor: "pointer" }}
-                          className=" mx-3"
+                          className=" text-primary"
                           width="32"
                           viewBox="0 0 24 24"
                           fill="none"
@@ -166,8 +164,10 @@ const ClassGroup = () => {
                           ></path>
                         </svg>
                         </OverlayTrigger>
+                        <span >back</span>
+                        </div>
                         <div className="d-md-flex ">
-                          <div className=" me-2 mt-3 mt-md-0 dropdown">
+                          <div className=" me-2 mx-2 mt-3 mt-md-0 dropdown">
                             <Field
                               as="select"
                               name="sessionClassSubjectId"
@@ -196,7 +196,7 @@ const ClassGroup = () => {
                               ))}
                             </Field>
                           </div>
-                          <div className="me-2 mt-3 mt-md-0 ">
+                          <div className="me-2 mx-2 mt-3 mt-md-0 ">
                             <button
                               type="button"
                               onClick={() => {
@@ -209,7 +209,7 @@ const ClassGroup = () => {
                                   handleSubmit();
                                 }
                               }}
-                              className="text-center btn-primary btn-icon me-2 mx-2 py-2 btn btn-primary"
+                              className="text-center btn-primary btn-icon py-2 btn btn-primary"
                             >
                               <i className="btn-inner">
                                 <svg
@@ -233,7 +233,7 @@ const ClassGroup = () => {
                           {showDeleteButton ? (
                             <button
                               type="button"
-                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              className="text-center btn-primary btn-icon me-2 mx-2 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
                                 setDeleteButton(!showDeleteButton);
                                 setShowCheckBoxes(!showCheckBoxes);
@@ -275,7 +275,7 @@ const ClassGroup = () => {
                           ) : (
                             <button
                               type="button"
-                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              className="text-center btn-primary btn-icon me-2 mx-2 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
                                 showSingleDeleteDialog(true)(dispatch);
                               }}

@@ -53,10 +53,15 @@ const AssessmentList = () => {
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const groupIdQuery = queryParams.get("groupId");
   const typeQuery = queryParams.get("type");
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, []);
+
+  React.useEffect(() => {
+    sessionClassIdQuery && getClassSubjects(sessionClassIdQuery)(dispatch);
+  }, [sessionClassIdQuery]);
 
   React.useEffect(() => {
     if(typeQuery  == "home assessment"){
@@ -65,6 +70,8 @@ const AssessmentList = () => {
       : getAllHomeAssessment(sessionClassSubjectIdQuery)(dispatch);
     } else if(typeQuery  == "class assessment"){
          getAllClassAssessment()(dispatch);
+      }else {
+        getAllHomeAssessment("")(dispatch);
       }
   }, [sessionClassSubjectIdQuery,typeQuery]);
 
@@ -104,10 +111,10 @@ const AssessmentList = () => {
           <Col sm="12">
             <Formik
               initialValues={{
-                sessionClassId:"",
-                sessionClassSubjectId: "",
-                groupId: "",
-                type: "",
+                sessionClassId:sessionClassIdQuery? sessionClassIdQuery :"",
+                sessionClassSubjectId: sessionClassSubjectIdQuery ? sessionClassSubjectIdQuery :"",
+                groupId: groupIdQuery ? groupIdQuery : "",
+                type: typeQuery? typeQuery : "",
               }}
               validationSchema={validation}
               enableReinitialize={true}
@@ -234,7 +241,6 @@ const AssessmentList = () => {
                                       e.target.value
                                     );
                                     getAllClassGroup(e.target.value)(dispatch);
-                                    getClassSubjects(e.target.value)(dispatch);
                                     if (e.target.value == "") {
                                       history.push(classLocations.assessment);
                                     } else {
@@ -278,7 +284,7 @@ const AssessmentList = () => {
                                     setSessionClassSubjectId(e.target.value);
                                     e.target.value &&
                                       history.push(
-                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${e.target.value}&type=${typeQuery}`
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${e.target.value}`
                                       );
                                   }}
                                 >
@@ -308,6 +314,17 @@ const AssessmentList = () => {
                                   name="groupId"
                                   className="form-select"
                                   id="groupId"
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      "groupId",
+                                      e.target.value
+                                    );
+                                   
+                                    e.target.value &&
+                                      history.push(
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${e.target.value}`
+                                      );
+                                  }}
                                 >
                                   <option value="">Select Group</option>
                                   <option value="all-students">All Students</option>
@@ -337,7 +354,7 @@ const AssessmentList = () => {
                                     setFieldValue("type",e.target.value)
                                     setAssessment(e.target.value);
                                     e.target.value === "cbt"? history.push(inprogress.unactivated) : history.push(
-                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&type=${e.target.value}`
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${e.target.value}`
                                       );
                                   }}
                                 >
