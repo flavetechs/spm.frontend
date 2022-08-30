@@ -238,7 +238,7 @@ const StaffAdd = () => {
                             </label>
                             <Field
                               type="text"
-                              className="form-control text-dark"
+                              className="form-control"
                               name="firstName"
                               id="firstName"
                               aria-describedby="name"
@@ -252,7 +252,7 @@ const StaffAdd = () => {
                             </label>
                             <Field
                               type="text"
-                              className="form-control text-dark"
+                              className="form-control"
                               name="lastName"
                               id="lastName"
                               aria-describedby="name"
@@ -266,7 +266,7 @@ const StaffAdd = () => {
                             </label>
                             <Field
                               type="text"
-                              className="form-control text-dark"
+                              className="form-control"
                               name="middleName"
                               id="middleName"
                               aria-describedby="name"
@@ -279,7 +279,7 @@ const StaffAdd = () => {
                             </label>
                             <Field
                               type="email"
-                              className="form-control text-dark text-lowercase"
+                              className="form-control text-lowercase"
                               name="email"
                               id="email"
                               aria-describedby="name"
@@ -293,7 +293,7 @@ const StaffAdd = () => {
                             </label>
                             <Field
                               type="tel"
-                              className="form-control text-dark"
+                              className="form-control"
                               name="phone"
                               id="phone"
                               aria-describedby="name"

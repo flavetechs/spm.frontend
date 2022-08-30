@@ -91,6 +91,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
       });
     })
     .catch((err) => {
+      showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
       dispatch({
         type: actions.FETCH_RESULT_LIST_FAILED,
         payload: err.response.data.result,

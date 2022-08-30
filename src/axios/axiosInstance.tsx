@@ -11,6 +11,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
     if(error.response.status === 401) {
         localStorage.removeItem('token');
+        localStorage.removeItem('permissions');
+        localStorage.removeItem('userDetail');
     }
     throw error;
 });

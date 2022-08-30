@@ -1,29 +1,68 @@
 import {
     Button, Form,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { createTimetableTime } from "../../../../store/actions/timetable-actions";
+import { logDOM } from "@testing-library/react";
 
-export function NewTimeModal({ selectedClassId, timetableList }) {
+export function NewTimeModal({ selectedClassId, selectedTimetable }) {
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
-    let result = timetableList.find(id => id.classTimeTableId);
     const [newTime, setNewTime] = useState({
         start: "",
         end: "",
-        classTimeTableId: result?.classTimeTableId,
-        classId: selectedClassId
+        classTimeTableId: "",
+        classId: "",
     });
+    const [validation, setValidation] = useState("");
     //VARIABLE DECLARATIONS
 
-    const handleChange = (event) => {
-        setNewTime({ ...newTime, [event.target.name]: event.target.value });
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { submitSuccessful } = state.timetable;
+    const { showModal } = state.alert;
+    // ACCESSING STATE FROM REDUX STORE
+
+    React.useEffect(() => {
+        newTime.classTimeTableId = selectedTimetable?.classTimeTableId;
+        newTime.classId = selectedClassId;
+    }, [selectedTimetable]);
+
+    const handleStartDateChange = (event) => {
+        newTime.start = event.target.value
+        setNewTime(newTime);
     };
 
+    const handleEndDateChange = (event) => {
+        newTime.end = event.target.value
+        setNewTime(newTime);
+    };
+
+    const handeSubmit = () => {
+        if (!newTime.start.trim() || !newTime.end.trim()) {
+            setValidation("Time is required");
+        } else {
+            createTimetableTime(newTime, selectedClassId)(dispatch);
+            showHideModal(false)(dispatch);
+        }
+    }
+
+    React.useEffect(() => {
+        if (submitSuccessful) {
+            setNewTime({ start: "", end: "", classTimeTableId: selectedTimetable?.classTimeTableId, classId: selectedClassId });
+        }
+    }, [submitSuccessful]);
+
+    React.useEffect(() => {
+        if (showModal == false) {
+            setValidation("");
+            setNewTime({ start: "", end: "", classTimeTableId: selectedTimetable?.classTimeTableId, classId: selectedClassId });
+        }
+    }, [showModal]);
 
 
     return (
@@ -32,6 +71,7 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
             <Form className="pt-3">
                 <div>
                     <div className="mb-3">
+                        <div className="text-danger mb-2">{validation}</div>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Start Time</Form.Label>
                             <Form.Control
@@ -39,7 +79,9 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                                 type="text"
                                 name="start"
                                 placeholder="Start Time"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    newTime.start = e.target.value;
+                                }}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -49,7 +91,9 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                                 type="text"
                                 name="end"
                                 placeholder="End Time"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    newTime.end = e.target.value;
+                                }}
                             />
                         </Form.Group>
                     </div>
@@ -67,10 +111,7 @@ export function NewTimeModal({ selectedClassId, timetableList }) {
                         <Button
                             variant="primary"
                             className=""
-                            onClick={() => {
-                                createTimetableTime(newTime, selectedClassId)(dispatch);
-                                showHideModal(false)(dispatch);
-                            }}
+                            onClick={handeSubmit}
                         >
                             Save
                         </Button>

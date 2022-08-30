@@ -22,10 +22,10 @@ export const returnList = (items) => (dispatch) => {
     })
 }
 
-export const fetchSingleItem = (classTimeTableTimeId) => dispatch => {
+export const fetchSingleItem = (classTimeTableId) => dispatch => {
     dispatch({
         type: actions.GET_SINGLE_ITEM,
-        payload: classTimeTableTimeId
+        payload: classTimeTableId
     });
 
 }
@@ -258,5 +258,25 @@ export const updateTimetableTime = (time, selectedClassId) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+export const getStudentTimeTable = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STUDENT_TIMETABLE_LOADING
+    });
+    axiosInstance.get('/smp/studenttimetable/api/v1/get/by-student')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_TIMETABLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_STUDENT_TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
 
 //TIMETABLE ACTION HANDLERS

@@ -291,7 +291,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="sessionClassId"
-                            className="form-select text-dark"
+                            className="form-select"
                             id="sessionClassId"
                           >
                             {itemList?.map((item, idx) => (
@@ -329,7 +329,7 @@ const StudentEdit = () => {
                             type="text"
                             id="firstName"
                             name="firstName"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -340,7 +340,7 @@ const StudentEdit = () => {
                             type="text"
                             id="lastName"
                             name="lastName"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -351,7 +351,7 @@ const StudentEdit = () => {
                             type="text"
                             name="middleName"
                             id="middleName"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -362,7 +362,7 @@ const StudentEdit = () => {
                             type="number"
                             name="phone"
                             id="phone"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -373,7 +373,7 @@ const StudentEdit = () => {
                             type="number"
                             name="homePhone"
                             id="homePhone"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -387,7 +387,7 @@ const StudentEdit = () => {
                             type="number"
                             name="emergencyPhone"
                             id="emergencyPhone"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <Row>
@@ -405,7 +405,7 @@ const StudentEdit = () => {
                             type="email"
                             id="email"
                             name="email"
-                            className="form-control text-dark text-lowercase"
+                            className="form-control text-lowercase"
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -416,7 +416,7 @@ const StudentEdit = () => {
                             type="date"
                             id="dob"
                             name="dob"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
 
@@ -428,7 +428,7 @@ const StudentEdit = () => {
                             type="text"
                             id="homeAddress"
                             name="homeAddress"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
     
@@ -439,7 +439,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="cityId"
-                            className="form-select text-dark text-uppercase"
+                            className="form-select text-uppercase"
                             id="cityId"
                           >
                             <option value="Lagos">Lagos</option>
@@ -457,7 +457,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="stateId"
-                            className="form-select text-dark text-uppercase"
+                            className="form-select text-uppercase"
                             id="stateId"
                           >
                             <option value="Lagos">Lagos</option>
@@ -475,7 +475,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="countryId"
-                            className="form-select text-dark text-uppercase"
+                            className="form-select text-uppercase"
                             id="countryId"
                           >
                             <option value="Nigeria">Nigeria</option>
@@ -529,7 +529,7 @@ const StudentEdit = () => {
                             type="text"
                             name="parentOrGuardianName"
                             id="parentOrGuardianName"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <Row>
@@ -561,7 +561,7 @@ const StudentEdit = () => {
                             type="text"
                             name="parentOrGuardianRelationship"
                             id="parentOrGuardianRelationship"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-md-6 form-group">
@@ -575,7 +575,7 @@ const StudentEdit = () => {
                             type="number"
                             name="parentOrGuardianPhone"
                             id="parentOrGuardianPhone"
-                            className="form-control text-dark"
+                            className="form-control"
                           />
                         </div>
                         <Row>
@@ -599,7 +599,7 @@ const StudentEdit = () => {
                             type="email"
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
-                            className="form-control text-dark text-lowercase"
+                            className="form-control text-lowercase"
                           />
                         </div>
                       </div>

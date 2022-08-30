@@ -1,39 +1,67 @@
 import {
     Button, Form,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { updateTimetableDays } from "../../../../store/actions/timetable-actions";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 
-export function UpdateDayModal({ timetableList, selectedClassId, currentDay, timetableDayId }) {
+export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay, timetableDayId }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
     const [newDay, setNewDay] = useState('');
-    let result = timetableList.find(id => id.classTimeTableId);
-    const [timetableId, setTimetableId] = useState(result?.classTimeTableId);
+    const [timetableId, setTimetableId] = useState(selectedTimetable?.classTimeTableId);
+    const [validation, setValidation] = useState("");
     //VARIABLE DECLARATION
+
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { submitSuccessful } = state.timetable;
+    const { showModal } = state.alert;
+    // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
         setNewDay(currentDay);
-    }, [currentDay])
+    }, [currentDay]);
 
+    const handeSubmit = () => {
+        if (!newDay.trim()) {
+            setValidation("Day is required");
+        } else {
+            updateTimetableDays(newDay, timetableId, timetableDayId, selectedClassId)(dispatch);
+            showHideModal(false)(dispatch);
+        }
+    }
+
+    React.useEffect(() => {
+        if (submitSuccessful) {
+            setNewDay(newDay);
+        }
+    }, [submitSuccessful]);
+
+    React.useEffect(() => {
+        if (showModal == false) {
+            setValidation("");
+            setNewDay(currentDay);
+        }
+    }, [showModal]);
 
     return (
 
-        <SmpModal title={'Update day.'}>
+        <SmpModal title={'Update Day'}>
             <Form className="pt-3">
                 <div>
                     <div className="mb-3">
+                        <div className="text-danger">{validation}</div>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Week Day</Form.Label>
                             <Form.Control
                                 required
                                 type="text"
-                                value={newDay}
-                                placeholder="Add new Week Day"
+                                defaultValue={currentDay}
+                                placeholder="Update Week Day"
                                 onChange={(e) => setNewDay(e.target.value)}
                             />
                         </Form.Group>
@@ -52,10 +80,7 @@ export function UpdateDayModal({ timetableList, selectedClassId, currentDay, tim
                         <Button
                             variant="primary"
                             className=""
-                            onClick={() => {
-                                updateTimetableDays(newDay, timetableId,timetableDayId, selectedClassId)(dispatch);
-                                showHideModal(false)(dispatch);
-                            }}
+                            onClick={handeSubmit}
                         >
                             Save
                         </Button>

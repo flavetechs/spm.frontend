@@ -16,7 +16,7 @@ export function PeriodActivityModal({ selectedActivityId, selectedClassId, perio
 
     React.useEffect(() => {
         setActivity(periodActivity);
-    }, [periodActivity]);
+    }, [selectedActivityId]);
 
     return (
 

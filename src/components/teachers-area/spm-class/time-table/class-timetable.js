@@ -9,7 +9,7 @@ import './timetable.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
-import { getAllTimetable } from '../../../../store/actions/timetable-actions';
+import { getAllTimetable, getStudentTimeTable } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
 
 function ClassTimeTable() {
@@ -24,8 +24,7 @@ function ClassTimeTable() {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { activeClasses } = state.class;
-    const { deleteDialogResponse } = state.alert;
-    const { timetableList } = state.timetable;
+    const { selectedTimetable } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
 
 
@@ -39,7 +38,7 @@ function ClassTimeTable() {
                 <Card.Body className=''>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                         <Row className=''>
-                            <Col className='col-md-2 mt-5 mb-4 col-12 col-sm-12 class-time-table-left-col'>
+                            <Col className='col-md-2 col-sm-3 mb-4 class-time-table-left-col'>
                                 <Card>
 
                                 </Card>
@@ -52,7 +51,7 @@ function ClassTimeTable() {
                                             }}
                                                 style={{ cursor: 'pointer' }}
                                             >
-                                                <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg className='class-icon' width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.7161 16.2234H8.49609" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                                                         strokeLinejoin="round" />
                                                     <path d="M15.7161 12.0369H8.49609" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
@@ -69,11 +68,22 @@ function ClassTimeTable() {
                                     </Nav.Item>
                                 </Nav>
                             </Col>
-                            <Col className='col-md-9 col-12 col-sm-12'>
-                                <ClassTimeTableActivities
-                                timetableList={timetableList}
-                                selectedClassId={selectedClassId}
-                                />
+                            <Col className='col-md-9 col-sm-9'>
+                                {selectedTimetable === null ?
+                                    <div className="jumbotron jumbotron-fluid d-flex justify-content-center mt-5">
+                                        <div className="container d-flex justify-content-center header-message">
+                                            <h6 className="display-6 d-flex justify-content-center mt-4">
+                                                Please select class to view Timetable
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    :
+                                    <ClassTimeTableActivities
+                                    selectedTimetable={selectedTimetable}
+                                        selectedClassId={selectedClassId}
+                                    />
+                                }
+
                             </Col>
                         </Row>
                     </Tab.Container>

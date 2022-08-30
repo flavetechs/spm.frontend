@@ -74,7 +74,7 @@ const SubjectSetupAdd = () => {
                           </label>
                           <Field
                             type="text"
-                            className="form-control text-dark"
+                            className="form-control"
                             name="name"
                             id="name"
                             aria-describedby="name"
