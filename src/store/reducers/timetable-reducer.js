@@ -6,7 +6,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
   switch (type) {
 
     case actions.GET_SINGLE_ITEM: {
-      const selectedItem = state.selectedTimetable.find(d => d.classTimeTableTimeId == payload);
+      const selectedItem = state.selectedTimetable?.classTimeTableId == payload;
       if (selectedItem) {
         return {
           ...state,

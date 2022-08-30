@@ -22,10 +22,10 @@ export const returnList = (items) => (dispatch) => {
     })
 }
 
-export const fetchSingleItem = (classTimeTableTimeId) => dispatch => {
+export const fetchSingleItem = (classTimeTableId) => dispatch => {
     dispatch({
         type: actions.GET_SINGLE_ITEM,
-        payload: classTimeTableTimeId
+        payload: classTimeTableId
     });
 
 }

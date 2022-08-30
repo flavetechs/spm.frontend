@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { createTimetableTime } from "../../../../store/actions/timetable-actions";
+import { logDOM } from "@testing-library/react";
 
 export function NewTimeModal({ selectedClassId, selectedTimetable }) {
 
@@ -52,16 +53,18 @@ export function NewTimeModal({ selectedClassId, selectedTimetable }) {
 
     React.useEffect(() => {
         if (submitSuccessful) {
-            setNewTime({ start: "", end: "", classTimeTableId: "", classId: "" });
+            setNewTime({ start: "", end: "", classTimeTableId: selectedTimetable?.classTimeTableId, classId: selectedClassId });
         }
     }, [submitSuccessful]);
 
     React.useEffect(() => {
         if (showModal == false) {
             setValidation("");
-            setNewTime({ start: "", end: "", classTimeTableId: "", classId: "" });
+            setNewTime({ start: "", end: "", classTimeTableId: selectedTimetable?.classTimeTableId, classId: selectedClassId });
         }
     }, [showModal]);
+
+
     return (
 
         <SmpModal title={'Add New Time'}>
