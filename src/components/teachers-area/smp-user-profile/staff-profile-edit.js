@@ -251,7 +251,7 @@ const StaffProfileEdit = () => {
                                     <Card.Body>
                                         <Form className="mx-auto" onSubmit={e => { e.preventDefault(); }} >
                                             <Row className="d-flex justify-content-center">
-                                                <Col md="11" className="form-group text-dark">
+                                                <Col md="11" className="form-group">
 
                                                     <div className="new-user-info">
                                                         <div>
@@ -264,31 +264,31 @@ const StaffProfileEdit = () => {
                                                             <div className="row">
                                                                 <Form.Group className="col-md-6 form-group">
                                                                     <label htmlFor="FirstName" className="form-label"><b>First Name:</b></label>
-                                                                    <Field type="text" className="form-control text-dark" name="FirstName" id="FirstName" aria-describedby="name" required placeholder="Enter First Name" />
+                                                                    <Field type="text" className="form-control" name="FirstName" id="FirstName" aria-describedby="name" required placeholder="Enter First Name" />
                                                                 </Form.Group>
                                                                 <Form.Group className="col-md-6 form-group">
                                                                     <label htmlFor="LastName" className="form-label"><b>Last Name:</b></label>
-                                                                    <Field type="text" className="form-control text-dark" name="LastName" id="LastName" aria-describedby="name" required placeholder="Enter Last Name" />
+                                                                    <Field type="text" className="form-control" name="LastName" id="LastName" aria-describedby="name" required placeholder="Enter Last Name" />
                                                                 </Form.Group>
                                                                 <Form.Group className="col-md-6 form-group">
                                                                     <label htmlFor="MiddleName" className="form-label"><b>Middle Name:</b></label>
-                                                                    <Field type="text" className="form-control text-dark" name="MiddleName" id="MiddleName" aria-describedby="name" required placeholder="Enter Middle Name" />
+                                                                    <Field type="text" className="form-control" name="MiddleName" id="MiddleName" aria-describedby="name" required placeholder="Enter Middle Name" />
                                                                 </Form.Group>
                                                                 <Form.Group className="col-md-6 form-group">
                                                                     <label htmlFor="Phone" className="form-label"><b>Phone Number:</b></label>
-                                                                    <Field type="text" className="form-control text-dark" name="Phone" id="Phone" aria-describedby="name" required placeholder="Enter Phone Number e.g 0904849" />
+                                                                    <Field type="text" className="form-control" name="Phone" id="Phone" aria-describedby="name" required placeholder="Enter Phone Number e.g 0904849" />
                                                                 </Form.Group>
                                                                 <Form.Group className="col-md-6 form-group">
                                                                     <label htmlFor="Email" className="form-label"><b>Email:</b> </label>
-                                                                    <Field type="email" className="form-control text-dark text-lowercase" name="Email" id="Email" aria-describedby="name" required placeholder="Email e.g schoolmgt@yahoo.com" />
+                                                                    <Field type="email" className="form-control text-lowercase" name="Email" id="Email" aria-describedby="name" required placeholder="Email e.g schoolmgt@yahoo.com" />
                                                                 </Form.Group>
                                                                 <Form.Group className="col-md-6  form-group">
                                                                     <label htmlFor="Address" className="form-label"> <b>Home Address.</b></label>
-                                                                    <Field type="text" className="form-control text-dark" name="Address" id="Address" aria-describedby="name" required placeholder="Enter Home Address" />
+                                                                    <Field type="text" className="form-control" name="Address" id="Address" aria-describedby="name" required placeholder="Enter Home Address" />
                                                                 </Form.Group>
                                                                 <Form.Group className="col-md-3  form-group">
                                                                     <label htmlFor="DOB" className="form-label"><b>Date of Birth:</b> </label>
-                                                                    <Field type="date" className="form-control text-dark" name="DOB" id="DOB" aria-describedby="name" required placeholder="Enter Date of Birth" />
+                                                                    <Field type="date" className="form-control" name="DOB" id="DOB" aria-describedby="name" required placeholder="Enter Date of Birth" />
                                                                 </Form.Group>
                                                                 <Form.Group className="mb-3 form-group">
                                                                     <label className="form-label mb-1" htmlFor="Hobbies">
@@ -324,7 +324,7 @@ const StaffProfileEdit = () => {
                                                                         onChange={(e) => settextAreaUser(e.target.value)}
                                                                         as="textarea"
                                                                         id="ShortBiography"
-                                                                        className="form-control text-dark"
+                                                                        className="form-control"
                                                                         value={textAreaUser}
                                                                         rows="5" />
                                                                 </Form.Group>
