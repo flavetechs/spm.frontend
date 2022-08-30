@@ -159,6 +159,23 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         selectedItem: null,
       };
 
+      case actions.SWITCH_SESSION_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.SWITCH_SESSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actions.SWITCH_SESSION_FAILED:
+      return {
+        ...state,
+        loading: false,
+      };
+
+
     //SESSION ACTION REDUCERS
 
     default:
