@@ -2,29 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { classLocations } from "../../../router/spm-path-locations";
 import {
-  addComments,
-  addReplies,
-  approveNotes,
-  getAllComments,
-  getClassNoteViewers,
-  getDetails,
-  getLessonNoteDetails,
-  getRelatedNotes,
-  getSingleLessonNotes,
-} from "../../../../store/actions/class-actions";
-import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
+  addStudentComments,
+  addStudentReplies,
+  getAllStudentComments,
+  getSingleStudentNotes,
+  reviewNotes,
+} from "../../../store/actions/class-actions";
+import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
 
-const LessonNoteDetails = () => {
+const StudentNoteDetails = () => {
   const state = useSelector((state) => state);
-  const {
-    singleLessonNotes,
-    createSuccessful,
-    comments,
-    viewers,
-    relatedNotes,
-  } = state.class;
+  const { singleStudentNotes, createSuccessful, studentComments } = state.class;
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const location = useLocation();
@@ -42,21 +32,21 @@ const LessonNoteDetails = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const teacherClassNoteId = queryParams.get("teacherClassNoteId");
-    getSingleLessonNotes(teacherClassNoteId)(dispatch);
+    const studentNoteId = queryParams.get("studentNoteId");
+    getSingleStudentNotes(studentNoteId)(dispatch);
   }, []);
 
   useEffect(() => {
-    if (singleLessonNotes?.classNoteId) {
-      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
+    if (singleStudentNotes?.studentNoteId) {
+      getAllStudentComments(singleStudentNotes?.studentNoteId)(dispatch);
     }
-  }, [singleLessonNotes]);
-
+  }, [singleStudentNotes]);
+  console.log(studentComments);
   return (
     <>
-      <div className="col-sm-12 mx-auto">
+      <div className="col-md-12 mx-auto">
         <Row>
-          <Col lg="7">
+          <Col sm="12">
             <Col sm="12">
               <Card
                 id="details"
@@ -65,7 +55,7 @@ const LessonNoteDetails = () => {
               >
                 <Card.Body>
                   <div className="d-flex justify-content-between mt-3 flex-wrap">
-                    <div>
+                    <div className="mx-3">
                       <OverlayTrigger
                         placement="top"
                         overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
@@ -75,7 +65,7 @@ const LessonNoteDetails = () => {
                             history.goBack();
                           }}
                           style={{ cursor: "pointer" }}
-                          className=" text-primary"
+                          className="text-primary"
                           width="32"
                           viewBox="0 0 24 24"
                           fill="none"
@@ -89,7 +79,7 @@ const LessonNoteDetails = () => {
                           ></path>
                         </svg>
                       </OverlayTrigger>
-                      <span >back</span>
+                      <span>back</span>
                       {!fullScreen ? (
                         <OverlayTrigger
                           placement="top"
@@ -143,7 +133,7 @@ const LessonNoteDetails = () => {
                       Approval Status:
                       <span className="text-end text-primary">
                         {" "}
-                        {singleLessonNotes?.approvalStatusName}
+                        {singleStudentNotes?.approvalStatusName}
                       </span>
                     </div>
                   </div>
@@ -196,13 +186,13 @@ const LessonNoteDetails = () => {
                       </button>
                     </div>
                     <div className="ms-2 mt-2 fw-bold">
-                      <span>{singleLessonNotes?.noteTitle}</span>
+                      <span>{singleStudentNotes?.noteTitle}</span>
                       <br />
                     </div>
                   </div>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: singleLessonNotes?.noteContent,
+                      __html: singleStudentNotes?.noteContent,
                     }}
                   ></div>
                   <hr />
@@ -215,7 +205,7 @@ const LessonNoteDetails = () => {
                   <h4 className="card-title mb-n5">Comment(s)</h4>
                 </Card.Header>
                 <Card.Body>
-                  {comments?.map((comment, idx) => (
+                  {studentComments?.map((comment, idx) => (
                     <>
                       <Card className="shadow-none bg-transparent border my-3">
                         <Card.Body>
@@ -267,10 +257,10 @@ const LessonNoteDetails = () => {
                               className=" badge bg-primary border-0 mb-2 mt-n3"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                addReplies(
+                                addStudentReplies(
                                   reply.commentId,
                                   reply.comment,
-                                  singleLessonNotes?.classNoteId
+                                  singleStudentNotes?.studentNoteId
                                 )(dispatch);
                                 setRow({
                                   indexRow: "",
@@ -323,7 +313,7 @@ const LessonNoteDetails = () => {
                     <Row>
                       <div className="col-lg-12">
                         <div className="form-group">
-                          <label className="form-label h6">
+                          <label className="form-label text-dark">
                             Enter your Comment:
                           </label>
                           <textarea
@@ -340,8 +330,8 @@ const LessonNoteDetails = () => {
                           className="badge bg-primary border-0 mb-3"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            addComments(
-                              singleLessonNotes?.classNoteId,
+                            addStudentComments(
+                              singleStudentNotes?.studentNoteId,
                               comment
                             )(dispatch);
                             setComment("");
@@ -367,24 +357,15 @@ const LessonNoteDetails = () => {
                       </div>
                       <div className="col-lg-12 d-flex ">
                         <input
-                          type="radio"
+                          type="checkbox"
                           id="approve"
                           name="shouldApprove"
-                          value="approve"
                           className="mx-1 form-check-input"
                           onChange={(e) => {
                             setIsChecked(e.target.checked);
                           }}
                         />
-                        <label htmlFor="html">approve</label>
-                        <input
-                          type="radio"
-                          id="disapprove"
-                          name="shouldApprove"
-                          value="disapprove"
-                          className="mx-1 form-check-input"
-                        />
-                        <label htmlFor="css">disapprove</label>
+                        <label>approve</label>
                       </div>
                     </Row>
                   </form>
@@ -402,10 +383,11 @@ const LessonNoteDetails = () => {
                       type="submit"
                       className="btn btn-primary"
                       onClick={() => {
-                        approveNotes(
-                          singleLessonNotes?.classNoteId,
-                          isChecked
-                        )(dispatch);
+                        isChecked &&
+                          reviewNotes(
+                            singleStudentNotes?.studentNoteId,
+                            isChecked
+                          )(dispatch);
                       }}
                     >
                       Submit
@@ -415,22 +397,23 @@ const LessonNoteDetails = () => {
               </Card>
             </Col>
           </Col>
-          <Col lg="5">
+          {/* <Col sm="5">
             <Card>
               <Card.Body>
                 <h4 className="mb-4">About Me</h4>
                 <div className="d-flex align-items-center gap-3">
                   <img
                     className="img-fluid rounded-circle avatar-130"
-                    src={singleLessonNotes?.noteAuthordetail?.photo}
+                    src="https://templates.iqonic.design/hope-ui/pro/html/blog/assets/images/blog-avatar/01.png"
                     alt="user-img"
                   />
                   <div>
                     <h6 className="mb-3 text-primary">
-                      {singleLessonNotes?.noteAuthordetail?.fullName}
+                      {singleStudentNotes?.noteAuthordetail?.fullName}
                     </h6>
                     <p className="mt-3">
-                      {singleLessonNotes?.noteAuthordetail?.shortBio}
+                      Elit vitae neque velit mattis elementum egestas non, Sem
+                      eget.
                     </p>
                   </div>
                 </div>
@@ -450,9 +433,7 @@ const LessonNoteDetails = () => {
                             history.push(
                               `${classLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`
                             );
-                            getSingleLessonNotes(notes.teacherClassNoteId)(
-                              dispatch
-                            );
+                            getSingleLessonNotes(notes.teacherClassNoteId)(dispatch);
                           }}
                         >
                           {notes.noteTitle}
@@ -479,11 +460,11 @@ const LessonNoteDetails = () => {
                 </ul>
               </Card.Body>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>
   );
 };
 
-export default LessonNoteDetails;
+export default StudentNoteDetails;

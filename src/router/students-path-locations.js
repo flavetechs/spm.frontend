@@ -11,11 +11,16 @@ export const dashboardLocations = {
     assessmentDetails: "/stds-dashboard/student-assessment-details",
   };
 
-  export const lessonNoteLocations = {
-    lessonNotes: "/stds-dashboard/student-lesson-note",
-    createLessonNotes:"/stds-dashboard/student-lesson-note/create-lesson-notes",
-    editLessonNotes:"/stds-dashboard/student-lesson-note/edit-lesson-notes",
-    lessonNotesDetails:"/stds-dashboard/student-lesson-note/lesson-note-details",
+  export const classNoteLocations = {
+    classNotes: "/stds-dashboard/student-class-note",
+    classNotesDetails:"/stds-dashboard/student-class-note/class-note-details",
+  };
+
+  export const studentNoteLocations = {
+    studentNotes: "/stds-dashboard/student-student-note",
+    createStudentNotes:"/stds-dashboard/student-student-note/create-student-notes",
+    editStudentNotes:"/stds-dashboard/student-student-note/edit-student-notes",
+    studentNotesDetails:"/stds-dashboard/student-student-note/student-note-details",
   };
 
   export const announcementLocations = {

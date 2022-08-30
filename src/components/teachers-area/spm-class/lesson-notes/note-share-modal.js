@@ -16,7 +16,7 @@ export function NoteShareModal(props) {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { otherStaffList } = state.class;
-  const { modalResponse } = state.alert;
+  const { showModal } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -24,14 +24,15 @@ export function NoteShareModal(props) {
   }, [props.classNoteId]);
 
   React.useEffect(() => {
+    showModal &&
     setStaffArray(otherStaffList.filter(c=> c.isShared == true).map(c=>c.teacherAccountId));
-  }, [otherStaffList]);
+  }, [otherStaffList,showModal]);
 
   React.useEffect(() => {
-    if(modalResponse == "cancel"){
+    if(showModal == false){
     setStaffArray([])
   }
-  }, [modalResponse]);
+  }, [showModal]);
   
 
   const handleStaffArray = (event) => {
@@ -47,7 +48,7 @@ export function NoteShareModal(props) {
     setStaffArray(selectedStaffArray);
   };
 
-
+  console.log("hi",staffArray,showModal)
   return (
     <>
     <SmpModal title={"Staff List"}>

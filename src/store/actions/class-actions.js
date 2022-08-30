@@ -153,6 +153,25 @@ export const getAllSubjects = () => (dispatch) => {
         });
 }
 
+export const getAllStudentSubjects = (studentId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STUDENT_SUBJECTS_LOADING
+    });
+
+    axiosInstance.get(`/subject/api/v1/getall/student-subjects?studentId=${studentId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_STUDENT_SUBJECT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const createSubject = (subject) => (dispatch) => {
     dispatch({
         type: actions.CREATE_SUBJECT_LOADING
@@ -870,7 +889,7 @@ export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
         });
 }
 
-export const getClassNotesByStatus = (subjectId,status) => (dispatch) => {
+export const getNotesByStatus = (subjectId,status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STATUS_LOADING,
     });
@@ -1068,6 +1087,310 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
         console.log(er);
     })
 }
+
+export const getAllClassNotes = (subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CLASS_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/smp/studentclassnotes/api/v1/get-classnote/bystudents?subjectId=${subjectId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CLASS_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CLASS_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getAllStudentNotes = (subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STUDENT_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/Studentnotes/by-student?subjectId=${subjectId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getSingleStudentNotes = (studentNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_STUDENT_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/smp/studentnotes/api/v1/get-single/studentnote?studentNoteId=${studentNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_STUDENT_NOTES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_STUDENT_NOTES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getStudentNotesByTeacher = (subjectId, status) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STUDENT_NOTES_BY_TEACHER_LOADING,
+    });
+
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/studentnotes/by-teacher?subjectId=${subjectId}&status=${status}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_NOTES_BY_TEACHER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_NOTES_BY_TEACHER_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const addStudentNotes = (values) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_LESSON_NOTES_LOADING
+    });
+
+    axiosInstance.post('/smp/studentnotes/api/v1/create/studentnote', values)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const updateStudentNotes = (values) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_LESSON_NOTES_LOADING
+    });
+
+    axiosInstance.post('/smp/studentnotes/api/v1/update/studentnote', values)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteStudentNotes = (item,subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_LESSON_NOTES_LOADING
+    });
+const payload= {
+    item
+}
+    axiosInstance.post(`/smp/studentnotes/api/v1/delete/studentnote`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_LESSON_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllStudentNotes(subjectId)(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_LESSON_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+export const reviewNotes = (studentNoteId,shouldApprove) => (dispatch) => {
+    dispatch({
+        type: actions.APPROVE_NOTES_LOADING
+    });
+const payload = {
+    studentNoteId,
+    shouldApprove
+  }
+  
+    axiosInstance.post('/smp/studentnotes/api/v1/review/studentnote', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.APPROVE_NOTES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.APPROVE_NOTES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const sendForReview = (studentNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.SEND_FOR_APPROVAL_LOADING
+    });
+const payload = {
+    studentNoteId,
+  }
+  
+    axiosInstance.post('/smp/studentnotes/api/v1/send/studentnote-forreview', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SEND_FOR_APPROVAL_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            resetCreateSuccessfulState()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.SEND_FOR_APPROVAL_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const getUnreviewedClassNotes = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_REVIEW_LOADING,
+    });
+
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/unreviewed/studentnote`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_REVIEW_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_REVIEW_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const addStudentComments = (studentNoteId,comment) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_COMMENTS_LOADING
+    });
+const payload ={
+    studentNoteId,
+        comment,
+}
+
+    axiosInstance.post('/smp/studentnotes/api/v1/add-comment/to-studentnote', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_COMMENTS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllStudentComments(studentNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_COMMENTS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const addStudentReplies = (commentId,comment,studentNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_REPLIES_LOADING
+    });
+const payload ={
+        commentId,
+        comment,
+}
+
+    axiosInstance.post('/smp/studentnotes/api/v1/reply/studentnote-comment', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_REPLIES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllStudentComments(studentNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_REPLIES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const getAllStudentComments = (studentNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STUDENT_COMMENTS_LOADING,
+    });
+
+    axiosInstance.get(`/smp/studentnotes/api/v1/get-studentnote/comments?studentNoteId=${studentNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_COMMENTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_COMMENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+export const getSubjectTeacher = (subjectId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SUBJECT_TEACHER_LOADING,
+    });
+
+    axiosInstance.get(`/subject/api/v1/get/subject-teacher?subjectId=${subjectId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SUBJECT_TEACHER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SUBJECT_TEACHER_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
 //LESSON NOTE ACTION
 
 //GROUP ACTION

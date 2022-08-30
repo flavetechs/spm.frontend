@@ -43,6 +43,8 @@ export const classLocations = {
   createLessonNotes: "/dashboard/smp-class/create-lesson-notes",
   editLessonNotes: "/dashboard/smp-class/edit-lesson-notes",
   lessonNotesDetails: "/dashboard/smp-class/lesson-note-details",
+  studentNotes: "/dashboard/smp-class/student-notes",
+  studentNotesDetails: "/dashboard/smp-class/student-note-details",
   classGroup: "/dashboard/smp-class/class-group",
   addClassGroup: "/dashboard/smp-class/add-class-group",
   editClassGroup: "/dashboard/smp-class/edit-class-group",

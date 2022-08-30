@@ -7,7 +7,7 @@ import { classLocations } from "../../../../router/spm-path-locations";
 import {
   deleteLessonNotes,
   getAllLessonNotes,
-  getClassNotesByStatus,
+  getNotesByStatus,
 } from "../../../../store/actions/class-actions";
 import {
   getAllStaffClasses,
@@ -100,7 +100,7 @@ const LessonNotes = () => {
       getAllLessonNotes(subjectId)(dispatch);
     } 
     if (approvalStatusQuery) {
-      getClassNotesByStatus(subjectIdQuery, approvalStatusQuery)(dispatch);
+      getNotesByStatus(subjectIdQuery, approvalStatusQuery)(dispatch);
     }
   }, [approvalStatusQuery, subjectIdQuery]);
 
@@ -321,7 +321,7 @@ const LessonNotes = () => {
                                   );
                                   if (e.target.value !== "all") {
                                     approvalStatusQuery != e.target.value &&
-                                    getClassNotesByStatus(values.subjectId, e.target.value)(dispatch);
+                                    getNotesByStatus(values.subjectId, e.target.value)(dispatch);
                                     history.push(
                                       `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}&approvalStatus=${e.target.value}`
                                     );

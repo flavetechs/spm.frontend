@@ -141,6 +141,30 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+      case actions.FETCH_STUDENT_SUBJECTS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+        studentSubjectList:[],
+      };
+    case actions.FETCH_STUDENT_SUBJECTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        studentSubjectList: payload,
+      };
+    case actions.FETCH_STUDENT_SUBJECT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+        studentSubjectList:[],
+      };
+
+
     case actions.CREATE_SUBJECT_LOADING:
       return {
         ...state,
@@ -785,6 +809,28 @@ export const classReducer = (state = _state, { type, payload }) => {
               };
             }
 
+            case actions.FETCH_SINGLE_STUDENT_NOTES_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                singleStudentNotes:null,
+              };
+            }
+            case actions.FETCH_SINGLE_STUDENT_NOTES_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                singleStudentNotes: payload,
+              };
+            }
+            case actions.FETCH_SINGLE_STUDENT_NOTES_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                singleStudentNotes: null,
+              };
+            }
+
             case actions.FETCH_COMMENTS_LOADING: {
               return {
                 ...state,
@@ -807,11 +853,34 @@ export const classReducer = (state = _state, { type, payload }) => {
               };
             }
 
+            case actions.FETCH_STUDENT_COMMENTS_LOADING: {
+              return {
+                ...state,
+                loading: true,
+                studentComments:[],
+              };
+            }
+            case actions.FETCH_STUDENT_COMMENTS_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                studentComments: payload,
+              };
+            }
+            case actions.FETCH_STUDENT_COMMENTS_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                studentComments: [],
+              };
+            }
+
             case actions.FETCH_STATUS_LOADING: {
               return {
                 ...state,
                 loading: true,
                 lessonNotes:[],
+                studentNotes: [],
               };
             }
             case actions.FETCH_STATUS_SUCCESS: {
@@ -819,6 +888,7 @@ export const classReducer = (state = _state, { type, payload }) => {
                 ...state,
                 loading: false,
                 lessonNotes: payload,
+                studentNotes:payload,
               };
             }
             case actions.FETCH_STATUS_FAILED: {
@@ -826,6 +896,7 @@ export const classReducer = (state = _state, { type, payload }) => {
                 ...state,
                 loading: false,
                 lessonNotes: [],
+                studentNotes: [],
               };
             }
 
@@ -915,6 +986,94 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         lessonNotes: [],
+      };
+    }
+
+    case actions.FETCH_CLASS_NOTES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        classNotes: [],
+      };
+    }
+    case actions.FETCH_CLASS_NOTES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        classNotes: payload,
+      };
+    }
+    case actions.FETCH_CLASS_NOTES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        classNotes: [],
+      };
+    }
+
+    case actions.FETCH_STUDENT_NOTES_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentNotes: [],
+      };
+    }
+    case actions.FETCH_STUDENT_NOTES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentNotes: payload,
+      };
+    }
+    case actions.FETCH_STUDENT_NOTES_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentNotes: [],
+      };
+    }
+
+    case actions.FETCH_STUDENT_NOTES_BY_TEACHER_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentNotesByTeacher: [],
+      };
+    }
+    case actions.FETCH_STUDENT_NOTES_BY_TEACHER_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentNotesByTeacher: payload,
+      };
+    }
+    case actions.FETCH_STUDENT_NOTES_BY_TEACHER_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentNotesByTeacher: [],
+      };
+    }
+
+    case actions.FETCH_SUBJECT_TEACHER_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        subjectTeacher: [],
+      };
+    }
+    case actions.FETCH_SUBJECT_TEACHER_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        subjectTeacher: payload,
+      };
+    }
+    case actions.FETCH_SUBJECT_TEACHER_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        subjectTeacher: [],
       };
     }
 
