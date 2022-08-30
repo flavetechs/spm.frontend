@@ -33,6 +33,8 @@ const PromotionPassedList = () => {
     fetchPassedStudentList(studentIds)(dispatch)
   }, []);
 
+  console.log('passedStudentList', passedStudentList);
+
   return (
     <>
       <div>

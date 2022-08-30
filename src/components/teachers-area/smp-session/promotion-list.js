@@ -35,8 +35,6 @@ const PromotionSetup = () => {
   const { dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
-  console.log('promotionList', promotionList);
-
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllPromotionList()(dispatch);

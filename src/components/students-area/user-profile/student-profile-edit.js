@@ -240,7 +240,7 @@ const StudentProfileEdit = () => {
                                     <Card.Body>
                                         <Form className="mx-auto" onSubmit={e => { e.preventDefault(); }} >
                                             <Row className="d-flex justify-content-center">
-                                                <Col md="11" className="form-group text-dark">
+                                                <Col md="11" className="form-group">
                                                     <label className="form-label mb-1" htmlFor="Hobbies">
                                                         <b>Hobbies:</b>
                                                     </label>
@@ -267,7 +267,7 @@ const StudentProfileEdit = () => {
                                                         </Button>
                                                     </div>
                                                 </Col>
-                                                <Col md="11" className="form-group text-dark">
+                                                <Col md="11" className="form-group">
                                                     <Row>
                                                         <span className=""><b>Choose Best Subjects</b></span>
                                                         {activeSubjects.map((subject, index) => {

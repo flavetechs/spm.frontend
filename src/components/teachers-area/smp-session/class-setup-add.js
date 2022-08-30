@@ -91,7 +91,7 @@ const ClassSetupAdd = () => {
                           </label>
                           <Field
                             type="text"
-                            className="form-control text-dark"
+                            className="form-control"
                             name="name"
                             id="name"
                             aria-describedby="name"
@@ -114,7 +114,7 @@ const ClassSetupAdd = () => {
                           </label>
                           <Field
                             as="select"
-                            className="form-select text-dark"
+                            className="form-select"
                             name="gradeLevelId"
                             id="gradeLevelId"
                             aria-describedby="gradeLevelId"

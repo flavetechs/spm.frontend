@@ -80,42 +80,48 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
-        message: ''
+        message: '',
+        submitSuccessful: false,
       };
     case actions.CREATE_TIMETABLE_DAYS_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
         loading: false,
-        message: payload
+        message: payload,
+        submitSuccessful: true,
       };
     case actions.CREATE_TIMETABLE_DAYS_FAILED:
       return {
         ...state,
         isSuccessful: false,
         loading: false,
-        message: ''
+        message: '',
+        submitSuccessful: false,
       };
     case actions.CREATE_TIMETABLE_PERIOD_LOADING:
       return {
         ...state,
         loading: true,
         isSuccessful: false,
-        message: ''
+        message: '',
+        submitSuccessful: false,
       };
     case actions.CREATE_TIMETABLE_PERIOD_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
         loading: false,
-        message: payload
+        message: payload,
+        submitSuccessful: true,
       };
     case actions.CREATE_TIMETABLE_PERIOD_FAILED:
       return {
         ...state,
         isSuccessful: false,
         loading: false,
-        message: ''
+        message: '',
+        submitSuccessful: false,
       };
 
 
@@ -214,6 +220,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         loading: true,
         isSuccessful: false,
         message: "",
+        submitSuccessful: false,
       };
     case actions.UPDATE_TIMETABLE_DAYS_SUCCESS:
       return {
@@ -221,6 +228,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
+        submitSuccessful: true,
       };
     case actions.UPDATE_TIMETABLE_DAYS_FAILED:
       return {
@@ -228,6 +236,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
+        submitSuccessful: false,
       };
 
     case actions.UPDATE_TIMETABLE_TIME_LOADING:
@@ -236,6 +245,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         loading: true,
         isSuccessful: false,
         message: "",
+        submitSuccessful: false,
       };
     case actions.UPDATE_TIMETABLE_TIME_SUCCESS:
       return {
@@ -243,6 +253,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
+        submitSuccessful: true,
       };
     case actions.UPDATE_TIMETABLE_TIME_FAILED:
       return {
@@ -250,6 +261,7 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
+        submitSuccessful: false,
       };
 
     case actions.FETCH_STUDENT_TIMETABLE_LOADING:
