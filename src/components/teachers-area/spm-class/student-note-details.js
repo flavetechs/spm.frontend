@@ -41,7 +41,7 @@ const StudentNoteDetails = () => {
       getAllStudentComments(singleStudentNotes?.studentNoteId)(dispatch);
     }
   }, [singleStudentNotes]);
-  console.log(studentComments);
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">
