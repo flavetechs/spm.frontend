@@ -100,7 +100,7 @@ const ClassGroup = () => {
     });
     returnList(groupList)(dispatch);
   };
-
+ 
   return (
     <>
       <div>
@@ -109,7 +109,7 @@ const ClassGroup = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">Class Group List</h4>
+                  <h4 className="card-title">{groupList?.find(i=>i)?.sessionClassName} Class Group List</h4>
                 </div>
               </Card.Header>
 
@@ -275,7 +275,7 @@ const ClassGroup = () => {
                           ) : (
                             <button
                               type="button"
-                              className="text-center btn-primary btn-icon me-2 mx-2 mt-md-0 mt-3 btn btn-primary"
+                              className="text-center btn-icon me-2 mx-2 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
                                 showSingleDeleteDialog(true)(dispatch);
                               }}
@@ -367,7 +367,6 @@ const ClassGroup = () => {
                                   <input
                                     className="form-check-input"
                                     type="checkbox"
-                                    checked={item.isChecked || false}
                                     onChange={(e) => {
                                       checkSingleItem(
                                         e.target.checked,

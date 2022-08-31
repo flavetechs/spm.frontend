@@ -312,7 +312,7 @@ const LessonNotes = () => {
                               <Field
                                 as="select"
                                 name="approvalStatus"
-                                className="form-select mx-3"
+                                className="form-select"
                                 id="approvalStatus"
                                 onChange={(e) => {
                                   setFieldValue(

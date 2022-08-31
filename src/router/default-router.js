@@ -81,6 +81,7 @@ import ClassTimeTable from '../components/teachers-area/spm-class/time-table/cla
 import InProgress from '../components/teachers-area/in-progress';
 import StudentNoteDetails from '../components/teachers-area/spm-class/student-note-details';
 import StudentNotes from '../components/teachers-area/spm-class/student-notes';
+import ClassAssessmentDetails from '../components/teachers-area/spm-class/assessment/class-assessment-details';
 
 const DashboardRouter = () => {
 
@@ -110,6 +111,7 @@ const DashboardRouter = () => {
                     <Route path={classLocations.editHomeAssessment} exact component={EditHomeAssessment} />
                     <Route path={classLocations.editClassAssessment} exact component={EditClassAssessment} />
                     <Route path={classLocations.homeAssessmentDetails} exact component={HomeAssessmentDetails} />
+                    <Route path={classLocations.classAssessmentDetails} exact component={ClassAssessmentDetails} />
                     <Route path={classLocations.viewStudentsHomeAssessment} exact component={ViewStudentsAssessment} />
                     <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
                     <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />

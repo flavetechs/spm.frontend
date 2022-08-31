@@ -12,10 +12,12 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
       }
     }
+    
     case actions.PUSH_ITEM_ID:
+      var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload],
+        selectedIds: [...new Set(arrayToFilter)],
       };
     case actions.REMOVE_ITEM_ID:
       var filteredIds = filterSelectedIds(state.selectedIds, payload);
@@ -1432,10 +1434,34 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
       };
 
-      case actions.UPDATE_ASSESSMENT_LOADING:
+      case actions.CREATE_CLASS_ASSESSMENT_LOADING:
         return {
           ...state,
           loading: true,
+          isSuccessful: false,
+          newClassAssessment:null,
+        };
+      case actions.CREATE_CLASS_ASSESSMENT_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful:true,
+          newClassAssessment:payload,
+          loading: false,
+        };
+      case actions.CREATE_CLASS_ASSESSMENT_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          createSuccessful:false,
+          loading: false,
+          newClassAssessment:null,
+        };
+
+      case actions.UPDATE_ASSESSMENT_LOADING:
+        return {
+          ...state,
+          loading: false,
           isSuccessful: false,
         };
       case actions.UPDATE_ASSESSMENT_SUCCESS:

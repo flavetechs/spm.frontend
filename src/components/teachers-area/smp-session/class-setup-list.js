@@ -250,7 +250,6 @@ const ClassSetupList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                checked={item.isChecked || false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,

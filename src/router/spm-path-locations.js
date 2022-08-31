@@ -37,6 +37,7 @@ export const classLocations = {
   homeAssessmentDetails: "/dashboard/smp-class/home-assessment-details",
   createHomeAssessment: "/dashboard/smp-class/create-home-assessment",
   editClassAssessment: "/dashboard/smp-class/edit-class-assessment",
+  classAssessmentDetails: "/dashboard/smp-class/class-assessment-details",
   editHomeAssessment: "/dashboard/smp-class/edit-home-assessment",
   viewStudentsHomeAssessment: "/dashboard/smp-class/view-student-home-assessment",
   lessonNotes: "/dashboard/smp-class/lesson-notes",

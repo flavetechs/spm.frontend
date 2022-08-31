@@ -21,6 +21,7 @@ import {
   showHideDialog,
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import * as Yup from "yup";
 
 const AttendanceRegisterList = () => {
   //VARIABLE DECLARATIONS
@@ -32,6 +33,12 @@ const AttendanceRegisterList = () => {
   const [classRegisterId, setClassRegisterId] = useState("");
   const [sessionClassId, setSessionClassId] = useState("");
   //VARIABLE DECLARATIONS
+
+  //VALIDATION
+  const validation = Yup.object().shape({
+    sessionClassId: Yup.string().required("Class is required"),
+  });
+  //VALIDATION
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
@@ -121,6 +128,7 @@ const AttendanceRegisterList = () => {
                   sessionClassId: sessionClassId,
                 }}
                 enableReinitialize={true}
+                validationSchema={validation}
                 onSubmit={(values) => {
                   createRegister(values)(dispatch);
                 }}
@@ -174,6 +182,13 @@ const AttendanceRegisterList = () => {
                           </div>
                           <div className="d-flex align-items-center flex-wrap">
                             <div className=" me-3 dropdown">
+                            <div>
+                                {touched.sessionClassId && errors.sessionClassId && (
+                                  <div className="text-danger">
+                                    {errors.sessionClassId}
+                                  </div>
+                                )}
+                              </div>
                               <Field
                                 as="select"
                                 name="sessionClassId"
