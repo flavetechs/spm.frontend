@@ -95,7 +95,7 @@ const ResultSetting = () => {
                     setFieldValue,
                 }) => (
 
-                    <Row className="border-start border-4 mt-0" style={{ backgroundColor: "hsl(200deg 33% 98%)"}}>
+                    <Row className="mt-0">
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
