@@ -233,7 +233,7 @@ const EditClassAssessment = () => {
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
-                                    defaultValue={ item.score}
+                                    defaultValue={item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
                                      e.target.value != "" &&
