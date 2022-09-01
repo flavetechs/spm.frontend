@@ -43,6 +43,7 @@ const EditClassAssessment = () => {
   //HOOKS
   const [classAssessmentScore, setClassAssessmentScore] = useState("");
   const [onSubmit, setOnSubmit] = useState(false);
+  const [scoreValidation, setScoreValidation]= useState(false);
 
   useEffect(() => {
     getAssessmentScore(
@@ -220,7 +221,9 @@ const EditClassAssessment = () => {
                               
                             </tr>
                           </tbody>
-                          
+                          {scoreValidation > singleClassAssessmentList?.assessmentScore && (
+                            <div className="text-danger">score should not be more than {singleClassAssessmentList?.assessmentScore}</div>
+                          )}
                           <tbody>
                             {studentClassAssessment?.map((item, idx) => (
                               <tr key={idx}>
@@ -229,6 +232,7 @@ const EditClassAssessment = () => {
                                 </td>
 
                                 <td className="text-center">
+                              
                                   <input
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
@@ -236,14 +240,16 @@ const EditClassAssessment = () => {
                                     defaultValue={item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
-                                     e.target.value != "" &&
+                                      setScoreValidation(e.target.value)
+                                     if(e.target.value != ""){ 
+                                      e.target.value <= singleClassAssessmentList?.assessmentScore &&
                                         updateStudentClassAssessment(
                                           sessionClassSubjectIdQuery,
                                           classAssessmentIdQuery,
                                           e.target.id,
                                           Number(e.target.value)
                                         )(dispatch)
-                                        
+                                        }  
                                     }}
                                   />
                                 </td>
