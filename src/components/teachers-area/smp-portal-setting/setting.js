@@ -17,12 +17,12 @@ function Setting() {
         <Card.Body className=''>
           <Tab.Container id="left-tabs-example" defaultActiveKey="first">
             <Row className='mt-5 gx-3'>
-              <Col sm={3} className='col-md-3' style={{ backgroundColor: "hsl(200deg 33% 98%)" }}>
+              <Col sm={3} className='col-md-3'>
                 <Nav variant="" className="flex-column portal-tab" >
-                  <Nav.Item className='border-bottom border-top border-3'>
+                  <Nav.Item className=''>
                     <Nav.Link eventKey="first" href="#"
                     >
-                      <Row className="text-dark">
+                      <Row className="">
                         <Col className='me-2 col-1 col-sm-1 col-md-1'>
                           <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -37,9 +37,9 @@ function Setting() {
                       </Row>
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item className='border-bottom border-3 text-wrap'>
+                  <Nav.Item className=' text-wrap'>
                     <Nav.Link eventKey="second" href="#">
-                      <Row className=" text-dark">
+                      <Row className="">
                         <Col className='col-1 me-2 col-sm-1 col-md-1'>
                           <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.37121 10.2017V17.0618" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
@@ -60,9 +60,9 @@ function Setting() {
                       </Row>
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item className='border-bottom border-3'>
+                  <Nav.Item className=''>
                     <Nav.Link eventKey="third" href="#">
-                      <Row className=" text-dark">
+                      <Row className="">
                         <Col className='col-1 me-2'>
                           <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd"
