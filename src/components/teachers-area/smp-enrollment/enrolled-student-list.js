@@ -216,6 +216,7 @@ const EnrolledStudents = () => {
                       name="sessionClassId"
                       className="form-select"
                       id="sessionClassId"
+                      value={sessionClassIdQuery}
                       onChange={(e) => {
                         setSessionClassId(e.target.value);
                         if (e.target.value == "") {
@@ -229,7 +230,7 @@ const EnrolledStudents = () => {
                     >
                       <option value="">Select Class</option>
                       {classList?.map((item, idx) => (
-                        <option key={idx} value={item.sessionClassId} selected={sessionClassIdQuery}>
+                        <option key={idx} value={item.sessionClassId}>
                           {item.class}
                         </option>
                       ))}

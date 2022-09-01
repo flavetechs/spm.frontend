@@ -1589,11 +1589,11 @@ export const getOpenStudentAssessment = () => (dispatch) => {
         });
 }
 
-export const getStatusFilterForStudentAssessment = () => (dispatch) => {
+export const getStatusFilterForStudentAssessment = (status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_HOME_ASSESSMENT_LOADING,
     });
-    axiosInstance.get(`/smp/studentassessment/api/v1/filter/home-assessments`)
+    axiosInstance.get(`/smp/studentassessment/api/v1/filter/home-assessments?status=${status}`)
      .then((res) => {
             dispatch({
                 type: actions.FETCH_HOME_ASSESSMENT_SUCCESS,

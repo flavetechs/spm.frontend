@@ -71,7 +71,7 @@ const EditClassAssessment = () => {
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-  
+  console.log(studentClassAssessment);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -92,7 +92,7 @@ const EditClassAssessment = () => {
                         className="form-control border-secondary h6"
                         readOnly
                         id="title"
-                        defaultValue={singleClassAssessmentList?.title}
+                        value={singleClassAssessmentList?.title}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -104,13 +104,13 @@ const EditClassAssessment = () => {
                         name="sessionClassSubjectId"
                         className="form-select h6"
                         id="sessionClassSubjectId"
+                        value={sessionClassSubjectIdQuery}
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
                           <option
                             key={idx}
                             value={item.sessionClassSubjectId}
-                            selected={item.sessionClassSubjectId}
                           >
                             {item.subjectName}
                           </option>
@@ -233,7 +233,7 @@ const EditClassAssessment = () => {
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
-                                    defaultValue={item.score }
+                                    defaultValue={ item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
                                      e.target.value != "" &&
