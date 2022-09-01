@@ -9,23 +9,23 @@ const SmallTable = ({ scoreEntry }) => {
             <tbody>
               <tr>
                 <th className="h6">Class Name</th>
-                <td className="fw-bold">{scoreEntry?.sessionClassName}</td>
+                <th className="fw-bold h6">{scoreEntry?.sessionClassName}</th>
               </tr>
               <tr>
                 <th className="h6 ">Subject Name</th>
-                <td className="fw-bold text-capitalize">{scoreEntry?.subjectName}</td>
+                <th className="fw-bold text-capitalize h6">{scoreEntry?.subjectName}</th>
               </tr>
               <tr>
                 <th className="h6 ">Subject Teacher</th>
-                <td className="fw-bold text-capitalize">{scoreEntry?.subjectTeacher}</td>
+                <th className="fw-bold text-capitalize h6">{scoreEntry?.subjectTeacher}</th>
               </tr>
               <tr>
                 <th className="h6">Assessment Score</th>
-                <td className="fw-bold">{scoreEntry?.assessmentScore}</td>
+                <th className="fw-bold h6">{scoreEntry?.assessmentScore}</th>
               </tr>
               <tr>
                 <th className="h6">Exam Score</th>
-                <td className="fw-bold">{scoreEntry?.examsScore}</td>
+                <th className="fw-bold h6">{scoreEntry?.examsScore}</th>
               </tr>
             </tbody>
           </Table>

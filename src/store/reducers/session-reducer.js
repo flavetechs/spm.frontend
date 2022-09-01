@@ -6,10 +6,11 @@ export const sessionReducer = (state = _state, { type, payload }) => {
 
 
     case actions.PUSH_ITEM_ID:
+     var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
-      }
+        selectedIds: [...new Set(arrayToFilter)],
+      };
     case actions.REMOVE_ITEM_ID:
       var filteredIds = filterSelectedIds(state.selectedIds, payload)
       return {

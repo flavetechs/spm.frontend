@@ -21,11 +21,12 @@ const CreateHomeAssessment = () => {
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const sessionClassGroupIdQuery = queryParams.get("sessionClassGroupId");
   const typeQuery = queryParams.get("type");
 
   //HOOKS
   React.useEffect(() => {
-    getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getAllClassGroup(sessionClassIdQuery,sessionClassSubjectIdQuery)(dispatch);
     getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
   }, []);
@@ -38,6 +39,7 @@ const CreateHomeAssessment = () => {
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
+  const [assessmentScoreMax, setAssessmentScoreMax] = useState(false);
   const textEditorModules = useMemo(
     () => ({
       toolbar: {
@@ -66,8 +68,7 @@ const CreateHomeAssessment = () => {
   const validation = Yup.object().shape({
     title: Yup.string().required("Subject is required"),
     assessmentScore: Yup.number().required("Score is required")
-      .min(0, "Assessment score must not be below 0")
-      .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
+      .min(0, "Assessment score must not be below 0"),
     // deadline: Yup.string().required("Please enter who to send"),
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
@@ -87,7 +88,7 @@ const CreateHomeAssessment = () => {
                     assessmentScore: "",
                     sessionClassId: sessionClassIdQuery || '',
                     sessionClassSubjectId: sessionClassSubjectIdQuery || '',
-                    sessionClassGroupId: "",
+                    sessionClassGroupId: sessionClassGroupIdQuery != "null" || '',
                     shouldSendToStudents: false,
                     deadline: "",
                   }}
@@ -150,13 +151,14 @@ const CreateHomeAssessment = () => {
                             ))}
                           </Field>
                         </Col>
-
+                        <Col md="11">
                         {touched.sessionClassGroupId &&
                           errors.sessionClassGroupId && (
                             <div className="text-danger">
                               {errors.sessionClassGroupId}
                             </div>
                           )}
+                          </Col>
                         <Col md="11" className="form-group h6">
                           <label className="form-label">
                             <b>Group:</b>
@@ -167,7 +169,7 @@ const CreateHomeAssessment = () => {
                             className="form-select h6"
                             id=" sessionClassGroupId"
                           >
-                            <option value="">Select Group</option>
+                           <option value="">Select Group</option>
                             <option value="all-students">All Students</option>
                             {groupList?.map((item, idx) => (
                               <option key={idx} value={item.groupId}>
@@ -233,15 +235,7 @@ const CreateHomeAssessment = () => {
                             modules={textEditorModules}
                             style={{ height: "100px" }}
                           />
-                          {/* <Field
-                            as="textarea"
-                            name="comment"
-                            className="form-control border-secondary"
-                            id="comment"
-                            onChange={(e) => {
-                              setFieldValue("comment", e.target.value);
-                            }}
-                          /> */}
+                          
                         </Col>
                         <Col md="11">
                           {touched.deadline && errors.deadline && (
@@ -275,12 +269,17 @@ const CreateHomeAssessment = () => {
 
                         <Row>
                           <div>
-                            {touched.assessmentScore &&
+                            {
                               errors.assessmentScore && (
                                 <div className="text-danger">
                                   {errors.assessmentScore}
                                 </div>
                               )}
+                              {assessmentScoreMax > assessmentScore?.unused &&
+                               <div className="text-danger">
+                              {`Assessment score must not be above ${assessmentScore?.unused}`}
+                              </div>
+                              }
                           </div>
                         </Row>
                         <Row className="d-flex">
@@ -316,7 +315,8 @@ const CreateHomeAssessment = () => {
                             <Field
                               type="number"
                               name="assessmentScore"
-                              className="form-control border-dark h6 py-0 px-1"
+                              className="form-control h6 py-0 px-1"
+                              onChange={(e)=>{setAssessmentScoreMax(e.target.value); setFieldValue("assessmentScore",e.target.value)}}
                             />
                           </Col>
                         </Row>

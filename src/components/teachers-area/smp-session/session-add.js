@@ -44,7 +44,7 @@ const SessionAdd = () => {
 
   return (
     <>
-      <div className="col-md-8 mx-auto">
+      <div className="col-md-10 mx-auto">
         <Row>
           <Col sm="12">
             <Card className="">

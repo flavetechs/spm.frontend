@@ -72,7 +72,7 @@ const StudentNotes = () => {
       return item;
     }
   });
-
+ 
   return (
     <>
       <div>
@@ -81,7 +81,7 @@ const StudentNotes = () => {
             <Card className="bg-transparent">
               <Card.Header className="d-flex justify-content-between bg-transparent">
                 <div className="header-title">
-                  <h4 className="card-title mt-3 mb-n3">My Notes</h4>
+                  <h4 className="card-title mt-3 mb-n3">Student Notes</h4>
                 </div>
                 <div className=" d-flex align-items-center mt-3 mb-n3">
                   <div className="input-group search-input">

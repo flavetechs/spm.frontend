@@ -73,6 +73,7 @@ const CreateAttendance = () => {
                                     <input
                                       type="checkbox"
                                       id=""
+                                      style={{width:"18px", height:"18px"}}
                                       onChange={(e) => {
                                         createAttendance(
                                           newClassRegister?.classRegisterId,

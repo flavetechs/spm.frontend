@@ -69,7 +69,7 @@ const RoleAdd = () => {
     <>
       <div>
         <Row className="d-flex justify-content-center">
-          <Col sm="8">
+          <Col sm="12" lg="8">
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title w-100">

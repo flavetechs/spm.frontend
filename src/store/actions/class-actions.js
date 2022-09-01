@@ -1753,26 +1753,28 @@ export const createHomeAssessment = (values) => (dispatch) => {
         });
 }
 
-export const addClassAssessment = (values) => (dispatch) => {
+export const addClassAssessment = (sessionClassSubjectId) => (dispatch) => {
     dispatch({
-        type: actions.CREATE_ASSESSMENT_LOADING
+        type: actions.CREATE_CLASS_ASSESSMENT_LOADING
     });
 
-    axiosInstance.post('/classassessment/api/v1/ceate/class-assessment',values)
+  const  payload={
+        sessionClassSubjectId
+    }
+
+    axiosInstance.post('/classassessment/api/v1/ceate/class-assessment',payload)
         .then((res) => {
             dispatch({
-                type: actions.CREATE_ASSESSMENT_SUCCESS,
-                payload: res.data.message.friendlyMessage
+                type: actions.CREATE_CLASS_ASSESSMENT_SUCCESS,
+                payload: res.data.result
             });
             resetCreateSuccessfulState()(dispatch);
-            getAllClassAssessment(values.sessionClassSubjectId)(dispatch);
-            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
-                type: actions.CREATE_ASSESSMENT_FAILED,
-                payload: err.response.data.message.friendlyMessage
+                type: actions.CREATE_CLASS_ASSESSMENT_FAILED,
+                payload:err.response.data.result
             });
-            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+          
         });
 }
 
@@ -1796,6 +1798,30 @@ export const updateHomeAssessment = (values) => (dispatch) => {
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const deleteClassAssessment = (item) => (dispatch) => {
+    dispatch({
+        type: actions.DELETE_ASSESSMENT_LOADING
+    });
+const payload= {
+    item
+}
+    axiosInstance.post(`/classassessment/api/v1/delete/class-assessment`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_ASSESSMENT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllClassAssessment()(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.DELETE_ASSESSMENT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
 
@@ -1943,3 +1969,4 @@ export const getAssessmentScore = (sessionClassSubjectId,sessionClassId) => (dis
             })
         });
     }
+

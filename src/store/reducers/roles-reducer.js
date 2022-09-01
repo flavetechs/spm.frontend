@@ -48,10 +48,11 @@ export const rolesReducer = (state = _state, { type, payload }) => {
     }
 
     case actions.PUSH_ROLE_ID: {
+    var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
-    }
+        selectedIds: [...new Set(arrayToFilter)],
+      };
     }
 
     case actions.DELETE_SUCCESS: {

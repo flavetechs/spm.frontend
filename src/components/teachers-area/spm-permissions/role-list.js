@@ -261,7 +261,6 @@ const RoleList = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 hidden={isNotToBeDeleted(item.name)}
-                                checked={item.isChecked || false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,

@@ -36,7 +36,7 @@ const EditHomeAssessment = () => {
       homeAssessmentIdQuery,
       sessionClassIdQuery
     )(dispatch);
-    getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getAllClassGroup(sessionClassIdQuery,sessionClassSubjectIdQuery)(dispatch);
   }, []);
 
   useEffect(() => {
@@ -53,7 +53,8 @@ const EditHomeAssessment = () => {
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
-
+  const [assessmentScoreMax, setAssessmentScoreMax] = useState(false);
+  
   useEffect(() => {
     setContent(singleHomeAssessmentList?.content);
     setComment(singleHomeAssessmentList?.comment)
@@ -87,13 +88,12 @@ const EditHomeAssessment = () => {
      const validation = Yup.object().shape({
       title: Yup.string().required("Subject is required"),
       assessmentScore: Yup.number().required("Score is required")
-      .min(0, "Assessment score must not be below 0")
-      .max(assessmentScore?.unused, `Assessment score must not be above ${assessmentScore?.unused}`),
+      .min(0, "Assessment score must not be below 0"),
       // deadline: Yup.string().required("Please enter who to send"),
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
-
+console.log(singleHomeAssessmentList);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -110,7 +110,7 @@ const EditHomeAssessment = () => {
                     sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
                     sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
                     shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
-                    deadline: "",
+                    deadline: singleHomeAssessmentList?.deadLine,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -269,14 +269,19 @@ const EditHomeAssessment = () => {
                           </label>
                         </Col>
                         <Row>
-                           <div>
-                              {touched.assessmentScore &&
-                                errors.assessmentScore && (
-                                  <div className="text-danger">
-                                    {errors.assessmentScore}
-                                  </div>
-                                )}
-                            </div>
+                        <div>
+                            {
+                              errors.assessmentScore && (
+                                <div className="text-danger">
+                                  {errors.assessmentScore}
+                                </div>
+                              )}
+                              {assessmentScoreMax > assessmentScore?.unused &&
+                               <div className="text-danger">
+                              {`Assessment score must not be above ${assessmentScore?.unused}`}
+                              </div>
+                              }
+                          </div>
                           </Row>
                         <Row className="d-flex">
                           <Col md="2" className="form-group">
@@ -311,7 +316,8 @@ const EditHomeAssessment = () => {
                             <Field
                               type="number"
                               name="assessmentScore"
-                              className="form-control border-dark h6 py-0 px-1"
+                              className="form-control  h6 py-0 px-1"
+                              onChange={(e)=>{setAssessmentScoreMax(e.target.value); setFieldValue("assessmentScore",e.target.value)}}
                             />
                           </Col>
                         </Row>

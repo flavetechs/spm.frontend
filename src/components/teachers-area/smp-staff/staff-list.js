@@ -83,7 +83,7 @@ const StaffList = () => {
     });
     returnList(stafflists)(dispatch);
   };
-
+console.log(selectedIds);
   return (
     <>
       <div>
@@ -265,7 +265,6 @@ const StaffList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                checked={item.isChecked || false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,

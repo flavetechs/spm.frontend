@@ -74,6 +74,7 @@ const UpdateAttendance = () => {
                                   <input
                                     type="checkbox"
                                     id=""
+                                    style={{width:"18px", height:"18px"}}
                                     defaultChecked={student.isPresent}
                                     onChange={(e) => {
                                       updateAttendance(singleClassRegister?.classRegisterId, student.studentContactId, e.target.checked)(dispatch);

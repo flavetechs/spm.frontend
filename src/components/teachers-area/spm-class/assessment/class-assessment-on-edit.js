@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
@@ -19,8 +27,13 @@ const EditClassAssessment = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { createSuccessful,assessmentScore, studentClassAssessment, classSubjects, singleClassAssessmentList } =
-    state.class;
+  const {
+    createSuccessful,
+    assessmentScore,
+    studentClassAssessment,
+    classSubjects,
+    singleClassAssessmentList,
+  } = state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
@@ -29,7 +42,7 @@ const EditClassAssessment = () => {
 
   //HOOKS
   const [classAssessmentScore, setClassAssessmentScore] = useState("");
- const [onSubmit, setOnSubmit] = useState(false)
+  const [onSubmit, setOnSubmit] = useState(false);
 
   useEffect(() => {
     getAssessmentScore(
@@ -37,15 +50,13 @@ const EditClassAssessment = () => {
       sessionClassIdQuery
     )(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
-    getAllClassGroup(sessionClassIdQuery)(dispatch);
+    getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
     getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
     getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
   }, []);
 
   useEffect(() => {
-    onSubmit &&
-    createSuccessful &&
-      history.goBack()
+    onSubmit && createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   //HOOKS
@@ -60,7 +71,7 @@ const EditClassAssessment = () => {
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-
+  
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -93,47 +104,21 @@ const EditClassAssessment = () => {
                         name="sessionClassSubjectId"
                         className="form-select h6"
                         id="sessionClassSubjectId"
-
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
-                          <option key={idx} value={item.sessionClassSubjectId} selected={item.sessionClassSubjectId}>
+                          <option
+                            key={idx}
+                            value={item.sessionClassSubjectId}
+                            selected={item.sessionClassSubjectId}
+                          >
                             {item.subjectName}
                           </option>
                         ))}
                       </select>
                     </Col>
 
-                    {/* {touched.sessionClassGroupId &&
-                          errors.sessionClassGroupId && (
-                            <div className="text-danger">
-                              {errors.sessionClassGroupId}
-                            </div>
-                          )}
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="content">
-                            <b>Group:</b>
-                          </label>
-                          <Field
-                            as="select"
-                            name="sessionClassGroupId"
-                            className="form-select h6"
-                            id=" sessionClassGroupId"
-                          >
-                            <option value="all-students">All Students</option>
-                            {groupList?.map((item, idx) => (
-                              <option
-                                key={idx}
-                                value={item.groupId}
-                                selected={
-                                  singleHomeAssessmentList?.sessionClassGroupId == item.groupId
-                                }
-                              >
-                                {item.groupName}
-                              </option>
-                            ))}
-                          </Field>
-                        </Col> */}
+                   
 
                     <Row>
                       <div>
@@ -159,7 +144,7 @@ const EditClassAssessment = () => {
                           name="total"
                           readOnly
                           value={assessmentScore?.totalAssessment}
-                          className="form-control h6 py-0 px-1"
+                          className="form-control h6 py-0 px-1 border-secondary"
                         />
                       </Col>
                       <Col md="2" className="form-group">
@@ -171,7 +156,7 @@ const EditClassAssessment = () => {
                           name="used"
                           readOnly
                           value={assessmentScore?.used}
-                          className="form-control h6 py-0 px-1"
+                          className="form-control h6 py-0 px-1 border-secondary"
                         />
                       </Col>
 
@@ -185,28 +170,35 @@ const EditClassAssessment = () => {
                           onChange={(e) => {
                             setClassAssessmentScore(e.target.value);
                           }}
-                          defaultValue={singleClassAssessmentList?.assessmentScore}
-                          className="form-control h6 py-0 px-1"
+                          defaultValue={
+                            singleClassAssessmentList?.assessmentScore
+                          }
+                          className="form-control h6 py-0 px-1 border-secondary"
                         />
                       </Col>
                       <Col md="4">
-                      <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                  <Tooltip id="button-tooltip-2">
-                                    {" "}
-                                    update class assessment score
-                                  </Tooltip>
-                                }
-                              >
-                        <Button
-                          type="button"
-                          className="btn-sm mt-4 mx-4"
-                          variant="btn btn-primary"
-                          onClick={() => {updateClassAssessmentScore(classAssessmentIdQuery,Number(classAssessmentScore))(dispatch)}}
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip-2">
+                              {" "}
+                              update class assessment score
+                            </Tooltip>
+                          }
                         >
-                          Update
-                        </Button>
+                          <Button
+                            type="button"
+                            className="btn-sm mt-4 mx-4"
+                            variant="btn btn-primary"
+                            onClick={() => {
+                              updateClassAssessmentScore(
+                                classAssessmentIdQuery,
+                                Number(classAssessmentScore)
+                              )(dispatch);
+                            }}
+                          >
+                            Update
+                          </Button>
                         </OverlayTrigger>
                       </Col>
                     </Row>
@@ -215,18 +207,20 @@ const EditClassAssessment = () => {
                       <div className="table-responsive">
                         <table
                           id="role-list-table"
-                          className="table  table-borderless table-sm"
+                          className="table  table-borderless table-sm "
                           role="grid"
                           data-toggle="data-table"
                         >
                           <tbody>
                             <tr className="ligth">
-                              <td className="" width="300px">
+                              <td >
                                 Student Name
                               </td>
-                              <td className="text-center">Score</td>
+                              <td >Score</td>
+                              
                             </tr>
                           </tbody>
+                          
                           <tbody>
                             {studentClassAssessment?.map((item, idx) => (
                               <tr key={idx}>
@@ -236,20 +230,77 @@ const EditClassAssessment = () => {
 
                                 <td className="text-center">
                                   <input
-                                    type="text"
-                                    className="w-25"
+                                    type="number"
+                                    className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
+                                    defaultValue={item.score }
                                     id={item.studentContactId}
                                     onBlur={(e) => {
-                                      e.target.value != "" &&
-                                      updateStudentClassAssessment(
-                                        sessionClassSubjectIdQuery,
-                                        classAssessmentIdQuery,
-                                        e.target.id,
-                                        Number(e.target.value)
-                                      )(dispatch);
+                                     e.target.value != "" &&
+                                        updateStudentClassAssessment(
+                                          sessionClassSubjectIdQuery,
+                                          classAssessmentIdQuery,
+                                          e.target.id,
+                                          Number(e.target.value)
+                                        )(dispatch)
+                                        
                                     }}
                                   />
+                                </td>
+                                <td className="w-25">
+                                  {item.isSaved ? (
+                                    <span style={{ color: "green" }}>
+                                      <svg
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M16.3345 2.75024H7.66549C4.64449 2.75024 2.75049 4.88924 2.75049 7.91624V16.0842C2.75049 19.1112 4.63549 21.2502 7.66549 21.2502H16.3335C19.3645 21.2502 21.2505 19.1112 21.2505 16.0842V7.91624C21.2505 4.88924 19.3645 2.75024 16.3345 2.75024Z"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M8.43994 12.0002L10.8139 14.3732L15.5599 9.6272"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  ) : (
+                                    <span>
+                                      <svg
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M21.25 12.0005C21.25 17.1095 17.109 21.2505 12 21.2505C6.891 21.2505 2.75 17.1095 2.75 12.0005C2.75 6.89149 6.891 2.75049 12 2.75049C17.109 2.75049 21.25 6.89149 21.25 12.0005Z"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M15.4316 14.9429L11.6616 12.6939V7.84692"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  )}
                                 </td>
                               </tr>
                             ))}
@@ -274,7 +325,7 @@ const EditClassAssessment = () => {
                         className="btn-sm mx-2 mt-4"
                         variant="btn btn-success"
                         onClick={() => {
-                        setOnSubmit(true)
+                          setOnSubmit(true);
                         }}
                       >
                         Send

@@ -256,7 +256,7 @@ const SessionList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {sessionList.map((item, idx) => (
+                      {sessionList?.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">
                             {showCheckBoxes ? (
