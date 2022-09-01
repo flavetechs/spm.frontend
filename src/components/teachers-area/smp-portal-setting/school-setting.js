@@ -103,7 +103,7 @@ const SchoolSetting = () => {
                     setFieldValue,
                 }) => (
 
-                    <Row className="border-start border-4 rounded" style={{ backgroundColor: "hsl(200deg 33% 98%)"}}>
+                    <Row className="">
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
@@ -127,7 +127,7 @@ const SchoolSetting = () => {
                                                         type="text"
                                                         id="schoolName"
                                                         name="schoolName"
-                                                        className="form-control text-dark schoolName"
+                                                        className="form-control schoolName"
                                                     />
                                                 </div>
                                                 <div className="col-md-6 form-group">
@@ -140,7 +140,7 @@ const SchoolSetting = () => {
                                                         type="text"
                                                         id="schoolAbbreviation"
                                                         name="schoolAbbreviation"
-                                                        className="form-control text-dark"
+                                                        className="form-control"
                                                     />
                                                 </div>
                                                 <div className="col-md-12 form-group">
@@ -153,7 +153,7 @@ const SchoolSetting = () => {
                                                         type="text"
                                                         id="schoolAddress"
                                                         name="schoolAddress"
-                                                        className="form-control text-dark"
+                                                        className="form-control"
                                                     />
                                                 </div>
                                                 <div className="col-md-9 form-group">
@@ -166,7 +166,7 @@ const SchoolSetting = () => {
                                                         type="email"
                                                         id="email"
                                                         name="email"
-                                                        className="form-control text-dark text-lowercase"
+                                                        className="form-control text-lowercase"
                                                     />
                                                 </div>
                                                 <div className="col-md-6  form-group">
@@ -177,7 +177,7 @@ const SchoolSetting = () => {
                                                         disabled={disable}
                                                         as="select"
                                                         name="country"
-                                                        className="form-select text-dark"
+                                                        className="form-select"
                                                         id="country"
                                                     >
                                                         <option value="Select City">{schoolSettingList?.country}</option>
@@ -197,7 +197,7 @@ const SchoolSetting = () => {
                                                         disabled={disable}
                                                         as="select"
                                                         name="state"
-                                                        className="form-select text-dark"
+                                                        className="form-select"
                                                         id="state"
                                                     >
                                                         <option value="Select State">{schoolSettingList?.state}</option>
@@ -219,7 +219,7 @@ const SchoolSetting = () => {
                                                         type="number"
                                                         name="phoneNo1"
                                                         id="phoneNo1"
-                                                        className="form-control text-dark"
+                                                        className="form-control"
                                                     />
                                                 </div>
                                                 <div className="col-md-6 form-group">
@@ -232,7 +232,7 @@ const SchoolSetting = () => {
                                                         type="number"
                                                         name="phoneNo2"
                                                         id="phoneNo2"
-                                                        className="form-control text-dark"
+                                                        className="form-control"
                                                     />
                                                 </div>
                                                 <div className="form-check ms-4">

@@ -56,7 +56,7 @@ const NotificationSetting = () => {
                     isValid,
                     setFieldValue,
                 }) => (
-                    <Row className="border-start border-4" style={{ backgroundColor: "hsl(200deg 33% 98%)"}}>
+                    <Row className="">
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
