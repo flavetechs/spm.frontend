@@ -89,11 +89,11 @@ const EditHomeAssessment = () => {
       title: Yup.string().required("Subject is required"),
       assessmentScore: Yup.number().required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-      // deadline: Yup.string().required("Please enter who to send"),
+      deadline: Yup.string().required("Please enter a deadline"),
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
-console.log(singleHomeAssessmentList);
+console.log(singleHomeAssessmentList?.deadLine);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -110,7 +110,7 @@ console.log(singleHomeAssessmentList);
                     sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
                     sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
                     shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
-                    deadline: singleHomeAssessmentList?.deadLine,
+                    deadline: singleHomeAssessmentList?.deadLine || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -239,13 +239,13 @@ console.log(singleHomeAssessmentList);
                             style={{ height: "100px" }}
                           />
                         </Col>
-                        <Col md="11">
+                        <Col md="11" className=" mt-5">
                           {touched.deadline && errors.deadline && (
                             <div className="text-danger">{errors.deadline}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label mt-5" htmlFor="deadline">
+                          <label className="form-label" htmlFor="deadline">
                             <b>Deadline:</b>
                           </label>
                           <Field
@@ -268,8 +268,7 @@ console.log(singleHomeAssessmentList);
                             <h6>Send to Students</h6>
                           </label>
                         </Col>
-                        <Row>
-                        <div>
+                        <Col md="11">
                             {
                               errors.assessmentScore && (
                                 <div className="text-danger">
@@ -281,9 +280,10 @@ console.log(singleHomeAssessmentList);
                               {`Assessment score must not be above ${assessmentScore?.unused}`}
                               </div>
                               }
-                          </div>
-                          </Row>
-                        <Row className="d-flex">
+                          </Col>
+                          
+                          <Col md="11">
+                        <div className="d-flex">
                           <Col md="2" className="form-group">
                             <label className="form-label">
                               <h6>total</h6>
@@ -296,7 +296,7 @@ console.log(singleHomeAssessmentList);
                               className="form-control h6 py-0 px-1"
                             />
                           </Col>
-                          <Col md="2" className="form-group">
+                          <Col md="2" className="form-group mx-2">
                             <label className="form-label">
                               <h6>used</h6>
                             </label>
@@ -320,7 +320,8 @@ console.log(singleHomeAssessmentList);
                               onChange={(e)=>{setAssessmentScoreMax(e.target.value); setFieldValue("assessmentScore",e.target.value)}}
                             />
                           </Col>
-                        </Row>
+                        </div>
+                        </Col>
 
                         <div className="d-flex justify-content-end">
                           <Button

@@ -10,6 +10,7 @@ import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { classLocations } from "../../../../router/spm-path-locations";
 import { createLessonNotes } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
+import { getAllStaffClasses, getStaffClassSubjects } from "../../../../store/actions/results-actions";
 
 const CreateLessonNote = () => {
     const history = useHistory();
@@ -18,11 +19,20 @@ const CreateLessonNote = () => {
     const elementRef = useRef(null);
     const state = useSelector((state) => state);
     const { createSuccessful } = state.class;
+    const { staffClasses, staffClassSubjects } = state.results;
     //VALIDATION
     const validation = Yup.object().shape({
       noteTitle: Yup.string().required("Title is required"),
     });
     //VALIDATION
+    const queryParams = new URLSearchParams(location.search);
+    const subjectIdQuery = queryParams.get("subjectId");
+    const sessionClassIdQuery = queryParams.get("classId");
+
+    React.useEffect(() => {
+    getAllStaffClasses()(dispatch);
+    getStaffClassSubjects(sessionClassIdQuery)(dispatch);
+    }, []);
 
     React.useEffect(() => {
       createSuccessful && history.goBack();
@@ -54,6 +64,7 @@ const CreateLessonNote = () => {
         setContent(atob(reader.result.split(",")[1]))
       };
    }
+  
   return (
     <>
     <div className="col-md-12 mx-auto">
@@ -91,6 +102,7 @@ const CreateLessonNote = () => {
                         errors,
                       }) => (
                         <Form className="mx-auto">
+                          <h5 className="mb-3">{staffClasses?.find(i=>i.sessionClassId == sessionClassIdQuery)?.sessionClass}-{staffClassSubjects?.find(i=>i.subjectId == subjectIdQuery)?.subjectName}</h5>
                           <Row className="d-flex justify-content-center">
                             <Col md="11">
                               {touched.noteTitle && errors.noteTitle && (

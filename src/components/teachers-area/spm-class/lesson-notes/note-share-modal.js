@@ -48,7 +48,7 @@ export function NoteShareModal(props) {
     setStaffArray(selectedStaffArray);
   };
 
-  console.log("hi",staffArray,showModal)
+  
   return (
     <>
     <SmpModal title={"Staff List"}>

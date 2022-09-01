@@ -445,20 +445,7 @@ const ClassNoteDetails = () => {
               </Card.Body>
             </Card>
             <Card>
-              <Card.Body>
-                <h4 className="mb-3">Viewers</h4>
-                <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
-                  {viewers?.map((viewer, idx) => (
-                    <li key={idx} className="">
-                      <div className="iq-blog-categories d-flex justify-content-between align-items-center">
-                        <h6 className="iq-categories-name mb-0">
-                          {viewer.fullName}
-                        </h6>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </Card.Body>
+              
             </Card>
           </Col>
         </Row>

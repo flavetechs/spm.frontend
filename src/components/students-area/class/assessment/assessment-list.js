@@ -29,7 +29,7 @@ const StudentAssessmentList = () => {
   const statusQuery = queryParams.get("status");
   React.useEffect(() => {
     if (statusQuery) {
-      getStatusFilterForStudentAssessment(status)(dispatch);
+      getStatusFilterForStudentAssessment(statusQuery)(dispatch);
     } else {
       getOpenStudentAssessment()(dispatch);
     }
@@ -83,7 +83,7 @@ const StudentAssessmentList = () => {
                           >
                              <option value="">Select All</option>
                             <option value={0}>Saved</option>
-                            <option value={3}>submitted</option>
+                            <option value={1}>submitted</option>
                           </select>
                         </div>
                       </div>

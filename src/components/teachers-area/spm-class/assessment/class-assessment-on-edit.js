@@ -43,6 +43,7 @@ const EditClassAssessment = () => {
   //HOOKS
   const [classAssessmentScore, setClassAssessmentScore] = useState("");
   const [onSubmit, setOnSubmit] = useState(false);
+  const [scoreValidation, setScoreValidation]= useState(false);
 
   useEffect(() => {
     getAssessmentScore(
@@ -71,7 +72,7 @@ const EditClassAssessment = () => {
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-  
+  console.log(studentClassAssessment);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -92,7 +93,7 @@ const EditClassAssessment = () => {
                         className="form-control border-secondary h6"
                         readOnly
                         id="title"
-                        defaultValue={singleClassAssessmentList?.title}
+                        value={singleClassAssessmentList?.title}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -104,13 +105,13 @@ const EditClassAssessment = () => {
                         name="sessionClassSubjectId"
                         className="form-select h6"
                         id="sessionClassSubjectId"
+                        value={sessionClassSubjectIdQuery}
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
                           <option
                             key={idx}
                             value={item.sessionClassSubjectId}
-                            selected={item.sessionClassSubjectId}
                           >
                             {item.subjectName}
                           </option>
@@ -220,7 +221,9 @@ const EditClassAssessment = () => {
                               
                             </tr>
                           </tbody>
-                          
+                          {scoreValidation > singleClassAssessmentList?.assessmentScore && (
+                            <div className="text-danger">score should not be more than {singleClassAssessmentList?.assessmentScore}</div>
+                          )}
                           <tbody>
                             {studentClassAssessment?.map((item, idx) => (
                               <tr key={idx}>
@@ -229,21 +232,24 @@ const EditClassAssessment = () => {
                                 </td>
 
                                 <td className="text-center">
+                              
                                   <input
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
-                                    defaultValue={item.score }
+                                    defaultValue={item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
-                                     e.target.value != "" &&
+                                      setScoreValidation(e.target.value)
+                                     if(e.target.value != ""){ 
+                                      e.target.value <= singleClassAssessmentList?.assessmentScore &&
                                         updateStudentClassAssessment(
                                           sessionClassSubjectIdQuery,
                                           classAssessmentIdQuery,
                                           e.target.id,
                                           Number(e.target.value)
                                         )(dispatch)
-                                        
+                                        }  
                                     }}
                                   />
                                 </td>

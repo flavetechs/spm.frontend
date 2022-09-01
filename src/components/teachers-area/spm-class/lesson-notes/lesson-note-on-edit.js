@@ -23,6 +23,7 @@ import {
 import { classLocations } from "../../../../router/spm-path-locations";
 import { read } from "xlsx";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
+import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 
 const EditLessonNote = () => {
   const history = useHistory();
@@ -32,19 +33,22 @@ const EditLessonNote = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
   const { createSuccessful, singleLessonNotes } = state.class;
+  const { staffClasses } = state.results;
 
   //VALIDATION
   const validation = Yup.object().shape({
     noteTitle: Yup.string().required("Title is required"),
   });
   //VALIDATION
+  const queryParams = new URLSearchParams(location.search);
+  const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
+    getAllStaffClasses()(dispatch);
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
   }, []);
 
@@ -84,7 +88,7 @@ const EditLessonNote = () => {
       setContent(atob(reader.result.split(",")[1]));
     };
   }
- 
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -120,6 +124,7 @@ const EditLessonNote = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
+                       <h5 className="mb-3">{singleLessonNotes?.subjectName}</h5>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.noteTitle && errors.noteTitle && (

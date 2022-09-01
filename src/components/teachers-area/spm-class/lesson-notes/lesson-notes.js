@@ -288,7 +288,7 @@ const LessonNotes = () => {
                               onClick={() => {
                                 handleSubmit();
                               }}
-                              className="text-center btn-primary btn-icon  mt-3 mt-xl-0 btn btn-primary"
+                              className="text-center btn-primary btn-icon me-3  mt-3 mt-xl-0 btn btn-primary"
                             >
                               <i className="btn-inner">
                                 <svg
