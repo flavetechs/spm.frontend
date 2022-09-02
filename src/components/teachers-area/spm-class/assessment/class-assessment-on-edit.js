@@ -72,7 +72,7 @@ const EditClassAssessment = () => {
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-  console.log(studentClassAssessment);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -240,7 +240,7 @@ const EditClassAssessment = () => {
                                     defaultValue={item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
-                                      setScoreValidation(e.target.value)
+                                      setScoreValidation(e.target.value);
                                      if(e.target.value != ""){ 
                                       e.target.value <= singleClassAssessmentList?.assessmentScore &&
                                         updateStudentClassAssessment(

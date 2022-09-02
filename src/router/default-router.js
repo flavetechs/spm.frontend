@@ -79,8 +79,8 @@ import TemplateControl from '../components/teachers-area/smp-result-management/r
 import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
 import InProgress from '../components/teachers-area/in-progress';
-import StudentNoteDetails from '../components/teachers-area/spm-class/student-note-details';
-import StudentNotes from '../components/teachers-area/spm-class/student-notes';
+import StudentNoteDetails from '../components/teachers-area/spm-class/student-notes/student-note-details';
+import StudentNotes from '../components/teachers-area/spm-class/student-notes/student-notes';
 import ClassAssessmentDetails from '../components/teachers-area/spm-class/assessment/class-assessment-details';
 
 const DashboardRouter = () => {
