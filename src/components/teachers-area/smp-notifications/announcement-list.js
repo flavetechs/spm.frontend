@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../../router/spm-path-locations";
@@ -20,13 +20,13 @@ const AnnouncementList = () => {
   const state = useSelector((state) => state);
   const { deleteDialogResponse } = state.alert;
   const { announcementList, selectedIds } = state.notification;
-  
+
   React.useEffect(() => {
     getAllAnnouncement()(dispatch);
   }, []);
 
-   function truncateString(str) {
-    str= str.replace("<br>","<div></div>");
+  function truncateString(str) {
+    str = str.replace("<br>", "<div></div>");
     if (window.innerWidth >= 1400) {
       return str?.length > 60 ? str.slice(0, 60) + "..." : str;
     } else if (window.innerWidth >= 1200) {
@@ -38,7 +38,7 @@ const AnnouncementList = () => {
     } else if (window.innerWidth < 768) {
       return str?.length > 25 ? str.slice(0, 25) + "..." : str;
     }
-   }
+  }
 
 
   //DELETE HANDLER
@@ -402,9 +402,23 @@ const AnnouncementList = () => {
                       </div>
                       <hr className="m-0" />
                     </div>
+
                   </div>
                 ))}
               </div>
+
+            </div>
+            <div className="d-flex justify-content-end">
+              <Button
+                type="button"
+                className="btn-sm mt-4 mb-3"
+                variant="btn btn-danger"
+                onClick={() => {
+                  history.goBack();
+                }}
+              >
+                Back
+              </Button>
             </div>
           </Card.Body>
         </Card>

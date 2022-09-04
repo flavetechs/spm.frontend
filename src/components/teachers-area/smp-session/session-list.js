@@ -9,6 +9,7 @@ import { sessionLocations } from "../../../router/spm-path-locations";
 import { respondDialog, respondToDeleteDialog, showErrorToast, showHideDialog, showSingleDeleteDialog } from '../../../store/actions/toaster-actions';
 import { ordinalSuffixOf } from '../../../utils/tools';
 import { hasAccess, NavPermissions } from '../../../utils/permissions';
+import "./class-setup.scss"
 
 
 
@@ -163,14 +164,13 @@ const SessionList = () => {
               </Card.Header>
 
               <div className="d-flex row justify-content-end px-4 pt-2 pb-0 mb-0">
-
                 <Col sm="12" md="6" className='d-flex justify-content-start round-2'>
                   <span className='display-6 text-white  bg-primary'>{activeSession ? ordinalSuffixOf(activeSession?.sessionTerm.charAt(0)) : ''} Term {activeSession?.session}</span>
                 </Col>
 
-                <Col as={'nav'} sm="12" md="6" className='d-flex justify-content-end' >
-                  <ul className="pagination pagination-lg">
-                    <li className="page-item">
+                <Col as={'nav'} sm="12" md="6" className='d-flex justify-content-end'>
+                  <ul className="pagination pagination-lg pagination-on-mobile">
+                    <li className="page-item pagination-on-mobile-icon">
                       <OverlayTrigger
                         placement="top"
                         overlay={<Tooltip id="button-tooltip-2">NEW SESSION</Tooltip>}
