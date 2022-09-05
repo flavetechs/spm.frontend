@@ -59,7 +59,7 @@ const ClassAssessmentDetails = () => {
                     <span>back</span>
                    
                   </div>
-                 
+                 <div>{singleClassAssessmentList?.sessionClassName}</div>
                 </div>
                 <div className="d-flex justify-content-start my-4">
                   <div>

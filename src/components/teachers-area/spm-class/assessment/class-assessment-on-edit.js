@@ -72,7 +72,7 @@ const EditClassAssessment = () => {
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-
+  console.log(singleClassAssessmentList?.assessmentScore);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -115,7 +115,7 @@ const EditClassAssessment = () => {
                         ))}
                       </select>
                     </Col>
-
+                    
                     <Row>
                       <div>
                         {classAssessmentScore > assessmentScore?.unused && (
@@ -130,6 +130,8 @@ const EditClassAssessment = () => {
                         )}
                       </div>
                     </Row>
+
+                    <Col md="11" >
                     <Row className="d-flex ">
                       <Col md="2" className="form-group">
                         <label className="form-label">
@@ -163,8 +165,13 @@ const EditClassAssessment = () => {
                         <input
                           type="number"
                           name="generalAssessmentScore"
-                          onChange={(e) => {
+                          onBlur={(e) => {
                             setClassAssessmentScore(e.target.value);
+                            updateClassAssessmentScore(
+                              classAssessmentIdQuery,
+                              Number(e.target.value)
+                            )(dispatch);
+                            getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
                           }}
                           defaultValue={
                             singleClassAssessmentList?.assessmentScore
@@ -173,7 +180,7 @@ const EditClassAssessment = () => {
                         />
                       </Col>
                       <Col md="4">
-                        <OverlayTrigger
+                        {/* <OverlayTrigger
                           placement="top"
                           overlay={
                             <Tooltip id="button-tooltip-2">
@@ -195,9 +202,10 @@ const EditClassAssessment = () => {
                           >
                             Update
                           </Button>
-                        </OverlayTrigger>
+                        </OverlayTrigger> */}
                       </Col>
                     </Row>
+                    </Col>
 
                     <Col md="11" className="form-group h6 mt-3">
                       <div className="table-responsive">
@@ -235,11 +243,12 @@ const EditClassAssessment = () => {
                                     defaultValue={item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
+                                      setScoreValidation(e.target.value);
                                       if (
                                         e.target.value >
                                         singleClassAssessmentList?.assessmentScore
                                       ) {
-                                        setScoreValidation(e.target.value);
+                                       
                                         e.target.value = singleClassAssessmentList?.assessmentScore
                                         updateStudentClassAssessment(
                                           sessionClassSubjectIdQuery,
@@ -333,6 +342,7 @@ const EditClassAssessment = () => {
                       >
                         Back
                       </Button>
+                      
                       <Button
                         type="button"
                         className="btn-sm mx-2 mt-4"

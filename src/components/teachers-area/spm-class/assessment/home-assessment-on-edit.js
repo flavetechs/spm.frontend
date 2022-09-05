@@ -137,7 +137,7 @@ const EditHomeAssessment = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <div className="d-flex justify-content-end h6 mb-3">{singleHomeAssessmentList?.sessionClassSubjectName}</div>
+                      <div className="d-flex justify-content-end h6 mb-3">{singleHomeAssessmentList?.sessionClassName}-{singleHomeAssessmentList?.sessionClassSubjectName}</div>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.title && errors.title && (
