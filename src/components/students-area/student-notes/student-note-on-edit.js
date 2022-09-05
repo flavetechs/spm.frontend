@@ -91,7 +91,7 @@ const EditStudentNote = () => {
       setContent(atob(reader.result.split(",")[1]));
     };
   }
- 
+ console.log(singleStudentNotes);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -127,6 +127,7 @@ const EditStudentNote = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
+                       <h6 className="mb-3 d-flex justify-content-end">{singleStudentNotes?.subjectName}</h6>
                       <Row className="d-flex justify-content-center">
                       <Col md="11" className="form-group text-dark">
                           <label className="form-label" >

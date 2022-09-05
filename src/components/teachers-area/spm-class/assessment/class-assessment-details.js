@@ -120,7 +120,7 @@ const ClassAssessmentDetails = () => {
                 <div className="table-responsive">
                   <table
                     id="role-list-table"
-                    className="table  table-borderless table-sm"
+                    className="table  table-bordered table-sm"
                     role="grid"
                     data-toggle="data-table"
                   >

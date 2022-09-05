@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../router/spm-path-locations";
 import {
-  addStudentComments,
-  addStudentReplies,
+  addComments,
+  addReplies,
   approveNotes,
-  getAllStudentComments,
   getLessonNoteDetails,
   getSingleLessonNotes,
 } from "../../../store/actions/class-actions";
@@ -44,11 +43,9 @@ const ClassNoteDetails = () => {
   }, []);
 
   useEffect(() => {
-    if (singleLessonNotes?.studentNoteId) {
-      getLessonNoteDetails(singleLessonNotes?.studentNoteId)(dispatch);
-    }
+      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
   }, [singleLessonNotes]);
-
+console.log(singleLessonNotes);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -249,10 +246,10 @@ const ClassNoteDetails = () => {
                               className=" badge bg-primary border-0 mb-2 mt-n3"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                addStudentReplies(
+                                addReplies(
                                   reply.commentId,
                                   reply.comment,
-                                  singleLessonNotes?.studentNoteId
+                                  singleLessonNotes?.classNoteId
                                 )(dispatch);
                                 setRow({
                                   indexRow: "",
@@ -322,8 +319,8 @@ const ClassNoteDetails = () => {
                           className="badge bg-primary border-0 mb-3"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            addStudentComments(
-                              singleLessonNotes?.studentNoteId,
+                            addComments(
+                              singleLessonNotes?.classNoteId,
                               comment
                             )(dispatch);
                             setComment("");
@@ -347,27 +344,7 @@ const ClassNoteDetails = () => {
                           ok
                         </div>
                       </div>
-                      <div className="col-lg-12 d-flex ">
-                        <input
-                          type="radio"
-                          id="approve"
-                          name="shouldApprove"
-                          value="approve"
-                          className="mx-1 form-check-input"
-                          onChange={(e) => {
-                            setIsChecked(e.target.checked);
-                          }}
-                        />
-                        <label htmlFor="html">approve</label>
-                        <input
-                          type="radio"
-                          id="disapprove"
-                          name="shouldApprove"
-                          value="disapprove"
-                          className="mx-1 form-check-input"
-                        />
-                        <label htmlFor="css">disapprove</label>
-                      </div>
+                    
                     </Row>
                   </form>
                   <div className="mt-5 mt-sm-0 d-flex justify-content-end">

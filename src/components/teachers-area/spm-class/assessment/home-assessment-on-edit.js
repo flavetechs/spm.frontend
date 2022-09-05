@@ -93,7 +93,7 @@ const EditHomeAssessment = () => {
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
-console.log(singleHomeAssessmentList?.deadLine);
+console.log(singleHomeAssessmentList?.deadLine.split(" ")[0]);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -110,18 +110,18 @@ console.log(singleHomeAssessmentList?.deadLine);
                     sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
                     sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
                     shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
-                    deadline: singleHomeAssessmentList?.deadLine || "",
+                    deadline: singleHomeAssessmentList?.deadLine,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     if (!content) {
-                      showErrorToast("Body is required")(dispatch);
+                      showErrorToast("Assessment is required")(dispatch);
                       return;
                     }
                     values.content = content;
                     values.comment = comment;
-                    values.shouldSendToStudents == true && sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
+                   // sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
                     updateHomeAssessment(values)(dispatch);
                   }}
                 >
@@ -188,7 +188,7 @@ console.log(singleHomeAssessmentList?.deadLine);
                         </Col>
                         <Col md="11" className="form-group h6 ">
                           <label  className="form-label d-flex justify-content-between" htmlFor="content">
-                            <b>Description:</b>
+                            <b>Assessment:</b>
                             <div className="">
                               {/* {!fullScreen ? ( */}
                                 <OverlayTrigger
@@ -245,7 +245,7 @@ console.log(singleHomeAssessmentList?.deadLine);
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="deadline">
+                          <label className="form-label" htmlFor="deadline" >
                             <b>Deadline:</b>
                           </label>
                           <Field
@@ -253,7 +253,22 @@ console.log(singleHomeAssessmentList?.deadLine);
                             name="deadline"
                             className="form-control border-secondary h6"
                             id="deadline"
-                            placeholder="Enter date of submission..."
+                          />
+                        </Col>
+                        <Col md="11" className=" mt-5">
+                          {touched.deadline2 && errors.deadline2 && (
+                            <div className="text-danger">{errors.deadline2}</div>
+                          )}
+                        </Col>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label" htmlFor="deadline2" >
+                            <b>Deadline2:</b>
+                          </label>
+                          <Field
+                            type="time"
+                            name="deadline2"
+                            className="form-control border-secondary h6"
+                            id="deadline2"
                           />
                         </Col>
                         <Col md="11" className="form-group ">
