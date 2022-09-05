@@ -1511,20 +1511,19 @@ export const classReducer = (state = _state, { type, payload }) => {
             ...state,
             loading: true,
             isSuccessful: false,
-            createSuccessful:false,
+           
           };
         case actions.SEND_ASSESSMENT_TO_STUDENTS_SUCCESS:
           return {
             ...state,
             isSuccessful: true,
             loading: false,
-            createSuccessful:true,
+          
           };
         case actions.SEND_ASSESSMENT_TO_STUDENTS_FAILED:
           return {
             ...state,
             isSuccessful: false,
-            createSuccessful:false,
             loading: false,
           };
 

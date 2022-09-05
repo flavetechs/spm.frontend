@@ -91,7 +91,7 @@ const EditStudentNote = () => {
       setContent(atob(reader.result.split(",")[1]));
     };
   }
- console.log(singleStudentNotes);
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">

@@ -89,11 +89,12 @@ const EditHomeAssessment = () => {
       title: Yup.string().required("Subject is required"),
       assessmentScore: Yup.number().required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-      deadline: Yup.string().required("Please enter a deadline"),
+      deadline1: Yup.string().required("Please enter a deadline time"),
+      deadline2: Yup.string().required("Please enter a deadline date"),
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
-console.log(singleHomeAssessmentList?.deadLine.split(" ")[0]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -110,7 +111,8 @@ console.log(singleHomeAssessmentList?.deadLine.split(" ")[0]);
                     sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
                     sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
                     shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
-                    deadline: singleHomeAssessmentList?.deadLine,
+                    deadline1: singleHomeAssessmentList?.deadLine.split(" ")[1],
+                    deadline2: singleHomeAssessmentList?.deadLine2,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -121,7 +123,9 @@ console.log(singleHomeAssessmentList?.deadLine.split(" ")[0]);
                     }
                     values.content = content;
                     values.comment = comment;
-                   // sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
+                    values.deadline = values.deadline2
+                   // values.deadline = `${values.deadline2} ${ values.deadline1}`
+                    sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
                     updateHomeAssessment(values)(dispatch);
                   }}
                 >
@@ -240,37 +244,39 @@ console.log(singleHomeAssessmentList?.deadLine.split(" ")[0]);
                           />
                         </Col>
                         <Col md="11" className=" mt-5">
-                          {touched.deadline && errors.deadline && (
-                            <div className="text-danger">{errors.deadline}</div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="deadline" >
-                            <b>Deadline:</b>
-                          </label>
-                          <Field
-                            type="date"
-                            name="deadline"
-                            className="form-control border-secondary h6"
-                            id="deadline"
-                          />
-                        </Col>
-                        <Col md="11" className=" mt-5">
                           {touched.deadline2 && errors.deadline2 && (
                             <div className="text-danger">{errors.deadline2}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
                           <label className="form-label" htmlFor="deadline2" >
-                            <b>Deadline2:</b>
+                            <b>Deadline Date:</b>
                           </label>
                           <Field
-                            type="time"
+                            type="date"
                             name="deadline2"
                             className="form-control border-secondary h6"
                             id="deadline2"
                           />
                         </Col>
+
+                        <Col md="11" className="">
+                          {touched.deadline1 && errors.deadline1 && (
+                            <div className="text-danger">{errors.deadline1}</div>
+                          )}
+                        </Col>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label" htmlFor="deadline1" >
+                            <b>Deadline Time:</b>
+                          </label>
+                          <Field
+                            type="time"
+                            name="deadline1"
+                            className="form-control border-secondary h6"
+                            id="deadline1"
+                          />
+                        </Col>
+                       
                         <Col md="11" className="form-group ">
                           <Field
                             type="checkbox"

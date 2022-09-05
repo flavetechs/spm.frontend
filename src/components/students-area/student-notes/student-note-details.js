@@ -131,7 +131,7 @@ const StudentNoteDetails = () => {
                         </OverlayTrigger>
                       )}
                     </div>
-                    <h6 className="mt-2 d-flex justify-content-end">{singleStudentNotes?.subjectName}</h6>
+                    <div className=" ">{singleStudentNotes?.subjectName}</div>
                     <div>
                       Approval Status:
                       <span className="text-end text-primary">
