@@ -72,7 +72,7 @@ const EditClassAssessment = () => {
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-  console.log(singleClassAssessmentList?.assessmentScore);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -82,7 +82,7 @@ const EditClassAssessment = () => {
               <Card.Body>
                 <Form className="mx-auto">
                   <Row className="d-flex justify-content-center">
-                    <Col md="11"></Col>
+                   <div className="d-flex justify-content-end">{singleClassAssessmentList?.sessionClassName}</div>
                     <Col md="11" className="form-group h6">
                       <label className="form-label">
                         <b>Topic:</b>
