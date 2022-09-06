@@ -34,7 +34,6 @@ const EnrolledStudents = () => {
   const [showUnenrollButton, setUnenrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sessionClassId, setSessionClassId] = useState("");
   const [sessionId, setSessionId] = useState("");
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("classId");
@@ -72,7 +71,7 @@ const EnrolledStudents = () => {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        unEnrollStudent(selectedIds, sessionClassId)(dispatch);
+        unEnrollStudent(selectedIds, sessionClassIdQuery)(dispatch);
         setUnenrollButton(!showUnenrollButton);
         setShowCheckBoxes(false);
 
@@ -195,7 +194,6 @@ const EnrolledStudents = () => {
                       id="sessionId"
                       onChange={(e) => {
                         setSessionId(e.target.value);
-                        setSessionClassId("");
                         resetEnrolledStudentsState()(dispatch);
                       }}
                     >
@@ -218,7 +216,6 @@ const EnrolledStudents = () => {
                       id="sessionClassId"
                       value={sessionClassIdQuery}
                       onChange={(e) => {
-                        setSessionClassId(e.target.value);
                         if (e.target.value == "") {
                           history.push(studentsLocations.enrolledStudents);
                         } else {
@@ -467,14 +464,12 @@ const EnrolledStudents = () => {
                                     }
                                   >
 
-                                    <Link
+                                    <div
                                       className="btn btn-sm btn-icon btn-danger"
                                       data-toggle="tooltip"
                                       data-placement="top"
                                       title=""
                                       data-original-title="Delete"
-                                      to="#"
-                                      data-id={student.userAccountId}
                                       onClick={() => {
                                         dispatch(
                                           pushId(student.studentContactId)
@@ -501,7 +496,7 @@ const EnrolledStudents = () => {
                                           ></path>
                                         </svg>
                                       </span>
-                                    </Link>
+                                    </div>
                                   </OverlayTrigger>
                                 )}
                               </div>

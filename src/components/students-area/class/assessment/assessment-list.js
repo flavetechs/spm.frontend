@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
-  getOpenStudentAssessment,
   getStatusFilterForStudentAssessment,
 } from "../../../../store/actions/class-actions";
 import { assessmentLocations } from "../../../../router/students-path-locations";
@@ -14,8 +13,6 @@ const StudentAssessmentList = () => {
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [indexRow, setIndexRow] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [status, setStatus] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -28,10 +25,10 @@ const StudentAssessmentList = () => {
   const queryParams = new URLSearchParams(locations.search);
   const statusQuery = queryParams.get("status");
   React.useEffect(() => {
-    if (statusQuery) {
+    if(!statusQuery){
+      getStatusFilterForStudentAssessment(-1)(dispatch);
+    }else{
       getStatusFilterForStudentAssessment(statusQuery)(dispatch);
-    } else {
-      getOpenStudentAssessment()(dispatch);
     }
   }, [statusQuery]);
 
@@ -68,22 +65,15 @@ const StudentAssessmentList = () => {
                             className="form-select"
                             id="status"
                             onChange={(e) => {
-                              setStatus(e.target.value);
-                              if (e.target.value == "") {
-                                getOpenStudentAssessment()(dispatch);
-                                history.push(
-                                  `${assessmentLocations.assessment}`
-                                );
-                              } else {
                                 history.push(
                                   `${assessmentLocations.assessment}?status=${e.target.value}`
                                 );
-                              }
                             }}
                           >
-                             <option value="">Select All</option>
+                             <option value={1}>Select All</option>
                             <option value={0}>Saved</option>
-                            <option value={1}>submitted</option>
+                            <option value={3}>Submitted</option>
+                            <option value={2}>Closed</option>
                           </select>
                         </div>
                       </div>
@@ -264,10 +254,7 @@ const StudentAssessmentList = () => {
                             <small className="px-3" draggable="false">
                               Deadline:
                               <div className=" text-warning">
-                                {/* {item.dateTime
-                                       .split(" ")[1]
-                                      } */}
-                                20-07-2022
+                                {item.deadLine}
                               </div>
                             </small>
                           </div>

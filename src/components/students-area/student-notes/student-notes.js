@@ -25,7 +25,6 @@ const StudentNotes = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
-  const [subjectId, setSubjectId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [studentNoteId, setStudentNoteId] = useState("");
@@ -35,7 +34,7 @@ const StudentNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { studentNotes,studentSubjectList } = state.class;
+  const { studentNotes, studentSubjectList } = state.class;
   const { dialogResponse } = state.alert;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
@@ -47,12 +46,12 @@ const StudentNotes = () => {
   //VALIDATION
 
   React.useEffect(() => {
-    getAllStudentSubjects(userDetail.userAccountId)(dispatch);
+    getAllStudentSubjects(userDetail.id)(dispatch);
   }, []);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteStudentNotes(studentNoteId, subjectId)(dispatch);
+      deleteStudentNotes(studentNoteId, subjectIdQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -63,39 +62,39 @@ const StudentNotes = () => {
     };
   }, [dialogResponse]);
 
-
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId");
+  const statusQuery = queryParams.get("status");
+
   React.useEffect(() => {
-    if (subjectIdQuery) {
+    if (subjectIdQuery && !statusQuery) {
       getAllStudentNotes(subjectIdQuery)(dispatch);
-      setSubjectId(subjectIdQuery);
+    }else if(!subjectIdQuery && !statusQuery){
+      getAllStudentNotes("")(dispatch);
+    }else if(statusQuery){
+      getNotesByStatus(
+      subjectIdQuery,
+      statusQuery
+    )(dispatch);
     }
-  }, [subjectIdQuery]);
+  }, [subjectIdQuery,statusQuery]);
 
-  React.useEffect(() => {
-    if (!subjectIdQuery) {
-      getAllStudentNotes(subjectId)(dispatch);
+  const filteredStudentNotes = studentNotes?.filter((item) => {
+    if (searchQuery === "") {
+      //if query is empty
+      return item;
+    } else if (
+      item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return item;
+    } else if (
+      item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return item;
     }
-  }, [subjectIdQuery]);
-
-  const filteredStudentNotes = studentNotes
-    ?.filter((item) => {
-      if (searchQuery === "") {
-        //if query is empty
-        return item;
-      } else if (
-        item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        //returns filtered array
-        return item;
-      } else if (
-        item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        //returns filtered array
-        return item;
-      }
-    });
+  });
 
   return (
     <>
@@ -151,16 +150,17 @@ const StudentNotes = () => {
                   </div>
                 </div>
               </Card.Header>
-             
+
               <Formik
                 initialValues={{
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
+                  approvalStatus: statusQuery ? statusQuery : "",
                 }}
                 enableReinitialize={true}
                 validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
-                    `${studentNoteLocations.createStudentNotes}?subjectId=${values.subjectId}`
+                    `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
                   );
                 }}
               >
@@ -174,7 +174,6 @@ const StudentNotes = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
-                           
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {touched.subjectId && errors.subjectId && (
@@ -190,9 +189,10 @@ const StudentNotes = () => {
                                 id="subjectId"
                                 onChange={(e) => {
                                   setFieldValue("subjectId", e.target.value);
-                                  setSubjectId(e.target.value);
                                   e.target.value == ""
-                                    ? history.push(studentNoteLocations.studentNotes)
+                                    ? history.push(
+                                        studentNoteLocations.studentNotes
+                                      )
                                     : history.push(
                                         `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
                                       );
@@ -243,23 +243,23 @@ const StudentNotes = () => {
                                     "approvalStatus",
                                     e.target.value
                                   );
-                                  e.target.value !== "all"
-                                    ? getNotesByStatus(
-                                        values.subjectId,
-                                        e.target.value
-                                      )(dispatch)
-                                    :   getAllStudentNotes("")(dispatch);
+                                  if (e.target.value !== "all") {
+                                    history.push(
+                                      `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}&status=${e.target.value}`
+                                    );
+                                  } else {
+                                    getAllStudentNotes("")(dispatch);
+                                    history.push(
+                                      `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
+                                    );
+                                  }
                                 }}
                               >
-                                <option value="">Select Status</option>
-                                {/* {subjectId  ? ( */}
-                                <>
-                                  <option value="all">Select All</option>
-                                  <option value="2">Pending</option>
-                                  <option value="1">reviewed</option>
-                                  <option value="3">unreviewed</option>
-                                </>
-                                {/* ):""} */}
+                                <option value="all">Select All</option>
+                                <option value="3">in progress</option>
+                                <option value="1">reviewed</option>
+                                <option value="2">unreviewed</option>
+
                               </Field>
                             </div>
                           </div>
@@ -283,7 +283,7 @@ const StudentNotes = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={(e) => {
                                       setShowMenuDropdown(!showMenuDropdown);
-                                      setIndexRow(idx); 
+                                      setIndexRow(idx);
                                     }}
                                   >
                                     <g>
@@ -375,57 +375,54 @@ const StudentNotes = () => {
                                         view/details
                                       </div>
 
-                                        <div
-                                          onClick={() => {
-                                            history.push(
-                                              `${studentNoteLocations.editStudentNotes}?studentNoteId=${item.studentNoteId}`
-                                            );
-                                            setShowMenuDropdown(false);
-                                          }}
-                                          className="dropdown-item"
-                                          role="button"
-                                          draggable="false"
+                                      <div
+                                        onClick={() => {
+                                          history.push(
+                                            `${studentNoteLocations.editStudentNotes}?studentNoteId=${item.studentNoteId}`
+                                          );
+                                          setShowMenuDropdown(false);
+                                        }}
+                                        className="dropdown-item"
+                                        role="button"
+                                        draggable="false"
+                                      >
+                                        <svg
+                                          width="20"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          className="me-2"
                                         >
-                                          <svg
-                                            width="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="me-2"
-                                          >
-                                            <path
-                                              d="M13.7476 20.4428H21.0002"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              d="M11.021 6.00098L16.4732 10.1881"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                          </svg>
-                                          edit
-                                        </div>
-                                      
+                                          <path
+                                            d="M13.7476 20.4428H21.0002"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                          <path
+                                            fillRule="evenodd"
+                                            clipRule="evenodd"
+                                            d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                          <path
+                                            d="M11.021 6.00098L16.4732 10.1881"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                        </svg>
+                                        edit
+                                      </div>
 
                                       <div
                                         onClick={() => {
-                                          setStudentNoteId(
-                                            item.studentNoteId
-                                          );
+                                          setStudentNoteId(item.studentNoteId);
                                           showHideDialog(
                                             true,
                                             "Are you sure you want to delete this note"

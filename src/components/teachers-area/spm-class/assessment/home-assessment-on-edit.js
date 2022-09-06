@@ -89,11 +89,12 @@ const EditHomeAssessment = () => {
       title: Yup.string().required("Subject is required"),
       assessmentScore: Yup.number().required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-      deadline: Yup.string().required("Please enter a deadline"),
+      deadline1: Yup.string().required("Please enter a deadline time"),
+      deadline2: Yup.string().required("Please enter a deadline date"),
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
-console.log(singleHomeAssessmentList?.deadLine);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -110,18 +111,21 @@ console.log(singleHomeAssessmentList?.deadLine);
                     sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
                     sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
                     shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
-                    deadline: singleHomeAssessmentList?.deadLine || "",
+                    deadline1: singleHomeAssessmentList?.deadLine.split(" ")[1],
+                    deadline2: singleHomeAssessmentList?.deadLine2,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     if (!content) {
-                      showErrorToast("Body is required")(dispatch);
+                      showErrorToast("Assessment is required")(dispatch);
                       return;
                     }
                     values.content = content;
                     values.comment = comment;
-                    values.shouldSendToStudents == true && sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
+                    values.deadline = values.deadline2
+                   // values.deadline = `${values.deadline2} ${ values.deadline1}`
+                    sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
                     updateHomeAssessment(values)(dispatch);
                   }}
                 >
@@ -133,7 +137,7 @@ console.log(singleHomeAssessmentList?.deadLine);
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <div className="d-flex justify-content-end h6 mb-3">{singleHomeAssessmentList?.sessionClassSubjectName}</div>
+                      <div className="d-flex justify-content-end h6 mb-3">{singleHomeAssessmentList?.sessionClassName}-{singleHomeAssessmentList?.sessionClassSubjectName}</div>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.title && errors.title && (
@@ -188,7 +192,7 @@ console.log(singleHomeAssessmentList?.deadLine);
                         </Col>
                         <Col md="11" className="form-group h6 ">
                           <label  className="form-label d-flex justify-content-between" htmlFor="content">
-                            <b>Description:</b>
+                            <b>Assessment:</b>
                             <div className="">
                               {/* {!fullScreen ? ( */}
                                 <OverlayTrigger
@@ -240,22 +244,39 @@ console.log(singleHomeAssessmentList?.deadLine);
                           />
                         </Col>
                         <Col md="11" className=" mt-5">
-                          {touched.deadline && errors.deadline && (
-                            <div className="text-danger">{errors.deadline}</div>
+                          {touched.deadline2 && errors.deadline2 && (
+                            <div className="text-danger">{errors.deadline2}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="deadline">
-                            <b>Deadline:</b>
+                          <label className="form-label" htmlFor="deadline2" >
+                            <b>Deadline Date:</b>
                           </label>
                           <Field
                             type="date"
-                            name="deadline"
+                            name="deadline2"
                             className="form-control border-secondary h6"
-                            id="deadline"
-                            placeholder="Enter date of submission..."
+                            id="deadline2"
                           />
                         </Col>
+
+                        <Col md="11" className="">
+                          {touched.deadline1 && errors.deadline1 && (
+                            <div className="text-danger">{errors.deadline1}</div>
+                          )}
+                        </Col>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label" htmlFor="deadline1" >
+                            <b>Deadline Time:</b>
+                          </label>
+                          <Field
+                            type="time"
+                            name="deadline1"
+                            className="form-control border-secondary h6"
+                            id="deadline1"
+                          />
+                        </Col>
+                       
                         <Col md="11" className="form-group ">
                           <Field
                             type="checkbox"
