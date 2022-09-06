@@ -635,7 +635,7 @@ const AssessmentList = () => {
                                     <small className="" draggable="false">
                                       Deadline:
                                       <div className=" text-warning">
-                                        {item.deadLine}
+                                        {item.dateDeadLine}{' '}{item.timeDeadLine}
                                       </div>
                                     </small>
                                   </div>

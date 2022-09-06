@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../router/spm-path-locations";
 import {
-  addComments,
-  addReplies,
+  addClassNoteComments,
+  addClassNoteReplies,
   approveNotes,
   getLessonNoteDetails,
   getSingleLessonNotes,
@@ -262,7 +262,7 @@ const ClassNoteDetails = () => {
                               className=" badge bg-primary border-0 mb-2 mt-n3"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                addReplies(
+                                addClassNoteReplies(
                                   reply.commentId,
                                   reply.comment,
                                   singleLessonNotes?.classNoteId
@@ -335,7 +335,7 @@ const ClassNoteDetails = () => {
                           className="badge bg-primary border-0 mb-3"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            addComments(
+                            addClassNoteComments(
                               singleLessonNotes?.classNoteId,
                               comment
                             )(dispatch);
@@ -397,16 +397,15 @@ const ClassNoteDetails = () => {
                 <div className="d-flex align-items-center gap-3">
                   <img
                     className="img-fluid rounded-circle avatar-130"
-                    src="https://templates.iqonic.design/hope-ui/pro/html/blog/assets/images/blog-avatar/01.png"
-                    alt="user-img"
+                    src={singleLessonNotes?.noteAuthordetail?.photo}
+                    alt="author-img"
                   />
                   <div>
                     <h6 className="mb-3 text-primary">
                       {singleLessonNotes?.noteAuthordetail?.fullName}
                     </h6>
                     <p className="mt-3">
-                      Elit vitae neque velit mattis elementum egestas non, Sem
-                      eget.
+                    {singleLessonNotes?.noteAuthordetail?.shortBio}
                     </p>
                   </div>
                 </div>
