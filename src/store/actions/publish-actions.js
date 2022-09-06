@@ -100,7 +100,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
 };
 
 export const setExamScore =
-  (subjectId, examScore, publishSingleStudent) => (dispatch) => {
+  (subjectId, examScore, publishSingleStudent, termId) => (dispatch) => {
     if (!examScore) {
       examScore = 0;
     }
@@ -136,6 +136,7 @@ export const setExamScore =
           score: examScore,
           subjectId: entries.subjectId,
           classScoreEntryId: entries.classScoreEntryId,
+          termId
         })
         .then((res) => {
           entries.isSaving = false;
@@ -158,7 +159,7 @@ export const setExamScore =
   };
 
 export const setAssessmentScore =
-  (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
+  (subjectId, assessmentScore, publishSingleStudent, termId) => (dispatch) => {
     if (!assessmentScore) {
       assessmentScore = 0;
     }
@@ -194,6 +195,7 @@ export const setAssessmentScore =
           score: assessmentScore,
           subjectId: entries.subjectId,
           classScoreEntryId: entries.classScoreEntryId,
+          termId
         })
         .then((res) => {
           entries.isSaving = false;

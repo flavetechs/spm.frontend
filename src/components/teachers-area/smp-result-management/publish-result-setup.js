@@ -43,6 +43,7 @@ const PublishResult = () => {
   });
   //VALIDATION SCHEMA
 
+  console.log('sessionTermId', sessionTermId);
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
@@ -53,14 +54,9 @@ const PublishResult = () => {
     setSessionTermId( activeSession?.sessionTermId)
     setSelectedSession(activeSession);
     initialValues.sessionId = activeSession?.sessionId;
-    initialValues.sessionTermId = activeSession?.terms.find(
-      (term) => term.isActive == true
-    )?.sessionTermId;
+    initialValues.sessionTermId = activeSession?.terms.find((term) => term.isActive == true)?.sessionTermId;
     setInitialValues(initialValues);
-    getTermClasses(
-      activeSession?.sessionId,
-      activeSession?.sessionTermId
-    )(dispatch);
+    getTermClasses(activeSession?.sessionId, activeSession?.sessionTermId)(dispatch);
   }, [activeSession]);
 
 

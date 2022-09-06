@@ -20,6 +20,7 @@ const PublishResultEdit = () => {
   const [isEditMode, setEditMode] = useState(false);
   const history = useHistory();
   const locations = useLocation();
+  const [selectedTerm, setTerm] = useState('');
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -32,6 +33,7 @@ const PublishResultEdit = () => {
     const studentContactId = queryParams.get("studentContactId");
     const sessionClassId = queryParams.get("sessionClassId");
     const termId = queryParams.get("termId");
+    setTerm(termId);
 
     if (!studentContactId) return;
     fetchSingleStudentResultEntries(
@@ -185,7 +187,8 @@ const PublishResultEdit = () => {
                                       setAssessmentScore(
                                         item.subjectId,
                                         e.target.value,
-                                        publishSingleStudent
+                                        publishSingleStudent,
+                                        selectedTerm
                                       )(dispatch);
                                     }}
                                   />
@@ -226,7 +229,8 @@ const PublishResultEdit = () => {
                                       setExamScore(
                                         item.subjectId,
                                         e.target.value,
-                                        publishSingleStudent
+                                        publishSingleStudent,
+                                        selectedTerm
                                       )(dispatch);
                                     }}
                                   />
