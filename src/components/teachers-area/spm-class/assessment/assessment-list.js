@@ -155,7 +155,7 @@ const AssessmentList = () => {
                     }}
                   >
                     <div className="header-title">
-                      <h4 className="card-title mt-3">Assessment Board</h4>
+                      <h4 className="card-title mt-4">Assessment Board</h4>
                     </div>
                     <div className="d-flex align-items-center mt-3 mb-n3">
                       <div className=" d-flex">
@@ -209,7 +209,7 @@ const AssessmentList = () => {
                           onClick={() => {
                             handleSubmit();
                           }}
-                          className="btn btn-primary btn-icon  mt-lg-0 mt-3 "
+                          className="btn btn-primary btn-icon  mt-lg-0 mt-2 "
                         >
                           <i className="btn-inner">
                             <svg
