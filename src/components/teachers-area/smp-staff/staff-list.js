@@ -83,7 +83,7 @@ const StaffList = () => {
     });
     returnList(stafflists)(dispatch);
   };
-console.log(selectedIds);
+  
   return (
     <>
       <div>

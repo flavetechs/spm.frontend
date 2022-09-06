@@ -50,7 +50,7 @@ const ClassSetupEdit = () => {
 
   return (
     <>
-      <div className="col-6 mx-auto">
+      <div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card>

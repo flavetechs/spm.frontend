@@ -49,7 +49,7 @@ const SessionDetails = () => {
                                     <thead>
                                         <tr>
                                             <th>Session Detail</th>
-                                            <th>Number Value</th>
+                                            <th>Number</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +82,7 @@ const SessionDetails = () => {
                                                 <span>Principal Name</span>
                                             </td>
                                             <td>
-                                                <span>{selectedItem?.headTeacherName}</span>
+                                                <span className="overflow-auto">{selectedItem?.headTeacherName}</span>
                                             </td>
                                         </tr>
                                     </tbody>
