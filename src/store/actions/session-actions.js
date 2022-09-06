@@ -60,7 +60,7 @@ export const getAllSession = () => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_SESSION_FAILED,
-                payload: err.response.data.message.friendlyMessage
+                payload: err?.response?.data?.message?.friendlyMessage
             })
         });
 }
