@@ -3,9 +3,10 @@ import { actions } from "../action-types/enrollment-action-types";
 export const enrollmentReducer = (state = _state, { type, payload }) => {
   switch (type) {
     case actions.PUSH_STUDENT_ID:
+      var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload],
+        selectedIds: [...new Set(arrayToFilter)],
       };
     case actions.REMOVE_STUDENT_ID:
       var filteredIds = filterSelectedIds(state.selectedIds, payload);

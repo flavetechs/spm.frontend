@@ -1,16 +1,18 @@
 import axios from 'axios';
 // http://flavetech-001-site3.etempurl.com/,
-// http://flavetech-001-site1.etempurl.com/
+// https://localhost:44373/
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:44373/',
+    baseURL: 'http://flavetech-001-site1.etempurl.com/',
     headers: {
         Authorization: '',
     },
 });
 
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
-    if(error.response.status === 401){
+    if(error.response.status === 401) {
         localStorage.removeItem('token');
+        localStorage.removeItem('permissions');
+        localStorage.removeItem('userDetail');
     }
     throw error;
 });

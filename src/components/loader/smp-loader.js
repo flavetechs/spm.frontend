@@ -20,6 +20,7 @@ const SmpLoader = () => {
     const { loading: loading14 } = state.portal;
     const { loading: loading15 } = state.notification;
     const { loading: loading16 } = state.pin;
+    const { loading: loading17 } = state.timetable;
 
     const [show, setShow] = useState(false);
 
@@ -28,7 +29,7 @@ const SmpLoader = () => {
         if (loading1 || loading2 || loading3 || loading4 
             || loading5 || loading6 || loading7 
             || loading8 || loading9 || loading10
-            || loading11 || loading12 || loading13 || loading14 || loading15 || loading16) {
+            || loading11 || loading12 || loading13 || loading14 || loading15 || loading16 || loading17) {
             setShow(true);
         } else {
             setShow(false);
@@ -37,7 +38,7 @@ const SmpLoader = () => {
     }, [loading1 || loading2 || loading3 || loading4 
         || loading5 || loading6 || loading7 
         || loading8 || loading9 || loading10 
-        || loading11 || loading12 || loading13 || loading14 || loading15 || loading16])
+        || loading11 || loading12 || loading13 || loading14 || loading15 || loading16 || loading17])
 
     return (
         <>

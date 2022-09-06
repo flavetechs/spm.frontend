@@ -1,0 +1,46 @@
+.tags-input-container{
+    border: 1px solid rgb(237, 235, 235);
+    padding: .5em;
+    border-radius: 1px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5em;
+}
+
+.tag-item{
+    background-color: rgb(228, 226, 216);
+    display: inline-block;
+    padding: 3px 5px;
+    border-radius: 1px;
+}
+.tag-item .close{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .5em;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tags-input{
+    flex-grow: 1;
+    padding: .5em 0;
+    border: none;
+    outline: none;
+}
+
+  .column-divider{
+    border-left: 3px solid rgb(212, 211, 207);
+  }
+
+  @media screen and (max-width: 478px) {
+    .column-divider {
+        border: none;
+    }
+  }

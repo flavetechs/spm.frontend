@@ -60,7 +60,7 @@ export const getAllSession = () => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_SESSION_FAILED,
-                payload: err.data.result
+                payload: err?.response?.data?.message?.friendlyMessage
             })
         });
 }
@@ -147,7 +147,7 @@ export const getActiveSession = () => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_FAILED,
-                payload: err.data.result
+                payload: err?.data?.result
             })
         });
 }
@@ -177,6 +177,33 @@ export const switchTerm = (term) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.SWITCH_TERM_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const activateSession = (sessionid) => (dispatch) => {
+    dispatch({
+        type: actions.SWITCH_SESSION_LOADING
+    });
+    const payload = {
+        sessionId: sessionid
+    }
+
+    axiosInstance.post('/session/api/v1/switch-session', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SWITCH_SESSION_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllSession()(dispatch);
+            getActiveSession()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SWITCH_SESSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)

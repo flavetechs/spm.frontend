@@ -5,4 +5,5 @@ export const _state = {
     message: "",
     isSuccessful: false,
     selectedIds: [],
+    submitSuccessful: false,
   };

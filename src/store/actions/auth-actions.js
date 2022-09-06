@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/auth-action-types"
+import { getActiveSession } from "./session-actions";
 
 export const loginUser = ({ userName, password }) => (dispatch) => {
 
@@ -18,6 +19,7 @@ export const loginUser = ({ userName, password }) => (dispatch) => {
                 type: actions.LOGIN_USER_SUCCESS,
                 payload: res.data.result
             });
+            getActiveSession()(dispatch)
         }).catch(err => {
             dispatch({
                 type: actions.LOGIN_USER_FAILED,
@@ -83,6 +85,31 @@ export const ResetPassword = ({ userId, password, resetToken }) => (dispatch) =>
             dispatch({
                 type: actions.RESET_PASSWORD_FAILED,
                 payload: err.response.data.result
+            })
+        })
+}
+
+export const changeMyPassword = ({ userId, oldPassword, newPassword }) => (dispatch) => {
+    dispatch({
+        type: actions.LOGIN_USER_LOADING
+    });
+
+    const payload = {
+        userId,
+        oldPassword,
+        newPassword
+    }
+
+    axiosInstance.post('user/api/v1/first-time/change-password', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.LOGIN_USER_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.LOGIN_USER_FAILED,
+                payload: err.response.data.message.friendlyMessage
             })
         })
 }

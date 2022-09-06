@@ -16,10 +16,11 @@ export const promotionReducer = (state = _state, { type, payload }) => {
       }
     }
     case actions.PUSH_ITEM_ID:
+      var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
-      }
+        selectedIds: [...new Set(arrayToFilter)],
+      };
     case actions.REMOVE_ITEM_ID:
       var filteredIds = filterSelectedIds(state.selectedIds, payload)
       return {
@@ -41,12 +42,14 @@ export const promotionReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-    case actions.FETCH_PROMOTION_SUCCESS:
+    case actions.FETCH_PROMOTION_SUCCESS:{
       return {
         ...state,
         loading: false,
         promotionList: payload,
       };
+    }
+      
 
     case actions.FETCH_PROMOTION_FAILED:
       return {

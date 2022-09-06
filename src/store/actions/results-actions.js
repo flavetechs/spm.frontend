@@ -1,5 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
-import TemplateSetting from "../../components/smp-portal-setting/template-setting";
+import TemplateSetting from "../../components/teachers-area/smp-portal-setting/template-setting";
 import { actions } from "../action-types/results-action-types"
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
@@ -9,6 +9,25 @@ export const getAllStaffClasses = () => (dispatch) => {
     });
 
     axiosInstance.get("/api/v1/result/get/staff-classes")
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASSES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASSES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getAllSharedOnStaffClasses = (teacherClassNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STAFF_CLASSES_LOADING
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/get-note/shared-class?teacherClassNoteId=${teacherClassNoteId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASSES_SUCCESS,
