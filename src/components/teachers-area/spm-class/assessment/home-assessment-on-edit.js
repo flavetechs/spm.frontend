@@ -351,7 +351,7 @@ const EditHomeAssessment = () => {
                               history.goBack()
                             }}
                           >
-                            Back
+                            Cancel
                           </Button>
                           <Button
                             type="button"

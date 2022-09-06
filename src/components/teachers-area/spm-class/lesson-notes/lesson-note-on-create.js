@@ -202,7 +202,7 @@ const CreateLessonNote = () => {
                                   history.goBack();
                                 }}
                               >
-                                Back
+                                Cancel
                               </Button>
                               <Button
                                 type="button"

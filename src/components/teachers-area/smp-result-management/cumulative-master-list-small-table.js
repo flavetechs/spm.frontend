@@ -2,7 +2,7 @@ import { Button, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 const CumulativeMasterListSmallTable = ({ cumulativeEntry, setShowCumulativeMasterListTable}) => {
-const history = useHistory();
+
   return (
     <>
       <div>
