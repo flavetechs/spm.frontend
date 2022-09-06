@@ -1,8 +1,10 @@
 import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
 import { setAssessmentScoreEntry, setExamScoreEntry } from "../../../store/actions/results-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllClassScoreEntryPreview } from "../../../store/actions/results-actions";
+import { useEffect } from "react";
+import { getActiveSession } from "../../../store/actions/session-actions";
 
 const LargeTable = ({
   validation,
@@ -13,12 +15,19 @@ const LargeTable = ({
   setPreviewMode,
   indexRow,
   isPreviewMode,
-  idsForPreview,
+  sessionClassId,
+  subjectId
 }) => {
 
   const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const { activeSession } = state.session;
   const handleFocus = (event) => event.target.select();
 
+  useEffect(() => {
+  getActiveSession()(dispatch);
+  }, [])
+  console.log(activeSession?.sessionTermId);
   return (
     <>
       <Row className="pt-3">
@@ -31,8 +40,8 @@ const LargeTable = ({
               setEditMode(false);
               setPreviewMode(!isPreviewMode);
               getAllClassScoreEntryPreview(
-                idsForPreview.sessionClassId,
-                idsForPreview.subjectId
+                sessionClassId,
+                subjectId
               )(dispatch);
             }}
           >
@@ -118,7 +127,7 @@ const LargeTable = ({
                                   setFieldValue(`${item.studentContactId}_assessmentScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
+                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry,activeSession?.sessionTermId)(dispatch);
                                 }}
                               />
                             ) : (
@@ -144,7 +153,7 @@ const LargeTable = ({
                                   setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry)(dispatch);
+                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry,activeSession?.sessionTermId)(dispatch);
                                 }}
                               />
                             ) : (
