@@ -89,8 +89,8 @@ const EditHomeAssessment = () => {
       title: Yup.string().required("Subject is required"),
       assessmentScore: Yup.number().required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-      deadline1: Yup.string().required("Please enter a deadline time"),
-      deadline2: Yup.string().required("Please enter a deadline date"),
+      timeDeadLine: Yup.string().required("Please enter a deadline time"),
+      dateDeadLine: Yup.string().required("Please enter a deadline date"),
       sessionClassGroupId: Yup.string().required("Please select group"),
     });
  //VALIDATION
@@ -111,8 +111,8 @@ const EditHomeAssessment = () => {
                     sessionClassSubjectId: singleHomeAssessmentList?.sessionClassSubjectId,
                     sessionClassGroupId: singleHomeAssessmentList?.sessionClassGroupId,
                     shouldSendToStudents:singleHomeAssessmentList?.status !== "saved",
-                    deadline1: singleHomeAssessmentList?.deadLine.split(" ")[1],
-                    deadline2: singleHomeAssessmentList?.deadLine2,
+                    timeDeadLine: singleHomeAssessmentList?.timeDeadLine,
+                    dateDeadLine: singleHomeAssessmentList?.dateDeadLine,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -123,8 +123,6 @@ const EditHomeAssessment = () => {
                     }
                     values.content = content;
                     values.comment = comment;
-                    values.deadline = values.deadline2
-                   // values.deadline = `${values.deadline2} ${ values.deadline1}`
                     sendAssesmentToStudents(homeAssessmentIdQuery,values.shouldSendToStudents)(dispatch);
                     updateHomeAssessment(values)(dispatch);
                   }}
@@ -244,36 +242,36 @@ const EditHomeAssessment = () => {
                           />
                         </Col>
                         <Col md="11" className=" mt-5">
-                          {touched.deadline2 && errors.deadline2 && (
-                            <div className="text-danger">{errors.deadline2}</div>
+                          {touched.dateDeadLine && errors.dateDeadLine && (
+                            <div className="text-danger">{errors.dateDeadLine}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="deadline2" >
+                          <label className="form-label" htmlFor="dateDeadLine" >
                             <b>Deadline Date:</b>
                           </label>
                           <Field
                             type="date"
-                            name="deadline2"
+                            name="dateDeadLine"
                             className="form-control border-secondary h6"
-                            id="deadline2"
+                            id="dateDeadLine"
                           />
                         </Col>
 
                         <Col md="11" className="">
-                          {touched.deadline1 && errors.deadline1 && (
-                            <div className="text-danger">{errors.deadline1}</div>
+                          {touched.timeDeadLine && errors.timeDeadLine && (
+                            <div className="text-danger">{errors.timeDeadLine}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="deadline1" >
+                          <label className="form-label" htmlFor="timeDeadLine" >
                             <b>Deadline Time:</b>
                           </label>
                           <Field
                             type="time"
-                            name="deadline1"
+                            name="timeDeadLine"
                             className="form-control border-secondary h6"
-                            id="deadline1"
+                            id="timeDeadLine"
                           />
                         </Col>
                        

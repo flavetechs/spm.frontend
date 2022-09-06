@@ -72,7 +72,8 @@ const CreateHomeAssessment = () => {
     title: Yup.string().required("Subject is required"),
     assessmentScore: Yup.number().required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-     deadline: Yup.string().required("Please enter a deadline"),
+      timeDeadLine: Yup.string().required("Please enter a deadline time"),
+      dateDeadLine: Yup.string().required("Please enter a deadline date"),
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
@@ -93,7 +94,8 @@ const CreateHomeAssessment = () => {
                     sessionClassSubjectId: sessionClassSubjectIdQuery || '',
                     sessionClassGroupId: sessionClassGroupIdQuery != "null" ? sessionClassGroupIdQuery : 'all-students',
                     shouldSendToStudents: false,
-                    deadline: "",
+                    timeDeadLine: "",
+                    dateDeadLine: "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -239,23 +241,39 @@ const CreateHomeAssessment = () => {
                             modules={textEditorModules}
                             style={{ height: "100px" }}
                           />
+                          </Col>
                           
-                        </Col>
-                        <Col md="11" className="mt-5">
-                          {touched.deadline && errors.deadline && (
-                            <div className="text-danger">{errors.deadline}</div>
+                          <Col md="11" className=" mt-5">
+                          {touched.dateDeadLine && errors.dateDeadLine && (
+                            <div className="text-danger">{errors.dateDeadLine}</div>
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="deadline">
-                            <b>Deadline:</b>
+                          <label className="form-label" htmlFor="dateDeadLine" >
+                            <b>Deadline Date:</b>
                           </label>
                           <Field
                             type="date"
-                            name="deadline"
-                            className="form-control h6 border-secondary"
-                            id="deadline"
-                            placeholder="Enter date of submission..."
+                            name="dateDeadLine"
+                            className="form-control border-secondary h6"
+                            id="dateDeadLine"
+                          />
+                        </Col>
+
+                        <Col md="11" className="">
+                          {touched.timeDeadLine && errors.timeDeadLine && (
+                            <div className="text-danger">{errors.timeDeadLine}</div>
+                          )}
+                        </Col>
+                        <Col md="11" className="form-group h6">
+                          <label className="form-label" htmlFor="timeDeadLine" >
+                            <b>Deadline Time:</b>
+                          </label>
+                          <Field
+                            type="time"
+                            name="timeDeadLine"
+                            className="form-control border-secondary h6"
+                            id="timeDeadLine"
                           />
                         </Col>
 

@@ -7,7 +7,6 @@ import {
   deleteStudentNotes,
   getAllStudentNotes,
   getAllStudentSubjects,
-  getNotesByStatus,
 } from "../../../store/actions/class-actions";
 import {
   respondDialog,
@@ -67,15 +66,21 @@ const StudentNotes = () => {
   const statusQuery = queryParams.get("status");
 
   React.useEffect(() => {
-    if (subjectIdQuery && !statusQuery) {
-      getAllStudentNotes(subjectIdQuery)(dispatch);
-    }else if(!subjectIdQuery && !statusQuery){
-      getAllStudentNotes("")(dispatch);
-    }else if(statusQuery){
-      getNotesByStatus(
+    // if (subjectIdQuery && !statusQuery) {
+    //   getAllStudentNotes(subjectIdQuery)(dispatch);
+    // }else if(!subjectIdQuery && !statusQuery){
+    //   getAllStudentNotes("")(dispatch);
+    // }
+    if(statusQuery){
+      getAllStudentNotes(
       subjectIdQuery,
       statusQuery
     )(dispatch);
+    }else{
+      getAllStudentNotes(
+        subjectIdQuery,
+        "2"
+      )(dispatch);
     }
   }, [subjectIdQuery,statusQuery]);
 
@@ -248,7 +253,7 @@ const StudentNotes = () => {
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getAllStudentNotes("")(dispatch);
+                                    getAllStudentNotes(subjectIdQuery,"2")(dispatch);
                                     history.push(
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
                                     );
@@ -256,9 +261,10 @@ const StudentNotes = () => {
                                 }}
                               >
                                 <option value="all">Select All</option>
+                                <option value="2">saved</option>
                                 <option value="3">in progress</option>
                                 <option value="1">reviewed</option>
-                                <option value="2">unreviewed</option>
+                                <option value="0">unreviewed</option>
 
                               </Field>
                             </div>
@@ -482,7 +488,7 @@ const StudentNotes = () => {
                                 <small className="mx-2" draggable="false">
                                   date:
                                   <div className="text-success">
-                                    {item.dateCreated}
+                                    {item.dateSubmitted}
                                   </div>
                                 </small>
                               </div>

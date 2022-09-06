@@ -57,6 +57,11 @@ const EditClassAssessment = () => {
   }, []);
 
   useEffect(() => {
+    getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
+  }, [classAssessmentScore]);
+
+
+  useEffect(() => {
     onSubmit && createSuccessful && history.goBack();
   }, [createSuccessful]);
 
@@ -171,7 +176,7 @@ const EditClassAssessment = () => {
                               classAssessmentIdQuery,
                               Number(e.target.value)
                             )(dispatch);
-                            getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
+                           
                           }}
                           defaultValue={
                             singleClassAssessmentList?.assessmentScore

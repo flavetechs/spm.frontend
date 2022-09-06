@@ -1060,6 +1060,58 @@ const payload ={
         });
 }
 
+export const addClassNoteComments = (classNoteId,comment) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_COMMENTS_LOADING
+    });
+const payload ={
+        classNoteId,
+        comment,
+}
+
+    axiosInstance.post('/smp/studentclassnotes/api/v1/add-comment/to-classnote', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_COMMENTS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllComments(classNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_COMMENTS_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const addClassNoteReplies = (commentId,comment,classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.ADD_REPLIES_LOADING
+    });
+const payload ={
+        commentId,
+        comment,
+}
+
+    axiosInstance.post('/smp/studentclassnotes/api/v1/reply/classnote-comment', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ADD_REPLIES_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllComments(classNoteId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.ADD_REPLIES_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
 export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
 
     var classNoteCommentUrl =  axiosInstance.get(`/classnotes/api/v1/get-classnote/comments?classNoteId=${classNoteId}`);
@@ -1107,12 +1159,12 @@ export const getAllClassNotes = (subjectId) => (dispatch) => {
         });
 }
 
-export const getAllStudentNotes = (subjectId) => (dispatch) => {
+export const getAllStudentNotes = (subjectId,status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/smp/studentnotes/api/v1/get/Studentnotes/by-student?subjectId=${subjectId}`)
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/Studentnotes/by-student?subjectId=${subjectId}&status=${status}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENT_NOTES_SUCCESS,
