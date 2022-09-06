@@ -13,7 +13,9 @@ const AdminLargeTable = ({
   setPreviewMode,
   indexRow,
   isPreviewMode,
-  idsForPreview,
+  sessionClassId,
+  subjectId,
+  term
 }) => {
 
   const dispatch = useDispatch();
@@ -31,9 +33,9 @@ const AdminLargeTable = ({
               setEditMode(false);
               setPreviewMode(!isPreviewMode);
               getAllPreviousClassScoreEntryPreview(
-                idsForPreview.sessionClassId,
-                idsForPreview.subjectId,
-                idsForPreview.terms
+                sessionClassId,
+                subjectId,
+                term
               )(dispatch);
             }}
           >
@@ -117,7 +119,7 @@ const AdminLargeTable = ({
                                   setFieldValue(`${item.studentContactId}_assessmentScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setPreviousAssessmentScoreEntry(item.studentContactId, e.target.value, previousScoreEntry,  idsForPreview.terms)(dispatch);
+                                  setPreviousAssessmentScoreEntry(item.studentContactId, e.target.value, previousScoreEntry,  term)(dispatch);
                                 }}
                               />
                             ) : (
@@ -144,7 +146,7 @@ const AdminLargeTable = ({
                                   setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setPreviousExamScoreEntry(item.studentContactId, e.target.value, previousScoreEntry,  idsForPreview.terms)(dispatch);
+                                  setPreviousExamScoreEntry(item.studentContactId, e.target.value, previousScoreEntry,  term)(dispatch);
                                 }}
                               />
                             ) : (

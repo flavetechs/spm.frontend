@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../router/spm-path-locations";
+import { classLocations } from "../../../../router/spm-path-locations";
 import {
   getStatusFilterForStudentAssessment,
-} from "../../../store/actions/class-actions";
-import { assessmentLocations } from "../../../router/students-path-locations";
+} from "../../../../store/actions/class-actions";
+import { assessmentLocations } from "../../../../router/students-path-locations";
 
 const StudentAssessmentList = () => {
   //VARIABLE DECLARATIONS

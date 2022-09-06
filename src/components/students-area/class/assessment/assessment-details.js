@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getSingleHomeAssessment, getSingleStudentHomeAssessment, submitStudentAssessment } from "../../../store/actions/class-actions";
-import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
+import { getSingleHomeAssessment, getSingleStudentHomeAssessment, submitStudentAssessment } from "../../../../store/actions/class-actions";
+import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Field, Formik } from "formik";
-import { showErrorToast } from "../../../store/actions/toaster-actions";
-import { assessmentLocations } from "../../../router/students-path-locations";
+import { showErrorToast } from "../../../../store/actions/toaster-actions";
+import { assessmentLocations } from "../../../../router/students-path-locations";
 
 const StudentAssessmentDetails = () => {
   //VARIABLE DECLARATIONS

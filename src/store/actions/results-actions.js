@@ -82,7 +82,7 @@ export const getAllClassScore = (sessionClassId, subjectId) => (dispatch) => {
         });
 }
 
-export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (dispatch) => {
+export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry,termId) => (dispatch) => {
     if (!examsScore) {
         examsScore = 0;
     }
@@ -106,7 +106,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId })
+        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId,termId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -121,7 +121,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (
     }
 }
 
-export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry) => (dispatch) => {
+export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry,termId) => (dispatch) => {
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -146,7 +146,7 @@ export const setAssessmentScoreEntry = (studentContactId, assessmentScore, score
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId })
+        axiosInstance.post(`/api/v1/result/update/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId, termId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;

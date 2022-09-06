@@ -6,8 +6,8 @@ import { assessmentLocations, classNoteLocations, dashboardLocations, onlineClas
 import OnlineClass from '../components/students-area/class/online-class';
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
-import StudentAssessmentList from '../components/students-area/assessment/assessment-list';
-import StudentAssessmentDetails from '../components/students-area/assessment/assessment-details';
+import StudentAssessmentList from '../components/students-area/class/assessment/assessment-list';
+import StudentAssessmentDetails from '../components/students-area/class/assessment/assessment-details';
 import ClassNotes from '../components/students-area/class-notes/class-notes';
 import ClassNoteDetails from '../components/students-area/class-notes/class-note-details';
 import StudentNotes from '../components/students-area/student-notes/student-notes';
