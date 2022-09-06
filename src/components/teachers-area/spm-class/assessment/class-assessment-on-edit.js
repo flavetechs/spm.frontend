@@ -43,7 +43,7 @@ const EditClassAssessment = () => {
   //HOOKS
   const [classAssessmentScore, setClassAssessmentScore] = useState("");
   const [onSubmit, setOnSubmit] = useState(false);
-  const [scoreValidation, setScoreValidation]= useState(false);
+  const [scoreValidation, setScoreValidation] = useState(false);
 
   useEffect(() => {
     getAssessmentScore(
@@ -68,11 +68,11 @@ const EditClassAssessment = () => {
     generalAssessmentScore: Yup.number()
       .required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-    // deadline: Yup.string().required("Please enter who to send"),
+    deadline: Yup.string().required("Please enter a deadline"),
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
-  console.log(studentClassAssessment);
+  console.log(singleClassAssessmentList?.assessmentScore);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -109,18 +109,13 @@ const EditClassAssessment = () => {
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
-                          <option
-                            key={idx}
-                            value={item.sessionClassSubjectId}
-                          >
+                          <option key={idx} value={item.sessionClassSubjectId}>
                             {item.subjectName}
                           </option>
                         ))}
                       </select>
                     </Col>
-
-                   
-
+                    
                     <Row>
                       <div>
                         {classAssessmentScore > assessmentScore?.unused && (
@@ -135,7 +130,9 @@ const EditClassAssessment = () => {
                         )}
                       </div>
                     </Row>
-                    <Row className="d-flex justify-content-center">
+
+                    <Col md="11" >
+                    <Row className="d-flex ">
                       <Col md="2" className="form-group">
                         <label className="form-label">
                           <h6>total</h6>
@@ -168,8 +165,13 @@ const EditClassAssessment = () => {
                         <input
                           type="number"
                           name="generalAssessmentScore"
-                          onChange={(e) => {
+                          onBlur={(e) => {
                             setClassAssessmentScore(e.target.value);
+                            updateClassAssessmentScore(
+                              classAssessmentIdQuery,
+                              Number(e.target.value)
+                            )(dispatch);
+                            getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
                           }}
                           defaultValue={
                             singleClassAssessmentList?.assessmentScore
@@ -178,7 +180,7 @@ const EditClassAssessment = () => {
                         />
                       </Col>
                       <Col md="4">
-                        <OverlayTrigger
+                        {/* <OverlayTrigger
                           placement="top"
                           overlay={
                             <Tooltip id="button-tooltip-2">
@@ -200,9 +202,10 @@ const EditClassAssessment = () => {
                           >
                             Update
                           </Button>
-                        </OverlayTrigger>
+                        </OverlayTrigger> */}
                       </Col>
                     </Row>
+                    </Col>
 
                     <Col md="11" className="form-group h6 mt-3">
                       <div className="table-responsive">
@@ -214,15 +217,16 @@ const EditClassAssessment = () => {
                         >
                           <tbody>
                             <tr className="ligth">
-                              <td >
-                                Student Name
-                              </td>
-                              <td >Score</td>
-                              
+                              <td>Student Name</td>
+                              <td>Score</td>
                             </tr>
                           </tbody>
-                          {scoreValidation > singleClassAssessmentList?.assessmentScore && (
-                            <div className="text-danger">score should not be more than {singleClassAssessmentList?.assessmentScore}</div>
+                          {scoreValidation >
+                            singleClassAssessmentList?.assessmentScore && (
+                            <div className="text-danger">
+                              score should not be more than{" "}
+                              {singleClassAssessmentList?.assessmentScore}
+                            </div>
                           )}
                           <tbody>
                             {studentClassAssessment?.map((item, idx) => (
@@ -232,7 +236,6 @@ const EditClassAssessment = () => {
                                 </td>
 
                                 <td className="text-center">
-                              
                                   <input
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
@@ -240,16 +243,29 @@ const EditClassAssessment = () => {
                                     defaultValue={item.score}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
-                                      setScoreValidation(e.target.value)
-                                     if(e.target.value != ""){ 
-                                      e.target.value <= singleClassAssessmentList?.assessmentScore &&
+                                      setScoreValidation(e.target.value);
+                                      if (
+                                        e.target.value >
+                                        singleClassAssessmentList?.assessmentScore
+                                      ) {
+                                       
+                                        e.target.value = singleClassAssessmentList?.assessmentScore
                                         updateStudentClassAssessment(
                                           sessionClassSubjectIdQuery,
                                           classAssessmentIdQuery,
                                           e.target.id,
                                           Number(e.target.value)
-                                        )(dispatch)
-                                        }  
+                                        )(dispatch);
+                                        return;
+                                      }
+                                      else{
+                                        updateStudentClassAssessment(
+                                          sessionClassSubjectIdQuery,
+                                          classAssessmentIdQuery,
+                                          e.target.id,
+                                          Number(e.target.value)
+                                        )(dispatch);
+                                      }
                                     }}
                                   />
                                 </td>
@@ -326,6 +342,7 @@ const EditClassAssessment = () => {
                       >
                         Back
                       </Button>
+                      
                       <Button
                         type="button"
                         className="btn-sm mx-2 mt-4"

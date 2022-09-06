@@ -7,10 +7,10 @@ import {
   approveNotes,
   getNotesByStatus,
   getStudentNotesByTeacher,
-} from "../../../store/actions/class-actions";
+} from "../../../../store/actions/class-actions";
 import * as Yup from "yup";
-import { classLocations } from "../../../router/spm-path-locations";
-import { getStaffClassSubjects } from "../../../store/actions/results-actions";
+import { classLocations } from "../../../../router/spm-path-locations";
+import { getStaffClassSubjects } from "../../../../store/actions/results-actions";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS

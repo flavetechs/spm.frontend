@@ -10,6 +10,7 @@ import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { classLocations } from "../../../../router/spm-path-locations";
 import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
+import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 
 const CreateHomeAssessment = () => {
   const history = useHistory();
@@ -18,6 +19,7 @@ const CreateHomeAssessment = () => {
   const elementRef = useRef(null);
   const state = useSelector((state) => state);
   const { createSuccessful, groupList, assessmentScore, classSubjects } = state.class;
+  const { staffClasses } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
@@ -29,6 +31,7 @@ const CreateHomeAssessment = () => {
     getAllClassGroup(sessionClassIdQuery,sessionClassSubjectIdQuery)(dispatch);
     getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
+    getAllStaffClasses()(dispatch);
   }, []);
 
   React.useEffect(() => {
@@ -96,7 +99,7 @@ const CreateHomeAssessment = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     if (!content) {
-                      showErrorToast("Body is required")(dispatch);
+                      showErrorToast("Assessment is required")(dispatch);
                       return;
                     }
                     values.content = content;
@@ -112,6 +115,7 @@ const CreateHomeAssessment = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
+                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i=>i.sessionClassId == sessionClassIdQuery)?.sessionClass}</h6>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.title && errors.title && (
@@ -185,7 +189,7 @@ const CreateHomeAssessment = () => {
                         </Col>
                         <Col md="11" className="form-group h6 ">
                           <label className="form-label d-flex justify-content-between">
-                            <b>Description:</b>
+                            <b>Assessment:</b>
                             <div className="">
                               {/* {!fullScreen ? ( */}
                               <OverlayTrigger

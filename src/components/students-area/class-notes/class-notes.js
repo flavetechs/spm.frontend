@@ -19,7 +19,6 @@ const ClassNotes = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
-  const [subjectId, setSubjectId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   //VARIABLE DECLARATIONS
@@ -32,14 +31,10 @@ const ClassNotes = () => {
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
-  //VALIDATION
-  const validation = Yup.object().shape({
-    subjectId: Yup.string().required("Subject is required"),
-  });
-  //VALIDATION
+ 
 
   React.useEffect(() => {
-    getAllStudentSubjects(userDetail.userAccountId)(dispatch);
+    getAllStudentSubjects(userDetail.id)(dispatch);
   }, []);
 
 
@@ -48,13 +43,8 @@ const ClassNotes = () => {
   React.useEffect(() => {
     if (subjectIdQuery) {
       getAllClassNotes(subjectIdQuery)(dispatch);
-      setSubjectId(subjectIdQuery);
-    }
-  }, [subjectIdQuery]);
-
-  React.useEffect(() => {
-    if (!subjectIdQuery) {
-      getAllClassNotes(subjectId)(dispatch);
+    }else if(!subjectIdQuery) {
+      getAllClassNotes("")(dispatch);
     }
   }, [subjectIdQuery]);
 
@@ -136,7 +126,6 @@ const ClassNotes = () => {
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
                     `${classNoteLocations.createClassNotes}?subjectId=${values.subjectId}`
@@ -155,13 +144,7 @@ const ClassNotes = () => {
                           <div className="d-xl-flex align-items-center flex-wrap">
                            
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
-                              <div>
-                                {touched.subjectId && errors.subjectId && (
-                                  <div className="text-danger">
-                                    {errors.subjectId}
-                                  </div>
-                                )}
-                              </div>
+                        
                               <Field
                                 as="select"
                                 name="subjectId"
@@ -169,7 +152,6 @@ const ClassNotes = () => {
                                 id="subjectId"
                                 onChange={(e) => {
                                   setFieldValue("subjectId", e.target.value);
-                                  setSubjectId(e.target.value);
                                   e.target.value == ""
                                     ? history.push(classNoteLocations.classNotes)
                                     : history.push(
