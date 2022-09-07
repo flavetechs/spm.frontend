@@ -1,5 +1,5 @@
 
-import { Toast, ToastContainer, Alert, Col } from 'react-bootstrap'
+import { Toast, ToastContainer } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { hideAlertInfoToast, hideErrorToast, hideSuccessToast } from '../../../../store/actions/toaster-actions';
 

@@ -71,7 +71,7 @@ const Header = (props) => {
         else {
             props.NavbarstyleAction(navbarstyleMode1);
         }
-    }, [])
+    }, [props])
     const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
@@ -126,7 +126,7 @@ const Header = (props) => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     {
-                                        userDetail?.userType == "Teacher"
+                                        userDetail?.userType === "Teacher"
                                             ? (
                                                 <Dropdown.Item onClick={() => {
                                                     history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)

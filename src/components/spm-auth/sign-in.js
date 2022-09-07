@@ -1,4 +1,4 @@
-import { Row, Col, Image, ListGroup, } from 'react-bootstrap'
+import { Row, Col, Image, } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card'
 
@@ -24,9 +24,8 @@ const SignIn = () => {
 
     useEffect(() => {
         if (userDetail) {
-            console.log('userDetail', userDetail);
             if(JSON.parse(userDetail).isFirstTimeLogin === false){
-                if (JSON.parse(userDetail).userType == 'Student') {
+                if (JSON.parse(userDetail).userType === 'Student') {
                     window.location.href = '/stds-dashboard';
                 } else {
                     window.location.href = '/dashboard';
@@ -39,7 +38,7 @@ const SignIn = () => {
             }
            
         }
-    }, [token])
+    }, [token, history, userDetail])
 
     const validation = Yup.object().shape({
         userName: Yup.string()

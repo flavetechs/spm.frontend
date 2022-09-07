@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import {
     Accordion,
     useAccordionButton,
@@ -8,7 +8,6 @@ import {
 import { DashboardLink } from "./Navigations/dashboard-links";
 import { PermissionLink } from "./Navigations/permission-links";
 import {
-    getUserDetails,
     hasAccess,
     hasAccess2,
     NavPermissions,
@@ -58,10 +57,7 @@ const minisidebar = () => {
 };
 
 const VerticalNav = () => {
-    const [activeMenue, setActiveMenu] = useState(false);
-    //location
-    // console.log(activeMenu);
-    let location = useLocation();
+    const [setActiveMenu] = useState(false);
 
     return (
         <>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Row, Col, Image, Button } from 'react-bootstrap'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Row, Col, Image } from 'react-bootstrap'
+import { Link, useLocation } from 'react-router-dom'
 import Card from '../Card';
 import * as Yup from 'yup';
 
@@ -13,11 +13,12 @@ import { authLocations } from '../../router/spm-path-locations';
 import { changeMyPassword } from '../../store/actions/auth-actions';
 
 const FirstTimeLoginPassswordChange = () => {
-    let history = useHistory();
 
     const locations = useLocation();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
+
+
     const { message } = state.auth;
     var token = localStorage.getItem('token');
     var userDetail = localStorage.getItem('userDetail');
@@ -27,18 +28,19 @@ const FirstTimeLoginPassswordChange = () => {
         const id = queryParams.get("id");
         if (!id) return;
         setId(id);
-    }, []);
+    }, [userId]);
 
     React.useEffect(() => {
         if (userDetail) {
-            if (JSON.parse(userDetail).userType == 'Student') {
+            if (JSON.parse(userDetail).userType === 'Student') {
                 window.location.href = '/stds-dashboard';
             } else {
                 window.location.href = '/dashboard';
             }
 
         }
-    }, [token])
+
+    }, [token, userDetail])
 
     const validation = Yup.object().shape({
         oldPassword: Yup.string().required("Old Password Required")

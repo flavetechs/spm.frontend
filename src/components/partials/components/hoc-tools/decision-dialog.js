@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { Toast, Alert, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { respondDialog, respondToDeleteDialog, showHideDialog, showSingleDeleteDialog } from '../../../../store/actions/toaster-actions';
+import { respondDialog, showHideDialog } from '../../../../store/actions/toaster-actions';
 
 export const DecisionDialog = () => {
     const state = useSelector((state) => state);

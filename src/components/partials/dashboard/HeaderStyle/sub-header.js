@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from "redux"
@@ -12,11 +12,9 @@ import topHeader5 from '../../../../assets/images/dashboard/top-header5.png'
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch, useSelector } from "react-redux"
-import { getActiveSession } from '../../../../store/actions/session-actions'
-import { getGeneralActiveSession } from '../../../../store/actions/general-actions'
+import { connect } from "react-redux"
 import { notificationManagement } from '../../../../router/spm-path-locations'
-import { getUserDetails, hasAccess, NavPermissions } from '../../../../utils/permissions'
+import { hasAccess, NavPermissions } from '../../../../utils/permissions'
 
 const mapStateToProps = (state) => {
     return {
@@ -51,7 +49,6 @@ const SubHeader = (props) => {
         props.NavbarstyleAction(navbarstyleMode);
       
     })
-  console.log('session', session);
     return (
         <>
             <div className="iq-navbar-header" style={{ height: "215px" }}>
