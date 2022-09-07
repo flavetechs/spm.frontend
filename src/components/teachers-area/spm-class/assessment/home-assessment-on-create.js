@@ -242,7 +242,7 @@ const CreateHomeAssessment = () => {
                             style={{ height: "100px" }}
                           />
                           </Col>
-                          
+
                           <Col md="11" className=" mt-5">
                           {touched.dateDeadLine && errors.dateDeadLine && (
                             <div className="text-danger">{errors.dateDeadLine}</div>
@@ -355,7 +355,7 @@ const CreateHomeAssessment = () => {
                               history.goBack()
                             }}
                           >
-                            Back
+                            Cancel
                           </Button>
                           <Button
                             type="button"

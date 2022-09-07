@@ -254,7 +254,7 @@ const EditStudentNote = () => {
                               history.goBack();
                             }}
                           >
-                            Back
+                            Cancel
                           </Button>
                           <Button
                             type="button"
