@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   getAllStudents,
@@ -38,7 +38,7 @@ const StudentList = () => {
 
   React.useEffect(() => {
     getAllStudents()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -61,7 +61,7 @@ const StudentList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse,dispatch,selectedIds]);
   //DELETE HANDLER
   const checkSingleItem = (isChecked, userAccountId, studentList) => {
     studentList.forEach((item) => {
@@ -111,10 +111,10 @@ const StudentList = () => {
   });
 
   React.useEffect(() => {
-    if (modalResponse == 'continue') {
+    if (modalResponse === 'continue') {
       enrollStudent(selectedIds)(dispatch);
     }
-  }, [modalResponse]);
+  }, [modalResponse,selectedIds,dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -125,7 +125,7 @@ const StudentList = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch,selectedIds]);
 
   return (
     <>

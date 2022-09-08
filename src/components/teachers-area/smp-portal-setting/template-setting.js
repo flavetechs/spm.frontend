@@ -17,13 +17,13 @@ const TemplateSetting = () => {
     {
       image:
         "http://flavetech-001-site1.etempurl.com/ProfileImage/0cb16f26-cb41-4c75-99e1-4ed12ac1023d.PNG",
-      isChecked: templateSetting == "template-one" ? true : false,
+      isChecked: templateSetting === "template-one" ? true : false,
       templateName:"template-one",
     },
     {
       image:
         "http://flavetech-001-site1.etempurl.com/ProfileImage/c3c356a9-2bb3-4132-b43b-a62c210e29c5.PNG",
-      isChecked: templateSetting == "template-two" ? true : false,
+      isChecked: templateSetting === "template-two" ? true : false,
       templateName:"template-two",
     },
     // {
@@ -65,9 +65,9 @@ const TemplateSetting = () => {
   ];
   React.useEffect(() => {
     if(!templateName){
-    setTemplateName(imageData.find(d=>d.isChecked == true)?.templateName)
+    setTemplateName(imageData.find(d=>d.isChecked === true)?.templateName)
     }
-  }, [imageData]);
+  }, [imageData,dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -78,7 +78,7 @@ const TemplateSetting = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch]);
 
   return (
     <>

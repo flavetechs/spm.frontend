@@ -29,11 +29,11 @@ export function ClassesModal() {
   
     React.useEffect(() => {
       getGeneralActiveSession()(dispatch);
-    }, []);
+    }, [dispatch]);
   
     React.useEffect(() => {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
-    }, [activeSession]);
+    }, [activeSession,dispatch]);
 
     return (
 

@@ -36,7 +36,7 @@ const ClassSetupList = () => {
 
   React.useEffect(() => {
     getAllClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -59,7 +59,7 @@ const ClassSetupList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse,dispatch,selectedIds]);
   //DELETE HANDLER
 
   const checkSingleItem = (isChecked, lookupId, classes) => {
@@ -291,7 +291,7 @@ const ClassSetupList = () => {
                                 }
                               >
                                 {hasAccess(NavPermissions.editClassSetup) && (
-                                  <a
+                                  <div
                                     onClick={() => {
                                       fetchSingleItem(item.lookupId)(dispatch);
                                       history.push(
@@ -337,7 +337,7 @@ const ClassSetupList = () => {
                                         ></path>
                                       </svg>
                                     </span>
-                                  </a>
+                                  </div>
                                 )}
                               </OverlayTrigger>{" "}
                               <OverlayTrigger

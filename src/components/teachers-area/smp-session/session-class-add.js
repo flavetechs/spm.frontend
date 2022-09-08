@@ -110,7 +110,7 @@ const SessionClassAdd = () => {
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
     getActiveSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   if (isSuccessful) {
     history.push(sessionLocations.sessionClassList);
@@ -440,7 +440,7 @@ const SessionClassAdd = () => {
                                   key={idx}
                                   value={teacher.teacherAccountId}
                                   selected={
-                                    values?.formTeacherId ==
+                                    values?.formTeacherId ===
                                     teacher.teacherAccountId
                                   }
                                 >

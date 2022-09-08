@@ -24,7 +24,7 @@ const AnnouncementDetails = () => {
     const queryParams = new URLSearchParams(locations.search);
     const announcementsId = queryParams.get("announcementsId");
     updateSeenAnnouncement(announcementsId)(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
 
   return (
     <div className="col-md-12 mx-auto">

@@ -7,7 +7,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const tableRef = useRef(null);
 
-  if (masterEntry?.resultList == null) {
+  if (masterEntry?.resultList === null) {
     masterEntry.resultList = [];
   }
 
@@ -214,7 +214,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                 <td className="fw-bold">{item.totalScore}</td>
                 <td className="fw-bold">{item.averageScore}</td>
                 <td className="fw-bold">
-                  <Badge bg={item.status == "PASSED" ? "success" : "danger"}>
+                  <Badge bg={item.status === "PASSED" ? "success" : "danger"}>
                     {item.status}
                   </Badge>
                 </td>
@@ -223,11 +223,11 @@ const MasterListLargeTable = ({ masterEntry }) => {
                   <>
                     <td className="px-3">
                       {item.subjects.find(
-                        (subject) => subject.subjectName == filtered.subjectName
+                        (subject) => subject.subjectName === filtered.subjectName
                       )
                         ? item.subjects.map(
                             (i) =>
-                              i.subjectName == filtered.subjectName &&
+                              i.subjectName === filtered.subjectName &&
                               i.assessmentScore
                           )
                         : ""}
@@ -235,11 +235,11 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
                     <td className="px-3">
                       {item.subjects.find(
-                        (subject) => subject.subjectName == filtered.subjectName
+                        (subject) => subject.subjectName === filtered.subjectName
                       )
                         ? item.subjects.map(
                             (i) =>
-                              i.subjectName == filtered.subjectName &&
+                              i.subjectName === filtered.subjectName &&
                               i.examScore
                           )
                         : ""}
@@ -247,11 +247,11 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
                     <td className="px-3">
                       {item.subjects.find(
-                        (subject) => subject.subjectName == filtered.subjectName
+                        (subject) => subject.subjectName === filtered.subjectName
                       )
                         ? item.subjects.map(
                             (i) =>
-                              i.subjectName == filtered.subjectName && i.total
+                              i.subjectName === filtered.subjectName && i.total
                           )
                         : ""}
                     </td>

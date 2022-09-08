@@ -108,7 +108,7 @@ const AdminLargeTable = ({
                           <span className="fw-bold">
                             {item.assessmentScore}
                           </span>
-                        ) : indexRow == index ? (
+                        ) : indexRow === index ? (
                           <Field
                             style={{
                               maxHeight: "25px",
@@ -150,7 +150,7 @@ const AdminLargeTable = ({
                       >
                         {!isEditMode ? (
                           <span className="fw-bold">{item.examsScore}</span>
-                        ) : indexRow == index ? (
+                        ) : indexRow === index ? (
                           <Field
                             style={{
                               maxHeight: "25px",

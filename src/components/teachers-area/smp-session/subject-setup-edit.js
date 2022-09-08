@@ -34,7 +34,7 @@ const SubjectSetupEdit = () => {
     const queryParams = new URLSearchParams(locations.search);
     const subjectId = queryParams.get("subjectId");
     if (!subjectId) return;
-  }, []);
+  }, [locations.search]);
 
   if (isSuccessful || !selectedItem) {
     history.push(sessionLocations.subjectSetupList);

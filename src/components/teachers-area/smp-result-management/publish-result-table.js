@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Row,
   Button,
@@ -15,7 +15,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllStudentResult,
-  resetStudentResultState,
 } from "../../../store/actions/results-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import {
@@ -41,7 +40,7 @@ const PublishResultTable = () => {
 
   React.useEffect(() => {
     getAllResultList(sessionClassId, sessionTermId)(dispatch);
-  }, []);
+  }, [dispatch,sessionClassId, sessionTermId]);
 
   return (
     <>
@@ -149,7 +148,7 @@ const PublishResultTable = () => {
                   {list.totalSubjects}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
-                  <Badge bg={list.status == "PASSED" ? "success" : "danger"}>
+                  <Badge bg={list.status === "PASSED" ? "success" : "danger"}>
                     {list.status}
                   </Badge>
                 </td>

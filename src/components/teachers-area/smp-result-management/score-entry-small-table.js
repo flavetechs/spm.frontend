@@ -8,7 +8,6 @@ import {
 import LargeTable from "./score-entry-large-table";
 import Preview from "./score-entry-preview";
 import { useHistory, useLocation } from "react-router-dom";
-import { hasAccess, NavPermissions } from "../../../utils/permissions";
 
 const ScoreEntryTable = () => {
   //VARIABLE DECLARATIONS
@@ -37,7 +36,7 @@ const ScoreEntryTable = () => {
     setIndexRow("");
     setEditMode(false);
     setPreviewMode(false);
-  }, []);
+  }, [dispatch,sessionClassId, subjectId]);
 
   return (
     <>

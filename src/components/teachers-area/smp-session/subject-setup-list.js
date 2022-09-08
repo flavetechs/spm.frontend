@@ -35,7 +35,7 @@ const SubjectSetupList = () => {
 
   React.useEffect(() => {
     getAllSubjects()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -58,7 +58,7 @@ const SubjectSetupList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse,dispatch,selectedIds]);
   //DELETE HANDLER
   const checkSingleItem = (isChecked, lookupId, itemList) => {
     itemList.forEach((item) => {
@@ -287,7 +287,7 @@ const SubjectSetupList = () => {
                                       <Tooltip id="button-tooltip-2"> edit</Tooltip>
                                     }
                                   >
-                                    <a
+                                    <div
                                       onClick={() => {
                                         fetchSingleItem(item.lookupId)(dispatch);
                                         history.push(
@@ -333,7 +333,7 @@ const SubjectSetupList = () => {
                                           ></path>
                                         </svg>
                                       </span>
-                                    </a>
+                                    </div>
 
 
                                   </OverlayTrigger>

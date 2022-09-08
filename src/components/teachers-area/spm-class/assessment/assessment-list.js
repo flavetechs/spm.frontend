@@ -58,29 +58,29 @@ const AssessmentList = () => {
   const typeQueryParam = queryParams.get("type");
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     sessionClassIdQueryParam && getClassSubjects(sessionClassIdQueryParam)(dispatch);
-  }, [sessionClassIdQueryParam]);
+  }, [sessionClassIdQueryParam,dispatch]);
 
   React.useEffect(() => {
     sessionClassIdQueryParam && sessionClassSubjectIdQueryParam && getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
-  }, [sessionClassSubjectIdQueryParam]);
+  }, [sessionClassSubjectIdQueryParam,sessionClassIdQueryParam,dispatch]);
 
   React.useEffect(() => {
-    if (typeQueryParam == "home assessment") {
+    if (typeQueryParam === "home-assessment") {
       selectedSessionClassSubjectId ? getAllHomeAssessment(selectedSessionClassSubjectId)(dispatch) : getAllHomeAssessment(sessionClassSubjectIdQueryParam)(dispatch);
-    } else if (typeQueryParam == "class assessment") {
+    } else if (typeQueryParam === "class-assessment") {
       getAllClassAssessment()(dispatch);
     } else {
       // DO NOTHING.....
     }
-  }, [sessionClassSubjectIdQueryParam, typeQueryParam]);
+  }, [sessionClassSubjectIdQueryParam, typeQueryParam,dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      typeQueryParam == "home assessment" ?
+      typeQueryParam === "home-assessment" ?
       deleteHomeAssessment(homeAssessmentId, selectedSessionClassSubjectId)(dispatch)
       :  deleteClassAssessment(classAssessmentId, selectedSessionClassSubjectId)(dispatch)
       showHideDialog(false, null)(dispatch);
@@ -91,14 +91,14 @@ const AssessmentList = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch,classAssessmentId,homeAssessmentId,typeQueryParam]);
 
   React.useEffect(() => {
     createSuccessful &&
       history.push(
         `${classLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
       );
-  }, [createSuccessful]);
+  }, [createSuccessful,history,newClassAssessment?.classAssessmentId,sessionClassSubjectIdQueryParam,sessionClassIdQueryParam,typeQueryParam]);
 
   const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
@@ -133,11 +133,11 @@ const AssessmentList = () => {
               validationSchema={validation}
               enableReinitialize={true}
               onSubmit={(values) => {
-                if (typeQueryParam == "home assessment") {
+                if (typeQueryParam === "home-assessment") {
                   history.push(
                     `${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&sessionClassGroupId=${groupIdQueryParam}&type=${typeQueryParam}`
                   );
-                } else if (typeQueryParam == "class assessment") {
+                } else if (typeQueryParam === "class-assessment") {
                   addClassAssessment(sessionClassSubjectIdQueryParam)(dispatch);
                 }
               }}
@@ -258,7 +258,7 @@ const AssessmentList = () => {
                                       e.target.value
                                     );
 
-                                    if (e.target.value == "") {
+                                    if (e.target.value === "") {
                                       history.push(classLocations.assessment);
                                     } else {
                                       history.push(
@@ -377,10 +377,10 @@ const AssessmentList = () => {
                                   }}
                                 >
                                   <option value="">Select Type</option>
-                                  <option value="home assessment">
+                                  <option value="home-assessment">
                                     Home Assessment
                                   </option>
-                                  <option value="class assessment">
+                                  <option value="class-assessment">
                                     Class Assessment
                                   </option>
                                   <option value="cbt">CBT</option>
@@ -444,7 +444,7 @@ const AssessmentList = () => {
                                         </g>
                                       </g>
                                     </svg>
-                                    {showMenuDropdown && indexRow == idx && (
+                                    {showMenuDropdown && indexRow === idx && (
                                       <div
                                         x-placement="bottom-start"
                                         aria-labelledby=""
@@ -460,10 +460,10 @@ const AssessmentList = () => {
                                       >
                                         <div
                                           onClick={() => {
-                                            if(typeQueryParam == "home assessment"){
+                                            if(typeQueryParam === "home-assessment"){
                                             history.push(
                                               `${classLocations.homeAssessmentDetails}?homeAssessmentId=${item.homeAssessmentId}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
-                                            )} else if (typeQueryParam == "class assessment") {
+                                            )} else if (typeQueryParam === "class-assessment") {
                                               history.push(
                                                 `${classLocations.classAssessmentDetails}?classAssessmentId=${item.classAssessmentId}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
                                               )
@@ -516,11 +516,11 @@ const AssessmentList = () => {
                                         </div>
                                         <div
                                           onClick={() => {
-                                            typeQueryParam == "home assessment" &&
+                                            typeQueryParam === "home-assessment" &&
                                               history.push(
                                                 `${classLocations.editHomeAssessment}?homeAssessmentId=${item.homeAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
                                               );
-                                            typeQueryParam == "class assessment" &&
+                                            typeQueryParam === "class-assessment" &&
                                               history.push(
                                                 `${classLocations.editClassAssessment}?classAssessmentId=${item.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
                                               );
@@ -620,7 +620,7 @@ const AssessmentList = () => {
                                 <h6 className="mb-3 text-uppercase">
                                   {item.title}
                                 </h6>
-                                {typeQueryParam == "home assessment"&&(
+                                {typeQueryParam === "home-assessment"&&(
                                   <div className="d-flex ">
                                     {/* <small className="" draggable="false">
                                       Created:

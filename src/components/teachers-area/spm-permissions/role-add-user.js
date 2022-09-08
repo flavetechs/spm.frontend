@@ -22,7 +22,7 @@ const AddUser = () => {
   // ACCESSING STATE FROM REDUX STORE
   React.useEffect(() => {
     submitSuccessful && history.push(permissionLocations.roleList);
-  }, [submitSuccessful]);
+  }, [submitSuccessful,history]);
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -32,12 +32,12 @@ const AddUser = () => {
     return () => {
       resetRoleState()(dispatch);
     };
-  }, []);
+  }, [dispatch,locations.search]);
   const handleUserArray = (event) => {
     const checkBoxValue = event.target.checked;
     const userId = event.target.id;
     let selectedUserArray;
-    const otherSelectedUsers = userArray.filter((user) => user != userId);
+    const otherSelectedUsers = userArray.filter((user) => user !== userId);
     if (checkBoxValue === false) {
       selectedUserArray = [...otherSelectedUsers];
     } else {

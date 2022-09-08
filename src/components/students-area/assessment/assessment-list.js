@@ -29,7 +29,7 @@ const StudentAssessmentList = () => {
     }else{
       getStatusFilterForStudentAssessment(statusQuery)(dispatch);
     }
-  }, [statusQuery]);
+  }, [statusQuery,dispatch]);
 
   return (
     <>
@@ -123,7 +123,7 @@ const StudentAssessmentList = () => {
                                   </g>
                                 </g>
                               </svg>
-                              {showMenuDropdown && indexRow == idx && (
+                              {showMenuDropdown && indexRow === idx && (
                                 <div
                                   x-placement="bottom-start"
                                   aria-labelledby=""
@@ -240,20 +240,20 @@ const StudentAssessmentList = () => {
 
                           <h6 className="mb-3 text-uppercase">{item.title}</h6>
 
-                          <div className="d-flex justify-content-between">
-                            <small className="" draggable="false">
+                          <div className="">
+                            {/* <small className="" draggable="false">
                               Created:
                               <div className="text-success">
                                 {/* {item.dateTime
                                        .split(" ")[0]
-                                      } */}
-                                18-07-2022
+                                      }
+                                18-07-2022 
                               </div>
-                            </small>
-                            <small className="px-3" draggable="false">
+                            </small>*/}
+                            <small className="" draggable="false">
                               Deadline:
                               <div className=" text-warning">
-                                {item.deadLine}
+                                {item.dateDeadLine}{' '}{item.timeDeadLine}
                               </div>
                             </small>
                           </div>

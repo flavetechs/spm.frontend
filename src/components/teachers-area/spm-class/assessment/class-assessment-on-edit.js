@@ -4,13 +4,10 @@ import {
   Card,
   Col,
   Form,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import * as Yup from "yup";
 import "react-quill/dist/quill.snow.css";
 import {
   getAllClassGroup,
@@ -54,29 +51,29 @@ const EditClassAssessment = () => {
     getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
     getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
     getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
-  }, []);
+  }, [classAssessmentIdQuery,sessionClassIdQuery,sessionClassSubjectIdQuery,dispatch]);
 
   useEffect(() => {
     getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
-  }, [classAssessmentScore]);
+  }, [classAssessmentScore,classAssessmentIdQuery,dispatch]);
 
 
   useEffect(() => {
     onSubmit && createSuccessful && history.goBack();
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   //HOOKS
 
-  //VALIDATION
-  const validation = Yup.object().shape({
-    title: Yup.string().required("Subject is required"),
-    generalAssessmentScore: Yup.number()
-      .required("Score is required")
-      .min(0, "Assessment score must not be below 0"),
-    deadline: Yup.string().required("Please enter a deadline"),
-    sessionClassGroupId: Yup.string().required("Please select group"),
-  });
-  //VALIDATION
+  // //VALIDATION
+  // const validation = Yup.object().shape({
+  //   title: Yup.string().required("Subject is required"),
+  //   generalAssessmentScore: Yup.number()
+  //     .required("Score is required")
+  //     .min(0, "Assessment score must not be below 0"),
+  //   deadline: Yup.string().required("Please enter a deadline"),
+  //   sessionClassGroupId: Yup.string().required("Please select group"),
+  // });
+  // //VALIDATION
 
   return (
     <>

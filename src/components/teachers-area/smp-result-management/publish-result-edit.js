@@ -6,8 +6,6 @@ import {
   fetchSingleStudentResultEntries,
   setAssessmentScore,
   setExamScore,
-  getAllResultList,
-  setSessionClassIdAndTermId,
 } from "../../../store/actions/publish-actions";
 import { useDispatch, useSelector } from "react-redux";
 import PublishResultEditTable from "./publish-result-edit-table";
@@ -41,11 +39,11 @@ const PublishResultEdit = () => {
       termId,
       studentContactId
     )(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
   
   const handleFocus = (event) => event.target.select();
 
-  const studentSubjectEntriesOption = publishSingleStudent?.studentSubjectEntries == null ? [] : publishSingleStudent.studentSubjectEntries;
+  const studentSubjectEntriesOption = publishSingleStudent?.studentSubjectEntries === null ? [] : publishSingleStudent.studentSubjectEntries;
   return (
     <>
       <Row className="pt-3">
@@ -173,7 +171,7 @@ const PublishResultEdit = () => {
                                   <span className="fw-bold">
                                     {item.assessmentScore}
                                   </span>
-                                ) : indexRow == index ? (
+                                ) : indexRow === index ? (
                                   <Field
                                     style={{
                                       maxHeight: "25px",
@@ -215,7 +213,7 @@ const PublishResultEdit = () => {
                                   <span className="fw-bold">
                                     {item.examScore}
                                   </span>
-                                ) : indexRow == index ? (
+                                ) : indexRow === index ? (
                                   <Field
                                     style={{
                                       maxHeight: "25px",

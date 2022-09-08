@@ -119,7 +119,7 @@ const SessionClassEdit = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -131,7 +131,7 @@ const SessionClassEdit = () => {
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
     
-  }, [activeSession]);
+  }, [activeSession,dispatch,locations.search]);
 
   React.useEffect(() => {
     setExamScore(selectedItem?.examScore);
@@ -322,7 +322,7 @@ const SessionClassEdit = () => {
                                 <option
                                   key={idx}
                                   value={classLookup.lookupId}
-                                  selected={selectedItem?.classId == classLookup.lookupId}
+                                  selected={selectedItem?.classId === classLookup.lookupId}
                                 >
                                   {classLookup.name}
                                 </option>
@@ -463,7 +463,7 @@ const SessionClassEdit = () => {
                               </option>
                               {activeTeachers.map((teacher, idx) => (
                                 <option
-                                  selected={selectedItem?.formTeacherId == teacher.teacherAccountId ? true: false }
+                                  selected={selectedItem?.formTeacherId === teacher.teacherAccountId ? true: false }
                                   key={idx}
                                   value={teacher.teacherAccountId}
                                 >

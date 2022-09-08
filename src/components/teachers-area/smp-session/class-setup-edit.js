@@ -38,7 +38,7 @@ const ClassSetupEdit = () => {
     const queryParams = new URLSearchParams(locations.search);
     const classId = queryParams.get("classId");
     if (!classId) return;
-  }, []);
+  }, [locations.search]);
 
   if (isSuccessful || !selectedItem) {
     history.push(sessionLocations.classSetupList);
@@ -46,7 +46,7 @@ const ClassSetupEdit = () => {
 
   React.useEffect(() => {
     getPreviousGrades()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

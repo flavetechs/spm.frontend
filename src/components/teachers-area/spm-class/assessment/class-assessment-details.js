@@ -20,7 +20,7 @@ const ClassAssessmentDetails = () => {
       classAssessmentIdQuery
     )(dispatch);
     getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
-  }, []);
+  }, [dispatch,classAssessmentIdQuery]);
 
   return (
     <>

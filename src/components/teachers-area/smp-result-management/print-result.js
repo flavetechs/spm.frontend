@@ -66,26 +66,26 @@ const PrintResult = () => {
   React.useEffect(() => {
     getAllSession()(dispatch);
     getActiveSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     setSelectedSession(activeSession);
     initialValues.sessionId = activeSession?.sessionId;
     initialValues.sessionTermId = activeSession?.terms.find(
-      (term) => term.isActive == true
+      (term) => term.isActive === true
     )?.sessionTermId;
     setInitialValues(initialValues);
     getTermClasses(
       activeSession?.sessionId,
       activeSession?.sessionTermId
     )(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
   React.useEffect(() => {
     if (printSingle && studentResult) {
       history.push(resultManagement.resultTemplate);
     }
-  }, [studentResult]);
+  }, [studentResult,history]);
 
   return (
     <>
@@ -135,7 +135,7 @@ const PrintResult = () => {
                             setSelectedSession(
                               sessionList.find(
                                 (s) =>
-                                  s.sessionId.toLowerCase() == e.target.value
+                                  s.sessionId.toLowerCase() === e.target.value
                               )
                             );
                           }}
@@ -207,10 +207,10 @@ const PrintResult = () => {
                           id="printOption"
                           onChange={(e) => {
                             setFieldValue("printOption", e.target.value);
-                            if (e.target.value == "printSingle") {
+                            if (e.target.value === "printSingle") {
                               setPrintSingle(true);
                               setBatchPrint(false);
-                            } else if (e.target.value == "batchPrinting") {
+                            } else if (e.target.value === "batchPrinting") {
                               setBatchPrint(true);
                               setPrintSingle(false);
                             }

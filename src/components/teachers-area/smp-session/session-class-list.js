@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   getAllSessionClasses,
@@ -21,7 +21,6 @@ import { hasAccess, NavPermissions } from "../../../utils/permissions";
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const history = useHistory();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
@@ -35,11 +34,11 @@ const SessionClassList = () => {
 
   React.useEffect(() => {
     getGeneralActiveSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -62,7 +61,7 @@ const SessionClassList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse,dispatch,selectedIds]);
   //DELETE HANDLER
 
   return (
