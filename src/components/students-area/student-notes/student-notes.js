@@ -14,8 +14,6 @@ import {
 } from "../../../store/actions/toaster-actions";
 import {
   getUserDetails,
-  hasAccess,
-  NavPermissions,
 } from "../../../utils/permissions";
 import * as Yup from "yup";
 import { studentNoteLocations } from "../../../router/students-path-locations";
@@ -43,10 +41,13 @@ const StudentNotes = () => {
     subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION
+  const queryParams = new URLSearchParams(locations.search);
+  const subjectIdQuery = queryParams.get("subjectId");
+  const statusQuery = queryParams.get("status");
 
   React.useEffect(() => {
     getAllStudentSubjects(userDetail.id)(dispatch);
-  }, []);
+  }, [dispatch,userDetail.id]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -59,11 +60,7 @@ const StudentNotes = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse]);
-
-  const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  const statusQuery = queryParams.get("status");
+  }, [dialogResponse,dispatch,studentNoteId, subjectIdQuery]);
 
   React.useEffect(() => {
     // if (subjectIdQuery && !statusQuery) {
@@ -82,7 +79,7 @@ const StudentNotes = () => {
         "2"
       )(dispatch);
     }
-  }, [subjectIdQuery,statusQuery]);
+  }, [subjectIdQuery,statusQuery,dispatch,locations.search]);
 
   const filteredStudentNotes = studentNotes?.filter((item) => {
     if (searchQuery === "") {
@@ -194,7 +191,7 @@ const StudentNotes = () => {
                                 id="subjectId"
                                 onChange={(e) => {
                                   setFieldValue("subjectId", e.target.value);
-                                  e.target.value == ""
+                                  e.target.value === ""
                                     ? history.push(
                                         studentNoteLocations.studentNotes
                                       )
@@ -315,7 +312,7 @@ const StudentNotes = () => {
                                       </g>
                                     </g>
                                   </svg>
-                                  {showMenuDropdown && indexRow == idx && (
+                                  {showMenuDropdown && indexRow === idx && (
                                     <div
                                       x-placement="bottom-start"
                                       aria-labelledby=""

@@ -31,7 +31,7 @@ const AttendancePresence = () => {
     }else{
     getAllStudentsAbsent(classRegisterIdForAbsent)(dispatch);
     }
-  }, []);
+  }, [locations.search,dispatch]);
 
   return (
     <>
@@ -40,7 +40,7 @@ const AttendancePresence = () => {
           <Col sm="12">
             <Card>
               <Card.Header>
-                <h4>{studentsPresence?.find(s=>s)?.isPresent == false ? "Absent" : studentsPresence?.find(s=>s)?.isPresent== true ? "Present" : ""}</h4>
+                <h4>{studentsPresence?.find(s=>s)?.isPresent === false ? "Absent" : studentsPresence?.find(s=>s)?.isPresent=== true ? "Present" : ""}</h4>
               </Card.Header>
               <Card.Body>
                 <div className="d-flex justify-content-center">

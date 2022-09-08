@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {  useMemo, useRef, useState } from "react";
 import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -7,7 +7,6 @@ import * as Yup from "yup";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
-import { classLocations } from "../../../../router/spm-path-locations";
 import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
@@ -24,7 +23,6 @@ const CreateHomeAssessment = () => {
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   const sessionClassGroupIdQuery = queryParams.get("sessionClassGroupId");
-  const typeQuery = queryParams.get("type");
 
   //HOOKS
   React.useEffect(() => {
@@ -32,12 +30,12 @@ const CreateHomeAssessment = () => {
     getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
     getClassSubjects(sessionClassIdQuery)(dispatch);
     getAllStaffClasses()(dispatch);
-  }, []);
+  }, [dispatch,sessionClassSubjectIdQuery, sessionClassIdQuery]);
 
   React.useEffect(() => {
     createSuccessful &&
       history.goBack();
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
@@ -92,7 +90,7 @@ const CreateHomeAssessment = () => {
                     assessmentScore: "",
                     sessionClassId: sessionClassIdQuery || '',
                     sessionClassSubjectId: sessionClassSubjectIdQuery || '',
-                    sessionClassGroupId: sessionClassGroupIdQuery != "null" ? sessionClassGroupIdQuery : 'all-students',
+                    sessionClassGroupId: sessionClassGroupIdQuery !== "null" ? sessionClassGroupIdQuery : 'all-students',
                     shouldSendToStudents: false,
                     timeDeadLine: "",
                     dateDeadLine: "",
@@ -117,7 +115,7 @@ const CreateHomeAssessment = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i=>i.sessionClassId == sessionClassIdQuery)?.sessionClass}</h6>
+                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i=>i.sessionClassId === sessionClassIdQuery)?.sessionClass}</h6>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.title && errors.title && (

@@ -49,7 +49,7 @@ const AdminScoreEntry = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (!sessionId) {
@@ -57,7 +57,7 @@ const AdminScoreEntry = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [sessionId, activeSession]);
+  }, [sessionId, activeSession,dispatch]);
 
   return (
     <>
@@ -99,7 +99,7 @@ const AdminScoreEntry = () => {
                   initialValues={{
                     sessionId: activeSession?.sessionId,
                     terms: activeSession?.terms.find(
-                      (term) => term.isActive == true
+                      (term) => term.isActive === true
                     )?.sessionTermId,
                     sessionClassId: "",
                     subjectId: "",
@@ -175,7 +175,7 @@ const AdminScoreEntry = () => {
                             {sessionList
                               ?.find(
                                 (session, idx) =>
-                                  session.sessionId.toLowerCase() ==
+                                  session.sessionId.toLowerCase() ===
                                   values.sessionId
                               )
                               ?.terms.map((term, id) => (
@@ -183,7 +183,7 @@ const AdminScoreEntry = () => {
                                   key={id}
                                   name={values.terms}
                                   value={term.sessionTermId.toLowerCase()}
-                                  selected={term.sessionTermId == values.terms}
+                                  selected={term.sessionTermId === values.terms}
                                 >
                                   {term.termName}
                                 </option>

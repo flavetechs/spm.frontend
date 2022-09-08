@@ -6,7 +6,6 @@ import { classLocations } from "../../../router/spm-path-locations";
 import {
   addClassNoteComments,
   addClassNoteReplies,
-  approveNotes,
   getLessonNoteDetails,
   getSingleLessonNotes,
 } from "../../../store/actions/class-actions";
@@ -18,7 +17,6 @@ const ClassNoteDetails = () => {
     singleLessonNotes,
     createSuccessful,
     comments,
-    viewers,
     relatedNotes,
   } = state.class;
   //VARIABLE DECLARATIONS
@@ -27,24 +25,23 @@ const ClassNoteDetails = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [row, setRow] = useState({});
   const [comment, setComment] = useState("");
   const [reply, setReply] = useState({});
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
     createSuccessful && history.push(classLocations.lessonNotes);
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
-  }, []);
+  }, [dispatch,location.search]);
 
   useEffect(() => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
-  }, [singleLessonNotes]);
+  }, [singleLessonNotes,dispatch]);
 
   return (
     <>
@@ -255,7 +252,7 @@ const ClassNoteDetails = () => {
                           </div>
                         </Card>
                       ))}{" "}
-                      {row.showRow && row.indexRow == idx && (
+                      {row.showRow && row.indexRow === idx && (
                         <>
                           <div className="d-flex justify-content-end mt-4">
                             <div
@@ -373,7 +370,7 @@ const ClassNoteDetails = () => {
                     >
                       Back
                     </button>
-                    <button
+                    {/* <button
                       type="submit"
                       className="btn btn-primary"
                       onClick={() => {
@@ -384,7 +381,7 @@ const ClassNoteDetails = () => {
                       }}
                     >
                       Submit
-                    </button>
+                    </button> */}
                   </div>
                 </Card.Body>
               </Card>

@@ -19,14 +19,14 @@ const HomeAssessmentDetails = () => {
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
-  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+ // const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
 
   useEffect(() => {
     getSingleHomeAssessment(
       homeAssessmentIdQuery,
       sessionClassIdQuery
     )(dispatch);
-  }, []);
+  }, [dispatch, homeAssessmentIdQuery, sessionClassIdQuery]);
 
   return (
     <>
@@ -47,7 +47,7 @@ const HomeAssessmentDetails = () => {
                     >
                       <svg
                         onClick={() => {
-                          history.goBack()
+                          history.goBack();
                         }}
                         style={{ cursor: "pointer" }}
                         className=" text-primary"
@@ -65,7 +65,7 @@ const HomeAssessmentDetails = () => {
                       </svg>
                     </OverlayTrigger>
                     <span>back</span>
-                    
+
                     {!fullScreen ? (
                       <OverlayTrigger
                         placement="top"
@@ -115,11 +115,15 @@ const HomeAssessmentDetails = () => {
                       </OverlayTrigger>
                     )}
                   </div>
-                  <div>{singleHomeAssessmentList?.sessionClassName}-{singleHomeAssessmentList?.sessionClassSubjectName}</div>
+                  <div>
+                    {singleHomeAssessmentList?.sessionClassName}-
+                    {singleHomeAssessmentList?.sessionClassSubjectName}
+                  </div>
                   <div>
                     Deadline:
                     <span className="text-end text-primary">
-                      {singleHomeAssessmentList?.deadLine}
+                      {singleHomeAssessmentList?.dateDeadLine}{" "}
+                      {singleHomeAssessmentList?.timeDeadLine}
                     </span>
                   </div>
                 </div>
@@ -237,7 +241,7 @@ const HomeAssessmentDetails = () => {
                             <td className="text-center">
                               <div
                                 className={
-                                  item.status == "submitted"
+                                  item.status === "submitted"
                                     ? "badge bg-success"
                                     : "badge bg-danger"
                                 }
@@ -247,7 +251,7 @@ const HomeAssessmentDetails = () => {
                             </td>
                             <td className="text-center">{item.score}</td>
                             <td className="text-center">
-                              {item?.status != "not started" && (
+                              {item?.status !== "not started" && (
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={

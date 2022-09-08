@@ -38,11 +38,11 @@ const PromotionSetup = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllPromotionList()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -57,7 +57,7 @@ const PromotionSetup = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,classToPromote,classToPromoteTo.sessionClassId, dispatch]);
   return (
     <>
       <div>
@@ -180,7 +180,7 @@ const PromotionSetup = () => {
                                   Select promotion class
                                 </option>
                                 {/* .slice(idx - 1, classesToPromoteTo.length) */}
-                                {classesToPromoteTo?.filter(d => d.class != item.sessionClassName)
+                                {classesToPromoteTo?.filter(d => d.class !== item.sessionClassName)
                                   .map((promoteTo, idx) => (
                                     <option
                                       key={idx}
@@ -215,7 +215,7 @@ const PromotionSetup = () => {
                                     onClick={() => {
                                       setClassToPromote(item.sessionClassId);
                                       const message =
-                                        classToPromoteTo.className != ""
+                                        classToPromoteTo.className !== ""
                                         && `Are you sure you want to promote ${item.sessionClassName} students to ${classToPromoteTo.className}?`
                                       showHideDialog(true, message)(dispatch);
                                     }}

@@ -1,5 +1,4 @@
 import axiosInstance from "../../axios/axiosInstance";
-import TemplateSetting from "../../components/teachers-area/smp-portal-setting/template-setting";
 import { actions } from "../action-types/results-action-types"
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
@@ -95,7 +94,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry,termI
     }
 
     const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.examsScore = examsScore;
         entry.isSaved = false;
@@ -135,7 +134,7 @@ export const setAssessmentScoreEntry = (studentContactId, assessmentScore, score
     }
 
     const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.assessmentScore = assessmentScore;
         entry.isSaved = false;
@@ -224,7 +223,7 @@ export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previou
     }
 
     const entryIndex = previousScoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.examsScore = examsScore;
         entry.isSaved = false;
@@ -264,7 +263,7 @@ export const setPreviousAssessmentScoreEntry = (studentContactId, assessmentScor
     }
 
     const entryIndex = previousScoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.assessmentScore = assessmentScore;
         entry.isSaved = false;

@@ -33,7 +33,7 @@ const RoleList = () => {
 
   React.useEffect(() => {
     getAllRoles()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -56,7 +56,7 @@ const RoleList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse,dispatch,selectedIds]);
   //DELETE HANDLER
 
   const isNotToBeDeleted = (param) => {

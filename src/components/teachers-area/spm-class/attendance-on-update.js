@@ -1,4 +1,3 @@
-import { Formik } from "formik";
 import React from "react";
 import { Card, Col, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +15,6 @@ const UpdateAttendance = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  const textInput = React.createRef();
   //VARIABLE DECLARATIONS
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
@@ -31,7 +29,7 @@ const UpdateAttendance = () => {
     return () => {
       resetSingleClassRegisterState()(dispatch)
     }
-  }, []);
+  }, [dispatch,locations.search]);
 
 
   return (

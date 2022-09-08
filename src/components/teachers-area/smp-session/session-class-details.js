@@ -33,7 +33,7 @@ const SessionClassDetails = () => {
     getAllActiveSubjects()(dispatch);
     getAllActiveTeachers()(dispatch);
     getAllClassStudents(sessionClassId)(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
 
   return (
     <>

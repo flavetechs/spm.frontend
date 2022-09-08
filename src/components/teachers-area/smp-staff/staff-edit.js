@@ -6,7 +6,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import "./staff.scss"
 
-import { useHistory, useLocation } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // img
 import avatars1 from '../../../assets/images/avatars/01.png'
@@ -58,8 +58,9 @@ const StaffEdit = () => {
       if (!teacherAccountId) return;
       fetchSingleStaff(teacherAccountId)(dispatch)
    }, []);
+
    React.useEffect(() => {
-      setImages(selectedItem?.photo)
+      setImages(selectedItem?.photo);
   }, [selectedItem]);
 
    if (isSuccessful) {
@@ -79,14 +80,14 @@ const StaffEdit = () => {
             <Formik
                enableReinitialize={true}
                initialValues={{
-                  firstName: selectedItem?.firstName,
-                  lastName: selectedItem?.lastName,
-                  middleName: selectedItem?.middleName,
-                  email: selectedItem?.email,
-                  phone: selectedItem?.phone,
-                  photo: selectedItem?.photo,
+                  firstName: selectedItem?.firstName || "",
+                  lastName: selectedItem?.lastName || "",
+                  middleName: selectedItem?.middleName || "",
+                  email: selectedItem?.email || "",
+                  phone: selectedItem?.phone || "",
+                  photo: selectedItem?.photo || "",
                   teacherUserAccountId: selectedItem?.teacherUserAccountId,
-                  dob: selectedItem?.dob,
+                  dob: selectedItem?.dob || "",
                }}
                validationSchema={validation}
                onSubmit={values => {
@@ -171,8 +172,8 @@ const StaffEdit = () => {
                                     </div>
                                     <div className="img-extension mt-3">
                                        <div className="d-inline-block align-items-center">
-                                          <span>Only</span> <a href="#">.jpg</a>{" "}
-                                          <a href="#">.png</a> <a href="#">.jpeg</a>
+                                          <span>Only</span> <span>.jpg</span>{" "}
+                                          <span>.png</span> <span>.jpeg</span>
                                           <span> allowed</span>
                                        </div>
                                     </div>
