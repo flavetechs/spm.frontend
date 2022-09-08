@@ -218,7 +218,7 @@ const LessonNoteDetails = () => {
                   {comments?.map((comment, idx) => (
                     <>
                       <Card  className="shadow-none bg-transparent border my-3">
-                        <Card.Body key={idx}>
+                        <Card.Body>
                           <div>
                             <div className="d-flex justify-content-between align-items-center my-2 my-lg-0 col-12">
                               <h6 className="mb-0">{comment.name}</h6>

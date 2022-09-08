@@ -65,12 +65,12 @@ const AssessmentList = () => {
   }, [sessionClassIdQueryParam,dispatch]);
 
   React.useEffect(() => {
-    sessionClassIdQueryParam && sessionClassSubjectIdQueryParam && getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
+   getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
   }, [sessionClassSubjectIdQueryParam,sessionClassIdQueryParam,dispatch]);
 
   React.useEffect(() => {
     if (typeQueryParam === "home-assessment") {
-      selectedSessionClassSubjectId ? getAllHomeAssessment(selectedSessionClassSubjectId)(dispatch) : getAllHomeAssessment(sessionClassSubjectIdQueryParam)(dispatch);
+  getAllHomeAssessment(sessionClassSubjectIdQueryParam)(dispatch);
     } else if (typeQueryParam === "class-assessment") {
       getAllClassAssessment()(dispatch);
     } else {
@@ -91,7 +91,7 @@ const AssessmentList = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse,dispatch,classAssessmentId,homeAssessmentId,typeQueryParam]);
+  }, [dialogResponse,dispatch,classAssessmentId,homeAssessmentId,typeQueryParam,selectedSessionClassSubjectId]);
 
   React.useEffect(() => {
     createSuccessful &&
@@ -237,7 +237,42 @@ const AssessmentList = () => {
                       <Card.Body>
                         <div className="d-lg-flex align-items-center ">
                           <div className=" d-lg-flex align-items-center">
+                          <div>
+                              <div>
+                                {touched.type && errors.type && (
+                                  <div className="text-danger">
+                                    {errors.type}
+                                  </div>
+                                )}
+                              </div>
+                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
+                                <Field
+                                  as="select"
+                                  name="type"
+                                  className="form-select"
+                                  id="type"
+                                  onChange={(e) => {
+                                    setFieldValue("type", e.target.value);
+                                    e.target.value === "cbt"
+                                      ? history.push(inprogress.unactivated)
+                                      : history.push(
+                                          `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${groupIdQueryParam}&type=${e.target.value}`
+                                        );
+                                  }}
+                                >
+                                  <option value="">Select Type</option>
+                                  <option value="home-assessment">
+                                    Home Assessment
+                                  </option>
+                                  <option value="class-assessment">
+                                    Class Assessment
+                                  </option>
+                                  <option value="cbt">CBT</option>
+                                </Field>
+                              </div>
+                            </div>
                             <div>
+
                               <div>
                                 {touched.sessionClassId &&
                                   errors.sessionClassId && (
@@ -353,40 +388,7 @@ const AssessmentList = () => {
                                 </Field>
                               </div>
                             </div>
-                            <div>
-                              <div>
-                                {touched.type && errors.type && (
-                                  <div className="text-danger">
-                                    {errors.type}
-                                  </div>
-                                )}
-                              </div>
-                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
-                                <Field
-                                  as="select"
-                                  name="type"
-                                  className="form-select"
-                                  id="type"
-                                  onChange={(e) => {
-                                    setFieldValue("type", e.target.value);
-                                    e.target.value === "cbt"
-                                      ? history.push(inprogress.unactivated)
-                                      : history.push(
-                                          `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${groupIdQueryParam}&type=${e.target.value}`
-                                        );
-                                  }}
-                                >
-                                  <option value="">Select Type</option>
-                                  <option value="home-assessment">
-                                    Home Assessment
-                                  </option>
-                                  <option value="class-assessment">
-                                    Class Assessment
-                                  </option>
-                                  <option value="cbt">CBT</option>
-                                </Field>
-                              </div>
-                            </div>
+                           
                           </div>
                         </div>
                       </Card.Body>

@@ -95,10 +95,10 @@ const EditLessonNote = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    noteTitle: singleLessonNotes?.noteTitle,
-                    subjectId: singleLessonNotes?.subject,
+                    noteTitle: singleLessonNotes?.noteTitle || "",
+                    subjectId: singleLessonNotes?.subject || "",
                     shouldSendForApproval: false,
-                    classId: singleLessonNotes?.classes,
+                    classId: singleLessonNotes?.classes || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -139,6 +139,12 @@ const EditLessonNote = () => {
                             name="noteTitle"
                             className="form-control border-secondary text-secondary"
                             id="noteTitle"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "noteTitle",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
                         <Col md="11" className="form-group text-secondary">
@@ -240,6 +246,12 @@ const EditLessonNote = () => {
                               name="shouldSendForApproval"
                               className="form-check-input"
                               id="shouldSendForApproval"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "shouldSendForApproval",
+                                  e.target.value
+                                );
+                              }}
                             />
                             <label
                               className="form-label mx-1"

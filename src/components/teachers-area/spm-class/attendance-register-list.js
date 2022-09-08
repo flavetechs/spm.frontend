@@ -265,7 +265,7 @@ const AttendanceRegisterList = () => {
                               <Card.Body>
                                 <div className="d-flex justify-content-between">
                                   <div className="mb-0">Title</div>
-                                  <div className="dropdown show">
+                                  <div className="dropdown show bg-light">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="24"
