@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./smp-loader.scss"
 const SmpLoader = () => {
@@ -14,7 +14,7 @@ const SmpLoader = () => {
     const { loading: loading8 } = state.student
     const { loading: loading9 } = state.enrollment;
     const { loading: loading10 } = state.class;
-    const { loading: loading11 } = state.promotion;
+    const { loading: loading11 } = state.promotion; 
     const { loading: loading12 } = state.results;
     const { loading: loading13 } = state.publish;
     const { loading: loading14 } = state.portal;
@@ -23,22 +23,22 @@ const SmpLoader = () => {
     const { loading: loading17 } = state.timetable;
 
     const [show, setShow] = useState(false);
-    const [spin] = useState(loading1 || loading2 || loading3 || loading4
-        || loading5 || loading6 || loading7
-        || loading8 || loading9 || loading10
-        || loading11 || loading12 || loading13 || loading14 || loading15 || loading16 || loading17)
 
-    useEffect(() => {
+    React.useEffect(() => {
 
-        if (loading1 || loading2 || loading3 || loading4
-            || loading5 || loading6 || loading7
+        if (loading1 || loading2 || loading3 || loading4 
+            || loading5 || loading6 || loading7 
             || loading8 || loading9 || loading10
             || loading11 || loading12 || loading13 || loading14 || loading15 || loading16 || loading17) {
             setShow(true);
         } else {
             setShow(false);
         }
-    }, [spin, show])
+
+    }, [loading1 || loading2 || loading3 || loading4 
+        || loading5 || loading6 || loading7 
+        || loading8 || loading9 || loading10 
+        || loading11 || loading12 || loading13 || loading14 || loading15 || loading16 || loading17])
 
     return (
         <>
