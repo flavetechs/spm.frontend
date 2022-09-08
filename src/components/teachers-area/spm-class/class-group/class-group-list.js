@@ -31,6 +31,7 @@ const ClassGroup = () => {
   const [sessionClassSubjectId, setSessionClassSubjectId] = useState("");
   const state = useSelector((state) => state);
   const { groupList, selectedIds, classSubjects } = state.class;
+  const { staffClasses } = state.results;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -100,7 +101,7 @@ const ClassGroup = () => {
     });
     returnList(groupList)(dispatch);
   };
- 
+
   return (
     <>
       <div>
@@ -109,7 +110,7 @@ const ClassGroup = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">{groupList?.find(i=>i)?.sessionClassName} Class Group List</h4>
+                  <h4 className="card-title">{staffClasses.find(i=>i.sessionClassId === sessionClassIdQuery)?.sessionClass} Class Group List</h4>
                 </div>
               </Card.Header>
 
@@ -397,7 +398,7 @@ const ClassGroup = () => {
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
                                       {" "}
-                                      edit
+                                      Edit Group
                                     </Tooltip>
                                   }
                                 >
@@ -448,7 +449,7 @@ const ClassGroup = () => {
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
                                       {" "}
-                                      delete
+                                      Delete Group
                                     </Tooltip>
                                   }
                                 >

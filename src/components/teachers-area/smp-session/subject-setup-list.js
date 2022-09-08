@@ -284,7 +284,7 @@ const SubjectSetupList = () => {
                                   <OverlayTrigger
                                     placement="top"
                                     overlay={
-                                      <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                      <Tooltip id="button-tooltip-2"> Edit Subject</Tooltip>
                                     }
                                   >
                                     <div
@@ -348,7 +348,7 @@ const SubjectSetupList = () => {
                                     overlay={
                                       <Tooltip id="button-tooltip-2">
                                         {" "}
-                                        delete
+                                        Delete Subject
                                       </Tooltip>
                                     }
                                   >

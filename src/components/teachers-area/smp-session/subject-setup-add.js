@@ -56,6 +56,7 @@ const SubjectSetupAdd = () => {
                     handleChange,
                     handleBlur,
                     handleSubmit,
+                    setFieldValue,
                     values,
                     touched,
                     errors,
@@ -80,6 +81,7 @@ const SubjectSetupAdd = () => {
                             aria-describedby="name"
                             required
                             placeholder="Enter subject name e.g english "
+                            onChange={(e)=>setFieldValue("name",e.target.value)}
                           />
                         </div>
                       </Col>

@@ -135,7 +135,7 @@ const SessionClassList2 = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    details
+                                   Class Details
                                   </Tooltip>
                                 }
                               >
@@ -186,7 +186,7 @@ const SessionClassList2 = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    class group
+                                    Class Group
                                   </Tooltip>
                                 }
                               >
@@ -220,7 +220,7 @@ const SessionClassList2 = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    student Notes
+                                    Student Notes
                                   </Tooltip>
                                 }
                               >

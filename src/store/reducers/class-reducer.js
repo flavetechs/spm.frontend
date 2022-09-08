@@ -1531,7 +1531,7 @@ export const classReducer = (state = _state, { type, payload }) => {
             return {
               ...state,
               loading: true,
-              assessmentScore:null,
+              assessmentScore:{},
             };
           }
           case actions.FETCH_ASSESSMENT_SCORE_SUCCESS: {
@@ -1545,7 +1545,7 @@ export const classReducer = (state = _state, { type, payload }) => {
             return {
               ...state,
               loading: false,
-              assessmentScore: null,
+              assessmentScore: {},
             };
           }
       

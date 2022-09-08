@@ -91,47 +91,7 @@ const EditHomeAssessment = () => {
             { indent: "+1" },
           ],
           ["image", "link"],
-          [
-            {
-              color: [
-                "#000000",
-                "#e60000",
-                "#ff9900",
-                "#ffff00",
-                "#008a00",
-                "#0066cc",
-                "#9933ff",
-                "#ffffff",
-                "#facccc",
-                "#ffebcc",
-                "#ffffcc",
-                "#cce8cc",
-                "#cce0f5",
-                "#ebd6ff",
-                "#bbbbbb",
-                "#f06666",
-                "#ffc266",
-                "#ffff66",
-                "#66b966",
-                "#66a3e0",
-                "#c285ff",
-                "#888888",
-                "#a10000",
-                "#b26b00",
-                "#b2b200",
-                "#006100",
-                "#0047b2",
-                "#6b24b2",
-                "#444444",
-                "#5c0000",
-                "#663d00",
-                "#666600",
-                "#003700",
-                "#002966",
-                "#3d1466",
-              ],
-            },
-          ],
+          [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
         ],
         //   handlers: {
         //     image: imageHandler
@@ -164,17 +124,19 @@ const EditHomeAssessment = () => {
                 <Formik
                   initialValues={{
                     homeAssessmentId: homeAssessmentIdQuery,
-                    title: singleHomeAssessmentList?.title,
-                    assessmentScore: singleHomeAssessmentList?.assessmentScore,
+                    title: singleHomeAssessmentList?.title || "",
+                    assessmentScore: singleHomeAssessmentList?.assessmentScore || "",
                     sessionClassId: sessionClassIdQuery,
                     sessionClassSubjectId:
-                      singleHomeAssessmentList?.sessionClassSubjectId,
+                      singleHomeAssessmentList?.sessionClassSubjectId || "",
                     sessionClassGroupId:
-                      singleHomeAssessmentList?.sessionClassGroupId,
+                      singleHomeAssessmentList?.sessionClassGroupId || "",
                     shouldSendToStudents:
                       singleHomeAssessmentList?.status !== "saved",
-                    timeDeadLine: singleHomeAssessmentList?.timeDeadLine,
-                    dateDeadLine: singleHomeAssessmentList?.dateDeadLine,
+                    timeDeadLine: singleHomeAssessmentList?.timeDeadLine || "",
+                    dateDeadLine: singleHomeAssessmentList?.dateDeadLine || "",
+                    total:assessmentScore?.totalAssessment || "",
+                    used:assessmentScore?.used || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -219,6 +181,12 @@ const EditHomeAssessment = () => {
                             name="title"
                             className="form-control border-secondary h6"
                             id="title"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "title",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
                         {touched.sessionClassGroupId &&
@@ -236,6 +204,12 @@ const EditHomeAssessment = () => {
                             name="sessionClassGroupId"
                             className="form-select h6"
                             id=" sessionClassGroupId"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "sessionClassGroupId",
+                                e.target.value
+                              );
+                            }}
                           >
                             <option value="all-students">All Students</option>
                             {groupList?.map((item, idx) => (
@@ -329,6 +303,12 @@ const EditHomeAssessment = () => {
                             name="dateDeadLine"
                             className="form-control border-secondary h6"
                             id="dateDeadLine"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "dateDeadLine",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
 
@@ -348,6 +328,12 @@ const EditHomeAssessment = () => {
                             name="timeDeadLine"
                             className="form-control border-secondary h6"
                             id="timeDeadLine"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "timeDeadLine",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
 
@@ -357,6 +343,12 @@ const EditHomeAssessment = () => {
                             name="shouldSendToStudents"
                             className="form-check-input "
                             id="shouldSendToStudents"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "shouldSendToStudents",
+                                e.target.value
+                              );
+                            }}
                           />
                           <label className="form-label mx-1">
                             <h6>Send to Students</h6>
@@ -385,8 +377,13 @@ const EditHomeAssessment = () => {
                                 type="readonly"
                                 name="total"
                                 readOnly
-                                value={assessmentScore?.totalAssessment}
                                 className="form-control h6 py-0 px-1"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "total",
+                                    e.target.value
+                                  );
+                                }}
                               />
                             </Col>
                             <Col md="2" className="form-group mx-2">
@@ -397,8 +394,13 @@ const EditHomeAssessment = () => {
                                 type="text"
                                 name="used"
                                 readOnly
-                                value={assessmentScore?.used}
                                 className="form-control h6 py-0 px-1"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "used",
+                                    e.target.value
+                                  );
+                                }}
                               />
                             </Col>
 
