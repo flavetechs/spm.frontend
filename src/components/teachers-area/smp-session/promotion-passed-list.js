@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
@@ -23,7 +23,7 @@ const PromotionPassedList = () => {
 
   React.useEffect(() => {
     getAllStudents()(dispatch);
-  }, []);
+  }, [dispatch]);
 
 
   React.useEffect(() => {
@@ -31,9 +31,8 @@ const PromotionPassedList = () => {
     const studentIds = queryParams.get("passedStudentIds");
     if (!studentIds) return;
     fetchPassedStudentList(studentIds)(dispatch)
-  }, []);
+  }, [dispatch, locations.search]);
 
-  console.log('passedStudentList', passedStudentList);
 
   return (
     <>

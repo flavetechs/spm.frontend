@@ -6,7 +6,7 @@ export const staffReducer = (state = _state, { type, payload }) => {
   switch (type) {
 
     case actions.GET_SINGLE_ITEM: {
-      const selectedItem = state.staffList.find(d => d.teacherAccountId == payload);
+      const selectedItem = state.staffList.find(d => d.teacherAccountId === payload);
       if (selectedItem) {
         return {
           ...state,

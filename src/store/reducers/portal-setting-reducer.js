@@ -207,7 +207,3 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
       return state;
   }
 };
-function filterClasses(arr) {
-  arr = []
-  return arr
-}
