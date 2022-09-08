@@ -21,11 +21,11 @@ export function NoteSendModal(props) {
 
   React.useEffect(() => {
     getAllSharedOnStaffClasses(props.teacherClassNoteId)(dispatch);
-  }, [props.teacherClassNoteId]);
+  }, [props.teacherClassNoteId,dispatch]);
 
   React.useEffect(() => {
     showModal &&
-    setClassArray(staffClasses.filter(c=> c.isSent == true).map(c=>c.sessionClassId));
+    setClassArray(staffClasses.filter(c=> c.isSent === true).map(c=>c.sessionClassId));
   }, [staffClasses,showModal]);
 
   React.useEffect(() => {
@@ -38,7 +38,7 @@ export function NoteSendModal(props) {
     const checkBoxValue = event.target.checked;
     const classId = event.target.id;
     let selectedClassArray;
-    const otherSelectedClasses = classArray.filter((item) => item != classId);
+    const otherSelectedClasses = classArray.filter((item) => item !== classId);
     if (checkBoxValue === false) {
       selectedClassArray = [...otherSelectedClasses];
     } else {
