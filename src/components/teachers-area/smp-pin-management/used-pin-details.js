@@ -12,7 +12,6 @@ const UsedPinDetails = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedUsedPin } = state.pin;
-  console.log("selectedUsedPin now: ", selectedUsedPin);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
