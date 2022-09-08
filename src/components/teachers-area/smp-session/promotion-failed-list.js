@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
@@ -25,7 +25,7 @@ const PromotionFailedList = () => {
     const sessionClassId = queryParams.get("sessionClassId");
     if (!sessionClassId) return;
     fetchFailedStudentList(sessionClassId)(dispatch)
-  }, []);
+  }, [dispatch, locations.search]);
 
   return (
     <>
