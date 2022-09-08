@@ -131,6 +131,7 @@ const RoleAdd = () => {
                           {parentActivity?.map((activity,idx)=>
                           parentValue === activity.parentActivityId &&
                           <input
+                          key={idx}
                             type="checkbox"
                             onChange={(e) => handleSelectAll(e)}
                           />)}
