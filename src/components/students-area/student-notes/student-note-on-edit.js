@@ -21,8 +21,6 @@ import {
   sendForReview,
   updateStudentNotes,
 } from "../../../store/actions/class-actions";
-import { classLocations } from "../../../router/spm-path-locations";
-import { read } from "xlsx";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
 
@@ -42,18 +40,18 @@ const EditStudentNote = () => {
   //VALIDATION
   React.useEffect(() => {
     createSuccessful && history.goBack();
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const studentNoteId = queryParams.get("studentNoteId");
     getSingleStudentNotes(studentNoteId)(dispatch);
-  }, []);
+  }, [dispatch,location.search]);
 
   React.useEffect(() => {
     getAllStaffAccount()(dispatch);
     getSubjectTeacher(singleStudentNotes?.subjectId)(dispatch);
-  }, [singleStudentNotes]);
+  }, [singleStudentNotes,dispatch]);
 
   const [content, setContent] = useState("");
   useEffect(() => {
@@ -115,7 +113,7 @@ const EditStudentNote = () => {
                     }
                     values.noteContent = content;
                     values.studentNoteId = singleStudentNotes?.studentNoteId;
-                    values.submitForReview == true && sendForReview(singleStudentNotes?.studentNoteId,true)(dispatch);
+                    values.submitForReview === true && sendForReview(singleStudentNotes?.studentNoteId,true)(dispatch);
                     updateStudentNotes(values)(dispatch);
                   }}
                 >
@@ -229,7 +227,7 @@ const EditStudentNote = () => {
                           />
                         </Col>
 
-                        {singleStudentNotes?.approvalStatus == 2 && (
+                        {singleStudentNotes?.approvalStatus === 2 && (
                           <Col md="11" className="form-group text-secondary mt-5">
                             <Field
                               type="checkbox"

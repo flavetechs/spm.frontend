@@ -41,7 +41,7 @@ const ClassSetupAdd = () => {
 
   React.useEffect(() => {
     getPreviousGrades()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

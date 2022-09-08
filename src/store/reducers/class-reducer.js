@@ -4,7 +4,7 @@ import { _state } from "../states/class-state";
 export const classReducer = (state = _state, { type, payload }) => {
   switch (type) {
     case actions.GET_SINGLE_ITEM: {
-      const selectedItem = state.itemList.find((d) => d.lookupId == payload);
+      const selectedItem = state.itemList.find((d) => d.lookupId === payload);
       if (selectedItem) {
         return {
           ...state,
@@ -12,7 +12,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
       }
     }
-    
+    break ;
     case actions.PUSH_ITEM_ID:
       var arrayToFilter = [...state.selectedIds, payload]
       return {

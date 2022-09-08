@@ -26,7 +26,7 @@ const LargeTable = ({
 
   useEffect(() => {
   getActiveSession()(dispatch);
-  }, [])
+  }, [dispatch])
   console.log(activeSession?.sessionTermId);
   return (
     <>
@@ -115,7 +115,7 @@ const LargeTable = ({
                           {!isEditMode ? (
                             <span className="fw-bold">{item.assessmentScore}</span>
                           ) : (
-                            indexRow == index ? (
+                            indexRow === index ? (
                               <Field
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className="fw-bold"
@@ -141,7 +141,7 @@ const LargeTable = ({
                           {!isEditMode ? (
                             <span className="fw-bold">{item.examsScore}</span>
                           ) : (
-                            indexRow == index ? (
+                            indexRow === index ? (
                               <Field
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className=" fw-bold "

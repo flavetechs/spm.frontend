@@ -57,7 +57,7 @@ const minisidebar = () => {
 };
 
 const VerticalNav = () => {
-    const [activeMenue, setActiveMenu] = useState(false);
+    const [activeMenu, setActiveMenu] = useState(false);
 
     return (
         <>

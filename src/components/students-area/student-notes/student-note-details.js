@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../router/spm-path-locations";
 import {
   addStudentComments,
   addStudentReplies,
@@ -30,19 +29,19 @@ const StudentNoteDetails = () => {
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
     createSuccessful && history.goBack();
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const studentNoteId = queryParams.get("studentNoteId");
     getSingleStudentNotes(studentNoteId)(dispatch);
-  }, []);
+  }, [dispatch,location.search]);
 
   useEffect(() => {
     if (singleStudentNotes?.studentNoteId) {
       getAllStudentComments(singleStudentNotes?.studentNoteId)(dispatch);
     }
-  }, [singleStudentNotes]);
+  }, [singleStudentNotes,dispatch]);
 
   return (
     <>
@@ -254,7 +253,7 @@ const StudentNoteDetails = () => {
                           </div>
                         </Card>
                       ))}{" "}
-                      {row.showRow && row.indexRow == idx && (
+                      {row.showRow && row.indexRow === idx && (
                         <>
                           <div className="d-flex justify-content-end mt-4">
                             <div

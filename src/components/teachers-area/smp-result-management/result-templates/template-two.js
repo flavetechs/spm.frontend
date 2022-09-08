@@ -3,7 +3,7 @@ import { Row, Col, Table, Button, OverlayTrigger, Tooltip } from "react-bootstra
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { getResultSettingList, getSchoolSettingList } from "../../../../store/actions/portal-setting-action";
-import { getAllStudentResult, resetStudentResultState } from "../../../../store/actions/results-actions";
+import { getAllStudentResult } from "../../../../store/actions/results-actions";
 import Card from "../../../Card";
 import "./template.scss";
 
@@ -30,11 +30,11 @@ const ResultTemplateTwo = () => {
     )(dispatch);
 
    }
-  }, []);
+  }, [dispatch,locations.search]);
   useEffect(() => {
     getSchoolSettingList()(dispatch);
     getResultSettingList()(dispatch);
-  }, [])
+  }, [dispatch,locations.search])
  
   return (
     <>

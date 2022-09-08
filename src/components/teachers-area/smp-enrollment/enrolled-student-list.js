@@ -50,12 +50,12 @@ const EnrolledStudents = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     sessionClassIdQuery&&
     getAllEnrolledStudents(sessionClassIdQuery)(dispatch);
-  }, [sessionClassIdQuery]);
+  }, [sessionClassIdQuery,dispatch]);
 
   React.useEffect(() => {
     if (!sessionId) {
@@ -63,7 +63,7 @@ const EnrolledStudents = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [sessionId, activeSession]);
+  }, [sessionId, activeSession,dispatch]);
 
   //UNENROLL HANDLER
   React.useEffect(() => {
@@ -88,7 +88,7 @@ const EnrolledStudents = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch,selectedIds,sessionClassIdQuery]);
   //UNENROLL HANDLER
 
   const checkSingleItem = (isChecked, studentContactId, enrolledStudents) => {
@@ -201,7 +201,7 @@ const EnrolledStudents = () => {
                         <option
                           key={idx}
                           value={session.sessionId.toLowerCase()}
-                          selected={activeSession?.sessionId == session.sessionId.toLowerCase()}
+                          selected={activeSession?.sessionId === session.sessionId.toLowerCase()}
                         >
                           {session.startDate} / {session.endDate}
                         </option>
@@ -216,7 +216,7 @@ const EnrolledStudents = () => {
                       id="sessionClassId"
                       value={sessionClassIdQuery}
                       onChange={(e) => {
-                        if (e.target.value == "") {
+                        if (e.target.value === "") {
                           history.push(studentsLocations.enrolledStudents);
                         } else {
                           history.push(

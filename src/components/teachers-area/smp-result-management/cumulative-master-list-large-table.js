@@ -7,7 +7,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const tableRef = useRef(null);
 
-  if (cumulativeEntry?.resultList == null) {
+  if (cumulativeEntry?.resultList === null) {
     cumulativeEntry.resultList = [];
   }
   const subjectList = cumulativeEntry?.resultList
@@ -214,7 +214,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
                 </td>
                 <td className="fw-bold">{item.position}</td>
                 <td className="fw-bold">
-                  <Badge bg={item.status == "PASSED" ? "success" : "danger"}>
+                  <Badge bg={item.status === "PASSED" ? "success" : "danger"}>
                     {item.status}
                   </Badge>
                 </td>
@@ -223,7 +223,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
                     <td>
                       {item.cumulativeTermAvgScore.map(
                         (score, id) =>
-                          score.termId == avgScore.termId &&
+                          score.termId === avgScore.termId &&
                           score.termCumalativeScore
                       )}
                     </td>
@@ -237,14 +237,14 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
                       <td className="px-3">
                         {item.subjects.find(
                           (subject) =>
-                            subject.subjectName == subjectItem.subjectName
+                            subject.subjectName === subjectItem.subjectName
                         ) &&
                           item.subjects.map(
                             (i) =>
-                              i.subjectName == subjectItem.subjectName &&
+                              i.subjectName === subjectItem.subjectName &&
                               i.cumulativeTermAvgScore.map(
                                 (t) =>
-                                  t.termId == avgScore.termId &&
+                                  t.termId === avgScore.termId &&
                                   t.termCumalativeScore
                               )
                           )}

@@ -1,4 +1,4 @@
-import { Button, OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Row, Table, Tooltip } from "react-bootstrap";
 
 const MasterListSmallTable = ({ masterEntry, setShowMasterListTable}) => {
   return (

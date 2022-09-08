@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   Row,
   Col,
@@ -15,7 +15,6 @@ import {
 } from "../../../../store/actions/portal-setting-action";
 import {
   getAllStudentResult,
-  resetStudentResultState,
 } from "../../../../store/actions/results-actions";
 import Card from "../../../Card";
 import "./template.scss";
@@ -38,11 +37,11 @@ const ResultTemplateOne = () => {
     if (termId) {
       getAllStudentResult(sessionClassId, termId, studentContactId)(dispatch);
     }
-  }, []);
+  }, [dispatch,locations.search]);
   useEffect(() => {
     getSchoolSettingList()(dispatch);
     getResultSettingList()(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
 
   const cognitiveBehaviour = [
     { behaviour: "Analyzing", remark: "good" },

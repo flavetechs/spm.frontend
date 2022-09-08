@@ -34,11 +34,11 @@ const UnenrolledStudentsList = () => {
 
   React.useEffect(() => {
     getAllUnenrolledStudents()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //ENROLL HANDLER
   React.useEffect(() => {
-    if (modalResponse == "cancel") {
+    if (modalResponse === "cancel") {
       checkAllItems(false, unenrolledStudents);
       setEnrollButton(true);
       setShowCheckBoxes(false);
@@ -49,7 +49,7 @@ const UnenrolledStudentsList = () => {
     return () => {
       respondModal("")(dispatch)
     }
-  }, [modalResponse]);
+  }, [modalResponse,unenrolledStudents,dispatch,selectedIds]);
   //ENROLL HANDLER
 
 
@@ -209,7 +209,7 @@ const UnenrolledStudentsList = () => {
                       data-target="#viewModal"
                       className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                       onClick={() => {
-                        if (selectedIds.length == 0) {
+                        if (selectedIds.length === 0) {
                           showErrorToast("No Student selected to be enrolled")(
                             dispatch
                           );

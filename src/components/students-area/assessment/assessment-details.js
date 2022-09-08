@@ -25,25 +25,25 @@ const StudentAssessmentDetails = () => {
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   useEffect(() => {
-    if (homeAssessmentFeedBackIdQuery != "null") {
+    if (homeAssessmentFeedBackIdQuery !== "null") {
    getSingleStudentHomeAssessment(
     homeAssessmentFeedBackIdQuery
   )(dispatch);
     } else {
       getSingleHomeAssessment(homeAssessmentIdQuery,"")(dispatch)
     }
-    setFilesArray([]);
-  }, []);
+  }, [ homeAssessmentFeedBackIdQuery,homeAssessmentIdQuery,dispatch]);
 
   React.useEffect(() => {
-    setContent(homeAssessmentFeedBackIdQuery !="null" && studentSingleHomeAssessmentList?.content);
-  }, [studentSingleHomeAssessmentList]);
+    setContent(homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessmentList?.content);
+  }, [studentSingleHomeAssessmentList,homeAssessmentFeedBackIdQuery]);
 
   React.useEffect(() => {
     createSuccessful &&  history.push(
       `${assessmentLocations.assessment}?status=${studentSingleHomeAssessmentList?.status}`
     );
-  }, [createSuccessful]);
+    setFilesArray([]);
+  }, [createSuccessful,history,studentSingleHomeAssessmentList?.status]);
   
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({
@@ -65,7 +65,7 @@ const StudentAssessmentDetails = () => {
 
   const createFileArray = (event) => {
 const newFiles = event.target.files[0];
-const previousFiles = filesArray.filter(i=>i != newFiles);
+const previousFiles = filesArray.filter(i=>i !== newFiles);
 const files = [...previousFiles,newFiles]
 setFilesArray(files);
   }
@@ -204,7 +204,7 @@ setFilesArray(files);
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
+                      {homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
                     </span>
                     <br />
                   </div>
@@ -212,7 +212,7 @@ setFilesArray(files);
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
                   }}
                 ></div>
                 <hr />
@@ -220,17 +220,17 @@ setFilesArray(files);
                 <div
                  style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
                   }}
                 ></div>
                 <hr />
                 <Formik
                       initialValues={{
-                        files:homeAssessmentFeedBackIdQuery !="null" && studentSingleHomeAssessmentList?.files,
+                        files:homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessmentList?.files,
                         content: "",
-                        shouldSubmit: studentSingleHomeAssessmentList?.status == 3 ?true : false,
-                        homeAssessmentId:homeAssessmentFeedBackIdQuery !="null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId ,
-                        homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !="null" ? homeAssessmentFeedBackIdQuery: "" ,
+                        shouldSubmit: studentSingleHomeAssessmentList?.status === 3 ?true : false,
+                        homeAssessmentId:homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId ,
+                        homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !=="null" ? homeAssessmentFeedBackIdQuery: "" ,
                       }}
                       enableReinitialize={true}
                       onSubmit={(values) => {

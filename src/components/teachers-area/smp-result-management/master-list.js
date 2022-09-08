@@ -46,7 +46,7 @@ const MasterList = () => {
       resetListEntryOnExit(masterEntry)(dispatch);
       setShowMasterListTable(false);
     };
-  }, []);
+  }, [dispatch,masterEntry]);
 
   React.useEffect(() => {
     if (!sessionId) {
@@ -54,7 +54,7 @@ const MasterList = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [sessionId, activeSession]);
+  }, [sessionId, activeSession,dispatch]);
 
   React.useEffect(() => {
     if (masterEntry) {
@@ -79,7 +79,7 @@ const MasterList = () => {
                     initialValues={{
                       sessionId: activeSession?.sessionId,
                       terms: activeSession?.terms.find(
-                        (term) => term.isActive == true
+                        (term) => term.isActive === true
                       )?.sessionTermId,
                       sessionClassId: "",
                     }}
@@ -159,7 +159,7 @@ const MasterList = () => {
                               {sessionList
                                 ?.find(
                                   (session, idx) =>
-                                    session.sessionId.toLowerCase() ==
+                                    session.sessionId.toLowerCase() ===
                                     values.sessionId
                                 )
                                 ?.terms.map((term, id) => (
@@ -168,7 +168,7 @@ const MasterList = () => {
                                     name={values.terms}
                                     value={term.sessionTermId.toLowerCase()}
                                     selected={
-                                      term.sessionTermId == values.terms
+                                      term.sessionTermId === values.terms
                                     }
                                   >
                                     {term.termName}

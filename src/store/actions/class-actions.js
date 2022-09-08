@@ -358,9 +358,9 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
     if (existingClassSubject) {
         if (checkBoxValue) {
             existingClassSubject.subjectId = subjectId;
-            existingClassSubject.subjectTeacherId = subjectTeacherId == "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
-            existingClassSubject.examSCore = examSCore == "" ? existingClassSubject.examSCore : examSCore;
-            existingClassSubject.assessment = assessment == "" ? existingClassSubject.assessment : assessment;
+            existingClassSubject.subjectTeacherId = subjectTeacherId === "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
+            existingClassSubject.examSCore = examSCore === "" ? existingClassSubject.examSCore : examSCore;
+            existingClassSubject.assessment = assessment === "" ? existingClassSubject.assessment : assessment;
             classSubjects = [...otherClassSubject, existingClassSubject]
         } else {
             classSubjects = [...otherClassSubject]

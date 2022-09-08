@@ -56,11 +56,11 @@ const StudentAdd = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch)
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
@@ -218,8 +218,8 @@ const StudentAdd = () => {
                       </div>
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
-                          <span>Only</span> <a href="#">.jpg</a>{" "}
-                          <a href="#">.png</a> <a href="#">.jpeg</a>
+                          <span>Only</span> <div href="#">.jpg</div>{" "}
+                          <div href="#">.png</div> <div href="#">.jpeg</div>
                           <span> allowed</span>
                         </div>
                       </div>

@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector} from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -7,10 +7,8 @@ import * as Yup from "yup";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../store/actions/toaster-actions";
-import { classLocations } from "../../../router/spm-path-locations";
-import {  addStudentNotes, getAllStudentNotes, getSubjectTeacher } from "../../../store/actions/class-actions";
+import {  addStudentNotes, getSubjectTeacher } from "../../../store/actions/class-actions";
 import { openFullscreen } from "../../../utils/export-csv";
-import { getUserDetails } from "../../../utils/permissions";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
 
 const CreateStudentNote = () => {
@@ -31,10 +29,10 @@ const CreateStudentNote = () => {
     React.useEffect(() => {
       getAllStaffAccount()(dispatch);
       getSubjectTeacher(subjectId)(dispatch);
-    }, [subjectId]);
+    }, [subjectId,dispatch]);
     React.useEffect(() => {
       createSuccessful && history.goBack();
-    }, [createSuccessful]);
+    }, [createSuccessful,history]);
   
     const [content, setContent] = useState('');
     const textEditorModules = useMemo(() => ({
