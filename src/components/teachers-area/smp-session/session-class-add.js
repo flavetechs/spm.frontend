@@ -208,6 +208,7 @@ const SessionClassAdd = () => {
                             name="subjectExamScore"
                             id="subjectExamScore"
                             values={values.subjectExamScore}
+                            onChange={(e)=>setFieldValue("subjectExamScore",e.target.value)}
                           />
                         </Col>
                         <Col md={6}>
@@ -218,6 +219,7 @@ const SessionClassAdd = () => {
                             name="subjectAssessmentScore"
                             id="subjectAssessmentScore"
                             values={values.subjectAssessmentScore}
+                            onChange={(e)=>setFieldValue("subjectAssessmentScore",e.target.value)}
                           />
                         </Col>
                       </Row>
@@ -432,7 +434,7 @@ const SessionClassAdd = () => {
                                 )
                               }
                             >
-                              <option value={""} defaultValue={""}>
+                              <option value={""} >
                                 Select Form Teacher
                               </option>
                               {activeTeachers.map((teacher, idx) => (

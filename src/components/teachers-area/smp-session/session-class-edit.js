@@ -235,6 +235,7 @@ const SessionClassEdit = () => {
                             name="subjectExamScore"
                             id="subjectExamScore"
                             values={values.subjectExamScore}
+                            onChange={(e)=>setFieldValue("subjectExamScore",e.target.value)}
                           />
                         </Col>
                         <Col md={6}>
@@ -458,7 +459,7 @@ const SessionClassEdit = () => {
                                 setFieldValue("formTeacherId", event.target.value)
                               }
                             >
-                              <option value={""} defaultValue={""}>
+                              <option value={""} >
                                 Select Form Teacher
                               </option>
                               {activeTeachers.map((teacher, idx) => (

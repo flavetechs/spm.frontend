@@ -94,6 +94,8 @@ const CreateHomeAssessment = () => {
                     shouldSendToStudents: false,
                     timeDeadLine: "",
                     dateDeadLine: "",
+                    total:assessmentScore?.totalAssessment || "",
+                    used:assessmentScore?.used || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -132,6 +134,12 @@ const CreateHomeAssessment = () => {
                             className="form-control border-secondary h6"
                             id="title"
                             placeholder="Enter assessment topic..."
+                            onChange={(e) => {
+                              setFieldValue(
+                                "title",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
                         <Col md="11" className="form-group h6">
@@ -143,6 +151,12 @@ const CreateHomeAssessment = () => {
                             name="sessionClassSubjectId"
                             className="form-select"
                             id="sessionClassSubjectId"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "sessionClassSubjectId",
+                                e.target.value
+                              );
+                            }}
                           >
                             <option value="">Select Subject</option>
                             {classSubjects?.map((item, idx) => (
@@ -172,6 +186,12 @@ const CreateHomeAssessment = () => {
                             name="sessionClassGroupId"
                             className="form-select h6"
                             id=" sessionClassGroupId"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "sessionClassGroupId",
+                                e.target.value
+                              );
+                            }}
                           >
                            <option value="">Select Group</option>
                             <option value="all-students">All Students</option>
@@ -247,7 +267,7 @@ const CreateHomeAssessment = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="dateDeadLine" >
+                          <label className="form-label" >
                             <b>Deadline Date:</b>
                           </label>
                           <Field
@@ -255,6 +275,12 @@ const CreateHomeAssessment = () => {
                             name="dateDeadLine"
                             className="form-control border-secondary h6"
                             id="dateDeadLine"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "dateDeadLine",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
 
@@ -264,7 +290,7 @@ const CreateHomeAssessment = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="timeDeadLine" >
+                          <label className="form-label"  >
                             <b>Deadline Time:</b>
                           </label>
                           <Field
@@ -272,6 +298,12 @@ const CreateHomeAssessment = () => {
                             name="timeDeadLine"
                             className="form-control border-secondary h6"
                             id="timeDeadLine"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "timeDeadLine",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
 
@@ -281,6 +313,12 @@ const CreateHomeAssessment = () => {
                             name="shouldSendToStudents"
                             className="form-check-input "
                             id="shouldSendToStudents"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "shouldSendToStudents",
+                                e.target.value
+                              );
+                            }}
                           />
                           <label className="form-label mx-1">
                             <h6>Send to Students</h6>
@@ -313,8 +351,13 @@ const CreateHomeAssessment = () => {
                               type="readonly"
                               name="total"
                               readOnly
-                              value={assessmentScore?.totalAssessment}
                               className="form-control h6 py-0 px-1"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "total",
+                                  e.target.value
+                                );
+                              }}
                             />
                           </Col>
                           <Col md="2" className="form-group mx-2">
@@ -325,8 +368,13 @@ const CreateHomeAssessment = () => {
                               type="text"
                               name="used"
                               readOnly
-                              value={assessmentScore?.used}
                               className="form-control h6 py-0 px-1"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "used",
+                                  e.target.value
+                                );
+                              }}
                             />
                           </Col>
 

@@ -188,9 +188,6 @@ const StudentNotes = () => {
                                 name="subjectId"
                                 className="form-select"
                                 id="subjectId"
-                                defaultValue={
-                                  subjectIdQuery ? subjectIdQuery : ""
-                                }
                                 onChange={(e) => {
                                   setSubjectId(e.target.value);
                                   e.target.value == ""

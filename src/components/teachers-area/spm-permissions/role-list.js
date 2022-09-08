@@ -289,7 +289,7 @@ const RoleList = () => {
                                   placement="top"
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
-                                      add user
+                                      Add Users to {item.name}
                                     </Tooltip>
                                   }
                                 >
@@ -350,7 +350,7 @@ const RoleList = () => {
                                 placement="top"
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
-                                    remove user
+                                    Remove Users from {item.name}
                                   </Tooltip>
                                 }
                               >
@@ -380,7 +380,7 @@ const RoleList = () => {
                                   placement="top"
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
-                                      edit
+                                      Edit Role
                                     </Tooltip>
                                   }
                                 >
@@ -432,7 +432,7 @@ const RoleList = () => {
                                   placement="top"
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
-                                      delete
+                                      Delete Role
                                     </Tooltip>
                                   }
                                 >

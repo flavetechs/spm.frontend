@@ -155,7 +155,7 @@ const SessionClassList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    details
+                                   Class Details
                                   </Tooltip>
                                 }
                               >
@@ -204,7 +204,7 @@ const SessionClassList = () => {
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                  <Tooltip id="button-tooltip-2"> Edit Class</Tooltip>
                                 }
                               >
                                 {hasAccess(NavPermissions.editSessionClass) && (
@@ -256,7 +256,7 @@ const SessionClassList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    delete
+                                    Delete Class
                                   </Tooltip>
                                 }
                               >
