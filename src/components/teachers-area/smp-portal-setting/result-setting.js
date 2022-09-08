@@ -150,7 +150,7 @@ const ResultSetting = () => {
                                                         id="showPositionOnResult"
                                                         className="form-check-input"
                                                         name="showPositionOnResult"
-                                                        defaultChecked={resultSettingList?.showPositionOnResult|| false}
+                                                        checked={resultSettingList?.showPositionOnResult || false}
                                                         onChange={(e) => {
                                                             setFieldValue("showPositionOnResult",e.target.checked);
                                                         }}
@@ -166,7 +166,7 @@ const ResultSetting = () => {
                                                         id="cumulativeResult"
                                                         className="form-check-input"
                                                         name="cumulativeResult"
-                                                        defaultChecked={resultSettingList?.cumulativeResult|| false}
+                                                        checked={resultSettingList?.cumulativeResult|| false}
                                                         onChange={(e) => {
                                                             setFieldValue("cumulativeResult",e.target.checked);
                                                         }}
@@ -182,7 +182,7 @@ const ResultSetting = () => {
                                                         id="showNewsletter"
                                                         className="form-check-input"
                                                         name="showNewsletter"
-                                                        defaultChecked={resultSettingList?.showNewsletter|| false}
+                                                        checked={resultSettingList?.showNewsletter|| false}
                                                         onChange={(e) => {
                                                             setFieldValue("showNewsletter",e.target.checked);
                                                         }}
@@ -198,7 +198,7 @@ const ResultSetting = () => {
                                                         id="batchPrinting"
                                                         className="form-check-input"
                                                         name="batchPrinting"
-                                                        defaultChecked={resultSettingList?.batchPrinting|| false}
+                                                        checked={resultSettingList?.batchPrinting || false}
                                                         onChange={(e) => {
                                                             setFieldValue("batchPrinting",e.target.checked);
                                                         }}

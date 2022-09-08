@@ -77,7 +77,7 @@ const NotificationSetting = () => {
                                                         id="notifyByEmail"
                                                         className="form-check-input"
                                                         name="notifyByEmail"
-                                                        defaultChecked={notificationSettingList?.notifyByEmail || false}
+                                                        checked={notificationSettingList?.notifyByEmail || false}
                                                         onChange={(e) => {
                                                             setFieldValue("notifyByEmail", e.target.checked);
                                                         }}
@@ -93,7 +93,7 @@ const NotificationSetting = () => {
                                                         id="notifyBySms"
                                                         className="form-check-input"
                                                         name="notifyBySms"
-                                                        defaultChecked={notificationSettingList?.notifyBySms || false}
+                                                        checked={notificationSettingList?.notifyBySms || false}
                                                         onChange={(e) => {
                                                             setFieldValue("notifyBySms", e.target.checked);
                                                         }}
