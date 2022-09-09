@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -22,6 +22,8 @@ import {
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
 import * as Yup from "yup";
+import { HomeAssessmentList } from "./home-assement-list";
+import { ClassAssessmentList } from "./class-assessment-list";
 
 //VALIDATION
 const validation = Yup.object().shape({
@@ -46,43 +48,49 @@ const AssessmentList = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { assessmentList, classSubjects, groupList, createSuccessful,  newClassAssessment } = state.class;
+  const { assessmentList, classSubjects, groupList, createSuccessful, newClassAssessment } = state.class;
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQueryParam = queryParams.get("sessionClassId");
-  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId");
-  const groupIdQueryParam = queryParams.get("groupId");
-  const typeQueryParam = queryParams.get("type");
-  React.useEffect(() => {
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
+  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
+  const groupIdQueryParam = queryParams.get("groupId") || '';
+  const typeQueryParam = queryParams.get("type") || '';
+  useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, [dispatch]);
 
-  React.useEffect(() => {
-    sessionClassIdQueryParam && getClassSubjects(sessionClassIdQueryParam)(dispatch);
-  }, [sessionClassIdQueryParam,dispatch]);
+  useEffect(() => {
+    const fetchAssessment = () => {
+      if (sessionClassIdQueryParam) {
+        getClassSubjects(sessionClassIdQueryParam)(dispatch);
+      }
 
-  React.useEffect(() => {
-   getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
-  }, [sessionClassSubjectIdQueryParam,sessionClassIdQueryParam,dispatch]);
+      if (sessionClassSubjectIdQueryParam && typeQueryParam === "home-assessment") {
+        getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
+      }
 
-  React.useEffect(() => {
-    if (typeQueryParam === "home-assessment") {
-  getAllHomeAssessment(sessionClassSubjectIdQueryParam)(dispatch);
-    } else if (typeQueryParam === "class-assessment") {
-      getAllClassAssessment()(dispatch);
-    } else {
-      // DO NOTHING.....
+      if (typeQueryParam === "home-assessment")
+        getAllHomeAssessment(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, groupIdQueryParam)(dispatch);
+      if (typeQueryParam === "class-assessment")
+        getAllClassAssessment(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
+
     }
-  }, [sessionClassSubjectIdQueryParam, typeQueryParam,dispatch]);
 
-  React.useEffect(() => {
+    fetchAssessment();
+  }, [sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, groupIdQueryParam, typeQueryParam]);
+
+
+
+
+
+  useEffect(() => {
     if (dialogResponse === "continue") {
       typeQueryParam === "home-assessment" ?
-      deleteHomeAssessment(homeAssessmentId, selectedSessionClassSubjectId)(dispatch)
-      :  deleteClassAssessment(classAssessmentId, selectedSessionClassSubjectId)(dispatch)
+        deleteHomeAssessment(homeAssessmentId, sessionClassIdQueryParam, selectedSessionClassSubjectId, groupIdQueryParam)(dispatch)
+        : deleteClassAssessment(classAssessmentId, selectedSessionClassSubjectId)(dispatch)
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -91,14 +99,14 @@ const AssessmentList = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse,dispatch,classAssessmentId,homeAssessmentId,typeQueryParam,selectedSessionClassSubjectId]);
+  }, [dialogResponse, dispatch, classAssessmentId, homeAssessmentId, typeQueryParam, selectedSessionClassSubjectId]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     createSuccessful &&
       history.push(
         `${classLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
       );
-  }, [createSuccessful,history,newClassAssessment?.classAssessmentId,sessionClassSubjectIdQueryParam,sessionClassIdQueryParam,typeQueryParam]);
+  }, [createSuccessful, history, newClassAssessment?.classAssessmentId, sessionClassSubjectIdQueryParam, sessionClassIdQueryParam, typeQueryParam]);
 
   const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
@@ -108,12 +116,6 @@ const AssessmentList = () => {
       //returns filtered array
       return item;
     }
-    // else if (
-    //   item.dateTime.toLowerCase().includes(searchQuery.toLowerCase())
-    // ) {
-    //   //returns filtered array
-    //   return item;
-    // }
   });
 
   return (
@@ -123,14 +125,11 @@ const AssessmentList = () => {
           <Col sm="12">
             <Formik
               initialValues={{
-                sessionClassId: sessionClassIdQueryParam ? sessionClassIdQueryParam : "",
-                sessionClassSubjectId: sessionClassSubjectIdQueryParam
-                  ? sessionClassSubjectIdQueryParam
-                  : "",
-                groupId: groupIdQueryParam ? groupIdQueryParam : "",
-                type: typeQueryParam ? typeQueryParam : "",
+                sessionClassId: sessionClassIdQueryParam,
+                sessionClassSubjectId: sessionClassSubjectIdQueryParam,
+                groupId: groupIdQueryParam,
+                type: typeQueryParam,
               }}
-              validationSchema={validation}
               enableReinitialize={true}
               onSubmit={(values) => {
                 if (typeQueryParam === "home-assessment") {
@@ -237,27 +236,19 @@ const AssessmentList = () => {
                       <Card.Body>
                         <div className="d-lg-flex align-items-center ">
                           <div className=" d-lg-flex align-items-center">
-                          <div>
-                              <div>
-                                {touched.type && errors.type && (
-                                  <div className="text-danger">
-                                    {errors.type}
-                                  </div>
-                                )}
-                              </div>
+                            <div>
+
                               <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
                                   as="select"
                                   name="type"
                                   className="form-select"
                                   id="type"
+
                                   onChange={(e) => {
                                     setFieldValue("type", e.target.value);
-                                    e.target.value === "cbt"
-                                      ? history.push(inprogress.unactivated)
-                                      : history.push(
-                                          `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${groupIdQueryParam}&type=${e.target.value}`
-                                        );
+                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                      : history.push(`${classLocations.assessment}?sessionClassId=${''}&sessionClassSubjectId=${''}&groupId=${''}&type=${e.target.value}`);
                                   }}
                                 >
                                   <option value="">Select Type</option>
@@ -272,34 +263,22 @@ const AssessmentList = () => {
                               </div>
                             </div>
                             <div>
-
-                              <div>
-                                {touched.sessionClassId &&
-                                  errors.sessionClassId && (
-                                    <div className="text-danger">
-                                      {errors.sessionClassId}
-                                    </div>
-                                  )}
-                              </div>
                               <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
+                                  disabled={typeQueryParam ? false : true}
                                   as="select"
                                   name="sessionClassId"
                                   className="form-select"
                                   id="sessionClassId"
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "sessionClassId",
-                                      e.target.value
+                                      "sessionClassId", e.target.value
                                     );
 
-                                    if (e.target.value === "") {
-                                      history.push(classLocations.assessment);
-                                    } else {
-                                      history.push(
-                                        `${classLocations.assessment}?sessionClassId=${e.target.value}`
+                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                      : history.push(
+                                        `${classLocations.assessment}?sessionClassId=${e.target.value}&sessionClassSubjectId=${''}&groupId=${''}&type=${typeQueryParam}`
                                       );
-                                    }
                                   }}
                                 >
                                   <option value="">Select Class</option>
@@ -315,17 +294,10 @@ const AssessmentList = () => {
                               </div>
                             </div>
                             <div>
-                              <div>
-                                {touched.sessionClassSubjectId &&
-                                  errors.sessionClassSubjectId && (
-                                    <div className="text-danger">
-                                      {errors.sessionClassSubjectId}
-                                    </div>
-                                  )}
-                              </div>
                               <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
                                   as="select"
+                                  disabled={typeQueryParam && sessionClassIdQueryParam ? false : true}
                                   name="sessionClassSubjectId"
                                   className="form-select"
                                   id="sessionClassSubjectId"
@@ -335,9 +307,9 @@ const AssessmentList = () => {
                                       e.target.value
                                     );
                                     setSelectedSessionClassSubjectId(e.target.value);
-                                    e.target.value &&
-                                      history.push(
-                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value}`
+                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                      : history.push(
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value}&groupId=${''}&type=${typeQueryParam}`
                                       );
                                   }}
                                 >
@@ -354,25 +326,19 @@ const AssessmentList = () => {
                               </div>
                             </div>
                             <div>
-                              <div>
-                                {touched.groupId && errors.groupId && (
-                                  <div className="text-danger ">
-                                    {errors.groupId}
-                                  </div>
-                                )}
-                              </div>
-                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
+                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown" style={{ display: typeQueryParam === "class-assessment" ? 'none' : 'block' }}>
                                 <Field
                                   as="select"
                                   name="groupId"
+                                  disabled={typeQueryParam && sessionClassIdQueryParam && sessionClassSubjectIdQueryParam ? false : true}
                                   className="form-select"
                                   id="groupId"
                                   onChange={(e) => {
                                     setFieldValue("groupId", e.target.value);
 
-                                    e.target.value &&
-                                      history.push(
-                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}`
+                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                      : history.push(
+                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}&type=${typeQueryParam}`
                                       );
                                   }}
                                 >
@@ -388,14 +354,14 @@ const AssessmentList = () => {
                                 </Field>
                               </div>
                             </div>
-                           
+
                           </div>
                         </div>
                       </Card.Body>
                     </Card>
                     <Row className="">
                       {filteredAssessmentList?.length === 0 &&
-                      !sessionClassIdQueryParam ? (
+                        !sessionClassIdQueryParam ? (
                         <div className="jumbotron jumbotron-fluid">
                           <div className="container d-flex justify-content-center mt-5 bg-white">
                             <h2 className="display-4">
@@ -405,249 +371,36 @@ const AssessmentList = () => {
                         </div>
                       ) : (
                         filteredAssessmentList?.map((item, idx) => (
-                          <Col md="6" lg="4" xxl="3" className="" key={idx}>
-                            <Card>
-                              <Card.Body>
-                                <div className="d-flex justify-content-between">
-                                  <div className="mb-0">Title</div>
-                                  <div className="dropdown show bg-light">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      style={{ cursor: "pointer" }}
-                                      onClick={(e) => {
-                                        setShowMenuDropdown(!showMenuDropdown);
-                                        setIndexRow(idx);
-                                      }}
-                                    >
-                                      <g>
-                                        <g>
-                                          <circle
-                                            cx="7"
-                                            cy="12"
-                                            r="1"
-                                            fill="black"
-                                          ></circle>
-                                          <circle
-                                            cx="12"
-                                            cy="12"
-                                            r="1"
-                                            fill="black"
-                                          ></circle>
-                                          <circle
-                                            cx="17"
-                                            cy="12"
-                                            r="1"
-                                            fill="black"
-                                          ></circle>
-                                        </g>
-                                      </g>
-                                    </svg>
-                                    {showMenuDropdown && indexRow === idx && (
-                                      <div
-                                        x-placement="bottom-start"
-                                        aria-labelledby=""
-                                        className="dropdown-menu show"
-                                        style={{
-                                          position: "absolute",
-                                          inset: "-25px auto auto -100px",
-                                          transform: "translate(0px, 42px)",
-                                        }}
-                                        data-popper-placement="bottom-end"
-                                        data-popper-escaped="false"
-                                        data-popper-reference-hidden="false"
-                                      >
-                                        <div
-                                          onClick={() => {
-                                            if(typeQueryParam === "home-assessment"){
-                                            history.push(
-                                              `${classLocations.homeAssessmentDetails}?homeAssessmentId=${item.homeAssessmentId}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
-                                            )} else if (typeQueryParam === "class-assessment") {
-                                              history.push(
-                                                `${classLocations.classAssessmentDetails}?classAssessmentId=${item.classAssessmentId}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
-                                              )
-                                            }
-                                            setShowMenuDropdown(false);
-                                          }}
-                                          className="dropdown-item"
-                                          role="button"
-                                          draggable="true"
-                                        >
-                                          <svg
-                                            width="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="me-2"
-                                          >
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M14.7366 2.76175H8.08455C6.00455 2.75375 4.29955 4.41075 4.25055 6.49075V17.3397C4.21555 19.3897 5.84855 21.0807 7.89955 21.1167C7.96055 21.1167 8.02255 21.1167 8.08455 21.1147H16.0726C18.1416 21.0937 19.8056 19.4087 19.8026 17.3397V8.03975L14.7366 2.76175Z"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>{" "}
-                                            <path
-                                              d="M14.4741 2.75V5.659C14.4741 7.079 15.6231 8.23 17.0431 8.234H19.7971"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>{" "}
-                                            <path
-                                              d="M14.2936 12.9141H9.39355"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>{" "}
-                                            <path
-                                              d="M11.8442 15.3639V10.4639"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                          </svg>
-                                          view/details
-                                        </div>
-                                        <div
-                                          onClick={() => {
-                                            typeQueryParam === "home-assessment" &&
-                                              history.push(
-                                                `${classLocations.editHomeAssessment}?homeAssessmentId=${item.homeAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
-                                              );
-                                            typeQueryParam === "class-assessment" &&
-                                              history.push(
-                                                `${classLocations.editClassAssessment}?classAssessmentId=${item.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
-                                              );
-                                            setShowMenuDropdown(false);
-                                          }}
-                                          className="dropdown-item"
-                                          role="button"
-                                          draggable="false"
-                                        >
-                                          <svg
-                                            width="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="me-2"
-                                          >
-                                            <path
-                                              d="M13.7476 20.4428H21.0002"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              d="M11.021 6.00098L16.4732 10.1881"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                          </svg>
-                                          edit
-                                        </div>
 
-                                        <div
-                                          onClick={() => {
-                                            setHomeAssessmentId(
-                                              item.homeAssessmentId
-                                            );
-                                            setClassAssessmentId(
-                                              item.classAssessmentId
-                                            );
-                                            showHideDialog(
-                                              true,
-                                              "Are you sure you want to delete this assessment"
-                                            )(dispatch);
-                                          }}
-                                          className="dropdown-item"
-                                          role="button"
-                                          draggable="false"
-                                        >
-                                          <svg
-                                            width="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="me-2"
-                                          >
-                                            <path
-                                              d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              d="M20.708 6.23975H3.75"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                          </svg>
-                                          delete
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-
-                                <h6 className="mb-3 text-uppercase">
-                                  {item.title}
-                                </h6>
-                                {typeQueryParam === "home-assessment"&&(
-                                  <div className="d-flex ">
-                                    {/* <small className="" draggable="false">
-                                      Created:
-                                      <div className="text-success">
-                                       
-                                      </div>
-                                    </small> */}
-                                    <small className="" draggable="false">
-                                      Deadline:
-                                      <div className=" text-warning">
-                                        {item.dateDeadLine}{' '}{item.timeDeadLine}
-                                      </div>
-                                    </small>
-                                  </div>
-                                )}
-                              </Card.Body>
-                              <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
-                                <div>{item.status}</div>
-                                <div>{item.sessionClassGroupName}</div>
-                                <div className="text-lowercase">
-                                  {item.sessionClassSubjectName}
-                                </div>
-                              </small>
-                            </Card>
-                          </Col>
+                          typeQueryParam === "home-assessment" ? (
+                            <HomeAssessmentList
+                              item={item}
+                              idx={idx}
+                              key={idx}
+                              setShowMenuDropdown={setShowMenuDropdown}
+                              setIndexRow={setIndexRow}
+                              showMenuDropdown={showMenuDropdown}
+                              indexRow={indexRow}
+                              showHideDialog={showHideDialog}
+                              setHomeAssessmentId={setHomeAssessmentId}
+                              sessionClassIdQueryParam={sessionClassIdQueryParam}
+                              typeQueryParam={typeQueryParam}
+                              sessionClassSubjectIdQueryParam={sessionClassSubjectIdQueryParam}
+                            />) : typeQueryParam === "class-assessment" ? (
+                              <ClassAssessmentList
+                                item={item}
+                                idx={idx}
+                                key={idx}
+                                setShowMenuDropdown={setShowMenuDropdown}
+                                setIndexRow={setIndexRow}
+                                showMenuDropdown={showMenuDropdown}
+                                indexRow={indexRow}
+                                showHideDialog={showHideDialog}
+                                setClassAssessmentId={setClassAssessmentId}
+                                sessionClassIdQueryParam={sessionClassIdQueryParam}
+                                typeQueryParam={typeQueryParam}
+                                sessionClassSubjectIdQueryParam={sessionClassSubjectIdQueryParam}
+                              />) : null
                         ))
                       )}
                     </Row>

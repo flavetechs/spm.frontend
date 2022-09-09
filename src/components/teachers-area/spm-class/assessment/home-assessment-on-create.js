@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, {  useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -15,52 +15,51 @@ const CreateHomeAssessment = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  const elementRef = useRef(null);
+  // const elementRef = useRef(null);
   const state = useSelector((state) => state);
   const { createSuccessful, groupList, assessmentScore, classSubjects } = state.class;
   const { staffClasses } = state.results;
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
-  const sessionClassGroupIdQuery = queryParams.get("sessionClassGroupId");
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId");
+  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId");
+  const sessionClassGroupIdQueryParam = queryParams.get("sessionClassGroupId");
 
   //HOOKS
   React.useEffect(() => {
-    getAllClassGroup(sessionClassIdQuery,sessionClassSubjectIdQuery)(dispatch);
-    getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
-    getClassSubjects(sessionClassIdQuery)(dispatch);
+    getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
+    getAssessmentScore(sessionClassSubjectIdQueryParam, sessionClassIdQueryParam)(dispatch);
+    getClassSubjects(sessionClassIdQueryParam)(dispatch);
     getAllStaffClasses()(dispatch);
-  }, [dispatch,sessionClassSubjectIdQuery, sessionClassIdQuery]);
+  }, [dispatch, sessionClassSubjectIdQueryParam, sessionClassIdQueryParam]);
 
   React.useEffect(() => {
     createSuccessful &&
       history.goBack();
-  }, [createSuccessful,history]);
+  }, [createSuccessful, history]);
 
   const [content, setContent] = useState("");
   const [comment, setComment] = useState("");
-  const [fullScreen, setFullScreen] = useState(false);
+  // const [fullScreen, setFullScreen] = useState(false);
   const [assessmentScoreMax, setAssessmentScoreMax] = useState(false);
-  const textEditorModules = useMemo(
-    () => ({
-      toolbar: {
-        container: [
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          ["bold", "italic", "underline", "strike"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          ["image", "link"],
-          [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
+  const textEditorModules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
         ],
-        //   handlers: {
-        //     image: imageHandler
-        //   }
-      },
-    }),
+        ["image", "link"],
+        [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
+      ],
+      //   handlers: {
+      //     image: imageHandler
+      //   }
+    },
+  }),
     []
   );
   //HOOKS
@@ -70,8 +69,8 @@ const CreateHomeAssessment = () => {
     title: Yup.string().required("Subject is required"),
     assessmentScore: Yup.number().required("Score is required")
       .min(0, "Assessment score must not be below 0"),
-      timeDeadLine: Yup.string().required("Please enter a deadline time"),
-      dateDeadLine: Yup.string().required("Please enter a deadline date"),
+    timeDeadLine: Yup.string().required("Please enter a deadline time"),
+    dateDeadLine: Yup.string().required("Please enter a deadline date"),
     sessionClassGroupId: Yup.string().required("Please select group"),
   });
   //VALIDATION
@@ -87,15 +86,15 @@ const CreateHomeAssessment = () => {
                   initialValues={{
                     title: "",
                     content: "",
-                    assessmentScore: "",
-                    sessionClassId: sessionClassIdQuery || '',
-                    sessionClassSubjectId: sessionClassSubjectIdQuery || '',
-                    sessionClassGroupId: sessionClassGroupIdQuery !== "null" ? sessionClassGroupIdQuery : 'all-students',
+                    assessmentScore: assessmentScore?.totalAssessment - assessmentScore?.used,
+                    sessionClassId: sessionClassIdQueryParam,
+                    sessionClassSubjectId: sessionClassSubjectIdQueryParam,
+                    sessionClassGroupId: sessionClassGroupIdQueryParam,
                     shouldSendToStudents: false,
                     timeDeadLine: "",
                     dateDeadLine: "",
-                    total:assessmentScore?.totalAssessment || "",
-                    used:assessmentScore?.used || "",
+                    total: assessmentScore?.totalAssessment,
+                    used: assessmentScore?.used,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -106,6 +105,7 @@ const CreateHomeAssessment = () => {
                     }
                     values.content = content;
                     values.comment = comment;
+                    console.log('values', values);
                     createHomeAssessment(values)(dispatch);
                   }}
                 >
@@ -117,7 +117,7 @@ const CreateHomeAssessment = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i=>i.sessionClassId === sessionClassIdQuery)?.sessionClass}</h6>
+                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i => i.sessionClassId === sessionClassIdQueryParam)?.sessionClass}</h6>
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
                           {touched.title && errors.title && (
@@ -170,13 +170,13 @@ const CreateHomeAssessment = () => {
                           </Field>
                         </Col>
                         <Col md="11">
-                        {touched.sessionClassGroupId &&
-                          errors.sessionClassGroupId && (
-                            <div className="text-danger">
-                              {errors.sessionClassGroupId}
-                            </div>
-                          )}
-                          </Col>
+                          {touched.sessionClassGroupId &&
+                            errors.sessionClassGroupId && (
+                              <div className="text-danger">
+                                {errors.sessionClassGroupId}
+                              </div>
+                            )}
+                        </Col>
                         <Col md="11" className="form-group h6">
                           <label className="form-label">
                             <b>Group:</b>
@@ -193,7 +193,7 @@ const CreateHomeAssessment = () => {
                               );
                             }}
                           >
-                           <option value="">Select Group</option>
+                            <option value="">Select Group</option>
                             <option value="all-students">All Students</option>
                             {groupList?.map((item, idx) => (
                               <option key={idx} value={item.groupId}>
@@ -210,8 +210,7 @@ const CreateHomeAssessment = () => {
                         <Col md="11" className="form-group h6 ">
                           <label className="form-label d-flex justify-content-between">
                             <b>Assessment:</b>
-                            <div className="">
-                              {/* {!fullScreen ? ( */}
+                            {/* <div className="">
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
@@ -227,22 +226,22 @@ const CreateHomeAssessment = () => {
                                   viewBox="0 0 24 24"
                                   className="mx-2"
                                   onClick={() => {
-                                    openFullscreen("assessment-editor");
-                                    setFullScreen(true);
+                                    // openFullscreen("assessment-editor");
+                                    // setFullScreen(true);
                                   }}
                                   style={{ cursor: "pointer" }}
                                 >
                                   <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
                                 </svg>
                               </OverlayTrigger>
-                            </div>
+                            </div> */}
                           </label>
                           <ReactQuill
                             theme="snow"
                             value={content}
                             onChange={setContent}
                             modules={textEditorModules}
-                            ref={elementRef}
+                            // ref={elementRef}
                             id="assessment-editor"
                             style={{ height: "300px", background: "white" }}
                           />
@@ -259,9 +258,9 @@ const CreateHomeAssessment = () => {
                             modules={textEditorModules}
                             style={{ height: "100px" }}
                           />
-                          </Col>
+                        </Col>
 
-                          <Col md="11" className=" mt-5">
+                        <Col md="11" className=" mt-5">
                           {touched.dateDeadLine && errors.dateDeadLine && (
                             <div className="text-danger">{errors.dateDeadLine}</div>
                           )}
@@ -313,11 +312,8 @@ const CreateHomeAssessment = () => {
                             name="shouldSendToStudents"
                             className="form-check-input "
                             id="shouldSendToStudents"
-                            onChange={(e) => {
-                              setFieldValue(
-                                "shouldSendToStudents",
-                                e.target.value
-                              );
+                            onClick={(e) => {
+                              setFieldValue("shouldSendToStudents", e.target.value);
                             }}
                           />
                           <label className="form-label mx-1">
@@ -325,73 +321,73 @@ const CreateHomeAssessment = () => {
                           </label>
                         </Col>
 
-                  
-                        
-                          <Col md="11">
-                            {
-                              errors.assessmentScore && (
-                                <div className="text-danger">
-                                  {errors.assessmentScore}
-                                </div>
-                              )}
-                              {assessmentScoreMax > assessmentScore?.unused &&
-                               <div className="text-danger">
-                              {`Assessment score must not be above ${assessmentScore?.unused}`}
-                              </div>
-                              }
-                          </Col>
-                        
-                          <Col md="11">
-                        <div className="d-flex">
-                          <Col md="2" className="form-group">
-                            <label className="form-label">
-                              <h6>total</h6>
-                            </label>
-                            <Field
-                              type="readonly"
-                              name="total"
-                              readOnly
-                              className="form-control h6 py-0 px-1"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  "total",
-                                  e.target.value
-                                );
-                              }}
-                            />
-                          </Col>
-                          <Col md="2" className="form-group mx-2">
-                            <label className="form-label">
-                              <h6>used</h6>
-                            </label>
-                            <Field
-                              type="text"
-                              name="used"
-                              readOnly
-                              className="form-control h6 py-0 px-1"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  "used",
-                                  e.target.value
-                                );
-                              }}
-                            />
-                          </Col>
 
-                          <Col md="2" className="form-group">
-                            <label className="form-label">
-                              <h6>assessment</h6>
-                            </label>
-                            <Field
-                              type="number"
-                              name="assessmentScore"
-                              className="form-control h6 py-0 px-1"
-                              onChange={(e)=>{setAssessmentScoreMax(e.target.value); setFieldValue("assessmentScore",e.target.value)}}
-                            />
-                          </Col>
-                        </div>
+
+                        <Col md="11">
+                          {
+                            errors.assessmentScore && (
+                              <div className="text-danger">
+                                {errors.assessmentScore}
+                              </div>
+                            )}
+                          {assessmentScoreMax > assessmentScore?.unused &&
+                            <div className="text-danger">
+                              {`Assessment score must not be above ${assessmentScore?.unused}`}
+                            </div>
+                          }
                         </Col>
-                      
+
+                        <Col md="11">
+                          <div className="d-flex">
+                            <Col md="2" className="form-group">
+                              <label className="form-label">
+                                <h6>total</h6>
+                              </label>
+                              <Field
+                                type="readonly"
+                                name="total"
+                                readOnly
+                                className="form-control h6 py-0 px-1"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "total",
+                                    e.target.value
+                                  );
+                                }}
+                              />
+                            </Col>
+                            <Col md="2" className="form-group mx-2">
+                              <label className="form-label">
+                                <h6>used out of {assessmentScore?.totalAssessment} marks</h6>
+                              </label>
+                              <Field
+                                type="text"
+                                name="used"
+                                readOnly
+                                className="form-control h6 py-0 px-1"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "used",
+                                    e.target.value
+                                  );
+                                }}
+                              />
+                            </Col>
+
+                            <Col md="2" className="form-group">
+                              <label className="form-label">
+                                <h6>assessment mark</h6>
+                              </label>
+                              <Field
+                                type="number"
+                                name="assessmentScore"
+                                className="form-control h6 py-0 px-1"
+                                onChange={(e) => { setAssessmentScoreMax(e.target.value); setFieldValue("assessmentScore", e.target.value) }}
+                              />
+                            </Col>
+                          </div>
+                        </Col>
+
                         <div className="d-flex justify-content-end">
                           <Button
                             type="button"

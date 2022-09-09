@@ -51,17 +51,17 @@ const SchoolSetting = () => {
         <>
             <Formik
                 initialValues={{
-                    schoolSettingsId: schoolSettingList?.schoolSettingsId,
-                    schoolName: schoolSettingList?.schoolName,
-                    schoolAbbreviation: schoolSettingList?.schoolAbbreviation,
-                    schoolAddress: schoolSettingList?.schoolAddress,
-                    email: schoolSettingList.email,
-                    phoneNo1: schoolSettingList?.phoneNo1,
-                    phoneNo2: schoolSettingList?.phoneNo2,
-                    country: schoolSettingList?.country,
-                    state: schoolSettingList?.state,
-                    schoolType: schoolSettingList?.schoolType,
-                    filepath: schoolSettingList?.filepath,
+                    schoolSettingsId: schoolSettingList?.schoolSettingsId ?? "",
+                    schoolName: schoolSettingList?.schoolName ?? "",
+                    schoolAbbreviation: schoolSettingList?.schoolAbbreviation ?? "",
+                    schoolAddress: schoolSettingList?.schoolAddress ?? "",
+                    email: schoolSettingList.email ?? "",
+                    phoneNo1: schoolSettingList?.phoneNo1 ?? "",
+                    phoneNo2: schoolSettingList?.phoneNo2 ?? "",
+                    country: schoolSettingList?.country ?? "",
+                    state: schoolSettingList?.state ?? "",
+                    schoolType: schoolSettingList?.schoolType ?? "",
+                    filepath: schoolSettingList?.filepath ?? "",
                 }}
                 enableReinitialize={true}
  
@@ -247,7 +247,7 @@ const SchoolSetting = () => {
                                                             setFieldValue("schoolType", e.target.checked && "primary");
                                                         }}
                                                     />
-                                                    <label className="form-check-label" for="schoolType1">
+                                                    <label className="form-check-label" htmlFor="schoolType1">
                                                         Primary
                                                     </label>
                                                 </div>
@@ -263,7 +263,7 @@ const SchoolSetting = () => {
                                                             setFieldValue("schoolType", e.target.checked && "secondary");
                                                         }}
                                                     />
-                                                    <label className="form-check-label" for="schoolType1">
+                                                    <label className="form-check-label" htmlFor="schoolType1">
                                                         Secondary
                                                     </label>
                                                 </div>
@@ -341,8 +341,8 @@ const SchoolSetting = () => {
                                                         </div>
                                                         <div className="img-extension mt-3">
                                                             <div className="d-inline-block align-items-center">
-                                                                <span>Only</span> <a href="#">.jpg</a>{" "}
-                                                                <a href="#">.png</a> <a href="#">.jpeg</a>
+                                                                <span>Only</span> <span>.jpg</span>{" "}
+                                                                <span>.png</span> <span>.jpeg</span>
                                                                 <span> allowed</span>
                                                             </div>
                                                         </div>

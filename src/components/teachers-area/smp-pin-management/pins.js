@@ -95,9 +95,9 @@ const Pins = () => {
                           <path
                             d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
                             stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           ></path>
                         </svg>
                       </i>
