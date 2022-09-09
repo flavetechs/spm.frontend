@@ -850,12 +850,12 @@ export const sendForApproval = (classNoteId) => (dispatch) => {
 }
 
 
-export const getAllLessonNotes = (subjectId) => (dispatch) => {
+export const getAllLessonNotes = (classId,subjectId,status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_LESSON_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?subjectId=${subjectId}`)
+    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?classId=${classId}&subjectId=${subjectId}&status=${status}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_LESSON_NOTES_SUCCESS,

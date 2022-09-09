@@ -19,11 +19,7 @@ import {
   showHideDialog,
   showHideModal,
 } from "../../../../store/actions/toaster-actions";
-import {
-  getUserDetails,
-  hasAccess,
-  NavPermissions,
-} from "../../../../utils/permissions";
+import { getUserDetails } from "../../../../utils/permissions";
 import { NoteShareModal } from "./note-share-modal";
 import * as Yup from "yup";
 import { NoteSendModal } from "./note-send-modal";
@@ -49,17 +45,42 @@ const LessonNotes = () => {
   const { dialogResponse, modalResponse } = state.alert;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
-
-  //VALIDATION
-  const validation = Yup.object().shape({
-    sessionClassId: Yup.string().required("Class is required"),
-    subjectId: Yup.string().required("Subject is required"),
-  });
-  //VALIDATION
+  const queryParams = new URLSearchParams(locations.search);
+  const subjectIdQueryParam = queryParams.get("subjectId") || "";
+  const sessionClassIdQueryParam = queryParams.get("classId") || "";
+  const approvalStatusQueryParam = queryParams.get("approvalStatus") || "";
+  // //VALIDATION
+  // const validation = Yup.object().shape({
+  //   sessionClassId: Yup.string().required("Class is required"),
+  //   subjectId: Yup.string().required("Subject is required"),
+  // });
+  // //VALIDATION
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    const fetchNotes = () => {
+      sessionClassIdQueryParam&&
+        getStaffClassSubjects(sessionClassIdQueryParam)(dispatch);
+      
+      if (!approvalStatusQueryParam) {
+        getAllLessonNotes(
+          sessionClassIdQueryParam,
+          subjectIdQueryParam,
+          -1
+        )(dispatch);
+      }else{
+        getAllLessonNotes(
+          sessionClassIdQueryParam,
+          subjectIdQueryParam,
+          approvalStatusQueryParam
+        )(dispatch);
+      }
+    };
+    fetchNotes();
+  }, [approvalStatusQueryParam, subjectIdQueryParam,sessionClassIdQueryParam,dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -72,46 +93,25 @@ const LessonNotes = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse, dispatch]);
 
   React.useEffect(() => {
-    if (modalResponse == "cancel") {
+    if (modalResponse === "cancel") {
       showHideModal(false)(dispatch);
     }
     return () => {
       respondModal("")(dispatch);
     };
-  }, [modalResponse]);
+  }, [modalResponse, dispatch]);
 
-  const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  const sessionClassIdQuery = queryParams.get("classId");
-  const approvalStatusQuery = queryParams.get("approvalStatus");
-
-  React.useEffect(() => {
-    sessionClassIdQuery && getStaffClassSubjects(sessionClassIdQuery)(dispatch);
-  }, [sessionClassIdQuery]);
-
-  React.useEffect(() => {
-    if (subjectIdQuery && !approvalStatusQuery) {
-      getAllLessonNotes(subjectIdQuery)(dispatch);
-    } 
-    else if (!subjectIdQuery&& !approvalStatusQuery) {
-      getAllLessonNotes(subjectId)(dispatch);
-    } 
-    if (approvalStatusQuery) {
-      getNotesByStatus(subjectIdQuery, approvalStatusQuery)(dispatch);
-    }
-  }, [approvalStatusQuery, subjectIdQuery]);
-
-  
+ 
 
   const filteredLessonNotes = lessonNotes
-    ?.filter((item) =>
-      sessionClassIdQuery
-        ? item.classes.find((i) => i == sessionClassIdQuery)
-        : item
-    )
+    // ?.filter((item) =>
+    //   sessionClassIdQueryParam
+    //     ? item.classes.find((i) => i === sessionClassIdQueryParam)
+    //     : item
+    // )
     ?.filter((item) => {
       if (searchQuery === "") {
         //if query is empty
@@ -128,7 +128,7 @@ const LessonNotes = () => {
         return item;
       }
     });
- 
+
   return (
     <>
       <div>
@@ -190,12 +190,16 @@ const LessonNotes = () => {
               )}
               <Formik
                 initialValues={{
-                  sessionClassId: sessionClassIdQuery ? sessionClassIdQuery : "",
-                  subjectId: subjectIdQuery ? subjectIdQuery:"",
-                  approvalStatus: approvalStatusQuery ? approvalStatusQuery: "",
+                  sessionClassId: sessionClassIdQueryParam
+                    ? sessionClassIdQueryParam
+                    : "",
+                  subjectId: subjectIdQueryParam ? subjectIdQueryParam : "",
+                  approvalStatus: approvalStatusQueryParam
+                    ? approvalStatusQueryParam
+                    : "",
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
+                //validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
                     `${classLocations.createLessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}`
@@ -214,11 +218,12 @@ const LessonNotes = () => {
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {touched.sessionClassId && errors.sessionClassId && (
-                                  <div className="text-danger">
-                                    {errors.sessionClassId}
-                                  </div>
-                                )}
+                                {touched.sessionClassId &&
+                                  errors.sessionClassId && (
+                                    <div className="text-danger">
+                                      {errors.sessionClassId}
+                                    </div>
+                                  )}
                               </div>
                               <Field
                                 as="select"
@@ -230,15 +235,13 @@ const LessonNotes = () => {
                                     "sessionClassId",
                                     e.target.value
                                   );
-                                  
-                                  if (e.target.value == "") {
-                                    getAllLessonNotes("")(dispatch);
-                                    history.push(classLocations.lessonNotes);
-                                  } else {
-                                    history.push(
-                                      `${classLocations.lessonNotes}?classId=${e.target.value}`
-                                    );
-                                  }
+
+                                  history.push(
+                                    `${classLocations.lessonNotes}?classId=${
+                                      e.target.value
+                                  }&subjectId=${""}&approvalStatus=${0}`
+                                  );
+                                  // }
                                 }}
                               >
                                 <option value="">Select Class</option>
@@ -260,18 +263,21 @@ const LessonNotes = () => {
                               <Field
                                 as="select"
                                 name="subjectId"
+                                disabled={
+                                  sessionClassIdQueryParam ? false : true
+                                }
                                 className="form-select"
                                 id="subjectId"
                                 onChange={(e) => {
                                   setFieldValue("subjectId", e.target.value);
                                   setSubjectId(e.target.value);
-                                  e.target.value == ""
-                                    ? history.push(
-                                        `${classLocations.lessonNotes}?classId=${values.sessionClassId}`
-                                      )
-                                    : history.push(
-                                        `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${e.target.value}`
-                                      );
+                                  history.push(
+                                    `${
+                                      classLocations.lessonNotes
+                                    }?classId=${sessionClassIdQueryParam}&subjectId=${
+                                      e.target.value
+                                    }&approvalStatus=${0}`
+                                  );
                                 }}
                               >
                                 <option value="">Select Subject</option>
@@ -282,7 +288,35 @@ const LessonNotes = () => {
                                 ))}
                               </Field>
                             </div>
-
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <Field
+                                as="select"
+                                name="approvalStatus"
+                                disabled={subjectIdQueryParam ? false : true}
+                                className="form-select"
+                                id="approvalStatus"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "approvalStatus",
+                                    e.target.value
+                                  );
+                                  history.push(
+                                    `${classLocations.lessonNotes}?classId=${sessionClassIdQueryParam}&subjectId=${subjectIdQueryParam}&approvalStatus=${e.target.value}`
+                                  );
+                      
+                                }}
+                              >
+                                <option value="">Select Status</option>
+                                {/* {subjectId  ? ( */}
+                                <>
+                                  <option value="0">Not Approved</option>
+                                  <option value="1">Approved</option>
+                                  <option value="2">Saved</option>
+                                  <option value="3">In progress</option>
+                                </>
+                                {/* ):""} */}
+                              </Field>
+                            </div>
                             <button
                               type="button"
                               onClick={() => {
@@ -308,43 +342,6 @@ const LessonNotes = () => {
                               </i>
                               <span>Create Notes</span>
                             </button>
-                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
-                              <Field
-                                as="select"
-                                name="approvalStatus"
-                                className="form-select"
-                                id="approvalStatus"
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    "approvalStatus",
-                                    e.target.value
-                                  );
-                                  if (e.target.value !== "all") {
-                                    approvalStatusQuery != e.target.value &&
-                                    getNotesByStatus(values.subjectId, e.target.value)(dispatch);
-                                    history.push(
-                                      `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}&approvalStatus=${e.target.value}`
-                                    );
-                                  } else {
-                                    getAllLessonNotes("")(dispatch);
-                                    history.push(
-                                      `${classLocations.lessonNotes}?classId=${values.sessionClassId}&subjectId=${values.subjectId}`
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select Status</option>
-                                {/* {subjectId  ? ( */}
-                                <>
-                                  <option value="all">Select All</option>
-                                  <option value="0">Not Approved</option>
-                                  <option value="1">Approved</option>
-                                  <option value="2">Saved</option>
-                                  <option value="3">In progress</option>
-                                </>
-                                {/* ):""} */}
-                              </Field>
-                            </div>
                           </div>
                         </div>
                       </Card.Body>
@@ -392,7 +389,7 @@ const LessonNotes = () => {
                                       </g>
                                     </g>
                                   </svg>
-                                  {showMenuDropdown && indexRow == idx && (
+                                  {showMenuDropdown && indexRow === idx && (
                                     <div
                                       x-placement="bottom-start"
                                       aria-labelledby=""
@@ -458,7 +455,7 @@ const LessonNotes = () => {
                                         view/details
                                       </div>
 
-                                      {item.author ==
+                                      {item.author ===
                                         userDetail?.userAccountId && (
                                         <div
                                           onClick={() => {

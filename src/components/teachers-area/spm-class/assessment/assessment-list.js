@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -21,18 +21,10 @@ import {
   respondDialog,
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
-import * as Yup from "yup";
 import { HomeAssessmentList } from "./home-assement-list";
 import { ClassAssessmentList } from "./class-assessment-list";
 
-//VALIDATION
-const validation = Yup.object().shape({
-  sessionClassId: Yup.string().required("Class is required"),
-  sessionClassSubjectId: Yup.string().required("Subject is required"),
-  groupId: Yup.string().required("Group is required"),
-  type: Yup.string().required("Assessment type is required"),
-});
-//VALIDATION
+
 const AssessmentList = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
