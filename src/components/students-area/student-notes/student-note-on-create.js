@@ -103,7 +103,7 @@ const CreateStudentNote = () => {
                             name="subjectTeacher"
                             className="form-control border-secondary text-dark"
                             id="noteTitle"
-                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName}
+                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName || ""}
                            readOnly
                           />
                         </Col>
@@ -122,6 +122,9 @@ const CreateStudentNote = () => {
                             className="form-control border-secondary text-dark"
                             id="noteTitle"
                             placeholder="Enter note title..."
+                            onChange={(e) => {
+                              setFieldValue("noteTitle",e.target.value)
+                             }}
                           />
                         </Col>
                             <Col md="11" className="form-group text-dark">
@@ -189,6 +192,9 @@ const CreateStudentNote = () => {
                                 name="submitForReview"
                                 className="form-check-input"
                                 id="submitForReview"
+                                onChange={(e) => {
+                                  setFieldValue("submitForReview",e.target.value)
+                                 }}
                               />
                                  <label className="form-label mx-1" >
                                 <b>Submit for review</b>

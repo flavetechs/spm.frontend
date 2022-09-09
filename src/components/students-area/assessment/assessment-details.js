@@ -141,16 +141,15 @@ setFilesArray(files);
                       </OverlayTrigger>
                     )}
                   </div>
-                  <div>
+                  {/* <div>
                     Created:
                     <span className="text-end text-primary">
-                      {/* {singleHomeAssessmentList?.find(i=>i)?.title} */}
                     </span>
-                  </div>
+                  </div> */}
                   <div>
                     Deadline:
                     <span className="text-end text-primary">
-                      {/* {singleHomeAssessmentList?.find(i=>i)?.title} */}
+                    {studentSingleHomeAssessmentList?.assessment.dateDeadLine}{' '}{studentSingleHomeAssessmentList?.assessment.timeDeadLine}
                     </span>
                   </div>
                 </div>

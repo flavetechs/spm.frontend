@@ -59,7 +59,7 @@ export function NoteShareModal(props) {
                 type="checkbox"
                 name="staff"
                 id={staff.teacherAccountId}
-                checked={staffArray.find(s=>s === staff.teacherAccountId)}
+                checked={staffArray.find(s=>s === staff.teacherAccountId)|| ""}
                 onChange={(e) => {
                   handleStaffArray(e);
                 }}

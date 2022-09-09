@@ -95,7 +95,7 @@ const EditClassAssessment = () => {
                         className="form-control border-secondary h6"
                         readOnly
                         id="title"
-                        value={singleClassAssessmentList?.title}
+                        value={singleClassAssessmentList?.title || ""}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -107,7 +107,7 @@ const EditClassAssessment = () => {
                         name="sessionClassSubjectId"
                         className="form-select h6"
                         id="sessionClassSubjectId"
-                        value={sessionClassSubjectIdQuery}
+                        value={sessionClassSubjectIdQuery || ""}
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
@@ -143,7 +143,7 @@ const EditClassAssessment = () => {
                           type="readonly"
                           name="total"
                           readOnly
-                          value={assessmentScore?.totalAssessment}
+                          value={assessmentScore?.totalAssessment || ""}
                           className="form-control h6 py-0 px-1 border-secondary"
                         />
                       </Col>
@@ -155,7 +155,7 @@ const EditClassAssessment = () => {
                           type="text"
                           name="used"
                           readOnly
-                          value={assessmentScore?.used}
+                          value={assessmentScore?.used || ""}
                           className="form-control h6 py-0 px-1 border-secondary"
                         />
                       </Col>
@@ -176,7 +176,7 @@ const EditClassAssessment = () => {
                            
                           }}
                           defaultValue={
-                            singleClassAssessmentList?.assessmentScore
+                            singleClassAssessmentList?.assessmentScore || ""
                           }
                           className="form-control h6 py-0 px-1 border-secondary"
                         />
@@ -242,7 +242,7 @@ const EditClassAssessment = () => {
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
-                                    defaultValue={item.score}
+                                    defaultValue={item.score || ""}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
                                       setScoreValidation(e.target.value);

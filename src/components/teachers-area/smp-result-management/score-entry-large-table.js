@@ -27,7 +27,7 @@ const LargeTable = ({
   useEffect(() => {
   getActiveSession()(dispatch);
   }, [dispatch])
-  console.log(activeSession?.sessionTermId);
+ 
   return (
     <>
       <Row className="pt-3">

@@ -218,7 +218,7 @@ const PublishResultTable = () => {
                     )}{" "}
                     <OverlayTrigger
                       placement="top"
-                      overlay={<Tooltip id="button-tooltip-2"> edit</Tooltip>}
+                      overlay={<Tooltip id="button-tooltip-2"> Edit Result</Tooltip>}
                     >
                       <Link
                         className="btn btn-sm btn-icon btn-warning"
@@ -265,7 +265,7 @@ const PublishResultTable = () => {
                     <OverlayTrigger
                       placement="top"
                       overlay={
-                        <Tooltip id="button-tooltip-2"> Details</Tooltip>
+                        <Tooltip id="button-tooltip-2"> Result Details</Tooltip>
                       }
                     >
                       <Link

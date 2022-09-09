@@ -333,7 +333,7 @@ const UnenrolledStudentsList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    details
+                                    Student Details
                                   </Tooltip>
                                 }
                               >
@@ -384,7 +384,7 @@ const UnenrolledStudentsList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    enroll
+                                    Enroll Student
                                   </Tooltip>
                                 }
                               >

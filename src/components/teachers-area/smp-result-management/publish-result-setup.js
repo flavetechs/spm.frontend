@@ -43,7 +43,7 @@ const PublishResult = () => {
   });
   //VALIDATION SCHEMA
 
-  console.log('sessionTermId', sessionTermId);
+
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
