@@ -3,9 +3,8 @@ import { Button, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../../router/spm-path-locations";
-import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, returnList, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
+import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from "../../../store/actions/toaster-actions";
-// import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { stripHtml } from "../../../utils/tools";
 import "./announcement.scss";
@@ -23,7 +22,7 @@ const AnnouncementList = () => {
 
   React.useEffect(() => {
     getAllAnnouncement()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   function truncateString(str) {
     str = str.replace("<br>", "<div></div>");
@@ -62,7 +61,7 @@ const AnnouncementList = () => {
     return () => {
       respondToDeleteDialog('')(dispatch);
     }
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER
 
 
@@ -231,7 +230,7 @@ const AnnouncementList = () => {
                     <div className="">
                       <div
                         className={
-                          item.isSeen == false
+                          item.isSeen === false
                             ? " h6 d-md-flex justify-content-evenly item-outer-container"
                             : "d-md-flex justify-content-evenly item-outer-container"
                         }
@@ -264,7 +263,7 @@ const AnnouncementList = () => {
                                 updateSeenAnnouncement(item.announcementsId)(dispatch)
                               }}
                             >
-                              {item.isSeen == false ? (
+                              {item.isSeen === false ? (
                                 <svg
                                   width="22"
                                   viewBox="0 0 24 24"

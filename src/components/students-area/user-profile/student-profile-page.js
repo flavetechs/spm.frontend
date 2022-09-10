@@ -28,7 +28,7 @@ const StudentProfilePage = () => {
         const studentAccountId = queryParams.get("studentAccountId");
         if (!studentAccountId) return;
         fetchSingleStudent(studentAccountId)(dispatch);
-    }, []);
+    }, [dispatch, locations.search]);
     return (
         <>
             <Row>

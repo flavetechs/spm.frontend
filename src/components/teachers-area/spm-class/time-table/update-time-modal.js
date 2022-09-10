@@ -54,7 +54,7 @@ export function UpdateTimeModal({ selectedClassId, currentPeriod, timetableTimeI
     }, [submitSuccessful]);
 
     React.useEffect(() => {
-        if (showModal == false) {
+        if (showModal === false) {
             setValidation("");
             setNewTime({ start: startTime, end: endTime, classTimeTableTimeId: timetableTimeId });
         }

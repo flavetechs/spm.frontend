@@ -42,7 +42,7 @@ export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay,
     }, [submitSuccessful]);
 
     React.useEffect(() => {
-        if (showModal == false) {
+        if (showModal === false) {
             setValidation("");
             setNewDay(currentDay);
         }

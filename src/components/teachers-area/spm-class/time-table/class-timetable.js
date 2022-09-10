@@ -7,17 +7,14 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import './timetable.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
-import { getAllTimetable, getStudentTimeTable } from '../../../../store/actions/timetable-actions';
+import { getAllTimetable } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
 
 function ClassTimeTable() {
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
-    const history = useHistory();
-    const locations = useLocation();
     const [selectedClassId, setSelectedClassId] = useState("");
     //VARIABLE DECLARATIONS
 
@@ -30,7 +27,7 @@ function ClassTimeTable() {
 
     React.useEffect(() => {
         getAllActiveClasses()(dispatch);
-    }, ['123']);
+    }, ['123', dispatch]);
 
     return (
         <>

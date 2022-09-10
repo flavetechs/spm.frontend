@@ -31,7 +31,7 @@ const SchoolSetting = () => {
         setEditButton(false)
         setDisable(true)
         getSchoolSettingList()(dispatch)
-    }, []);
+    }, [dispatch]);
 
     React.useEffect(() => {
         setImages(schoolSettingList?.filepath);
@@ -39,7 +39,7 @@ const SchoolSetting = () => {
 
     React.useEffect(() => {
 
-    }, []);
+    }, [dispatch]);
 
 
     const ImageDisplay = (event) => {
@@ -93,13 +93,8 @@ const SchoolSetting = () => {
                 }}
             >
                 {({
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
                     values,
-                    touched,
-                    errors,
-                    isValid,
                     setFieldValue,
                 }) => (
 
@@ -242,7 +237,7 @@ const SchoolSetting = () => {
                                                         type="radio"
                                                         name="schoolType"
                                                         id="flexRadioDefault1"
-                                                        checked={values.schoolType == "primary" ? true : false}
+                                                        checked={values.schoolType === "primary" ? true : false}
                                                         onChange={(e) => {
                                                             setFieldValue("schoolType", e.target.checked && "primary");
                                                         }}
@@ -258,7 +253,7 @@ const SchoolSetting = () => {
                                                         type="radio"
                                                         name="schoolType"
                                                         id="schoolType"
-                                                        checked={values.schoolType == "secondary" ? true : false}
+                                                        checked={values.schoolType === "secondary" ? true : false}
                                                         onChange={(e) => {
                                                             setFieldValue("schoolType", e.target.checked && "secondary");
                                                         }}

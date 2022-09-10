@@ -3,7 +3,6 @@ import { Row, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
-import * as Yup from "yup";
 
 import avatars1 from "../../../assets/images/avatars/01.png";
 import avatars2 from "../../../assets/images/avatars/avtar_2.png";
@@ -25,18 +24,21 @@ const ResultSetting = () => {
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
     const [disable, setDisable] = useState(true);
-    const [isChecked, setIsChecked] = useState(resultSettingList.promoteAll)
+    // const [isChecked, setIsChecked] = useState(resultSettingList.promoteAll ?? "")
+    const [isChecked, setIsChecked] = useState(resultSettingList.promoteAll ?? "")
+    const [isChecked1, setIsChecked1] = useState(resultSettingList?.showPositionOnResult ?? "")
     //VARIABLE DECLARATIONS
 
     React.useEffect(() => {
         setSaveButton(true)
         setEditButton(false)
         getResultSettingList()(dispatch)
-    }, []);
+    }, [dispatch]);
 
     React.useEffect(() => {
         setImages(resultSettingList?.filepath);
-        setIsChecked(resultSettingList?.promoteAll)
+        setIsChecked(resultSettingList?.promoteAll);
+        setIsChecked1(resultSettingList?.showPositionOnResult ?? "");
     }, [resultSettingList]);
 
 
@@ -45,34 +47,33 @@ const ResultSetting = () => {
             setImages(URL.createObjectURL(event.target.files[0]));
         }
     };
+    
 
+    console.log('isChecked1 now', isChecked1);
+    console.log('resultSettingList', resultSettingList);
+    
     return (
         <>
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    resultSettingId: resultSettingList?.resultSettingId,
-                    promoteAll: resultSettingList?.promoteAll,
-                    showPositionOnResult: resultSettingList?.showPositionOnResult,
-                    cumulativeResult: resultSettingList?.cumulativeResult,
-                    showNewsletter: resultSettingList?.showNewsletter,
-                    batchPrinting: resultSettingList?.batchPrinting,
-                    filepath: resultSettingList?.filepath,
+                    resultSettingId: resultSettingList?.resultSettingId ?? "",
+                    promoteAll: resultSettingList?.promoteAll ?? "",
+                    showPositionOnResult: resultSettingList?.showPositionOnResult ?? "",
+                    cumulativeResult: resultSettingList?.cumulativeResult ?? "",
+                    showNewsletter: resultSettingList?.showNewsletter ?? "",
+                    batchPrinting: resultSettingList?.batchPrinting ?? "",
+                    filepath: resultSettingList?.filepath ?? "",
                     //photo: "",
                 }}
 
                 onSubmit={(values) => {
-                    values.resultSettingId = values.resultSettingId;
                     values.promoteAll = isChecked;
-                    values.showPositionOnResult = values.showPositionOnResult;
-                    values.cumulativeResult = values.cumulativeResult;
-                    values.showNewsletter = values.showNewsletter;
-                    values.batchPrinting = values.batchPrinting;
                     values.filepath = images;
                     const params = new FormData();
                     params.append("resultSettingId", values.resultSettingId);
                     params.append("promoteAll", values.promoteAll);
-                    params.append("showPositionOnResult", values.showPositionOnResult);
+                    params.append("showPositionOnResult", isChecked1);
                     params.append("cumulativeResult", values.cumulativeResult);
                     params.append("showNewsletter", values.showNewsletter);
                     params.append("batchPrinting", values.batchPrinting);
@@ -85,13 +86,7 @@ const ResultSetting = () => {
                 }}
             >
                 {({
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
-                    values,
-                    touched,
-                    errors,
-                    isValid,
                     setFieldValue,
                 }) => (
 
@@ -116,9 +111,10 @@ const ResultSetting = () => {
                                                         id="promoteAll"
                                                         className="form-check-input"
                                                         name="PromoteAll"
-                                                        value={true}
-                                                        checked={isChecked}
-                                                        onChange={(e) => {
+                                                        // value={true}
+                                                        // checked={isChecked || ""}
+                                                        checked={isChecked === true ? true : false}
+                                                        onChange={() => {
                                                             setIsChecked(!isChecked);
                                                           }}
                                                     />
@@ -133,9 +129,9 @@ const ResultSetting = () => {
                                                         id="PromoteAll"
                                                         className="form-check-input"
                                                         name="PromoteAll"
-                                                        checked={isChecked == false ? true : false}
-                                                        value={false}
-                                                        onChange={(e) => {
+                                                        checked={isChecked === false ? true : false}
+                                                        // value={false}
+                                                        onChange={() => {
                                                             setIsChecked(!isChecked);
                                                           }}
                                                     />
@@ -150,9 +146,13 @@ const ResultSetting = () => {
                                                         id="showPositionOnResult"
                                                         className="form-check-input"
                                                         name="showPositionOnResult"
-                                                        checked={resultSettingList?.showPositionOnResult || false}
+                                                        // checked={resultSettingList?.showPositionOnResult || false}
+                                                        // onChange={(e) => {
+                                                        //     setFieldValue("showPositionOnResult",e.target.checked);
+                                                        // }}
+                                                         checked={isChecked1}
                                                         onChange={(e) => {
-                                                            setFieldValue("showPositionOnResult",e.target.checked);
+                                                            setIsChecked1(!isChecked1)
                                                         }}
                                                     />
                                                     <label htmlFor="showPositionOnResult" className="check-label">
@@ -166,9 +166,9 @@ const ResultSetting = () => {
                                                         id="cumulativeResult"
                                                         className="form-check-input"
                                                         name="cumulativeResult"
-                                                        checked={resultSettingList?.cumulativeResult|| false}
+                                                        checked={resultSettingList?.cumulativeResult || false}
                                                         onChange={(e) => {
-                                                            setFieldValue("cumulativeResult",e.target.checked);
+                                                            setFieldValue("cumulativeResult", e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="cumulativeResult" className="check-label">
@@ -182,9 +182,9 @@ const ResultSetting = () => {
                                                         id="showNewsletter"
                                                         className="form-check-input"
                                                         name="showNewsletter"
-                                                        checked={resultSettingList?.showNewsletter|| false}
+                                                        checked={resultSettingList?.showNewsletter || false}
                                                         onChange={(e) => {
-                                                            setFieldValue("showNewsletter",e.target.checked);
+                                                            setFieldValue("showNewsletter", e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="showNewsletter" className="check-label">
@@ -200,7 +200,7 @@ const ResultSetting = () => {
                                                         name="batchPrinting"
                                                         checked={resultSettingList?.batchPrinting || false}
                                                         onChange={(e) => {
-                                                            setFieldValue("batchPrinting",e.target.checked);
+                                                            setFieldValue("batchPrinting", e.target.checked);
                                                         }}
                                                     />
                                                     <label htmlFor="batchPrinting" className="check-label">

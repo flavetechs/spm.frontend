@@ -19,7 +19,7 @@ const NotificationSetting = () => {
         setEditButton(false)
         setDisable(true)
         getNotificationSettingList()(dispatch)
-    }, []);
+    }, [dispatch]);
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
@@ -31,9 +31,9 @@ const NotificationSetting = () => {
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    notificationSettingId: notificationSettingList?.notificationSettingId,
-                    notifyByEmail: notificationSettingList?.notifyByEmail,
-                    notifyBySms: notificationSettingList?.notifyBySms,
+                    notificationSettingId: notificationSettingList?.notificationSettingId ?? "",
+                    notifyByEmail: notificationSettingList?.notifyByEmail ?? "",
+                    notifyBySms: notificationSettingList?.notifyBySms ?? "",
                 }}
 
                 onSubmit={(values) => {
@@ -47,13 +47,7 @@ const NotificationSetting = () => {
                 }}
             >
                 {({
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
-                    values,
-                    touched,
-                    errors,
-                    isValid,
                     setFieldValue,
                 }) => (
                     <Row className="">

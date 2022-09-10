@@ -40,7 +40,7 @@ export function NewDayModal({ selectedTimetable, selectedClassId }) {
     }, [submitSuccessful]);
 
     React.useEffect(() => {
-        if (showModal == false) {
+        if (showModal === false) {
             setValidation("");
             setNewDay({day: "", classTimeTableId: "" });
         }

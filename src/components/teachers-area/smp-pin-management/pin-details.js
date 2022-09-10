@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Row, Table } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleUnusedPin } from "../../../store/actions/pin-management-actions";
@@ -23,7 +23,7 @@ const PinDetails = () => {
     if (!pin) return;
     fetchSingleUnusedPin(pin)(dispatch);
     getSchoolSettingList()(dispatch);
-  }, []);
+  }, [dispatch, locations.search]);
   return (
     <>
       <div className="col-md-8 mx-auto">
