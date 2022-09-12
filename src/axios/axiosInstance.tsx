@@ -1,6 +1,6 @@
 import axios from 'axios';
 const axiosInstance = axios.create({
-    baseURL: 'www.flavetechs.com/smp/development/',
+    baseURL: 'http://flavetechs.com/smp/development/',
     // baseURL: 'https://localhost:44373/',
     headers: {
         Authorization: '',
@@ -19,6 +19,10 @@ axiosInstance.interceptors.response.use((response: any) => response, (error: any
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
     if(error.response.status === 500){
         console.log('error.response', error.response)
+    }
+    if(error.response.status === 404){
+        console.log('error.response', error.response)
+        return
     }
     throw error;
 });
