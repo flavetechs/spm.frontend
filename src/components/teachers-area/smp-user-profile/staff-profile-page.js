@@ -25,7 +25,7 @@ const StaffProfilePage = () => {
         if (!teacherAccountId) return;
         fetchSingleStaff(teacherAccountId)(dispatch);
         fetchSingleTeacherClassesAndSubjects(teacherAccountId)(dispatch);
-    }, []);
+    }, [dispatch, locations.search]);
 
     return (
         <>

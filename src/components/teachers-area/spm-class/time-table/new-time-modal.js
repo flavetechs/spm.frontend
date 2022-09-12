@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
 import { createTimetableTime } from "../../../../store/actions/timetable-actions";
-import { logDOM } from "@testing-library/react";
 
 export function NewTimeModal({ selectedClassId, selectedTimetable }) {
 
@@ -31,16 +30,6 @@ export function NewTimeModal({ selectedClassId, selectedTimetable }) {
         newTime.classTimeTableId = selectedTimetable?.classTimeTableId;
         newTime.classId = selectedClassId;
     }, [selectedTimetable]);
-
-    const handleStartDateChange = (event) => {
-        newTime.start = event.target.value
-        setNewTime(newTime);
-    };
-
-    const handleEndDateChange = (event) => {
-        newTime.end = event.target.value
-        setNewTime(newTime);
-    };
 
     const handeSubmit = () => {
         if (!newTime.start.trim() || !newTime.end.trim()) {

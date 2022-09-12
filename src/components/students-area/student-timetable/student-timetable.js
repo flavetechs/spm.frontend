@@ -18,7 +18,7 @@ const StudentTimeTable = () => {
 
   React.useEffect(() => {
     getStudentTimeTable()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

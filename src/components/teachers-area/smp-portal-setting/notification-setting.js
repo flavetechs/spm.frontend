@@ -6,40 +6,48 @@ import { Formik, Field } from "formik";
 import { getNotificationSettingList, updateNotificationSetting } from "../../../store/actions/portal-setting-action";
 
 const NotificationSetting = () => {
-    //VARIABLE DECLARATIONS
-    const dispatch = useDispatch();
-    const [editButton, setEditButton] = useState(false);
-    const [saveButton, setSaveButton] = useState(false);
-    const [disable, setDisable] = useState(true);
-    //VARIABLE DECLARATIONS
-
-
-    React.useEffect(() => {
-        setSaveButton(true)
-        setEditButton(false)
-        setDisable(true)
-        getNotificationSettingList()(dispatch)
-    }, []);
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { notificationSettingList } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
+    //VARIABLE DECLARATIONS
+    const dispatch = useDispatch();
+    const [editButton, setEditButton] = useState(false);
+    const [saveButton, setSaveButton] = useState(false);
+    const [disable, setDisable] = useState(true);
+    const [notifyMeByEmail, setNotifyMeByEmail] = useState(notificationSettingList?.notifyByEmail ?? "");
+    const [notifyMeBySms, setNotifyMeBySms] = useState(notificationSettingList?.notifyBySms ?? "");
+    //VARIABLE DECLARATIONS
+
+    React.useEffect(() => {
+        setNotifyMeByEmail(notificationSettingList?.notifyByEmail ?? "");
+        setNotifyMeBySms(notificationSettingList?.notifyBySms ?? "");
+    }, [notificationSettingList]);
+
+    React.useEffect(() => {
+        setSaveButton(true)
+        setEditButton(false)
+        setDisable(true)
+        getNotificationSettingList()(dispatch)
+    }, [dispatch]);
+
+
     return (
         <>
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    notificationSettingId: notificationSettingList?.notificationSettingId,
-                    notifyByEmail: notificationSettingList?.notifyByEmail,
-                    notifyBySms: notificationSettingList?.notifyBySms,
+                    notificationSettingId: notificationSettingList?.notificationSettingId ?? "",
+                    notifyByEmail: notificationSettingList?.notifyByEmail ?? "",
+                    notifyBySms: notificationSettingList?.notifyBySms ?? "",
                 }}
 
                 onSubmit={(values) => {
                     values.notificationSettingId = values.notificationSettingId;
-                    values.notifyByEmail = values.notifyByEmail;
-                    values.notifyBySms = values.notifyBySms;
+                    values.notifyByEmail = notifyMeByEmail;
+                    values.notifyBySms = notifyMeBySms;
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
@@ -47,13 +55,7 @@ const NotificationSetting = () => {
                 }}
             >
                 {({
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
-                    values,
-                    touched,
-                    errors,
-                    isValid,
                     setFieldValue,
                 }) => (
                     <Row className="">
@@ -77,9 +79,9 @@ const NotificationSetting = () => {
                                                         id="notifyByEmail"
                                                         className="form-check-input"
                                                         name="notifyByEmail"
-                                                        checked={notificationSettingList?.notifyByEmail || false}
+                                                        checked={notifyMeByEmail}
                                                         onChange={(e) => {
-                                                            setFieldValue("notifyByEmail", e.target.checked);
+                                                            setNotifyMeByEmail(!notifyMeByEmail);
                                                         }}
                                                     />
                                                     <label htmlFor="notifyByEmail" className="check-label">
@@ -93,9 +95,9 @@ const NotificationSetting = () => {
                                                         id="notifyBySms"
                                                         className="form-check-input"
                                                         name="notifyBySms"
-                                                        checked={notificationSettingList?.notifyBySms || false}
+                                                        checked={notifyMeBySms}
                                                         onChange={(e) => {
-                                                            setFieldValue("notifyBySms", e.target.checked);
+                                                            setNotifyMeBySms(!notifyMeBySms);
                                                         }}
                                                     />
                                                     <label htmlFor="notifyBySms" className="check-label">

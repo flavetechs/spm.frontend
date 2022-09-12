@@ -26,7 +26,7 @@ const StaffDetails = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  const [image, setImage] = useState(null);
+  const [images, setImage] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -54,7 +54,7 @@ const StaffDetails = () => {
     const teacherAccountId = queryParams.get("teacherAccountId");
     if (!teacherAccountId) return;
     fetchSingleStaff(teacherAccountId)(dispatch);
-  }, []);
+  }, [dispatch, locations.search]);
 
   if (isSuccessful) {
     history.push(staffLocations.staffList);
@@ -65,8 +65,6 @@ const StaffDetails = () => {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
   };
-
- console.log('selectedItem', selectedItem?.photo);
 
   return (
     <>

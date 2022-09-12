@@ -9,6 +9,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
+        schoolSettingList: "",
       };
     case actions.FETCH_SCHOOL_SETTING_SUCCESS:
       return {
@@ -30,6 +31,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
+        resultSettingList: "",
       };
     case actions.FETCH_RESULT_SETTING_SUCCESS:
       return {
@@ -51,6 +53,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
+        notificationSettingList: "",
       };
     case actions.FETCH_NOTIFICATION_SETTING_SUCCESS:
       return {

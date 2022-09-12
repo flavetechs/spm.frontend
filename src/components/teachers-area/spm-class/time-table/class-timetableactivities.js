@@ -55,7 +55,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
         return () => {
             respondToDeleteDialog("")(dispatch);
         };
-    }, [deleteDialogResponse]);
+    }, [deleteDialogResponse, dispatch]);
     //DELETE HANDLER
 
     return (
@@ -98,19 +98,19 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                 </Button>
                             </div>
                         </Card.Header>
-                        {modal == 'newDayModal' ?
+                        {modal === 'newDayModal' ?
                             <NewDayModal
                             selectedTimetable={selectedTimetable}
                                 selectedClassId={selectedClassId}
-                            /> : modal == 'newTimeModal' ?
+                            /> : modal === 'newTimeModal' ?
                                 <NewTimeModal
                                 selectedTimetable={selectedTimetable}
                                     selectedClassId={selectedClassId}
                                 /> :
-                                modal == 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} selectedTimetable={selectedTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
-                                    modal == 'updateTimeModal' ? <UpdateTimeModal selectedTimetable={selectedTimetable} selectedClassId={selectedClassId} currentPeriod={currentPeriod} timetableTimeId={timetableTimeId}
+                                modal === 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} selectedTimetable={selectedTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
+                                    modal === 'updateTimeModal' ? <UpdateTimeModal selectedTimetable={selectedTimetable} selectedClassId={selectedClassId} currentPeriod={currentPeriod} timetableTimeId={timetableTimeId}
                                     /> :
-                                        modal == 'periodActivityModal' ? <PeriodActivityModal
+                                        modal === 'periodActivityModal' ? <PeriodActivityModal
                                             selectedActivityId={selectedActivityId}
                                             selectedClassId={selectedClassId}
                                             periodActivity={periodActivity}

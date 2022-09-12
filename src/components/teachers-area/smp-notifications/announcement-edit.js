@@ -1,11 +1,11 @@
 import { Field, Formik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import { notificationManagement } from "../../../router/spm-path-locations";
-import { resetAnnouncementSuccessfulState, updateAnnouncement } from "../../../store/actions/notification-actions";
+import { updateAnnouncement } from "../../../store/actions/notification-actions";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../store/actions/toaster-actions";
@@ -14,7 +14,6 @@ const AnnouncementEdit = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
-    const locations = useLocation();
     const state = useSelector((state) => state);
     const { announcementDetails, announcementSuccessful } = state.notification;
 
@@ -84,7 +83,6 @@ const AnnouncementEdit = () => {
                                 >
                                     {({
                                         handleSubmit,
-                                        values,
                                         setFieldValue,
                                         touched,
                                         errors,

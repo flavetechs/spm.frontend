@@ -28,7 +28,7 @@ const StaffProfileEdit = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { selectedItem, submitSuccessful, message } = state.staff;
+    const { selectedItem, submitSuccessful } = state.staff;
     //ACCESSING STATE FROM REDUX STORE
 
     //VALIDATIONS SCHEMA
@@ -52,7 +52,7 @@ const StaffProfileEdit = () => {
         const teacherAccountId = queryParams.get("teacherAccountId");
         if (!teacherAccountId) return;
         fetchSingleStaff(teacherAccountId)(dispatch);
-    }, []);
+    }, [dispatch, locations.search]);
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
@@ -135,7 +135,6 @@ const StaffProfileEdit = () => {
             >
                 {({
                     handleSubmit,
-                    values,
                     setFieldValue,
                     touched,
                     errors,

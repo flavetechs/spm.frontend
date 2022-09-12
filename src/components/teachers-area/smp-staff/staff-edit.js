@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Row, Col, Image, Form, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 // import Card from '../../../components/Card'
 import Card from '../../Card'
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import "./staff.scss"
 
-import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // img
 import avatars1 from '../../../assets/images/avatars/01.png'
@@ -57,7 +57,7 @@ const StaffEdit = () => {
       const teacherAccountId = queryParams.get("teacherAccountId");
       if (!teacherAccountId) return;
       fetchSingleStaff(teacherAccountId)(dispatch)
-   }, []);
+   }, [dispatch, locations.search]);
 
    React.useEffect(() => {
       setImages(selectedItem?.photo);

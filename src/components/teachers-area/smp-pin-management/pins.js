@@ -38,7 +38,7 @@ const Pins = () => {
 
   React.useEffect(() => {
     getAllUnusedPinList()(dispatch)
-  }, [])
+  }, [dispatch])
 
 
   return (
