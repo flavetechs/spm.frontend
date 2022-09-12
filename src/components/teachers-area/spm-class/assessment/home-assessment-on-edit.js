@@ -343,7 +343,7 @@ const EditHomeAssessment = () => {
                             name="shouldSendToStudents"
                             className="form-check-input "
                             id="shouldSendToStudents"
-                            onChange={(e) => {
+                            onClick={(e) => {
                               setFieldValue(
                                 "shouldSendToStudents",
                                 e.target.value

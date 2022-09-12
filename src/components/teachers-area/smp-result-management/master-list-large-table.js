@@ -12,9 +12,9 @@ const MasterListLargeTable = ({ masterEntry }) => {
   }
 
   const subjectList = masterEntry?.resultList
-    .map((result, idx) => result.subjects)
+    .map((result,idx) => result.subjects)
     .flat();
-  const filteredSubjectList = subjectList.filter(
+  const filteredSubjectList = subjectList?.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );
@@ -164,7 +164,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
           <tbody>
             <tr>
               <td colSpan="12"></td>
-              {filteredSubjectList?.map((subject, idx) => (
+              {filteredSubjectList?.map((subject) => (
                 <>
                   <td
                     style={{
@@ -219,7 +219,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                   </Badge>
                 </td>
 
-                {filteredSubjectList.map((filtered, id) => (
+                {filteredSubjectList.map((filtered) => (
                   <>
                     <td className="px-3">
                       {item.subjects.find(

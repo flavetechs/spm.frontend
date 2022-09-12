@@ -99,8 +99,8 @@ const EditStudentNote = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    noteTitle: singleStudentNotes?.noteTitle,
-                    subjectId: singleStudentNotes?.subjectId,
+                    noteTitle: singleStudentNotes?.noteTitle || "",
+                    subjectId: singleStudentNotes?.subjectId || "",
                     submitForReview: false,
                     teacherId:subjectTeacher,
                   }}
@@ -136,7 +136,7 @@ const EditStudentNote = () => {
                             name="subjectTeacher"
                             className="form-control border-secondary text-dark"
                             id="noteTitle"
-                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName}
+                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName|| ""} 
                            readOnly
                           />
                         </Col>
@@ -156,6 +156,9 @@ const EditStudentNote = () => {
                             name="noteTitle"
                             className="form-control border-secondary text-secondary"
                             id="noteTitle"
+                            onChange={(e) => {
+                             setFieldValue("noteTitle",e.target.value)
+                            }}
                           />
                         </Col>
                         <Col md="11" className="form-group text-secondary">
@@ -234,6 +237,9 @@ const EditStudentNote = () => {
                               name="submitForReview"
                               className="form-check-input"
                               id="submitForReview"
+                              onChange={(e) => {
+                                setFieldValue("submitForReview",e.target.value)
+                               }}
                             />
                             <label
                               className="form-label mx-1"

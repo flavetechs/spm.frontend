@@ -381,8 +381,8 @@ const GradeSetting = () => {
 
                 <div className="mt-4 d-md-block  d-lg-flex justify-content-lg-around">
                   <Row>
-                    {prevGradesList.map((item) => (
-                      <Col className="">
+                    {prevGradesList.map((item,idx) => (
+                      <Col key={idx} className="">
                         <div className="d-flex justify-content-around">
                           <h5 className="text-uppercase text-center w-100">
                             {item.gradeGroupName}{" "}

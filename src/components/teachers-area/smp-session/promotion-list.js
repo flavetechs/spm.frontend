@@ -58,6 +58,7 @@ const PromotionSetup = () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse,classToPromote,classToPromoteTo.sessionClassId, dispatch]);
+ 
   return (
     <>
       <div>
@@ -123,20 +124,19 @@ const PromotionSetup = () => {
                               }
                             >
                               <div>
-                                <Link
+                                <a
                                   className="px-3 h2"
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details"
-                                  to={`${sessionLocations.promotionPassedList}?failedStudentIds=${item.failedStudentIds}`}
+                                  data-original-title="Details" 
                                 >
                                   {item.totalStudentsPassed}
-                                </Link>
+                                </a>
                               </div>
                             </OverlayTrigger>
                           </td>
-                          <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`)}
+                          <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?failedStudentIds=${item.failedStudentIds}`)}
                             className="h2 text-center" style={{ backgroundColor: '#FF7C7C', cursor: 'pointer' }}>
                             <OverlayTrigger
                               placement="top"
@@ -147,16 +147,15 @@ const PromotionSetup = () => {
                               }
                             >
                               <div>
-                                <Link
+                                <a
                                   className="px-3 h2"
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details"
-                                  to={`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`}
+                                  data-original-title="Details" 
                                 >
                                   {item.totalStudentsFailed}
-                                </Link>
+                                </a>
                               </div>
                             </OverlayTrigger>
                           </td>

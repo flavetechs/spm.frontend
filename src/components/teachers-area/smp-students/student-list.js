@@ -373,7 +373,7 @@ const StudentList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    details
+                                    Student Details
                                   </Tooltip>
                                 }
                               >
@@ -424,7 +424,7 @@ const StudentList = () => {
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
-                                    <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                    <Tooltip id="button-tooltip-2"> Edit Student</Tooltip>
                                   }
                                 >
                                   <Link
@@ -476,7 +476,7 @@ const StudentList = () => {
                               {hasAccess(NavPermissions.enrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
-                                  overlay={<Tooltip id="button-tooltip-2"> Enroll</Tooltip>}
+                                  overlay={<Tooltip id="button-tooltip-2"> Enroll Student</Tooltip>}
                                 >
                                   <Link
                                     className="btn btn-sm btn-icon btn-warning"
@@ -543,7 +543,7 @@ const StudentList = () => {
                               {hasAccess(NavPermissions.unenrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
-                                  overlay={<Tooltip id="button-tooltip-2">Unenroll</Tooltip>}
+                                  overlay={<Tooltip id="button-tooltip-2">Unenroll Student</Tooltip>}
                                 >
                                   <Link
                                     className="btn btn-sm btn-icon btn-danger"
@@ -574,7 +574,7 @@ const StudentList = () => {
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
                                       {" "}
-                                      delete
+                                      Delete Student
                                     </Tooltip>
                                   }
                                 >

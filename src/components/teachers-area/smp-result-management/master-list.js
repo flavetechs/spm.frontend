@@ -46,7 +46,7 @@ const MasterList = () => {
       resetListEntryOnExit(masterEntry)(dispatch);
       setShowMasterListTable(false);
     };
-  }, [dispatch,masterEntry]);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (!sessionId) {

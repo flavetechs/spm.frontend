@@ -46,7 +46,7 @@ const SessionClassList = () => {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteSessionClass(selectedIds)(dispatch);
+        deleteSessionClass(selectedIds, activeSession.activeSessionId)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);
@@ -61,7 +61,7 @@ const SessionClassList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse,dispatch,selectedIds]);
+  }, [deleteDialogResponse]);
   //DELETE HANDLER
 
   return (

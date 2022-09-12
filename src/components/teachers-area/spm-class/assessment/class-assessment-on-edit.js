@@ -15,7 +15,6 @@ import {
   updateClassAssessmentScore,
   updateStudentClassAssessment,
 } from "../../../../store/actions/class-actions";
-import { classLocations } from "../../../../router/spm-path-locations";
 
 const EditClassAssessment = () => {
   const history = useHistory();
@@ -32,14 +31,14 @@ const EditClassAssessment = () => {
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
   const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
-  const typeQueryParam = queryParams.get("type") || '';
+  //const typeQueryParam = queryParams.get("type") || '';
   const classAssessmentIdQueryParam = queryParams.get("classAssessmentId");
 
   useEffect(() => {
     fetchData(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam)(dispatch)
   }, [classAssessmentIdQueryParam, sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, dispatch]);
 
-console.log('singleClassAssessmentList?.assessmentScore', singleClassAssessmentList?.assessmentScore);
+//console.log('singleClassAssessmentList?.assessmentScore', singleClassAssessmentList?.assessmentScore);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -60,7 +59,7 @@ console.log('singleClassAssessmentList?.assessmentScore', singleClassAssessmentL
                         className="form-control border-secondary h6"
                         readOnly
                         id="title"
-                        value={singleClassAssessmentList?.title}
+                        value={singleClassAssessmentList?.title || ""}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -162,7 +161,7 @@ console.log('singleClassAssessmentList?.assessmentScore', singleClassAssessmentL
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
-                                    defaultValue={item.score}
+                                    defaultValue={item.score || ""}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
                                       resetCreateSuccessfulState()(dispatch);

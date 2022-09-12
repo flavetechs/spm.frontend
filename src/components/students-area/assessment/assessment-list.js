@@ -185,7 +185,7 @@ const StudentAssessmentList = () => {
                                         strokeLinejoin="round"
                                       ></path>
                                     </svg>
-                                    view/details
+                                  view/details
                                   </div>
 
                                   {/* <div

@@ -43,7 +43,7 @@ const PublishResultEdit = () => {
   
   const handleFocus = (event) => event.target.select();
 
-  const studentSubjectEntriesOption = publishSingleStudent?.studentSubjectEntries === null ? [] : publishSingleStudent.studentSubjectEntries;
+  //const studentSubjectEntriesOption = publishSingleStudent?.studentSubjectEntries === null ? [] : publishSingleStudent.studentSubjectEntries;
   return (
     <>
       <Row className="pt-3">
@@ -133,7 +133,7 @@ const PublishResultEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {studentSubjectEntriesOption.map(
+                      {publishSingleStudent?.studentSubjectEntries.map(
                         (item, index) => (
                           <OverlayTrigger
                             key={index}

@@ -65,6 +65,8 @@ const CumulativeMasterList = () => {
     }
   }, [cumulativeEntry]);
 
+  console.log('cumulativeEntry', cumulativeEntry);
+
   return (
     <>
       {!showCumulativeMasterListTable ? (

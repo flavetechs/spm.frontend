@@ -200,7 +200,7 @@ const EnrolledStudents = () => {
                       {sessionList?.map((session, idx) => (
                         <option
                           key={idx}
-                          value={session.sessionId.toLowerCase()}
+                          value={session.sessionId.toLowerCase() || ""}
                           selected={activeSession?.sessionId === session.sessionId.toLowerCase()}
                         >
                           {session.startDate} / {session.endDate}
@@ -214,7 +214,7 @@ const EnrolledStudents = () => {
                       name="sessionClassId"
                       className="form-select"
                       id="sessionClassId"
-                      value={sessionClassIdQuery}
+                      value={sessionClassIdQuery || ""}
                       onChange={(e) => {
                         if (e.target.value === "") {
                           history.push(studentsLocations.enrolledStudents);

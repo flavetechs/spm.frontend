@@ -217,7 +217,7 @@ const LessonNoteDetails = () => {
                 <Card.Body>
                   {comments?.map((comment, idx) => (
                     <>
-                      <Card  className="shadow-none bg-transparent border my-3">
+                      <Card className="shadow-none bg-transparent border my-3">
                         <Card.Body>
                           <div>
                             <div className="d-flex justify-content-between align-items-center my-2 my-lg-0 col-12">
@@ -241,8 +241,9 @@ const LessonNoteDetails = () => {
                         </Card.Body>
                       </Card>
                       <h6 className="mb-2"> Replies:</h6>
-                      {comment?.repliedComments?.map((replied) => (
+                      {comment?.repliedComments?.map((replied, idx) => (
                         <Card
+                          key={idx}
                           className="bg-light shadow-none border py-1 mb-1 px-3"
                         >
                           <div className="d-flex flex-sm-nowrap flex-wrap">
@@ -439,8 +440,8 @@ const LessonNoteDetails = () => {
               <Card.Body>
                 <h4 className="mb-3">Related Notes</h4>
                 <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
-                  {relatedNotes?.map((notes) => (
-                    <li className="">
+                  {relatedNotes?.map((notes, idx) => (
+                    <li key={idx} className="">
                       <div className="iq-blog-categories d-flex justify-content-between align-items-center">
                         <h6
                           className="iq-categories-name mb-0"
@@ -466,8 +467,8 @@ const LessonNoteDetails = () => {
               <Card.Body>
                 <h4 className="mb-3">Viewers</h4>
                 <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
-                  {viewers?.map((viewer) => (
-                    <li  className="">
+                  {viewers?.map((viewer, idx) => (
+                    <li key={idx} className="">
                       <div className="iq-blog-categories d-flex justify-content-between align-items-center">
                         <h6 className="iq-categories-name mb-0">
                           {viewer.fullName}
