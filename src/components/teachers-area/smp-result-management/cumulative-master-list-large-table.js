@@ -13,7 +13,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
   const subjectList = cumulativeEntry?.resultList
     .map((result, idx) => result.subjects)
     .flat();
-  const filteredSubjectList = subjectList.filter(
+  const filteredSubjectList = subjectList?.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );

@@ -21,17 +21,13 @@ const PromotionPassedList = () => {
   const { passedStudentList } = state.promotion;
   // ACCESSING STATE FROM REDUX STORE
 
-  React.useEffect(() => {
-    getAllStudents()(dispatch);
-  }, [dispatch]);
-
-
+   
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const studentIds = queryParams.get("passedStudentIds");
     if (!studentIds) return;
     fetchPassedStudentList(studentIds)(dispatch)
-  }, [dispatch, locations.search]);
+  }, []);
 
 
   return (
