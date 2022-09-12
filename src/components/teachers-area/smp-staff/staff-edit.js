@@ -6,7 +6,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import "./staff.scss"
 
-import { useHistory, useLocation } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // img
 import avatars1 from '../../../assets/images/avatars/01.png'
@@ -57,13 +57,13 @@ const StaffEdit = () => {
       const teacherAccountId = queryParams.get("teacherAccountId");
       if (!teacherAccountId) return;
       fetchSingleStaff(teacherAccountId)(dispatch)
-   }, [dispatch, locations.search]);
+   }, [dispatch]);
 
    React.useEffect(() => {
       setImages(selectedItem?.photo);
   }, [selectedItem]);
 
-   if (isSuccessful) {
+   if (isSuccessful || !selectedItem) {
       history.push(staffLocations.staffList);
    }
 
@@ -105,7 +105,7 @@ const StaffEdit = () => {
                   params.append("email", values.email);
                   params.append("photo",values.photo);
                   params.append("profileImage",values.profileImage);
-                  updateStaffAccount(values, params)(dispatch)
+                  updateStaffAccount(values, params)(dispatch);
                }}
             >
                {({

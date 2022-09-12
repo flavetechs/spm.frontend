@@ -15,10 +15,10 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { staffLocations } from "../../../router/spm-path-locations";
 import {
+  fetchSingleItem,
   fetchSingleStaff,
   updateStaffAccount,
 } from "../../../store/actions/staff-actions";
-import { fetchSingleItem } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 
 const StaffDetails = () => {
@@ -54,7 +54,7 @@ const StaffDetails = () => {
     const teacherAccountId = queryParams.get("teacherAccountId");
     if (!teacherAccountId) return;
     fetchSingleStaff(teacherAccountId)(dispatch);
-  }, [dispatch, locations.search]);
+  }, []);
 
   if (isSuccessful) {
     history.push(staffLocations.staffList);
@@ -331,9 +331,6 @@ const StaffDetails = () => {
                             type="button"
                             variant="btn btn-primary"
                             onClick={() => {
-                              fetchSingleItem(selectedItem?.teacherAccountId)(
-                                dispatch
-                              );
                               history.push(
                                 `${staffLocations.staffEdit}?teacherAccountId=${selectedItem?.teacherAccountId}`
                               );
