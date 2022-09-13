@@ -1893,7 +1893,7 @@ export const updateClassAssessmentScore = (classAssessmentId, classAssessmentSco
             });
             // resetCreateSuccessfulState()(dispatch);
             // showSuccessToast(res.data.message.friendlyMessage)(dispatch);
-            getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
+            fetchData(sessionClassIdQuery, sessionClassSubjectIdQuery, classAssessmentId)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_ASSESSMENT_FAILED,

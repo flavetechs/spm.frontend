@@ -38,7 +38,7 @@ const EditClassAssessment = () => {
     fetchData(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam)(dispatch)
   }, [classAssessmentIdQueryParam, sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, dispatch]);
 
-//console.log('singleClassAssessmentList?.assessmentScore', singleClassAssessmentList?.assessmentScore);
+console.log('singleClassAssessmentList?.assessmentScore', singleClassAssessmentList?.assessmentScore);
   return (
     <>
       <div className="col-md-12 mx-auto">
