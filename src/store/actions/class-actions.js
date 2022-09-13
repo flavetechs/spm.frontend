@@ -984,7 +984,7 @@ export const getRelatedNotes = (classNoteId) => (dispatch) => {
         });
 }
 
-export const deleteLessonNotes = (item, subjectId) => (dispatch) => {
+export const deleteLessonNotes = (item, subjectId,classId,status) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
     });
@@ -997,7 +997,7 @@ export const deleteLessonNotes = (item, subjectId) => (dispatch) => {
                 type: actions.DELETE_LESSON_NOTES_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllLessonNotes(subjectId)(dispatch)
+            getAllLessonNotes(classId,subjectId,status)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1853,12 +1853,12 @@ export const updateHomeAssessment = (values) => (dispatch) => {
         });
 }
 
-export const deleteClassAssessment = (item) => (dispatch) => {
+export const deleteClassAssessment = (classAssessmentId, selectedSessionClassSubjectId,sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_ASSESSMENT_LOADING
     });
     const payload = {
-        item
+        item:classAssessmentId, 
     }
     axiosInstance.post(`/classassessment/api/v1/delete/class-assessment`, payload)
         .then((res) => {
@@ -1866,7 +1866,7 @@ export const deleteClassAssessment = (item) => (dispatch) => {
                 type: actions.DELETE_ASSESSMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassAssessment(item.sessionClassId, item.sessionClassSubjectId)(dispatch);
+            getAllClassAssessment(sessionClassId,selectedSessionClassSubjectId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

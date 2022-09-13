@@ -82,7 +82,7 @@ const AssessmentList = () => {
     if (dialogResponse === "continue") {
       typeQueryParam === "home-assessment" ?
         deleteHomeAssessment(homeAssessmentId, sessionClassIdQueryParam, selectedSessionClassSubjectId, groupIdQueryParam)(dispatch)
-        : deleteClassAssessment(classAssessmentId, selectedSessionClassSubjectId)(dispatch)
+        : deleteClassAssessment(classAssessmentId, selectedSessionClassSubjectId,sessionClassIdQueryParam)(dispatch)
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);

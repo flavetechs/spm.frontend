@@ -32,7 +32,7 @@ const AddClassGroup = () => {
     const checkBoxValue = event.target.checked;
     const studentContactId = event.target.id;
     let selectedStudentContactIds;
-    const otherSelectedStudentContactIds = studentContactIdArray.filter(
+    const otherSelectedStudentContactIds = studentContactIdArray?.filter(
       (item) => item !== studentContactId
     );
     if (checkBoxValue === false) {

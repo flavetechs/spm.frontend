@@ -109,7 +109,7 @@ const EditLessonNote = () => {
                     }
                     values.noteContent = content;
                     values.classNoteId = singleLessonNotes?.classNoteId;
-                    values.shouldSendForApproval === true && sendForApproval(singleLessonNotes?.classNoteId)(dispatch)
+                    sendForApproval(singleLessonNotes?.classNoteId)(dispatch)
                     updateLessonNotes(values)(dispatch);
                   }}
                 >
