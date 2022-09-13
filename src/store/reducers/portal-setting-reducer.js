@@ -30,13 +30,12 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         message: "",
-        isSuccessful: false,
-        resultSettingList: "",
+       isSuccessful: false,
       };
     case actions.FETCH_RESULT_SETTING_SUCCESS:
       return {
         ...state,
-        loading: false,
+       loading: false,
         resultSettingList: payload,
       };
     case actions.FETCH_RESULT_SETTING_FAILED:

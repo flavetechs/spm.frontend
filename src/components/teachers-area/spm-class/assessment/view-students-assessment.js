@@ -80,7 +80,6 @@ const ViewStudentsAssessment = () => {
                         ></path>
                       </svg>
                     </OverlayTrigger>
-                    <span>back</span>
 
                     {!fullScreen ? (
                       <OverlayTrigger

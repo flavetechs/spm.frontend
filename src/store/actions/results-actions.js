@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/results-action-types"
+import { getResultSettingList } from "./portal-setting-action";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllStaffClasses = () => (dispatch) => {
@@ -435,7 +436,24 @@ export const resetStudentResultState = () => (dispatch) => {
 // TemplateSetting action
 export const setTemplateSettingState = (templateName) => (dispatch) => {
     dispatch({
-         type: actions.SET_TEMPLATE_SETTING_STATE,
-         payload: templateName
+         type: actions.SET_TEMPLATE_SETTING_STATE_LOADING, 
+     });
+     const payload = {
+        selectedTemplate: templateName
+      }
+     axiosInstance.post('/portalsetting/api/v1/update/result-setting-template', payload)
+     .then((res) => {
+         dispatch({
+             type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,
+             payload: res.data.message.friendlyMessage
+         });
+         getResultSettingList()(dispatch);
+         showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+     }).catch((err) => {
+         dispatch({
+             type: actions.SET_TEMPLATE_SETTING_STATE_FAILED,
+             payload: err.response.data.message.friendlyMessage
+         });
+         showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
      });
     }

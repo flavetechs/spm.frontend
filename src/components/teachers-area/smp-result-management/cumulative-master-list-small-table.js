@@ -29,7 +29,7 @@ const CumulativeMasterListSmallTable = ({ cumulativeEntry, setShowCumulativeMast
                 ></path>
               </svg>
             </OverlayTrigger>
-            <span>back</span>
+         
           </div>
         <Row className="pt-3">
           <Table size="sm" responsive bordered className="w-50 border-secondary" style={{ background: '#d8efd1'}}>

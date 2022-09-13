@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation  } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
@@ -7,8 +7,8 @@ export function ClassAssessmentList(props) {
     const dispatch = useDispatch();
     const locations = useLocation();
     const queryParams = new URLSearchParams(locations.search);
-    const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
-    const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
+    // const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
+    // const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
     const typeQueryParam = queryParams.get("type") || '';
 
     return (

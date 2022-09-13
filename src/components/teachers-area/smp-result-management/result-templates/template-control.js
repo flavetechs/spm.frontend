@@ -1,11 +1,17 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getResultSettingList } from "../../../../store/actions/portal-setting-action";
 import ResultTemplateOne from "./template-one";
 import ResultTemplateTwo from "./template-two";
 
 const TemplateControl = () => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { templateSetting } = state.results;
-  switch (templateSetting) {
+  const { resultSettingList } = state.portal;
+  useEffect(() => {
+    getResultSettingList()(dispatch);
+  }, [dispatch])
+  switch (resultSettingList?.selectedTemplate) {
     case "template-one":
       return (
         <div>

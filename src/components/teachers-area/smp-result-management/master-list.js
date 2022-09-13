@@ -54,7 +54,7 @@ const MasterList = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [sessionId, activeSession,dispatch]);
+  }, [activeSession,dispatch]);
 
   React.useEffect(() => {
     if (masterEntry) {

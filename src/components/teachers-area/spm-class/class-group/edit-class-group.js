@@ -18,7 +18,7 @@ const EditClassGroup = () => {
   const [studentContactIdArray, setStudentContactIdArray] = useState([]);
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassId = queryParams.get("sessionClassId");
-  const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
+ // const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
 
   const [groupName, setGroupName] = useState("");
   const [validation, setValidation] = useState("");
@@ -39,13 +39,13 @@ const EditClassGroup = () => {
       getAllClassStudents(sessionClassId)(dispatch);
       getSingleClassGroup(groupId, sessionClassId)(dispatch);
     }
-  }, []);
+  }, [dispatch]);
   const handleStudentContactIds = (event) => {
     const checkBoxValue = event.target.checked;
     const studentContactId = event.target.id;
     let selectedStudentContactIds;
-    const otherSelectedStudentContactIds = studentContactIdArray.filter(
-      (item) => item != studentContactId
+    const otherSelectedStudentContactIds = studentContactIdArray?.filter(
+      (item) => item !== studentContactId
     );
     if (checkBoxValue === false) {
       selectedStudentContactIds = [...otherSelectedStudentContactIds];

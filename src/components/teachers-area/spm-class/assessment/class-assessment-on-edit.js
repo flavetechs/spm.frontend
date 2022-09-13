@@ -123,7 +123,6 @@ const EditClassAssessment = () => {
                                 classAssessmentIdQueryParam,
                                 Number(e.target.value),
                                 sessionClassSubjectIdQueryParam, sessionClassIdQueryParam)(dispatch);
-
                             }}
                             defaultValue={
                               singleClassAssessmentList?.assessmentScore

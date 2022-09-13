@@ -70,7 +70,7 @@ const LessonNotes = () => {
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteLessonNotes(teacherClassNoteId, subjectId)(dispatch);
+      deleteLessonNotes(teacherClassNoteId, subjectIdQueryParam,sessionClassIdQueryParam,approvalStatusQueryParam)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);

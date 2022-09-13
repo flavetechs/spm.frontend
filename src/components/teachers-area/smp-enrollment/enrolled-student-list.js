@@ -88,7 +88,7 @@ const EnrolledStudents = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,dispatch,selectedIds,sessionClassIdQuery]);
+  }, [dialogResponse,dispatch,sessionClassIdQuery]);
   //UNENROLL HANDLER
 
   const checkSingleItem = (isChecked, studentContactId, enrolledStudents) => {

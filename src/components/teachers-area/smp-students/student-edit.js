@@ -144,7 +144,7 @@ const StudentEdit = () => {
           params.append("photo",values.photo);
           params.append("profileImage",values.profileImage);
           params.append("sessionClassId",values.sessionClassId);
-          updateStudent(values,params)(dispatch);
+          updateStudent(params)(dispatch);
         }}
         enableReinitialize={true}
       >

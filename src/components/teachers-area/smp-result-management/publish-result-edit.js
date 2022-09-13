@@ -74,7 +74,7 @@ const PublishResultEdit = () => {
                 ></path>
               </svg>
             </OverlayTrigger>
-            <span>back</span>
+           
           </div>
               <h3>Double Click to edit</h3>
             </Card.Header>
@@ -109,7 +109,7 @@ const PublishResultEdit = () => {
               <Formik
                 initialValues={{ examScore: 0, assessmentScore: 0 }}
                 enableReinitialize={true}
-                onSubmit={() => {}}
+                onSubmit={(values) => {}}
               >
                 {({
                   setFieldValue,
@@ -181,14 +181,12 @@ const PublishResultEdit = () => {
                                     }}
                                     className="fw-bold"
                                     type="text"
-                                    name={`${item.subjectId}_assessmentScore`}
                                     defaultValue={item.assessmentScore}
+                                    name={`${item.subjectId}_assessmentScore`}
                                     onFocus={handleFocus}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        `${item.subjectId}_assessmentScore`,
-                                        e.target.value
-                                      );
+                                        `${item.subjectId}_assessmentScore`, e.target.value );
                                     }}
                                     onBlur={(e) => {
                                       setAssessmentScore(
@@ -223,8 +221,8 @@ const PublishResultEdit = () => {
                                     }}
                                     className=" fw-bold "
                                     type="text"
-                                    name={`${item.subjectId}_examScore`}
                                     defaultValue={item.examScore}
+                                    name={`${item.subjectId}_examScore`}
                                     onFocus={handleFocus}
                                     onChange={(e) => {
                                       setFieldValue(

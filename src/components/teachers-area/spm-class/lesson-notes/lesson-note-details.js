@@ -89,7 +89,7 @@ const LessonNoteDetails = () => {
                           ></path>
                         </svg>
                       </OverlayTrigger>
-                      <span >back</span>
+                   
                       {!fullScreen ? (
                         <OverlayTrigger
                           placement="top"

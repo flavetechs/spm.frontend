@@ -90,7 +90,7 @@ const AdminScoreEntry = () => {
                       ></path>
                     </svg>
                   </OverlayTrigger>
-                  <span>back</span>
+                  
                 </div>
                 <h6>ADMIN SCORE ENTRY</h6>
               </Card.Header>
