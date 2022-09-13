@@ -59,7 +59,7 @@ const ClassSetupList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse,dispatch,selectedIds]);
+  }, [deleteDialogResponse]);
   //DELETE HANDLER
 
   const checkSingleItem = (isChecked, lookupId, classes) => {
@@ -250,6 +250,7 @@ const ClassSetupList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
+                                checked={selectedIds.find(i=> i === item.lookupId) ||false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,

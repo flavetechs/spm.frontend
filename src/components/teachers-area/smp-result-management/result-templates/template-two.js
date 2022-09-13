@@ -69,7 +69,7 @@ const ResultTemplateTwo = () => {
                           ></path>
                         </svg>
                       </OverlayTrigger>
-                      <span>back</span>
+                     
                     </div>
                     {studentResult?.isPrint && (
                       <Button

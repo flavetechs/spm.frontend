@@ -25,10 +25,10 @@ export const getSchoolSettingList = () => (dispatch) => {
 };
 
 
-export const getResultSettingList = (resultlSettingId) => (dispatch) => {
+export const getResultSettingList = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_RESULT_SETTING_LOADING,
-        payload: resultlSettingId,
+       // payload: resultlSettingId,
     });
     axiosInstance.get(`/portalsetting/api/v1/get/result-settings`)
         .then((res) => {

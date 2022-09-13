@@ -38,7 +38,7 @@ const ScoreEntry = () => {
 
   return (
     <>
-      <div className="col-lg-8 mx-auto">
+       <div className="col-md-12 mx-auto d-flex justify-content-center">
         <Row>
           <Col sm="12">
             <Card>

@@ -69,7 +69,7 @@ const AdminScoreEntryTable = () => {
                 ></path>
               </svg>
             </OverlayTrigger>
-            <span>back</span>
+           
           </div>
           <Table
             responsive

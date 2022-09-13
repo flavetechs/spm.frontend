@@ -56,7 +56,6 @@ const ClassAssessmentDetails = () => {
                         ></path>
                       </svg>
                     </OverlayTrigger>
-                    <span>back</span>
                    
                   </div>
                  <div>{singleClassAssessmentList?.sessionClassName}</div>

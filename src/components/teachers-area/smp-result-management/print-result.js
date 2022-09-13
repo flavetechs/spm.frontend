@@ -238,7 +238,7 @@ const PrintResult = () => {
                               type="text"
                               name="studentRegNo"
                               className="form-control"
-                              autocomplete="off"
+                              autoComplete="off"
                               id="studentRegNo"
                               placeholder="Enter student reg no..."
                             />
@@ -256,7 +256,7 @@ const PrintResult = () => {
                               type="text"
                               name="ePin"
                               className="form-control"
-                              autocomplete="off"
+                              autoComplete="off"
                               id="ePin"
                               placeholder="Enter e-pin..."
                             />

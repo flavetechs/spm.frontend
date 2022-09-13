@@ -179,7 +179,7 @@ const StaffAdd = () => {
                         </div>
                         <div className="img-extension mt-3">
                           <div className="d-inline-block align-items-center">
-                            <span>Only</span> <a>.jpg</a>{" "}
+                            <span>Only</span> <span>.jpg</span>{" "}
                             <span>.png</span> <span>.jpeg</span>
                             <span> allowed</span>
                           </div>

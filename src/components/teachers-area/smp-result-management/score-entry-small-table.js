@@ -66,7 +66,7 @@ const ScoreEntryTable = () => {
                 ></path>
               </svg>
             </OverlayTrigger>
-            <span>back</span>
+         
           </div>
           <Table
             responsive

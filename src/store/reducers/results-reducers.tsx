@@ -286,10 +286,27 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       };
     }
 //template setting reducer
-case actions.SET_TEMPLATE_SETTING_STATE: {
+case actions.SET_TEMPLATE_SETTING_STATE_LOADING: {
   return {
     ...state,
-    templateSetting: payload,
+    isSuccessful: false,
+    loading: true,
+  };
+}
+case actions.SET_TEMPLATE_SETTING_STATE_SUCCESS: {
+  return {
+    ...state,
+    isSuccessful: true,
+    loading: false,
+    message: payload
+  };
+}
+case actions.SET_TEMPLATE_SETTING_STATE_FAILED: {
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
   };
 }
     default:

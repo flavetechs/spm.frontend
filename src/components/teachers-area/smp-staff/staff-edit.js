@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col, Image, Form, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 // import Card from '../../../components/Card'
 import Card from '../../Card'
 import { Formik, Field } from 'formik';
@@ -57,14 +57,15 @@ const StaffEdit = () => {
       const teacherAccountId = queryParams.get("teacherAccountId");
       if (!teacherAccountId) return;
       fetchSingleStaff(teacherAccountId)(dispatch)
-   }, []);
+   }, [dispatch]);
 
    React.useEffect(() => {
       setImages(selectedItem?.photo);
   }, [selectedItem]);
 
-   if (isSuccessful) {
+   if (isSuccessful || !selectedItem) {
       history.push(staffLocations.staffList);
+      
    }
 
 
@@ -105,7 +106,7 @@ const StaffEdit = () => {
                   params.append("email", values.email);
                   params.append("photo",values.photo);
                   params.append("profileImage",values.profileImage);
-                  updateStaffAccount(values, params)(dispatch)
+                  updateStaffAccount(values, params)(dispatch);
                }}
             >
                {({

@@ -15,10 +15,10 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { staffLocations } from "../../../router/spm-path-locations";
 import {
+  fetchSingleItem,
   fetchSingleStaff,
   updateStaffAccount,
 } from "../../../store/actions/staff-actions";
-import { fetchSingleItem } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 
 const StaffDetails = () => {
@@ -26,7 +26,7 @@ const StaffDetails = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  const [image, setImage] = useState(null);
+  const [images, setImage] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -65,8 +65,6 @@ const StaffDetails = () => {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
   };
-
- console.log('selectedItem', selectedItem?.photo);
 
   return (
     <>
@@ -333,9 +331,6 @@ const StaffDetails = () => {
                             type="button"
                             variant="btn btn-primary"
                             onClick={() => {
-                              fetchSingleItem(selectedItem?.teacherAccountId)(
-                                dispatch
-                              );
                               history.push(
                                 `${staffLocations.staffEdit}?teacherAccountId=${selectedItem?.teacherAccountId}`
                               );

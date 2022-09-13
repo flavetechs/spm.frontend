@@ -146,8 +146,8 @@ const LargeTable = ({
                                 style={{ maxHeight: '25px', maxWidth: '120px', height: '25px', zIndex: 1000 }}
                                 className=" fw-bold "
                                 type="text"
-                                name={`${item.studentContactId}_examScore`}
                                 defaultValue={item.examsScore}
+                                name={`${item.studentContactId}_examScore`}
                                 onFocus={handleFocus}
                                 onChange={(e) => {
                                   setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
@@ -166,9 +166,11 @@ const LargeTable = ({
                         <td style={{ width: "5px" }}>
                           {" "}
                           <Field
+                          name="checked"
                             type="checkbox"
                             className="form-check-input"
-                            checked={item.isOffered}
+                            checked={item.isOffered || false}
+                            onChange={(e)=>setFieldValue("checked",e.target.checked)}
                           />
                         </td>
                         <td>

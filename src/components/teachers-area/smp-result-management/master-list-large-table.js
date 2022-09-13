@@ -56,7 +56,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                 >
                   <div
                     onClick={() => {
-                      ExportCSV("master-list", "master-list");
+                     // ExportCSV("master-list", "master-list");
                       setShowMenuDropdown(false);
                     }}
                     className="dropdown-item"
