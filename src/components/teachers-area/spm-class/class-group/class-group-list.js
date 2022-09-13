@@ -68,15 +68,15 @@ const ClassGroup = () => {
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
-  }, [sessionClassSubjectId]);
+  }, [sessionClassIdQuery,sessionClassSubjectIdQuery,dispatch]);
 
   React.useEffect(() => {
     getClassSubjects(sessionClassIdQuery)(dispatch);
-  }, [sessionClassIdQuery]);
+  }, [sessionClassIdQuery,dispatch]);
 
   const checkSingleItem = (isChecked, groupId, groupList) => {
     groupList?.forEach((item) => {
@@ -91,7 +91,7 @@ const ClassGroup = () => {
     }
   };
   const checkAllItems = (isChecked, groupList) => {
-    groupList.forEach((item) => {
+    groupList?.forEach((item) => {
       item.isChecked = isChecked;
       if (item.isChecked) {
         dispatch(pushId(item.groupId));
@@ -101,7 +101,7 @@ const ClassGroup = () => {
     });
     returnList(groupList)(dispatch);
   };
-
+console.log("ans",selectedIds);
   return (
     <>
       <div>
@@ -165,7 +165,7 @@ const ClassGroup = () => {
                           ></path>
                         </svg>
                         </OverlayTrigger>
-                        <span >back</span>
+                      
                         </div>
                         <div className="d-md-flex ">
                           <div className=" me-2 mx-2 mt-3 mt-md-0 dropdown">
@@ -368,6 +368,7 @@ const ClassGroup = () => {
                                   <input
                                     className="form-check-input"
                                     type="checkbox"
+                                    checked={selectedIds.find(i=>i===item.groupId)||false}
                                     onChange={(e) => {
                                       checkSingleItem(
                                         e.target.checked,

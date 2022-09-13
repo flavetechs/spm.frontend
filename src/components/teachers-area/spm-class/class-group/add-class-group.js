@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
 import {
   createClassGroup,
   getAllClassStudents,
@@ -23,18 +22,18 @@ const AddClassGroup = () => {
   const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
   React.useEffect(() => {
     createSuccessful && history.goBack();
-  }, [createSuccessful]);
+  }, [createSuccessful,locations.search]);
 
   React.useEffect(() => {
     getAllClassStudents(sessionClassId)(dispatch);
-  }, []);
+  }, [dispatch]);
 
   const handleStudentContactIds = (event) => {
     const checkBoxValue = event.target.checked;
     const studentContactId = event.target.id;
     let selectedStudentContactIds;
     const otherSelectedStudentContactIds = studentContactIdArray.filter(
-      (item) => item != studentContactId
+      (item) => item !== studentContactId
     );
     if (checkBoxValue === false) {
       selectedStudentContactIds = [...otherSelectedStudentContactIds];

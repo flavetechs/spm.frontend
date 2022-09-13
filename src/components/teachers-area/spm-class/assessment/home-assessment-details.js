@@ -64,7 +64,6 @@ const HomeAssessmentDetails = () => {
                         ></path>
                       </svg>
                     </OverlayTrigger>
-                    <span>back</span>
 
                     {!fullScreen ? (
                       <OverlayTrigger

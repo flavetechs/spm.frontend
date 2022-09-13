@@ -86,15 +86,15 @@ const CreateHomeAssessment = () => {
                   initialValues={{
                     title: "",
                     content: "",
-                    assessmentScore: assessmentScore?.totalAssessment - assessmentScore?.used,
+                    assessmentScore: 0 || (assessmentScore?.totalAssessment - assessmentScore?.used),
                     sessionClassId: sessionClassIdQueryParam,
                     sessionClassSubjectId: sessionClassSubjectIdQueryParam,
                     sessionClassGroupId: sessionClassGroupIdQueryParam,
                     shouldSendToStudents: false,
                     timeDeadLine: "",
                     dateDeadLine: "",
-                    total: assessmentScore?.totalAssessment,
-                    used: assessmentScore?.used,
+                    total: assessmentScore?.totalAssessment || "",
+                    used: assessmentScore?.used || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -105,7 +105,6 @@ const CreateHomeAssessment = () => {
                     }
                     values.content = content;
                     values.comment = comment;
-                    console.log('values', values);
                     createHomeAssessment(values)(dispatch);
                   }}
                 >

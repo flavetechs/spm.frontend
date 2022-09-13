@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/class-action-types";
-import { getAllClassScore, getAllSharedOnStaffClasses } from "./results-actions";
+import {  getAllSharedOnStaffClasses } from "./results-actions";
 import { respondModal, showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
@@ -1794,7 +1794,7 @@ export const createHomeAssessment = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
-            getAllHomeAssessment(values.sessionClassSubjectId)(dispatch);
+            getAllHomeAssessment(values.sessionClassId, values.sessionClassSubjectId, values.sessionClassGroupId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -1842,7 +1842,7 @@ export const updateHomeAssessment = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
-            getAllHomeAssessment(values.sessionClassSubjectId)(dispatch);
+            getAllHomeAssessment(values.sessionClassId, values.sessionClassSubjectId, values.sessionClassGroupId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -1866,7 +1866,7 @@ export const deleteClassAssessment = (item) => (dispatch) => {
                 type: actions.DELETE_ASSESSMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassAssessment()(dispatch);
+            getAllClassAssessment(item.sessionClassId, item.sessionClassSubjectId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

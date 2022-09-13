@@ -120,8 +120,8 @@ const AdminLargeTable = ({
                             type="text"
                             maxLength={previousScoreEntry?.assessmentScore}
                             name={`${item.studentContactId}_assessmentScore`}
-                            defaultValue={item.assessmentScore}
                             onFocus={handleFocus}
+                            defaultValue={item.assessmentScore}
                             onChange={(e) => {
                               setFieldValue(
                                 `${item.studentContactId}_assessmentScore`,
@@ -161,8 +161,8 @@ const AdminLargeTable = ({
                             className=" fw-bold "
                             type="text"
                             maxLength={previousScoreEntry?.examsScore}
-                            name={`${item.studentContactId}_examScore`}
                             defaultValue={item.examsScore}
+                            name={`${item.studentContactId}_examScore`}
                             onFocus={handleFocus}
                             onChange={(e) => {
                               setFieldValue(
@@ -187,9 +187,11 @@ const AdminLargeTable = ({
                       <td style={{ width: "5px" }}>
                         {" "}
                         <Field
+                        name="checked"
                           type="checkbox"
                           className="form-check-input"
-                          checked={item.isOffered}
+                          checked={item.isOffered || false}
+                          onChange={(e)=>setFieldValue("checked",e.target.checked)}
                         />
                       </td>
                       <td>

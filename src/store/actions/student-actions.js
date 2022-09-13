@@ -41,11 +41,11 @@ export const getAllStudents = () => (dispatch) => {
         });
 }
 
-export const createStudent = (student,formData) => (dispatch) => {
+export const createStudent = (formData) => (dispatch) => {
     dispatch({
         type: actions.CREATE_STUDENT_LOADING
     });
-    axiosInstance.post('/student/api/v1/create/student', formData, student)
+    axiosInstance.post('/student/api/v1/create/student', formData)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_STUDENT_SUCCESS,
@@ -61,12 +61,12 @@ export const createStudent = (student,formData) => (dispatch) => {
         });
 }
 
-export const updateStudent = (updatedStudent, formData) => (dispatch) => {
+export const updateStudent = (formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_STUDENT_LOADING
     });
 
-    axiosInstance.post('/student/api/v1/update/student', formData, updatedStudent)
+    axiosInstance.post('/student/api/v1/update/student', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_STUDENT_SUCCESS,
