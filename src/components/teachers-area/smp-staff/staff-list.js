@@ -264,6 +264,7 @@ const StaffList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
+                                checked={selectedIds.find(i=> i === item.teacherUserAccountId) ||false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,

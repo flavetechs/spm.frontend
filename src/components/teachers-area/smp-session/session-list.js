@@ -150,7 +150,6 @@ const SessionList = () => {
 
   //SWITCH HANDLER
 
-
   return (
     <>
       <div>
@@ -268,7 +267,7 @@ const SessionList = () => {
                           <td className='text-uppercase'><b>{item.headTeacherName}</b></td>
                           <td>
                             <div className="iq-media-group iq-media-group-1">
-                              {item.terms.map((term, idx) => {
+                              {item?.terms?.map((term, idx) => {
                                 if (term.isActive) {
                                   return (
 

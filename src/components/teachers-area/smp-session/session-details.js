@@ -45,7 +45,7 @@ const SessionDetails = () => {
                                         <h5><b>{selectedItem?.startDate}/{selectedItem?.endDate} Session</b></h5>
                                     </div>
                                 </Card.Header>
-                                <table className="table table-bordered" responsive>
+                                <table className="table table-bordered table-responsive">
                                     <thead>
                                         <tr>
                                             <th>Session Detail</th>
