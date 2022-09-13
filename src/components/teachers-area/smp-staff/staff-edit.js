@@ -65,6 +65,7 @@ const StaffEdit = () => {
 
    if (isSuccessful || !selectedItem) {
       history.push(staffLocations.staffList);
+      
    }
 
 
