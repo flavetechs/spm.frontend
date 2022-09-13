@@ -24,7 +24,7 @@ const CumulativeMasterListLargeTable = ({ cumulativeEntry }) => {
       (item, index, self) =>
         index === self.findIndex((t) => t.termName === item.termName)
     );
-console.log("cumulativeEntry?.resultList",cumulativeEntry?.resultList);
+
   return (
     <>
       <Row className="pt-3">
