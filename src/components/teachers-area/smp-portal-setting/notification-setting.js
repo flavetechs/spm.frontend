@@ -4,19 +4,23 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import { getNotificationSettingList, updateNotificationSetting } from "../../../store/actions/portal-setting-action";
+import NotificationSettingActivities from "./notification-settings-activities";
 
 const NotificationSetting = () => {
 
     const [notificationListList, setNotificationListList] = useState([
         {
-            title: "Notification", id: 1, desc: "select your notification mode", icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M9.15722 20.7714V17.7047C9.1572 16.9246 9.79312 16.2908 10.581 16.2856H13.4671C14.2587 16.2856 14.9005 16.9209 14.9005 17.7047V17.7047V20.7809C14.9003 21.4432 15.4343 21.9845 16.103 22H18.0271C19.9451 22 21.5 20.4607 21.5 18.5618V18.5618V9.83784C21.4898 9.09083 21.1355 8.38935 20.538 7.93303L13.9577 2.6853C12.8049 1.77157 11.1662 1.77157 10.0134 2.6853L3.46203 7.94256C2.86226 8.39702 2.50739 9.09967 2.5 9.84736V18.5618C2.5 20.4607 4.05488 22 5.97291 22H7.89696C8.58235 22 9.13797 21.4499 9.13797 20.7714V20.7714"
+            title: "Notification", id: 1, desc: "select your notification mode",
+            icon: <svg width="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd"
+                    d="M4.00185 12.0001C3.99906 13.2298 3.94419 14.907 4.70494 15.5339C5.41453 16.1187 5.91395 15.968 7.20945 16.0631C8.50587 16.1591 11.242 19.97 13.3512 18.7646C14.4393 17.9089 14.5202 16.1151 14.5202 12.0001C14.5202 7.88515 14.4393 6.09135 13.3512 5.23571C11.242 4.02938 8.50587 7.84121 7.20945 7.93717C5.91395 8.03225 5.41453 7.88157 4.70494 8.46635C3.94419 9.09328 3.99906 10.7705 4.00185 12.0001Z"
                     stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M18.5811 8.31445C19.8924 10.6051 19.8924 13.4026 18.5811 15.6861" stroke="currentColor" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         },
         {
-            title: "Recover password", id: 2, desc: "choose where you receive reset password code",
+            title: "Recover password", id: 2, desc: "choose your password reset preferences",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                     d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
@@ -30,7 +34,7 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Announcement", id: 3, desc: "control where your announcement is been sent to",
+            title: "Announcement", id: 3, desc: "edit where announcement is been sent",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                     d="M12 17.8476C17.6392 17.8476 20.2481 17.1242 20.5 14.2205C20.5 11.3188 18.6812 11.5054 18.6812 7.94511C18.6812 5.16414 16.0452 2 12 2C7.95477 2 5.31885 5.16414 5.31885 7.94511C5.31885 11.5054 3.5 11.3188 3.5 14.2205C3.75295 17.1352 6.36177 17.8476 12 17.8476Z"
@@ -65,7 +69,7 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Session", id: 6, desc: "select where session notices are bbeen sentn to",
+            title: "Session", id: 6, desc: "select where notices are been sent to",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13.8496 4.25024V6.67024" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                     strokeLinejoin="round" />
@@ -292,19 +296,17 @@ const NotificationSetting = () => {
                             <Card.Body className=''>
                                 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                                     <Row className='mt gx-3'>
-                                        <Col sm={3} className='col-md-3'>
+                                        <Col sm={3} className='col-md-4'>
                                             <Nav variant="" className="flex-column portal-tab" >
-                                                <Nav.Item className=''>
+                                                <Nav.Item className='shadow'>
                                                     {notificationListList?.map((item, index) => (
-                                                        <Nav.Link eventKey="first" href="#"
+                                                        <Nav.Link eventKey="first" href="#" className="shadow"
                                                         >
                                                             <Row className="">
-                                                                <Col className='me-2 col-1 col-sm-1 col-md-1'>
+                                                                <Col className='me-1 col-1 col-sm-1 col-md-1'>
                                                                     {item.icon}
                                                                 </Col>
                                                                 <Col className='text-wrap col-sm-9 col-md-9'>
-                                                                    {/* <span className='fw-bold'>Notification</span> */}
-                                                                    {/* <p>Update school current details</p> */}
                                                                     <span><b>{item.title}</b></span>
                                                                     <p><small>{item.desc}</small></p>
                                                                 </Col>
@@ -314,130 +316,8 @@ const NotificationSetting = () => {
                                                 </Nav.Item>
                                             </Nav>
                                         </Col>
-                                        <Col sm={9} className=''>
-                                            <Tab.Content>
-                                                <Tab.Pane eventKey="first">
-                                                    <div>
-                                                        <div>
-                                                            <h5 className="lead">Notification Settings</h5>
-                                                            <p>Edit and control your notification mode preferences</p>
-                                                        </div>
-                                                        <div className="new-user-info">
-                                                            <Form>
-                                                                <div className="row ms-1">
-                                                                    <div className="form-check mb-3 form-Check col-md-6">
-                                                                        <Field
-                                                                            // disabled={disable}
-                                                                            type="radio"
-                                                                            id="flexRadioDefault1"
-                                                                            className="form-check-input"
-                                                                            name="notifyByEmail"
-                                                                            checked={true}
-                                                                        // onChange={(e) => {
-                                                                        //     setNotifyMeByEmail(!notifyMeByEmail);
-                                                                        // }}
-                                                                        />
-                                                                        <label htmlFor="notifyByEmail" className="check-label">
-                                                                            Notify me by email{" "}
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="form-check mb-3 form-Check col-md-6">
-                                                                        <Field
-                                                                            // disabled={disable}
-                                                                            type="radio"
-                                                                            id="notifyBySms"
-                                                                            className="form-check-input"
-                                                                            name="notifyBySms"
-                                                                        // checked={notifyMeBySms}
-                                                                        // onChange={(e) => {
-                                                                        //     setNotifyMeBySms(!notifyMeBySms);
-                                                                        // }}
-                                                                        />
-                                                                        <label htmlFor="notifyBySms" className="check-label">
-                                                                            Notify me by sms{" "}
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="row">
-                                                                </div>
-                                                                <div className="d-flex mt-4 justify-content-end">
-                                                                    {saveButton ? (
-                                                                        <Button
-                                                                            type="button"
-                                                                            variant="btn btn-primary mx-2"
-                                                                        // onClick={() => {
-                                                                        //     setSaveButton(!saveButton)
-                                                                        //     setEditButton(!editButton)
-                                                                        //     setDisable(!disable);
-                                                                        // }}
-                                                                        >
-                                                                            Click to Edit
-                                                                        </Button>
-                                                                    ) : (
-                                                                        <Button
-                                                                            type="button"
-                                                                            variant="btn btn-danger mx-2"
-                                                                        // onClick={handleSubmit}
-                                                                        >
-                                                                            Save Changes
-                                                                        </Button>
-                                                                    )}
-                                                                </div>
-                                                            </Form>
-                                                        </div>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={1 + 1}>
-                                                    <div>
-                                                        <h2>i am a second column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={2 + 1}>
-                                                    <div>
-                                                        <h2>i am a third column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={3 + 1}>
-                                                    <div>
-                                                        <h2>i am a fourth column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={4 + 1}>
-                                                    <div>
-                                                        <h2>i am a fifth column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={5 + 1}>
-                                                    <div>
-                                                        <h2>i am a sixth column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={6 + 1}>
-                                                    <div>
-                                                        <h2>i am a seventh column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={7 + 1}>
-                                                    <div>
-                                                        <h2>i am a eighteeth column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={8 + 1}>
-                                                    <div>
-                                                        <h2>i am a nineth column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={9 + 1}>
-                                                    <div>
-                                                        <h2>i am a tenth column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                                <Tab.Pane eventKey={10 + 1}>
-                                                    <div>
-                                                        <h2>i am a eleventh column </h2>
-                                                    </div>
-                                                </Tab.Pane>
-                                            </Tab.Content>
+                                        <Col sm={9} className='col-md-8'>
+                                            <NotificationSettingActivities />
                                         </Col>
                                     </Row>
                                 </Tab.Container>
