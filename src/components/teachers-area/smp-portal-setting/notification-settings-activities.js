@@ -4,7 +4,7 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 
-const NotificationSettingActivities = () => {
+const NotificationSettingActivities = ({notificationSettingsItem}) => {
 
 
     // ACCESSING STATE FROM REDUX STORE
@@ -62,21 +62,21 @@ const NotificationSettingActivities = () => {
                         <Card.Body className=''>
                             <div>
                                 <div>
-                                    <h5 className="lead">Notification Settings</h5>
-                                    <p>Edit and control your notification mode preferences</p>
+                                    <h5 className="lead">{notificationSettingsItem?.title}</h5>
+                                    <p>{notificationSettingsItem?.desc}</p>
                                 </div>
                                 <div className="new-user-info">
                                     <Form>
                                         <div className="row ms-1">
                                             <div class="form-check col-md-6">
                                                 <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                <label class="form-check-label" htmlFor="flexRadioDefault1">
                                                     Notify me by email
                                                 </label>
                                             </div>
                                             <div class="form-check col-md-6">
                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                                                <label className="form-check-label" for="flexRadioDefault2">
+                                                <label className="form-check-label" htmlFor="flexRadioDefault2">
                                                     Notify me by sms
                                                 </label>
                                             </div>
