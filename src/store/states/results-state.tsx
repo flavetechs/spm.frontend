@@ -12,4 +12,7 @@ export const _state = {
     previousScoreEntryPreview:null,
     cumulativeEntry:null,
     studentResult:null,
+    batchResultPreview:null,
+    batchResult:null,
+    printSuccessful:"loading",
     }
