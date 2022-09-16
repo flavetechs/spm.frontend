@@ -4,7 +4,7 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 
-const NotificationSettingActivities = ({notificationSettingsItem}) => {
+const NotificationSettingActivities = ({ notificationSettingsItem }) => {
 
 
     // ACCESSING STATE FROM REDUX STORE
@@ -81,6 +81,21 @@ const NotificationSettingActivities = ({notificationSettingsItem}) => {
                                                 </label>
                                             </div>
                                         </div>
+                                        {
+                                            notificationSettingsItem?.title === "Publish Result" && (
+                                                <>
+                                                    <hr />
+                                                    <div className="row ms-1">
+                                                        <div class="form-check col-md-12">
+                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                                            <label class="form-check-label" htmlFor="flexRadioDefault1">
+                                                                Send notification to parent on publish result
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )
+                                        }
                                         <div className="row">
                                         </div>
                                         <div className="d-flex mt-4 justify-content-end">
