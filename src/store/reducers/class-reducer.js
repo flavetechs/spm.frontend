@@ -4,7 +4,7 @@ import { _state } from "../states/class-state";
 export const classReducer = (state = _state, { type, payload }) => {
   switch (type) {
     case actions.GET_SINGLE_ITEM: {
-      const selectedItem = state.itemList.find((d) => d.lookupId == payload);
+      const selectedItem = state.itemList.find((d) => d.lookupId === payload);
       if (selectedItem) {
         return {
           ...state,
@@ -12,7 +12,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
       }
     }
-    
+    break ;
     case actions.PUSH_ITEM_ID:
       var arrayToFilter = [...state.selectedIds, payload]
       return {
@@ -1511,20 +1511,19 @@ export const classReducer = (state = _state, { type, payload }) => {
             ...state,
             loading: true,
             isSuccessful: false,
-            createSuccessful:false,
+           
           };
         case actions.SEND_ASSESSMENT_TO_STUDENTS_SUCCESS:
           return {
             ...state,
             isSuccessful: true,
             loading: false,
-            createSuccessful:true,
+          
           };
         case actions.SEND_ASSESSMENT_TO_STUDENTS_FAILED:
           return {
             ...state,
             isSuccessful: false,
-            createSuccessful:false,
             loading: false,
           };
 
@@ -1532,7 +1531,7 @@ export const classReducer = (state = _state, { type, payload }) => {
             return {
               ...state,
               loading: true,
-              assessmentScore:null,
+              assessmentScore:{},
             };
           }
           case actions.FETCH_ASSESSMENT_SCORE_SUCCESS: {
@@ -1546,7 +1545,7 @@ export const classReducer = (state = _state, { type, payload }) => {
             return {
               ...state,
               loading: false,
-              assessmentScore: null,
+              assessmentScore: {},
             };
           }
       

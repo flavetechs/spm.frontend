@@ -119,7 +119,7 @@ const SessionClassEdit = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -131,7 +131,7 @@ const SessionClassEdit = () => {
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
     
-  }, [activeSession]);
+  }, [activeSession,dispatch,locations.search]);
 
   React.useEffect(() => {
     setExamScore(selectedItem?.examScore);
@@ -235,6 +235,7 @@ const SessionClassEdit = () => {
                             name="subjectExamScore"
                             id="subjectExamScore"
                             values={values.subjectExamScore}
+                            onChange={(e)=>setFieldValue("subjectExamScore",e.target.value)}
                           />
                         </Col>
                         <Col md={6}>
@@ -322,7 +323,7 @@ const SessionClassEdit = () => {
                                 <option
                                   key={idx}
                                   value={classLookup.lookupId}
-                                  selected={selectedItem?.classId == classLookup.lookupId}
+                                  selected={selectedItem?.classId === classLookup.lookupId}
                                 >
                                   {classLookup.name}
                                 </option>
@@ -458,12 +459,12 @@ const SessionClassEdit = () => {
                                 setFieldValue("formTeacherId", event.target.value)
                               }
                             >
-                              <option value={""} defaultValue={""}>
+                              <option value={""} >
                                 Select Form Teacher
                               </option>
                               {activeTeachers.map((teacher, idx) => (
                                 <option
-                                  selected={selectedItem?.formTeacherId == teacher.teacherAccountId ? true: false }
+                                  selected={selectedItem?.formTeacherId === teacher.teacherAccountId ? true: false }
                                   key={idx}
                                   value={teacher.teacherAccountId}
                                 >

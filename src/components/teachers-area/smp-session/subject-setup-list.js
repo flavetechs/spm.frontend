@@ -35,7 +35,7 @@ const SubjectSetupList = () => {
 
   React.useEffect(() => {
     getAllSubjects()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -59,6 +59,7 @@ const SubjectSetupList = () => {
       respondToDeleteDialog("")(dispatch);
     };
   }, [deleteDialogResponse]);
+  
   //DELETE HANDLER
   const checkSingleItem = (isChecked, lookupId, itemList) => {
     itemList.forEach((item) => {
@@ -249,6 +250,7 @@ const SubjectSetupList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
+                                checked={selectedIds.find(i=> i === item.lookupId) ||false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,
@@ -284,10 +286,10 @@ const SubjectSetupList = () => {
                                   <OverlayTrigger
                                     placement="top"
                                     overlay={
-                                      <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                      <Tooltip id="button-tooltip-2"> Edit Subject</Tooltip>
                                     }
                                   >
-                                    <a
+                                    <div
                                       onClick={() => {
                                         fetchSingleItem(item.lookupId)(dispatch);
                                         history.push(
@@ -333,7 +335,7 @@ const SubjectSetupList = () => {
                                           ></path>
                                         </svg>
                                       </span>
-                                    </a>
+                                    </div>
 
 
                                   </OverlayTrigger>
@@ -348,7 +350,7 @@ const SubjectSetupList = () => {
                                     overlay={
                                       <Tooltip id="button-tooltip-2">
                                         {" "}
-                                        delete
+                                        Delete Subject
                                       </Tooltip>
                                     }
                                   >

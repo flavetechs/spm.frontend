@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, Button, Table } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,12 +51,12 @@ const GradeSetting = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch]);
 
 
   React.useEffect(() => {
     getPreviousGrades()(dispatch);
-  }, [isSuccessful]);
+  }, [isSuccessful,dispatch]);
 
   React.useEffect(() => {
     setgGroupId("");
@@ -64,7 +64,7 @@ const GradeSetting = () => {
     selectedGrade(null);
     setGradeSetup([]);
     setGradeToEdit({});
-  }, [isSuccessful]);
+  }, [isSuccessful,dispatch]);
 
   const selectedGrade = (selected = null) => {
     if (selected) {
@@ -133,7 +133,7 @@ const GradeSetting = () => {
                     setGradeToEdit(null);
                     var edited = gradeSetups.find(
                       (d) =>
-                        d.gradeName.trim().toLowerCase() ==
+                        d.gradeName.trim().toLowerCase() ===
                         values.gradeName.trim().toLowerCase()
                     );
                     if (edited) {
@@ -144,7 +144,7 @@ const GradeSetting = () => {
                       setGradeSetup([
                         ...gradeSetups.filter(
                           (d) =>
-                            d.gradeName.trim().toLowerCase() !=
+                            d.gradeName.trim().toLowerCase() !==
                             values.gradeName.trim().toLowerCase()
                         ),
                         edited,
@@ -349,7 +349,7 @@ const GradeSetting = () => {
                                       onClick={() => {
                                         setGradeSetup([
                                           ...gradeSetups.filter(
-                                            (e) => e.gradeName != item.gradeName
+                                            (e) => e.gradeName !== item.gradeName
                                           ),
                                         ]);
                                       }}
@@ -364,14 +364,14 @@ const GradeSetting = () => {
                           </Table>
 
                           <div className="d-flex justify-content-end">
-                            <a
+                            <div
                               className="h-25 btn-sm mt-5 btn btn-primary"
                               onClick={() => {
                                 submitGradeSetting();
                               }}
                             >
                               {!gGroupId ? "submit" : "update"}
-                            </a>
+                            </div>
                           </div>
                         </Col>
                       </Row>
@@ -381,13 +381,13 @@ const GradeSetting = () => {
 
                 <div className="mt-4 d-md-block  d-lg-flex justify-content-lg-around">
                   <Row>
-                    {prevGradesList.map((item) => (
-                      <Col className="">
+                    {prevGradesList.map((item,idx) => (
+                      <Col key={idx} className="">
                         <div className="d-flex justify-content-around">
                           <h5 className="text-uppercase text-center w-100">
                             {item.gradeGroupName}{" "}
                           </h5>
-                          <a
+                          <div
                             style={{ cursor: "pointer" }}
                             className="text-capitalize badge btn-primary border-0 btn btn-sm"
                             onClick={() => {
@@ -395,8 +395,8 @@ const GradeSetting = () => {
                             }}
                           >
                             Edit
-                          </a>{" "}
-                          <a
+                          </div>{" "}
+                          <div
                             style={{ cursor: "pointer" }}
                             className="text-capitalize badge btn-danger mx-2 border-0 btn btn-sm"
                             onClick={() => {
@@ -408,7 +408,7 @@ const GradeSetting = () => {
                             }}
                           >
                             Delete
-                          </a>
+                          </div>
                         </div>
 
                         <Table

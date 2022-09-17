@@ -38,7 +38,7 @@ const ClassSetupEdit = () => {
     const queryParams = new URLSearchParams(locations.search);
     const classId = queryParams.get("classId");
     if (!classId) return;
-  }, []);
+  }, [locations.search]);
 
   if (isSuccessful || !selectedItem) {
     history.push(sessionLocations.classSetupList);
@@ -46,11 +46,11 @@ const ClassSetupEdit = () => {
 
   React.useEffect(() => {
     getPreviousGrades()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
-      <div className="col-6 mx-auto">
+      <div className="col-md-8 mx-auto">
         <Row>
           <Col sm="12">
             <Card>

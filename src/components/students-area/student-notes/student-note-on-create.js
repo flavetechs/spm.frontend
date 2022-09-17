@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector} from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -7,10 +7,8 @@ import * as Yup from "yup";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../store/actions/toaster-actions";
-import { classLocations } from "../../../router/spm-path-locations";
-import {  addStudentNotes, getAllStudentNotes, getSubjectTeacher } from "../../../store/actions/class-actions";
+import {  addStudentNotes, getSubjectTeacher } from "../../../store/actions/class-actions";
 import { openFullscreen } from "../../../utils/export-csv";
-import { getUserDetails } from "../../../utils/permissions";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
 
 const CreateStudentNote = () => {
@@ -31,10 +29,10 @@ const CreateStudentNote = () => {
     React.useEffect(() => {
       getAllStaffAccount()(dispatch);
       getSubjectTeacher(subjectId)(dispatch);
-    }, [subjectId]);
+    }, [subjectId,dispatch]);
     React.useEffect(() => {
       createSuccessful && history.goBack();
-    }, [createSuccessful]);
+    }, [createSuccessful,history]);
   
     const [content, setContent] = useState('');
     const textEditorModules = useMemo(() => ({
@@ -105,7 +103,7 @@ const CreateStudentNote = () => {
                             name="subjectTeacher"
                             className="form-control border-secondary text-dark"
                             id="noteTitle"
-                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName}
+                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName || ""}
                            readOnly
                           />
                         </Col>
@@ -124,6 +122,9 @@ const CreateStudentNote = () => {
                             className="form-control border-secondary text-dark"
                             id="noteTitle"
                             placeholder="Enter note title..."
+                            onChange={(e) => {
+                              setFieldValue("noteTitle",e.target.value)
+                             }}
                           />
                         </Col>
                             <Col md="11" className="form-group text-dark">
@@ -191,6 +192,9 @@ const CreateStudentNote = () => {
                                 name="submitForReview"
                                 className="form-check-input"
                                 id="submitForReview"
+                                onChange={(e) => {
+                                  setFieldValue("submitForReview",e.target.value)
+                                 }}
                               />
                                  <label className="form-label mx-1" >
                                 <b>Submit for review</b>
@@ -207,7 +211,7 @@ const CreateStudentNote = () => {
                                   history.goBack();
                                 }}
                               >
-                                Back
+                                Cancel
                               </Button>
                               <Button
                                 type="button"

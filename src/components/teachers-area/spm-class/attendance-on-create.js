@@ -1,4 +1,3 @@
-import { Field, Formik } from "formik";
 import React from "react";
 import { Card, Col, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +30,7 @@ const CreateAttendance = () => {
    return () => {
     resetSingleClassRegisterState()(dispatch)
   }
-  }, []);
+  }, [dispatch,locations.search]);
 
   return (
     <>

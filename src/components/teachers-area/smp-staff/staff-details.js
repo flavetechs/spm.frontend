@@ -15,10 +15,10 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { staffLocations } from "../../../router/spm-path-locations";
 import {
+  fetchSingleItem,
   fetchSingleStaff,
   updateStaffAccount,
 } from "../../../store/actions/staff-actions";
-import { fetchSingleItem } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 
 const StaffDetails = () => {
@@ -26,7 +26,7 @@ const StaffDetails = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  const [image, setImage] = useState(null);
+  const [images, setImage] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -72,14 +72,14 @@ const StaffDetails = () => {
         <Formik
           enableReinitialize={true}
           initialValues={{
-            firstName: selectedItem?.firstName,
-            lastName: selectedItem?.lastName,
-            middleName: selectedItem?.middleName,
-            email: selectedItem?.email,
-            phone: selectedItem?.phone,
-            photo: selectedItem?.photo,
+            firstName: selectedItem?.firstName || "",
+            lastName: selectedItem?.lastName || "",
+            middleName: selectedItem?.middleName || "",
+            email: selectedItem?.email || "",
+            phone: selectedItem?.phone || "",
+            photo: selectedItem?.photo || "",
             teacherUserAccountId: selectedItem?.teacherUserAccountId,
-            dob: selectedItem?.dob,
+            dob: selectedItem?.dob || "",
           }}
           validationSchema={validation}
           onSubmit={(values) => {
@@ -175,7 +175,6 @@ const StaffDetails = () => {
                             <span> allowed</span>
                           </div>
                         </div>
-
                         <img
                           className=" img-fluid mt-4"
                           id="displayImg"
@@ -228,9 +227,8 @@ const StaffDetails = () => {
                               name="firstName"
                               id="firstName"
                               aria-describedby="name"
-                              value={selectedItem?.firstName}
-                              readOnly
-                              required
+                              value={selectedItem?.firstName || ""}
+                              disabled={true}
                               placeholder="First Name"
                             />
                           </Form.Group>
@@ -245,7 +243,7 @@ const StaffDetails = () => {
                               name="lastName"
                               id="lastName"
                               aria-describedby="name"
-                              value={selectedItem?.lastName}
+                              value={selectedItem?.lastName || ""}
                               readOnly
                               required
                               placeholder="Last Name"
@@ -262,7 +260,7 @@ const StaffDetails = () => {
                               name="middleName"
                               id="middleName"
                               aria-describedby="name"
-                              value={selectedItem?.middleName}
+                              value={selectedItem?.middleName || ""}
                               readOnly
                               placeholder="Middle Name"
                             />
@@ -279,7 +277,7 @@ const StaffDetails = () => {
                               id="email"
                               aria-describedby="name"
                               required
-                              value={selectedItem?.email}
+                              value={selectedItem?.email || ""}
                               readOnly
                               placeholder="Email e.g schoolmgt@yahoo.com"
                             />
@@ -294,7 +292,7 @@ const StaffDetails = () => {
                               name="phone"
                               id="phone"
                               aria-describedby="name"
-                              value={selectedItem?.phone}
+                              value={selectedItem?.phone || ""}
                               readOnly
                               required
                               placeholder="Phone No. e.g 08222222"
@@ -311,7 +309,7 @@ const StaffDetails = () => {
                               name="dob"
                               id="dob"
                               aria-describedby="name"
-                              value={selectedItem?.dob}
+                              value={selectedItem?.dob || ""}
                               readOnly
                               required
                               placeholder="Enter Date of Birth"
@@ -333,9 +331,6 @@ const StaffDetails = () => {
                             type="button"
                             variant="btn btn-primary"
                             onClick={() => {
-                              fetchSingleItem(selectedItem?.teacherAccountId)(
-                                dispatch
-                              );
                               history.push(
                                 `${staffLocations.staffEdit}?teacherAccountId=${selectedItem?.teacherAccountId}`
                               );

@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
-import TemplateSetting from "../../components/teachers-area/smp-portal-setting/template-setting";
 import { actions } from "../action-types/results-action-types"
+import { getResultSettingList } from "./portal-setting-action";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllStaffClasses = () => (dispatch) => {
@@ -82,7 +82,7 @@ export const getAllClassScore = (sessionClassId, subjectId) => (dispatch) => {
         });
 }
 
-export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (dispatch) => {
+export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry,termId) => (dispatch) => {
     if (!examsScore) {
         examsScore = 0;
     }
@@ -95,7 +95,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (
     }
 
     const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.examsScore = examsScore;
         entry.isSaved = false;
@@ -106,7 +106,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId })
+        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId,termId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -121,7 +121,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry) => (
     }
 }
 
-export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry) => (dispatch) => {
+export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry,termId) => (dispatch) => {
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -135,7 +135,7 @@ export const setAssessmentScoreEntry = (studentContactId, assessmentScore, score
     }
 
     const entryIndex = scoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = scoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.assessmentScore = assessmentScore;
         entry.isSaved = false;
@@ -146,7 +146,7 @@ export const setAssessmentScoreEntry = (studentContactId, assessmentScore, score
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId })
+        axiosInstance.post(`/api/v1/result/update/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId, termId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -224,7 +224,7 @@ export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previou
     }
 
     const entryIndex = previousScoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.examsScore = examsScore;
         entry.isSaved = false;
@@ -264,7 +264,7 @@ export const setPreviousAssessmentScoreEntry = (studentContactId, assessmentScor
     }
 
     const entryIndex = previousScoreEntry?.classScoreEntries.findIndex(e => e.studentContactId === studentContactId);
-    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId == studentContactId);
+    let entry = previousScoreEntry?.classScoreEntries.find(e => e.studentContactId === studentContactId);
     if (entry) {
         entry.assessmentScore = assessmentScore;
         entry.isSaved = false;
@@ -436,7 +436,24 @@ export const resetStudentResultState = () => (dispatch) => {
 // TemplateSetting action
 export const setTemplateSettingState = (templateName) => (dispatch) => {
     dispatch({
-         type: actions.SET_TEMPLATE_SETTING_STATE,
-         payload: templateName
+         type: actions.SET_TEMPLATE_SETTING_STATE_LOADING, 
+     });
+     const payload = {
+        selectedTemplate: templateName
+      }
+     axiosInstance.post('/portalsetting/api/v1/update/result-setting-template', payload)
+     .then((res) => {
+         dispatch({
+             type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,
+             payload: res.data.message.friendlyMessage
+         });
+         getResultSettingList()(dispatch);
+         showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+     }).catch((err) => {
+         dispatch({
+             type: actions.SET_TEMPLATE_SETTING_STATE_FAILED,
+             payload: err.response.data.message.friendlyMessage
+         });
+         showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
      });
     }

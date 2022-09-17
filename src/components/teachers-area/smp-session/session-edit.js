@@ -67,7 +67,6 @@ const SessionEdit = () => {
                   enableReinitialize={true}
                   validationSchema={validation}
                   onSubmit={values => {
-                    console.log(values);
                     updateSession(values)(dispatch)
                   }}
                 >

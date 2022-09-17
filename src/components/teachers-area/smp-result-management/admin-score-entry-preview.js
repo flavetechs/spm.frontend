@@ -81,6 +81,7 @@ const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
                     type="checkbox"
                     className="form-check-input"
                     checked={item.isOffered}
+                    readOnly
                   />
                 </td>
               </tr>

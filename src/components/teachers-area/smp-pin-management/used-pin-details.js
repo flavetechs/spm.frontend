@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Row, Table } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleUsedPin } from "../../../store/actions/pin-management-actions";
@@ -12,7 +12,6 @@ const UsedPinDetails = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedUsedPin } = state.pin;
-  console.log("selectedUsedPin now: ", selectedUsedPin);
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -20,7 +19,7 @@ const UsedPinDetails = () => {
     const pin = queryParams.get("pin");
     if (!pin) return;
     fetchSingleUsedPin(pin)(dispatch);
-  }, []);
+  }, [dispatch, locations.search]);
  
   return (
     <>

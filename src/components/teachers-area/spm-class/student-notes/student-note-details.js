@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../router/spm-path-locations";
+import { classLocations } from "../../../../router/spm-path-locations";
 import {
   addStudentComments,
   addStudentReplies,
   getAllStudentComments,
   getSingleStudentNotes,
   reviewNotes,
-} from "../../../store/actions/class-actions";
-import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
+} from "../../../../store/actions/class-actions";
+import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 
 const StudentNoteDetails = () => {
   const state = useSelector((state) => state);
@@ -79,7 +79,7 @@ const StudentNoteDetails = () => {
                           ></path>
                         </svg>
                       </OverlayTrigger>
-                      <span>back</span>
+                    
                       {!fullScreen ? (
                         <OverlayTrigger
                           placement="top"

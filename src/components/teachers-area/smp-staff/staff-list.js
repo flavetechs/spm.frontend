@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   deleteStaffAccount,
-  fetchSingleItem,
   getAllStaffAccount,
   pushId,
   removeId,
@@ -34,7 +33,7 @@ const StaffList = () => {
 
   React.useEffect(() => {
     getAllStaffAccount()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -57,7 +56,7 @@ const StaffList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER
 
   const checkSingleItem = (isChecked, teacherUserAccountId, stafflists) => {
@@ -83,7 +82,7 @@ const StaffList = () => {
     });
     returnList(stafflists)(dispatch);
   };
-console.log(selectedIds);
+  
   return (
     <>
       <div>
@@ -265,6 +264,7 @@ console.log(selectedIds);
                               <input
                                 className="form-check-input"
                                 type="checkbox"
+                                checked={selectedIds.find(i=> i === item.teacherUserAccountId) ||false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,

@@ -37,11 +37,11 @@ const StudentProfileEdit = () => {
         const studentAccountId = queryParams.get("studentAccountId");
         if (!studentAccountId) return;
         fetchSingleStudent(studentAccountId)(dispatch);
-    }, []);
+    }, [dispatch, locations.search]);
 
     React.useEffect(() => {
         getAllActiveSubjects()(dispatch);
-    }, []);
+    }, [dispatch]);
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {

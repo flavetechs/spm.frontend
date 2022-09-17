@@ -38,16 +38,16 @@ const RoleEdit = () => {
     return () => {
       resetRoleState()(dispatch);
     };
-  }, []);
+  }, [dispatch,locations.search]);
 
   React.useEffect(() => {
     submitSuccessful && history.push(permissionLocations.roleList);
-  }, [submitSuccessful]);
+  }, [submitSuccessful,history]);
 
   const handleSelectAll = (event) => {
     const checkBoxValue = event.target.checked;
     const activityId = activities
-      ?.filter((a) => parentValue == a.parentId)
+      ?.filter((a) => parentValue === a.parentId)
       ?.map((a) => a.activityId.toLowerCase());
     updateRoleActivityOnSelectAll(
       activityId,
@@ -139,7 +139,7 @@ const RoleEdit = () => {
                           Select{" "}
                           {parentActivity?.map(
                             (activity, idx) =>
-                              parentValue == activity.parentActivityId && (
+                              parentValue === activity.parentActivityId && (
                                 <input
                                   type="checkbox"
                                   onChange={(e) => handleSelectAll(e)}
@@ -152,7 +152,7 @@ const RoleEdit = () => {
                     <tbody>
                       {activities.map(
                         (item, idx) =>
-                          parentValue == item.parentId && (
+                          parentValue === item.parentId && (
                             <tr key={idx}>
                               <td className="text-uppercase">{item.name}</td>
                               <td className="text-center">

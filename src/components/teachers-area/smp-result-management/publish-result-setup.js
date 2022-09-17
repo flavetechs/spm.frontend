@@ -18,7 +18,7 @@ import { resultManagement } from "../../../router/spm-path-locations";
 const PublishResult = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { termClasses, publishResults } = state.publish;
+  const { termClasses } = state.publish;
   const { activeSession, sessionList } = state.session;
   const [selectedSession, setSelectedSession] = useState(null);
   const [initialValues, setInitialValues] = useState({
@@ -43,21 +43,21 @@ const PublishResult = () => {
   });
   //VALIDATION SCHEMA
 
-  console.log('sessionTermId', sessionTermId);
+
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
 
   React.useEffect(() => {
     setSessionTermId( activeSession?.sessionTermId)
     setSelectedSession(activeSession);
     initialValues.sessionId = activeSession?.sessionId;
-    initialValues.sessionTermId = activeSession?.terms.find((term) => term.isActive == true)?.sessionTermId;
+    initialValues.sessionTermId = activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId;
     setInitialValues(initialValues);
     getTermClasses(activeSession?.sessionId, activeSession?.sessionTermId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
 
   return (
@@ -116,7 +116,7 @@ const PublishResult = () => {
                               setSelectedSession(
                                 sessionList.find(
                                   (s) =>
-                                    s.sessionId.toLowerCase() == e.target.value
+                                    s.sessionId.toLowerCase() === e.target.value
                                 )
                               );
                             }}

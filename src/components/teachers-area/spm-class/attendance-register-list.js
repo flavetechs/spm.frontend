@@ -54,7 +54,7 @@ const AttendanceRegisterList = () => {
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -67,7 +67,7 @@ const AttendanceRegisterList = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch]);
 
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
@@ -76,7 +76,7 @@ const AttendanceRegisterList = () => {
       getAllClassRegister(sessionClassIdQuery)(dispatch);
       setSessionClassId(sessionClassIdQuery);
     }
-  }, [sessionClassIdQuery]);
+  }, [sessionClassIdQuery,dispatch]);
 
   const filteredClassRegister = classRegister?.filter((register) => {
     if (searchQuery === "") {
@@ -104,13 +104,13 @@ const AttendanceRegisterList = () => {
         `${classLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
       );
     }
-  }, [createSuccessful]);
+  }, [createSuccessful,newClassRegister?.classRegisterId,dispatch,history]);
 
   React.useEffect(() => {
     if (!sessionClassIdQuery) {
       resetclassRegisterState()(dispatch);
     }
-  }, [sessionClassIdQuery]);
+  }, [sessionClassIdQuery,dispatch]);
 
   return (
     <>
@@ -200,7 +200,7 @@ const AttendanceRegisterList = () => {
                                     e.target.value
                                   );
                                   setSessionClassId(e.target.value);
-                                  e.target.value == ""
+                                  e.target.value === ""
                                     ? history.push(
                                         classLocations.classAttendanceBoard
                                       )
@@ -265,7 +265,7 @@ const AttendanceRegisterList = () => {
                               <Card.Body>
                                 <div className="d-flex justify-content-between">
                                   <div className="mb-0">Title</div>
-                                  <div className="dropdown show">
+                                  <div className="dropdown show bg-light">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="24"
@@ -301,7 +301,7 @@ const AttendanceRegisterList = () => {
                                         </g>
                                       </g>
                                     </svg>
-                                    {showMenuDropdown && indexRow == idx && (
+                                    {showMenuDropdown && indexRow === idx && (
                                       <div
                                         x-placement="bottom-start"
                                         aria-labelledby=""
@@ -328,7 +328,7 @@ const AttendanceRegisterList = () => {
                                           className={
                                             Number(
                                               register.dateTime.split("-")[0]
-                                            ) != new Date().getDate()
+                                            ) !== new Date().getDate()
                                               ? "dropdown-item disabled"
                                               : "dropdown-item"
                                           }
@@ -474,7 +474,7 @@ const AttendanceRegisterList = () => {
                                   <h6 className="mb-3">
                                     {register.classRegisterLabel}
                                   </h6>
-                                ) : indexRow == idx ? (
+                                ) : indexRow === idx ? (
                                   <div className="input-group mb-3">
                                     <input
                                       type="text"

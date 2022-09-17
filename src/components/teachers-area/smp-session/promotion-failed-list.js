@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
@@ -22,10 +22,10 @@ const PromotionFailedList = () => {
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
-    if (!sessionClassId) return;
-    fetchFailedStudentList(sessionClassId)(dispatch)
-  }, []);
+    const failedStudentIds = queryParams.get("failedStudentIds");
+    if (!failedStudentIds) return;
+    fetchFailedStudentList(failedStudentIds)(dispatch)
+  }, [dispatch, locations.search]);
 
   return (
     <>

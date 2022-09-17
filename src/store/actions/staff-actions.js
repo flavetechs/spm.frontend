@@ -82,6 +82,7 @@ export const createStaffAccount = (staff, formData) => (dispatch) => {
                 type: actions.CREATE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllStaffAccount()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -128,7 +129,8 @@ export const updateStaffAccount = (teacherAccountId, formData) => (dispatch) => 
                 type: actions.UPDATE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+            getAllStaffAccount()(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_STAFFACCOUNT_FAILED,

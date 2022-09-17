@@ -7,7 +7,6 @@ import {
 } from "../../../../store/actions/toaster-actions";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { getAllOtherStaff, shareLessonNotes } from "../../../../store/actions/class-actions";
-import { isTemplateExpression } from "typescript";
 
 export function NoteShareModal(props) {
   const dispatch = useDispatch();
@@ -21,15 +20,15 @@ export function NoteShareModal(props) {
 
   React.useEffect(() => {
     getAllOtherStaff(props.classNoteId)(dispatch);
-  }, [props.classNoteId]);
+  }, [props.classNoteId,dispatch]);
 
   React.useEffect(() => {
     showModal &&
-    setStaffArray(otherStaffList.filter(c=> c.isShared == true).map(c=>c.teacherAccountId));
+    setStaffArray(otherStaffList.filter(c=> c.isShared === true).map(c=>c.teacherAccountId));
   }, [otherStaffList,showModal]);
 
   React.useEffect(() => {
-    if(showModal == false){
+    if(showModal === false){
     setStaffArray([])
   }
   }, [showModal]);
@@ -60,7 +59,7 @@ export function NoteShareModal(props) {
                 type="checkbox"
                 name="staff"
                 id={staff.teacherAccountId}
-                checked={staffArray.find(s=>s === staff.teacherAccountId)}
+                checked={staffArray.find(s=>s === staff.teacherAccountId)|| ""}
                 onChange={(e) => {
                   handleStaffArray(e);
                 }}

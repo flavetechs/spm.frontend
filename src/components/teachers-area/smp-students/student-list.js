@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   getAllStudents,
@@ -38,7 +38,7 @@ const StudentList = () => {
 
   React.useEffect(() => {
     getAllStudents()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -61,7 +61,7 @@ const StudentList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse,dispatch]);
   //DELETE HANDLER
   const checkSingleItem = (isChecked, userAccountId, studentList) => {
     studentList.forEach((item) => {
@@ -111,10 +111,10 @@ const StudentList = () => {
   });
 
   React.useEffect(() => {
-    if (modalResponse == 'continue') {
+    if (modalResponse === 'continue') {
       enrollStudent(selectedIds)(dispatch);
     }
-  }, [modalResponse]);
+  }, [modalResponse,dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -125,7 +125,7 @@ const StudentList = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch]);
 
   return (
     <>
@@ -340,6 +340,7 @@ const StudentList = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
+                                  checked={selectedIds.find(i=>i===student.userAccountId)||false}
                                   onChange={(e) => {
                                     checkSingleItem(
                                       e.target.checked,
@@ -373,7 +374,7 @@ const StudentList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    details
+                                    Student Details
                                   </Tooltip>
                                 }
                               >
@@ -424,7 +425,7 @@ const StudentList = () => {
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
-                                    <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                    <Tooltip id="button-tooltip-2"> Edit Student</Tooltip>
                                   }
                                 >
                                   <Link
@@ -476,7 +477,7 @@ const StudentList = () => {
                               {hasAccess(NavPermissions.enrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
-                                  overlay={<Tooltip id="button-tooltip-2"> Enroll</Tooltip>}
+                                  overlay={<Tooltip id="button-tooltip-2"> Enroll Student</Tooltip>}
                                 >
                                   <Link
                                     className="btn btn-sm btn-icon btn-warning"
@@ -543,7 +544,7 @@ const StudentList = () => {
                               {hasAccess(NavPermissions.unenrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
-                                  overlay={<Tooltip id="button-tooltip-2">Unenroll</Tooltip>}
+                                  overlay={<Tooltip id="button-tooltip-2">Unenroll Student</Tooltip>}
                                 >
                                   <Link
                                     className="btn btn-sm btn-icon btn-danger"
@@ -574,7 +575,7 @@ const StudentList = () => {
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
                                       {" "}
-                                      delete
+                                      Delete Student
                                     </Tooltip>
                                   }
                                 >

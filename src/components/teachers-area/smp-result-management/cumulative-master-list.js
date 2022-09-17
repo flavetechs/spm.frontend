@@ -47,7 +47,7 @@ const CumulativeMasterList = () => {
       resetCumulativeListEntryOnExit(cumulativeEntry)(dispatch);
       setShowCumulativeMasterListTable(false);
     };
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (!sessionId) {
@@ -55,7 +55,7 @@ const CumulativeMasterList = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [sessionId, activeSession]);
+  }, [activeSession,dispatch]);
 
   React.useEffect(() => {
     if (cumulativeEntry) {
@@ -63,7 +63,7 @@ const CumulativeMasterList = () => {
     } else if (!cumulativeEntry) {
       setShowCumulativeMasterListTable(false);
     }
-  }, [cumulativeEntry]);
+  }, [cumulativeEntry]);  
 
   return (
     <>
@@ -80,7 +80,7 @@ const CumulativeMasterList = () => {
                     initialValues={{
                       sessionId: activeSession?.sessionId,
                       terms: activeSession?.terms.find(
-                        (term) => term.isActive == true
+                        (term) => term.isActive === true
                       )?.sessionTermId,
                       sessionClassId: "",
                     }}
@@ -160,7 +160,7 @@ const CumulativeMasterList = () => {
                               {sessionList
                                 ?.find(
                                   (session, idx) =>
-                                    session.sessionId.toLowerCase() ==
+                                    session.sessionId.toLowerCase() ===
                                     values.sessionId
                                 )
                                 ?.terms.map((term, id) => (
@@ -169,7 +169,7 @@ const CumulativeMasterList = () => {
                                     name={values.terms}
                                     value={term.sessionTermId.toLowerCase()}
                                     selected={
-                                      term.sessionTermId == values.terms
+                                      term.sessionTermId === values.terms
                                     }
                                   >
                                     {term.termName}

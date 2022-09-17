@@ -8,5 +8,4 @@ export const _state = {
     activeClasses: [],
     selectedTimetable: null,
     studentselectedTimetable: null,
-    submitSuccessful: false,
 }

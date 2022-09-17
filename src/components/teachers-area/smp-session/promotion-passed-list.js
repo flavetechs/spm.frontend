@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
@@ -21,11 +21,7 @@ const PromotionPassedList = () => {
   const { passedStudentList } = state.promotion;
   // ACCESSING STATE FROM REDUX STORE
 
-  React.useEffect(() => {
-    getAllStudents()(dispatch);
-  }, []);
-
-
+   
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const studentIds = queryParams.get("passedStudentIds");
@@ -33,7 +29,6 @@ const PromotionPassedList = () => {
     fetchPassedStudentList(studentIds)(dispatch)
   }, []);
 
-  console.log('passedStudentList', passedStudentList);
 
   return (
     <>

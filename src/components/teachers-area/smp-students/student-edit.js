@@ -63,11 +63,11 @@ const StudentEdit = () => {
     if (!studentAccountId) return;
     fetchSingleStudent(studentAccountId)(dispatch);
     getActiveSession()(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
   React.useEffect(() => {
       setImages(selectedStudent?.photo)
@@ -144,7 +144,7 @@ const StudentEdit = () => {
           params.append("photo",values.photo);
           params.append("profileImage",values.profileImage);
           params.append("sessionClassId",values.sessionClassId);
-          updateStudent(values,params)(dispatch);
+          updateStudent(params)(dispatch);
         }}
         enableReinitialize={true}
       >
@@ -298,7 +298,7 @@ const StudentEdit = () => {
                               <option
                                 key={idx}
                                 value={item.sessionClassId}
-                                selected={selectedStudent?.sessionClassID == item.sessionClassId}
+                                selected={selectedStudent?.sessionClassID === item.sessionClassId}
                               >
                                 {item.class}
                               </option>

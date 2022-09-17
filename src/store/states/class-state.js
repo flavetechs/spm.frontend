@@ -40,6 +40,6 @@ export const _state = {
   singleClassAssessmentList:null,
   newClassAssessment:null,
   studentSingleHomeAssessmentList:null,
-  assessmentScore:null,
+  assessmentScore:{},
   studentClassAssessment:null,
 };

@@ -5,7 +5,7 @@ import { respondModal, showHideModal } from "../../../../store/actions/toaster-a
 export function SmpModal(props) {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-  const {showModal, modalResponse } = state.alert;
+  const {showModal } = state.alert;
     return (
         <Modal show={showModal} onHide={() =>{
              showHideModal(false)(dispatch)

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { myNoteLocations, studentNoteLocations } from '../../../../../../router/students-path-locations'
+import { studentNoteLocations } from '../../../../../../router/students-path-locations'
 export function StudentNoteLink(props){
     var location = useLocation()
     return(

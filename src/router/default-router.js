@@ -79,9 +79,11 @@ import TemplateControl from '../components/teachers-area/smp-result-management/r
 import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
 import InProgress from '../components/teachers-area/in-progress';
-import StudentNoteDetails from '../components/teachers-area/spm-class/student-note-details';
-import StudentNotes from '../components/teachers-area/spm-class/student-notes';
+import StudentNoteDetails from '../components/teachers-area/spm-class/student-notes/student-note-details';
+import StudentNotes from '../components/teachers-area/spm-class/student-notes/student-notes';
 import ClassAssessmentDetails from '../components/teachers-area/spm-class/assessment/class-assessment-details';
+import ScoreEntryTable from '../components/teachers-area/smp-result-management/score-entry-small-table';
+import AdminScoreEntryTable from '../components/teachers-area/smp-result-management/admin-score-entry-small-table';
 
 const DashboardRouter = () => {
 
@@ -171,8 +173,10 @@ const DashboardRouter = () => {
 
                       {/* resultManagement */}
                       <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
+                      <Route path={resultManagement.scoreEntryTable} exact component={ScoreEntryTable} />
                       <Route path={resultManagement.publishResult} exact component={PublishResult} />
                       <Route path={resultManagement.adminScoreEntry} exact component={AdminScoreEntry} />
+                      <Route path={resultManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
                       <Route path={resultManagement.masterList} exact component={MasterList} />
                       <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
                       <Route path={resultManagement.publishResultTable} exact component={PublishResultTable} />

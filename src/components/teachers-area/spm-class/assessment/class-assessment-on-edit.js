@@ -1,23 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Card,
   Col,
   Form,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import * as Yup from "yup";
 import "react-quill/dist/quill.snow.css";
 import {
-  getAllClassGroup,
-  getAssessmentScore,
-  getClassSubjects,
-  getSingleClassAssessment,
-  getStudentClassAssessment,
+  fetchData,
+  resetCreateSuccessfulState,
   updateClassAssessmentScore,
   updateStudentClassAssessment,
 } from "../../../../store/actions/class-actions";
@@ -28,51 +22,22 @@ const EditClassAssessment = () => {
   const locations = useLocation();
   const state = useSelector((state) => state);
   const {
-    createSuccessful,
     assessmentScore,
     studentClassAssessment,
     classSubjects,
     singleClassAssessmentList,
   } = state.class;
+
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
-  const classAssessmentIdQuery = queryParams.get("classAssessmentId");
-  //const typeQuery = queryParams.get("type");
-
-  //HOOKS
-  const [classAssessmentScore, setClassAssessmentScore] = useState("");
-  const [onSubmit, setOnSubmit] = useState(false);
-  const [scoreValidation, setScoreValidation]= useState(false);
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
+  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
+  //const typeQueryParam = queryParams.get("type") || '';
+  const classAssessmentIdQueryParam = queryParams.get("classAssessmentId");
 
   useEffect(() => {
-    getAssessmentScore(
-      sessionClassSubjectIdQuery,
-      sessionClassIdQuery
-    )(dispatch);
-    getClassSubjects(sessionClassIdQuery)(dispatch);
-    getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
-    getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
-    getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
-  }, []);
+    fetchData(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam)(dispatch)
+  }, [classAssessmentIdQueryParam, sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, dispatch]);
 
-  useEffect(() => {
-    onSubmit && createSuccessful && history.goBack();
-  }, [createSuccessful]);
-
-  //HOOKS
-
-  //VALIDATION
-  const validation = Yup.object().shape({
-    title: Yup.string().required("Subject is required"),
-    generalAssessmentScore: Yup.number()
-      .required("Score is required")
-      .min(0, "Assessment score must not be below 0"),
-    // deadline: Yup.string().required("Please enter who to send"),
-    sessionClassGroupId: Yup.string().required("Please select group"),
-  });
-  //VALIDATION
-  console.log(studentClassAssessment);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -82,7 +47,7 @@ const EditClassAssessment = () => {
               <Card.Body>
                 <Form className="mx-auto">
                   <Row className="d-flex justify-content-center">
-                    <Col md="11"></Col>
+                    <div className="d-flex justify-content-end">{singleClassAssessmentList?.sessionClassName}</div>
                     <Col md="11" className="form-group h6">
                       <label className="form-label">
                         <b>Topic:</b>
@@ -93,7 +58,7 @@ const EditClassAssessment = () => {
                         className="form-control border-secondary h6"
                         readOnly
                         id="title"
-                        value={singleClassAssessmentList?.title}
+                        value={singleClassAssessmentList?.title || ""}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -101,108 +66,72 @@ const EditClassAssessment = () => {
                         <b>Subject:</b>
                       </label>
                       <select
+                        disabled={true}
                         as="select"
                         name="sessionClassSubjectId"
                         className="form-select h6"
                         id="sessionClassSubjectId"
-                        value={sessionClassSubjectIdQuery}
+                        value={sessionClassSubjectIdQueryParam}
                       >
                         <option value="">Select Subject</option>
                         {classSubjects?.map((item, idx) => (
-                          <option
-                            key={idx}
-                            value={item.sessionClassSubjectId}
-                          >
+                          <option key={idx} value={item.sessionClassSubjectId}>
                             {item.subjectName}
                           </option>
                         ))}
                       </select>
                     </Col>
 
-                   
+                    <Col md="11" >
+                      <Row className="d-flex ">
+                        <Col md="3" className="form-group">
+                          <label className="form-label">
+                            <h6>total</h6>
+                          </label>
+                          <input
+                            type="readonly"
+                            name="total"
+                            readOnly
+                            defaultValue={assessmentScore?.totalAssessment}
+                            className="form-control h6 py-0 px-1 border-secondary"
+                          />
+                        </Col>
+                        <Col md="3" className="form-group">
+                          <label className="form-label">
+                            <h6>used out of {assessmentScore?.totalAssessment} marks</h6>
+                          </label>
+                          <input
+                            type="text"
+                            name="used"
+                            readOnly
+                            defaultValue={singleClassAssessmentList?.assessmentScore}
+                            className="form-control h6 py-0 px-1 border-secondary"
+                          />
+                        </Col>
 
-                    <Row>
-                      <div>
-                        {classAssessmentScore > assessmentScore?.unused && (
-                          <div className="text-danger">
-                            {`Assessment should not be above ${assessmentScore?.unused}`}
-                          </div>
-                        )}
-                        {classAssessmentScore < 0 && (
-                          <div className="text-danger">
-                            {`Assessment should not be less than 0`}
-                          </div>
-                        )}
-                      </div>
-                    </Row>
-                    <Row className="d-flex justify-content-center">
-                      <Col md="2" className="form-group">
-                        <label className="form-label">
-                          <h6>total</h6>
-                        </label>
-                        <input
-                          type="readonly"
-                          name="total"
-                          readOnly
-                          value={assessmentScore?.totalAssessment}
-                          className="form-control h6 py-0 px-1 border-secondary"
-                        />
-                      </Col>
-                      <Col md="2" className="form-group">
-                        <label className="form-label">
-                          <h6>used</h6>
-                        </label>
-                        <input
-                          type="text"
-                          name="used"
-                          readOnly
-                          value={assessmentScore?.used}
-                          className="form-control h6 py-0 px-1 border-secondary"
-                        />
-                      </Col>
-
-                      <Col md="2" className="form-group">
-                        <label className="form-label">
-                          <h6>assessment</h6>
-                        </label>
-                        <input
-                          type="number"
-                          name="generalAssessmentScore"
-                          onChange={(e) => {
-                            setClassAssessmentScore(e.target.value);
-                          }}
-                          defaultValue={
-                            singleClassAssessmentList?.assessmentScore
-                          }
-                          className="form-control h6 py-0 px-1 border-secondary"
-                        />
-                      </Col>
-                      <Col md="4">
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip-2">
-                              {" "}
-                              update class assessment score
-                            </Tooltip>
-                          }
-                        >
-                          <Button
-                            type="button"
-                            className="btn-sm mt-4 mx-4"
-                            variant="btn btn-primary"
-                            onClick={() => {
+                        <Col md="3" className="form-group">
+                          <label className="form-label">
+                            <h6>assessment mark</h6>
+                          </label>
+                          <input
+                            type="number"
+                            name="generalAssessmentScore"
+                            onBlur={(e) => {
+                              resetCreateSuccessfulState()(dispatch);
                               updateClassAssessmentScore(
-                                classAssessmentIdQuery,
-                                Number(classAssessmentScore)
-                              )(dispatch);
+                                classAssessmentIdQueryParam,
+                                Number(e.target.value),
+                                sessionClassSubjectIdQueryParam, sessionClassIdQueryParam)(dispatch);
                             }}
-                          >
-                            Update
-                          </Button>
-                        </OverlayTrigger>
-                      </Col>
-                    </Row>
+                            defaultValue={
+                              singleClassAssessmentList?.assessmentScore
+                            }
+                            className="form-control h6 py-0 px-1 border-secondary"
+                          />
+                        </Col>
+
+                      </Row>
+                    </Col>
 
                     <Col md="11" className="form-group h6 mt-3">
                       <div className="table-responsive">
@@ -214,16 +143,10 @@ const EditClassAssessment = () => {
                         >
                           <tbody>
                             <tr className="ligth">
-                              <td >
-                                Student Name
-                              </td>
-                              <td >Score</td>
-                              
+                              <td>Student Name</td>
+                              <td>Score</td>
                             </tr>
                           </tbody>
-                          {scoreValidation > singleClassAssessmentList?.assessmentScore && (
-                            <div className="text-danger">score should not be more than {singleClassAssessmentList?.assessmentScore}</div>
-                          )}
                           <tbody>
                             {studentClassAssessment?.map((item, idx) => (
                               <tr key={idx}>
@@ -232,24 +155,19 @@ const EditClassAssessment = () => {
                                 </td>
 
                                 <td className="text-center">
-                              
                                   <input
                                     type="number"
                                     className="form-control w-75  px-1 border-secondary"
                                     name={`${item.studentContactId}_score`}
-                                    defaultValue={item.score}
+                                    defaultValue={item.score || ""}
                                     id={item.studentContactId}
                                     onBlur={(e) => {
-                                      setScoreValidation(e.target.value)
-                                     if(e.target.value != ""){ 
-                                      e.target.value <= singleClassAssessmentList?.assessmentScore &&
-                                        updateStudentClassAssessment(
-                                          sessionClassSubjectIdQuery,
-                                          classAssessmentIdQuery,
-                                          e.target.id,
-                                          Number(e.target.value)
-                                        )(dispatch)
-                                        }  
+                                      resetCreateSuccessfulState()(dispatch);
+                                      updateStudentClassAssessment(sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam, e.target.id, Number(e.target.value))(dispatch);
+
+                                      if (e.target.value > singleClassAssessmentList?.assessmentScore) {
+                                        e.target.value = 0;
+                                      }
                                     }}
                                   />
                                 </td>
@@ -315,28 +233,23 @@ const EditClassAssessment = () => {
                       </div>
                     </Col>
 
+
                     <div className="d-flex justify-content-end">
-                      <Button
-                        type="button"
-                        className="btn-sm mt-4"
-                        variant="btn btn-danger"
-                        onClick={() => {
-                          history.goBack();
-                        }}
-                      >
-                        Back
-                      </Button>
+                      
                       <Button
                         type="button"
                         className="btn-sm mx-2 mt-4"
                         variant="btn btn-success"
                         onClick={() => {
-                          setOnSubmit(true);
+                          resetCreateSuccessfulState()(dispatch);
+                          history.goBack()
                         }}
                       >
-                        Send
+                        Done
                       </Button>
                     </div>
+
+                 
                   </Row>
                 </Form>
               </Card.Body>

@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import VerticalNav from './vertical-nav'
 import Scrollbar from 'smooth-scrollbar'
 import { bindActionCreators } from "redux"
-// import SidebarDark from '../../components/settingoffcanvas'
 
-// export const SidebarDark =() =>{
-
-// }
-
-// store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
 import { connect } from "react-redux"
 import { getUserDetails } from '../../../../utils/permissions';

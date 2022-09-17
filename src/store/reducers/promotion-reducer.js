@@ -7,7 +7,7 @@ export const promotionReducer = (state = _state, { type, payload }) => {
   switch (type) {
 
     case actions.GET_SINGLE_ITEM: {
-      const selectedItem = state.promotionList.find(d => d.sessionClassId == payload);
+      const selectedItem = state.promotionList.find(d => d.sessionClassId === payload);
       if (selectedItem) {
         return {
           ...state,

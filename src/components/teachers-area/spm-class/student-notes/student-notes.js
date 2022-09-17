@@ -7,10 +7,10 @@ import {
   approveNotes,
   getNotesByStatus,
   getStudentNotesByTeacher,
-} from "../../../store/actions/class-actions";
+} from "../../../../store/actions/class-actions";
 import * as Yup from "yup";
-import { classLocations } from "../../../router/spm-path-locations";
-import { getStaffClassSubjects } from "../../../store/actions/results-actions";
+import { classLocations } from "../../../../router/spm-path-locations";
+import { getStaffClassSubjects } from "../../../../store/actions/results-actions";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -33,28 +33,28 @@ const StudentNotes = () => {
   const statusQuery = queryParams.get("status");
   // ACCESSING STATE FROM REDUX STORE
 
-   //VALIDATION
-   const validation = Yup.object().shape({
-    status:Yup.string().required("Status is required"),
-   subjectId: Yup.string().required("Subject is required"),
+  //VALIDATION
+  const validation = Yup.object().shape({
+    status: Yup.string().required("Status is required"),
+    subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION
 
   React.useEffect(() => {
     getStaffClassSubjects(sessionClassIdQuery, approveNotes)(dispatch);
-  }, [sessionClassIdQuery]);
+  }, [sessionClassIdQuery, dispatch]);
 
   React.useEffect(() => {
     if (subjectIdQuery) {
       getStudentNotesByTeacher(subjectIdQuery, statusQuery)(dispatch);
     }
-  }, [statusQuery]);
+  }, [statusQuery, subjectIdQuery, dispatch]);
 
   React.useEffect(() => {
     if (!subjectIdQuery) {
       getStudentNotesByTeacher(subjectId)(dispatch);
     }
-  }, [subjectIdQuery]);
+  }, [subjectIdQuery, dispatch]);
 
   const filteredStudentNotes = studentNotesByTeacher?.filter((item) => {
     if (searchQuery === "") {
@@ -72,7 +72,7 @@ const StudentNotes = () => {
       return item;
     }
   });
- 
+
   return (
     <>
       <div>
@@ -131,11 +131,10 @@ const StudentNotes = () => {
               <Formik
                 initialValues={{
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
-                  status: statusQuery ? statusQuery : ""
+                  status: statusQuery ? statusQuery : "",
                 }}
                 enableReinitialize={true}
                 validationSchema={validation}
-              
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
                   <Card.Body>
@@ -155,7 +154,9 @@ const StudentNotes = () => {
                             >
                               <svg
                                 onClick={() => {
-                                  history.push(classLocations.sessionClassList2);
+                                  history.push(
+                                    classLocations.sessionClassList2
+                                  );
                                 }}
                                 style={{ cursor: "pointer" }}
                                 className=" text-primary"
@@ -172,12 +173,11 @@ const StudentNotes = () => {
                                 ></path>
                               </svg>
                             </OverlayTrigger>
-                            <span>back</span>
                           </div>
                           <div className="d-md-flex ">
                             <div className=" mx-3 mt-3 mt-md-0 dropdown">
                               <div>
-                                { errors.subjectId && (
+                                {errors.subjectId && (
                                   <div className="text-danger">
                                     {errors.subjectId}
                                   </div>
@@ -188,9 +188,6 @@ const StudentNotes = () => {
                                 name="subjectId"
                                 className="form-select"
                                 id="subjectId"
-                                defaultValue={
-                                  subjectIdQuery ? subjectIdQuery : ""
-                                }
                                 onChange={(e) => {
                                   setSubjectId(e.target.value);
                                   e.target.value == ""
@@ -210,7 +207,7 @@ const StudentNotes = () => {
                             </div>
 
                             <div className=" mx-3 mt-3 mt-md-0 dropdown">
-                            <div>
+                              <div>
                                 {errors.status && (
                                   <div className="text-danger">
                                     {errors.status}
@@ -223,10 +220,7 @@ const StudentNotes = () => {
                                 className="form-select"
                                 id="status"
                                 onChange={(e) => {
-                                  setFieldValue(
-                                    "status",
-                                    e.target.value
-                                  );
+                                  setFieldValue("status", e.target.value);
                                   if (e.target.value !== "all") {
                                     history.push(
                                       `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${subjectIdQuery}&status=${e.target.value}`

@@ -1,9 +1,6 @@
-import { useState, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Accordion,
-  useAccordionButton,
-  AccordionContext,
 } from "react-bootstrap";
 import { OnlineClassLink } from "./Navigations/student-navigations/online-class-link";
 import { AssessmentLink } from "./Navigations/student-navigations/assessment-link";
@@ -15,29 +12,6 @@ import { StudentDashboardLink } from "./Navigations/student-navigations/dashboar
 import { StudentNoteLink } from "./Navigations/student-navigations/my-notes-link";
 
 
-function CustomToggle({ children, eventKey, onClick }) {
-  const { activeEventKey } = useContext(AccordionContext);
-
-  const decoratedOnClick = useAccordionButton(eventKey, (active) =>
-    onClick({ state: !active, eventKey: eventKey })
-  );
-
-  const isCurrentEventKey = activeEventKey === eventKey;
-
-  return (
-    <Link
-      to="#"
-      aria-expanded={isCurrentEventKey ? "true" : "false"}
-      className="nav-link"
-      role="button"
-      onClick={(e) => {
-        decoratedOnClick(isCurrentEventKey);
-      }}
-    >
-      {children}
-    </Link>
-  );
-}
 const minisidebar = () => {
   if (window.innerWidth < 800) {
     if (
@@ -51,11 +25,6 @@ const minisidebar = () => {
 };
 
 const StudentsVerticalNav = () => {
-  const [activeMenue, setActiveMenu] = useState(false);
-  //location
-  // console.log(activeMenu);
-  let location = useLocation();
-
   return (
     <>
       <Accordion as="ul" className="navbar-nav iq-main-menu">

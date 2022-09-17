@@ -13,7 +13,6 @@ import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
-import { getAllResultList } from "../../../store/actions/publish-actions";
 
 const StudentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -32,11 +31,11 @@ const StudentDetails = () => {
     const studentAccountId = queryParams.get("studentAccountId");
     if (!studentAccountId) return;
     fetchSingleStudent(studentAccountId)(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
 
   React.useEffect(() => {
     getAllSessionClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

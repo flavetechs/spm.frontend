@@ -31,6 +31,7 @@ const ClassGroup = () => {
   const [sessionClassSubjectId, setSessionClassSubjectId] = useState("");
   const state = useSelector((state) => state);
   const { groupList, selectedIds, classSubjects } = state.class;
+  const { staffClasses } = state.results;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -67,15 +68,15 @@ const ClassGroup = () => {
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
-  }, [sessionClassSubjectId]);
+  }, [sessionClassIdQuery,sessionClassSubjectIdQuery,dispatch]);
 
   React.useEffect(() => {
     getClassSubjects(sessionClassIdQuery)(dispatch);
-  }, [sessionClassIdQuery]);
+  }, [sessionClassIdQuery,dispatch]);
 
   const checkSingleItem = (isChecked, groupId, groupList) => {
     groupList?.forEach((item) => {
@@ -90,7 +91,7 @@ const ClassGroup = () => {
     }
   };
   const checkAllItems = (isChecked, groupList) => {
-    groupList.forEach((item) => {
+    groupList?.forEach((item) => {
       item.isChecked = isChecked;
       if (item.isChecked) {
         dispatch(pushId(item.groupId));
@@ -100,7 +101,7 @@ const ClassGroup = () => {
     });
     returnList(groupList)(dispatch);
   };
- 
+
   return (
     <>
       <div>
@@ -109,7 +110,7 @@ const ClassGroup = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">{groupList?.find(i=>i)?.sessionClassName} Class Group List</h4>
+                  <h4 className="card-title">{staffClasses.find(i=>i.sessionClassId === sessionClassIdQuery)?.sessionClass} Class Group List</h4>
                 </div>
               </Card.Header>
 
@@ -164,7 +165,7 @@ const ClassGroup = () => {
                           ></path>
                         </svg>
                         </OverlayTrigger>
-                        <span >back</span>
+                      
                         </div>
                         <div className="d-md-flex ">
                           <div className=" me-2 mx-2 mt-3 mt-md-0 dropdown">
@@ -367,6 +368,7 @@ const ClassGroup = () => {
                                   <input
                                     className="form-check-input"
                                     type="checkbox"
+                                    checked={selectedIds.find(i=>i===item.groupId)||false}
                                     onChange={(e) => {
                                       checkSingleItem(
                                         e.target.checked,
@@ -397,7 +399,7 @@ const ClassGroup = () => {
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
                                       {" "}
-                                      edit
+                                      Edit Group
                                     </Tooltip>
                                   }
                                 >
@@ -448,7 +450,7 @@ const ClassGroup = () => {
                                   overlay={
                                     <Tooltip id="button-tooltip-2">
                                       {" "}
-                                      delete
+                                      Delete Group
                                     </Tooltip>
                                   }
                                 >

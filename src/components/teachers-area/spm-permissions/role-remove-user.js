@@ -30,7 +30,7 @@ const RemoveUser = () => {
     const roleId = queryParams.get("roleId");
     if (!roleId) return;
     getAllAddedUsers(roleId)(dispatch);
-  }, []);
+  }, [dispatch,locations.search]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -44,7 +44,7 @@ const RemoveUser = () => {
       setUserId("");
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,dispatch,addedUsers?.roleId]);
   const filteredAddedUsers = addedUsers?.users.filter((user) => {
     if (searchQuery === "") {
       //if query is empty

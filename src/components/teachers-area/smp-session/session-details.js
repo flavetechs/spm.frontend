@@ -45,11 +45,11 @@ const SessionDetails = () => {
                                         <h5><b>{selectedItem?.startDate}/{selectedItem?.endDate} Session</b></h5>
                                     </div>
                                 </Card.Header>
-                                <table className="table table-bordered" responsive>
+                                <table className="table table-bordered table-responsive">
                                     <thead>
                                         <tr>
                                             <th>Session Detail</th>
-                                            <th>Number Value</th>
+                                            <th>Number</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +82,7 @@ const SessionDetails = () => {
                                                 <span>Principal Name</span>
                                             </td>
                                             <td>
-                                                <span>{selectedItem?.headTeacherName}</span>
+                                                <span className="overflow-auto">{selectedItem?.headTeacherName}</span>
                                             </td>
                                         </tr>
                                     </tbody>

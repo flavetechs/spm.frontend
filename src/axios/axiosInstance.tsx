@@ -1,8 +1,9 @@
 import axios from 'axios';
-// http://flavetech-001-site3.etempurl.com/,
-// https://localhost:44373/
+//https://localhost:44373/,
+// http://flavetech-001-site3.etempurl.com/
 const axiosInstance = axios.create({
-    baseURL: 'http://flavetech-001-site1.etempurl.com/',
+    baseURL: 'http://flavetechs.com/smp/development/',
+    // baseURL: 'https://localhost:44373/',
     headers: {
         Authorization: '',
     },
@@ -20,6 +21,10 @@ axiosInstance.interceptors.response.use((response: any) => response, (error: any
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
     if(error.response.status === 500){
         console.log('error.response', error.response)
+    }
+    if(error.response.status === 404){
+        console.log('error.response', error.response)
+        return
     }
     throw error;
 });

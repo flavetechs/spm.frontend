@@ -11,6 +11,5 @@ export const _state = {
     previousScoreEntry:null,
     previousScoreEntryPreview:null,
     cumulativeEntry:null,
-    templateSetting:"template-one",
     studentResult:null,
     }

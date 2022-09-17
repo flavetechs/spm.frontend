@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { notificationManagement } from "../../../router/spm-path-locations";
-import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, returnList, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
+import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from "../../../store/actions/toaster-actions";
-// import { getAllAnnouncement, updateSeenAnnouncement } from "../../store/actions/notification-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { stripHtml } from "../../../utils/tools";
 import "./announcement.scss";
@@ -20,13 +19,13 @@ const AnnouncementList = () => {
   const state = useSelector((state) => state);
   const { deleteDialogResponse } = state.alert;
   const { announcementList, selectedIds } = state.notification;
-  
+
   React.useEffect(() => {
     getAllAnnouncement()(dispatch);
-  }, []);
+  }, [dispatch]);
 
-   function truncateString(str) {
-    str= str.replace("<br>","<div></div>");
+  function truncateString(str) {
+    str = str.replace("<br>", "<div></div>");
     if (window.innerWidth >= 1400) {
       return str?.length > 60 ? str.slice(0, 60) + "..." : str;
     } else if (window.innerWidth >= 1200) {
@@ -38,7 +37,7 @@ const AnnouncementList = () => {
     } else if (window.innerWidth < 768) {
       return str?.length > 25 ? str.slice(0, 25) + "..." : str;
     }
-   }
+  }
 
 
   //DELETE HANDLER
@@ -62,7 +61,7 @@ const AnnouncementList = () => {
     return () => {
       respondToDeleteDialog('')(dispatch);
     }
-  }, [deleteDialogResponse]);
+  }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER
 
 
@@ -231,7 +230,7 @@ const AnnouncementList = () => {
                     <div className="">
                       <div
                         className={
-                          item.isSeen == false
+                          item.isSeen === false
                             ? " h6 d-md-flex justify-content-evenly item-outer-container"
                             : "d-md-flex justify-content-evenly item-outer-container"
                         }
@@ -264,7 +263,7 @@ const AnnouncementList = () => {
                                 updateSeenAnnouncement(item.announcementsId)(dispatch)
                               }}
                             >
-                              {item.isSeen == false ? (
+                              {item.isSeen === false ? (
                                 <svg
                                   width="22"
                                   viewBox="0 0 24 24"
@@ -402,9 +401,23 @@ const AnnouncementList = () => {
                       </div>
                       <hr className="m-0" />
                     </div>
+
                   </div>
                 ))}
               </div>
+
+            </div>
+            <div className="d-flex justify-content-end">
+              <Button
+                type="button"
+                className="btn-sm mt-4 mb-3"
+                variant="btn btn-danger"
+                onClick={() => {
+                  history.goBack();
+                }}
+              >
+                Back
+              </Button>
             </div>
           </Card.Body>
         </Card>

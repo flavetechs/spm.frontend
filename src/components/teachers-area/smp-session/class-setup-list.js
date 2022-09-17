@@ -36,7 +36,7 @@ const ClassSetupList = () => {
 
   React.useEffect(() => {
     getAllClasses()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -250,6 +250,7 @@ const ClassSetupList = () => {
                               <input
                                 className="form-check-input"
                                 type="checkbox"
+                                checked={selectedIds.find(i=> i === item.lookupId) ||false}
                                 onChange={(e) => {
                                   checkSingleItem(
                                     e.target.checked,
@@ -291,7 +292,7 @@ const ClassSetupList = () => {
                                 }
                               >
                                 {hasAccess(NavPermissions.editClassSetup) && (
-                                  <a
+                                  <div
                                     onClick={() => {
                                       fetchSingleItem(item.lookupId)(dispatch);
                                       history.push(
@@ -337,7 +338,7 @@ const ClassSetupList = () => {
                                         ></path>
                                       </svg>
                                     </span>
-                                  </a>
+                                  </div>
                                 )}
                               </OverlayTrigger>{" "}
                               <OverlayTrigger

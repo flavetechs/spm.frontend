@@ -20,9 +20,7 @@ import {
   sendForApproval,
   updateLessonNotes,
 } from "../../../../store/actions/class-actions";
-import { classLocations } from "../../../../router/spm-path-locations";
-import { read } from "xlsx";
-import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
+import { openFullscreen } from "../../../../utils/export-csv";
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 
 const EditLessonNote = () => {
@@ -33,7 +31,6 @@ const EditLessonNote = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
   const { createSuccessful, singleLessonNotes } = state.class;
-  const { staffClasses } = state.results;
 
   //VALIDATION
   const validation = Yup.object().shape({
@@ -41,16 +38,16 @@ const EditLessonNote = () => {
   });
   //VALIDATION
   const queryParams = new URLSearchParams(location.search);
-  const sessionClassIdQuery = queryParams.get("classId");
+  //const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     createSuccessful && history.goBack();
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   useEffect(() => {
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getAllStaffClasses()(dispatch);
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
-  }, []);
+  }, [dispatch]);
 
   const [content, setContent] = useState("");
   useEffect(() => {
@@ -98,10 +95,10 @@ const EditLessonNote = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    noteTitle: singleLessonNotes?.noteTitle,
-                    subjectId: singleLessonNotes?.subject,
+                    noteTitle: singleLessonNotes?.noteTitle || "",
+                    subjectId: singleLessonNotes?.subject || "",
                     shouldSendForApproval: false,
-                    classId: singleLessonNotes?.classes,
+                    classId: singleLessonNotes?.classes || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -112,7 +109,7 @@ const EditLessonNote = () => {
                     }
                     values.noteContent = content;
                     values.classNoteId = singleLessonNotes?.classNoteId;
-                    values.shouldSendForApproval == true && sendForApproval(singleLessonNotes?.classNoteId)(dispatch)
+                    sendForApproval(singleLessonNotes?.classNoteId)(dispatch)
                     updateLessonNotes(values)(dispatch);
                   }}
                 >
@@ -142,6 +139,12 @@ const EditLessonNote = () => {
                             name="noteTitle"
                             className="form-control border-secondary text-secondary"
                             id="noteTitle"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "noteTitle",
+                                e.target.value
+                              );
+                            }}
                           />
                         </Col>
                         <Col md="11" className="form-group text-secondary">
@@ -236,13 +239,19 @@ const EditLessonNote = () => {
                           />
                         </Col>
 
-                        {singleLessonNotes?.approvalStatus == 2 && (
+                        {singleLessonNotes?.approvalStatus === 2 && (
                           <Col md="11" className="form-group text-secondary mt-5">
                             <Field
                               type="checkbox"
                               name="shouldSendForApproval"
                               className="form-check-input"
                               id="shouldSendForApproval"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "shouldSendForApproval",
+                                  e.target.value
+                                );
+                              }}
                             />
                             <label
                               className="form-label mx-1"
@@ -262,7 +271,7 @@ const EditLessonNote = () => {
                               history.goBack();
                             }}
                           >
-                            Back
+                            Cancel
                           </Button>
                           <Button
                             type="button"

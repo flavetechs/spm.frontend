@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   getAllSessionClasses,
@@ -21,7 +21,6 @@ import { hasAccess, NavPermissions } from "../../../utils/permissions";
 const SessionClassList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const history = useHistory();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   //VARIABLE DECLARATIONS
@@ -35,11 +34,11 @@ const SessionClassList = () => {
 
   React.useEffect(() => {
     getGeneralActiveSession()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -47,7 +46,7 @@ const SessionClassList = () => {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteSessionClass(selectedIds)(dispatch);
+        deleteSessionClass(selectedIds, activeSession.activeSessionId)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);
@@ -156,7 +155,7 @@ const SessionClassList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    details
+                                   Class Details
                                   </Tooltip>
                                 }
                               >
@@ -205,7 +204,7 @@ const SessionClassList = () => {
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip id="button-tooltip-2"> edit</Tooltip>
+                                  <Tooltip id="button-tooltip-2"> Edit Class</Tooltip>
                                 }
                               >
                                 {hasAccess(NavPermissions.editSessionClass) && (
@@ -257,7 +256,7 @@ const SessionClassList = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                    delete
+                                    Delete Class
                                   </Tooltip>
                                 }
                               >

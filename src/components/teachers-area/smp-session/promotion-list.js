@@ -38,11 +38,11 @@ const PromotionSetup = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllPromotionList()(dispatch);
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -57,7 +57,8 @@ const PromotionSetup = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse]);
+  }, [dialogResponse,classToPromote,classToPromoteTo.sessionClassId, dispatch]);
+ 
   return (
     <>
       <div>
@@ -123,20 +124,19 @@ const PromotionSetup = () => {
                               }
                             >
                               <div>
-                                <Link
+                                <a
                                   className="px-3 h2"
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details"
-                                  to={`${sessionLocations.promotionPassedList}?failedStudentIds=${item.failedStudentIds}`}
+                                  data-original-title="Details" 
                                 >
                                   {item.totalStudentsPassed}
-                                </Link>
+                                </a>
                               </div>
                             </OverlayTrigger>
                           </td>
-                          <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`)}
+                          <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?failedStudentIds=${item.failedStudentIds}`)}
                             className="h2 text-center" style={{ backgroundColor: '#FF7C7C', cursor: 'pointer' }}>
                             <OverlayTrigger
                               placement="top"
@@ -147,16 +147,15 @@ const PromotionSetup = () => {
                               }
                             >
                               <div>
-                                <Link
+                                <a
                                   className="px-3 h2"
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details"
-                                  to={`${sessionLocations.promotionFailedList}?sessionClassId=${item.sessionClassId}`}
+                                  data-original-title="Details" 
                                 >
                                   {item.totalStudentsFailed}
-                                </Link>
+                                </a>
                               </div>
                             </OverlayTrigger>
                           </td>
@@ -180,7 +179,7 @@ const PromotionSetup = () => {
                                   Select promotion class
                                 </option>
                                 {/* .slice(idx - 1, classesToPromoteTo.length) */}
-                                {classesToPromoteTo?.filter(d => d.class != item.sessionClassName)
+                                {classesToPromoteTo?.filter(d => d.class !== item.sessionClassName)
                                   .map((promoteTo, idx) => (
                                     <option
                                       key={idx}
@@ -215,7 +214,7 @@ const PromotionSetup = () => {
                                     onClick={() => {
                                       setClassToPromote(item.sessionClassId);
                                       const message =
-                                        classToPromoteTo.className != ""
+                                        classToPromoteTo.className !== ""
                                         && `Are you sure you want to promote ${item.sessionClassName} students to ${classToPromoteTo.className}?`
                                       showHideDialog(true, message)(dispatch);
                                     }}

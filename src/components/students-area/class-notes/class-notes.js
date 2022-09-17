@@ -7,19 +7,13 @@ import {
   getAllClassNotes,
   getAllStudentSubjects,
 } from "../../../store/actions/class-actions";
-import {
-  getUserDetails,
-  hasAccess,
-  NavPermissions,
-} from "../../../utils/permissions";
-import * as Yup from "yup";
+import { getUserDetails } from "../../../utils/permissions";
 import { classNoteLocations } from "../../../router/students-path-locations";
 
 const ClassNotes = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
-  const [subjectId, setSubjectId] = useState("");
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   //VARIABLE DECLARATIONS
@@ -28,53 +22,40 @@ const ClassNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { classNotes,studentSubjectList } = state.class;
+  const { classNotes, studentSubjectList } = state.class;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
-  //VALIDATION
-  const validation = Yup.object().shape({
-    subjectId: Yup.string().required("Subject is required"),
-  });
-  //VALIDATION
-
   React.useEffect(() => {
-    getAllStudentSubjects(userDetail.userAccountId)(dispatch);
-  }, []);
-
+    getAllStudentSubjects(userDetail.id)(dispatch);
+  }, [dispatch, userDetail.id]);
 
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId");
   React.useEffect(() => {
     if (subjectIdQuery) {
       getAllClassNotes(subjectIdQuery)(dispatch);
-      setSubjectId(subjectIdQuery);
+    } else if (!subjectIdQuery) {
+      getAllClassNotes("")(dispatch);
     }
-  }, [subjectIdQuery]);
+  }, [subjectIdQuery, dispatch]);
 
-  React.useEffect(() => {
-    if (!subjectIdQuery) {
-      getAllClassNotes(subjectId)(dispatch);
+  const filteredLessonNotes = classNotes?.filter((item) => {
+    if (searchQuery === "") {
+      //if query is empty
+      return item;
+    } else if (
+      item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return item;
+    } else if (
+      item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return item;
     }
-  }, [subjectIdQuery]);
-
-  const filteredLessonNotes = classNotes
-    ?.filter((item) => {
-      if (searchQuery === "") {
-        //if query is empty
-        return item;
-      } else if (
-        item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        //returns filtered array
-        return item;
-      } else if (
-        item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        //returns filtered array
-        return item;
-      }
-    });
+  });
 
   return (
     <>
@@ -130,13 +111,12 @@ const ClassNotes = () => {
                   </div>
                 </div>
               </Card.Header>
-             
+
               <Formik
                 initialValues={{
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
                     `${classNoteLocations.createClassNotes}?subjectId=${values.subjectId}`
@@ -153,15 +133,7 @@ const ClassNotes = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
-                           
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
-                              <div>
-                                {touched.subjectId && errors.subjectId && (
-                                  <div className="text-danger">
-                                    {errors.subjectId}
-                                  </div>
-                                )}
-                              </div>
                               <Field
                                 as="select"
                                 name="subjectId"
@@ -169,9 +141,10 @@ const ClassNotes = () => {
                                 id="subjectId"
                                 onChange={(e) => {
                                   setFieldValue("subjectId", e.target.value);
-                                  setSubjectId(e.target.value);
-                                  e.target.value == ""
-                                    ? history.push(classNoteLocations.classNotes)
+                                  e.target.value === ""
+                                    ? history.push(
+                                        classNoteLocations.classNotes
+                                      )
                                     : history.push(
                                         `${classNoteLocations.classNotes}?subjectId=${e.target.value}`
                                       );
@@ -206,7 +179,7 @@ const ClassNotes = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={(e) => {
                                       setShowMenuDropdown(!showMenuDropdown);
-                                      setIndexRow(idx); 
+                                      setIndexRow(idx);
                                     }}
                                   >
                                     <g>
@@ -232,7 +205,7 @@ const ClassNotes = () => {
                                       </g>
                                     </g>
                                   </svg>
-                                  {showMenuDropdown && indexRow == idx && (
+                                  {showMenuDropdown && indexRow === idx && (
                                     <div
                                       x-placement="bottom-start"
                                       aria-labelledby=""
@@ -297,7 +270,6 @@ const ClassNotes = () => {
                                         </svg>
                                         view/details
                                       </div>
-
                                     </div>
                                   )}
                                 </div>

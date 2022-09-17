@@ -7,14 +7,14 @@ const MasterListLargeTable = ({ masterEntry }) => {
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const tableRef = useRef(null);
 
-  if (masterEntry?.resultList == null) {
+  if (masterEntry?.resultList === null) {
     masterEntry.resultList = [];
   }
 
   const subjectList = masterEntry?.resultList
-    .map((result, idx) => result.subjects)
+    .map((result,idx) => result.subjects)
     .flat();
-  const filteredSubjectList = subjectList.filter(
+  const filteredSubjectList = subjectList?.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );
@@ -56,7 +56,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                 >
                   <div
                     onClick={() => {
-                      ExportCSV("master-list", "master-list");
+                     // ExportCSV("master-list", "master-list");
                       setShowMenuDropdown(false);
                     }}
                     className="dropdown-item"
@@ -164,7 +164,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
           <tbody>
             <tr>
               <td colSpan="12"></td>
-              {filteredSubjectList?.map((subject, idx) => (
+              {filteredSubjectList?.map((subject) => (
                 <>
                   <td
                     style={{
@@ -214,20 +214,20 @@ const MasterListLargeTable = ({ masterEntry }) => {
                 <td className="fw-bold">{item.totalScore}</td>
                 <td className="fw-bold">{item.averageScore}</td>
                 <td className="fw-bold">
-                  <Badge bg={item.status == "PASSED" ? "success" : "danger"}>
+                  <Badge bg={item.status === "PASSED" ? "success" : "danger"}>
                     {item.status}
                   </Badge>
                 </td>
 
-                {filteredSubjectList.map((filtered, id) => (
+                {filteredSubjectList.map((filtered) => (
                   <>
                     <td className="px-3">
                       {item.subjects.find(
-                        (subject) => subject.subjectName == filtered.subjectName
+                        (subject) => subject.subjectName === filtered.subjectName
                       )
                         ? item.subjects.map(
                             (i) =>
-                              i.subjectName == filtered.subjectName &&
+                              i.subjectName === filtered.subjectName &&
                               i.assessmentScore
                           )
                         : ""}
@@ -235,11 +235,11 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
                     <td className="px-3">
                       {item.subjects.find(
-                        (subject) => subject.subjectName == filtered.subjectName
+                        (subject) => subject.subjectName === filtered.subjectName
                       )
                         ? item.subjects.map(
                             (i) =>
-                              i.subjectName == filtered.subjectName &&
+                              i.subjectName === filtered.subjectName &&
                               i.examScore
                           )
                         : ""}
@@ -247,11 +247,11 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
                     <td className="px-3">
                       {item.subjects.find(
-                        (subject) => subject.subjectName == filtered.subjectName
+                        (subject) => subject.subjectName === filtered.subjectName
                       )
                         ? item.subjects.map(
                             (i) =>
-                              i.subjectName == filtered.subjectName && i.total
+                              i.subjectName === filtered.subjectName && i.total
                           )
                         : ""}
                     </td>

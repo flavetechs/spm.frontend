@@ -56,11 +56,11 @@ const StudentAdd = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch)
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession]);
+  }, [activeSession,dispatch]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
@@ -129,8 +129,9 @@ const StudentAdd = () => {
           params.append("photo",values.photo);
           params.append("profileImage",values.profileImage);
           params.append("sessionClassId",values.sessionClassId);
-          createStudent(values, params)(dispatch);
+          createStudent(params)(dispatch);
         }}
+        enableReinitialize={true}
       >
         {({
           handleChange,
@@ -218,8 +219,16 @@ const StudentAdd = () => {
                       </div>
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
-                          <span>Only</span> <a href="#">.jpg</a>{" "}
-                          <a href="#">.png</a> <a href="#">.jpeg</a>
+                        <span>Only</span>{" "}
+                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                            .jpg
+                          </a>{" "}
+                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                            .png
+                          </a>{" "}
+                          <a href="/hope-ui/react/build/dashboard/app/user-add">
+                            .jpeg
+                          </a>
                           <span> allowed</span>
                         </div>
                       </div>

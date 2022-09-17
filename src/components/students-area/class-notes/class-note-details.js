@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../router/spm-path-locations";
 import {
-  addStudentComments,
-  addStudentReplies,
-  approveNotes,
-  getAllStudentComments,
+  addClassNoteComments,
+  addClassNoteReplies,
   getLessonNoteDetails,
   getSingleLessonNotes,
 } from "../../../store/actions/class-actions";
@@ -19,7 +17,6 @@ const ClassNoteDetails = () => {
     singleLessonNotes,
     createSuccessful,
     comments,
-    viewers,
     relatedNotes,
   } = state.class;
   //VARIABLE DECLARATIONS
@@ -28,26 +25,23 @@ const ClassNoteDetails = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [row, setRow] = useState({});
   const [comment, setComment] = useState("");
   const [reply, setReply] = useState({});
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
     createSuccessful && history.push(classLocations.lessonNotes);
-  }, [createSuccessful]);
+  }, [createSuccessful,history]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
-  }, []);
+  }, [dispatch,location.search]);
 
   useEffect(() => {
-    if (singleLessonNotes?.studentNoteId) {
-      getLessonNoteDetails(singleLessonNotes?.studentNoteId)(dispatch);
-    }
-  }, [singleLessonNotes]);
+      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
+  }, [singleLessonNotes,dispatch]);
 
   return (
     <>
@@ -63,15 +57,30 @@ const ClassNoteDetails = () => {
                 <Card.Body>
                   <div className="d-flex justify-content-between mt-3 flex-wrap">
                     <div>
-                      <button
-                        type="button"
-                        className="btn btn-danger btn-sm mx-2"
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
+                    >
+                      <svg
                         onClick={() => {
-                          history.goBack();
+                          history.goBack()
                         }}
+                        style={{ cursor: "pointer" }}
+                        className=" text-primary"
+                        width="32"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        Back
-                      </button>
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M13.165 11.9934L13.1634 11.6393C13.1513 10.2348 13.0666 8.98174 12.9206 8.18763C12.9206 8.17331 12.7613 7.38572 12.6599 7.12355C12.5006 6.74463 12.2126 6.42299 11.8515 6.2192C11.5624 6.0738 11.2592 6 10.9417 6C10.6922 6.01157 10.2806 6.13714 9.98692 6.24242L9.74283 6.33596C8.12612 6.97815 5.03561 9.07656 3.85199 10.3598L3.76473 10.4495L3.37527 10.8698C3.12982 11.1915 3 11.5847 3 12.0077C3 12.3866 3.11563 12.7656 3.3469 13.0718C3.41614 13.171 3.52766 13.2983 3.62693 13.4058L4.006 13.8026C5.31046 15.1243 8.13485 16.9782 9.59883 17.5924C9.59883 17.6057 10.5086 17.9857 10.9417 18H10.9995C11.6639 18 12.2846 17.6211 12.6021 17.0086C12.6888 16.8412 12.772 16.5132 12.8352 16.2252L12.949 15.6813C13.0788 14.8067 13.165 13.465 13.165 11.9934ZM19.4967 13.5183C20.3269 13.5183 21 12.8387 21 12.0004C21 11.1622 20.3269 10.4825 19.4967 10.4825L15.7975 10.8097C15.1463 10.8097 14.6183 11.3417 14.6183 12.0004C14.6183 12.6581 15.1463 13.1912 15.7975 13.1912L19.4967 13.5183Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </OverlayTrigger>
+                    <span>back</span>
                       {!fullScreen ? (
                         <OverlayTrigger
                           placement="top"
@@ -129,7 +138,8 @@ const ClassNoteDetails = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-start mt-4">
+                  <div className="mt-2 d-flex justify-content-end">{singleLessonNotes?.subjectName}</div>
+                  <div className="d-flex justify-content-start mt-2">
                     <div>
                       <button
                         type="button"
@@ -242,17 +252,17 @@ const ClassNoteDetails = () => {
                           </div>
                         </Card>
                       ))}{" "}
-                      {row.showRow && row.indexRow == idx && (
+                      {row.showRow && row.indexRow === idx && (
                         <>
                           <div className="d-flex justify-content-end mt-4">
                             <div
                               className=" badge bg-primary border-0 mb-2 mt-n3"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                addStudentReplies(
+                                addClassNoteReplies(
                                   reply.commentId,
                                   reply.comment,
-                                  singleLessonNotes?.studentNoteId
+                                  singleLessonNotes?.classNoteId
                                 )(dispatch);
                                 setRow({
                                   indexRow: "",
@@ -322,8 +332,8 @@ const ClassNoteDetails = () => {
                           className="badge bg-primary border-0 mb-3"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            addStudentComments(
-                              singleLessonNotes?.studentNoteId,
+                            addClassNoteComments(
+                              singleLessonNotes?.classNoteId,
                               comment
                             )(dispatch);
                             setComment("");
@@ -347,27 +357,7 @@ const ClassNoteDetails = () => {
                           ok
                         </div>
                       </div>
-                      <div className="col-lg-12 d-flex ">
-                        <input
-                          type="radio"
-                          id="approve"
-                          name="shouldApprove"
-                          value="approve"
-                          className="mx-1 form-check-input"
-                          onChange={(e) => {
-                            setIsChecked(e.target.checked);
-                          }}
-                        />
-                        <label htmlFor="html">approve</label>
-                        <input
-                          type="radio"
-                          id="disapprove"
-                          name="shouldApprove"
-                          value="disapprove"
-                          className="mx-1 form-check-input"
-                        />
-                        <label htmlFor="css">disapprove</label>
-                      </div>
+                    
                     </Row>
                   </form>
                   <div className="mt-5 mt-sm-0 d-flex justify-content-end">
@@ -380,7 +370,7 @@ const ClassNoteDetails = () => {
                     >
                       Back
                     </button>
-                    <button
+                    {/* <button
                       type="submit"
                       className="btn btn-primary"
                       onClick={() => {
@@ -391,7 +381,7 @@ const ClassNoteDetails = () => {
                       }}
                     >
                       Submit
-                    </button>
+                    </button> */}
                   </div>
                 </Card.Body>
               </Card>
@@ -404,16 +394,15 @@ const ClassNoteDetails = () => {
                 <div className="d-flex align-items-center gap-3">
                   <img
                     className="img-fluid rounded-circle avatar-130"
-                    src="https://templates.iqonic.design/hope-ui/pro/html/blog/assets/images/blog-avatar/01.png"
-                    alt="user-img"
+                    src={singleLessonNotes?.noteAuthordetail?.photo}
+                    alt="author-img"
                   />
                   <div>
                     <h6 className="mb-3 text-primary">
                       {singleLessonNotes?.noteAuthordetail?.fullName}
                     </h6>
                     <p className="mt-3">
-                      Elit vitae neque velit mattis elementum egestas non, Sem
-                      eget.
+                    {singleLessonNotes?.noteAuthordetail?.shortBio}
                     </p>
                   </div>
                 </div>
