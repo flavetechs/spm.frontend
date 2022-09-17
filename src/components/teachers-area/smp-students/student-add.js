@@ -425,18 +425,21 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-6  form-group">
-                          <label className="form-label" htmlFor="cityId">
-                            <b>City:</b>
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="countryId">
+                            <b>Country:</b>
                           </label>
                           <Field
                             as="select"
-                            name="cityId"
+                            name="countryId"
                             className="form-select"
-                            id="cityId"
+                            id="countryId"
+                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
                           >
-                            <option value="Select City">Select City</option>
-                            {cities?.map((item, idx) => (
+                            <option value="Select Country">
+                              Select Country
+                            </option>
+                            {countries?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
@@ -468,21 +471,18 @@ const StudentAdd = () => {
                             ))}
                           </Field>
                         </div>
-                        <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="countryId">
-                            <b>Country:</b>
+                        <div className="col-md-6  form-group">
+                          <label className="form-label" htmlFor="cityId">
+                            <b>City:</b>
                           </label>
                           <Field
                             as="select"
-                            name="countryId"
+                            name="cityId"
                             className="form-select"
-                            id="countryId"
-                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
+                            id="cityId"
                           >
-                            <option value="Select Country">
-                              Select Country
-                            </option>
-                            {countries?.map((item, idx) => (
+                            <option value="Select City">Select City</option>
+                            {cities?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
@@ -492,6 +492,7 @@ const StudentAdd = () => {
                             ))}
                           </Field>
                         </div>
+                     
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="zipCode">
                             <b>Zip Code:</b>

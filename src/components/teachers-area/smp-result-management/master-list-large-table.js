@@ -7,8 +7,9 @@ import {
 } from "../../../store/actions/toaster-actions";
 import { ExportCSV, PrintCSV } from "../../../utils/export-csv";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import MasterListSmallTable from "./master-list-small-table";
 
-const MasterListLargeTable = ({ masterEntry }) => {
+const MasterListLargeTable = ({ masterEntry, setShowMasterListTable }) => {
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const tableRef = useRef(null);
   const dispatch = useDispatch();
@@ -39,12 +40,18 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
   return (
     <>
-      <Row className="pt-3">
-        <div className="d-flex justify-content-end">
+      <div id="master-list" ref={tableRef}>
+      <MasterListSmallTable
+        masterEntry={masterEntry}
+        setShowMasterListTable={setShowMasterListTable}
+      />
+      <Row className="pt-3"style={{paddingTop:"15px"}}>
+        <div className="d-flex justify-content-end"  style={{display:"flex",justifyContent:"flex-end"}}>
           {hasAccess(NavPermissions.exportMasterList) && (
             <Button
               type="button"
               className="btn-sm mx-2 d-flex"
+              style={{display:"flex"}}
               variant="btn btn-success"
               onClick={() => setShowMenuDropdown(!showMenuDropdown)}
             >
@@ -72,7 +79,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                     data-popper-escaped="false"
                     data-popper-reference-hidden="false"
                   >
-                    <div
+                    {/* <div
                       onClick={() => {
                         // ExportCSV("master-list", "master-list");
                         setShowMenuDropdown(false);
@@ -82,7 +89,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                       draggable="false"
                     >
                       Excel
-                    </div>
+                    </div> */}
                     <div
                       onClick={() => {
                         showHideDialog(
@@ -120,7 +127,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
             </Button>
           )}
         </div>
-        <div id="master-list" ref={tableRef}>
+       
           <Table size="md" bordered responsive className="mt-2">
             <thead>
               <tr
@@ -210,7 +217,12 @@ const MasterListLargeTable = ({ masterEntry }) => {
                   Result Status
                 </td>
                 {filteredSubjectList?.map((subject, idx) => (
-                  <td colSpan="3" className=" h6" style={{ border: "1px solid grey",}}key={idx}>
+                  <td
+                    colSpan="3"
+                    className=" h6"
+                    style={{ border: "1px solid grey" }}
+                    key={idx}
+                  >
                     {subject.subjectName}
                   </td>
                 ))}
@@ -218,7 +230,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
             </thead>
             <tbody>
               <tr>
-                <td colSpan="12"style={{ border: "1px solid grey",}}></td>
+                <td colSpan="12" style={{ border: "1px solid grey" }}></td>
                 {filteredSubjectList?.map((subject) => (
                   <>
                     <td
@@ -297,10 +309,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
 
                   {filteredSubjectList.map((filtered) => (
                     <>
-                      <td
-                        className="px-3"
-                        style={{ border: "1px solid grey" }}
-                      >
+                      <td className="px-3" style={{ border: "1px solid grey" }}>
                         {item.subjects.find(
                           (subject) =>
                             subject.subjectName === filtered.subjectName
@@ -313,10 +322,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                           : ""}
                       </td>
 
-                      <td
-                        className="px-3"
-                        style={{ border: "1px solid grey" }}
-                      >
+                      <td className="px-3" style={{ border: "1px solid grey" }}>
                         {item.subjects.find(
                           (subject) =>
                             subject.subjectName === filtered.subjectName
@@ -329,10 +335,7 @@ const MasterListLargeTable = ({ masterEntry }) => {
                           : ""}
                       </td>
 
-                      <td
-                        className="px-3"
-                        style={{ border: "1px solid grey" }}
-                      >
+                      <td className="px-3" style={{ border: "1px solid grey" }}>
                         {item.subjects.find(
                           (subject) =>
                             subject.subjectName === filtered.subjectName
@@ -350,8 +353,9 @@ const MasterListLargeTable = ({ masterEntry }) => {
               ))}
             </tbody>
           </Table>
-        </div>
+        
       </Row>
+      </div>
     </>
   );
 };

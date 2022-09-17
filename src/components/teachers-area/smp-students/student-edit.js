@@ -87,7 +87,7 @@ const StudentEdit = () => {
       setImages(URL.createObjectURL(event.target.files[0]));
     }
   };
-console.log("this",cities,selectedStudent);
+
   return (
     <>
       <Formik
@@ -437,29 +437,31 @@ console.log("this",cities,selectedStudent);
                             className="form-control"
                           />
                         </div>
-    
-                        <div className="col-md-6  form-group">
-                          <label className="form-label" htmlFor="cityId">
-                            <b>City:</b>
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="countryId">
+                            <b>Country:</b>
                           </label>
                           <Field
                             as="select"
-                            name="cityId"
+                            name="countryId"
                             className="form-select text-uppercase"
-                            id="cityId"
+                            id="countryId"
+                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
                           >
-                            <option value="">Select City</option>
-                           {cities?.map((item, idx) => (
+                            <option value="">Select Country</option>
+                            {countries?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
-                                selected={selectedStudent?.cityId === item.value}
+                                selected={selectedStudent?.countryId === item.value}
                               >
                                 {item.name}
                               </option>
                             ))}
+                            
                           </Field>
                         </div>
+                       
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="stateId">
                             <b>State:</b>
@@ -483,28 +485,26 @@ console.log("this",cities,selectedStudent);
                             ))}
                           </Field>
                         </div>
-                        <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="countryId">
-                            <b>Country:</b>
+                        <div className="col-md-6  form-group">
+                          <label className="form-label" htmlFor="cityId">
+                            <b>City:</b>
                           </label>
                           <Field
                             as="select"
-                            name="countryId"
+                            name="cityId"
                             className="form-select text-uppercase"
-                            id="countryId"
-                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
+                            id="cityId"
                           >
-                            <option value="">Select Country</option>
-                            {countries?.map((item, idx) => (
+                            <option value="">Select City</option>
+                           {cities?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
-                                selected={selectedStudent?.countryId === item.value}
+                                selected={selectedStudent?.cityId === item.value}
                               >
                                 {item.name}
                               </option>
                             ))}
-                            
                           </Field>
                         </div>
                         <div className="col-md-6 form-group">

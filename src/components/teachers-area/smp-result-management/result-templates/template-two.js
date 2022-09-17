@@ -50,7 +50,6 @@ const ResultTemplateTwo = (props) => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse, dispatch]);
-  console.log("this",props.batchResult);
   return (
     <>
       <div className="mb-3 d-flex justify-content-end mt-n5">

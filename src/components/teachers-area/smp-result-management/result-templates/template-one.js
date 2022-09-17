@@ -57,7 +57,7 @@ const ResultTemplateOne = (props) => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse, dispatch]);
-console.log(studentResult);
+
   return (
     <>
       <div className=" mb-3 d-flex justify-content-end mt-n5">
@@ -200,7 +200,7 @@ console.log(studentResult);
                         <tr>
                           <td
                             className="fw-bold h6 text-uppercase"
-                            style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
+                            style={{ color: "#2d2d2d",textTransform:"capitalize",fontWeight:"600",border:"1px solid black" }}
                           >
                             Position
                           </td>

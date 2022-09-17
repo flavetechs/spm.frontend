@@ -234,6 +234,7 @@ const AdminScoreEntry = () => {
                           <label className="form-label fw-bold">Subject:</label>
                           <Field
                             as="select"
+                            disabled={values.sessionClassId ? false : true}
                             name="subjectId"
                             className="form-select"
                             id="subjectId"
