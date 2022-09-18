@@ -28,15 +28,18 @@ const TemplateControl = () => {
 
   useEffect(() => {
     getResultSettingList()(dispatch);
+    window.onbeforeunload = () => "Results will be lost on reload";
   }, [dispatch]);
-  useEffect(() => {
-    batchPrinting &&
-      getAllBatchPrintingResults(
-        sessionClassId,
-        sessionTermId,
-        batchPrinting
-      )(dispatch);
-  }, [dispatch, sessionClassId, sessionTermId, batchPrinting]);
+
+
+  // useEffect(() => {
+  //   batchPrinting &&
+  //     getAllBatchPrintingResults(
+  //       sessionClassId,
+  //       sessionTermId,
+  //       batchPrinting
+  //     )(dispatch);
+  // }, [dispatch, sessionClassId, sessionTermId, batchPrinting]);
 
   // useEffect(() => {
   //   if (dialogResponse === "continue") {
@@ -82,7 +85,7 @@ const TemplateControl = () => {
               </div>
               <div id="result-table-one">
                 {batchResult?.map((student) => (
-                  <ResultTemplateOne batchResult={student}/>
+                  <ResultTemplateOne batchResult={student} />
                 ))}
               </div>
               <div className="d-flex justify-content-end">
@@ -172,8 +175,8 @@ const TemplateControl = () => {
               <div className="d-flex justify-content-end">
                 <button
                   className="btn btn-primary mx-3 mb-3"
-                  onClick={() =>{
-                     PrintCSV("result-table-two")
+                  onClick={() => {
+                    PrintCSV("result-table-two")
                   }}
                 >
                   Batch Print
