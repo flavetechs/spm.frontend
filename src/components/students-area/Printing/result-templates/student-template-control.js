@@ -3,6 +3,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { getResultSettingList } from "../../../../store/actions/portal-setting-action";
+import { resetStudentResultState } from "../../../../store/actions/results-actions";
 import ResultTemplateOne from "./student-template-one";
 import ResultTemplateTwo from "./student-template-two";
 

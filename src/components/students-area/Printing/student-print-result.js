@@ -57,11 +57,12 @@ const PrintStudentResult = () => {
     setInitialValues(initialValues);;
   }, [activeSession, dispatch]);
 
-  React.useEffect(() => {
-    if (studentResult) {
-      history.push(printResultLocations.resultTemplate);
-    }
-  }, [studentResult, history]);
+  // React.useEffect(() => {
+  //   if (studentResult) {
+  //     history.push(printResultLocations.resultTemplate);
+  //   }
+   
+  // }, [studentResult, history]);
 
   return (
     <>
@@ -84,6 +85,7 @@ const PrintStudentResult = () => {
                       values.sessionTermId,
                       values.studentRegNo
                     )(dispatch);
+                    history.push(printResultLocations.resultTemplate);
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
