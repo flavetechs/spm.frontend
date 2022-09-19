@@ -20,7 +20,7 @@ const PrintStudentResult = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { studentResult } = state.results;
+  const { showSuccessToast } = state.alert;
   const { activeSession, sessionList } = state.session;
   const [selectedSession, setSelectedSession] = useState(null);
   const [initialValues, setInitialValues] = useState({
@@ -57,12 +57,11 @@ const PrintStudentResult = () => {
     setInitialValues(initialValues);;
   }, [activeSession, dispatch]);
 
-  // React.useEffect(() => {
-  //   if (studentResult) {
-  //     history.push(printResultLocations.resultTemplate);
-  //   }
+  React.useEffect(() => {
+    showSuccessToast&&
+    history.push(printResultLocations.resultTemplate);
    
-  // }, [studentResult, history]);
+  }, [showSuccessToast, history]);
 
   return (
     <>
@@ -85,7 +84,7 @@ const PrintStudentResult = () => {
                       values.sessionTermId,
                       values.studentRegNo
                     )(dispatch);
-                    history.push(printResultLocations.resultTemplate);
+                   
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
