@@ -237,14 +237,11 @@ const CumulativeMasterList = () => {
                   <h6>CUMULATIVE RESULT</h6>
                 </Card.Header>
                 <Card.Body>
-                  <CumulativeMasterListSmallTable
+                  <CumulativeMasterListLargeTable
                     cumulativeEntry={cumulativeEntry}
                     setShowCumulativeMasterListTable={
                       setShowCumulativeMasterListTable
                     }
-                  />
-                  <CumulativeMasterListLargeTable
-                    cumulativeEntry={cumulativeEntry}
                   />
                 </Card.Body>
               </Card>

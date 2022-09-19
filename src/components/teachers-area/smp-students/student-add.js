@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { createStudent } from "../../../store/actions/student-actions";
+import { createStudent, getCities, getCountries, getStates } from "../../../store/actions/student-actions";
 import { useHistory } from "react-router-dom";
 import avatars1 from "../../../assets/images/avatars/01.png";
 import avatars2 from "../../../assets/images/avatars/avtar_1.png";
@@ -48,14 +48,15 @@ const StudentAdd = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message } = state.student;
+  const { isSuccessful, message,cities,countries,states } = state.student;
   const { itemList } = state.class;
   const { activeSession } = state.session;
 
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getActiveSession()(dispatch)
+    getActiveSession()(dispatch);
+    getCountries()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -424,23 +425,28 @@ const StudentAdd = () => {
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-6  form-group">
-                          <label className="form-label" htmlFor="cityId">
-                            <b>City:</b>
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="countryId">
+                            <b>Country:</b>
                           </label>
                           <Field
                             as="select"
-                            name="cityId"
+                            name="countryId"
                             className="form-select"
-                            id="cityId"
+                            id="countryId"
+                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
                           >
-                            <option value="Select City">Select City</option>
-                            <option value="Lagos">Lagos</option>
-                            <option value="Ibadan">Ibadan</option>
-                            <option value="Port-harcourt">Port-harcourt</option>
-                            <option value="Benin City">Benin City</option>
-                            <option value="Kano">Kano</option>
-                            <option value="Plateau">Plateau</option>
+                            <option value="Select Country">
+                              Select Country
+                            </option>
+                            {countries?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
                           </Field>
                         </div>
                         <div className="col-md-6 form-group">
@@ -452,44 +458,41 @@ const StudentAdd = () => {
                             name="stateId"
                             className="form-select"
                             id="stateId"
+                            onChange={(e)=>{setFieldValue("stateId",e.target.value); getCities(e.target.value)(dispatch)}}
                           >
                             <option value="Select State">Select State</option>
-                            <option value="Lagos">Lagos</option>
-                            <option value="Oyo">Oyo</option>
-                            <option value="Rivers">Rivers</option>
-                            <option value="Edo">Edo</option>
-                            <option value="Kano">Kano</option>
-                            <option value="Jos">Jos</option>
+                            {states?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
                           </Field>
                         </div>
-                        <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="countryId">
-                            <b>Country:</b>
+                        <div className="col-md-6  form-group">
+                          <label className="form-label" htmlFor="cityId">
+                            <b>City:</b>
                           </label>
                           <Field
                             as="select"
-                            name="countryId"
+                            name="cityId"
                             className="form-select"
-                            id="countryId"
+                            id="cityId"
                           >
-                            <option value="Select Country">
-                              Select Country
-                            </option>
-                            <option value="Nigeria">Nigeria</option>
-                            <option value="Albania">Albania</option>
-                            <option value="Algeria">Algeria</option>
-                            <option value="American Samoa">
-                              American Samoa
-                            </option>
-                            <option value="Andorra">Andorra</option>
-                            <option value="Angola">Angola</option>
-                            <option value="Anguilla">Anguilla</option>
-                            <option value="Argentina">Argentina</option>
-                            <option value="Armenia">Armenia</option>
-                            <option value="Aruba">Aruba</option>
-                            <option value="Australia">Australia</option>
+                            <option value="Select City">Select City</option>
+                            {cities?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
                           </Field>
                         </div>
+                     
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="zipCode">
                             <b>Zip Code:</b>

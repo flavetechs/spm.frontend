@@ -110,6 +110,7 @@ export const resultManagement = {
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
   printResult: "/dashboard/smp-result/print-result",
+  batchPrintPreview: "/dashboard/smp-result/batch-print-preview",
   resultTemplate: "/dashboard/smp-result/result-template",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
 }

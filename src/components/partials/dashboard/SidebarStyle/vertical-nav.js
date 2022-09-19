@@ -20,6 +20,7 @@ import { ResultLink } from "./Navigations/result-links";
 import { PinLink } from "./Navigations/pin-links";
 import { PortalSettingsLink } from "./Navigations/portal-setting-links";
 
+
 function CustomToggle({ children, eventKey, onClick }) {
     const { activeEventKey } = useContext(AccordionContext);
 
@@ -61,7 +62,7 @@ const VerticalNav = () => {
 
     return (
         <>
-            <Accordion as="ul" className="navbar-nav iq-main-menu">
+            <Accordion as="ul" className="navbar-nav iq-main-menu isPreview">
                 <li className="nav-item static-item">
                     <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
                         <span className="default-icon">Home</span>
