@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -7,14 +7,11 @@ import {
   addComments,
   addReplies,
   approveNotes,
-  getAllComments,
-  getClassNoteViewers,
-  getDetails,
   getLessonNoteDetails,
-  getRelatedNotes,
   getSingleLessonNotes,
 } from "../../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
+import { getUserDetails } from "../../../../utils/permissions";
 
 const LessonNoteDetails = () => {
   const state = useSelector((state) => state);
@@ -35,15 +32,20 @@ const LessonNoteDetails = () => {
   const [row, setRow] = useState({});
   const [comment, setComment] = useState("");
   const [reply, setReply] = useState({});
+  // const [roomConnection, setRoomConnection] = useState();
+
+ const [user, setUser] = useState();
   //VARIABLE DECLARATIONS
-  React.useEffect(() => {
+  useEffect(() => {
     createSuccessful && history.goBack();
   }, [createSuccessful]);
 
   useEffect(() => {
+    setUser(getUserDetails().userName);
     const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
+    // setRoomConnection(connectToCommentRoom("flave"));
   }, []);
 
   useEffect(() => {
@@ -51,6 +53,8 @@ const LessonNoteDetails = () => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
+
+  
 
   return (
     <>
@@ -216,7 +220,7 @@ const LessonNoteDetails = () => {
                 </Card.Header>
                 <Card.Body>
                   {comments?.map((comment, idx) => (
-                    <>
+                    <div key={idx}>
                       <Card className="shadow-none bg-transparent border my-3">
                         <Card.Body>
                           <div>
@@ -308,7 +312,7 @@ const LessonNoteDetails = () => {
                         </>
                       )}
                       <hr />
-                    </>
+                    </div>
                   ))}
                 </Card.Body>
               </Card>
@@ -344,7 +348,11 @@ const LessonNoteDetails = () => {
                               singleLessonNotes?.classNoteId,
                               comment
                             )(dispatch);
-                            setComment("");
+                            setComment(""); 
+                          //   roomConnection.invoke("AddComment", { message: "some messages here to go with us", room: "flave", user });
+                          //   roomConnection.on("CommentArea", (user, message) => {
+                          //     console.log("Message received", message);
+                          // });
                           }}
                         >
                           <svg
@@ -447,12 +455,8 @@ const LessonNoteDetails = () => {
                           className="iq-categories-name mb-0"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            history.push(
-                              `${classLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`
-                            );
-                            getSingleLessonNotes(notes.teacherClassNoteId)(
-                              dispatch
-                            );
+                            history.push(`${classLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`);
+                            getSingleLessonNotes(notes.teacherClassNoteId)(dispatch);
                           }}
                         >
                           {notes.noteTitle}
