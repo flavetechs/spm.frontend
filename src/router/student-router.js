@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, profileLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
+import { assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
 import OnlineClass from '../components/students-area/class/online-class';
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
@@ -15,6 +15,8 @@ import CreateStudentNote from '../components/students-area/student-notes/student
 import EditStudentNote from '../components/students-area/student-notes/student-note-on-edit';
 import StudentNoteDetails from '../components/students-area/student-notes/student-note-details';
 import StudentTimeTable from '../components/students-area/student-timetable/student-timetable';
+import PrintStudentResult from '../components/students-area/Printing/student-print-result';
+import StudentTemplateControl from '../components/students-area/Printing/result-templates/student-template-control';
 
 
 
@@ -53,8 +55,8 @@ const StudentDashboardRouter = () => {
                     <Route path={timeTableLocations.timeTable} exact component={StudentTimeTable} />
 
                     {/* printResult */}
-                    {/* <Route path={printResultLocations.printResult} exact component={studentIndex} /> */}
-
+                    <Route path={printResultLocations.printResult} exact component={PrintStudentResult} />
+                    <Route path={printResultLocations.resultTemplate} exact component={StudentTemplateControl} />
                     {/* profile */}
                     <Route path={profileLocations.profile} exact component={StudentProfilePage} />
                     <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />

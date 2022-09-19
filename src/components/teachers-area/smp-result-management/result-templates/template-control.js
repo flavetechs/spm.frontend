@@ -23,8 +23,8 @@ const TemplateControl = () => {
   const { batchResult } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const batchPrinting = queryParams.get("batchPrinting");
-  const sessionClassId = queryParams.get("sessionClassId");
-  const sessionTermId = queryParams.get("sessionTermId");
+  // const sessionClassId = queryParams.get("sessionClassId");
+  // const sessionTermId = queryParams.get("sessionTermId");
 
   useEffect(() => {
     getResultSettingList()(dispatch);

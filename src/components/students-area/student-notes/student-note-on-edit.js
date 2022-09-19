@@ -125,7 +125,7 @@ const EditStudentNote = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                       <h6 className="mb-3 d-flex justify-content-end">{singleStudentNotes?.subjectName}</h6>
+                       <h5 className="mb-3 d-flex justify-content-end">{singleStudentNotes?.subjectName}</h5>
                       <Row className="d-flex justify-content-center">
                       <Col md="11" className="form-group text-dark">
                           <label className="form-label" >

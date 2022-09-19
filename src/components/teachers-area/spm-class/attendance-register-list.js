@@ -18,6 +18,7 @@ import {
 import { getAllStaffClasses } from "../../../store/actions/results-actions";
 import {
   respondDialog,
+  showErrorToast,
   showHideDialog,
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
@@ -34,11 +35,11 @@ const AttendanceRegisterList = () => {
   const [sessionClassId, setSessionClassId] = useState("");
   //VARIABLE DECLARATIONS
 
-  //VALIDATION
-  const validation = Yup.object().shape({
-    sessionClassId: Yup.string().required("Class is required"),
-  });
-  //VALIDATION
+  // //VALIDATION
+  // const validation = Yup.object().shape({
+  //   sessionClassId: Yup.string().required("Class is required"),
+  // });
+  // //VALIDATION
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
@@ -128,9 +129,11 @@ const AttendanceRegisterList = () => {
                   sessionClassId: sessionClassId,
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
                 onSubmit={(values) => {
-                  createRegister(values)(dispatch);
+                  if(!values.sessionClassId || !sessionClassIdQuery ){
+                    showErrorToast("Class is required")(dispatch)
+                  }else{ createRegister(values)(dispatch);}
+                 
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -182,13 +185,7 @@ const AttendanceRegisterList = () => {
                           </div>
                           <div className="d-flex align-items-center flex-wrap">
                             <div className=" me-3 dropdown">
-                            <div>
-                                {touched.sessionClassId && errors.sessionClassId && (
-                                  <div className="text-danger">
-                                    {errors.sessionClassId}
-                                  </div>
-                                )}
-                              </div>
+                          
                               <Field
                                 as="select"
                                 name="sessionClassId"
