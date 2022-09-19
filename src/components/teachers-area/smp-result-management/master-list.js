@@ -12,7 +12,6 @@ import {
   getActiveSession,
   getAllSession,
 } from "../../../store/actions/session-actions";
-import MasterListSmallTable from "./master-list-small-table";
 import MasterListLargeTable from "./master-list-large-table";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 
@@ -236,11 +235,7 @@ const MasterList = () => {
                   <h6>MASTER LIST</h6>
                 </Card.Header>
                 <Card.Body>
-                  <MasterListSmallTable
-                    masterEntry={masterEntry}
-                    setShowMasterListTable={setShowMasterListTable}
-                  />
-                  <MasterListLargeTable masterEntry={masterEntry} />
+                  <MasterListLargeTable masterEntry={masterEntry}  setShowMasterListTable={setShowMasterListTable} />
                 </Card.Body>
               </Card>
             </Col>

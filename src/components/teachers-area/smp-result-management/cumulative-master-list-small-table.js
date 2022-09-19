@@ -35,16 +35,16 @@ const CumulativeMasterListSmallTable = ({ cumulativeEntry, setShowCumulativeMast
           <Table size="sm" responsive bordered className="w-50 border-secondary" style={{ background: '#d8efd1'}}>
             <tbody>
               <tr>
-                <th className="h6">Session</th>
-                <td className="fw-bold">{cumulativeEntry?.session}</td>
+                <th className="h6"style={{ border: "1px solid grey" }}>Session</th>
+                <td className="fw-bold"style={{ border: "1px solid grey",fontWeight:"600" }}>{cumulativeEntry?.session}</td>
               </tr>
               <tr>
-                <th className="h6">Class</th>
-                <td className="fw-bold text-capitalize">{cumulativeEntry?.sessionClass}</td>
+                <th className="h6"style={{ border: "1px solid grey" }}>Class</th>
+                <td className="fw-bold text-capitalize"style={{ border: "1px solid grey",fontWeight:"600" }}>{cumulativeEntry?.sessionClass}</td>
               </tr>
               <tr>
-                <th className="h6">Form Teacher</th>
-                <td className="fw-bold text-capitalize">{cumulativeEntry?.formTeacher}</td>
+                <th className="h6"style={{ border: "1px solid grey" }}>Form Teacher</th>
+                <td className="fw-bold text-capitalize"style={{ border: "1px solid grey",fontWeight:"600" }}>{cumulativeEntry?.formTeacher}</td>
               </tr>
             </tbody>
           </Table>

@@ -79,13 +79,13 @@ const PrintResult = () => {
       activeSession?.sessionId,
       activeSession?.sessionTermId
     )(dispatch);
-  }, [activeSession,dispatch]);
+  }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (printSingle && studentResult) {
       history.push(resultManagement.resultTemplate);
     }
-  }, [studentResult,history]);
+  }, [studentResult, history]);
 
   return (
     <>
@@ -103,13 +103,17 @@ const PrintResult = () => {
                 validationSchema={validation}
                 enableReinitialize={true}
                 onSubmit={(values) => {
-                  //printSingle ?
-                  getSinglePrintResult(
-                    values.ePin,
-                    values.sessionTermId,
-                    values.studentRegNo
-                  )(dispatch);
-                  //: getBatchPrintResult()(dispatch)
+                  if (printSingle) {
+                    getSinglePrintResult(
+                      values.ePin,
+                      values.sessionTermId,
+                      values.studentRegNo
+                    )(dispatch);
+                  } else if (batchPrint) {
+                    history.push(
+                      `${resultManagement.batchPrintPreview}?sessionClassId=${values.sessionClassId}&sessionTermId=${values.sessionTermId}`
+                    );
+                  }
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -313,7 +317,7 @@ const PrintResult = () => {
                             handleSubmit();
                           }}
                         >
-                          Print
+                          View
                         </Button>
                       </div>
                     </Row>

@@ -79,7 +79,7 @@ export const fetchSingleUsedPin = (usedPin) => dispatch => {
 
 export const upLoadPinFile = (upLoadFile, formData) => (dispatch) => {
     dispatch({
-        type: actions.UPLOAD_PIN_FILE_FAILED
+        type: actions.UPLOAD_PIN_FILE_LOADING
     });
                 
     axiosInstance.post('/pin/api/v1/upload/pin',  formData, upLoadFile)
@@ -89,6 +89,7 @@ export const upLoadPinFile = (upLoadFile, formData) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllUnusedPinList(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.UPLOAD_PIN_FILE_FAILED,

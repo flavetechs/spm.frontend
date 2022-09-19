@@ -84,6 +84,7 @@ import StudentNotes from '../components/teachers-area/spm-class/student-notes/st
 import ClassAssessmentDetails from '../components/teachers-area/spm-class/assessment/class-assessment-details';
 import ScoreEntryTable from '../components/teachers-area/smp-result-management/score-entry-small-table';
 import AdminScoreEntryTable from '../components/teachers-area/smp-result-management/admin-score-entry-small-table';
+import BatchPrintPreview from '../components/teachers-area/smp-result-management/print-result-by-batch-preview';
 
 const DashboardRouter = () => {
 
@@ -183,6 +184,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                       <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
                       <Route path={resultManagement.printResult} exact component={PrintResult} />
+                      <Route path={resultManagement.batchPrintPreview} exact component={BatchPrintPreview} />
                       <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
 
                       {/* portal setting */}
