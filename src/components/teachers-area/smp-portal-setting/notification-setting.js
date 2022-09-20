@@ -8,7 +8,7 @@ import NotificationSettingActivities from "./notification-settings-activities";
 
 const NotificationSetting = () => {
 
-    const [notificationList, setNotificationList] = useState([
+    const [notificationList] = useState([
       
         {
             title: "Recover password", id: 2, desc: "choose your password reset preferences",
