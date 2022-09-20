@@ -34,7 +34,7 @@ const LessonNotes = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [classNoteId, setClassNoteId] = useState("");
   const [teacherClassNoteId, setTeacherClassNoteId] = useState("");
-  const [noteSendModal, setNoteSendModal] = useState(false);
+  const [shouldSendModal, setNoteSendModal] = useState(false);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -166,8 +166,8 @@ const LessonNotes = () => {
                   </div>
                 </div>
               </Card.Header>
-              {!noteSendModal ? (
-                <NoteShareModal classNoteId={classNoteId} />
+              {!shouldSendModal ? (
+                classNoteId && (<NoteShareModal classNoteId={classNoteId} />)
               ) : (
                 <NoteSendModal teacherClassNoteId={teacherClassNoteId} />
               )}
