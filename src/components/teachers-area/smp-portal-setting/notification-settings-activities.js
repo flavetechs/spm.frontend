@@ -5,115 +5,15 @@ import { useDispatch } from "react-redux";
 import './setting.scss';
 import { updateNotificationSetting } from "../../../store/actions/portal-setting-action";
 
-const NotificationSettingActivities = ({ notificationSettingsItem, activeStyleBoxShadow, notificationSettingResult, selectedNotificationSetting }) => {
+const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSettingResult, selectedNotificationSetting }) => {
 
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
-    const [sendByEmailOrSms, setSendByEmailOrSms] = useState(null);
-    const [sendToParentsOnResultPublish, setSendToParentsOnResultPublish] = useState(null);
+    const [formData, setFormData] = useState(notificationSettingResult);
 
-    const [updateRecoverPassword, setUpdateRecoverPassword] = useState(notificationSettingResult?.recoverPassword);
-    const [updateAnnouncement, setUpdateAnnouncement] = useState(notificationSettingResult?.announcement);
-    const [updateAssessment, setUpdateAssessment] = useState(notificationSettingResult?.assessment);
-    const [updatePermission, setUpdatePermission] = useState(notificationSettingResult?.permission);
-    const [updateSession, setUpdateSession] = useState(notificationSettingResult?.session);
-    const [updateClassManagement, setUpdateClassManagement] = useState(notificationSettingResult?.classManagement);
-    const [updateStaff, setUpdateStaff] = useState(notificationSettingResult?.staff);
-    const [updateEnrollment, setUpdateEnrollment] = useState(notificationSettingResult?.enrollment);
-    const [updatePublishResult, setUpdatePublishResult] = useState(notificationSettingResult?.publishResult);
+    const [sendToParentsOnResultPublish, setSendToParentsOnResultPublish] = useState(notificationSettingResult.publishResult.shouldSendToParentsOnResultPublish);
 
-    React.useEffect(() => {
-        if (selectedNotificationSetting?.name === "recoverPassword") {
-            if (sendByEmailOrSms) {
-                setUpdateRecoverPassword(updateRecoverPassword.recoverPassword = { media: 'email', send: true });
-            } else {
-                setUpdateRecoverPassword(updateRecoverPassword.recoverPassword = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "announcement") {
-            if (sendByEmailOrSms) {
-                setUpdateAnnouncement(updateAnnouncement.announcement = { media: 'email', send: true });
-            } else {
-                setUpdateAnnouncement(updateAnnouncement.announcement = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "assessment") {
-            if (sendByEmailOrSms) {
-                setUpdateAssessment(updateAssessment.assessment = { media: 'email', send: true });
-            } else {
-                setUpdateAssessment(updateAssessment.assessment = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "permission") {
-            if (sendByEmailOrSms) {
-                setUpdatePermission(updatePermission.permission = { media: 'email', send: true });
-            } else {
-                setUpdatePermission(updatePermission.permission = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "session") {
-            if (sendByEmailOrSms) {
-                setUpdateSession(updateSession.session = { media: 'email', send: true });
-            } else {
-                setUpdateSession(updateSession.session = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "classManagement") {
-            if (sendByEmailOrSms) {
-                setUpdateClassManagement(updateClassManagement.classManagement = { media: 'email', send: true });
-            } else {
-                setUpdateClassManagement(updateClassManagement.classManagement = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "staff") {
-            if (sendByEmailOrSms) {
-                setUpdateStaff(updateStaff.staff = { media: 'email', send: true });
-            } else {
-                setUpdateStaff(updateStaff.staff = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "enrollment") {
-            if (sendByEmailOrSms) {
-                setUpdateEnrollment(updateEnrollment.enrollment = { media: 'email', send: true });
-            } else {
-                setUpdateEnrollment(updateEnrollment.enrollment = { media: 'sms', send: false });
-            }
-        } else if (selectedNotificationSetting?.name === "publishResult") {
-            if (sendByEmailOrSms) {
-                setUpdatePublishResult(updatePublishResult.publishResult = { media: 'email', send: true });
-            } else {
-                setUpdatePublishResult(updatePublishResult.publishResult = { media: 'sms', send: false });
-            }
-        } else {
-            return null
-        }
-    }, [sendByEmailOrSms]);
-
-    React.useEffect(() => {
-        if (selectedNotificationSetting?.name === "recoverPassword") {
-            setSendByEmailOrSms(updateRecoverPassword.send)
-        } else if (selectedNotificationSetting?.name === "announcement") {
-
-            setSendByEmailOrSms(updateAnnouncement.send);
-        } else if (selectedNotificationSetting?.name === "assessment") {
-
-            setSendByEmailOrSms(updateAssessment.send);
-        } else if (selectedNotificationSetting?.name === "permission") {
-
-            setSendByEmailOrSms(updatePermission.send);
-        } else if (selectedNotificationSetting?.name === "session") {
-
-            setSendByEmailOrSms(updateSession.send);
-        } else if (selectedNotificationSetting?.name === "classManagement") {
-
-            setSendByEmailOrSms(updateClassManagement.send);
-        } else if (selectedNotificationSetting?.name === "staff") {
-            setSendByEmailOrSms(updateStaff.send);
-        } else if (selectedNotificationSetting?.name === "enrollment") {
-            setSendByEmailOrSms(updateEnrollment.send);
-
-        } else if (selectedNotificationSetting?.name === "publishResult") {
-            setSendByEmailOrSms(updatePublishResult.send);
-            setSendToParentsOnResultPublish(updatePublishResult.shouldSendToParentsOnResultPublish);
-
-        } else {
-            return null
-        }
-    }, [])
     return (
         <>
             <Card>
@@ -128,11 +28,12 @@ const NotificationSettingActivities = ({ notificationSettingsItem, activeStyleBo
                                 <div className="row ms-1">
                                     <div className="form-check col-md-6">
                                         <input className="form-check-input" type="radio"
-                                            name={selectedNotificationSetting?.name} id="sendNotificationByEmail"
+                                            name={selectedNotificationSetting.name} id="sendNotificationByEmail"
                                             value="email"
-                                            checked={sendByEmailOrSms === true ? true : false}
-                                            onChange={(e) => {
-                                                setSendByEmailOrSms(!sendByEmailOrSms)
+                                            checked={formData[selectedNotificationSetting.name]?.media === "email" ? true : false}
+                                            onClick={(e) => {
+                                                formData[selectedNotificationSetting.name].media = e.target.value;
+                                                setFormData(formData);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor="sendNotificationByEmail">
@@ -141,11 +42,13 @@ const NotificationSettingActivities = ({ notificationSettingsItem, activeStyleBo
                                     </div>
                                     <div className="form-check col-md-6">
                                         <input className="form-check-input" type="radio"
-                                            name={notificationSettingsItem?.name}
+                                            name={selectedNotificationSetting?.name}
                                             id="sendNotificationBySms"
-                                            checked={sendByEmailOrSms === false ? true : false}
-                                            onChange={(e) => {
-                                                setSendByEmailOrSms(!sendByEmailOrSms)
+                                            value="sms"
+                                            checked={formData[selectedNotificationSetting.name]?.media === "email" ? true : false}
+                                            onClick={(e) => {
+                                                formData[selectedNotificationSetting.name].media = e.target.value;
+                                                setFormData(formData);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor="sendNotificationBySms">
@@ -154,16 +57,21 @@ const NotificationSettingActivities = ({ notificationSettingsItem, activeStyleBo
                                     </div>
                                 </div>
                                 {
-                                    notificationSettingsItem?.title === "Publish Result" && (
+                                    selectedNotificationSetting?.title === "Publish Result" && (
                                         <>
                                             <hr />
                                             <div className="row ms-1">
                                                 <div className="form-check col-md-12">
-                                                    <input className="form-check-input" type="radio"
-                                                        name={notificationSettingsItem?.name} id="sendNotificationToParents"
-                                                        checked={sendToParentsOnResultPublish === true ? true : false}
-                                                        value="yes"
-                                                        onChange={(e) => setSendToParentsOnResultPublish(!sendToParentsOnResultPublish)}
+                                                    <input className="form-check-input" type="checkbox"
+                                                        value={sendToParentsOnResultPublish}
+                                                        name="shouldSendToParentsOnResultPublish"
+                                                        id="shouldSendToParentsOnResultPublish"
+                                                        onClick={(e) => {
+                                                            setSendToParentsOnResultPublish(!sendToParentsOnResultPublish)
+                                                            formData[selectedNotificationSetting.name].shouldSendToParentsOnResultPublish = sendToParentsOnResultPublish;
+                                                            setFormData(formData);
+
+                                                        }}
                                                     />
                                                     <label className="form-check-label" htmlFor="sendNotificationToParents">
                                                         Send notification to parent on publish result
@@ -179,8 +87,8 @@ const NotificationSettingActivities = ({ notificationSettingsItem, activeStyleBo
                                     <Button
                                         type="button"
                                         variant="btn btn-primary mx-2"
-                                        onClick={() => {
-                                            updateNotificationSetting(updateRecoverPassword, updateAnnouncement, updateAssessment, updatePermission, updateSession, updateClassManagement, updateStaff, updateEnrollment, updatePublishResult)(dispatch);
+                                        onClick={x => {
+                                            updateNotificationSetting(formData)(dispatch)
                                         }}
                                     >
                                         Save

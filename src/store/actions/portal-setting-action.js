@@ -112,52 +112,13 @@ export const updateResultSetting = (updatedResult, formData) => (dispatch) => {
         });
 }
 
-export const updateNotificationSetting = (updateRecoverPassword, updateAnnouncement, updateAssessment, updatePermission, updateSession, updateClassManagement, updateStaff, updateEnrollment, updatePublishResult) => (dispatch) => {
+export const updateNotificationSetting = (formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_NOTIFICATION_SETTING_LOADING
     });
 
-    const value = {
-        recoverPassword: {
-            media: updateRecoverPassword.media,
-            send: updateAnnouncement.send,
-        },
-        announcement: {
-            media: updateAnnouncement.media,
-            send: updateAnnouncement.send,
-        },
-        assessment: {
-            media: updateAssessment.media,
-            send: updateAssessment.send,
-        },
-        permission: {
-            media: updatePermission.media,
-            send: updatePermission.send,
-        },
-        session: {
-            media: updateSession.media,
-            send: updateSession.send,
-        },
-        classManagement: {
-            media: updateClassManagement.media,
-            send: updateClassManagement.send,
-        },
-        staff: {
-            media: updateStaff.media,
-            send: updateStaff.send,
-        },
-        enrollment: {
-            media: updateEnrollment.media,
-            send: updateEnrollment.send,
-        },
-        publishResult: {
-            media: updatePublishResult.media,
-            send: updatePublishResult.send,
-            shouldSendToParentsOnResultPublish: updatePublishResult.shouldSendToParentsOnResultPublish,
-        }
-    }
-
-    axiosInstance.post('/portalsetting/api/v1/create-update-notification-setting', value)
+    
+    axiosInstance.post('/portalsetting/api/v1/create-update-notification-setting', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_NOTIFICATION_SETTING_SUCCESS,

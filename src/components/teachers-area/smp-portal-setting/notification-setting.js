@@ -12,7 +12,7 @@ const NotificationSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATIONS
-    const [notificationList, setNotificationList] = useState([
+    const [notificationList] = useState([
 
         {
             title: "Recover password", id: 2, desc: "Choose your password reset preferences",
