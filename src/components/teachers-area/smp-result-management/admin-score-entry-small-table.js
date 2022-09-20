@@ -39,7 +39,7 @@ const AdminScoreEntryTable = () => {
     setIndexRow("");
     setEditMode(false);
     setPreviewMode(false);
-  }, [dispatch,sessionClassId, subjectId, term]);
+  }, [dispatch]);
 
   return (
     <>

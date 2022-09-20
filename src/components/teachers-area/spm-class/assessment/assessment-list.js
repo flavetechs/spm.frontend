@@ -19,11 +19,11 @@ import {
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import {
   respondDialog,
+  showErrorToast,
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
 import { HomeAssessmentList } from "./home-assement-list";
 import { ClassAssessmentList } from "./class-assessment-list";
-
 
 const AssessmentList = () => {
   //VARIABLE DECLARATIONS
@@ -33,23 +33,31 @@ const AssessmentList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [homeAssessmentId, setHomeAssessmentId] = useState("");
   const [classAssessmentId, setClassAssessmentId] = useState("");
-  const [selectedSessionClassSubjectId, setSelectedSessionClassSubjectId] = useState("");
+  const [selectedSessionClassSubjectId, setSelectedSessionClassSubjectId] =
+    useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { assessmentList, classSubjects, groupList, createSuccessful, newClassAssessment } = state.class;
+  const {
+    assessmentList,
+    classSubjects,
+    groupList,
+    createSuccessful,
+    newClassAssessment,
+  } = state.class;
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
-  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
-  const groupIdQueryParam = queryParams.get("groupId") || '';
-  const typeQueryParam = queryParams.get("type") || '';
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const sessionClassSubjectIdQueryParam =
+    queryParams.get("sessionClassSubjectId") || "";
+  const groupIdQueryParam = queryParams.get("groupId") || "";
+  const typeQueryParam = queryParams.get("type") || "";
   useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, [dispatch]);
@@ -60,29 +68,51 @@ const AssessmentList = () => {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
 
-      if (sessionClassSubjectIdQueryParam && typeQueryParam === "home-assessment") {
-        getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
+      if (
+        sessionClassSubjectIdQueryParam &&
+        typeQueryParam === "home-assessment"
+      ) {
+        getAllClassGroup(
+          sessionClassIdQueryParam,
+          sessionClassSubjectIdQueryParam
+        )(dispatch);
       }
 
       if (typeQueryParam === "home-assessment")
-        getAllHomeAssessment(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, groupIdQueryParam)(dispatch);
+        getAllHomeAssessment(
+          sessionClassIdQueryParam,
+          sessionClassSubjectIdQueryParam,
+          groupIdQueryParam
+        )(dispatch);
       if (typeQueryParam === "class-assessment")
-        getAllClassAssessment(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
-
-    }
+        getAllClassAssessment(
+          sessionClassIdQueryParam,
+          sessionClassSubjectIdQueryParam
+        )(dispatch);
+    };
 
     fetchAssessment();
-  }, [sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, groupIdQueryParam, typeQueryParam]);
-
-
-
-
+  }, [
+    sessionClassIdQueryParam,
+    sessionClassSubjectIdQueryParam,
+    groupIdQueryParam,
+    typeQueryParam,
+  ]);
 
   useEffect(() => {
     if (dialogResponse === "continue") {
-      typeQueryParam === "home-assessment" ?
-        deleteHomeAssessment(homeAssessmentId, sessionClassIdQueryParam, selectedSessionClassSubjectId, groupIdQueryParam)(dispatch)
-        : deleteClassAssessment(classAssessmentId, selectedSessionClassSubjectId,sessionClassIdQueryParam)(dispatch)
+      typeQueryParam === "home-assessment"
+        ? deleteHomeAssessment(
+            homeAssessmentId,
+            sessionClassIdQueryParam,
+            selectedSessionClassSubjectId,
+            groupIdQueryParam
+          )(dispatch)
+        : deleteClassAssessment(
+            classAssessmentId,
+            selectedSessionClassSubjectId,
+            sessionClassIdQueryParam
+          )(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -91,14 +121,28 @@ const AssessmentList = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse, dispatch, classAssessmentId, homeAssessmentId, typeQueryParam, selectedSessionClassSubjectId]);
+  }, [
+    dialogResponse,
+    dispatch,
+    classAssessmentId,
+    homeAssessmentId,
+    typeQueryParam,
+    selectedSessionClassSubjectId,
+  ]);
 
   useEffect(() => {
     createSuccessful &&
       history.push(
         `${classLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
       );
-  }, [createSuccessful, history, newClassAssessment?.classAssessmentId, sessionClassSubjectIdQueryParam, sessionClassIdQueryParam, typeQueryParam]);
+  }, [
+    createSuccessful,
+    history,
+    newClassAssessment?.classAssessmentId,
+    sessionClassSubjectIdQueryParam,
+    sessionClassIdQueryParam,
+    typeQueryParam,
+  ]);
 
   const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
@@ -124,12 +168,28 @@ const AssessmentList = () => {
               }}
               enableReinitialize={true}
               onSubmit={(values) => {
-                if (typeQueryParam === "home-assessment") {
-                  history.push(
-                    `${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&sessionClassGroupId=${groupIdQueryParam}&type=${typeQueryParam}`
-                  );
-                } else if (typeQueryParam === "class-assessment") {
-                  addClassAssessment(sessionClassSubjectIdQueryParam)(dispatch);
+                if (!typeQueryParam) {
+                  showErrorToast("Assessment Type is required")(dispatch);
+                  return;
+                }
+                if (!sessionClassIdQueryParam) {
+                  showErrorToast("Class is required")(dispatch);
+                  return;
+                }
+                if (!sessionClassSubjectIdQueryParam) {
+                  showErrorToast("Subject is required")(dispatch);
+                  return;
+                }
+                else {
+                  if (typeQueryParam === "home-assessment") {
+                    history.push(
+                      `${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&sessionClassGroupId=${groupIdQueryParam}&type=${typeQueryParam}`
+                    );
+                  } else if (typeQueryParam === "class-assessment") {
+                    addClassAssessment(sessionClassSubjectIdQueryParam)(
+                      dispatch
+                    );
+                  }
                 }
               }}
             >
@@ -229,18 +289,23 @@ const AssessmentList = () => {
                         <div className="d-lg-flex align-items-center ">
                           <div className=" d-lg-flex align-items-center">
                             <div>
-
                               <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
                                   as="select"
                                   name="type"
                                   className="form-select"
                                   id="type"
-
                                   onChange={(e) => {
                                     setFieldValue("type", e.target.value);
-                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
-                                      : history.push(`${classLocations.assessment}?sessionClassId=${''}&sessionClassSubjectId=${''}&groupId=${''}&type=${e.target.value}`);
+                                    e.target.value === "cbt"
+                                      ? history.push(inprogress.unactivated)
+                                      : history.push(
+                                          `${
+                                            classLocations.assessment
+                                          }?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${
+                                            e.target.value
+                                          }`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Type</option>
@@ -264,13 +329,19 @@ const AssessmentList = () => {
                                   id="sessionClassId"
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "sessionClassId", e.target.value
+                                      "sessionClassId",
+                                      e.target.value
                                     );
 
-                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                    e.target.value === "cbt"
+                                      ? history.push(inprogress.unactivated)
                                       : history.push(
-                                        `${classLocations.assessment}?sessionClassId=${e.target.value}&sessionClassSubjectId=${''}&groupId=${''}&type=${typeQueryParam}`
-                                      );
+                                          `${
+                                            classLocations.assessment
+                                          }?sessionClassId=${
+                                            e.target.value
+                                          }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Class</option>
@@ -289,7 +360,11 @@ const AssessmentList = () => {
                               <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                                 <Field
                                   as="select"
-                                  disabled={typeQueryParam && sessionClassIdQueryParam ? false : true}
+                                  disabled={
+                                    typeQueryParam && sessionClassIdQueryParam
+                                      ? false
+                                      : true
+                                  }
                                   name="sessionClassSubjectId"
                                   className="form-select"
                                   id="sessionClassSubjectId"
@@ -298,11 +373,18 @@ const AssessmentList = () => {
                                       "sessionClassSubjectId",
                                       e.target.value
                                     );
-                                    setSelectedSessionClassSubjectId(e.target.value);
-                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                    setSelectedSessionClassSubjectId(
+                                      e.target.value
+                                    );
+                                    e.target.value === "cbt"
+                                      ? history.push(inprogress.unactivated)
                                       : history.push(
-                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value}&groupId=${''}&type=${typeQueryParam}`
-                                      );
+                                          `${
+                                            classLocations.assessment
+                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
+                                            e.target.value
+                                          }&groupId=${""}&type=${typeQueryParam}`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Subject</option>
@@ -318,20 +400,35 @@ const AssessmentList = () => {
                               </div>
                             </div>
                             <div>
-                              <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown" style={{ display: typeQueryParam === "class-assessment" ? 'none' : 'block' }}>
+                              <div
+                                className=" me-3 mx-2 mt-3 mt-lg-0 dropdown"
+                                style={{
+                                  display:
+                                    typeQueryParam === "class-assessment"
+                                      ? "none"
+                                      : "block",
+                                }}
+                              >
                                 <Field
                                   as="select"
                                   name="groupId"
-                                  disabled={typeQueryParam && sessionClassIdQueryParam && sessionClassSubjectIdQueryParam ? false : true}
+                                  disabled={
+                                    typeQueryParam &&
+                                    sessionClassIdQueryParam &&
+                                    sessionClassSubjectIdQueryParam
+                                      ? false
+                                      : true
+                                  }
                                   className="form-select"
                                   id="groupId"
                                   onChange={(e) => {
                                     setFieldValue("groupId", e.target.value);
 
-                                    e.target.value === "cbt" ? history.push(inprogress.unactivated)
+                                    e.target.value === "cbt"
+                                      ? history.push(inprogress.unactivated)
                                       : history.push(
-                                        `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}&type=${typeQueryParam}`
-                                      );
+                                          `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}&type=${typeQueryParam}`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Group</option>
@@ -346,14 +443,13 @@ const AssessmentList = () => {
                                 </Field>
                               </div>
                             </div>
-
                           </div>
                         </div>
                       </Card.Body>
                     </Card>
                     <Row className="">
                       {filteredAssessmentList?.length === 0 &&
-                        !sessionClassIdQueryParam ? (
+                      !sessionClassIdQueryParam ? (
                         <div className="jumbotron jumbotron-fluid">
                           <div className="container d-flex justify-content-center mt-5 bg-white">
                             <h2 className="display-4">
@@ -362,8 +458,7 @@ const AssessmentList = () => {
                           </div>
                         </div>
                       ) : (
-                        filteredAssessmentList?.map((item, idx) => (
-
+                        filteredAssessmentList?.map((item, idx) =>
                           typeQueryParam === "home-assessment" ? (
                             <HomeAssessmentList
                               item={item}
@@ -375,25 +470,35 @@ const AssessmentList = () => {
                               indexRow={indexRow}
                               showHideDialog={showHideDialog}
                               setHomeAssessmentId={setHomeAssessmentId}
-                              sessionClassIdQueryParam={sessionClassIdQueryParam}
+                              sessionClassIdQueryParam={
+                                sessionClassIdQueryParam
+                              }
                               typeQueryParam={typeQueryParam}
-                              sessionClassSubjectIdQueryParam={sessionClassSubjectIdQueryParam}
-                            />) : typeQueryParam === "class-assessment" ? (
-                              <ClassAssessmentList
-                                item={item}
-                                idx={idx}
-                                key={idx}
-                                setShowMenuDropdown={setShowMenuDropdown}
-                                setIndexRow={setIndexRow}
-                                showMenuDropdown={showMenuDropdown}
-                                indexRow={indexRow}
-                                showHideDialog={showHideDialog}
-                                setClassAssessmentId={setClassAssessmentId}
-                                sessionClassIdQueryParam={sessionClassIdQueryParam}
-                                typeQueryParam={typeQueryParam}
-                                sessionClassSubjectIdQueryParam={sessionClassSubjectIdQueryParam}
-                              />) : null
-                        ))
+                              sessionClassSubjectIdQueryParam={
+                                sessionClassSubjectIdQueryParam
+                              }
+                            />
+                          ) : typeQueryParam === "class-assessment" ? (
+                            <ClassAssessmentList
+                              item={item}
+                              idx={idx}
+                              key={idx}
+                              setShowMenuDropdown={setShowMenuDropdown}
+                              setIndexRow={setIndexRow}
+                              showMenuDropdown={showMenuDropdown}
+                              indexRow={indexRow}
+                              showHideDialog={showHideDialog}
+                              setClassAssessmentId={setClassAssessmentId}
+                              sessionClassIdQueryParam={
+                                sessionClassIdQueryParam
+                              }
+                              typeQueryParam={typeQueryParam}
+                              sessionClassSubjectIdQueryParam={
+                                sessionClassSubjectIdQueryParam
+                              }
+                            />
+                          ) : null
+                        )
                       )}
                     </Row>
                   </Card.Body>

@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/student-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
@@ -124,6 +125,79 @@ export const fetchSingleStudent = (studentAccountId) => dispatch => {
                 })
             });
 
+}
+
+export const getCountries = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_COUNTRY_LOADING, 
+    });
+    // dispatch({
+    //     type: actions.FETCH_STATE_LOADING, 
+    // });
+  
+   axiosInstance.get(`/get-countries`)
+    .then(response => {
+        dispatch({
+            type: actions.FETCH_COUNTRY_SUCCESS,
+            payload: response.data.result
+        });
+
+        // dispatch({
+        //     type: actions.FETCH_STATE_SUCCESS,
+        //     payload: response[1].data
+        // });
+
+    }).catch(err => {
+        dispatch({
+            type: actions.FETCH_COUNTRY_FAILED,
+            payload: err.response.data.result
+        });
+        // dispatch({
+        //     type: actions.FETCH_STATE_FAILED,
+        //     payload: err
+        // });
+    })
+}
+
+export const getStates = (state) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STATE_LOADING, 
+    });
+  
+   axiosInstance.get(`/get-states?state=${state}`)
+    .then(response => {
+        dispatch({
+            type: actions.FETCH_STATE_SUCCESS,
+            payload: response.data.result
+        });
+
+    }).catch(err => {
+       dispatch({
+            type: actions.FETCH_STATE_FAILED,
+            payload: err.response.data.result
+        });
+    })
+}
+
+
+export const getCities = (city) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CITY_LOADING, 
+    });
+  
+   axiosInstance.get(`/get-cities?city=${city}`)
+    .then(response => {
+        dispatch({
+            type: actions.FETCH_CITY_SUCCESS,
+            payload: response.data.result
+        });
+
+    }).catch(err => {
+       dispatch({
+            type: actions.FETCH_CITY_FAILED,
+            payload: err.response.data.result
+        });
+    })
 }
 
 export const updateStudentProfile = ( formData) => (dispatch) => {

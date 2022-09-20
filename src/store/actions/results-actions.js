@@ -352,6 +352,57 @@ export const  getAllCumulativeMasterList = (sessionClassId, termId) => (dispatch
         });
 }
 
+export const getAllBatchPrintingResultPreview = (sessionClassid, termId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_BATCH_RESULT_PREVIEW_LOADING,
+        payload: sessionClassid
+    });
+const payload = {
+    sessionClassid,
+    termId
+}
+    axiosInstance.post(`/api/v1/result/get/students/for-batch-printing`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_BATCH_RESULT_PREVIEW_SUCCESS,
+                payload: res.data.result
+            });
+        
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_BATCH_RESULT_PREVIEW_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getAllBatchPrintingResults = (sessionClassid, termId,students) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_BATCH_RESULT_LOADING,
+        payload: sessionClassid
+    });
+const payload = {
+    sessionClassid,
+    termId,
+    students
+}
+    axiosInstance.post(`/api/v1/result/batch-print/students-results`,payload)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_BATCH_RESULT_SUCCESS,
+                payload: res.data.result
+            });
+        
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_BATCH_RESULT_FAILED,
+                payload: err.response.data.result
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+            getAllBatchPrintingResultPreview(sessionClassid,termId)(dispatch);
+        });
+}
+
 export const getAllStudentResult = (sessionClassId, termId, studentContactId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_RESULT_LOADING,

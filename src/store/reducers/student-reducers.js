@@ -152,6 +152,63 @@ export const studentReducer = (state = _state, { type, payload }) => {
         submitSuccessful: false,
       };
 
+      case actions.FETCH_COUNTRY_LOADING:
+        return {
+          ...state,
+          loading: true,
+        };
+
+      case actions.FETCH_COUNTRY_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+        countries: payload,
+        };
+        case actions.FETCH_COUNTRY_FAILED:
+          return {
+            ...state,
+            loading: false,
+            countries: [],
+          };
+    
+        case actions.FETCH_STATE_LOADING:
+          return {
+            ...state,
+            loading: true,
+          };
+        case actions.FETCH_STATE_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            states: payload,
+          };
+
+          case actions.FETCH_STATE_FAILED:
+            return {
+              ...state,
+              loading: false,
+              states: [],
+            };
+      
+            case actions.FETCH_CITY_LOADING:
+              return {
+                ...state,
+                loading: true,
+              };
+            case actions.FETCH_CITY_SUCCESS:
+              return {
+                ...state,
+                loading: false,
+                cities: payload,
+              };
+    
+              case actions.FETCH_CITY_FAILED:
+                return {
+                  ...state,
+                  loading: false,
+                  cities: [],
+                };
+
 
     default:
       return state;

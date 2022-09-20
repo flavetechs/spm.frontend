@@ -10,6 +10,9 @@ import "./student-add.scss"
 import {
   updateStudent,
   fetchSingleStudent,
+  getCountries,
+  getStates,
+  getCities,
 } from "../../../store/actions/student-actions";
 import avatars1 from "../../../assets/images/avatars/01.png";
 import avatars2 from "../../../assets/images/avatars/avtar_1.png";
@@ -52,7 +55,7 @@ const StudentEdit = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedStudent, isSuccessful, message } = state.student;
+  const { selectedStudent, isSuccessful, message,cities,countries,states } = state.student;
   const { itemList } = state.class;
   const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
@@ -63,6 +66,7 @@ const StudentEdit = () => {
     if (!studentAccountId) return;
     fetchSingleStudent(studentAccountId)(dispatch);
     getActiveSession()(dispatch);
+    getCountries()(dispatch);
   }, [dispatch,locations.search]);
 
   React.useEffect(() => {
@@ -71,7 +75,9 @@ const StudentEdit = () => {
 
   React.useEffect(() => {
       setImages(selectedStudent?.photo)
-  }, [selectedStudent]);
+      getStates(selectedStudent?.countryId)(dispatch);
+      getCities(selectedStudent?.stateId)(dispatch);
+  }, [selectedStudent,dispatch]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
@@ -86,28 +92,28 @@ const StudentEdit = () => {
     <>
       <Formik
         initialValues={{
-          userAccountId: selectedStudent?.userAccountId,
-          studentAccountId: selectedStudent?.studentAccountId,
-          firstName: selectedStudent?.firstName,
-          lastName: selectedStudent?.lastName,
-          middleName: selectedStudent?.middleName,
-          phone: selectedStudent?.phone,
-          dob: selectedStudent?.dob,
-          email: selectedStudent?.userName,
-          homePhone: selectedStudent?.homePhone,
-          emergencyPhone: selectedStudent?.emergencyPhone,
-          parentOrGuardianName: selectedStudent?.parentOrGuardianName,
+          userAccountId: selectedStudent?.userAccountId || "",
+          studentAccountId: selectedStudent?.studentAccountId|| "",
+          firstName: selectedStudent?.firstName|| "",
+          lastName: selectedStudent?.lastName|| "",
+          middleName: selectedStudent?.middleName|| "",
+          phone: selectedStudent?.phone|| "",
+          dob: selectedStudent?.dob|| "",
+          email: selectedStudent?.userName|| "",
+          homePhone: selectedStudent?.homePhone|| "",
+          emergencyPhone: selectedStudent?.emergencyPhone|| "",
+          parentOrGuardianName: selectedStudent?.parentOrGuardianName|| "",
           parentOrGuardianRelationship:
-            selectedStudent?.parentOrGuardianRelationship,
-          parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone,
-          parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail,
-          homeAddress: selectedStudent?.homeAddress,
-          cityId: selectedStudent?.cityId,
-          stateId: selectedStudent?.stateId,
-          countryId: selectedStudent?.countryId,
-          zipCode: selectedStudent?.zipCode,
-          photo: selectedStudent?.photo,
-          sessionClassId: selectedStudent?.sessionClassID,
+            selectedStudent?.parentOrGuardianRelationship|| "",
+          parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone|| "",
+          parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail|| "",
+          homeAddress: selectedStudent?.homeAddress|| "",
+          cityId: selectedStudent?.cityId|| "",
+          stateId: selectedStudent?.stateId|| "",
+          countryId: selectedStudent?.countryId|| "",
+          zipCode: selectedStudent?.zipCode|| "",
+          photo: selectedStudent?.photo|| "",
+          sessionClassId: selectedStudent?.sessionClassID|| "",
         }}
         validationSchema={validation}
         onSubmit={(values) => {
@@ -431,7 +437,54 @@ const StudentEdit = () => {
                             className="form-control"
                           />
                         </div>
-    
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="countryId">
+                            <b>Country:</b>
+                          </label>
+                          <Field
+                            as="select"
+                            name="countryId"
+                            className="form-select text-uppercase"
+                            id="countryId"
+                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
+                          >
+                            <option value="">Select Country</option>
+                            {countries?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                                selected={selectedStudent?.countryId === item.value}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                            
+                          </Field>
+                        </div>
+                       
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="stateId">
+                            <b>State:</b>
+                          </label>
+                          <Field
+                            as="select"
+                            name="stateId"
+                            className="form-select text-uppercase"
+                            id="stateId"
+                            onChange={(e)=>{setFieldValue("stateId",e.target.value); getCities(e.target.value)(dispatch)}}
+                          >
+                            <option value="">Select State</option>
+                           {states?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                                selected={selectedStudent?.stateId === item.value}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                          </Field>
+                        </div>
                         <div className="col-md-6  form-group">
                           <label className="form-label" htmlFor="cityId">
                             <b>City:</b>
@@ -442,55 +495,16 @@ const StudentEdit = () => {
                             className="form-select text-uppercase"
                             id="cityId"
                           >
-                            <option value="Lagos">Lagos</option>
-                            <option value="Ibadan">Ibadan</option>
-                            <option value="Port-harcourt">Port-harcourt</option>
-                            <option value="Benin City">Benin City</option>
-                            <option value="Kano">Kano</option>
-                            <option value="Plateau">Plateau</option>
-                          </Field>
-                        </div>
-                        <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="stateId">
-                            <b>State:</b>
-                          </label>
-                          <Field
-                            as="select"
-                            name="stateId"
-                            className="form-select text-uppercase"
-                            id="stateId"
-                          >
-                            <option value="Lagos">Lagos</option>
-                            <option value="Oyo">Oyo</option>
-                            <option value="Rivers">Rivers</option>
-                            <option value="Edo">Edo</option>
-                            <option value="Kano">Kano</option>
-                            <option value="Jos">Jos</option>
-                          </Field>
-                        </div>
-                        <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="countryId">
-                            <b>Country:</b>
-                          </label>
-                          <Field
-                            as="select"
-                            name="countryId"
-                            className="form-select text-uppercase"
-                            id="countryId"
-                          >
-                            <option value="Nigeria">Nigeria</option>
-                            <option value="Albania">Albania</option>
-                            <option value="Algeria">Algeria</option>
-                            <option value="American Samoa">
-                              American Samoa
-                            </option>
-                            <option value="Andorra">Andorra</option>
-                            <option value="Angola">Angola</option>
-                            <option value="Anguilla">Anguilla</option>
-                            <option value="Argentina">Argentina</option>
-                            <option value="Armenia">Armenia</option>
-                            <option value="Aruba">Aruba</option>
-                            <option value="Australia">Australia</option>
+                            <option value="">Select City</option>
+                           {cities?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                                selected={selectedStudent?.cityId === item.value}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
                           </Field>
                         </div>
                         <div className="col-md-6 form-group">
