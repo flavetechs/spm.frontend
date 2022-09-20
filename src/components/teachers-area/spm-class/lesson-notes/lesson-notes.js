@@ -16,6 +16,7 @@ import {
 import {
   respondDialog,
   respondModal,
+  showErrorToast,
   showHideDialog,
   showHideModal,
 } from "../../../../store/actions/toaster-actions";
@@ -299,7 +300,16 @@ const LessonNotes = () => {
                             <button
                               type="button"
                               onClick={() => {
+                                if (!sessionClassIdQueryParam) {
+                                  showErrorToast("Class is required")(dispatch);
+                                  return;
+                                }
+                                if (!subjectIdQueryParam) {
+                                  showErrorToast("Subject is required")(dispatch);
+                                  return;
+                                }else{
                                 handleSubmit();
+                                }
                               }}
                               className="text-center btn-primary btn-icon me-3  mt-3 mt-xl-0 btn btn-primary"
                             >

@@ -78,7 +78,7 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
 export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
   dispatch({
     type: actions.FETCH_RESULT_LIST_LOADING,
-    payload: sessionClassId,
+    //payload: sessionClassId,
   });
   axiosInstance
     .get(
