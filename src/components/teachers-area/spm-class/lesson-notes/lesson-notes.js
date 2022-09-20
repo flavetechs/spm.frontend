@@ -221,7 +221,7 @@ const LessonNotes = () => {
 
                                   history.push(
                                     `${classLocations.lessonNotes}?classId=${e.target.value
-                                    }&subjectId=${""}&approvalStatus=${0}`
+                                    }&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                   // }
                                 }}
@@ -256,7 +256,7 @@ const LessonNotes = () => {
                                   history.push(
                                     `${classLocations.lessonNotes
                                     }?classId=${sessionClassIdQueryParam}&subjectId=${e.target.value
-                                    }&approvalStatus=${0}`
+                                    }&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                 }}
                               >
@@ -272,7 +272,7 @@ const LessonNotes = () => {
                               <Field
                                 as="select"
                                 name="approvalStatus"
-                                disabled={subjectIdQueryParam ? false : true}
+                                //disabled={subjectIdQueryParam ? false : true}
                                 className="form-select"
                                 id="approvalStatus"
                                 onChange={(e) => {
@@ -293,6 +293,7 @@ const LessonNotes = () => {
                                   <option value="1">Approved</option>
                                   <option value="2">Saved</option>
                                   <option value="3">In progress</option>
+                                  <option value="-2">Unreviewed</option>
                                 </>
                                 {/* ):""} */}
                               </Field>
