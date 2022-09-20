@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { Row, Form, Button, Tab, Col, Nav } from "react-bootstrap";
-import Card from "../../Card";
+import { Row, Tab, Col, Nav } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Field } from "formik";
-import { getNotificationSettingList, updateNotificationSetting } from "../../../store/actions/portal-setting-action";
+import { getNotificationSettingList } from "../../../store/actions/portal-setting-action";
 import NotificationSettingActivities from "./notification-settings-activities";
 
 const NotificationSetting = () => {
 
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { notificationSettingResult } = state.portal;
+    // ACCESSING STATE FROM REDUX STORE
+
+    //VARIABLE DECLARATIONS
     const [notificationList, setNotificationList] = useState([
-      
+
         {
-            title: "Recover password", id: 2, desc: "choose your password reset preferences",
+            title: "Recover password", id: 2, desc: "Choose your password reset preferences",
+            name: "recoverPassword",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                     d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
@@ -25,7 +30,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Announcement", id: 3, desc: "edit where announcement is been sent",
+            title: "Announcement", id: 3, desc: "Edit where announcement is been sent",
+            name: "announcement",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                     d="M12 17.8476C17.6392 17.8476 20.2481 17.1242 20.5 14.2205C20.5 11.3188 18.6812 11.5054 18.6812 7.94511C18.6812 5.16414 16.0452 2 12 2C7.95477 2 5.31885 5.16414 5.31885 7.94511C5.31885 11.5054 3.5 11.3188 3.5 14.2205C3.75295 17.1352 6.36177 17.8476 12 17.8476Z"
@@ -35,7 +41,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Assessment", id: 4, desc: "control who receives your assessment",
+            title: "Assessment", id: 4, desc: "Control who receives your assessment",
+            name: "assessment",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M4.79476 7.05589C4.79476 5.80689 5.80676 4.79489 7.05576 4.79389H8.08476C8.68176 4.79389 9.25376 4.55689 9.67776 4.13689L10.3968 3.41689C11.2778 2.53089 12.7098 2.52689 13.5958 3.40789L13.5968 3.40889L13.6058 3.41689L14.3258 4.13689C14.7498 4.55789 15.3218 4.79389 15.9188 4.79389H16.9468C18.1958 4.79389 19.2088 5.80589 19.2088 7.05589V8.08289C19.2088 8.67989 19.4448 9.25289 19.8658 9.67689L20.5858 10.3969C21.4718 11.2779 21.4768 12.7099 20.5958 13.5959L20.5948 13.5969L20.5858 13.6059L19.8658 14.3259C19.4448 14.7489 19.2088 15.3209 19.2088 15.9179V16.9469C19.2088 18.1959 18.1968 19.2079 16.9478 19.2079H16.9468H15.9168C15.3198 19.2079 14.7468 19.4449 14.3238 19.8659L13.6038 20.5849C12.7238 21.4709 11.2928 21.4759 10.4068 20.5969C10.4058 20.5959 10.4048 20.5949 10.4038 20.5939L10.3948 20.5849L9.67576 19.8659C9.25276 19.4449 8.67976 19.2089 8.08276 19.2079H7.05576C5.80676 19.2079 4.79476 18.1959 4.79476 16.9469V15.9159C4.79476 15.3189 4.55776 14.7469 4.13676 14.3239L3.41776 13.6039C2.53176 12.7239 2.52676 11.2929 3.40676 10.4069C3.40676 10.4059 3.40776 10.4049 3.40876 10.4039L3.41776 10.3949L4.13676 9.67489C4.55776 9.25089 4.79476 8.67889 4.79476 8.08089V7.05589"
@@ -47,7 +54,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Permissions", id: 5, desc: "control who sess your activity",
+            title: "Permissions", id: 5, desc: "Control who sess your activity",
+            name: "permission",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M16.4232 9.4478V7.3008C16.4232 4.7878 14.3852 2.7498 11.8722 2.7498C9.35925 2.7388 7.31325 4.7668 7.30225 7.2808V7.3008V9.4478"
@@ -60,7 +68,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Session", id: 6, desc: "select where notices are been sent to",
+            title: "Session", id: 6, desc: "Select where notices are been sent to",
+            name: "session",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13.8496 4.25024V6.67024" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                     strokeLinejoin="round" />
@@ -74,7 +83,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Class management", id: 7, desc: "choose where class mgt notices are been sent",
+            title: "Class management", id: 7, desc: "Choose where class mgt notices are been sent",
+            name: "classManagement",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11.9951 16.6766V14.1396" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                     strokeLinejoin="round" />
@@ -90,7 +100,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Staff", id: 8, desc: "contorl your notification mode for staff",
+            title: "Staff", id: 8, desc: "Contorl your notification mode for staff",
+            name: "staff",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                     d="M9.59151 15.2068C13.2805 15.2068 16.4335 15.7658 16.4335 17.9988C16.4335 20.2318 13.3015 20.8068 9.59151 20.8068C5.90151 20.8068 2.74951 20.2528 2.74951 18.0188C2.74951 15.7848 5.88051 15.2068 9.59151 15.2068Z"
@@ -107,7 +118,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Enrollment", id: 9, desc: "edit preferences on enrollment",
+            title: "Enrollment", id: 9, desc: "Edit preferences on enrollment",
+            name: "enrollment",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                     d="M21.25 16.334V7.665C21.25 4.645 19.111 2.75 16.084 2.75H7.916C4.889 2.75 2.75 4.635 2.75 7.665L2.75 16.334C2.75 19.364 4.889 21.25 7.916 21.25H16.084C19.111 21.25 21.25 19.364 21.25 16.334Z"
@@ -118,7 +130,8 @@ const NotificationSetting = () => {
             </svg>
         },
         {
-            title: "Publish Result", id: 10, desc: "control where result is displayed",
+            title: "Publish Result", id: 10, desc: "Control where result is displayed",
+            name: "publishResult",
             icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.7161 16.2234H8.49609" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
                     strokeLinejoin="round" />
@@ -131,114 +144,78 @@ const NotificationSetting = () => {
                     stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         },
-        {
-            title: "Print Result", id: 11, desc: "manage where result sheet are been sent to",
-            icon: <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd"
-                    d="M14.7379 2.76175H8.08493C6.00493 2.75375 4.29993 4.41175 4.25093 6.49075V17.2037C4.20493 19.3167 5.87993 21.0677 7.99293 21.1147C8.02393 21.1147 8.05393 21.1157 8.08493 21.1147H16.0739C18.1679 21.0297 19.8179 19.2997 19.8029 17.2037V8.03775L14.7379 2.76175Z"
-                    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14.4751 2.75V5.659C14.4751 7.079 15.6231 8.23 17.0431 8.234H19.7981" stroke="currentColor" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14.2882 15.3584H8.88818" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                    strokeLinejoin="round" />
-                <path d="M12.2432 11.606H8.88721" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                    strokeLinejoin="round" />
-            </svg>
-        },
     ]);
-
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { notificationSettingList } = state.portal;
-    // ACCESSING STATE FROM REDUX STORE
-
-    //VARIABLE DECLARATIONS
+    const [activeStyleBoxShadow, setActiveStyleBoxShadow] = useState(false);
     const dispatch = useDispatch();
-    const [editButton, setEditButton] = useState(false);
-    const [saveButton, setSaveButton] = useState(false);
-    const [disable, setDisable] = useState(true);
-    const [selectedNotificationSetting, setSelectedNotificationSetting] = useState({title:'', desc:''});
-    const [notifyMeByEmail, setNotifyMeByEmail] = useState(notificationSettingList?.notifyByEmail ?? "");
-    const [notifyMeBySms, setNotifyMeBySms] = useState(notificationSettingList?.notifyBySms ?? "");
+    const [selectedNotificationSetting, setSelectedNotificationSetting] = useState({ title: '', desc: '', name: '' });
     //VARIABLE DECLARATIONS
-
-    // React.useEffect(() => {
-    //     setNotifyMeByEmail(notificationSettingList?.notifyByEmail ?? "");
-    //     setNotifyMeBySms(notificationSettingList?.notifyBySms ?? "");
-    // }, [notificationSettingList]);
 
     React.useEffect(() => {
-        setSaveButton(true)
-        setEditButton(false)
-        setDisable(true)
-        getNotificationSettingList()(dispatch)
-    }, [dispatch]);
+        getNotificationSettingList()(dispatch);
+    }, []);
 
+    function handleStylingEffect() {
+        setActiveStyleBoxShadow(true);
+        setTimeout(() => {
+            setActiveStyleBoxShadow(false);
+        }, 500);
+    }
 
     return (
         <>
-            <Formik
-                enableReinitialize={true}
-                initialValues={{
-                    notificationSettingId: notificationSettingList?.notificationSettingId ?? "",
-                    notifyByEmail: notificationSettingList?.notifyByEmail ?? "",
-                    notifyBySms: notificationSettingList?.notifyBySms ?? "",
-                }}
-
-                onSubmit={(values) => {
-                    values.notificationSettingId = values.notificationSettingId;
-                    values.notifyByEmail = notifyMeByEmail;
-                    values.notifyBySms = notifyMeBySms;
-                    setSaveButton(!saveButton);
-                    setEditButton(!editButton);
-                    setDisable(true);
-                    updateNotificationSetting(values)(dispatch);
-                }}
-            >
-                {({
-                    handleSubmit,
-                    setFieldValue,
-                }) => (
-                    <Row className="">
-                        <Card>
-                            <Card.Body className=''>
-                                <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                                    <Row className='mt gx-3'>
-                                        <Col sm={3} className='col-md-4'>
-                                            <Nav variant="" className="flex-column portal-tab" >
-                                                <Nav.Item className='shadow'>
-                                                    {notificationList?.map((item, index) => (
-                                                        <Nav.Link eventKey="first" href="#" className="shadow"
-                                                            onClick={() => {
-                                                                setSelectedNotificationSetting({title : item.title, desc: item.desc});
-                                                            }}
-                                                        >
-                                                            <Row className="">
-                                                                <Col className='me-1 col-1 col-sm-1 col-md-1'>
-                                                                    {item.icon}
-                                                                </Col>
-                                                                <Col className='text-wrap col-sm-9 col-md-9'>
-                                                                    <span><b>{item.title}</b></span>
-                                                                    <p><small>{item.desc}</small></p>
-                                                                </Col>
-                                                            </Row>
-                                                        </Nav.Link>
-                                                    ))}
-                                                </Nav.Item>
-                                            </Nav>
-                                        </Col>
-                                        <Col sm={9} className='col-md-8'>
-                                            <NotificationSettingActivities
-                                                notificationSettingsItem={selectedNotificationSetting}
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Tab.Container>
-                            </Card.Body>
-                        </Card>
-                    </Row>
-                )}
-            </Formik>
+            <Row className="">
+                <div className=''>
+                    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                        <Row className='mt gx-1'>
+                            <Col sm={3} className='col-md-4'>
+                                <Nav variant="" className="flex-column portal-tab" >
+                                    <Nav.Item className='shadow'>
+                                        {notificationList?.map((item, index) => (
+                                            <Nav.Link eventKey={index + 1} href="#" className="shadow" key={index}
+                                                onClick={() => {
+                                                    setSelectedNotificationSetting({ title: item.title, desc: item.desc, name: item.name });
+                                                    handleStylingEffect();
+                                                }}
+                                            >
+                                                <Row className="">
+                                                    <Col className='me-1 col-1 col-sm-1 col-md-1 '>
+                                                        {item.icon}
+                                                    </Col>
+                                                    <Col className='text-wrap col-sm-10 col-md-10 '>
+                                                        <span>{item.title}</span>
+                                                        <p><small>{item.desc}</small></p>
+                                                    </Col>
+                                                </Row>
+                                            </Nav.Link>
+                                        ))}
+                                    </Nav.Item>
+                                </Nav>
+                            </Col>
+                            <Col sm={9} className='col-md-8'>
+                                {selectedNotificationSetting.title === "" || selectedNotificationSetting.desc === "" ?
+                                    <div className="d-flex justify-content-center">
+                                        <p className="direction-text" style={{ fontSize: 25 }}>
+                                            <span>
+                                                <svg width="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M11.3 12.2512L20.25 12.2512" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                                        strokeLinejoin="round" />
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M11.2998 7.25024L3.3628 12.2512L11.2998 17.2522L11.2998 7.25024Z"
+                                                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </span> <span>Select Settings option to continue...</span>
+                                        </p>
+                                    </div>
+                                    :
+                                    <NotificationSettingActivities
+                                        selectedNotificationSetting={selectedNotificationSetting}
+                                        activeStyleBoxShadow={activeStyleBoxShadow}
+                                        notificationSettingResult={notificationSettingResult}
+                                    />}
+                            </Col>
+                        </Row>
+                    </Tab.Container>
+                </div>
+            </Row>
         </>
     );
 };

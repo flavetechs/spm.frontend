@@ -1,133 +1,196 @@
 import React, { useState } from "react";
-import { Row, Form, Button, Tab, Col, Nav } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import Card from "../../Card";
-import { useDispatch, useSelector } from "react-redux";
-import { Formik, Field } from "formik";
+import { useDispatch } from "react-redux";
+import './setting.scss';
+import { updateNotificationSetting } from "../../../store/actions/portal-setting-action";
 
-const NotificationSettingActivities = ({ notificationSettingsItem }) => {
+const NotificationSettingActivities = ({ notificationSettingsItem, activeStyleBoxShadow, notificationSettingResult, selectedNotificationSetting }) => {
 
-
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { notificationSettingList } = state.portal;
-    // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
-    const [editButton, setEditButton] = useState(false);
-    const [saveButton, setSaveButton] = useState(false);
-    const [disable, setDisable] = useState(true);
-    // const [notifyMeByEmail, setNotifyMeByEmail] = useState(notificationSettingList?.notifyByEmail ?? "");
-    // const [notifyMeBySms, setNotifyMeBySms] = useState(notificationSettingList?.notifyBySms ?? "");
-    //VARIABLE DECLARATIONS
+    const [sendByEmailOrSms, setSendByEmailOrSms] = useState(null);
+    const [sendToParentsOnResultPublish, setSendToParentsOnResultPublish] = useState(null);
+
+    const [updateRecoverPassword, setUpdateRecoverPassword] = useState(notificationSettingResult?.recoverPassword);
+    const [updateAnnouncement, setUpdateAnnouncement] = useState(notificationSettingResult?.announcement);
+    const [updateAssessment, setUpdateAssessment] = useState(notificationSettingResult?.assessment);
+    const [updatePermission, setUpdatePermission] = useState(notificationSettingResult?.permission);
+    const [updateSession, setUpdateSession] = useState(notificationSettingResult?.session);
+    const [updateClassManagement, setUpdateClassManagement] = useState(notificationSettingResult?.classManagement);
+    const [updateStaff, setUpdateStaff] = useState(notificationSettingResult?.staff);
+    const [updateEnrollment, setUpdateEnrollment] = useState(notificationSettingResult?.enrollment);
+    const [updatePublishResult, setUpdatePublishResult] = useState(notificationSettingResult?.publishResult);
 
     React.useEffect(() => {
-        // setNotifyMeByEmail(notificationSettingList?.notifyByEmail ?? "");
-        // setNotifyMeBySms(notificationSettingList?.notifyBySms ?? "");
-    }, [notificationSettingList]);
+        if (selectedNotificationSetting?.name === "recoverPassword") {
+            if (sendByEmailOrSms) {
+                setUpdateRecoverPassword(updateRecoverPassword.recoverPassword = { media: 'email', send: true });
+            } else {
+                setUpdateRecoverPassword(updateRecoverPassword.recoverPassword = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "announcement") {
+            if (sendByEmailOrSms) {
+                setUpdateAnnouncement(updateAnnouncement.announcement = { media: 'email', send: true });
+            } else {
+                setUpdateAnnouncement(updateAnnouncement.announcement = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "assessment") {
+            if (sendByEmailOrSms) {
+                setUpdateAssessment(updateAssessment.assessment = { media: 'email', send: true });
+            } else {
+                setUpdateAssessment(updateAssessment.assessment = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "permission") {
+            if (sendByEmailOrSms) {
+                setUpdatePermission(updatePermission.permission = { media: 'email', send: true });
+            } else {
+                setUpdatePermission(updatePermission.permission = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "session") {
+            if (sendByEmailOrSms) {
+                setUpdateSession(updateSession.session = { media: 'email', send: true });
+            } else {
+                setUpdateSession(updateSession.session = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "classManagement") {
+            if (sendByEmailOrSms) {
+                setUpdateClassManagement(updateClassManagement.classManagement = { media: 'email', send: true });
+            } else {
+                setUpdateClassManagement(updateClassManagement.classManagement = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "staff") {
+            if (sendByEmailOrSms) {
+                setUpdateStaff(updateStaff.staff = { media: 'email', send: true });
+            } else {
+                setUpdateStaff(updateStaff.staff = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "enrollment") {
+            if (sendByEmailOrSms) {
+                setUpdateEnrollment(updateEnrollment.enrollment = { media: 'email', send: true });
+            } else {
+                setUpdateEnrollment(updateEnrollment.enrollment = { media: 'sms', send: false });
+            }
+        } else if (selectedNotificationSetting?.name === "publishResult") {
+            if (sendByEmailOrSms) {
+                setUpdatePublishResult(updatePublishResult.publishResult = { media: 'email', send: true });
+            } else {
+                setUpdatePublishResult(updatePublishResult.publishResult = { media: 'sms', send: false });
+            }
+        } else {
+            return null
+        }
+    }, [sendByEmailOrSms]);
 
     React.useEffect(() => {
-        setSaveButton(true)
-        setEditButton(false)
-        setDisable(true)
-        // getNotificationSettingList()(dispatch)
-    }, [dispatch]);
+        if (selectedNotificationSetting?.name === "recoverPassword") {
+            setSendByEmailOrSms(updateRecoverPassword.send)
+        } else if (selectedNotificationSetting?.name === "announcement") {
 
+            setSendByEmailOrSms(updateAnnouncement.send);
+        } else if (selectedNotificationSetting?.name === "assessment") {
 
+            setSendByEmailOrSms(updateAssessment.send);
+        } else if (selectedNotificationSetting?.name === "permission") {
+
+            setSendByEmailOrSms(updatePermission.send);
+        } else if (selectedNotificationSetting?.name === "session") {
+
+            setSendByEmailOrSms(updateSession.send);
+        } else if (selectedNotificationSetting?.name === "classManagement") {
+
+            setSendByEmailOrSms(updateClassManagement.send);
+        } else if (selectedNotificationSetting?.name === "staff") {
+            setSendByEmailOrSms(updateStaff.send);
+        } else if (selectedNotificationSetting?.name === "enrollment") {
+            setSendByEmailOrSms(updateEnrollment.send);
+
+        } else if (selectedNotificationSetting?.name === "publishResult") {
+            setSendByEmailOrSms(updatePublishResult.send);
+            setSendToParentsOnResultPublish(updatePublishResult.shouldSendToParentsOnResultPublish);
+
+        } else {
+            return null
+        }
+    }, [])
     return (
         <>
-            <Formik
-                enableReinitialize={true}
-                initialValues={{
-                    notificationSettingId: notificationSettingList?.notificationSettingId ?? "",
-                    notifyByEmail: notificationSettingList?.notifyByEmail ?? "",
-                    notifyBySms: notificationSettingList?.notifyBySms ?? "",
-                }}
-
-                onSubmit={(values) => {
-                    values.notificationSettingId = values.notificationSettingId;
-                    values.notifyByEmail = "";
-                    values.notifyBySms = "";
-                    setSaveButton(!saveButton);
-                    setEditButton(!editButton);
-                    setDisable(true);
-                    // updateNotificationSetting(values)(dispatch);
-                }}
-            >
-                {({
-                    handleSubmit,
-                    setFieldValue,
-                }) => (
-                    <Card>
-                        <Card.Body className=''>
-                            <div>
-                                <div>
-                                    <h5 className="lead">{notificationSettingsItem?.title}</h5>
-                                    <p>{notificationSettingsItem?.desc}</p>
+            <Card>
+                <Card.Body className={activeStyleBoxShadow ? 'turn-on-styling' : 'turn-off-styling'}>
+                    <div>
+                        <div>
+                            <h5 className="lead">{selectedNotificationSetting?.title}</h5>
+                            <p>{selectedNotificationSetting?.desc}</p>
+                        </div>
+                        <div className="new-user-info">
+                            <Form>
+                                <div className="row ms-1">
+                                    <div className="form-check col-md-6">
+                                        <input className="form-check-input" type="radio"
+                                            name={selectedNotificationSetting?.name} id="sendNotificationByEmail"
+                                            value="email"
+                                            checked={sendByEmailOrSms === true ? true : false}
+                                            onChange={(e) => {
+                                                setSendByEmailOrSms(!sendByEmailOrSms)
+                                            }}
+                                        />
+                                        <label className="form-check-label" htmlFor="sendNotificationByEmail">
+                                            Send Notification by email
+                                        </label>
+                                    </div>
+                                    <div className="form-check col-md-6">
+                                        <input className="form-check-input" type="radio"
+                                            name={notificationSettingsItem?.name}
+                                            id="sendNotificationBySms"
+                                            checked={sendByEmailOrSms === false ? true : false}
+                                            onChange={(e) => {
+                                                setSendByEmailOrSms(!sendByEmailOrSms)
+                                            }}
+                                        />
+                                        <label className="form-check-label" htmlFor="sendNotificationBySms">
+                                            Send Notification by sms
+                                        </label>
+                                    </div>
                                 </div>
-                                <div className="new-user-info">
-                                    <Form>
-                                        <div className="row ms-1">
-                                            <div class="form-check col-md-6">
-                                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                                                <label class="form-check-label" htmlFor="flexRadioDefault1">
-                                                    Notify me by email
-                                                </label>
+                                {
+                                    notificationSettingsItem?.title === "Publish Result" && (
+                                        <>
+                                            <hr />
+                                            <div className="row ms-1">
+                                                <div className="form-check col-md-12">
+                                                    <input className="form-check-input" type="radio"
+                                                        name={notificationSettingsItem?.name} id="sendNotificationToParents"
+                                                        checked={sendToParentsOnResultPublish === true ? true : false}
+                                                        value="yes"
+                                                        onChange={(e) => setSendToParentsOnResultPublish(!sendToParentsOnResultPublish)}
+                                                    />
+                                                    <label className="form-check-label" htmlFor="sendNotificationToParents">
+                                                        Send notification to parent on publish result
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="form-check col-md-6">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                                                <label className="form-check-label" htmlFor="flexRadioDefault2">
-                                                    Notify me by sms
-                                                </label>
-                                            </div>
-                                        </div>
-                                        {
-                                            notificationSettingsItem?.title === "Publish Result" && (
-                                                <>
-                                                    <hr />
-                                                    <div className="row ms-1">
-                                                        <div class="form-check col-md-12">
-                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                                                            <label class="form-check-label" htmlFor="flexRadioDefault1">
-                                                                Send notification to parent on publish result
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )
-                                        }
-                                        <div className="row">
-                                        </div>
-                                        <div className="d-flex mt-4 justify-content-end">
-                                            {saveButton ? (
-                                                <Button
-                                                    type="button"
-                                                    variant="btn btn-primary mx-2"
-                                                // onClick={() => {
-                                                //     setSaveButton(!saveButton)
-                                                //     setEditButton(!editButton)
-                                                //     setDisable(!disable);
-                                                // }}
-                                                >
-                                                    Click to Edit
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    type="button"
-                                                    variant="btn btn-danger mx-2"
-                                                // onClick={handleSubmit}
-                                                >
-                                                    Save Changes
-                                                </Button>
-                                            )}
-                                        </div>
-                                    </Form>
+                                        </>
+                                    )
+                                }
+                                <div className="row">
                                 </div>
-                            </div>
-                        </Card.Body>
-                    </Card>
-                )}
-            </Formik>
+                                <div className="d-flex mt-4 justify-content-end">
+                                    <Button
+                                        type="button"
+                                        variant="btn btn-primary mx-2"
+                                        onClick={() => {
+                                            updateNotificationSetting(updateRecoverPassword, updateAnnouncement, updateAssessment, updatePermission, updateSession, updateClassManagement, updateStaff, updateEnrollment, updatePublishResult)(dispatch);
+                                        }}
+                                    >
+                                        Save
+                                    </Button>
+                                </div>
+                            </Form>
+                        </div>
+                    </div>
+                </Card.Body>
+            </Card>
         </>
     );
 };

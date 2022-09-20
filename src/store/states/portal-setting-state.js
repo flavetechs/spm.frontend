@@ -4,6 +4,6 @@ export const _state = {
     isSuccessful: false,
     schoolSettingList:[],
     resultSettingList:[],
-    notificationSettingList:[],
+    notificationSettingResult: {},
   };
   
