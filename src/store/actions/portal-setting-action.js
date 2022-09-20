@@ -28,7 +28,7 @@ export const getSchoolSettingList = () => (dispatch) => {
 export const getResultSettingList = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_RESULT_SETTING_LOADING,
-       // payload: resultlSettingId,
+        // payload: resultlSettingId,
     });
     axiosInstance.get(`/portalsetting/api/v1/get/result-settings`)
         .then((res) => {
@@ -74,7 +74,7 @@ export const updateSchoolSetting = (updatedSchool, formData) => (dispatch) => {
         type: actions.UPDATE_SCHOOL_SETTING_LOADING
     });
 
-    axiosInstance.post('/portalsetting/api/v1/create-update/school-setting',  formData, updatedSchool)
+    axiosInstance.post('/portalsetting/api/v1/create-update/school-setting', formData, updatedSchool)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SCHOOL_SETTING_SUCCESS,
@@ -96,7 +96,7 @@ export const updateResultSetting = (updatedResult, formData) => (dispatch) => {
         type: actions.UPDATE_RESULT_SETTING_LOADING
     });
 
-    axiosInstance.post('/portalsetting/api/v1/create-update/result-setting',formData, updatedResult)
+    axiosInstance.post('/portalsetting/api/v1/create-update/result-setting', formData, updatedResult)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_RESULT_SETTING_SUCCESS,
@@ -112,13 +112,52 @@ export const updateResultSetting = (updatedResult, formData) => (dispatch) => {
         });
 }
 
-
-export const updateNotificationSetting = (updatedNotification) => (dispatch) => {
+export const updateNotificationSetting = (updateRecoverPassword, updateAnnouncement, updateAssessment, updatePermission, updateSession, updateClassManagement, updateStaff, updateEnrollment, updatePublishResult) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_NOTIFICATION_SETTING_LOADING
     });
 
-    axiosInstance.post('/portalsetting/api/v1/create-update-notification-setting', updatedNotification)
+    const value = {
+        recoverPassword: {
+            media: updateRecoverPassword.media,
+            send: updateAnnouncement.send,
+        },
+        announcement: {
+            media: updateAnnouncement.media,
+            send: updateAnnouncement.send,
+        },
+        assessment: {
+            media: updateAssessment.media,
+            send: updateAssessment.send,
+        },
+        permission: {
+            media: updatePermission.media,
+            send: updatePermission.send,
+        },
+        session: {
+            media: updateSession.media,
+            send: updateSession.send,
+        },
+        classManagement: {
+            media: updateClassManagement.media,
+            send: updateClassManagement.send,
+        },
+        staff: {
+            media: updateStaff.media,
+            send: updateStaff.send,
+        },
+        enrollment: {
+            media: updateEnrollment.media,
+            send: updateEnrollment.send,
+        },
+        publishResult: {
+            media: updatePublishResult.media,
+            send: updatePublishResult.send,
+            shouldSendToParentsOnResultPublish: updatePublishResult.shouldSendToParentsOnResultPublish,
+        }
+    }
+
+    axiosInstance.post('/portalsetting/api/v1/create-update-notification-setting', value)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_NOTIFICATION_SETTING_SUCCESS,
@@ -133,6 +172,7 @@ export const updateNotificationSetting = (updatedNotification) => (dispatch) => 
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
 
 export const createSchoolSetting = (school) => (dispatch) => {
     dispatch({
@@ -178,7 +218,7 @@ export const createNotificationSetting = (notification) => (dispatch) => {
     dispatch({
         type: actions.CREATE_NOTIFICATION_SETTING_LOADING
     });
-    axiosInstance.post('/subject/api/v1/create/subject', notification)
+    axiosInstance.post('', notification)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_NOTIFICATION_SETTING_SUCCESS,

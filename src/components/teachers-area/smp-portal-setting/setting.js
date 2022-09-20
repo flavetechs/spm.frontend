@@ -16,7 +16,7 @@ function Setting() {
       <Card>
         <Card.Body className=''>
           <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-            <Row className='mt-5 gx-3'>
+            <Row className='mt-5 gx-1'>
               <Col sm={3} className='col-md-3'>
                 <Nav variant="" className="flex-column portal-tab" >
                   <Nav.Item className=''>
