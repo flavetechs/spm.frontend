@@ -185,6 +185,7 @@ const NotificationSetting = () => {
                                                         <span>{item.title}</span>
                                                         <p><small>{item.desc}</small></p>
                                                     </Col>
+                                                    
                                                 </Row>
                                             </Nav.Link>
                                         ))}
