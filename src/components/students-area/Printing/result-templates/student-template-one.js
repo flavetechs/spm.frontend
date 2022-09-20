@@ -24,7 +24,6 @@ const ResultTemplateOne = (props) => {
   const locations = useLocation();
   const dispatch = useDispatch();
   const tableRef = useRef(null);
-  const results = studentResult ? studentResult : props.batchResult;
   // ACCESSING STATE FROM REDUX STORE
   useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
@@ -61,7 +60,7 @@ const ResultTemplateOne = (props) => {
   return (
     <>
       <div className=" mb-3 d-flex justify-content-end mt-n5">
-        {results?.isPrint && (
+        {studentResult?.isPrint && (
           <Button
             variant="btn btn-primary btn-sm mx-2 isPreview"
             onClick={() => {
@@ -77,7 +76,7 @@ const ResultTemplateOne = (props) => {
       </div>
       <div
         className={
-          results?.isPreview
+          studentResult?.isPreview
             ? "col-md-12 mx-auto isPreview"
             : "col-md-12 mx-auto isPrint"
         }
@@ -116,7 +115,7 @@ const ResultTemplateOne = (props) => {
               <Card.Body>
                 <Row>
                   <h5 className="text-uppercase text-center fw-bold"     style={{textTransform:"uppercase",textAlign:"center",fontWeight:"600"}}>
-                    Result for {`${results?.session} ${results?.term} TERM`}
+                    Result for {`${studentResult?.session} ${studentResult?.term} TERM`}
                   </h5>
                   <div className="text-dark fw-bold  d-md-flex justify-content-around"style={{display:"flex",justifyContent: "space-around"}}>
                     <div>
@@ -133,7 +132,7 @@ const ResultTemplateOne = (props) => {
                         draggable="false"
                       >
                         <tbody>
-                          {results?.gradeSetting?.map((result, idx) => (
+                          {studentResult?.gradeSetting?.map((result, idx) => (
                             <tr key={idx}>
                               <th className="fw-bold h6 text-uppercase"   style={{textTransform:"uppercase",fontWeight:"600",border:"1px solid black"}}>
                                 {result.limit}
@@ -166,7 +165,7 @@ const ResultTemplateOne = (props) => {
                             className="fw-bold"
                             style={{ width: "30vw", color: "#2d2d2d",fontWeight:"600",border:"1px solid black"}}
                           >
-                            {results?.studentName}
+                            {studentResult?.studentName}
                           </td>
                         </tr>
                         <tr>
@@ -180,7 +179,7 @@ const ResultTemplateOne = (props) => {
                             className="fw-bold text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
                           >
-                            {results?.registrationNumber}
+                            {studentResult?.registrationNumber}
                           </td>
                         </tr>
                         <tr>
@@ -194,7 +193,7 @@ const ResultTemplateOne = (props) => {
                             className="fw-bold text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
                           >
-                            {results?.sessionClassName}
+                            {studentResult?.sessionClassName}
                           </td>
                         </tr>
                         <tr>
@@ -208,7 +207,7 @@ const ResultTemplateOne = (props) => {
                             className="fw-bold text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
                           >
-                            {results?.position} out of {results?.noOfStudents}{" "}
+                            {studentResult?.position} out of {studentResult?.noOfStudents}{" "}
                             student(s)
                           </td>
                         </tr>
@@ -220,7 +219,7 @@ const ResultTemplateOne = (props) => {
                             Total
                           </td>
                           <td className="fw-bold" style={{ color: "#2d2d2d",fontWeight:"600",border:"1px solid black" }}>
-                            {results?.total}/{results?.totalScores}
+                            {studentResult?.total}/{studentResult?.totalScores}
                           </td>
                         </tr>
                         <tr>
@@ -231,7 +230,7 @@ const ResultTemplateOne = (props) => {
                             Average
                           </td>
                           <td className="fw-bold" style={{ color: "#2d2d2d",fontWeight:"600" ,border:"1px solid black"}}>
-                            {results?.average}
+                            {studentResult?.average}
                           </td>
                         </tr>
                         <tr>
@@ -245,7 +244,7 @@ const ResultTemplateOne = (props) => {
                             className="fw-bold text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
                           >
-                            {results?.remark}
+                            {studentResult?.remark}
                           </td>
                         </tr>
                       </tbody>
@@ -309,7 +308,7 @@ const ResultTemplateOne = (props) => {
                       </tr>
                     </tbody>
                     <tbody>
-                      {results?.studentSubjectEntries?.map((item, index) => (
+                      {studentResult?.studentSubjectEntries?.map((item, index) => (
                         <tr key={index} className="h6 text-center"style={{textAlign:"center",border:"1px solid black"}}>
                           <td className=""style={{border:"1px solid black"}}>{index + 1}</td>
                           <td className="text-start" style={{textAlign:"left",border:"1px solid black"}}>{item.sibjectName}</td>

@@ -36,7 +36,7 @@ const ScoreEntryTable = () => {
     setIndexRow("");
     setEditMode(false);
     setPreviewMode(false);
-  }, [dispatch,sessionClassId, subjectId]);
+  }, [dispatch]);
 
   return (
     <>

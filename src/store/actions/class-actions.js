@@ -318,6 +318,7 @@ export const updateSessionClass = (updatedSessionClass) => (dispatch) => {
                 type: actions.UPDATE_SESSION_CLASS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            fetchSingleSessionClass(updatedSessionClass.sessionClassId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

@@ -35,7 +35,7 @@ const BatchPrintPreview = () => {
 
   React.useEffect(() => {
     getAllBatchPrintingResultPreview(sessionClassId,sessionTermId)(dispatch);
-  }, [dispatch, sessionClassId, sessionTermId]);
+  }, [dispatch]);
 
   React.useEffect(() => {
     printSuccessful==="successful" &&  history.push(`${resultManagement.resultTemplate}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}&batchPrinting=${batchResultPreview?.numberOfStudents}`);

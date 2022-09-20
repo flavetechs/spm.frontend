@@ -35,8 +35,11 @@ const EditClassAssessment = () => {
   const classAssessmentIdQueryParam = queryParams.get("classAssessmentId");
 
   useEffect(() => {
-    fetchData(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam)(dispatch)
-  }, [classAssessmentIdQueryParam, sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, dispatch]);
+    fetchData(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam)(dispatch);
+    return()=>{
+      resetCreateSuccessfulState()(dispatch)
+    }
+  }, [dispatch]);
 
   return (
     <>
