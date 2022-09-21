@@ -79,6 +79,8 @@ export function NoteShareModal(props) {
             onClick={() => {
               showHideModal(false)(dispatch);
               respondModal("cancel")(dispatch);
+              props.setNoteShareModal(false);
+              props.setClassNoteId('');
             }}
           >
             Cancel

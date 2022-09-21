@@ -2108,8 +2108,4 @@ export const fetchData = (sessionClassIdQuery, sessionClassSubjectIdQuery, class
     })
 }
 
-    // getAssessmentScore(sessionClassSubjectIdQuery, sessionClassIdQuery)(dispatch);
-    // getClassSubjects(sessionClassIdQuery)(dispatch);
-    // getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
-    // getSingleClassAssessment(classAssessmentIdQuery)(dispatch);
-    // getStudentClassAssessment(classAssessmentIdQuery)(dispatch);
+   

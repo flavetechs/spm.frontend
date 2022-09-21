@@ -60,6 +60,24 @@ export const getStaffClassSubjects = (sessionClassId) => (dispatch) => {
             })
         });
 }
+export const getStaffClassSubjectByClassLookup = (classId, sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STAFF_CLASS_SUBJECTS_LOADING,
+    });
+
+    axiosInstance.get(`/api/v1/result/get/staff-class-subjects/by-classlookup/${classId}/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASS_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASS_SUBJECTS_FAILED,
+                payload: err.response.data.result
+            })
+    });
+}
 
 
 export const getAllClassScore = (sessionClassId, subjectId) => (dispatch) => {
