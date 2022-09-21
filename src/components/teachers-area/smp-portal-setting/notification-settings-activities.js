@@ -5,14 +5,15 @@ import { useDispatch } from "react-redux";
 import './setting.scss';
 import { updateNotificationSetting } from "../../../store/actions/portal-setting-action";
 
-const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSettingResult, selectedNotificationSetting }) => {
+const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSettingResult, selectedNotificationSetting, sendTrueOrFalse, currentSend }) => {
 
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
     const [formData, setFormData] = useState(notificationSettingResult);
 
-    const [sendToParentsOnResultPublish, setSendToParentsOnResultPublish] = useState(notificationSettingResult.publishResult.shouldSendToParentsOnResultPublish);
+    const [sendToParentsOnResultPublish, setSendToParentsOnResultPublish] = useState(notificationSettingResult?.publishResult?.shouldSendToParentsOnResultPublish);
+
 
     return (
         <>
@@ -33,6 +34,7 @@ const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSetti
                                             checked={formData[selectedNotificationSetting.name]?.media === "email" ? true : false}
                                             onClick={(e) => {
                                                 formData[selectedNotificationSetting.name].media = e.target.value;
+                                                formData[selectedNotificationSetting.name].send = sendTrueOrFalse;
                                                 setFormData(formData);
                                             }}
                                         />
@@ -45,9 +47,10 @@ const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSetti
                                             name={selectedNotificationSetting?.name}
                                             id="sendNotificationBySms"
                                             value="sms"
-                                            checked={formData[selectedNotificationSetting.name]?.media === "email" ? true : false}
+                                            checked={formData[selectedNotificationSetting.name]?.media === "sms" ? true : false}
                                             onClick={(e) => {
                                                 formData[selectedNotificationSetting.name].media = e.target.value;
+                                                formData[selectedNotificationSetting.name].send = sendTrueOrFalse;
                                                 setFormData(formData);
                                             }}
                                         />
@@ -66,9 +69,11 @@ const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSetti
                                                         value={sendToParentsOnResultPublish}
                                                         name="shouldSendToParentsOnResultPublish"
                                                         id="shouldSendToParentsOnResultPublish"
+                                                          checked={sendToParentsOnResultPublish}
                                                         onClick={(e) => {
-                                                            setSendToParentsOnResultPublish(!sendToParentsOnResultPublish)
+                                                            setSendToParentsOnResultPublish(sendToParentsOnResultPublish);
                                                             formData[selectedNotificationSetting.name].shouldSendToParentsOnResultPublish = sendToParentsOnResultPublish;
+                                                            formData[selectedNotificationSetting.name].send = sendTrueOrFalse;
                                                             setFormData(formData);
 
                                                         }}

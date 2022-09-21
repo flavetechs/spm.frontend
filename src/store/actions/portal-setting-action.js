@@ -46,7 +46,7 @@ export const getResultSettingList = () => (dispatch) => {
 };
 
 
-export const getNotificationSettingList = (notificationSettingId) => (dispatch) => {
+export const getNotificationSettingResult = (notificationSettingId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_NOTIFICATION_SETTING_LOADING,
         payload: notificationSettingId,

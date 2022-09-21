@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Row, Tab, Col, Nav } from "react-bootstrap";
+import { Row, Tab, Col, Nav, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getNotificationSettingList } from "../../../store/actions/portal-setting-action";
+import { getNotificationSettingResult } from "../../../store/actions/portal-setting-action";
 import NotificationSettingActivities from "./notification-settings-activities";
 
 const NotificationSetting = () => {
@@ -11,8 +11,12 @@ const NotificationSetting = () => {
     const { notificationSettingResult } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
+    React.useEffect(() => {
+        getNotificationSettingResult()(dispatch);
+    }, []);
+
     //VARIABLE DECLARATIONS
-    const [notificationList] = useState([
+    const notificationList = [
 
         {
             title: "Recover password", id: 2, desc: "Choose your password reset preferences",
@@ -144,15 +148,20 @@ const NotificationSetting = () => {
                     stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         },
-    ]);
+    ];
+    
+    const [sendTrueOrFalse, setSendTrueOrFalse] = useState(null);
     const [activeStyleBoxShadow, setActiveStyleBoxShadow] = useState(false);
     const dispatch = useDispatch();
     const [selectedNotificationSetting, setSelectedNotificationSetting] = useState({ title: '', desc: '', name: '' });
+    const [sendData, setSendData] = useState(Object.keys(notificationSettingResult));
+    const [ currentSend, setCurrentSend] = useState(notificationSettingResult)
     //VARIABLE DECLARATIONS
 
     React.useEffect(() => {
-        getNotificationSettingList()(dispatch);
-    }, []);
+        setSendData(notificationSettingResult);
+        setCurrentSend(notificationSettingResult);
+    }, [notificationSettingResult]);
 
     function handleStylingEffect() {
         setActiveStyleBoxShadow(true);
@@ -160,6 +169,7 @@ const NotificationSetting = () => {
             setActiveStyleBoxShadow(false);
         }, 500);
     }
+
 
     return (
         <>
@@ -178,14 +188,27 @@ const NotificationSetting = () => {
                                                 }}
                                             >
                                                 <Row className="">
-                                                    <Col className='me-1 col-1 col-sm-1 col-md-1 '>
+                                                    <Col className='me-1 col-1 col-sm-1 col-md-1'>
                                                         {item.icon}
                                                     </Col>
-                                                    <Col className='text-wrap col-sm-10 col-md-10 '>
+                                                    <Col className='text-wrap col-sm-8 col-md-8'>
                                                         <span>{item.title}</span>
                                                         <p><small>{item.desc}</small></p>
                                                     </Col>
-                                                    
+                                                    <Col className="me-1 col-1 col-sm-1 col-md-1">
+                                                        <Form>
+                                                            <Form.Check
+                                                                type="switch"
+                                                                id="custom-switch"
+                                                                checked={currentSend[item.name]?.send}
+                                                                onClick={(e) => {
+                                                                    currentSend[item.name].send = e.target.checked;
+                                                                    setCurrentSend(currentSend);
+                                                                    setSendTrueOrFalse( currentSend[item.name].send = e.target.checked);
+                                                                }}
+                                                            />
+                                                        </Form>
+                                                    </Col>
                                                 </Row>
                                             </Nav.Link>
                                         ))}
@@ -211,6 +234,8 @@ const NotificationSetting = () => {
                                         selectedNotificationSetting={selectedNotificationSetting}
                                         activeStyleBoxShadow={activeStyleBoxShadow}
                                         notificationSettingResult={notificationSettingResult}
+                                        sendTrueOrFalse={sendTrueOrFalse}
+                                        currentSend={currentSend}
                                     />}
                             </Col>
                         </Row>
