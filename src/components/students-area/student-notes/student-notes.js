@@ -51,7 +51,7 @@ const StudentNotes = () => {
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteStudentNotes(studentNoteId, subjectIdQuery)(dispatch);
+      deleteStudentNotes(studentNoteId, subjectIdQuery,statusQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -60,22 +60,22 @@ const StudentNotes = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse,dispatch,studentNoteId, subjectIdQuery]);
+  }, [dialogResponse,dispatch,studentNoteId]);
 
   React.useEffect(() => {
-    // if (subjectIdQuery && !statusQuery) {
-    //   getAllStudentNotes(subjectIdQuery)(dispatch);
-    // }else if(!subjectIdQuery && !statusQuery){
-    //   getAllStudentNotes("")(dispatch);
-    // }
-    if(statusQuery){
+    if(statusQuery && subjectIdQuery){
       getAllStudentNotes(
       subjectIdQuery,
       statusQuery
     )(dispatch);
-    }else{
+    }else if(!statusQuery && subjectIdQuery){
       getAllStudentNotes(
         subjectIdQuery,
+        "2"
+      )(dispatch);
+    }else{
+      getAllStudentNotes(
+        "",
         "2"
       )(dispatch);
     }

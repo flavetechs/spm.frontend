@@ -19,6 +19,7 @@ export function NoteShareModal(props) {
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
+    props.classNoteId&&
     getAllOtherStaff(props.classNoteId)(dispatch);
   }, [props.classNoteId,dispatch]);
 

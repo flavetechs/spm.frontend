@@ -1261,7 +1261,7 @@ export const updateStudentNotes = (values) => (dispatch) => {
         });
 }
 
-export const deleteStudentNotes = (item, subjectId) => (dispatch) => {
+export const deleteStudentNotes = (item, subjectId,status) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
     });
@@ -1274,7 +1274,7 @@ export const deleteStudentNotes = (item, subjectId) => (dispatch) => {
                 type: actions.DELETE_LESSON_NOTES_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStudentNotes(subjectId)(dispatch)
+            getAllStudentNotes(subjectId,status)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
