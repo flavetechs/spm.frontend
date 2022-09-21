@@ -52,13 +52,13 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
-        notificationSettingList: "",
+        notificationSettingResult: "",
       };
     case actions.FETCH_NOTIFICATION_SETTING_SUCCESS:
       return {
         ...state,
         loading: false,
-        notificationSettingList: payload,
+        notificationSettingResult: payload,
       };
     case actions.FETCH_NOTIFICATION_SETTING_FAILED:
       return {
