@@ -57,6 +57,9 @@ const LessonNotes = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
+    if (queryParams == {}) {
+      console.log('queryParams', queryParams);
+    }
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
@@ -66,10 +69,9 @@ const LessonNotes = () => {
         getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam)(dispatch);
       }
     };
+    // if (approvalStatusQueryParam || !subjectIdQueryParam || !classIdQueryParam) {
     fetchNotes();
-    return () => {
 
-    }
   }, [approvalStatusQueryParam, subjectIdQueryParam, classIdQueryParam, dispatch]);
 
   React.useEffect(() => {
@@ -170,18 +172,18 @@ const LessonNotes = () => {
                 </div>
               </Card.Header>
               {
-                shouldShareModal && (classNoteId && (<NoteShareModal 
-                  classNoteId={classNoteId} 
-                  setClassNoteId={setClassNoteId} 
-                  shouldShareModal={shouldShareModal} 
+                shouldShareModal && (classNoteId && (<NoteShareModal
+                  classNoteId={classNoteId}
+                  setClassNoteId={setClassNoteId}
+                  shouldShareModal={shouldShareModal}
                   setNoteShareModal={setNoteShareModal} />))
               }
               {
-                shouldSendModal && (teacherClassNoteId && <NoteSendModal 
-                  setTeacherClassNoteId={setTeacherClassNoteId} 
-                  teacherClassNoteId={teacherClassNoteId} 
-                  setNoteSendModal={setNoteSendModal} 
-                  shouldSendModal={shouldSendModal}/>)
+                shouldSendModal && (teacherClassNoteId && <NoteSendModal
+                  setTeacherClassNoteId={setTeacherClassNoteId}
+                  teacherClassNoteId={teacherClassNoteId}
+                  setNoteSendModal={setNoteSendModal}
+                  shouldSendModal={shouldSendModal} />)
               }
               <Formik
                 initialValues={{
@@ -224,12 +226,12 @@ const LessonNotes = () => {
                                 id="classId"
                                 onChange={(e) => {
                                   setFieldValue("classId", e.target.value);
+                                  const sessionClassId = staffClasses.find(x => x.classId === e.target.value).sessionClassId;
                                   if (e.target.value) {
-                                    const sessionClassId = staffClasses.find(x => x.classId === e.target.value).sessionClassId;
                                     setFieldValue("sessionClassId", sessionClassId);
                                   }
 
-                                  history.push(`${classLocations.lessonNotes}?classId=${e.target.value}&sessionClassId=${values.sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
+                                  history.push(`${classLocations.lessonNotes}?classId=${e.target.value}&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                   // }
                                 }}
