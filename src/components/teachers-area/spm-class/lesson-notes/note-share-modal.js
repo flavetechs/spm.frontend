@@ -7,6 +7,7 @@ import {
 } from "../../../../store/actions/toaster-actions";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { getAllOtherStaff, shareLessonNotes } from "../../../../store/actions/class-actions";
+import { HandleMultipleCheckbox } from "../../../../utils/tools";
 
 export function NoteShareModal(props) {
   const dispatch = useDispatch();
@@ -33,20 +34,6 @@ export function NoteShareModal(props) {
     setStaffArray([])
   }
   }, [showModal]);
-  
-
-  const handleStaffArray = (event) => {
-    const checkBoxValue = event.target.checked;
-    const staffId = event.target.id;
-    let selectedStaffArray;
-    const otherSelectedStaff = staffArray.filter((staff) => staff != staffId);
-    if (checkBoxValue === false) {
-      selectedStaffArray = [...otherSelectedStaff];
-    } else {
-      selectedStaffArray = [...otherSelectedStaff, staffId];
-    }
-    setStaffArray(selectedStaffArray);
-  };
 
   
   return (
@@ -62,7 +49,8 @@ export function NoteShareModal(props) {
                 id={staff.teacherAccountId}
                 checked={staffArray.find(s=>s === staff.teacherAccountId)|| ""}
                 onChange={(e) => {
-                  handleStaffArray(e);
+                  const classArrayValues = HandleMultipleCheckbox(e, staffArray);
+                  setStaffArray(classArrayValues)
                 }}
               />
               <span className="mx-2 text-uppercase">
