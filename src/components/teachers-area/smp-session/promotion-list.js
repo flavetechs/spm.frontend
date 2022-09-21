@@ -160,8 +160,7 @@ const PromotionSetup = () => {
                             </OverlayTrigger>
                           </td>
                           <td className="h4 text-center">
-                            {item.totalStudentsInClass -
-                              item.totalStudentsFailed}
+                            {item.studentsToBePromoted}
                           </td>
                           <td className="h5 text-center">
                             <div className="form-group">
