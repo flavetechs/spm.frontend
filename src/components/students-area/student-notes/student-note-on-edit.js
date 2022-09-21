@@ -125,20 +125,24 @@ const EditStudentNote = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                       <h5 className="mb-3 d-flex justify-content-end">{singleStudentNotes?.subjectName}</h5>
+                       <h4 className="mb-4">{singleStudentNotes?.subjectName}</h4>
                       <Row className="d-flex justify-content-center">
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Subject Teacher:</b>
                           </label>
-                          <input
-                            type="text"
-                            name="subjectTeacher"
-                            className="form-control border-secondary text-dark"
-                            id="noteTitle"
-                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName|| ""} 
-                           readOnly
-                          />
+                          <Field
+                            as="select"
+                            name="teacherId"
+                            className="form-select border-secondary h6"
+                            id="noteTitle">
+                              <option value="">Select Teacher</option>
+                                {staffList?.map((item, idx) => (
+                                  <option key={idx} value={item.teacherAccountId} >
+                                    {item.firstName}{""}{item.lastName}
+                                  </option>
+                                ))}
+                          </Field>
                         </Col>
                         <Col md="11">
                           {touched.noteTitle && errors.noteTitle && (
@@ -237,9 +241,6 @@ const EditStudentNote = () => {
                               name="submitForReview"
                               className="form-check-input"
                               id="submitForReview"
-                              onChange={(e) => {
-                                setFieldValue("submitForReview",e.target.value)
-                               }}
                             />
                             <label
                               className="form-label mx-1"

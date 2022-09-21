@@ -53,7 +53,7 @@ const MasterList = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [activeSession,dispatch]);
+  }, [activeSession,sessionId,dispatch]);
 
   React.useEffect(() => {
     if (masterEntry) {
@@ -157,7 +157,7 @@ const MasterList = () => {
                               <option value="">Select Terms</option>
                               {sessionList
                                 ?.find(
-                                  (session, idx) =>
+                                  (session) =>
                                     session.sessionId.toLowerCase() ===
                                     values.sessionId
                                 )

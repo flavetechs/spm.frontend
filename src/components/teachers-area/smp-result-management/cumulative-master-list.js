@@ -55,7 +55,7 @@ const CumulativeMasterList = () => {
     } else {
       getAllSessionClasses(sessionId)(dispatch);
     }
-  }, [activeSession,dispatch]);
+  }, [activeSession,sessionId,dispatch]);
 
   React.useEffect(() => {
     if (cumulativeEntry) {

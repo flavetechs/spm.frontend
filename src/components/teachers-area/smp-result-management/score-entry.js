@@ -128,6 +128,7 @@ const ScoreEntry = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
+                              e.target.value !== ""&&
                               getStaffClassSubjects(e.target.value)(dispatch);
                             }}
                           >

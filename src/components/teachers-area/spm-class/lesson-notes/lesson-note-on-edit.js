@@ -246,12 +246,6 @@ const EditLessonNote = () => {
                               name="shouldSendForApproval"
                               className="form-check-input"
                               id="shouldSendForApproval"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  "shouldSendForApproval",
-                                  e.target.value
-                                );
-                              }}
                             />
                             <label
                               className="form-label mx-1"
