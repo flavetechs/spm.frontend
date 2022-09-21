@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
+import { announcementLocations, assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
 import OnlineClass from '../components/students-area/class/online-class';
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
@@ -17,6 +17,8 @@ import StudentNoteDetails from '../components/students-area/student-notes/studen
 import StudentTimeTable from '../components/students-area/student-timetable/student-timetable';
 import PrintStudentResult from '../components/students-area/Printing/student-print-result';
 import StudentTemplateControl from '../components/students-area/Printing/result-templates/student-template-control';
+import StudentAnnouncement from '../components/students-area/announcement/student-announcement-list';
+import StudentAnnouncementDetails from '../components/students-area/announcement/student-announcement-details';
 
 
 
@@ -49,6 +51,8 @@ const StudentDashboardRouter = () => {
 
                     {/* announcement */}
                     {/* <Route path={announcementLocations.announcement} exact component={studentIndex} /> */}
+                    <Route path={announcementLocations.announcement} exact component={StudentAnnouncement} />
+                    <Route path={announcementLocations.studentAnnouncementDetails} exact component={StudentAnnouncementDetails} />
 
                     {/* timeTable */}
                     {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
