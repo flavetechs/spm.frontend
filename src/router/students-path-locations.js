@@ -25,6 +25,7 @@ export const dashboardLocations = {
 
   export const announcementLocations = {
     announcement: "/stds-dashboard/student-announcement",
+    studentAnnouncementDetails: "/stds-dashboard/student-announcement-details",
   };
 
   export const timeTableLocations = {
