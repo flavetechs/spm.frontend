@@ -180,6 +180,10 @@ const AssessmentList = () => {
                   showErrorToast("Subject is required")(dispatch);
                   return;
                 }
+                if (!groupIdQueryParam) {
+                  showErrorToast("Please select a group of students")(dispatch);
+                  return;
+                }
                 else {
                   if (typeQueryParam === "home-assessment") {
                     history.push(
