@@ -12,7 +12,7 @@ import {
   getActiveSession,
   getAllSession,
 } from "../../../store/actions/session-actions";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { resultManagement } from "../../../router/spm-path-locations";
 
 const PublishResult = () => {
@@ -20,19 +20,16 @@ const PublishResult = () => {
   const state = useSelector((state) => state);
   const { termClasses } = state.publish;
   const { activeSession, sessionList } = state.session;
-  const [selectedSession, setSelectedSession] = useState(null);
-  const [initialValues, setInitialValues] = useState({
-    sessionId: "",
-    sessionTermId: "",
-    sessionClassId: "",
-  });
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const [sessionClassId, setSessionClassId] = useState("");
-  const [sessionTermId, setSessionTermId] = useState("");
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const sessionIdQueryParam = queryParams.get("sessionId") || "";
+  const termIdQueryParam = queryParams.get("termId") || "";
   //VARIABLE DECLARATIONS
 
   //VALIDATION SCHEMA
@@ -43,22 +40,27 @@ const PublishResult = () => {
   });
   //VALIDATION SCHEMA
 
-
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
   }, [dispatch]);
 
-
   React.useEffect(() => {
-    setSessionTermId( activeSession?.sessionTermId)
-    setSelectedSession(activeSession);
-    initialValues.sessionId = activeSession?.sessionId;
-    initialValues.sessionTermId = activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId;
-    setInitialValues(initialValues);
-    getTermClasses(activeSession?.sessionId, activeSession?.sessionTermId)(dispatch);
-  }, [activeSession,dispatch]);
-
+    if(!sessionIdQueryParam){
+    getTermClasses(
+      activeSession?.sessionId,
+      activeSession?.sessionTermId
+    )(dispatch);
+    history.push(`${resultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
+      (term) => term.isActive === true
+    )?.sessionTermId}`)
+  }else{
+    getTermClasses(
+    sessionIdQueryParam,
+    termIdQueryParam
+    )(dispatch);
+  }
+  }, [sessionIdQueryParam,activeSession, dispatch]);
 
   return (
     <>
@@ -74,7 +76,11 @@ const PublishResult = () => {
               <Card.Body>
                 {/* {!isPreviewMode ? ( */}
                 <Formik
-                  initialValues={initialValues}
+                  initialValues={{
+                    sessionId: sessionIdQueryParam,
+                    sessionTermId: termIdQueryParam,
+                    sessionClassId: sessionClassIdQueryParam,
+                  }}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
@@ -82,7 +88,9 @@ const PublishResult = () => {
                       values.sessionClassId,
                       values.sessionTermId
                     )(dispatch);
-                    history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`);
+                    history.push(
+                      `${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`
+                    );
                   }}
                 >
                   {({
@@ -113,12 +121,13 @@ const PublishResult = () => {
                             values={values.sessionId}
                             onChange={(e) => {
                               setFieldValue("sessionId", e.target.value);
-                              setSelectedSession(
-                                sessionList.find(
-                                  (s) =>
-                                    s.sessionId.toLowerCase() === e.target.value
-                                )
-                              );
+                              history.push(`${resultManagement.publishResult}?sessionId=${e.target.value}`)
+                              // setSelectedSession(
+                              //   sessionList.find(
+                              //     (s) =>
+                              //       s.sessionId.toLowerCase() === e.target.value
+                              //   )
+                              // );
                             }}
                           >
                             <option value="">Select Session</option>
@@ -152,22 +161,29 @@ const PublishResult = () => {
                             value={values.sessionTermId}
                             onChange={(e) => {
                               setFieldValue("sessionTermId", e.target.value);
-                              setSessionTermId(e.target.value);
-                              getTermClasses(
-                                selectedSession?.sessionId,
-                                e.target.value
-                              )(dispatch);
+                              history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
+                              // getTermClasses(
+                              //   selectedSession?.sessionId,
+                              //   e.target.value
+                              // )(dispatch);
                             }}
                           >
                             <option value="">Select Term</option>
-                            {selectedSession?.terms?.map((term, idx) => (
-                              <option
-                                key={idx}
-                                name={values.sessionTermId}
-                                value={term.sessionTermId}
-                              >
-                                {term.termName}
-                              </option>
+                            {sessionList
+                              ?.find(
+                                (session, idx) =>
+                                  session.sessionId.toLowerCase() ===
+                                  values.sessionId
+                              )
+                              ?.terms.map((term, id) => (
+                                <option
+                                  key={id}
+                                  name={values.terms}
+                                  value={term.sessionTermId.toLowerCase()}
+                                  selected={term.sessionTermId === values.terms}
+                                >
+                                  {term.termName}
+                                  </option>
                             ))}
                           </Field>
                         </Col>
@@ -187,9 +203,9 @@ const PublishResult = () => {
                             name="sessionClassId"
                             className="form-select"
                             id="sessionClassId"
-                            onChange={(e)=>{
-                              setFieldValue("sessionClassId",e.target.value);
-                              setSessionClassId(e.target.value);
+                            onChange={(e) => {
+                              setFieldValue("sessionClassId", e.target.value);
+                              history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Class</option>

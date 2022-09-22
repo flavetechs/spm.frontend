@@ -9,7 +9,7 @@ import {
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../../store/actions/results-actions";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { resultManagement } from "../../../router/spm-path-locations";
 
@@ -22,6 +22,11 @@ const ScoreEntry = () => {
   const history = useHistory();
   const state = useSelector((state) => state);
   const { staffClasses, staffClassSubjects } = state.results;
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const subjectIdQueryParam = queryParams.get("subjectId") || "";
+
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -48,8 +53,8 @@ const ScoreEntry = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionClassId: "",
-                    subjectId: "",
+                    sessionClassId: sessionClassIdQueryParam,
+                    subjectId: subjectIdQueryParam,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -128,6 +133,7 @@ const ScoreEntry = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
+                              history.push(`${resultManagement.scoreEntry}?sessionClassId=${e.target.value}`)
                               e.target.value !== ""&&
                               getStaffClassSubjects(e.target.value)(dispatch);
                             }}
@@ -162,6 +168,7 @@ const ScoreEntry = () => {
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
+                              history.push(`${resultManagement.scoreEntry}?sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Subject</option>
