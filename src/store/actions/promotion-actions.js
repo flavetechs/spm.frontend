@@ -80,7 +80,7 @@ export const getAllPromotionList = () => (dispatch) => {
     }).catch(err => {
         dispatch({
             type: actions.FETCH_PROMOTION_FAILED,
-            payload: err.response.data.result
+            payload: [err.responseOne.data.result, err.responseTwo.data.result]
         })
     });
 }
