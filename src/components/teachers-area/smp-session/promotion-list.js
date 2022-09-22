@@ -29,7 +29,7 @@ const PromotionSetup = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { promotionList } = state.promotion;
+  const { promotionList, resultSettingsItem } = state.promotion;
   const { itemList: classesToPromoteTo } = state.class;
   const { activeSession } = state.session;
   const { dialogResponse } = state.alert;
@@ -57,8 +57,8 @@ const PromotionSetup = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,classToPromote,classToPromoteTo.sessionClassId, dispatch]);
- 
+  }, [dialogResponse, classToPromote, classToPromoteTo.sessionClassId, dispatch]);
+
   return (
     <>
       <div>
@@ -68,6 +68,13 @@ const PromotionSetup = () => {
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
                   <h4 className="card-title">Promotion Management</h4>
+                </div>
+                <div className="header-title">
+                    {resultSettingsItem.promoteAll ? 
+                      <h4>Promote All Students</h4>
+                     : 
+                      <h4>Promote Students By Pass Mark</h4>
+                    }
                 </div>
               </Card.Header>
               <Card.Body className="px-0">
@@ -129,7 +136,7 @@ const PromotionSetup = () => {
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details" 
+                                  data-original-title="Details"
                                 >
                                   {item.totalStudentsPassed}
                                 </a>
@@ -152,7 +159,7 @@ const PromotionSetup = () => {
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details" 
+                                  data-original-title="Details"
                                 >
                                   {item.totalStudentsFailed}
                                 </a>
