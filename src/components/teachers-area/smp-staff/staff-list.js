@@ -23,6 +23,7 @@ const StaffList = () => {
   const dispatch = useDispatch();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -30,6 +31,25 @@ const StaffList = () => {
   const { staffList, selectedIds } = state.staff;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
+
+  const filteredStaffList = staffList.filter((staffs) => {
+    if (searchQuery === "") {
+      //if query is empty
+      return staffs;
+    } else if (
+      staffs.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return staffs;
+    } else if (staffs.lastName.toLowerCase().includes(searchQuery.toLowerCase())) {
+      //returns filtered array
+      return staffs;
+    } else if (staffs.email.toLowerCase().includes(searchQuery.toLowerCase())) {
+      //returns filtered array
+      return staffs;
+    }
+
+  });
 
   React.useEffect(() => {
     getAllStaffAccount()(dispatch);
@@ -91,11 +111,53 @@ const StaffList = () => {
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
-                  <h4 className="card-title">
+                  <h4 className="card-title mb-3">
                     <b>Staff List</b>
                   </h4>
                 </div>
               </Card.Header>
+              <div className="d-md-flex justify-content-between">
+                <div>
+                  <div className="input-group">
+                    <span
+                      className="input-group-text border-0"
+                      id="search-input"
+                    >
+                      <svg
+                        width="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="11.7669"
+                          cy="11.7666"
+                          r="8.98856"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></circle>
+                        <path
+                          d="M18.0186 18.4851L21.5426 22"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </span>
+                    <div>
+                      <input
+                        type="search"
+                        className="form-control text-lowercase"
+                        placeholder="Search..."
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
               {hasAccess(NavPermissions.deleteStaff) && (
                 <div className="d-flex justify-content-end">
                   {showDeleteButton ? (
@@ -213,6 +275,8 @@ const StaffList = () => {
                   )}
                 </div>
               )}
+              </div>
+              </div>
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -257,7 +321,7 @@ const StaffList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {staffList.map((item, idx) => (
+                      {filteredStaffList.map((item, idx) => (
                         <tr key={idx}>
                           <td className="text-dark">
                             {showCheckBoxes ? (

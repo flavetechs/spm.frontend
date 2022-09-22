@@ -2,7 +2,6 @@ import { Card, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation  } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { showErrorToast } from "../../../../store/actions/toaster-actions";
 export function ClassAssessmentList(props) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -72,19 +71,9 @@ export function ClassAssessmentList(props) {
                                         
                                         <div
                                             onClick={() => {
-                                                if (!props.typeQueryParam) {
-                                                    showErrorToast("Assessment Type is required")(dispatch);
-                                                    return;
-                                                  }
-                                                  if (!props.sessionClassIdQueryParam) {
-                                                    showErrorToast("Class is required")(dispatch);
-                                                    return;
-                                                  }
-                                                 else{
                                                 history.push(
                                                     `${classLocations.editClassAssessment}?classAssessmentId=${props.item.classAssessmentId}&sessionClassSubjectId=${props.item.sessionClassSubjectId}&sessionClassId=${props.item.sessionClassId}&type=${typeQueryParam}`
                                                 );
-                                                  }
                                                 props.setShowMenuDropdown(false);
                                             }}
                                             className="dropdown-item"

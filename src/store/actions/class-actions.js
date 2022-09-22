@@ -1950,11 +1950,11 @@ export const submitHomeAssessmentScore = (homeAssessmentFeedBackId, score, homeA
                 type: actions.SUBMIT_ASSESSMENT_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
-            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+           showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
         });
 }
 
-export const submitStudentAssessment = (formData) => (dispatch) => {
+export const submitStudentAssessment = (formData,status) => (dispatch) => {
     dispatch({
         type: actions.SUBMIT_ASSESSMENT_LOADING
     });
@@ -1966,12 +1966,14 @@ export const submitStudentAssessment = (formData) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
+            getStatusFilterForStudentAssessment(status)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.SUBMIT_ASSESSMENT_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
+        
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
         });
 }

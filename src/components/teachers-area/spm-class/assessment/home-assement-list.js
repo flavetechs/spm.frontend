@@ -2,7 +2,6 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory  } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { showErrorToast } from "../../../../store/actions/toaster-actions";
 export function HomeAssessmentList(props) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -65,19 +64,9 @@ export function HomeAssessmentList(props) {
                                     >
                                         <div
                                             onClick={() => {
-                                                if (!props.typeQueryParam) {
-                                                    showErrorToast("Assessment Type is required")(dispatch);
-                                                    return;
-                                                  }
-                                                  if (!props.sessionClassIdQueryParam) {
-                                                    showErrorToast("Class is required")(dispatch);
-                                                    return;
-                                                  }
-                                                 else{
                                                 history.push(
-                                                    `${classLocations.homeAssessmentDetails}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassId=${props.sessionClassIdQueryParam}&type=${props.typeQueryParam}`
+                                                    `${classLocations.homeAssessmentDetails}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassId=${props.item.sessionClassId}&sessionClassSubjectId=${props.sessionClassSubjectIdQueryParam}&groupId=${props.groupIdQueryParam}&type=${props.typeQueryParam}`
                                                 )
-                                                  }
                                                 props.setShowMenuDropdown(false);
                                             }}
                                             className="dropdown-item"
@@ -126,19 +115,9 @@ export function HomeAssessmentList(props) {
                                         </div>
                                         <div
                                             onClick={() => {
-                                                if (!props.typeQueryParam) {
-                                                    showErrorToast("Assessment Type is required")(dispatch);
-                                                    return;
-                                                  }
-                                                  if (!props.sessionClassIdQueryParam) {
-                                                    showErrorToast("Class is required")(dispatch);
-                                                    return;
-                                                  }
-                                                 else{
                                                 history.push(
-                                                    `${classLocations.editHomeAssessment}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassSubjectId=${props.sessionClassSubjectIdQueryParam}&sessionClassId=${props.sessionClassIdQueryParam}&type=${props.typeQueryParam}`
+                                                    `${classLocations.editHomeAssessment}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassSubjectId=${props.item.sessionClassSubjectId}&sessionClassId=${props.item.sessionClassId}&type=${props.typeQueryParam}`
                                                 );
-                                             }
                                                 props.setShowMenuDropdown(false);
                                             }}
                                             className="dropdown-item"

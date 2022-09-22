@@ -68,7 +68,7 @@ const AttendanceRegisterList = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse,dispatch]);
+  }, [dialogResponse, dispatch]);
 
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
@@ -77,7 +77,7 @@ const AttendanceRegisterList = () => {
       getAllClassRegister(sessionClassIdQuery)(dispatch);
       setSessionClassId(sessionClassIdQuery);
     }
-  }, [sessionClassIdQuery,dispatch]);
+  }, [sessionClassIdQuery, dispatch]);
 
   const filteredClassRegister = classRegister?.filter((register) => {
     if (searchQuery === "") {
@@ -105,13 +105,13 @@ const AttendanceRegisterList = () => {
         `${classLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
       );
     }
-  }, [createSuccessful,newClassRegister?.classRegisterId,dispatch,history]);
+  }, [createSuccessful, newClassRegister?.classRegisterId, dispatch, history]);
 
   React.useEffect(() => {
     if (!sessionClassIdQuery) {
       resetclassRegisterState()(dispatch);
     }
-  }, [sessionClassIdQuery,dispatch]);
+  }, [sessionClassIdQuery, dispatch]);
 
   return (
     <>
@@ -130,16 +130,21 @@ const AttendanceRegisterList = () => {
                 }}
                 enableReinitialize={true}
                 onSubmit={(values) => {
-                  if(!values.sessionClassId || !sessionClassIdQuery ){
-                    showErrorToast("Class is required")(dispatch)
-                  }else{ createRegister(values)(dispatch);}
-                 
+                  if (!values.sessionClassId || !sessionClassIdQuery) {
+                    showErrorToast("Class is required")(dispatch);
+                  } else {
+                    createRegister(values)(dispatch);
+                  }
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
                   <Card.Body className="px-0 bg-transparent">
                     <Card>
-                      <Card.Body>
+                      <Card.Body
+                        onClick={() => {
+                          setShowMenuDropdown(false);
+                        }}
+                      >
                         <div className="d-flex align-items-center justify-content-between flex-wrap">
                           <div className="mb-md-0 mb-2 d-flex align-items-center">
                             <div className="input-group search-input">
@@ -185,7 +190,6 @@ const AttendanceRegisterList = () => {
                           </div>
                           <div className="d-flex align-items-center flex-wrap">
                             <div className=" me-3 dropdown">
-                          
                               <Field
                                 as="select"
                                 name="sessionClassId"
@@ -415,52 +419,54 @@ const AttendanceRegisterList = () => {
                                           </svg>
                                           Rename
                                         </div>
-                                        {hasAccess(NavPermissions.deleteClassRegister) && (
-                                        <div
-                                          onClick={() => {
-                                            setClassRegisterId(
-                                              register.classRegisterId
-                                            );
-                                            showHideDialog(
-                                              true,
-                                              "Are you sure you want to delete class register"
-                                            )(dispatch);
-                                          }}
-                                          className="dropdown-item"
-                                          role="button"
-                                          draggable="false"
-                                        >
-                                          <svg
-                                            width="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="me-2"
+                                        {hasAccess(
+                                          NavPermissions.deleteClassRegister
+                                        ) && (
+                                          <div
+                                            onClick={() => {
+                                              setClassRegisterId(
+                                                register.classRegisterId
+                                              );
+                                              showHideDialog(
+                                                true,
+                                                "Are you sure you want to delete class register"
+                                              )(dispatch);
+                                            }}
+                                            className="dropdown-item"
+                                            role="button"
+                                            draggable="false"
                                           >
-                                            <path
-                                              d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              d="M20.708 6.23975H3.75"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                            <path
-                                              d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                            ></path>
-                                          </svg>
-                                          Delete
-                                        </div>
+                                            <svg
+                                              width="20"
+                                              viewBox="0 0 24 24"
+                                              fill="none"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              className="me-2"
+                                            >
+                                              <path
+                                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                                stroke="currentColor"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              ></path>
+                                              <path
+                                                d="M20.708 6.23975H3.75"
+                                                stroke="currentColor"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              ></path>
+                                              <path
+                                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                                stroke="currentColor"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                              ></path>
+                                            </svg>
+                                            Delete
+                                          </div>
                                         )}
                                       </div>
                                     )}
