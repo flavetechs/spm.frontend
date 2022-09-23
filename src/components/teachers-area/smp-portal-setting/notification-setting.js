@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Tab, Col, Nav, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { boolean } from "yup";
 import { getNotificationSettingResult } from "../../../store/actions/portal-setting-action";
 import NotificationSettingActivities from "./notification-settings-activities";
 
@@ -149,25 +150,19 @@ const NotificationSetting = () => {
             </svg>
         },
     ];
-    
-    const [sendTrueOrFalse, setSendTrueOrFalse] = useState(null);
+
+    const [switchValue, setSwitchValue] = useState(false);
     const [activeStyleBoxShadow, setActiveStyleBoxShadow] = useState(false);
     const dispatch = useDispatch();
     const [selectedNotificationSetting, setSelectedNotificationSetting] = useState({ title: '', desc: '', name: '' });
-    const [sendData, setSendData] = useState(Object.keys(notificationSettingResult));
-    const [ currentSend, setCurrentSend] = useState(notificationSettingResult)
     //VARIABLE DECLARATIONS
 
-    React.useEffect(() => {
-        setSendData(notificationSettingResult);
-        setCurrentSend(notificationSettingResult);
-    }, [notificationSettingResult]);
 
     function handleStylingEffect() {
         setActiveStyleBoxShadow(true);
         setTimeout(() => {
             setActiveStyleBoxShadow(false);
-        }, 500);
+        }, 1000);
     }
 
 
@@ -185,6 +180,7 @@ const NotificationSetting = () => {
                                                 onClick={() => {
                                                     setSelectedNotificationSetting({ title: item.title, desc: item.desc, name: item.name });
                                                     handleStylingEffect();
+                                                    // setSwitchValue(notificationSettingResult[item.name]?.send)
                                                 }}
                                             >
                                                 <Row className="">
@@ -200,11 +196,12 @@ const NotificationSetting = () => {
                                                             <Form.Check
                                                                 type="switch"
                                                                 id="custom-switch"
-                                                                checked={currentSend[item.name]?.send}
-                                                                onClick={(e) => {
-                                                                    currentSend[item.name].send = e.target.checked;
-                                                                    setCurrentSend(currentSend);
-                                                                    setSendTrueOrFalse( currentSend[item.name].send = e.target.checked);
+                                                                defaultValue={notificationSettingResult[item.name]?.send}
+                                                                defaultChecked={notificationSettingResult[item.name]?.send}
+                                                                onChange={(e) => {
+                                                                    notificationSettingResult[item.name].send = !notificationSettingResult[item.name].send;
+                                                                    setSwitchValue(notificationSettingResult);
+                                                                    console.log('notificationSettingResult', notificationSettingResult[item.name]);
                                                                 }}
                                                             />
                                                         </Form>
@@ -234,8 +231,7 @@ const NotificationSetting = () => {
                                         selectedNotificationSetting={selectedNotificationSetting}
                                         activeStyleBoxShadow={activeStyleBoxShadow}
                                         notificationSettingResult={notificationSettingResult}
-                                        sendTrueOrFalse={sendTrueOrFalse}
-                                        currentSend={currentSend}
+                                        switchValue={switchValue}
                                     />}
                             </Col>
                         </Row>
