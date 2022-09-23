@@ -6,5 +6,6 @@ export const _state = {
     selectedIds: [],
     selectedItem: null,
     passedStudentList: null,
-    failedStudentList: null
+    failedStudentList: null,
+    resultSettingsItem: {},
 }

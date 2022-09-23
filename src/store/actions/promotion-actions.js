@@ -60,26 +60,29 @@ export const fetchFailedStudentList = (studentIds) => dispatch => {
         });
 }
 
-
-
 //PROMOTION ACTION HANDLERS
+
 export const getAllPromotionList = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_PROMOTION_LOADING
     });
 
-    axiosInstance.get('/promotion/api/v1/get/previous/session-classes')
-        .then((res) => {
-            dispatch({
-                type: actions.FETCH_PROMOTION_SUCCESS,
-                payload: res.data.result
-            });
-        }).catch(err => {
-            dispatch({
-                type: actions.FETCH_PROMOTION_FAILED,
-                payload: err.response.data.result
-            })
+    let promotionUrl = axiosInstance.get('/promotion/api/v1/get/previous/session-classes')
+    let resultSettingUrl = axiosInstance.get('/portalsetting/api/v1/get/result-settings')
+
+    Promise.all([promotionUrl, resultSettingUrl]).then((responses) => {
+        const responseOne = responses[0]
+        const responseTwo = responses[1]
+        dispatch({
+            type: actions.FETCH_PROMOTION_SUCCESS,
+            payload: [responseOne.data.result, responseTwo.data.result]
         });
+    }).catch(err => {
+        dispatch({
+            type: actions.FETCH_PROMOTION_FAILED,
+            payload: [err.responseOne.data.result, err.responseTwo.data.result]
+        })
+    });
 }
 
 
