@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Card, Col, Form, Row } from "react-bootstrap";
+import { Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { studentsLocations } from "../../../../router/spm-path-locations";
 import {
   createClassGroup,
   getAllClassStudents,
@@ -89,6 +90,7 @@ const AddClassGroup = () => {
                           Students
                         </th>
                         <th className="text-center">Select</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -107,6 +109,59 @@ const AddClassGroup = () => {
                                 handleStudentContactIds(e);
                               }}
                             />
+                          </td>
+                          <td>
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id="button-tooltip-2">
+                                  {" "}
+                                  Student Details
+                                </Tooltip>
+                              }
+                            >
+                              <Link
+                                className="btn btn-sm btn-icon btn-success"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="Details"
+                                to={`${studentsLocations.studentDetails}?studentAccountId=${item.studentAccountId}`}
+                              >
+                                <span className="btn-inner">
+                                  <svg
+                                    width="32"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                    <path
+                                      d="M11.9946 16V12"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                    <path
+                                      d="M11.9896 8.2041H11.9996"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </svg>
+                                </span>
+                              </Link>
+                            </OverlayTrigger>
                           </td>
                         </tr>
                       ))}

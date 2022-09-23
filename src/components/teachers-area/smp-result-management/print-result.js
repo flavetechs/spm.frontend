@@ -8,7 +8,7 @@ import {
 } from "../../../store/actions/session-actions";
 import { getTermClasses } from "../../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getSinglePrintResult } from "../../../store/actions/results-actions";
 import { resultManagement } from "../../../router/spm-path-locations";
 
@@ -18,6 +18,12 @@ const PrintResult = () => {
   const history = useHistory();
   const [printSingle, setPrintSingle] = useState(false);
   const [batchPrint, setBatchPrint] = useState(false);
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionIdQueryParam = queryParams.get("sessionId") || "";
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const termIdQueryParam = queryParams.get("termId") || "";
+  const printOptionQueryParam = queryParams.get("printOption") || "";
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -25,15 +31,6 @@ const PrintResult = () => {
   const { termClasses } = state.publish;
   const { studentResult } = state.results;
   const { activeSession, sessionList } = state.session;
-  const [selectedSession, setSelectedSession] = useState(null);
-  const [initialValues, setInitialValues] = useState({
-    sessionId: "",
-    sessionTermId: "",
-    sessionClassId: "",
-    printOption: "",
-    studentRegNo: "",
-    ePin: "",
-  });
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -69,17 +66,21 @@ const PrintResult = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    setSelectedSession(activeSession);
-    initialValues.sessionId = activeSession?.sessionId;
-    initialValues.sessionTermId = activeSession?.terms.find(
-      (term) => term.isActive === true
-    )?.sessionTermId;
-    setInitialValues(initialValues);
+    if (!sessionIdQueryParam) {
     getTermClasses(
       activeSession?.sessionId,
       activeSession?.sessionTermId
     )(dispatch);
-  }, [activeSession, dispatch]);
+    history.push(`${resultManagement.printResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
+      (term) => term.isActive === true
+    )?.sessionTermId}`)
+    }else {
+      getTermClasses(
+      sessionIdQueryParam,
+      termIdQueryParam
+      )(dispatch);
+      }
+  }, [sessionIdQueryParam, activeSession, dispatch]);
 
   React.useEffect(() => {
     if (printSingle && studentResult) {
@@ -99,7 +100,14 @@ const PrintResult = () => {
             </Card.Header>
             <Card.Body>
               <Formik
-                initialValues={initialValues}
+                initialValues={{ 
+                  sessionId: sessionIdQueryParam,
+                sessionTermId: termIdQueryParam,
+                sessionClassId: sessionClassIdQueryParam,
+                printOption: printOptionQueryParam,
+                studentRegNo: "",
+                ePin: "",
+              }}
                 validationSchema={validation}
                 enableReinitialize={true}
                 onSubmit={(values) => {
@@ -136,12 +144,7 @@ const PrintResult = () => {
                           values={values.sessionId}
                           onChange={(e) => {
                             setFieldValue("sessionId", e.target.value);
-                            setSelectedSession(
-                              sessionList.find(
-                                (s) =>
-                                  s.sessionId.toLowerCase() === e.target.value
-                              )
-                            );
+                            history.push(`${resultManagement.printResult}?sessionId=${e.target.value}`)
                           }}
                         >
                           <option value="">Select Session</option>
@@ -175,21 +178,29 @@ const PrintResult = () => {
                           value={values.sessionTermId}
                           onChange={(e) => {
                             setFieldValue("sessionTermId", e.target.value);
-                            getTermClasses(
-                              selectedSession?.sessionId,
-                              e.target.value
-                            )(dispatch);
+                            history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
+                            // getTermClasses(
+                            //   selectedSession?.sessionId,
+                            //   e.target.value
+                            // )(dispatch);
                           }}
                         >
                           <option value="">Select Term</option>
-                          {selectedSession?.terms?.map((term, idx) => (
-                            <option
-                              key={idx}
-                              name={values.sessionTermId}
-                              value={term.sessionTermId}
-                            >
-                              {term.termName}
-                            </option>
+                          {sessionList
+                              ?.find(
+                                (session, idx) =>
+                                  session.sessionId.toLowerCase() ===
+                                  values.sessionId
+                              )
+                              ?.terms.map((term, id) => (
+                                <option
+                                  key={id}
+                                  name={values.terms}
+                                  value={term.sessionTermId.toLowerCase()}
+                                  selected={term.sessionTermId === values.terms}
+                                >
+                                  {term.termName}
+                                </option>
                           ))}
                         </Field>
                       </Col>
@@ -211,6 +222,7 @@ const PrintResult = () => {
                           id="printOption"
                           onChange={(e) => {
                             setFieldValue("printOption", e.target.value);
+                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}`)
                             if (e.target.value === "printSingle") {
                               setPrintSingle(true);
                               setBatchPrint(false);
@@ -288,6 +300,7 @@ const PrintResult = () => {
                               id="sessionClassId"
                               onChange={(e) => {
                                 setFieldValue("sessionClassId", e.target.value);
+                                history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
                                 // getAllResultList(
                                 //   e.target.value,
                                 //   values.sessionTermId

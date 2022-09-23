@@ -7,6 +7,7 @@ import {
   getAllSingleHomeAssessment,
   submitHomeAssessmentScore,
 } from "../../../../store/actions/class-actions";
+import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 
 const ViewStudentsAssessment = () => {
@@ -36,7 +37,7 @@ const ViewStudentsAssessment = () => {
       sessionClassIdQuery
     )(dispatch);
     setScore("");
-  }, [homeAssessmentFeedBackIdQuery,homeAssessmentIdQuery,sessionClassIdQuery,dispatch]);
+  }, []);
 
   return (
     <>
@@ -61,8 +62,8 @@ const ViewStudentsAssessment = () => {
                             `${
                               classLocations.homeAssessmentDetails
                             }?homeAssessmentId=${
-                              singleHomeAssessmentList.homeAssessmentId
-                            }&sessionClassId=${sessionClassIdQuery}&type=${"home assessment"}`
+                              singleHomeAssessmentList?.homeAssessmentId
+                            }&sessionClassId=${singleHomeAssessmentList?.sessionClassId}&type=${"home-assessment"}`
                           );
                         }}
                         style={{ cursor: "pointer" }}
@@ -259,8 +260,8 @@ const ViewStudentsAssessment = () => {
                       `${
                         classLocations.homeAssessmentDetails
                       }?homeAssessmentId=${
-                        singleHomeAssessmentList.homeAssessmentId
-                      }&sessionClassId=${sessionClassIdQuery}&type=${"home assessment"}`
+                        singleHomeAssessmentList?.homeAssessmentId
+                      }&sessionClassId=${singleHomeAssessmentList?.sessionClassId}&type=${"home-assessment"}`
                     );
                   }}
                 >
@@ -271,12 +272,16 @@ const ViewStudentsAssessment = () => {
                   type="button"
                   className="btn btn-primary btn-sm my-3 mx-2"
                   onClick={() => {
+                    if(score){
                     submitHomeAssessmentScore(
                       homeAssessmentFeedBackIdQuery,
                       score,
                       homeAssessmentIdQuery,
                       sessionClassIdQuery
                     )(dispatch);
+                    }else{
+                    showErrorToast("Please Enter Mark")(dispatch);
+                    }
                     scrollToStudentList();
                   }}
                 >

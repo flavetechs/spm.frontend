@@ -27,26 +27,25 @@ const StudentAssessmentDetails = () => {
   const statusQuery = queryParams.get("status");
   useEffect(() => {
     if (homeAssessmentFeedBackIdQuery !== "null") {
-      getSingleStudentHomeAssessment(
-        homeAssessmentFeedBackIdQuery
-      )(dispatch);
+   getSingleStudentHomeAssessment(
+    homeAssessmentFeedBackIdQuery
+  )(dispatch);
     } else {
-      getSingleHomeAssessment(homeAssessmentIdQuery, "")(dispatch)
+      getSingleHomeAssessment(homeAssessmentIdQuery,"")(dispatch)
     }
-  }, [homeAssessmentFeedBackIdQuery, homeAssessmentIdQuery, dispatch]);
-
-  
-  React.useEffect(() => {
-    setContent(homeAssessmentFeedBackIdQuery !== "null" && studentSingleHomeAssessmentList?.content);
-  }, [studentSingleHomeAssessmentList, homeAssessmentFeedBackIdQuery]);
+  }, [ homeAssessmentFeedBackIdQuery,homeAssessmentIdQuery,dispatch]);
 
   React.useEffect(() => {
-    createSuccessful && history.push(
-      `${assessmentLocations.assessment}?status=${-1}`
+    setContent(homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessmentList?.content);
+  }, [studentSingleHomeAssessmentList,homeAssessmentFeedBackIdQuery]);
+
+  React.useEffect(() => {
+    createSuccessful &&  history.push(
+      `${assessmentLocations.assessment}?status=${studentSingleHomeAssessmentList?.status}`
     );
     setFilesArray([]);
-  }, [createSuccessful, history, studentSingleHomeAssessmentList?.status]);
-
+  }, [createSuccessful,history,studentSingleHomeAssessmentList?.status]);
+  
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({
     toolbar: {
@@ -66,10 +65,10 @@ const StudentAssessmentDetails = () => {
   }), []);
 
   const createFileArray = (event) => {
-    const newFiles = event.target.files[0];
-    const previousFiles = filesArray.filter(i => i !== newFiles);
-    const files = [...previousFiles, newFiles]
-    setFilesArray(files);
+const newFiles = event.target.files[0];
+const previousFiles = filesArray.filter(i=>i !== newFiles);
+const files = [...previousFiles,newFiles]
+setFilesArray(files);
   }
 
   return (
@@ -85,15 +84,29 @@ const StudentAssessmentDetails = () => {
               <Card.Body>
                 <div className="d-flex justify-content-between mt-3 flex-wrap">
                   <div>
-                    <button
-                      type="button"
-                      className="btn btn-danger btn-sm mx-2"
-                      onClick={() => {
-                        history.goBack();
-                      }}
+                  <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
                     >
-                      Back
-                    </button>
+                      <svg
+                        onClick={() => {
+                          history.goBack();
+                        }}
+                        style={{ cursor: "pointer" }}
+                        className=" text-primary"
+                        width="32"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M13.165 11.9934L13.1634 11.6393C13.1513 10.2348 13.0666 8.98174 12.9206 8.18763C12.9206 8.17331 12.7613 7.38572 12.6599 7.12355C12.5006 6.74463 12.2126 6.42299 11.8515 6.2192C11.5624 6.0738 11.2592 6 10.9417 6C10.6922 6.01157 10.2806 6.13714 9.98692 6.24242L9.74283 6.33596C8.12612 6.97815 5.03561 9.07656 3.85199 10.3598L3.76473 10.4495L3.37527 10.8698C3.12982 11.1915 3 11.5847 3 12.0077C3 12.3866 3.11563 12.7656 3.3469 13.0718C3.41614 13.171 3.52766 13.2983 3.62693 13.4058L4.006 13.8026C5.31046 15.1243 8.13485 16.9782 9.59883 17.5924C9.59883 17.6057 10.5086 17.9857 10.9417 18H10.9995C11.6639 18 12.2846 17.6211 12.6021 17.0086C12.6888 16.8412 12.772 16.5132 12.8352 16.2252L12.949 15.6813C13.0788 14.8067 13.165 13.465 13.165 11.9934ZM19.4967 13.5183C20.3269 13.5183 21 12.8387 21 12.0004C21 11.1622 20.3269 10.4825 19.4967 10.4825L15.7975 10.8097C15.1463 10.8097 14.6183 11.3417 14.6183 12.0004C14.6183 12.6581 15.1463 13.1912 15.7975 13.1912L19.4967 13.5183Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </OverlayTrigger>
                     {!fullScreen ? (
                       <OverlayTrigger
                         placement="top"
@@ -151,11 +164,11 @@ const StudentAssessmentDetails = () => {
                   <div>
                     Deadline:
                     <span className="text-end text-primary">
-                      {studentSingleHomeAssessmentList?.assessment.dateDeadLine}{' '}{studentSingleHomeAssessmentList?.assessment.timeDeadLine}
+                    {studentSingleHomeAssessmentList?.assessment.dateDeadLine}{' '}{studentSingleHomeAssessmentList?.assessment.timeDeadLine}
                     </span>
                   </div>
                 </div>
-                <div className="d-flex justify-content-start my-4">
+              <div className="d-flex justify-content-start my-4">
                   <div>
                     <button
                       type="button"
@@ -205,7 +218,7 @@ const StudentAssessmentDetails = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
+                      {homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
                     </span>
                     <br />
                   </div>
@@ -213,148 +226,148 @@ const StudentAssessmentDetails = () => {
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
                   }}
                 ></div>
                 <hr />
                 <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
                 <div
-                  style={{ minHeight: "25vh" }}
+                 style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
                   }}
                 ></div>
                 <hr />
                 <Formik
-                  initialValues={{
-                    files: homeAssessmentFeedBackIdQuery !== "null" && studentSingleHomeAssessmentList?.files,
-                    content: "",
-                    shouldSubmit: studentSingleHomeAssessmentList?.status === 3 ? true : false,
-                    homeAssessmentId: homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId,
-                    homeAssessmentFeedBackId: homeAssessmentFeedBackIdQuery !== "null" ? homeAssessmentFeedBackIdQuery : "",
-                  }}
-                  enableReinitialize={true}
-                  onSubmit={(values) => {
-                    if (!content) {
-                      showErrorToast('Body is required')(dispatch);
-                      return;
-                    }
-                    values.content = content;
-                    values.files = filesArray;
-                    const params = new FormData();
-                    params.append("files", values.files);
-                    params.append("content", values.content);
-                    params.append("shouldSubmit", values.shouldSubmit);
-                    params.append("homeAssessmentId", values.homeAssessmentId);
-                    params.append("homeAssessmentFeedBackId", values.homeAssessmentFeedBackId);
-                    submitStudentAssessment(params)(dispatch);
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    values,
-                    setFieldValue,
-                    touched,
-                    errors,
-                  }) => (
-                    <Form className="mx-auto">
-                      <div className="h5 text-secondary fw-bold mb-2"> Answer(s)</div>
-                      <Row className="d-flex justify-content-center">
-                        <Col md="11" className="form-group text-dark">
-                          <label className="form-label h6" >
-                            <b>Upload file:</b>
-                          </label>
-                          <input
-                            type="file"
-                            name="files"
-                            className="form-control border-secondary "
-                            id="files"
-                            multiple
-                            onChange={(event) => { createFileArray(event) }}
-                          />
-                        </Col>
-                        <Col md="11">
-                          {touched.content && errors.content && (
-                            <div className="text-danger">{errors.content}</div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group text-dark ">
-                          <label className="form-label d-flex justify-content-end h6">
-                            <OverlayTrigger
-                              placement="top"
-                              overlay={
-                                <Tooltip id="button-tooltip-2">
-                                  view full screen
-                                </Tooltip>
-                              }
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                className="mx-2"
+                      initialValues={{
+                        files:homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessmentList?.files,
+                        content: "",
+                        shouldSubmit: studentSingleHomeAssessmentList?.status === 3 ?true : false,
+                        homeAssessmentId:homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId ,
+                        homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !=="null" ? homeAssessmentFeedBackIdQuery: "" ,
+                      }}
+                      enableReinitialize={true}
+                      onSubmit={(values) => {
+                        if(!content){
+                          showErrorToast('Body is required')(dispatch);
+                          return;
+                        }
+                        values.content = content;
+                        values.files = filesArray;
+                        const params = new FormData();
+                        params.append("files",values.files);
+                        params.append("content",values.content);
+                        params.append("shouldSubmit",values.shouldSubmit);
+                        params.append("homeAssessmentId",values.homeAssessmentId);
+                        params.append("homeAssessmentFeedBackId",values.homeAssessmentFeedBackId);
+                        submitStudentAssessment(params,statusQuery)(dispatch);
+                      }}
+                    >
+                      {({
+                        handleSubmit,
+                        values,
+                        setFieldValue,
+                        touched,
+                        errors,
+                      }) => (
+                        <Form className="mx-auto">
+                        <div className="h5 text-secondary fw-bold mb-2"> Answer(s)</div>
+                          <Row className="d-flex justify-content-center">  
+                            <Col md="11" className="form-group text-dark">
+                              <label className="form-label h6" >
+                                <b>Upload file:</b>
+                              </label>
+                              <input
+                                type="file"
+                                name="files"
+                                className="form-control border-secondary "
+                                id="files"
+                                multiple
+                                onChange={(event)=>{ createFileArray(event) }}
+                              />
+                            </Col>
+                            <Col md="11">
+                              {touched.content && errors.content && (
+                                <div className="text-danger">{errors.content}</div>
+                              )}
+                            </Col>
+                            <Col md="11" className="form-group text-dark ">
+                              <label className="form-label d-flex justify-content-end h6">
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      view full screen
+                                    </Tooltip>
+                                  }
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    className="mx-2"
+                                    onClick={() => {
+                                      openFullscreen("note-editor");
+                                     // setFullScreen(true);
+                                    }}
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
+                                  </svg>
+                                </OverlayTrigger>
+                              </label>
+                              <ReactQuill
+                                theme="snow"
+                                value={content}
+                                onChange={setContent}
+                                modules={textEditorModules}
+                                id="note-editor"
+                                ref={elementRef}
+                                className="bg-white"
+                                style={{height: '300px'}}
+                              />
+                            </Col>
+    
+                        
+                            <Col md="11" className="form-group text-dark mt-5">
+                              <Field
+                                type="checkbox"
+                                name="shouldSubmit"
+                                className="form-check-input"
+                                id="shouldSubmit"
+                              />
+                                 <label className="form-label mx-1 h6">
+                                <b>Submit Assessment</b>
+                              </label>
+                            </Col>
+    
+                            <div className="d-flex justify-content-end">
+                              <Button
+                                type="button"
+                                className="btn-sm mt-4"
+                                variant="btn btn-danger"
                                 onClick={() => {
-                                  openFullscreen("note-editor");
-                                  // setFullScreen(true);
+                                  history.goBack();
                                 }}
-                                style={{ cursor: "pointer" }}
                               >
-                                <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
-                              </svg>
-                            </OverlayTrigger>
-                          </label>
-                          <ReactQuill
-                            theme="snow"
-                            value={content}
-                            onChange={setContent}
-                            modules={textEditorModules}
-                            id="note-editor"
-                            ref={elementRef}
-                            className="bg-white"
-                            style={{ height: '300px' }}
-                          />
-                        </Col>
-
-
-                        <Col md="11" className="form-group text-dark mt-5">
-                          <Field
-                            type="checkbox"
-                            name="shouldSubmit"
-                            className="form-check-input"
-                            id="shouldSubmit"
-                          />
-                          <label className="form-label mx-1 h6">
-                            <b>Submit Assessment</b>
-                          </label>
-                        </Col>
-
-                        <div className="d-flex justify-content-end">
-                          <Button
-                            type="button"
-                            className="btn-sm mt-4"
-                            variant="btn btn-danger"
-                            onClick={() => {
-                              history.goBack();
-                            }}
-                          >
-                            Back
-                          </Button>
-                          <Button
-                            type="button"
-                            className="btn-sm mx-2 mt-4"
-                            variant="btn btn-success"
-                            onClick={() => {
-                              handleSubmit();
-                            }}
-                          >
-                            Submit
-                          </Button>
-                        </div>
-                      </Row>
-                    </Form>
-                  )}
-                </Formik>
+                                Back
+                              </Button>
+                              <Button
+                                type="button"
+                                className="btn-sm mx-2 mt-4"
+                                variant="btn btn-success"
+                                onClick={() => {
+                                  handleSubmit();
+                                }}
+                              >
+                                Submit
+                              </Button>
+                            </div>
+                          </Row>
+                        </Form>
+                      )}
+                    </Formik>
               </Card.Body>
             </Card>
           </Col>
