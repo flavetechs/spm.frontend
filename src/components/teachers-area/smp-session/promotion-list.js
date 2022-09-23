@@ -177,7 +177,6 @@ const PromotionSetup = () => {
                                 <option defaultValue={""}>
                                   Select promotion class
                                 </option>
-                                {/* .slice(idx - 1, classesToPromoteTo.length) */}
                                 {classesToPromoteTo?.filter(d => d.class !== item.sessionClassName)
                                   .map((promoteTo, idx) => (
                                     <option
