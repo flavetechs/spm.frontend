@@ -21,12 +21,17 @@ import {
 } from "../../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { resultManagement } from "../../../router/spm-path-locations";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const AdminScoreEntry = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
-  const [sessionId, setSessionId] = useState("");
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const sessionIdQueryParam = queryParams.get("sessionId") || "";
+  const termIdQueryParam = queryParams.get("termId") || "";
+  const subjectIdQueryParam = queryParams.get("subjectId") || "";
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -52,12 +57,15 @@ const AdminScoreEntry = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if (!sessionId) {
+    if (!sessionIdQueryParam) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
+      history.push(`${resultManagement.adminScoreEntry}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
+        (term) => term.isActive === true
+      )?.sessionTermId}`)
     } else {
-      getAllSessionClasses(sessionId)(dispatch);
+      getAllSessionClasses(sessionIdQueryParam)(dispatch);
     }
-  }, [sessionId, activeSession,dispatch]);
+  }, [sessionIdQueryParam, activeSession,dispatch]);
 
   return (
     <>
@@ -73,7 +81,7 @@ const AdminScoreEntry = () => {
                   >
                     <svg
                       onClick={() => {
-                        history.goBack();
+                        history.push(resultManagement.scoreEntry)
                       }}
                       style={{ cursor: "pointer" }}
                       className=" text-primary"
@@ -97,12 +105,10 @@ const AdminScoreEntry = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionId: activeSession?.sessionId,
-                    terms: activeSession?.terms.find(
-                      (term) => term.isActive === true
-                    )?.sessionTermId,
-                    sessionClassId: "",
-                    subjectId: "",
+                    sessionId: sessionIdQueryParam,
+                    terms: termIdQueryParam,
+                    sessionClassId: sessionClassIdQueryParam,
+                    subjectId: subjectIdQueryParam,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -143,7 +149,7 @@ const AdminScoreEntry = () => {
                             id="sessionId"
                             onChange={(e) => {
                               setFieldValue("sessionId", e.target.value);
-                              setSessionId(e.target.value);
+                              history.push(`${resultManagement.adminScoreEntry}?sessionId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Session</option>
@@ -170,8 +176,12 @@ const AdminScoreEntry = () => {
                             name="terms"
                             className="form-select"
                             id="terms"
-                          >
-                            <option value="">Select Terms</option>
+                            onChange={(e)=>{
+                              setFieldValue("terms",e.target.value);
+                              history.push(`${resultManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)}
+                            }
+                              >
+                            <option value="">Select Term</option>
                             {sessionList
                               ?.find(
                                 (session, idx) =>
@@ -210,6 +220,7 @@ const AdminScoreEntry = () => {
                               setFieldValue("sessionClassId", e.target.value);
                               e.target.value !== ""&&
                               getStaffClassSubjects(e.target.value)(dispatch);
+                              history.push(`${resultManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Class</option>
@@ -239,7 +250,11 @@ const AdminScoreEntry = () => {
                             name="subjectId"
                             className="form-select"
                             id="subjectId"
-                          >
+                            onChange={(e)=>{
+                              setFieldValue("subjectId",e.target.value);
+                              history.push(`${resultManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`)}
+                            }
+                              >
                             <option value="">Select Subject</option>
                             {staffClassSubjects?.map((subject, idx) => (
                               <option

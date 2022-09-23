@@ -3,7 +3,7 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { getSingleHomeAssessment } from "../../../../store/actions/class-actions";
+import { getAllHomeAssessment, getSingleHomeAssessment } from "../../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 
 const HomeAssessmentDetails = () => {
@@ -19,14 +19,15 @@ const HomeAssessmentDetails = () => {
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
- // const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+ const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+ const groupIdQuery = queryParams.get("groupId");
 
   useEffect(() => {
     getSingleHomeAssessment(
       homeAssessmentIdQuery,
       sessionClassIdQuery
     )(dispatch);
-  }, [dispatch, homeAssessmentIdQuery, sessionClassIdQuery]);
+  }, []);
 
   return (
     <>
@@ -47,7 +48,10 @@ const HomeAssessmentDetails = () => {
                     >
                       <svg
                         onClick={() => {
-                          history.goBack();
+                          history.push(`${
+                            classLocations.assessment
+                          }
+                        ?sessionClassId=${singleHomeAssessmentList?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${"home-assessment"}`);
                         }}
                         style={{ cursor: "pointer" }}
                         className=" text-primary"

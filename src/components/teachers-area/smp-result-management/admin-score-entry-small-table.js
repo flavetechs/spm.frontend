@@ -81,31 +81,31 @@ const AdminScoreEntryTable = () => {
             <tbody>
               <tr>
                 <th className="h6">Class Name</th>
-                <td className="fw-bold">
+                <th className="fw-bold h6">
                   {previousScoreEntry?.sessionClassName}
-                </td>
+                </th>
               </tr>
               <tr>
                 <th className="h6 ">Subject Name</th>
-                <td className="fw-bold text-capitalize">
+                <th className="fw-bold text-capitalize h6">
                   {previousScoreEntry?.subjectName}
-                </td>
+                </th>
               </tr>
               <tr>
                 <th className="h6 ">Subject Teacher</th>
-                <td className="fw-bold text-capitalize">
+                <th className="fw-bold text-capitalize h6">
                   {previousScoreEntry?.subjectTeacher}
-                </td>
+                </th>
               </tr>
               <tr>
                 <th className="h6">Assessment Score</th>
-                <td className="fw-bold">
+                <th className="fw-bold h6">
                   {previousScoreEntry?.assessmentScore}
-                </td>
+                </th>
               </tr>
               <tr>
                 <th className="h6">Exam Score</th>
-                <td className="fw-bold">{previousScoreEntry?.examsScore}</td>
+                <th className="fw-bold h6">{previousScoreEntry?.examsScore}</th>
               </tr>
             </tbody>
           </Table>

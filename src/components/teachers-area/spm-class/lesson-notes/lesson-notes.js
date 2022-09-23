@@ -226,7 +226,7 @@ const LessonNotes = () => {
                                 id="classId"
                                 onChange={(e) => {
                                   setFieldValue("classId", e.target.value);
-                                  const sessionClassId = staffClasses.find(x => x.classId === e.target.value).sessionClassId;
+                                  const sessionClassId = staffClasses?.find(x => x.classId === e.target.value)?.sessionClassId;
                                   if (e.target.value) {
                                     setFieldValue("sessionClassId", sessionClassId);
                                   }

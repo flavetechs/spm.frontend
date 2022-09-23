@@ -35,19 +35,19 @@ const MasterListSmallTable = ({ masterEntry, setShowMasterListTable}) => {
             <tbody>
               <tr>
                 <th className="h6"style={{ border: "1px solid grey" }}>Session</th>
-                <td className="fw-bold" style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.session}</td>
+                <th className="fw-bold h6" style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.session}</th>
               </tr>
               <tr>
                 <th className="h6"style={{ border: "1px solid grey" }}>Term</th>
-                <td className="fw-bold text-capitalize"style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.termName}</td>
+                <th className="fw-bold text-capitalize h6"style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.termName}</th>
               </tr>
               <tr>
                 <th className="h6"style={{ border: "1px solid grey" }}>Class</th>
-                <td className="fw-bold text-capitalize"style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.sessionClass}</td>
+                <th className="fw-bold text-capitalize h6"style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.sessionClass}</th>
               </tr>
               <tr>
                 <th className="h6"style={{ border: "1px solid grey" }}>Form Teacher</th>
-                <td className="fw-bold text-capitalize"style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.formTeacher}</td>
+                <th className="fw-bold text-capitalize h6"style={{ border: "1px solid grey",fontWeight:"600" }}>{masterEntry?.formTeacher}</th>
               </tr>
             </tbody>
           </Table>

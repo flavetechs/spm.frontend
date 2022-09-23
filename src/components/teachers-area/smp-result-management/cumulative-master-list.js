@@ -15,12 +15,20 @@ import {
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import CumulativeMasterListLargeTable from "./cumulative-master-list-large-table";
 import CumulativeMasterListSmallTable from "./cumulative-master-list-small-table";
+import { useHistory, useLocation } from "react-router-dom";
+import { resultManagement } from "../../../router/spm-path-locations";
 
 const CumulativeMasterList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [showCumulativeMasterListTable, setShowCumulativeMasterListTable] =
     useState(false);
+    const locations = useLocation();
+    const history = useHistory();
+    const queryParams = new URLSearchParams(locations.search);
+    const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+    const sessionIdQueryParam = queryParams.get("sessionId") || "";
+    const termIdQueryParam = queryParams.get("termId") || "";
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -28,7 +36,6 @@ const CumulativeMasterList = () => {
   const { itemList: classList } = state.class;
   const { cumulativeEntry } = state.results;
   const { activeSession, sessionList } = state.session;
-  const [sessionId, setSessionId] = useState("");
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -50,12 +57,15 @@ const CumulativeMasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if (!sessionId) {
+    if (!sessionIdQueryParam) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
+      history.push(`${resultManagement.cumulativeMasterList}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
+        (term) => term.isActive === true
+      )?.sessionTermId}`)
     } else {
-      getAllSessionClasses(sessionId)(dispatch);
+      getAllSessionClasses(sessionIdQueryParam)(dispatch);
     }
-  }, [activeSession,sessionId,dispatch]);
+  }, [activeSession,sessionIdQueryParam,dispatch]);
 
   React.useEffect(() => {
     if (cumulativeEntry) {
@@ -78,11 +88,9 @@ const CumulativeMasterList = () => {
                 <Card.Body>
                   <Formik
                     initialValues={{
-                      sessionId: activeSession?.sessionId,
-                      terms: activeSession?.terms.find(
-                        (term) => term.isActive === true
-                      )?.sessionTermId,
-                      sessionClassId: "",
+                      sessionId: sessionIdQueryParam,
+                    terms: termIdQueryParam,
+                    sessionClassId: sessionClassIdQueryParam,
                     }}
                     validationSchema={validation}
                     enableReinitialize={true}
@@ -123,7 +131,7 @@ const CumulativeMasterList = () => {
                               id="sessionId"
                               onChange={(e) => {
                                 setFieldValue("sessionId", e.target.value);
-                                setSessionId(e.target.value);
+                                history.push(`${resultManagement.cumulativeMasterList}?sessionId=${e.target.value}`)
                               }}
                             >
                               <option value="">Select Session</option>
@@ -155,6 +163,10 @@ const CumulativeMasterList = () => {
                               name="terms"
                               className="form-select"
                               id="terms"
+                              onChange={(e)=>{
+                                setFieldValue("terms",e.target.value);
+                                history.push(`${resultManagement.cumulativeMasterList}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)}
+                              }
                             >
                               <option value="">Select Terms</option>
                               {sessionList
@@ -197,6 +209,10 @@ const CumulativeMasterList = () => {
                               name="sessionClassId"
                               className="form-select"
                               id="sessionClassId"
+                              onChange={(e) => {
+                                setFieldValue("sessionClassId", e.target.value);
+                                history.push(`${resultManagement.cumulativeMasterList}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
+                              }}
                             >
                               <option value="">Select Class</option>
                               {classList?.map((item, idx) => (
