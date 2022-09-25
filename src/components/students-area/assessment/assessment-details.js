@@ -24,7 +24,7 @@ const StudentAssessmentDetails = () => {
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
-  const statusQuery = queryParams.get("status");
+ // const statusQuery = queryParams.get("status");
   useEffect(() => {
     if (homeAssessmentFeedBackIdQuery !== "null") {
    getSingleStudentHomeAssessment(
@@ -41,7 +41,7 @@ const StudentAssessmentDetails = () => {
 
   React.useEffect(() => {
     createSuccessful &&  history.push(
-      `${assessmentLocations.assessment}?status=${studentSingleHomeAssessmentList?.status}`
+      `${assessmentLocations.assessment}?status=${3}`
     );
     setFilesArray([]);
   }, [createSuccessful,history,studentSingleHomeAssessmentList?.status]);
@@ -260,7 +260,7 @@ setFilesArray(files);
                         params.append("shouldSubmit",values.shouldSubmit);
                         params.append("homeAssessmentId",values.homeAssessmentId);
                         params.append("homeAssessmentFeedBackId",values.homeAssessmentFeedBackId);
-                        submitStudentAssessment(params,statusQuery)(dispatch);
+                        submitStudentAssessment(params,3)(dispatch);
                       }}
                     >
                       {({

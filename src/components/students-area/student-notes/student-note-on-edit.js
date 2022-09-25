@@ -23,6 +23,7 @@ import {
 } from "../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
+import { studentNoteLocations } from "../../../router/students-path-locations";
 
 const EditStudentNote = () => {
   const history = useHistory();
@@ -31,15 +32,16 @@ const EditStudentNote = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
-  const { createSuccessful,  singleStudentNotes,subjectTeacher } = state.class;
+  const { createSuccessful,  singleStudentNotes,subjectTeacher} = state.class;
   const { staffList } = state.staff;
   //VALIDATION
   const validation = Yup.object().shape({
     noteTitle: Yup.string().required("Title is required"),
   });
   //VALIDATION
-  React.useEffect(() => {
-    createSuccessful && history.goBack();
+  useEffect(() => {
+    createSuccessful &&
+    history.goBack();
   }, [createSuccessful,history]);
 
   useEffect(() => {

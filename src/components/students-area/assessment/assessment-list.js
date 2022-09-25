@@ -63,6 +63,7 @@ const StudentAssessmentList = () => {
                             name="status"
                             className="form-select"
                             id="status"
+                            value={statusQuery}
                             onChange={(e) => {
                                 history.push(
                                   `${assessmentLocations.assessment}?status=${e.target.value}`

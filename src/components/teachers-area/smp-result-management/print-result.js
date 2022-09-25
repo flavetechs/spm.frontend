@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
@@ -60,12 +60,12 @@ const PrintResult = () => {
 
   //VALIDATION SCHEMA
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAllSession()(dispatch);
     getActiveSession()(dispatch);
   }, [dispatch]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!sessionIdQueryParam) {
     getTermClasses(
       activeSession?.sessionId,
@@ -82,12 +82,23 @@ const PrintResult = () => {
       }
   }, [sessionIdQueryParam, activeSession, dispatch]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (printOptionQueryParam === "printSingle") {
+      setPrintSingle(true);
+      setBatchPrint(false);
+    } else if (printOptionQueryParam === "batchPrinting") {
+      setBatchPrint(true);
+      setPrintSingle(false);
+    }
+  }, [printOptionQueryParam])
+  
+
+  useEffect(() => {
     if (printSingle && studentResult) {
       history.push(resultManagement.resultTemplate);
     }
   }, [studentResult, history]);
-
+  
   return (
     <>
       <div className="col-md-12 mx-auto d-flex justify-content-center">
@@ -222,14 +233,8 @@ const PrintResult = () => {
                           id="printOption"
                           onChange={(e) => {
                             setFieldValue("printOption", e.target.value);
-                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}`)
-                            if (e.target.value === "printSingle") {
-                              setPrintSingle(true);
-                              setBatchPrint(false);
-                            } else if (e.target.value === "batchPrinting") {
-                              setBatchPrint(true);
-                              setPrintSingle(false);
-                            }
+                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${e.target.value}`)
+                           
                           }}
                         >
                           <option value="">Select Print Option</option>
@@ -300,7 +305,7 @@ const PrintResult = () => {
                               id="sessionClassId"
                               onChange={(e) => {
                                 setFieldValue("sessionClassId", e.target.value);
-                                history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
+                               history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
                                 // getAllResultList(
                                 //   e.target.value,
                                 //   values.sessionTermId
