@@ -22,11 +22,11 @@ export const getAllUnusedPinList = () => (dispatch) => {
         });
 };
 
-export const getAllUsedPinList = () => (dispatch) => {
+export const getAllUsedPinList = (sessionId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_USED_PIN_LOADING,
-    });     
-    axiosInstance.get(`/pin/api/v1/get/used-pins`)
+    });          
+    axiosInstance.get(`/pin/api/v1/get/used-pins?sessionId=${sessionId}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_USED_PIN_SUCCESS,
