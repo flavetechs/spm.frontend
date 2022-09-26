@@ -43,7 +43,13 @@ export const getResultSetting = () => (dispatch) => {
             });
         });
 };
-
+export const updateSelectedResultTemplate =(templateName)=> (dispatch) => {
+    //getResultSetting()(dispatch);
+    dispatch({
+       type: actions.UPDATE_SELECTED_TEMPLATE,
+       payload: templateName,
+   });
+}
 
 export const getNotificationSettingResult = (notificationSettingId) => (dispatch) => {
     dispatch({

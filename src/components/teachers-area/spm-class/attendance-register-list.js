@@ -23,6 +23,7 @@ import {
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import * as Yup from "yup";
+import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
 
 const AttendanceRegisterList = () => {
   //VARIABLE DECLARATIONS
@@ -32,7 +33,6 @@ const AttendanceRegisterList = () => {
   const [indexRow, setIndexRow] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [classRegisterId, setClassRegisterId] = useState("");
-  const [sessionClassId, setSessionClassId] = useState("");
   //VARIABLE DECLARATIONS
 
   // //VALIDATION
@@ -50,16 +50,18 @@ const AttendanceRegisterList = () => {
 
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
-
+  const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
+    getActiveSession()(dispatch);
+    getAllSession()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteClassRegister(classRegisterId, sessionClassId)(dispatch);
+      deleteClassRegister(classRegisterId, sessionClassIdQuery,termIdQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -72,12 +74,19 @@ const AttendanceRegisterList = () => {
 
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const termIdQuery = queryParams.get("termId");
   React.useEffect(() => {
     if (sessionClassIdQuery) {
-      getAllClassRegister(sessionClassIdQuery)(dispatch);
-      setSessionClassId(sessionClassIdQuery);
+      getAllClassRegister(sessionClassIdQuery,termIdQuery)(dispatch);
     }
   }, [sessionClassIdQuery, dispatch]);
+
+  React.useEffect(() => {
+    if(!termIdQuery)
+      history.push(`${classLocations.classAttendanceBoard}?termId=${activeSession?.terms.find(
+        (term) => term.isActive === true
+      )?.sessionTermId}`)
+  }, [activeSession,dispatch]);
 
   const filteredClassRegister = classRegister?.filter((register) => {
     if (searchQuery === "") {
@@ -102,7 +111,7 @@ const AttendanceRegisterList = () => {
     if (createSuccessful) {
       resetCreateSuccessfulState()(dispatch);
       history.push(
-        `${classLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassId}`
+        `${classLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassIdQuery}&termId=${termIdQuery}`
       );
     }
   }, [createSuccessful, newClassRegister?.classRegisterId, dispatch, history]);
@@ -126,7 +135,8 @@ const AttendanceRegisterList = () => {
               </Card.Header>
               <Formik
                 initialValues={{
-                  sessionClassId: sessionClassId,
+                  terms:termIdQuery,
+                  sessionClassId: sessionClassIdQuery,
                 }}
                 enableReinitialize={true}
                 onSubmit={(values) => {
@@ -189,24 +199,66 @@ const AttendanceRegisterList = () => {
                             </div>
                           </div>
                           <div className="d-flex align-items-center flex-wrap">
+                          <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <div>
+                                {touched.terms &&
+                                  errors.terms && (
+                                    <div className="text-danger">
+                                      {errors.terms}
+                                    </div>
+                                  )}
+                              </div>
+                              <Field
+                            as="select"
+                            name="terms"
+                            className="form-select"
+                            id="terms"
+                            onChange={(e)=>{
+                              setFieldValue("terms",e.target.value);
+                              history.push(`${classLocations.classAttendanceBoard}?termId=${e.target.value}&sessionClassId=${""}`
+                              );
+                            }}
+                              >
+                            <option value="">Select Term</option>
+                            {sessionList
+                              ?.find(
+                                (session, idx) =>
+                                  session.sessionId.toLowerCase() ===
+                                  activeSession?.sessionId
+                              )
+                              ?.terms.map((term, id) => (
+                                <option
+                                  key={id}
+                                  name={values.terms}
+                                  value={term.sessionTermId.toLowerCase()}
+                                  selected={term.sessionTermId === values.terms}
+                                >
+                                  {term.termName}
+                                </option>
+                              ))}
+                          </Field>
+                            </div>
                             <div className=" me-3 dropdown">
                               <Field
                                 as="select"
                                 name="sessionClassId"
                                 className="form-select"
+                                disabled={
+                                  termIdQuery ? false : true
+                                }
                                 id="sessionClassId"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "sessionClassId",
                                     e.target.value
                                   );
-                                  setSessionClassId(e.target.value);
+                                  
                                   e.target.value === ""
                                     ? history.push(
                                         classLocations.classAttendanceBoard
                                       )
                                     : history.push(
-                                        `${classLocations.classAttendanceBoard}?sessionClassId=${e.target.value}`
+                                        `${classLocations.classAttendanceBoard}?termId=${termIdQuery}&sessionClassId=${e.target.value}`
                                       );
                                 }}
                               >
@@ -322,7 +374,7 @@ const AttendanceRegisterList = () => {
                                               register.classRegisterId
                                             )(dispatch);
                                             history.push(
-                                              `${classLocations.updateClassAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassId}`
+                                              `${classLocations.updateClassAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}&termId=${termIdQuery}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
@@ -492,7 +544,8 @@ const AttendanceRegisterList = () => {
                                         updateRegisterLabel(
                                           register.classRegisterId,
                                           textInput.current.value,
-                                          sessionClassIdQuery
+                                          sessionClassIdQuery,
+                                          termIdQuery
                                         )(dispatch);
                                         setEditMode(!isEditMode);
                                       }}
@@ -514,7 +567,7 @@ const AttendanceRegisterList = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}&sessionClassId=${sessionClassId}`
+                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}`
                                         );
                                         getAllStudentsPresent(
                                           register.classRegisterId
@@ -532,7 +585,7 @@ const AttendanceRegisterList = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}&sessionClassId=${sessionClassId}`
+                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}`
                                         );
                                         getAllStudentsAbsent(
                                           register.classRegisterId

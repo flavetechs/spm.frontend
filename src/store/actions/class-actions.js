@@ -503,13 +503,13 @@ export const createRegister = (sessionClass) => (dispatch) => {
         });
 }
 
-export const getAllClassRegister = (sessionClassId) => (dispatch) => {
+export const getAllClassRegister = (sessionClassId,termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_REGISTER_LOADING,
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/attendance/api/v1/get/all/class-register/${sessionClassId}`)
+    axiosInstance.get(`/attendance/api/v1/get/all/class-register/${sessionClassId}?termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CLASS_REGISTER_SUCCESS,
@@ -523,7 +523,7 @@ export const getAllClassRegister = (sessionClassId) => (dispatch) => {
         });
 }
 
-export const updateRegisterLabel = (classRegisterId, classRegisterLabel, sessionClassId) => (dispatch) => {
+export const updateRegisterLabel = (classRegisterId, classRegisterLabel, sessionClassId,termId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASS_REGISTER_LABEL_LOADING
     });
@@ -534,7 +534,7 @@ export const updateRegisterLabel = (classRegisterId, classRegisterLabel, session
                 type: actions.UPDATE_CLASS_REGISTER_LABEL_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassRegister(sessionClassId)(dispatch);
+            getAllClassRegister(sessionClassId,termId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -545,7 +545,7 @@ export const updateRegisterLabel = (classRegisterId, classRegisterLabel, session
         });
 }
 
-export const deleteClassRegister = (classRegisterId, sessionClassId) => (dispatch) => {
+export const deleteClassRegister = (classRegisterId, sessionClassId,termId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CLASS_REGISTER_LOADING
     });
@@ -556,7 +556,7 @@ export const deleteClassRegister = (classRegisterId, sessionClassId) => (dispatc
                 type: actions.DELETE_CLASS_REGISTER_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassRegister(sessionClassId)(dispatch)
+            getAllClassRegister(sessionClassId,termId)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -851,12 +851,12 @@ export const sendForApproval = (classNoteId) => (dispatch) => {
 }
 
 
-export const getAllLessonNotes = (classId,subjectId,status) => (dispatch) => {
+export const getAllLessonNotes = (classId,subjectId,status,termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_LESSON_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?classId=${classId}&subjectId=${subjectId}&status=${status}`)
+    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?classId=${classId}&subjectId=${subjectId}&status=${status}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_LESSON_NOTES_SUCCESS,
@@ -985,7 +985,7 @@ export const getRelatedNotes = (classNoteId) => (dispatch) => {
         });
 }
 
-export const deleteLessonNotes = (item, subjectId,classId,status) => (dispatch) => {
+export const deleteLessonNotes = (item, subjectId,classId,status,termId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
     });
@@ -998,7 +998,7 @@ export const deleteLessonNotes = (item, subjectId,classId,status) => (dispatch) 
                 type: actions.DELETE_LESSON_NOTES_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllLessonNotes(classId,subjectId,status)(dispatch)
+            getAllLessonNotes(classId,subjectId,status,termId)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

@@ -22,6 +22,7 @@ import {
 import { getUserDetails } from "../../../../utils/permissions";
 import { NoteShareModal } from "./note-share-modal";
 import { NoteSendModal } from "./note-send-modal";
+import { getActiveSession, getAllSession } from "../../../../store/actions/session-actions";
 
 const LessonNotes = () => {
   //VARIABLE DECLARATIONS
@@ -43,9 +44,11 @@ const LessonNotes = () => {
   const { lessonNotes } = state.class;
   const { staffClasses, staffClassSubjects } = state.results;
   const { dialogResponse, modalResponse } = state.alert;
+  const { activeSession, sessionList } = state.session;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
+  const termIdQueryParam = queryParams.get("termId") || "";
   const subjectIdQueryParam = queryParams.get("subjectId") || "";
   const classIdQueryParam = queryParams.get("classId") || "";
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
@@ -54,6 +57,8 @@ const LessonNotes = () => {
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
+      getActiveSession()(dispatch);
+      getAllSession()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -63,19 +68,22 @@ const LessonNotes = () => {
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
-      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam)(dispatch);
-      // if (!classIdQueryParam && !subjectIdQueryParam && !approvalStatusQueryParam) {
-      //   // getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, -1)(dispatch);
-      // } else {
-      //   getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam)(dispatch);
-      // }
+      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam,termIdQueryParam)(dispatch);
+     
     };
     fetchNotes();
   }, [approvalStatusQueryParam, subjectIdQueryParam, classIdQueryParam, dispatch]);
 
   React.useEffect(() => {
+    if(!termIdQueryParam)
+      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.terms.find(
+        (term) => term.isActive === true
+      )?.sessionTermId}`)
+  }, [activeSession,dispatch]);
+
+  React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteLessonNotes(teacherClassNoteId, subjectIdQueryParam, classIdQueryParam, approvalStatusQueryParam)(dispatch);
+      deleteLessonNotes(teacherClassNoteId, subjectIdQueryParam, classIdQueryParam, approvalStatusQueryParam,termIdQueryParam)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -186,10 +194,11 @@ const LessonNotes = () => {
               }
               <Formik
                 initialValues={{
-                  classId: classIdQueryParam ? classIdQueryParam : "",
-                  sessionClassId: sessionClassIdQueryParam ? sessionClassIdQueryParam : "",
-                  subjectId: subjectIdQueryParam ? subjectIdQueryParam : "",
-                  approvalStatus: approvalStatusQueryParam ? approvalStatusQueryParam : "",
+                  terms:termIdQueryParam ,
+                  classId: classIdQueryParam,
+                  sessionClassId: sessionClassIdQueryParam,
+                  subjectId: subjectIdQueryParam,
+                  approvalStatus: approvalStatusQueryParam,
                 }}
                 enableReinitialize={true}
                 //validationSchema={validation}
@@ -209,6 +218,45 @@ const LessonNotes = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
+                          <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <div>
+                                {touched.terms &&
+                                  errors.terms && (
+                                    <div className="text-danger">
+                                      {errors.terms}
+                                    </div>
+                                  )}
+                              </div>
+                              <Field
+                            as="select"
+                            name="terms"
+                            className="form-select"
+                            id="terms"
+                            onChange={(e)=>{
+                              setFieldValue("terms",e.target.value);
+                              history.push(`${classLocations.lessonNotes}?termId=${e.target.value}&classId=${""}&sessionClassId=${""}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
+                              );
+                            }}
+                              >
+                            <option value="">Select Term</option>
+                            {sessionList
+                              ?.find(
+                                (session, idx) =>
+                                  session.sessionId.toLowerCase() ===
+                                  activeSession?.sessionId
+                              )
+                              ?.terms.map((term, id) => (
+                                <option
+                                  key={id}
+                                  name={values.terms}
+                                  value={term.sessionTermId.toLowerCase()}
+                                  selected={term.sessionTermId === values.terms}
+                                >
+                                  {term.termName}
+                                </option>
+                              ))}
+                          </Field>
+                            </div>
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {touched.classId &&
@@ -222,6 +270,9 @@ const LessonNotes = () => {
                                 as="select"
                                 name="classId"
                                 className="form-select"
+                                disabled={
+                                  termIdQueryParam ? false : true
+                                }
                                 id="classId"
                                 onChange={(e) => {
                                   setFieldValue("classId", e.target.value);
@@ -229,7 +280,7 @@ const LessonNotes = () => {
                                   if (e.target.value) {
                                     setFieldValue("sessionClassId", sessionClassId);
                                   }
-                                  history.push(`${classLocations.lessonNotes}?classId=${e.target.value}&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
+                                  history.push(`${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${e.target.value}&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                   // }
                                 }}
@@ -262,7 +313,7 @@ const LessonNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   setSubjectId(e.target.value);
                                   history.push(
-                                    `${classLocations.lessonNotes}?classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}&approvalStatus=${approvalStatusQueryParam}`
+                                    `${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                 }}
                               >
@@ -287,7 +338,7 @@ const LessonNotes = () => {
                                     e.target.value
                                   );
                                   history.push(
-                                    `${classLocations.lessonNotes}?classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${subjectIdQueryParam}&approvalStatus=${e.target.value}`
+                                    `${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${subjectIdQueryParam}&approvalStatus=${e.target.value}`
                                   );
 
                                 }}

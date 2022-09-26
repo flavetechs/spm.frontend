@@ -4,6 +4,7 @@ export const _state = {
     isSuccessful: false,
     schoolSetting:[],
     resultSetting:[],
+    selectedTemplate:"",
     notificationSettingResult: {},
   };
   

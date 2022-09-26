@@ -91,7 +91,7 @@ const EditStudentNote = () => {
       setContent(atob(reader.result.split(",")[1]));
     };
   }
- 
+ console.log("singleStudentNotes",singleStudentNotes);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -103,7 +103,7 @@ const EditStudentNote = () => {
                   initialValues={{
                     noteTitle: singleStudentNotes?.noteTitle || "",
                     subjectId: singleStudentNotes?.subjectId || "",
-                    submitForReview: false,
+                    submitForReview: singleStudentNotes?.approvalStatus !==2 ? true :false,
                     teacherId:subjectTeacher,
                   }}
                   validationSchema={validation}
@@ -115,7 +115,7 @@ const EditStudentNote = () => {
                     }
                     values.noteContent = content;
                     values.studentNoteId = singleStudentNotes?.studentNoteId;
-                    values.submitForReview === true && sendForReview(singleStudentNotes?.studentNoteId,true)(dispatch);
+                    sendForReview(singleStudentNotes?.studentNoteId)(dispatch);
                     updateStudentNotes(values)(dispatch);
                   }}
                 >
@@ -236,7 +236,7 @@ const EditStudentNote = () => {
                           />
                         </Col>
 
-                        {singleStudentNotes?.approvalStatus === 2 && (
+                       {singleStudentNotes?.approvalStatus === 2 && (
                           <Col md="11" className="form-group text-secondary mt-5">
                             <Field
                               type="checkbox"
