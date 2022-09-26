@@ -90,8 +90,8 @@ const UsedPins = () => {
                   <Card
                   >
                     <Card.Body>
-                      <div className="d-lg-flex align-items-center ">
-                        <div className=" d-lg-flex align-items-center">
+                      <div className="d-lg-flex align-items-center">
+                        <div className=" d-lg-flex align-items-center w-100">
                           <div>
                             <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                               <Field
@@ -144,7 +144,7 @@ const UsedPins = () => {
                               </Field>
                             </div>
                           </div>
-                          <div className="">
+                          <div className="d-lg-flex justify-content-end">
                             <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown input-group">
                               <Form.Group className="input-group me-4">
                                 <Form.Control
