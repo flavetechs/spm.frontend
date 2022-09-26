@@ -3,7 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleUnusedPin } from "../../../store/actions/pin-management-actions";
-import { getSchoolSettingList } from "../../../store/actions/portal-setting-action";
+import { getSchoolSetting } from "../../../store/actions/portal-setting-action";
 
 const PinDetails = () => {
   const history = useHistory();
@@ -14,7 +14,7 @@ const PinDetails = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { selectedUnusedPin } = state.pin;
-  const { schoolSettingList } = state.portal;
+  const { schoolSetting } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -22,7 +22,7 @@ const PinDetails = () => {
     const pin = queryParams.get("pin");
     if (!pin) return;
     fetchSingleUnusedPin(pin)(dispatch);
-    getSchoolSettingList()(dispatch);
+    getSchoolSetting()(dispatch);
   }, [dispatch, locations.search]);
   return (
     <>
@@ -72,7 +72,7 @@ const PinDetails = () => {
                     <p className="mb-0">Expire Date</p>
                   </div>
                   <div className="d-flex align-items-center justify-content-between">
-                    <h6>{schoolSettingList?.schoolName}</h6>
+                    <h6>{schoolSetting?.schoolName}</h6>
                     <h6 className="ms-5">06/11</h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between">

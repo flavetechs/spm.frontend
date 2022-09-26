@@ -131,9 +131,6 @@ export const getCountries = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_COUNTRY_LOADING, 
     });
-    // dispatch({
-    //     type: actions.FETCH_STATE_LOADING, 
-    // });
   
    axiosInstance.get(`/get-countries`)
     .then(response => {
@@ -141,21 +138,11 @@ export const getCountries = () => (dispatch) => {
             type: actions.FETCH_COUNTRY_SUCCESS,
             payload: response.data.result
         });
-
-        // dispatch({
-        //     type: actions.FETCH_STATE_SUCCESS,
-        //     payload: response[1].data
-        // });
-
     }).catch(err => {
         dispatch({
             type: actions.FETCH_COUNTRY_FAILED,
             payload: err.response.data.result
         });
-        // dispatch({
-        //     type: actions.FETCH_STATE_FAILED,
-        //     payload: err
-        // });
     })
 }
 

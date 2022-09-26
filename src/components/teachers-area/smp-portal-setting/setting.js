@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
@@ -11,6 +12,8 @@ import "./setting.scss";
 
 function Setting() {
 
+  const [selectedSetting, setSelectedSetting] = useState('first')
+
   return (
     <>
       <Card>
@@ -20,7 +23,9 @@ function Setting() {
               <Col sm={3} className='col-md-3'>
                 <Nav variant="" className="flex-column portal-tab" >
                   <Nav.Item className=''>
-                    <Nav.Link eventKey="first" href="#"
+                    <Nav.Link eventKey="first" href="#" onClick={() => {
+                      setSelectedSetting('first')
+                    }}
                     >
                       <Row className="">
                         <Col className='me-2 col-1 col-sm-1 col-md-1'>
@@ -38,7 +43,10 @@ function Setting() {
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item className=' text-wrap'>
-                    <Nav.Link eventKey="second" href="#">
+                    <Nav.Link eventKey="second" href="#" onClick={() => {
+                      setSelectedSetting('second')
+                    }}
+                    >
                       <Row className="">
                         <Col className='col-1 me-2 col-sm-1 col-md-1'>
                           <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +69,9 @@ function Setting() {
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item className=''>
-                    <Nav.Link eventKey="third" href="#">
+                    <Nav.Link eventKey="third" href="#" onClick={() => {
+                      setSelectedSetting('third')
+                    }}>
                       <Row className="">
                         <Col className='col-1 me-2'>
                           <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,16 +94,13 @@ function Setting() {
               <Col sm={9} className=''>
                 <Tab.Content>
                   <Tab.Pane eventKey="first">
-                    <SchoolSetting
-                    />
+                    {selectedSetting === "first" && <SchoolSetting />}
                   </Tab.Pane>
                   <Tab.Pane eventKey="second">
-                    <ResultSetting
-                    />
+                    {selectedSetting === "second" && <ResultSetting />}
                   </Tab.Pane>
                   <Tab.Pane eventKey="third">
-                    <NotificationSetting
-                    />
+                    {selectedSetting === "third" && <NotificationSetting />}
                   </Tab.Pane>
                 </Tab.Content>
               </Col>

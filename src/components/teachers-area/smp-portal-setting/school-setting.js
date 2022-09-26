@@ -11,7 +11,7 @@ import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import {
-  getSchoolSettingList,
+  getSchoolSetting,
   updateSchoolSetting,
 } from "../../../store/actions/portal-setting-action";
 import {
@@ -30,23 +30,25 @@ const SchoolSetting = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { schoolSettingList } = state.portal;
+  const { schoolSetting } = state.portal;
   const { countries, states } = state.student;
   // ACCESSING STATE FROM REDUX STORE
   React.useEffect(() => {
     setSaveButton(true);
     setEditButton(false);
     setDisable(true);
-    getSchoolSettingList()(dispatch);
+    getSchoolSetting()(dispatch);
     getCountries()(dispatch);
   }, [dispatch]);
 
-  React.useEffect(() => {
-    setImages(schoolSettingList?.filepath);
-    getStates(schoolSettingList?.country)(dispatch);
-  }, [schoolSettingList]);
+  console.log('schoolSetting', schoolSetting);
 
-  React.useEffect(() => {}, [dispatch]);
+  React.useEffect(() => {
+    setImages(schoolSetting?.filepath);
+    schoolSetting?.country && getStates(schoolSetting?.country)(dispatch);  
+  }, [schoolSetting]);
+   
+
 
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
@@ -57,17 +59,17 @@ const SchoolSetting = () => {
     <>
       <Formik
         initialValues={{
-          schoolSettingsId: schoolSettingList?.schoolSettingsId ?? "",
-          schoolName: schoolSettingList?.schoolName ?? "",
-          schoolAbbreviation: schoolSettingList?.schoolAbbreviation ?? "",
-          schoolAddress: schoolSettingList?.schoolAddress ?? "",
-          email: schoolSettingList.email ?? "",
-          phoneNo1: schoolSettingList?.phoneNo1 ?? "",
-          phoneNo2: schoolSettingList?.phoneNo2 ?? "",
-          country: schoolSettingList?.country ?? "",
-          state: schoolSettingList?.state ?? "",
-          schoolType: schoolSettingList?.schoolType ?? "",
-          filepath: schoolSettingList?.filepath ?? "",
+          schoolSettingsId: schoolSetting?.schoolSettingsId ?? "",
+          schoolName: schoolSetting?.schoolName ?? "",
+          schoolAbbreviation: schoolSetting?.schoolAbbreviation ?? "",
+          schoolAddress: schoolSetting?.schoolAddress ?? "",
+          email: schoolSetting?.email ?? "",
+          phoneNo1: schoolSetting?.phoneNo1 ?? "",
+          phoneNo2: schoolSetting?.phoneNo2 ?? "",
+          country: schoolSetting?.country ?? "",
+          state: schoolSetting?.state ?? "",
+          schoolType: schoolSetting?.schoolType ?? "",
+          filepath: schoolSetting?.filepath ?? "",
         }}
         enableReinitialize={true}
         onSubmit={(values) => {
@@ -178,7 +180,10 @@ const SchoolSetting = () => {
                             name="country"
                             className="form-select"
                             id="country"
-                            onChange={(e)=>{setFieldValue("country",e.target.value); getStates(e.target.value)(dispatch);}}
+                            onChange={(e)=> {
+                              setFieldValue("country",e.target.value); 
+                              getStates(e.target.value)(dispatch);}
+                            }
                           >
                             <option value="Select City">
                               Select Country
@@ -186,9 +191,9 @@ const SchoolSetting = () => {
                             {countries?.map((item, idx) => (
                               <option
                                 key={idx}
-                                value={item.value}
-                                selected={
-                                    schoolSettingList?.country === item.value
+                                // defaultValue={item.value}
+                                defaultValue={
+                                    schoolSetting?.country === item.value
                                 }
                               >
                                 {item.name}
@@ -213,8 +218,8 @@ const SchoolSetting = () => {
                             {states?.map((item, idx) => (
                               <option
                                 key={idx}
-                                value={item.value}
-                                selected={schoolSettingList?.state === item.value}
+                                // defaultValue={item.value}
+                                defaultValue={schoolSetting?.state === item.value}
                               >
                                 {item.name}
                               </option>
@@ -401,7 +406,7 @@ const SchoolSetting = () => {
                               setDisable(!disable);
                             }}
                           >
-                            Click to Edit
+                            CLICK TO EDIT
                           </Button>
                         ) : (
                           <Button

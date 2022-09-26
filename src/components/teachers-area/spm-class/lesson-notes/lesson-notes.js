@@ -49,7 +49,7 @@ const LessonNotes = () => {
   const subjectIdQueryParam = queryParams.get("subjectId") || "";
   const classIdQueryParam = queryParams.get("classId") || "";
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
-  const approvalStatusQueryParam = queryParams.get("approvalStatus") || "";
+  const approvalStatusQueryParam = queryParams.get("approvalStatus") || "-1";
 
 
   React.useEffect(() => {
@@ -63,15 +63,14 @@ const LessonNotes = () => {
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
-      if (!approvalStatusQueryParam) {
-        getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, -1)(dispatch);
-      } else {
-        getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam)(dispatch);
-      }
+      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam)(dispatch);
+      // if (!classIdQueryParam && !subjectIdQueryParam && !approvalStatusQueryParam) {
+      //   // getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, -1)(dispatch);
+      // } else {
+      //   getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam)(dispatch);
+      // }
     };
-    // if (approvalStatusQueryParam || !subjectIdQueryParam || !classIdQueryParam) {
     fetchNotes();
-
   }, [approvalStatusQueryParam, subjectIdQueryParam, classIdQueryParam, dispatch]);
 
   React.useEffect(() => {
@@ -230,7 +229,6 @@ const LessonNotes = () => {
                                   if (e.target.value) {
                                     setFieldValue("sessionClassId", sessionClassId);
                                   }
-
                                   history.push(`${classLocations.lessonNotes}?classId=${e.target.value}&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                   // }

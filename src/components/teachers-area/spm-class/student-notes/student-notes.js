@@ -28,20 +28,20 @@ const StudentNotes = () => {
   const { studentNotesByTeacher } = state.class;
   const { staffClassSubjects } = state.results;
   const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const statusQuery = queryParams.get("status");
+  const subjectIdQuery = queryParams.get("subjectId") || "";
+  const sessionClassIdQuery = queryParams.get("sessionClassId") || "";
+  const statusQuery = queryParams.get("status") || -2;
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION
   const validation = Yup.object().shape({
-    status: Yup.string().required("Status is required"),
+    // status: Yup.string().required("Status is required"),
     subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION
 
   React.useEffect(() => {
-    getStaffClassSubjects(sessionClassIdQuery, approveNotes)(dispatch);
+    sessionClassIdQuery && getStaffClassSubjects(sessionClassIdQuery)(dispatch);
   }, [sessionClassIdQuery, dispatch]);
 
   React.useEffect(() => {
@@ -50,11 +50,11 @@ const StudentNotes = () => {
     }
   }, [statusQuery, subjectIdQuery, dispatch]);
 
-  React.useEffect(() => {
-    if (!subjectIdQuery) {
-      getStudentNotesByTeacher(subjectId)(dispatch);
-    }
-  }, [subjectIdQuery, dispatch]);
+  // React.useEffect(() => {
+  //   if (!subjectIdQuery) {
+  //     getStudentNotesByTeacher(subjectId)(dispatch);
+  //   }
+  // }, [subjectIdQuery, dispatch]);
 
   const filteredStudentNotes = studentNotesByTeacher?.filter((item) => {
     if (searchQuery === "") {

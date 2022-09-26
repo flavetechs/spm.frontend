@@ -1,4 +1,4 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -24,12 +24,12 @@ const StudentAssessmentList = () => {
   const queryParams = new URLSearchParams(locations.search);
   const statusQuery = queryParams.get("status");
   React.useEffect(() => {
-    if(!statusQuery){
+    if (!statusQuery) {
       getStatusFilterForStudentAssessment(-1)(dispatch);
-    }else{
+    } else {
       getStatusFilterForStudentAssessment(statusQuery)(dispatch);
     }
-  }, [statusQuery,dispatch]);
+  }, [statusQuery, dispatch]);
 
   return (
     <>
@@ -65,13 +65,14 @@ const StudentAssessmentList = () => {
                             id="status"
                             value={statusQuery}
                             onChange={(e) => {
-                                history.push(
-                                  `${assessmentLocations.assessment}?status=${e.target.value}`
-                                );
+                              history.push(
+                                `${assessmentLocations.assessment}?status=${e.target.value}`
+                              );
                             }}
                           >
-                             <option value={1}>Select All</option>
-                            <option value={0}>Saved</option>
+                            <option value={-1}>Select All</option>
+                            <option value={1}>Open</option>
+                            {/* <option value={0}>Unsubmitted</option> */}
                             <option value={3}>Submitted</option>
                             <option value={2}>Closed</option>
                           </select>
@@ -186,7 +187,7 @@ const StudentAssessmentList = () => {
                                         strokeLinejoin="round"
                                       ></path>
                                     </svg>
-                                  view/details
+                                    view/details
                                   </div>
 
                                   {/* <div

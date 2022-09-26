@@ -5,7 +5,7 @@ import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
 
-export const getSchoolSettingList = () => (dispatch) => {
+export const getSchoolSetting = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_SCHOOL_SETTING_LOADING,
     });
@@ -25,10 +25,9 @@ export const getSchoolSettingList = () => (dispatch) => {
 };
 
 
-export const getResultSettingList = () => (dispatch) => {
+export const getResultSetting = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_RESULT_SETTING_LOADING,
-        // payload: resultlSettingId,
     });
     axiosInstance.get(`/portalsetting/api/v1/get/result-settings`)
         .then((res) => {

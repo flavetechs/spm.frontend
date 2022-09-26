@@ -153,12 +153,12 @@ export const getAllSubjects = () => (dispatch) => {
         });
 }
 
-export const getAllStudentSubjects = (studentId) => (dispatch) => {
+export const getAllStudentSubjects = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_SUBJECTS_LOADING
     });
 
-    axiosInstance.get(`/subject/api/v1/getall/student-subjects?studentId=${studentId}`)
+    axiosInstance.get(`/subject/api/v1/getall/student-subjects`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENT_SUBJECTS_SUCCESS,
@@ -1165,7 +1165,7 @@ export const getAllStudentNotes = (subjectId, status) => (dispatch) => {
         type: actions.FETCH_STUDENT_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/smp/studentnotes/api/v1/get/Studentnotes/by-student?subjectId=${subjectId}&status=${status}`)
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/studentnotes/by-student?subjectId=${subjectId}&status=${status}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENT_NOTES_SUCCESS,

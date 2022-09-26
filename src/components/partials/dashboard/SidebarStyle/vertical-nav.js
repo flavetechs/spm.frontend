@@ -31,21 +31,31 @@ function CustomToggle({ children, eventKey, onClick }) {
     const isCurrentEventKey = activeEventKey === eventKey;
 
     return (
-        <Link
-            to="#"
-            aria-expanded={isCurrentEventKey ? "true" : "false"}
-            className="nav-link"
+        <span
             role="button"
+            className="nav-link"
+            aria-expanded={isCurrentEventKey ? "true" : "false"}
             onClick={(e) => {
                 decoratedOnClick(isCurrentEventKey);
             }}
         >
             {children}
-        </Link>
+        </span>
+        // <Link
+        //     to="#"
+        //     aria-expanded={isCurrentEventKey ? "true" : "false"}
+        //     className="nav-link"
+        //     role="button"
+        //     onClick={(e) => {
+        //         decoratedOnClick(isCurrentEventKey);
+        //     }}
+        // >
+        //     {children}
+        // </Link>
     );
 }
 const minisidebar = () => {
-  
+
     if (window.innerWidth < 800) {
         if (
             !document

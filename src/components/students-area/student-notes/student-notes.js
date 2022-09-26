@@ -42,12 +42,12 @@ const StudentNotes = () => {
   });
   //VALIDATION
   const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  const statusQuery = queryParams.get("status");
+  const subjectIdQuery = queryParams.get("subjectId") || "";
+  const statusQuery = queryParams.get("status") || "";
 
   React.useEffect(() => {
-    getAllStudentSubjects(userDetail.id)(dispatch);
-  }, [dispatch,userDetail.id]);
+    getAllStudentSubjects()(dispatch);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {

@@ -147,6 +147,7 @@ const CreateHomeAssessment = () => {
                           </label>
                           <Field
                             as="select"
+                            disabled={true}
                             name="sessionClassSubjectId"
                             className="form-select"
                             id="sessionClassSubjectId"
@@ -185,6 +186,7 @@ const CreateHomeAssessment = () => {
                             name="sessionClassGroupId"
                             className="form-select h6"
                             id=" sessionClassGroupId"
+                            disabled={true}
                             onChange={(e) => {
                               setFieldValue(
                                 "sessionClassGroupId",
