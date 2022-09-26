@@ -16,7 +16,7 @@ const TemplateControl = () => {
  // const [elementId, setElementId] = useState("")
   const state = useSelector((state) => state);
 
-  const { resultSetting } = state.portal;
+  const { selectedTemplate } = state.portal;
   const { dialogResponse } = state.alert;
 
   const { batchResult } = state.results;
@@ -30,28 +30,7 @@ const TemplateControl = () => {
     window.onbeforeunload = () => "Results will be lost on reload";
   }, [dispatch]);
 
-
-  // useEffect(() => {
-  //   batchPrinting &&
-  //     getAllBatchPrintingResults(
-  //       sessionClassId,
-  //       sessionTermId,
-  //       batchPrinting
-  //     )(dispatch);
-  // }, [dispatch, sessionClassId, sessionTermId, batchPrinting]);
-
-  // useEffect(() => {
-  //   if (dialogResponse === "continue") {
-  //     PrintCSV(elementId);
-  //     showHideDialog(false, null)(dispatch);
-  //     respondDialog("")(dispatch);
-  //   }
-  //   return () => {
-  //     respondDialog("")(dispatch);
-  //   };
-  // }, [dialogResponse, dispatch]);
-
-  switch (resultSetting?.selectedTemplate) {
+  switch (selectedTemplate) {
     case "template-one":
       return (
         <div>

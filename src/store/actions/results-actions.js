@@ -516,7 +516,8 @@ export const setTemplateSettingState = (templateName) => (dispatch) => {
              type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,
              payload: res.data.message.friendlyMessage
          });
-         getResultSetting()(dispatch);
+         //getResultSetting()(dispatch);
+        
          showSuccessToast(res.data.message.friendlyMessage)(dispatch)
      }).catch((err) => {
          dispatch({

@@ -25,6 +25,14 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+
+    case actions.UPDATE_SELECTED_TEMPLATE: {
+        return {
+          ...state,
+          selectedTemplate: payload,
+        };
+      }
+
     case actions.FETCH_RESULT_SETTING_LOADING:
       return {
         ...state,
@@ -37,7 +45,9 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         resultSetting: payload,
+        selectedTemplate:payload.selectedTemplate,
       };
+
     case actions.FETCH_RESULT_SETTING_FAILED:
       return {
         ...state,
