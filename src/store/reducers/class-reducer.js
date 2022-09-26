@@ -752,6 +752,7 @@ export const classReducer = (state = _state, { type, payload }) => {
                 loading: true,
                 isSuccessful: false,
                 createSuccessful:false,
+                sendApprovalSuccessful:false,
               };
             case actions.SEND_FOR_APPROVAL_SUCCESS:
               return {
@@ -759,12 +760,14 @@ export const classReducer = (state = _state, { type, payload }) => {
                 isSuccessful: true,
                 loading: false,
                 createSuccessful:true,
+                sendApprovalSuccessful:true,
               };
             case actions.SEND_FOR_APPROVAL_FAILED:
               return {
                 ...state,
                 isSuccessful: false,
                 createSuccessful:false,
+                sendApprovalSuccessful:false,
                 loading: false,
               };
 

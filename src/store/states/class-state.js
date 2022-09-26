@@ -19,6 +19,7 @@ export const _state = {
   registerLabelUpdateSuccessful:false,
   studentsPresence:null,
   createSuccessful:false,
+  sendApprovalSuccessful:false,
 
   lessonNotes: [],
   unapprovedLessonNotes:[],

@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+
 import { getResultSetting } from "../../../../store/actions/portal-setting-action";
+
 import { PrintCSV } from "../../../../utils/export-csv";
 import ResultTemplateOne from "./template-one";
 import ResultTemplateTwo from "./template-two";
@@ -11,10 +13,12 @@ const TemplateControl = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const history = useHistory();
-  const [elementId, setElementId] = useState("")
+ // const [elementId, setElementId] = useState("")
   const state = useSelector((state) => state);
+
   const { resultSetting } = state.portal;
   const { dialogResponse } = state.alert;
+
   const { batchResult } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const batchPrinting = queryParams.get("batchPrinting");
@@ -53,7 +57,7 @@ const TemplateControl = () => {
         <div>
           {batchPrinting ? (
             <div>
-              <div className="isPreview mt-5 mb-2">
+              <div className="isPreview my-5">
                 <OverlayTrigger
                   placement="top"
                   overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
@@ -101,7 +105,7 @@ const TemplateControl = () => {
             </div>
           ) : (
             <div>
-              <div className="isPreview mt-5 mb-2">
+              <div className="isPreview my-5">
                 <OverlayTrigger
                   placement="top"
                   overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
@@ -137,7 +141,7 @@ const TemplateControl = () => {
         <div>
           {batchPrinting ? (
             <div>
-              <div className="isPreview mt-5 mb-2">
+              <div className="isPreview my-5">
                 <OverlayTrigger
                   placement="top"
                   overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
@@ -180,7 +184,7 @@ const TemplateControl = () => {
             </div>
           ) : (
             <div>
-              <div className="isPreview mt-5 mb-2">
+              <div className="isPreview my-5">
                 <OverlayTrigger
                   placement="top"
                   overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
