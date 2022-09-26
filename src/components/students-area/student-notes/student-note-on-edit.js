@@ -236,7 +236,7 @@ const EditStudentNote = () => {
                           />
                         </Col>
 
-                      {/*  {singleStudentNotes?.approvalStatus === 2 && ( */}
+                       {singleStudentNotes?.approvalStatus === 2 && (
                           <Col md="11" className="form-group text-secondary mt-5">
                             <Field
                               type="checkbox"
@@ -250,7 +250,7 @@ const EditStudentNote = () => {
                               <b>Submit for review</b>
                             </label>
                           </Col>
-                        {/* )} */}
+                        )}
 
                         <div className="d-flex justify-content-end">
                           <Button
