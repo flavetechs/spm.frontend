@@ -31,25 +31,6 @@ const TemplateControl = () => {
   }, [dispatch]);
 
 
-  // useEffect(() => {
-  //   batchPrinting &&
-  //     getAllBatchPrintingResults(
-  //       sessionClassId,
-  //       sessionTermId,
-  //       batchPrinting
-  //     )(dispatch);
-  // }, [dispatch, sessionClassId, sessionTermId, batchPrinting]);
-
-  // useEffect(() => {
-  //   if (dialogResponse === "continue") {
-  //     PrintCSV(elementId);
-  //     showHideDialog(false, null)(dispatch);
-  //     respondDialog("")(dispatch);
-  //   }
-  //   return () => {
-  //     respondDialog("")(dispatch);
-  //   };
-  // }, [dialogResponse, dispatch]);
 
   switch (resultSetting?.selectedTemplate) {
     case "template-one":
@@ -92,11 +73,7 @@ const TemplateControl = () => {
                   className="btn btn-primary mx-3 mb-3"
                   onClick={() => {
                     PrintCSV("result-table-one");
-                    // setElementId("result-table-one")
-                    // showHideDialog(
-                    //   true,
-                    //   "Are you sure you want to print result"
-                    // )(dispatch);
+                    
                   }}
                 >
                   Batch Print

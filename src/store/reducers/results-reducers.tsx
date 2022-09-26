@@ -345,7 +345,8 @@ case actions.SET_TEMPLATE_SETTING_STATE_SUCCESS: {
     ...state,
     isSuccessful: true,
     loading: false,
-    message: payload
+    message: payload,
+    
   };
 }
 case actions.SET_TEMPLATE_SETTING_STATE_FAILED: {

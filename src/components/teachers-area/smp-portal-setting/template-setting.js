@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getResultSetting } from "../../../store/actions/portal-setting-action";
-import { setTemplateSettingState } from "../../../store/actions/results-actions";
+import { updateSelectedResultTemplate } from "../../../store/actions/results-actions";
 import { respondDialog, showHideDialog, showHideModal } from "../../../store/actions/toaster-actions";
 import { TemplateModal } from "./template-modal";
 
@@ -19,13 +19,13 @@ const TemplateSetting = () => {
       image:
         "http://flavetech-001-site1.etempurl.com/ProfileImage/0cb16f26-cb41-4c75-99e1-4ed12ac1023d.PNG",
       isChecked: resultSetting?.selectedTemplate === "template-one" ? true : false,
-      templateName:"template-one",
+      templateName: "template-one",
     },
     {
       image:
         "http://flavetech-001-site1.etempurl.com/ProfileImage/c3c356a9-2bb3-4132-b43b-a62c210e29c5.PNG",
       isChecked: resultSetting?.selectedTemplate === "template-two" ? true : false,
-      templateName:"template-two",
+      templateName: "template-two",
     },
     // {
     //   image:
@@ -67,24 +67,24 @@ const TemplateSetting = () => {
   useEffect(() => {
     getResultSetting()(dispatch);
   }, [dispatch])
-  
+
   useEffect(() => {
-    if(!templateName){
-    setTemplateName(imageData.find(d=>d.isChecked === true)?.templateName)
+    if (!templateName) {
+      setTemplateName(imageData.find(d => d.isChecked === true)?.templateName)
     }
-  }, [imageData,dispatch]);
+  }, [imageData, dispatch]);
 
   useEffect(() => {
     if (dialogResponse === "continue") {
-      setTemplateSettingState(templateName)(dispatch);
+      updateSelectedResultTemplate(templateName)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
     }
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,dispatch]);
-  
+  }, [dialogResponse, dispatch]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -100,7 +100,7 @@ const TemplateSetting = () => {
               <Card.Body>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                   {imageData.map((data, idx) => (
-                    <div key={idx}className="col">
+                    <div key={idx} className="col">
                       <div className="card iq-file-manager">
                         <div className="card-body card-thumbnail">
                           <img
