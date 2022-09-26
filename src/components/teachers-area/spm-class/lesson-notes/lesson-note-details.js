@@ -51,7 +51,7 @@ const LessonNoteDetails = () => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
-console.log("singleLessonNotes",singleLessonNotes);
+
   return (
     <>
       <div className="col-sm-12 mx-auto">
