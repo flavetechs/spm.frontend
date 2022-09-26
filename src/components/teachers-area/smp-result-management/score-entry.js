@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  getAllClassScore,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../../store/actions/results-actions";
@@ -41,9 +40,13 @@ const ScoreEntry = () => {
     getAllStaffClasses()(dispatch);
   }, [dispatch]);
 
+  React.useEffect(() => {
+    sessionClassIdQueryParam && getStaffClassSubjects(sessionClassIdQueryParam)(dispatch);
+  }, [dispatch, sessionClassIdQueryParam]);
+
   return (
     <>
-       <div className="col-md-12 mx-auto d-flex justify-content-center">
+      <div className="col-md-12 mx-auto d-flex justify-content-center">
         <Row>
           <Col sm="12">
             <Card>
@@ -59,13 +62,7 @@ const ScoreEntry = () => {
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    getAllClassScore(
-                      values.sessionClassId,
-                      values.subjectId
-                    )(dispatch);
-                    history.push(
-                      `${resultManagement.scoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`
-                    );
+                    history.push(`${resultManagement.scoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`);
                   }}
                 >
                   {({
@@ -134,8 +131,6 @@ const ScoreEntry = () => {
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
                               history.push(`${resultManagement.scoreEntry}?sessionClassId=${e.target.value}`)
-                              e.target.value !== ""&&
-                              getStaffClassSubjects(e.target.value)(dispatch);
                             }}
                           >
                             <option value="">Select Class</option>

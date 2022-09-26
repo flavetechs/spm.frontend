@@ -3,8 +3,8 @@ import { Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import {
-  getResultSettingList,
-  getSchoolSettingList,
+  getResultSetting,
+  getSchoolSetting,
 } from "../../../../store/actions/portal-setting-action";
 import { getAllStudentResult } from "../../../../store/actions/results-actions";
 import {
@@ -20,7 +20,7 @@ const ResultTemplateTwo = (props) => {
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
   const { dialogResponse } = state.alert;
-  const { schoolSettingList, resultSettingList } = state.portal;
+  const { schoolSetting, resultSetting } = state.portal;
   const locations = useLocation();
   const dispatch = useDispatch();
   const tableRef = useRef(null);
@@ -36,8 +36,8 @@ const ResultTemplateTwo = (props) => {
     }
   }, [dispatch, locations.search]);
   useEffect(() => {
-    getSchoolSettingList()(dispatch);
-    getResultSettingList()(dispatch);
+    getSchoolSetting()(dispatch);
+    getResultSetting()(dispatch);
   }, [dispatch, locations.search]);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const ResultTemplateTwo = (props) => {
                     >
                       <img
                         style={{ width: "15%" }}
-                        src={schoolSettingList?.filepath}
+                        src={schoolSetting?.filepath}
                         alt="logo"
                         draggable="false"
                       />
@@ -110,7 +110,7 @@ const ResultTemplateTwo = (props) => {
                       }}
                       draggable="false"
                     >
-                      {schoolSettingList?.schoolName}
+                      {schoolSetting?.schoolName}
                     </h4>
                   </Col>
                 </Row>
@@ -290,7 +290,7 @@ const ResultTemplateTwo = (props) => {
                     >
                       <div>
                         <img
-                          src={resultSettingList?.filepath}
+                          src={resultSetting?.filepath}
                           alt="stamp"
                           style={{ width: "12%" }}
                           draggable="false"

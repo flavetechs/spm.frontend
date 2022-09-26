@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/results-action-types"
-import { getResultSettingList } from "./portal-setting-action";
+import { getResultSetting } from "./portal-setting-action";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllStaffClasses = () => (dispatch) => {
@@ -516,7 +516,7 @@ export const setTemplateSettingState = (templateName) => (dispatch) => {
              type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,
              payload: res.data.message.friendlyMessage
          });
-         getResultSettingList()(dispatch);
+         getResultSetting()(dispatch);
          showSuccessToast(res.data.message.friendlyMessage)(dispatch)
      }).catch((err) => {
          dispatch({

@@ -10,12 +10,12 @@ import avatars3 from "../../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
-import { getResultSettingList, updateResultSetting } from "../../../store/actions/portal-setting-action";
+import { getResultSetting, updateResultSetting } from "../../../store/actions/portal-setting-action";
 
 const ResultSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { resultSettingList } = state.portal;
+    const { resultSetting } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATIONS
@@ -24,27 +24,27 @@ const ResultSetting = () => {
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
     const [disable, setDisable] = useState(true);
-    const [promotAllOrPromoteByPassMark, setPromoteAllOrPromoteByPassMark] = useState(resultSettingList.promoteAll ?? "")
-    const [positionOnResults, setPositionOnResults] = useState(resultSettingList?.showPositionOnResult ?? "")
-    const [newsletter, setNewsletter] = useState(resultSettingList?.showNewsletter ?? "")
-    const [cumulativeResults, setCumulativeResults] = useState(resultSettingList?.cumulativeResult ?? "")
-    const [batchPrintings, setBatchPrintings] = useState(resultSettingList?.batchPrinting ?? "")
+    const [promotAllOrPromoteByPassMark, setPromoteAllOrPromoteByPassMark] = useState(resultSetting.promoteAll ?? "")
+    const [positionOnResults, setPositionOnResults] = useState(resultSetting?.showPositionOnResult ?? "")
+    const [newsletter, setNewsletter] = useState(resultSetting?.showNewsletter ?? "")
+    const [cumulativeResults, setCumulativeResults] = useState(resultSetting?.cumulativeResult ?? "")
+    const [batchPrintings, setBatchPrintings] = useState(resultSetting?.batchPrinting ?? "")
     //VARIABLE DECLARATIONS
 
     React.useEffect(() => {
         setSaveButton(true)
         setEditButton(false)
-        getResultSettingList()(dispatch)
+        getResultSetting()(dispatch)
     }, [dispatch]);
 
     React.useEffect(() => {
-        setImages(resultSettingList?.filepath);
-        setPromoteAllOrPromoteByPassMark(resultSettingList?.promoteAll);
-        setPositionOnResults(resultSettingList?.showPositionOnResult ?? "");
-        setNewsletter(resultSettingList?.showNewsletter ?? "");
-        setCumulativeResults(resultSettingList?.cumulativeResult ?? "");
-        setBatchPrintings(resultSettingList?.batchPrinting ?? "");
-    }, [resultSettingList]);
+        setImages(resultSetting?.filepath);
+        setPromoteAllOrPromoteByPassMark(resultSetting?.promoteAll);
+        setPositionOnResults(resultSetting?.showPositionOnResult ?? "");
+        setNewsletter(resultSetting?.showNewsletter ?? "");
+        setCumulativeResults(resultSetting?.cumulativeResult ?? "");
+        setBatchPrintings(resultSetting?.batchPrinting ?? "");
+    }, [resultSetting]);
 
 
     const ImageDisplay = (event) => {
@@ -52,19 +52,19 @@ const ResultSetting = () => {
             setImages(URL.createObjectURL(event.target.files[0]));
         }
     };
-    
+
     return (
         <>
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    resultSettingId: resultSettingList?.resultSettingId ?? "",
-                    promoteAll: resultSettingList?.promoteAll ?? "",
-                    showPositionOnResult: resultSettingList?.showPositionOnResult ?? "",
-                    cumulativeResult: resultSettingList?.cumulativeResult ?? "",
-                    showNewsletter: resultSettingList?.showNewsletter ?? "",
-                    batchPrinting: resultSettingList?.batchPrinting ?? "",
-                    filepath: resultSettingList?.filepath ?? "",
+                    resultSettingId: resultSetting?.resultSettingId ?? "",
+                    promoteAll: resultSetting?.promoteAll ?? "",
+                    showPositionOnResult: resultSetting?.showPositionOnResult ?? "",
+                    cumulativeResult: resultSetting?.cumulativeResult ?? "",
+                    showNewsletter: resultSetting?.showNewsletter ?? "",
+                    batchPrinting: resultSetting?.batchPrinting ?? "",
+                    filepath: resultSetting?.filepath ?? "",
                     //photo: "",
                 }}
 
@@ -115,7 +115,7 @@ const ResultSetting = () => {
                                                         checked={promotAllOrPromoteByPassMark === true ? true : false}
                                                         onChange={() => {
                                                             setPromoteAllOrPromoteByPassMark(!promotAllOrPromoteByPassMark);
-                                                          }}
+                                                        }}
                                                     />
                                                     <label htmlFor="promoteAll" className="check-label">
                                                         Promote All{" "}
@@ -131,7 +131,7 @@ const ResultSetting = () => {
                                                         checked={promotAllOrPromoteByPassMark === false ? true : false}
                                                         onChange={() => {
                                                             setPromoteAllOrPromoteByPassMark(!promotAllOrPromoteByPassMark);
-                                                          }}
+                                                        }}
                                                     />
                                                     <label htmlFor="promoteAll" className="check-label">
                                                         Promote By Pass mark{" "}
@@ -144,7 +144,7 @@ const ResultSetting = () => {
                                                         id="showPositionOnResult"
                                                         className="form-check-input"
                                                         name="showPositionOnResult"
-                                                         checked={positionOnResults}
+                                                        checked={positionOnResults}
                                                         onChange={(e) => {
                                                             setPositionOnResults(!positionOnResults)
                                                         }}
@@ -308,7 +308,7 @@ const ResultSetting = () => {
                                                             setDisable(!disable);
                                                         }}
                                                     >
-                                                        Click to Edit
+                                                        CLICK TO EDIT
                                                     </Button>
                                                 ) : (
                                                     <Button

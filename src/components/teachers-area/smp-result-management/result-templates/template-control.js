@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getResultSettingList } from "../../../../store/actions/portal-setting-action";
-import { getAllBatchPrintingResults } from "../../../../store/actions/results-actions";
-import {
-  respondDialog,
-  showHideDialog,
-} from "../../../../store/actions/toaster-actions";
+import { getResultSetting } from "../../../../store/actions/portal-setting-action";
 import { PrintCSV } from "../../../../utils/export-csv";
 import ResultTemplateOne from "./template-one";
 import ResultTemplateTwo from "./template-two";
@@ -18,7 +13,7 @@ const TemplateControl = () => {
   const history = useHistory();
   const [elementId, setElementId] = useState("")
   const state = useSelector((state) => state);
-  const { resultSettingList } = state.portal;
+  const { resultSetting } = state.portal;
   const { dialogResponse } = state.alert;
   const { batchResult } = state.results;
   const queryParams = new URLSearchParams(locations.search);
@@ -27,7 +22,7 @@ const TemplateControl = () => {
   // const sessionTermId = queryParams.get("sessionTermId");
 
   useEffect(() => {
-    getResultSettingList()(dispatch);
+    getResultSetting()(dispatch);
     window.onbeforeunload = () => "Results will be lost on reload";
   }, [dispatch]);
 
@@ -52,7 +47,7 @@ const TemplateControl = () => {
   //   };
   // }, [dialogResponse, dispatch]);
 
-  switch (resultSettingList?.selectedTemplate) {
+  switch (resultSetting?.selectedTemplate) {
     case "template-one":
       return (
         <div>

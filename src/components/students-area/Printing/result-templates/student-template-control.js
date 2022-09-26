@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getResultSettingList } from "../../../../store/actions/portal-setting-action";
-import { resetStudentResultState } from "../../../../store/actions/results-actions";
+import { getResultSetting } from "../../../../store/actions/portal-setting-action";
 import ResultTemplateOne from "./student-template-one";
 import ResultTemplateTwo from "./student-template-two";
 
@@ -12,14 +11,14 @@ const StudentTemplateControl = () => {
   const locations = useLocation();
   const history = useHistory();
   const state = useSelector((state) => state);
-  const { resultSettingList } = state.portal;
+  const { resultSetting } = state.portal;
 
   useEffect(() => {
-    getResultSettingList()(dispatch);
+    getResultSetting()(dispatch);
     window.onbeforeunload = () => "Results will be lost on reload";
   }, [dispatch]);
 
-  switch (resultSettingList?.selectedTemplate) {
+  switch (resultSetting?.selectedTemplate) {
     case "template-one":
       return (
         <div>

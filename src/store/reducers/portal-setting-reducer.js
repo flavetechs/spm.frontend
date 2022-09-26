@@ -9,13 +9,13 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
-        schoolSettingList: "",
+        schoolSetting: {},
       };
     case actions.FETCH_SCHOOL_SETTING_SUCCESS:
       return {
         ...state,
         loading: false,
-        schoolSettingList: payload,
+        schoolSetting: payload,
       };
     case actions.FETCH_SCHOOL_SETTING_FAILED:
       return {
@@ -30,13 +30,13 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         message: "",
-       isSuccessful: false,
+        isSuccessful: false,
       };
     case actions.FETCH_RESULT_SETTING_SUCCESS:
       return {
         ...state,
-       loading: false,
-        resultSettingList: payload,
+        loading: false,
+        resultSetting: payload,
       };
     case actions.FETCH_RESULT_SETTING_FAILED:
       return {

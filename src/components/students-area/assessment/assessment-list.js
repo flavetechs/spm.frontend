@@ -71,7 +71,7 @@ const StudentAssessmentList = () => {
                           >
                             <option value={-1}>Select All</option>
                             <option value={1}>Open</option>
-                            <option value={0}>Unsubmitted</option>
+                            {/* <option value={0}>Unsubmitted</option> */}
                             <option value={3}>Submitted</option>
                             <option value={2}>Closed</option>
                           </select>

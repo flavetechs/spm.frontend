@@ -1,10 +1,11 @@
 import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
-import { setAssessmentScoreEntry, setExamScoreEntry } from "../../../store/actions/results-actions";
+import { getAllClassScore, setAssessmentScoreEntry, setExamScoreEntry } from "../../../store/actions/results-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllClassScoreEntryPreview } from "../../../store/actions/results-actions";
 import { useEffect } from "react";
 import { getActiveSession } from "../../../store/actions/session-actions";
+import { useLocation } from "react-router-dom";
 
 const LargeTable = ({
   validation,
@@ -23,11 +24,16 @@ const LargeTable = ({
   const state = useSelector((state) => state);
   const { activeSession } = state.session;
   const handleFocus = (event) => event.target.select();
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const subjectIdQueryParam = queryParams.get("subjectId") || "";
 
   useEffect(() => {
-  getActiveSession()(dispatch);
+    getActiveSession()(dispatch);
+    getAllClassScore(sessionClassIdQueryParam, subjectIdQueryParam)(dispatch);
   }, [dispatch])
- 
+
   return (
     <>
       <Row className="pt-3">
@@ -65,7 +71,7 @@ const LargeTable = ({
           }) => (
             <Table size="md" hover bordered responsive className="mt-2">
               <thead>
-                <tr className="text-center" style={{background:'#d8efd1'}}>
+                <tr className="text-center" style={{ background: '#d8efd1' }}>
                   <td className="text-uppercase h6">S/No</td>
                   <td className="text-uppercase h6 text-start">Students Full Name</td>
                   <td className="text-uppercase h6 text-start">Student Registration No</td>
@@ -127,7 +133,7 @@ const LargeTable = ({
                                   setFieldValue(`${item.studentContactId}_assessmentScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry,activeSession?.sessionTermId)(dispatch);
+                                  setAssessmentScoreEntry(item.studentContactId, e.target.value, scoreEntry, activeSession?.sessionTermId)(dispatch);
                                 }}
                               />
                             ) : (
@@ -153,7 +159,7 @@ const LargeTable = ({
                                   setFieldValue(`${item.studentContactId}_examScore`, e.target.value);
                                 }}
                                 onBlur={(e) => {
-                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry,activeSession?.sessionTermId)(dispatch);
+                                  setExamScoreEntry(item.studentContactId, e.target.value, scoreEntry, activeSession?.sessionTermId)(dispatch);
                                 }}
                               />
                             ) : (
@@ -166,11 +172,11 @@ const LargeTable = ({
                         <td style={{ width: "5px" }}>
                           {" "}
                           <Field
-                          name="checked"
+                            name="checked"
                             type="checkbox"
                             className="form-check-input"
                             checked={item.isOffered || false}
-                            onChange={(e)=>setFieldValue("checked",e.target.checked)}
+                            onChange={(e) => setFieldValue("checked", e.target.checked)}
                           />
                         </td>
                         <td>

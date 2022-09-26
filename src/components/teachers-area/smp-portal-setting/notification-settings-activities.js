@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch } from "react-redux";
 import './setting.scss';
 import { updateNotificationSetting } from "../../../store/actions/portal-setting-action";
 
-const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSettingResult, selectedNotificationSetting, sendTrueOrFalse, currentSend }) => {
+const NotificationSettingActivities = ({ selectedNotificationSetting, activeStyleBoxShadow, notificationSettingResult }) => {
 
 
     //VARIABLE DECLARATIONS
@@ -28,14 +28,16 @@ const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSetti
                             <Form>
                                 <div className="row ms-1">
                                     <div className="form-check col-md-6">
-                                        <input className="form-check-input" type="radio"
-                                            name={selectedNotificationSetting.name} id="sendNotificationByEmail"
+                                        <input className="form-check-input"
+                                            type="radio"
+                                            name={selectedNotificationSetting.name}
+                                            id="sendNotificationByEmail"
                                             value="email"
-                                            checked={formData[selectedNotificationSetting.name]?.media === "email" ? true : false}
-                                            onClick={(e) => {
+                                            defaultChecked={formData[selectedNotificationSetting.name]?.media === "email" ? true : false}
+                                            onChange={(e) => {
                                                 formData[selectedNotificationSetting.name].media = e.target.value;
-                                                formData[selectedNotificationSetting.name].send = sendTrueOrFalse;
                                                 setFormData(formData);
+                                                console.log('email', formData[selectedNotificationSetting.name]);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor="sendNotificationByEmail">
@@ -43,15 +45,17 @@ const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSetti
                                         </label>
                                     </div>
                                     <div className="form-check col-md-6">
-                                        <input className="form-check-input" type="radio"
+                                        <input className="form-check-input"
+                                            type="radio"
                                             name={selectedNotificationSetting?.name}
                                             id="sendNotificationBySms"
                                             value="sms"
                                             checked={formData[selectedNotificationSetting.name]?.media === "sms" ? true : false}
-                                            onClick={(e) => {
+                                            onChange={(e) => {
+                                                e.target.value = "sms"
                                                 formData[selectedNotificationSetting.name].media = e.target.value;
-                                                formData[selectedNotificationSetting.name].send = sendTrueOrFalse;
                                                 setFormData(formData);
+                                                console.log('sms', formData[selectedNotificationSetting.name]);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor="sendNotificationBySms">
@@ -69,11 +73,10 @@ const NotificationSettingActivities = ({ activeStyleBoxShadow, notificationSetti
                                                         value={sendToParentsOnResultPublish}
                                                         name="shouldSendToParentsOnResultPublish"
                                                         id="shouldSendToParentsOnResultPublish"
-                                                          checked={sendToParentsOnResultPublish}
+                                                        checked={sendToParentsOnResultPublish}
                                                         onClick={(e) => {
                                                             setSendToParentsOnResultPublish(sendToParentsOnResultPublish);
                                                             formData[selectedNotificationSetting.name].shouldSendToParentsOnResultPublish = sendToParentsOnResultPublish;
-                                                            formData[selectedNotificationSetting.name].send = sendTrueOrFalse;
                                                             setFormData(formData);
 
                                                         }}

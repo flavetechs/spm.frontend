@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import { Row, Col, Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { Row, Col, Table, Button } from "react-bootstrap";
 import {
-  getResultSettingList,
-  getSchoolSettingList,
+  getResultSetting,
+  getSchoolSetting,
 } from "../../../../store/actions/portal-setting-action";
 import { getAllStudentResult } from "../../../../store/actions/results-actions";
 import {
@@ -20,7 +20,7 @@ const ResultTemplateOne = (props) => {
   const state = useSelector((state) => state);
   const { studentResult } = state.results;
   const { dialogResponse } = state.alert;
-  const { schoolSettingList, resultSettingList } = state.portal;
+  const { schoolSetting, resultSetting } = state.portal;
   const locations = useLocation();
   const dispatch = useDispatch();
   const tableRef = useRef(null);
@@ -36,8 +36,8 @@ const ResultTemplateOne = (props) => {
     }
   }, [dispatch]);
   useEffect(() => {
-    getSchoolSettingList()(dispatch);
-    getResultSettingList()(dispatch);
+    getSchoolSetting()(dispatch);
+    getResultSetting()(dispatch);
   }, [dispatch]);
 
   const cognitiveBehaviour = [
@@ -98,7 +98,7 @@ const ResultTemplateOne = (props) => {
                     <div className="d-flex justify-content-center" style={{display:"flex",justifyContent: "center"}}>
                       <img
                         style={{ maxWidth: "15%" }}
-                        src={schoolSettingList?.filepath}
+                        src={schoolSetting?.filepath}
                         alt="logo"
                         draggable="false"
                       />
@@ -108,7 +108,7 @@ const ResultTemplateOne = (props) => {
                       style={{textAlign:"center",textTransform:"uppercase"}}
                       draggable="false"
                     >
-                      {schoolSettingList?.schoolName}
+                      {schoolSetting?.schoolName}
                     </h4>
                   </Col>
                 </Row>
@@ -328,7 +328,7 @@ const ResultTemplateOne = (props) => {
                     <div className="h6 text-center" style={{textAlign:"center"}}>
                       <div>
                         <img
-                          src={resultSettingList?.filepath}
+                          src={resultSetting?.filepath}
                           alt="stamp"
                           style={{ maxWidth: "12%" }}
                           draggable="false"

@@ -158,7 +158,7 @@ const NotificationSetting = () => {
     //VARIABLE DECLARATIONS
 
 
-    function handleStylingEffect() {
+    function handleFocusEffect() {
         setActiveStyleBoxShadow(true);
         setTimeout(() => {
             setActiveStyleBoxShadow(false);
@@ -179,7 +179,7 @@ const NotificationSetting = () => {
                                             <Nav.Link eventKey={index + 1} href="#" className="shadow" key={index}
                                                 onClick={() => {
                                                     setSelectedNotificationSetting({ title: item.title, desc: item.desc, name: item.name });
-                                                    handleStylingEffect();
+                                                    handleFocusEffect();
                                                     // setSwitchValue(notificationSettingResult[item.name]?.send)
                                                 }}
                                             >
@@ -200,8 +200,7 @@ const NotificationSetting = () => {
                                                                 defaultChecked={notificationSettingResult[item.name]?.send}
                                                                 onChange={(e) => {
                                                                     notificationSettingResult[item.name].send = !notificationSettingResult[item.name].send;
-                                                                    setSwitchValue(notificationSettingResult);
-                                                                    console.log('notificationSettingResult', notificationSettingResult[item.name]);
+                                                                    setSelectedNotificationSetting(notificationSettingResult);
                                                                 }}
                                                             />
                                                         </Form>
@@ -231,7 +230,6 @@ const NotificationSetting = () => {
                                         selectedNotificationSetting={selectedNotificationSetting}
                                         activeStyleBoxShadow={activeStyleBoxShadow}
                                         notificationSettingResult={notificationSettingResult}
-                                        switchValue={switchValue}
                                     />}
                             </Col>
                         </Row>

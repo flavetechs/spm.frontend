@@ -144,7 +144,7 @@ const PrintResult = () => {
                           values={values.sessionId}
                           onChange={(e) => {
                             setFieldValue("sessionId", e.target.value);
-                            history.push(`${resultManagement.printResult}?sessionId=${e.target.value}`)
+                            history.push(`${resultManagement.printResult}?sessionId=${e.target.value}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
                           }}
                         >
                           <option value="">Select Session</option>
@@ -178,7 +178,7 @@ const PrintResult = () => {
                           value={values.sessionTermId}
                           onChange={(e) => {
                             setFieldValue("sessionTermId", e.target.value);
-                            history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
+                            history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
                             // getTermClasses(
                             //   selectedSession?.sessionId,
                             //   e.target.value
@@ -222,7 +222,7 @@ const PrintResult = () => {
                           id="printOption"
                           onChange={(e) => {
                             setFieldValue("printOption", e.target.value);
-                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}`)
+                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${e.target.value}&sessionClassId=${sessionClassIdQueryParam}`)
                             if (e.target.value === "printSingle") {
                               setPrintSingle(true);
                               setBatchPrint(false);
@@ -301,10 +301,7 @@ const PrintResult = () => {
                               onChange={(e) => {
                                 setFieldValue("sessionClassId", e.target.value);
                                 history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
-                                // getAllResultList(
-                                //   e.target.value,
-                                //   values.sessionTermId
-                                // )(dispatch);
+                            
                               }}
                             >
                               <option value="">Select Class</option>
