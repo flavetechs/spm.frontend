@@ -96,8 +96,9 @@ const CreateAttendance = () => {
                         resetCreateSuccessfulState()(dispatch);
                         const queryParams = new URLSearchParams(locations.search);
                         const sessionClassId = queryParams.get("sessionClassId");
+                        const termId = queryParams.get("termId");
                         history.push(
-                            `${classLocations.classAttendanceBoard}?sessionClassId=${sessionClassId}`
+                            `${classLocations.classAttendanceBoard}?termId=${termId}&sessionClassId=${sessionClassId}`
                           );
                     }}
                     className="btn btn-success mx-3"
