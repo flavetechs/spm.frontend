@@ -147,12 +147,6 @@ const UsedPins = () => {
                           <div className="d-lg-flex justify-content-end">
                             <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown input-group">
                               <Form.Group className="input-group me-4">
-                                <Form.Control
-                                  type="search"
-                                  className="form-control text-lowercase me-1 d-inline d-inline"
-                                  placeholder="Search..."
-                                  onChange={(event) => setFilterQuery(event.target.value)}
-                                />
                                 <span className="input-group-text" id="basic-addon1">
                                   <svg width="25" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -168,6 +162,12 @@ const UsedPins = () => {
                                       strokeLinejoin="round" />
                                   </svg>
                                 </span>
+                                <Form.Control
+                                  type="search"
+                                  className="form-control text-lowercase me-1 d-inline d-inline"
+                                  placeholder="Search..."
+                                  onChange={(event) => setFilterQuery(event.target.value)}
+                                />
                               </Form.Group>
                             </div>
                           </div>
