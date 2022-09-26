@@ -179,10 +179,7 @@ const PrintResult = () => {
                           onChange={(e) => {
                             setFieldValue("sessionTermId", e.target.value);
                             history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
-                            // getTermClasses(
-                            //   selectedSession?.sessionId,
-                            //   e.target.value
-                            // )(dispatch);
+                        
                           }}
                         >
                           <option value="">Select Term</option>
