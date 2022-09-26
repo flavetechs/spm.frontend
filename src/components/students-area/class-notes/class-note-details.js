@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../router/spm-path-locations";
 import {
-  addClassNoteComments,
   addClassNoteReplies,
   getLessonNoteDetails,
   getSingleLessonNotes,
@@ -16,7 +15,6 @@ const ClassNoteDetails = () => {
   const {
     singleLessonNotes,
     createSuccessful,
-    comments,
     relatedNotes,
   } = state.class;
   //VARIABLE DECLARATIONS
@@ -26,7 +24,6 @@ const ClassNoteDetails = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const [row, setRow] = useState({});
-  const [comment, setComment] = useState("");
   const [reply, setReply] = useState({});
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
@@ -201,191 +198,8 @@ const ClassNoteDetails = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col sm="12">
-              <Card>
-                <Card.Header>
-                  <h4 className="card-title mb-n5">Comment(s)</h4>
-                </Card.Header>
-                <Card.Body>
-                  {comments?.map((comment, idx) => (
-                    <>
-                      <Card className="shadow-none bg-transparent border my-3">
-                        <Card.Body>
-                          <div>
-                            <div className="d-flex justify-content-between align-items-center my-2 my-lg-0 col-12">
-                              <h6 className="mb-0">{comment.name}</h6>
-                              <h6
-                                className="mb-0"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  setRow({
-                                    indexRow: idx,
-                                    showRow: !row.showRow,
-                                  });
-                                }}
-                              >
-                                Reply
-                              </h6>
-                            </div>
-                            {/* <small className="text-primary">March 01st 2021</small> */}
-                            <p className="mt-2 mb-0">{comment.comment}</p>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                      <h6 className="mb-2"> Replies:</h6>
-                      {comment?.repliedComments?.map((replied, idx) => (
-                        <Card
-                          key={idx}
-                          className="bg-light shadow-none border py-1 mb-1 px-3"
-                        >
-                          <div className="d-flex flex-sm-nowrap flex-wrap">
-                            <div>
-                              <div
-                                className="d-flex justify-content-between align-items-center my-2 my-lg-0 "
-                                style={{ cursor: "pointer" }}
-                              >
-                                <h6 className="mb-0">{replied.name}</h6>
-                              </div>
-                              {/* <small className="text-primary">March 01st 2021</small> */}
-                              <p className="mt-2 mb-0">{replied.comment}</p>
-                            </div>
-                          </div>
-                        </Card>
-                      ))}{" "}
-                      {row.showRow && row.indexRow === idx && (
-                        <>
-                          <div className="d-flex justify-content-end mt-4">
-                            <div
-                              className=" badge bg-primary border-0 mb-2 mt-n3"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                addClassNoteReplies(
-                                  reply.commentId,
-                                  reply.comment,
-                                  singleLessonNotes?.classNoteId
-                                )(dispatch);
-                                setRow({
-                                  indexRow: "",
-                                  showRow: false,
-                                });
-                              }}
-                            >
-                              <svg
-                                className="icon-32 me-2"
-                                width="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                ></path>
-                              </svg>
-                              ok
-                            </div>
-                          </div>
-                          <textarea
-                            className="form-control w-100 border-secondary"
-                            onChange={(e) => {
-                              setReply({
-                                comment: e.target.value,
-                                commentId: comment.commentId,
-                              });
-                            }}
-                          />
-                        </>
-                      )}
-                      <hr />
-                    </>
-                  ))}
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col sm="12">
-              <Card>
-                <Card.Header>
-                  <h4 className="card-title">Post a Comment.</h4>
-                </Card.Header>
-                <Card.Body>
-                  <form>
-                    <Row>
-                      <div className="col-lg-12">
-                        <div className="form-group">
-                          <label className="form-label text-dark">
-                            Enter your Comment:
-                          </label>
-                          <textarea
-                            id="message"
-                            className="form-control w-100 border-secondary"
-                            value={comment}
-                            onChange={(e) => {
-                              setComment(e.target.value);
-                            }}
-                          />
-                        </div>
-
-                        <div
-                          className="badge bg-primary border-0 mb-3"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            addClassNoteComments(
-                              singleLessonNotes?.classNoteId,
-                              comment
-                            )(dispatch);
-                            setComment("");
-                          }}
-                        >
-                          <svg
-                            className="icon-32 me-2"
-                            width="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                          ok
-                        </div>
-                      </div>
-                    
-                    </Row>
-                  </form>
-                  <div className="mt-5 mt-sm-0 d-flex justify-content-end">
-                    <button
-                      type="button"
-                      className="btn btn-danger btn-md mx-2"
-                      onClick={() => {
-                        history.goBack();
-                      }}
-                    >
-                      Back
-                    </button>
-                    {/* <button
-                      type="submit"
-                      className="btn btn-primary"
-                      onClick={() => {
-                        approveNotes(
-                          singleLessonNotes?.studentNoteId,
-                          isChecked
-                        )(dispatch);
-                      }}
-                    >
-                      Submit
-                    </button> */}
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
+            
+           
           </Col>
           <Col sm="5">
             <Card>
@@ -408,7 +222,7 @@ const ClassNoteDetails = () => {
                 </div>
               </Card.Body>
             </Card>
-            <Card>
+            {/* <Card>
               <Card.Body>
                 <h4 className="mb-3">Related Notes</h4>
                 <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
@@ -432,7 +246,7 @@ const ClassNoteDetails = () => {
                   ))}
                 </ul>
               </Card.Body>
-            </Card>
+            </Card> */}
             <Card>
               
             </Card>
