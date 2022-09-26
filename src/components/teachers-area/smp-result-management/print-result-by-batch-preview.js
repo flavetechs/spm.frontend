@@ -74,27 +74,27 @@ const BatchPrintPreview = () => {
             <tbody>
               <tr>
                 <th className="h6">Session</th>
-                <td className="fw-bold">{batchResultPreview?.session}</td>
+                <th className="fw-bold h6">{batchResultPreview?.session}</th>
               </tr>
               <tr>
                 <th className="h6">Term</th>
-                <td className="fw-bold text-capitalize">{batchResultPreview?.term}</td>
+                <th className="fw-bold text-capitalize h6">{batchResultPreview?.term}</th>
               </tr>
               <tr>
                 <th className="h6">Class</th>
-                <td className="fw-bold text-capitalize">{batchResultPreview?.class}</td>
+                <th className="fw-bold text-capitalize h6">{batchResultPreview?.class}</th>
               </tr>
               <tr>
                 <th className="h6">No of pins to be used</th>
-                <td className="fw-bold text-capitalize">{batchResultPreview?.numberOfPins}</td>
+                <th className="fw-bold text-capitalize h6">{batchResultPreview?.numberOfPins}</th>
               </tr>
               <tr>
                 <th className="h6">Pin status</th>
-                <td><div className={`fw-bold text-uppercase ${batchResultPreview?.pinStatus !== "sufficient" ? "badge bg-danger" :"badge bg-success" }`}>{batchResultPreview?.pinStatus}</div></td>
+                <th><div className={`fw-bold h6 text-uppercase ${batchResultPreview?.pinStatus !== "sufficient" ? "badge bg-danger" :"badge bg-success" }`}>{batchResultPreview?.pinStatus}</div></th>
               </tr>
               <tr>
                 <th className="h6">No of students</th>
-                <td className="fw-bold text-capitalize">{batchResultPreview?.numberOfStudents}</td>
+                <th className="fw-bold text-capitalize h6">{batchResultPreview?.numberOfStudents}</th>
               </tr>
             </tbody>
           </Table>
