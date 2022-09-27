@@ -6,6 +6,7 @@ import { closeHomeAssessment } from "../../../../store/actions/class-actions";
 export function HomeAssessmentList(props) {
   const history = useHistory();
   const dispatch = useDispatch();
+  console.log("this",props.assessmentList);
   return (
     <>
       <Col md="6" lg="4" xxl="3" className="" key={props.idx}>

@@ -503,7 +503,7 @@ export const resetStudentResultState = () => (dispatch) => {
  }
 
 // TemplateSetting action
-export const updateSelectedResultTemplate = (templateName) => (dispatch) => {
+export const setTemplateSettingState = (templateName) => (dispatch) => {
     dispatch({
          type: actions.SET_TEMPLATE_SETTING_STATE_LOADING, 
      });
