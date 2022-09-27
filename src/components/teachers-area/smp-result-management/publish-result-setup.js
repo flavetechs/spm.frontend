@@ -46,21 +46,13 @@ const PublishResult = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if(!sessionIdQueryParam){
-    getTermClasses(
-      activeSession?.sessionId,
-      activeSession?.sessionTermId
-    )(dispatch);
-    history.push(`${resultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
-      (term) => term.isActive === true
-    )?.sessionTermId}`)
-  }else{
-    getTermClasses(
-    sessionIdQueryParam,
-    termIdQueryParam
-    )(dispatch);
-  }
-  }, [sessionIdQueryParam,activeSession, dispatch]);
+    sessionIdQueryParam && getTermClasses(sessionIdQueryParam)(dispatch);
+  }, [sessionIdQueryParam, dispatch]);
+
+  React.useEffect(() => {
+    history.push(`${resultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+  }, [activeSession]);
+
 
   return (
     <>
@@ -183,8 +175,8 @@ const PublishResult = () => {
                                   selected={term.sessionTermId === values.terms}
                                 >
                                   {term.termName}
-                                  </option>
-                            ))}
+                                </option>
+                              ))}
                           </Field>
                         </Col>
                         <Col md="10">

@@ -49,8 +49,8 @@ export const getAllTerms = (sessionId) => (dispatch) => {
     });
 };
 
-export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
-  if (!sessionId || !sessionTermId) {
+export const getTermClasses = (sessionId) => (dispatch) => {
+  if (!sessionId) {
     return
   }
   dispatch({
@@ -59,7 +59,7 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
   });
   axiosInstance
     .get(
-      `/session/api/v1/get/session-term/classes?sessionId=${sessionId}&termId=${sessionTermId}`
+      `/session/api/v1/get/session-term/classes?sessionId=${sessionId}`
     )
     .then((res) => {
       dispatch({
