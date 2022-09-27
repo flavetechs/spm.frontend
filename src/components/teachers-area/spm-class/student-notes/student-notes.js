@@ -380,7 +380,7 @@ const StudentNotes = () => {
                                 </small>
                               </div>
                             </Card.Body>
-                            <div className="d-flex justify-content-between mx-2 p-0 mb-2 mt-n3 text-capitailze">
+                            <div className="d-flex justify-content-between mx-2 p-0 mb-2 mt-n3 text-lowercase">
                             <small>{item.studentName}</small><small>{item.subjectName}</small>
                             </div>
                           </Card>
