@@ -627,6 +627,7 @@ const LessonNotes = () => {
 
                                       <div
                                         onClick={() => {
+                                          setShowMenuDropdown(false);
                                           setTeacherClassNoteId(
                                             item.teacherClassNoteId
                                           );

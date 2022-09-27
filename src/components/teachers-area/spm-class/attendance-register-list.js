@@ -476,6 +476,7 @@ const AttendanceRegisterList = () => {
                                         ) && (
                                           <div
                                             onClick={() => {
+                                              setShowMenuDropdown(false);
                                               setClassRegisterId(
                                                 register.classRegisterId
                                               );
