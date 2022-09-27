@@ -203,7 +203,7 @@ const ResultTemplateTwo = (props) => {
                     bordered
                     responsive
                     className="mt-4 border-secondary"
-                    style={{ marginTop: "20px" }}
+                    style={{ marginTop: "20px",border:"1px solid black",borderCollapse:"collapse"}}
                     draggable="false"
                   >
                     <thead>
