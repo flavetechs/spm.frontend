@@ -9,15 +9,15 @@ const PublishResultEditTable = ({publishSingleStudent}) => {
             <tbody>
               <tr>
                 <th className="fw-bold h6 text-uppercase">Student Name</th>
-                <td className="fw-bold text-uppercase">{publishSingleStudent?.studentName}</td>
+                <th className="fw-bold text-uppercase">{publishSingleStudent?.studentName}</th>
               </tr>
               <tr>
                 <th className="fw-bold h6 text-uppercase">Student Reg No.</th>
-                <td className="fw-bold text-uppercase">{publishSingleStudent?.registrationNumber}</td>
+                <th className="fw-bold text-uppercase">{publishSingleStudent?.registrationNumber}</th>
               </tr>
               <tr>
                 <th className="fw-bold h6 text-uppercase">Class Name</th>
-                <td className="fw-bold text-uppercase">{publishSingleStudent?.sessionClassName}</td>
+                <th className="fw-bold text-uppercase">{publishSingleStudent?.sessionClassName}</th>
               </tr>
             </tbody>
           </Table>

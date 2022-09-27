@@ -116,8 +116,10 @@ const CreateHomeAssessment = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i => i.sessionClassId === sessionClassIdQueryParam)?.sessionClass}</h6>
                       <Row className="d-flex justify-content-center">
+                      <Col md="11">
+                      <h5 className="mb-3">{staffClasses?.find(i => i.sessionClassId === sessionClassIdQueryParam)?.sessionClass}</h5>
+                        </Col>
                         <Col md="11">
                           {touched.title && errors.title && (
                             <div className="text-danger">{errors.title}</div>
