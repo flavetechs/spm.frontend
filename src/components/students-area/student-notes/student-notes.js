@@ -416,6 +416,7 @@ const StudentNotes = () => {
 
                                       <div
                                         onClick={() => {
+                                          setShowMenuDropdown(false);
                                           setStudentNoteId(item.studentNoteId);
                                           showHideDialog(
                                             true,

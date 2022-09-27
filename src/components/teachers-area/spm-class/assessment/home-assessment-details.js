@@ -51,7 +51,7 @@ const HomeAssessmentDetails = () => {
                           history.push(`${
                             classLocations.assessment
                           }
-                        ?sessionClassId=${singleHomeAssessmentList?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${"home-assessment"}`);
+      `);
                         }}
                         style={{ cursor: "pointer" }}
                         className=" text-primary"
@@ -246,6 +246,8 @@ const HomeAssessmentDetails = () => {
                                 className={
                                   item.status === "submitted"
                                     ? "badge bg-success"
+                                    : item.status === "uncompleted" ?
+                                    "badge bg-warning"
                                     : "badge bg-danger"
                                 }
                               >
@@ -254,7 +256,7 @@ const HomeAssessmentDetails = () => {
                             </td>
                             <td className="text-center">{item.score}</td>
                             <td className="text-center">
-                              {item?.status !== "not started" && (
+                              {item?.status === "submitted" && (
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={

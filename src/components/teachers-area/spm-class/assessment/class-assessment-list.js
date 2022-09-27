@@ -116,6 +116,7 @@ export function ClassAssessmentList(props) {
 
                                         <div
                                             onClick={() => {
+                                                props.setShowMenuDropdown(false);
                                                 props.setClassAssessmentId(
                                                     props.item.classAssessmentId
                                                 );

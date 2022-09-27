@@ -482,6 +482,7 @@ const AssessmentList = () => {
                                 sessionClassSubjectIdQueryParam
                               }
                               groupIdQueryParam={groupIdQueryParam}
+                              selectedSessionClassSubjectId={selectedSessionClassSubjectId}
                             />
                           ) : typeQueryParam === "class-assessment" ? (
                             <ClassAssessmentList
