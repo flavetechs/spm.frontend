@@ -71,11 +71,7 @@ const TemplateControl = () => {
                   className="btn btn-primary mx-3 mb-3"
                   onClick={() => {
                     PrintCSV("result-table-one");
-                    // setElementId("result-table-one")
-                    // showHideDialog(
-                    //   true,
-                    //   "Are you sure you want to print result"
-                    // )(dispatch);
+                    
                   }}
                 >
                   Batch Print

@@ -67,12 +67,12 @@ const TemplateSetting = () => {
   useEffect(() => {
     getResultSetting()(dispatch);
   }, [dispatch])
-  
+
   useEffect(() => {
-    if(!templateName){
-    setTemplateName(imageData.find(d=>d.isChecked === true)?.templateName)
+    if (!templateName) {
+      setTemplateName(imageData.find(d => d.isChecked === true)?.templateName)
     }
-  }, [imageData,dispatch]);
+  }, [imageData, dispatch]);
 
   useEffect(() => {
     if (dialogResponse === "continue") {
@@ -84,8 +84,8 @@ const TemplateSetting = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,dispatch]);
-  
+  }, [dialogResponse, dispatch]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -101,7 +101,7 @@ const TemplateSetting = () => {
               <Card.Body>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                   {imageData.map((data, idx) => (
-                    <div key={idx}className="col">
+                    <div key={idx} className="col">
                       <div className="card iq-file-manager">
                         <div className="card-body card-thumbnail">
                           <img

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Badge, Form } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
 
@@ -46,21 +46,20 @@ const UsedPins = () => {
     fetchUsedPins();
   }, [sessionIdQueryParam, termIdQueryParam]);
 
-
-
-
   let filteredPinList = usedPinList.filter((item) => {
     if (filterQuery === "") {
       //if query is empty
       return item;
-    } else if (
-      item.session.toLowerCase().includes(filterQuery.toLowerCase())
-    ) {
+    } else if (item.studentName.toLowerCase().includes(filterQuery.toLowerCase())) {
       //returns filtered array
       return item;
-    } else if (
-      item.term.toLowerCase().includes(filterQuery.toLowerCase())
-    ) {
+    } else if (item.pin.toLowerCase().includes(filterQuery.toLowerCase())) {
+      //returns filtered array
+      return item;
+    } else if (item.registrationNumber.toLowerCase().includes(filterQuery.toLowerCase())) {
+      //returns filtered array
+      return item;
+    } else if (item.numberOfTimesUsed.toString().includes(filterQuery.toString())) {
       //returns filtered array
       return item;
     }
@@ -86,43 +85,13 @@ const UsedPins = () => {
                     <div className="header-title">
                       <h4 className="card-title mb-3">Used Pins</h4>
                     </div>
-                    <div className="">
-                      <div className="input-group d-flex justify-content-end me-2">
-                        <span className="input-group-text border-0" id="">
-                          <svg
-                            width="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M4.56517 3C3.70108 3 3 3.71286 3 4.5904V5.52644C3 6.17647 3.24719 6.80158 3.68936 7.27177L8.5351 12.4243L8.53723 12.4211C9.47271 13.3788 9.99905 14.6734 9.99905 16.0233V20.5952C9.99905 20.9007 10.3187 21.0957 10.584 20.9516L13.3436 19.4479C13.7602 19.2204 14.0201 18.7784 14.0201 18.2984V16.0114C14.0201 14.6691 14.539 13.3799 15.466 12.4243L20.3117 7.27177C20.7528 6.80158 21 6.17647 21 5.52644V4.5904C21 3.71286 20.3 3 19.4359 3H4.56517Z"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                        </span>
-                   
-                          <input
-                            type="search"
-                            className="form-control text-lowercase"
-                            placeholder="Filter..."
-                            onChange={(event) => setFilterQuery(event.target.value)}
-                          />
-                     
-                      </div>
-                    </div>
                   </Card.Header>
                   <hr />
                   <Card
                   >
                     <Card.Body>
-                      <div className="d-lg-flex align-items-center ">
-                        <div className=" d-lg-flex align-items-center">
+                      <div className="d-lg-flex align-items-center">
+                        <div className=" d-lg-flex align-items-center w-100">
                           <div>
                             <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
                               <Field
@@ -173,6 +142,33 @@ const UsedPins = () => {
                                   </option>
                                 ))}
                               </Field>
+                            </div>
+                          </div>
+                          <div className="d-lg-flex justify-content-end">
+                            <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown input-group">
+                              <Form.Group className="input-group me-4">
+                                <span className="input-group-text" id="basic-addon1">
+                                  <svg width="25" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="11.7669" cy="11.7666" r="8.98856"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round" />
+                                    <path d="M18.0186 18.4851L21.5426 22"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round" />
+                                  </svg>
+                                </span>
+                                <Form.Control
+                                  type="search"
+                                  className="form-control text-lowercase me-1 d-inline d-inline"
+                                  placeholder="Search..."
+                                  onChange={(event) => setFilterQuery(event.target.value)}
+                                />
+                              </Form.Group>
                             </div>
                           </div>
                         </div>
