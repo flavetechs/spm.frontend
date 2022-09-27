@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getResultSetting, updateSelectedResultTemplate } from "../../../store/actions/portal-setting-action";
+import { setTemplateSettingState } from "../../../store/actions/results-actions";
 import { respondDialog, showHideDialog, showHideModal } from "../../../store/actions/toaster-actions";
 import { TemplateModal } from "./template-modal";
 
@@ -76,6 +77,7 @@ const TemplateSetting = () => {
   useEffect(() => {
     if (dialogResponse === "continue") {
       updateSelectedResultTemplate(templateName)(dispatch);
+      setTemplateSettingState(templateName)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
     }

@@ -10,6 +10,7 @@ import {
 } from "../../../store/actions/class-actions";
 import {
   respondDialog,
+  showErrorToast,
   showHideDialog,
 } from "../../../store/actions/toaster-actions";
 import {
@@ -36,11 +37,11 @@ const StudentNotes = () => {
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
-  //VALIDATION
-  const validation = Yup.object().shape({
-    subjectId: Yup.string().required("Subject is required"),
-  });
-  //VALIDATION
+  // //VALIDATION
+  // const validation = Yup.object().shape({
+  //   subjectId: Yup.string().required("Subject is required"),
+  // });
+  // //VALIDATION
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId") || "";
   const statusQuery = queryParams.get("status") || "";
@@ -150,9 +151,10 @@ const StudentNotes = () => {
                   approvalStatus: statusQuery ? statusQuery : "",
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
+                //validationSchema={validation}
                 onSubmit={(values) => {
-                  history.push(
+                  !values.subjectId ? showErrorToast("Subject is required")(dispatch) :
+                  history.push( 
                     `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
                   );
                 }}
@@ -168,13 +170,13 @@ const StudentNotes = () => {
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
-                              <div>
+                              {/* <div>
                                 {touched.subjectId && errors.subjectId && (
                                   <div className="text-danger">
                                     {errors.subjectId}
                                   </div>
                                 )}
-                              </div>
+                              </div> */}
                               <Field
                                 as="select"
                                 name="subjectId"
@@ -482,9 +484,10 @@ const StudentNotes = () => {
                                 </small>
                               </div>
                             </Card.Body>
-                            <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                              {item.subjectName}
-                            </small>
+                            <div className="d-flex justify-content-between mx-2 p-0 mb-2 mt-n3">
+                              <small>{item.studentName}</small><small>{item.subjectName}</small> 
+                            </div>
+
                           </Card>
                         </Col>
                       ))}

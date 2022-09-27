@@ -143,7 +143,7 @@ const PrintResult = () => {
                           <div className="text-danger">{errors.sessionId}</div>
                         )}
                       </Col>
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                         <label className="form-label" htmlFor="sessionId">
                           <b>Session:</b>
                         </label>
@@ -177,7 +177,7 @@ const PrintResult = () => {
                           </div>
                         )}
                       </Col>
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                         <label className="form-label" htmlFor="sessionClassId">
                           <b>Terms:</b>
                         </label>
@@ -219,7 +219,7 @@ const PrintResult = () => {
                           </div>
                         )}
                       </Col>
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                         <label className="form-label">
                           <b>Print Option:</b>
                         </label>
@@ -254,7 +254,7 @@ const PrintResult = () => {
                               </div>
                             )}
                           </Col>
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>Student Registration No:</b>
                             </label>
@@ -272,7 +272,7 @@ const PrintResult = () => {
                               <div className="text-danger">{errors.ePin}</div>
                             )}
                           </Col>
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>E-pin:</b>
                             </label>
@@ -297,7 +297,7 @@ const PrintResult = () => {
                                 </div>
                               )}
                           </Col>
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>Classes:</b>
                             </label>

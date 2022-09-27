@@ -153,21 +153,21 @@ const EditStudentNote = () => {
                             </div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-secondary">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Title:</b>
                           </label>
                           <Field
                             type="text"
                             name="noteTitle"
-                            className="form-control border-secondary text-secondary"
+                            className="form-control border-secondary h6"
                             id="noteTitle"
                             onChange={(e) => {
                              setFieldValue("noteTitle",e.target.value)
                             }}
                           />
                         </Col>
-                        <Col md="11" className="form-group text-secondary">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Upload note(text,word,excel):</b>
                           </label>
@@ -190,7 +190,7 @@ const EditStudentNote = () => {
                         </Col>
                         <Col
                           md="11"
-                          className="form-group text-secondary"
+                          className="form-group h6"
                         >
                           <label
                             className="form-label d-flex justify-content-between"
@@ -237,7 +237,7 @@ const EditStudentNote = () => {
                         </Col>
 
                        {singleStudentNotes?.approvalStatus === 2 && (
-                          <Col md="11" className="form-group text-secondary mt-5">
+                          <Col md="11" className="form-group h6 mt-5">
                             <Field
                               type="checkbox"
                               name="submitForReview"
