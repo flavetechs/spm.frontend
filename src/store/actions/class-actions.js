@@ -1783,6 +1783,30 @@ export const deleteHomeAssessment = (item, sessionClassId, sessionClassSubjectId
         });
 }
 
+export const closeHomeAssessment = (homeAssessmentId, sessionClassId, sessionClassSubjectId, groupId) => (dispatch) => {
+    dispatch({
+        type: actions.CLOSE_ASSESSMENT_LOADING
+    });
+    const payload = {
+        homeAssessmentId
+    }
+    axiosInstance.post(`/homeassessment/api/v1/close/home-assessment`, payload)
+        .then((res) => {
+            dispatch({
+                type: actions.CLOSE_ASSESSMENT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllHomeAssessment(sessionClassId, sessionClassSubjectId, groupId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.CLOSE_ASSESSMENT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
 export const createHomeAssessment = (values) => (dispatch) => {
     dispatch({
         type: actions.CREATE_ASSESSMENT_LOADING

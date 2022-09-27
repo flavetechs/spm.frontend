@@ -1281,6 +1281,21 @@ export const classReducer = (state = _state, { type, payload }) => {
       message:payload,
     };
 
+    case actions.CLOSE_ASSESSMENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+      };
+    case actions.CLOSE_ASSESSMENT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message:payload,
+      };
+    case actions.CLOSE_ASSESSMENT_FAILED:
+
     case actions.FETCH_HOME_ASSESSMENT_LOADING: {
       return {
         ...state,

@@ -336,7 +336,7 @@ const ViewStudentsAssessment = () => {
                             </td>
                             <td className="text-center">{item.score}</td>
                             <td className="text-center">
-                              {item?.status !== "not started" && (
+                              {item?.status === "submitted" && (
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
