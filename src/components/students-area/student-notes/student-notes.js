@@ -66,9 +66,9 @@ const StudentNotes = () => {
     if(statusQuery && subjectIdQuery){
       getAllStudentNotes(subjectIdQuery,statusQuery)(dispatch);
     }else if(!statusQuery && subjectIdQuery){
-      getAllStudentNotes(subjectIdQuery, "2")(dispatch);
+      getAllStudentNotes(subjectIdQuery, "-2")(dispatch);
     }else{
-      getAllStudentNotes("", "2")(dispatch);
+      getAllStudentNotes("", "-2")(dispatch);
     }
   }, [subjectIdQuery,statusQuery,dispatch,locations.search]);
 
