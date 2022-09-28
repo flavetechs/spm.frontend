@@ -128,7 +128,7 @@ const ResultTemplateOne = (props) => {
                         bordered
                         size="sm"
                         className=" table-bordered border-dark"
-                        //style={{border:"1px solid black"}}
+                        style={{ border:"1px solid black",borderCollapse:"collapse"}}
                         draggable="false"
                       >
                         <tbody>
@@ -150,7 +150,7 @@ const ResultTemplateOne = (props) => {
                       bordered
                       size="sm"
                       className=" table-bordered border-dark"
-                      style={{ background: "#b9d7f7"}}
+                      style={{ background: "#b9d7f7",border:"1px solid black",borderCollapse:"collapse"}}
                       draggable="false"
                     >
                       <tbody>
@@ -258,7 +258,7 @@ const ResultTemplateOne = (props) => {
                         bordered
                         size="sm"
                         className=" table-bordered border-dark"
-                        //style={{border:"1px solid black"}}
+                        style={{  border:"1px solid black",borderCollapse:"collapse"}}
                         draggable="false"
                       >
                         <tbody>
@@ -281,7 +281,7 @@ const ResultTemplateOne = (props) => {
                     bordered
                     responsive
                     className="mt-4 border-secondary"
-                    style={{  marginTop:"20px"}}
+                    style={{  marginTop:"20px",border:"1px solid black",borderCollapse:"collapse"}}
                     draggable="false"
                   >
                     <tbody>
@@ -292,7 +292,7 @@ const ResultTemplateOne = (props) => {
                         <td style={{ color: "#2d2d2d",border:"1px solid black" }}>S/No</td>
                         <td
                           className=" text-start" 
-                          style={{ color: "#2d2d2d",textAlign:"left",border:"1px solid black"}}
+                          style={{ color: "#2d2d2d",textAlign:"left",border:"1px solid black",}}
                         >
                           Subject
                         </td>
