@@ -1,8 +1,9 @@
 import axios from 'axios';
 const axiosInstance = axios.create({
-    baseURL: 'http://flavetechs.com/smp/staging/',
+    baseURL: 'http://flavetechs.com/smp/development/',
     // baseURL: 'https://localhost:44373/',
     // baseURL: 'https://localhost:44349/smp/development/',
+    // baseURL: 'http://flavetechs.com/smp/staging/',
     headers: {
         Authorization: '',
     },
