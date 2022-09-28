@@ -101,8 +101,8 @@ const PrintResult = () => {
   
   return (
     <>
-      <div className="col-md-12 mx-auto d-flex justify-content-center">
-        <Col sm="6">
+      <div className="col-lg-6 mx-auto">
+        <Col sm="12">
           <Card>
             <Card.Header>
               <h6>

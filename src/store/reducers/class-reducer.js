@@ -1345,21 +1345,21 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        singleHomeAssessmentList:null,
+        singleHomeAssessment:null,
       };
     }
     case actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS: {
       return {
         ...state,
         loading: false,
-        singleHomeAssessmentList: payload,
+        singleHomeAssessment: payload,
       };
     }
     case actions.FETCH_SINGLE_HOME_ASSESSMENT_FAILED: {
       return {
         ...state,
         loading: false,
-        singleHomeAssessmentList: null,
+        singleHomeAssessment: null,
       };
     }
 
@@ -1367,21 +1367,21 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        singleClassAssessmentList:null,
+        singleClassAssessment:null,
       };
     }
     case actions.FETCH_SINGLE_CLASS_ASSESSMENT_SUCCESS: {
       return {
         ...state,
         loading: false,
-        singleClassAssessmentList: payload,
+        singleClassAssessment: payload,
       };
     }
     case actions.FETCH_SINGLE_CLASS_ASSESSMENT_FAILED: {
       return {
         ...state,
         loading: false,
-        singleClassAssessmentList: null,
+        singleClassAssessment: null,
       };
     }
 
@@ -1411,21 +1411,21 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        studentSingleHomeAssessmentList:null,
+        studentSingleHomeAssessment:null,
       };
     }
     case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS: {
       return {
         ...state,
         loading: false,
-        studentSingleHomeAssessmentList: payload,
+        studentSingleHomeAssessment: payload,
       };
     }
     case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_FAILED: {
       return {
         ...state,
         loading: false,
-        studentSingleHomeAssessmentList: null,
+        studentSingleHomeAssessment: null,
       };
     }
 

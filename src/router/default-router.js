@@ -85,6 +85,8 @@ import ClassAssessmentDetails from '../components/teachers-area/spm-class/assess
 import ScoreEntryTable from '../components/teachers-area/smp-result-management/score-entry-small-table';
 import AdminScoreEntryTable from '../components/teachers-area/smp-result-management/admin-score-entry-small-table';
 import BatchPrintPreview from '../components/teachers-area/smp-result-management/print-result-by-batch-preview';
+import ScoreRecord from '../components/teachers-area/spm-class/assessment/assessment-score-record';
+import ScoreRecordDetails from '../components/teachers-area/spm-class/assessment/assessment-score-record-details';
 
 const DashboardRouter = () => {
 
@@ -123,6 +125,8 @@ const DashboardRouter = () => {
                     <Route path={classLocations.studentNotes} exact component={StudentNotes} />
                     <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
                     <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
+                    <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
+                    <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
 
                     
                     <Route path={classLocations.classGroup} exact component={ClassGroup} />

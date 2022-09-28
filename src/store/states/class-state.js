@@ -37,10 +37,10 @@ export const _state = {
   groupList: [],
   singleGroupList:null,
   assessmentList:[],
-  singleHomeAssessmentList:null,
-  singleClassAssessmentList:null,
+  singleHomeAssessment:null,
+  singleClassAssessment:null,
   newClassAssessment:null,
-  studentSingleHomeAssessmentList:null,
+  studentSingleHomeAssessment:null,
   assessmentScore:{},
   studentClassAssessment:null,
 };

@@ -25,7 +25,7 @@ const EditClassAssessment = () => {
     assessmentScore,
     studentClassAssessment,
     classSubjects,
-    singleClassAssessmentList,
+    singleClassAssessment,
   } = state.class;
 
   const queryParams = new URLSearchParams(locations.search);
@@ -50,7 +50,7 @@ const EditClassAssessment = () => {
               <Card.Body>
                 <Form className="mx-auto">
                   <Row className="d-flex justify-content-center">
-                    <div className="d-flex justify-content-end">{singleClassAssessmentList?.sessionClassName}</div>
+                    <div className="d-flex justify-content-end">{singleClassAssessment?.sessionClassName}</div>
                     <Col md="11" className="form-group h6">
                       <label className="form-label">
                         <b>Topic:</b>
@@ -61,7 +61,7 @@ const EditClassAssessment = () => {
                         className="form-control border-secondary h6"
                         readOnly
                         id="title"
-                        value={singleClassAssessmentList?.title || ""}
+                        value={singleClassAssessment?.title || ""}
                       />
                     </Col>
                     <Col md="11" className="form-group h6">
@@ -107,7 +107,7 @@ const EditClassAssessment = () => {
                             type="text"
                             name="used"
                             readOnly
-                            defaultValue={singleClassAssessmentList?.assessmentScore}
+                            defaultValue={singleClassAssessment?.assessmentScore}
                             className="form-control h6 py-0 px-1 border-secondary"
                           />
                         </Col>
@@ -127,7 +127,7 @@ const EditClassAssessment = () => {
                                 sessionClassSubjectIdQueryParam, sessionClassIdQueryParam)(dispatch);
                             }}
                             defaultValue={
-                              singleClassAssessmentList?.assessmentScore
+                              singleClassAssessment?.assessmentScore
                             }
                             className="form-control h6 py-0 px-1 border-secondary"
                           />
@@ -168,7 +168,7 @@ const EditClassAssessment = () => {
                                       resetCreateSuccessfulState()(dispatch);
                                       updateStudentClassAssessment(sessionClassSubjectIdQueryParam, classAssessmentIdQueryParam, e.target.id, Number(e.target.value))(dispatch);
 
-                                      if (e.target.value > singleClassAssessmentList?.assessmentScore) {
+                                      if (e.target.value > singleClassAssessment?.assessmentScore) {
                                         e.target.value = 0;
                                       }
                                     }}

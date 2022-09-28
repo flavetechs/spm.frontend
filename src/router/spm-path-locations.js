@@ -50,6 +50,8 @@ export const classLocations = {
   addClassGroup: "/dashboard/smp-class/add-class-group",
   editClassGroup: "/dashboard/smp-class/edit-class-group",
   classTimeTable: "/dashboard/smp-class/time-table",
+  scoreRecord: "/dashboard/smp-class/score-record",
+  scoreRecordDetails: "/dashboard/smp-class/score-record-details",
 };
 
 export const sessionLocations = {

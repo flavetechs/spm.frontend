@@ -19,7 +19,7 @@ const StudentAssessmentDetails = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [filesArray, setFilesArray] = useState([]);
   const state = useSelector((state) => state);
-  const { studentSingleHomeAssessmentList, singleHomeAssessmentList, createSuccessful } = state.class;
+  const {studentSingleHomeAssessment, singleHomeAssessment, createSuccessful } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
@@ -36,15 +36,15 @@ const StudentAssessmentDetails = () => {
   }, [ homeAssessmentFeedBackIdQuery,homeAssessmentIdQuery,dispatch]);
 
   React.useEffect(() => {
-    setContent(homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessmentList?.content);
-  }, [studentSingleHomeAssessmentList,homeAssessmentFeedBackIdQuery]);
+    setContent(homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessment?.content);
+  }, [studentSingleHomeAssessment,homeAssessmentFeedBackIdQuery]);
 
   React.useEffect(() => {
     createSuccessful &&  history.push(
       `${assessmentLocations.assessment}?status=${3}`
     );
     setFilesArray([]);
-  }, [createSuccessful,history,studentSingleHomeAssessmentList?.status]);
+  }, [createSuccessful,history,studentSingleHomeAssessment?.status]);
   
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({
@@ -161,10 +161,10 @@ setFilesArray(files);
                     <span className="text-end text-primary">
                     </span>
                   </div> */}
-                  <div>
-                    Deadline:
+                  <div> 
+                    <b> Deadline:</b>
                     <span className="text-end text-primary">
-                    {studentSingleHomeAssessmentList?.assessment.dateDeadLine}{' '}{studentSingleHomeAssessmentList?.assessment.timeDeadLine}
+                    {studentSingleHomeAssessment?.assessment.dateDeadLine}{' '}{studentSingleHomeAssessment?.assessment.timeDeadLine}
                     </span>
                   </div>
                 </div>
@@ -218,7 +218,7 @@ setFilesArray(files);
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
+                      {homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.assessment?.title : singleHomeAssessment?.title}
                     </span>
                     <br />
                   </div>
@@ -226,7 +226,7 @@ setFilesArray(files);
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.assessment?.content : singleHomeAssessment?.content,
                   }}
                 ></div>
                 <hr />
@@ -234,16 +234,16 @@ setFilesArray(files);
                 <div
                  style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.assessment?.comment : singleHomeAssessment?.comment,
                   }}
                 ></div>
                 <hr />
                 <Formik
                       initialValues={{
-                        files:homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessmentList?.files,
+                        files:homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessment?.files,
                         content: "",
-                        shouldSubmit: studentSingleHomeAssessmentList?.status === 3 ?true : false,
-                        homeAssessmentId:homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId ,
+                        shouldSubmit: studentSingleHomeAssessment?.status === 3 ?true : false,
+                        homeAssessmentId:homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.homeAssessmentId : singleHomeAssessment?.homeAssessmentId ,
                         homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !=="null" ? homeAssessmentFeedBackIdQuery: "" ,
                       }}
                       enableReinitialize={true}

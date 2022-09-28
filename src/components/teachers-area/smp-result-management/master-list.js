@@ -76,12 +76,12 @@ const MasterList = () => {
   return (
     <>
       {!showMasterListTable ? (
-        <div className="col-md-12 mx-auto d-flex justify-content-center">
+        <div className="col-lg-6 mx-auto">
           <Row>
             <Col sm="12">
               <Card>
                 <Card.Header>
-                  <h6>MASTER LIST</h6>
+                  <h6><b>MASTER LIST</b></h6>
                 </Card.Header>
                 <Card.Body>
                   <Formik
@@ -115,10 +115,10 @@ const MasterList = () => {
                               </div>
                             )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="10" className="form-group h6">
                             <label
                               className="form-label fw-bold"
-                              htmlFor="sessionId"
+                              
                             >
                               Session:
                             </label>
@@ -149,10 +149,10 @@ const MasterList = () => {
                               <div className="text-danger">{errors.terms}</div>
                             )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="10" className="form-group h6">
                             <label
                               className="form-label fw-bold"
-                              htmlFor="terms"
+                              
                             >
                               Terms:
                             </label>
@@ -195,10 +195,10 @@ const MasterList = () => {
                                 </div>
                               )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="10" className="form-group h6">
                             <label
                               className="form-label fw-bold"
-                              htmlFor="sessionClassId"
+                             
                             >
                               Class:
                             </label>
