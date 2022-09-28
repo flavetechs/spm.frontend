@@ -212,7 +212,8 @@ const SessionClassEdit = () => {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
-                    updateSessionClass(values)(dispatch);
+                    console.log('values', values);
+                    // updateSessionClass(values)(dispatch);
                   }}
                 >
                   {({
