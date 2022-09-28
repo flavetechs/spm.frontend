@@ -45,16 +45,10 @@ const StudentNotes = () => {
   }, [sessionClassIdQuery, dispatch]);
 
   React.useEffect(() => {
-    if (subjectIdQuery) {
-      getStudentNotesByTeacher(subjectIdQuery, statusQuery)(dispatch);
-    }
-  }, [statusQuery, subjectIdQuery, dispatch]);
+    getStudentNotesByTeacher(sessionClassIdQuery, subjectIdQuery, statusQuery)(dispatch);
+  }, [statusQuery, subjectIdQuery, dispatch, sessionClassIdQuery]);
 
-  // React.useEffect(() => {
-  //   if (!subjectIdQuery) {
-  //     getStudentNotesByTeacher(subjectId)(dispatch);
-  //   }
-  // }, [subjectIdQuery, dispatch]);
+  
 
   const filteredStudentNotes = studentNotesByTeacher?.filter((item) => {
     if (searchQuery === "") {
@@ -226,10 +220,8 @@ const StudentNotes = () => {
                                       `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getStudentNotesByTeacher("")(dispatch);
-                                    history.push(
-                                      `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${e.target.value}`
-                                    );
+                                    // getStudentNotesByTeacher("")(dispatch);
+                                    history.push( `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${e.target.value}`);
                                   }
                                 }}
                               >

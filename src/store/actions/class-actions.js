@@ -1198,12 +1198,12 @@ export const getSingleStudentNotes = (studentNoteId) => (dispatch) => {
         });
 }
 
-export const getStudentNotesByTeacher = (subjectId, status) => (dispatch) => {
+export const getStudentNotesByTeacher = (classId, subjectId, status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_NOTES_BY_TEACHER_LOADING,
     });
 
-    axiosInstance.get(`/smp/studentnotes/api/v1/get/studentnotes/by-teacher?subjectId=${subjectId}&status=${status}`)
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/studentnotes/by-teacher?classId=${classId}&subjectId=${subjectId}&status=${status}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENT_NOTES_BY_TEACHER_SUCCESS,
@@ -1744,14 +1744,15 @@ export const getAllSingleHomeAssessment = (homeassessmentId, homeassessmentFeedB
 
     var urls = [teacherHomeAssessmentUrl, studentHomeAssessmentUrl];
     Promise.all(urls).then(response => {
-        dispatch({
-            type: actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS,
-            payload: response[0].data.result
-        });
-
+      
         dispatch({
             type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS,
             payload: response[1].data.result
+        });
+        
+        dispatch({
+            type: actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS,
+            payload: response[0].data.result
         });
 
     }).catch(er => {

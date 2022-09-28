@@ -22,7 +22,6 @@ import {
   showHideDialog,
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
-import * as Yup from "yup";
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
 
 const AttendanceRegisterList = () => {
@@ -50,18 +49,17 @@ const AttendanceRegisterList = () => {
 
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
-  const { activeSession, sessionList } = state.session;
+  const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllStaffClasses()(dispatch);
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllStaffClasses()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteClassRegister(classRegisterId, sessionClassIdQuery,termIdQuery)(dispatch);
+      deleteClassRegister(classRegisterId, sessionClassIdQuery, termIdQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -73,29 +71,22 @@ const AttendanceRegisterList = () => {
   }, [dialogResponse, dispatch]);
 
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const termIdQuery = queryParams.get("termId");
+  const sessionClassIdQuery = queryParams.get("sessionClassId") || "";
+  const termIdQuery = queryParams.get("termId") || "";
   React.useEffect(() => {
-    if (sessionClassIdQuery) {
-      getAllClassRegister(sessionClassIdQuery,termIdQuery)(dispatch);
-    }
-  }, [sessionClassIdQuery, dispatch]);
+    sessionClassIdQuery && termIdQuery && getAllClassRegister(sessionClassIdQuery, termIdQuery)(dispatch);
+  }, [sessionClassIdQuery, dispatch, termIdQuery]);
 
   React.useEffect(() => {
-    if(!termIdQuery)
-      history.push(`${classLocations.classAttendanceBoard}?termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
-  }, [activeSession,dispatch]);
+    history.push(`${classLocations.classAttendanceBoard}?termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}&sessionClassId=${sessionClassIdQuery}`)
+  }, [activeSession, dispatch]);
 
   const filteredClassRegister = classRegister?.filter((register) => {
     if (searchQuery === "") {
       //if query is empty
       return register;
     } else if (
-      register.classRegisterLabel
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
+      register.classRegisterLabel.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       //returns filtered array
       return register;
@@ -135,7 +126,7 @@ const AttendanceRegisterList = () => {
               </Card.Header>
               <Formik
                 initialValues={{
-                  terms:termIdQuery,
+                  terms: termIdQuery,
                   sessionClassId: sessionClassIdQuery,
                 }}
                 enableReinitialize={true}
@@ -199,7 +190,7 @@ const AttendanceRegisterList = () => {
                             </div>
                           </div>
                           <div className="d-flex align-items-center flex-wrap">
-                          <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {touched.terms &&
                                   errors.terms && (
@@ -209,34 +200,31 @@ const AttendanceRegisterList = () => {
                                   )}
                               </div>
                               <Field
-                            as="select"
-                            name="terms"
-                            className="form-select"
-                            id="terms"
-                            onChange={(e)=>{
-                              setFieldValue("terms",e.target.value);
-                              history.push(`${classLocations.classAttendanceBoard}?termId=${e.target.value}&sessionClassId=${""}`
-                              );
-                            }}
+                                as="select"
+                                name="terms"
+                                className="form-select"
+                                id="terms"
+                                onChange={(e) => {
+                                  console.log('lof', e.target.value);
+                                  setFieldValue("terms", e.target.value);
+                                  history.push(`${classLocations.classAttendanceBoard}?termId=${e.target.value}&sessionClassId=${""}`);
+                                }}
+
                               >
-                            <option value="">Select Term</option>
-                            {sessionList
-                              ?.find(
-                                (session, idx) =>
-                                  session.sessionId.toLowerCase() ===
-                                  activeSession?.sessionId
-                              )
-                              ?.terms.map((term, id) => (
-                                <option
-                                  key={id}
-                                  name={values.terms}
-                                  value={term.sessionTermId.toLowerCase()}
-                                  selected={term.sessionTermId === values.terms}
-                                >
-                                  {term.termName}
-                                </option>
-                              ))}
-                          </Field>
+                                <option value="">Select Term</option>
+                                {
+                                  activeSession?.terms.map((term, id) => (
+                                    <option
+                                      key={id}
+                                      name={values.terms}
+                                      value={term.sessionTermId}
+                                      defaultChecked={termIdQuery === values.terms}
+                                    >
+                                      {term.termName}
+                                    </option>
+                                  ))
+                                }
+                              </Field>
                             </div>
                             <div className=" me-3 dropdown">
                               <Field
@@ -248,54 +236,59 @@ const AttendanceRegisterList = () => {
                                 }
                                 id="sessionClassId"
                                 onChange={(e) => {
-                                  setFieldValue(
-                                    "sessionClassId",
-                                    e.target.value
+                                  setFieldValue("sessionClassId", e.target.value
                                   );
-                                  
+
                                   e.target.value === ""
                                     ? history.push(
-                                        classLocations.classAttendanceBoard
-                                      )
+                                      `${classLocations.classAttendanceBoard}?termId=${""}&sessionClassId=${""}`
+                                    )
                                     : history.push(
-                                        `${classLocations.classAttendanceBoard}?termId=${termIdQuery}&sessionClassId=${e.target.value}`
-                                      );
+                                      `${classLocations.classAttendanceBoard}?termId=${termIdQuery}&sessionClassId=${e.target.value}`
+                                    );
                                 }}
                               >
                                 <option value="">Select Class</option>
                                 {staffClasses?.map((item, idx) => (
-                                  <option key={idx} value={item.sessionClassId}>
+                                  <option
+                                    key={idx}
+                                    value={item.sessionClassId}>
                                     {item.sessionClass}
                                   </option>
                                 ))}
                               </Field>
                             </div>
                             <div className="text-body me-3 align-items-center d-flex">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  handleSubmit();
-                                }}
-                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                              >
-                                <i className="btn-inner">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
+                              {
+                                activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId === termIdQuery && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      handleSubmit();
+                                    }}
+                                    className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                                   >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                    ></path>
-                                  </svg>
-                                </i>
-                                <span>Add Attendance</span>
-                              </button>
+                                    <i className="btn-inner">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                        ></path>
+                                      </svg>
+                                    </i>
+                                    <span>Add Attendance</span>
+                                  </button>
+                                )
+                              }
+
                             </div>
                           </div>
                         </div>
@@ -303,7 +296,7 @@ const AttendanceRegisterList = () => {
                     </Card>
                     <Row className="">
                       {filteredClassRegister?.length === 0 &&
-                      !sessionClassIdQuery ? (
+                        !sessionClassIdQuery ? (
                         <div className="jumbotron jumbotron-fluid">
                           <div className="container d-flex justify-content-center mt-5 bg-white">
                             <h2 className="display-4">
@@ -326,7 +319,7 @@ const AttendanceRegisterList = () => {
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       style={{ cursor: "pointer" }}
-                                      onClick={(e) => {
+                                      onClick={() => {
                                         setShowMenuDropdown(!showMenuDropdown);
                                         setIndexRow(idx);
                                       }}
@@ -474,53 +467,53 @@ const AttendanceRegisterList = () => {
                                         {hasAccess(
                                           NavPermissions.deleteClassRegister
                                         ) && (
-                                          <div
-                                            onClick={() => {
-                                              setShowMenuDropdown(false);
-                                              setClassRegisterId(
-                                                register.classRegisterId
-                                              );
-                                              showHideDialog(
-                                                true,
-                                                "Are you sure you want to delete class register"
-                                              )(dispatch);
-                                            }}
-                                            className="dropdown-item"
-                                            role="button"
-                                            draggable="false"
-                                          >
-                                            <svg
-                                              width="20"
-                                              viewBox="0 0 24 24"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              className="me-2"
+                                            <div
+                                              onClick={() => {
+                                                setShowMenuDropdown(false);
+                                                setClassRegisterId(
+                                                  register.classRegisterId
+                                                );
+                                                showHideDialog(
+                                                  true,
+                                                  "Are you sure you want to delete class register"
+                                                )(dispatch);
+                                              }}
+                                              className="dropdown-item"
+                                              role="button"
+                                              draggable="false"
                                             >
-                                              <path
-                                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                              <path
-                                                d="M20.708 6.23975H3.75"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                              <path
-                                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                            </svg>
-                                            Delete
-                                          </div>
-                                        )}
+                                              <svg
+                                                width="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="me-2"
+                                              >
+                                                <path
+                                                  d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                                  stroke="currentColor"
+                                                  strokeWidth="1.5"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                ></path>
+                                                <path
+                                                  d="M20.708 6.23975H3.75"
+                                                  stroke="currentColor"
+                                                  strokeWidth="1.5"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                ></path>
+                                                <path
+                                                  d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                                  stroke="currentColor"
+                                                  strokeWidth="1.5"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                ></path>
+                                              </svg>
+                                              Delete
+                                            </div>
+                                          )}
                                       </div>
                                     )}
                                   </div>

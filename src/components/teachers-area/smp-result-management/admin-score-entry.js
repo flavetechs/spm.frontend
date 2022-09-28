@@ -57,15 +57,14 @@ const AdminScoreEntry = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if (!sessionIdQueryParam) {
-      getAllSessionClasses(activeSession?.sessionId)(dispatch);
-      history.push(`${resultManagement.adminScoreEntry}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
-    } else {
-      getAllSessionClasses(sessionIdQueryParam)(dispatch);
-    }
-  }, [sessionIdQueryParam, activeSession,dispatch]);
+    sessionIdQueryParam && getAllSessionClasses(sessionIdQueryParam)(dispatch);
+  }, [sessionIdQueryParam, dispatch]);
+
+  React.useEffect(() => {
+    history.push(`${resultManagement.adminScoreEntry}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+  }, [activeSession]);
+
+ 
 
   return (
     <>

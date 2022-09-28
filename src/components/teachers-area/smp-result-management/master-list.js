@@ -45,6 +45,8 @@ const MasterList = () => {
   });
   //VALIDATION SCHEMA
 
+
+
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession()(dispatch);
@@ -55,15 +57,13 @@ const MasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if (!sessionIdQueryParam) {
-      getAllSessionClasses(activeSession?.sessionId)(dispatch);
-      history.push(`${resultManagement.masterList}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
-    } else {
-      getAllSessionClasses(sessionIdQueryParam)(dispatch);
-    }
-  }, [activeSession,sessionIdQueryParam,dispatch]);
+    sessionIdQueryParam && getAllSessionClasses(sessionIdQueryParam)(dispatch);
+  }, [sessionIdQueryParam, dispatch]);
+
+  React.useEffect(() => {
+    history.push(`${resultManagement.masterList}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+  }, [activeSession]);
+
 
   React.useEffect(() => {
     if (masterEntry) {

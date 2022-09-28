@@ -25,19 +25,13 @@ const ViewStudentsAssessment = () => {
     state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
-  const homeAssessmentFeedBackIdQuery = queryParams.get(
-    "homeAssessmentFeedBackId"
-  );
+  const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   useEffect(() => {
-    getAllSingleHomeAssessment(
-      homeAssessmentIdQuery,
-      homeAssessmentFeedBackIdQuery,
-      sessionClassIdQuery
-    )(dispatch);
+    homeAssessmentFeedBackIdQuery && sessionClassIdQuery && homeAssessmentIdQuery && getAllSingleHomeAssessment(homeAssessmentIdQuery, homeAssessmentFeedBackIdQuery, sessionClassIdQuery)(dispatch);
     setScore("");
-  }, []);
+  }, [homeAssessmentFeedBackIdQuery, sessionClassIdQuery, homeAssessmentIdQuery]);
 
   return (
     <>
@@ -58,13 +52,7 @@ const ViewStudentsAssessment = () => {
                     >
                       <svg
                         onClick={() => {
-                          history.push(
-                            `${
-                              classLocations.homeAssessmentDetails
-                            }?homeAssessmentId=${
-                              singleHomeAssessmentList?.homeAssessmentId
-                            }&sessionClassId=${
-                              singleHomeAssessmentList?.sessionClassId
+                          history.push(`${classLocations.homeAssessmentDetails}?homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId
                             }&type=${"home-assessment"}`
                           );
                         }}
@@ -206,7 +194,7 @@ const ViewStudentsAssessment = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h4 text-secondary fw-bold">
-                      {singleHomeAssessmentList?.title}
+                      {studentSingleHomeAssessmentList?.assessment?.title}
                     </span>
                     <br />
                   </div>
@@ -259,12 +247,9 @@ const ViewStudentsAssessment = () => {
                   className="btn btn-danger btn-sm my-3"
                   onClick={() => {
                     history.push(
-                      `${
-                        classLocations.homeAssessmentDetails
-                      }?homeAssessmentId=${
-                        singleHomeAssessmentList?.homeAssessmentId
-                      }&sessionClassId=${
-                        singleHomeAssessmentList?.sessionClassId
+                      `${classLocations.homeAssessmentDetails
+                      }?homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId
+                      }&sessionClassId=${singleHomeAssessmentList?.sessionClassId
                       }&type=${"home-assessment"}`
                     );
                   }}
@@ -345,20 +330,15 @@ const ViewStudentsAssessment = () => {
                                     </Tooltip>
                                   }
                                 >
-                                  <Link
+                                  <a
                                     className="btn btn-sm btn-icon btn-success"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
                                     onClick={() =>
-                                      getAllSingleHomeAssessment(
-                                        homeAssessmentIdQuery,
-                                        homeAssessmentFeedBackIdQuery,
-                                        sessionClassIdQuery
-                                      )(dispatch)
+                                      history.push(`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${homeAssessmentIdQuery}&sessionClassId=${sessionClassIdQuery}`)
                                     }
-                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId}`}
                                   >
                                     <span className="btn-inner">
                                       <svg
@@ -392,7 +372,7 @@ const ViewStudentsAssessment = () => {
                                         ></path>
                                       </svg>
                                     </span>
-                                  </Link>
+                                  </a>
                                 </OverlayTrigger>
                               )}
                             </td>

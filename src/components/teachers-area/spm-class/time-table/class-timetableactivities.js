@@ -68,21 +68,8 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                 <h4>{`${selectedTimetable?.className} Class Timetable`}</h4>
                             </div>
                             <div className='d-flex justify-content-end'>
+                                
                                 <Button className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3"
-                                    onClick={() => {
-                                        showHideModal(true)(dispatch);
-                                        setModal('newTimeModal');
-                                    }
-                                    }
-                                >
-                                    <i className="btn-inner">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                        </svg>
-                                    </i>
-                                    <span>Add Time</span>
-                                </Button>
-                                <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3"
                                     onClick={() => {
                                         showHideModal(true)(dispatch);
                                         setModal('newDayModal');
@@ -95,6 +82,21 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                         </svg>
                                     </i>
                                     <span>Add Day</span>
+                                </Button>
+
+                                <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3"
+                                    onClick={() => {
+                                        showHideModal(true)(dispatch);
+                                        setModal('newTimeModal');
+                                    }
+                                    }
+                                >
+                                    <i className="btn-inner">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                    </i>
+                                    <span>Add Time</span>
                                 </Button>
                             </div>
                         </Card.Header>

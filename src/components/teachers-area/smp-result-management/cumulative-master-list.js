@@ -57,15 +57,14 @@ const CumulativeMasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if (!sessionIdQueryParam) {
-      getAllSessionClasses(activeSession?.sessionId)(dispatch);
-      history.push(`${resultManagement.cumulativeMasterList}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
-    } else {
-      getAllSessionClasses(sessionIdQueryParam)(dispatch);
-    }
-  }, [activeSession,sessionIdQueryParam,dispatch]);
+    sessionIdQueryParam && getAllSessionClasses(sessionIdQueryParam)(dispatch);
+  }, [sessionIdQueryParam, dispatch]);
+
+  React.useEffect(() => {
+    history.push(`${resultManagement.cumulativeMasterList}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+  }, [activeSession]);
+
+
 
   React.useEffect(() => {
     if (cumulativeEntry) {

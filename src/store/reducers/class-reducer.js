@@ -1345,7 +1345,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        singleHomeAssessmentList:null,
+        singleHomeAssessmentList:{},
+        studentSingleHomeAssessmentList:{}
       };
     }
     case actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS: {
@@ -1411,7 +1412,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        studentSingleHomeAssessmentList:null,
+        singleHomeAssessmentList:{},
+        studentSingleHomeAssessmentList:{},
       };
     }
     case actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS: {
