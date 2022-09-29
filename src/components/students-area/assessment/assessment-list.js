@@ -242,26 +242,24 @@ const StudentAssessmentList = () => {
 
                           <h6 className="mb-3 text-uppercase">{item.title}</h6>
 
-                          <div className="">
-                            {/* <small className="" draggable="false">
-                              Created:
-                              <div className="text-success">
-                                {/* {item.dateTime
-                                       .split(" ")[0]
-                                      }
-                                18-07-2022 
-                              </div>
-                            </small>*/}
+                          <div className="d-flex justify-content-between">
+                            
                             <small className="" draggable="false">
-                              Deadline:
-                              <div className=" text-warning">
+                              <div className="w-100 d-inline-block">Deadline:</div>
+                              <div className="text-warning">
                                 {item.dateDeadLine}{' '}{item.timeDeadLine}
+                              </div>
+                            </small>
+
+                            <small className="" draggable="false">
+                              <div className="w-100 d-inline-block">Status:</div>
+                              <div className="badge bg-primary p-1">
+                                {item.status}
                               </div>
                             </small>
                           </div>
                         </Card.Body>
-                        <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
-                          <div>{item.status}</div>
+                        <small className="d-flex justify-content-around p-0 mb-2 mt-n3"> 
                           <div>{item.sessionClassGroupName}</div>
                           <div className="text-lowercase">{item.sessionClassSubjectName}</div>
                         </small>

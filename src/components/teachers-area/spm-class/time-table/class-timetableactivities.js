@@ -68,7 +68,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                 <h4>{`${selectedTimetable?.className} Class Timetable`}</h4>
                             </div>
                             <div className='d-flex justify-content-end'>
-                                
+
                                 <Button className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3"
                                     onClick={() => {
                                         showHideModal(true)(dispatch);
@@ -102,11 +102,11 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                         </Card.Header>
                         {modal === 'newDayModal' ?
                             <NewDayModal
-                            selectedTimetable={selectedTimetable}
+                                selectedTimetable={selectedTimetable}
                                 selectedClassId={selectedClassId}
                             /> : modal === 'newTimeModal' ?
                                 <NewTimeModal
-                                selectedTimetable={selectedTimetable}
+                                    selectedTimetable={selectedTimetable}
                                     selectedClassId={selectedClassId}
                                 /> :
                                 modal === 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} selectedTimetable={selectedTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
