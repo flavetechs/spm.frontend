@@ -1738,6 +1738,12 @@ export const getSingleStudentHomeAssessment = (homeassessmentFeedBackId) => (dis
 
 
 export const getAllSingleHomeAssessment = (homeassessmentId, homeassessmentFeedBackId, sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_HOME_ASSESSMENT_LOADING,
+    });
+    dispatch({
+        type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_LOADING,
+    });
 
     var teacherHomeAssessmentUrl = axiosInstance.get(`/homeassessment/api/v1/get/single/home-assessments?homeassessmentId=${homeassessmentId}&sessionClassId=${sessionClassId}`)
     var studentHomeAssessmentUrl = axiosInstance.get(`/smp/studentassessment/api/v1/get-single/home-assessments?homeassessmentFeedBackId=${homeassessmentFeedBackId}`)
@@ -1755,8 +1761,15 @@ export const getAllSingleHomeAssessment = (homeassessmentId, homeassessmentFeedB
             payload: response[0].data.result
         });
 
-    }).catch(er => {
-        console.log(er);
+    }).catch(err => {
+        dispatch({
+            type: actions.FETCH_SINGLE_HOME_ASSESSMENT_FAILED,
+            payload: err.response.data.result
+        })
+        dispatch({
+            type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_FAILED,
+            payload: err.response.data.result
+        })
     })
 }
 

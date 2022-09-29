@@ -21,7 +21,7 @@ const ViewStudentsAssessment = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [score, setScore] = useState("");
   const state = useSelector((state) => state);
-  const { singleHomeAssessmentList, studentSingleHomeAssessmentList } =
+  const { singleHomeAssessment, studentSingleHomeAssessment } =
     state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
@@ -52,7 +52,7 @@ const ViewStudentsAssessment = () => {
                     >
                       <svg
                         onClick={() => {
-                          history.push(`${classLocations.homeAssessmentDetails}?homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId
+                          history.push(`${classLocations.homeAssessmentDetails}?homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId
                             }&type=${"home-assessment"}`
                           );
                         }}
@@ -121,22 +121,22 @@ const ViewStudentsAssessment = () => {
                       </OverlayTrigger>
                     )}
                   </div>
-                  <div>
-                    {singleHomeAssessmentList?.sessionClassName}-
-                    {singleHomeAssessmentList?.sessionClassSubjectName}
+                  <div className="fw-bold">
+                    {singleHomeAssessment?.sessionClassName}-
+                    {singleHomeAssessment?.sessionClassSubjectName}
                   </div>
                   <div>
-                    Deadline:
+                    <b> Deadline:</b>
                     <span className="text-end text-primary">
-                      {singleHomeAssessmentList?.dateDeadLine}{" "}
-                      {singleHomeAssessmentList?.timeDeadLine}
+                      {singleHomeAssessment?.dateDeadLine}{" "}
+                      {singleHomeAssessment?.timeDeadLine}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-3 text-uppercase fw-bold d-flex justify-content-center">
+                <div className="mt-5 h5 text-uppercase fw-bold d-flex justify-content-center">
                   {
-                    singleHomeAssessmentList?.studentList?.find(
+                    singleHomeAssessment?.studentList?.find(
                       (s) =>
                         s.homeAsessmentFeedbackId ===
                         homeAssessmentFeedBackIdQuery
@@ -194,7 +194,7 @@ const ViewStudentsAssessment = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h4 text-secondary fw-bold">
-                      {studentSingleHomeAssessmentList?.assessment?.title}
+                      {studentSingleHomeAssessment?.assessment?.title}
                     </span>
                     <br />
                   </div>
@@ -203,7 +203,7 @@ const ViewStudentsAssessment = () => {
                   style={{ minHeight: "25vh" }}
                   className="h6"
                   dangerouslySetInnerHTML={{
-                    __html: studentSingleHomeAssessmentList?.content,
+                    __html: studentSingleHomeAssessment?.content,
                   }}
                 ></div>
                 <Card className="shadow-none bg-transparent border border-secondary my-3 p-4">
@@ -211,7 +211,7 @@ const ViewStudentsAssessment = () => {
                     style={{ minHeight: "25vh" }}
                     className="h6 font-italic"
                     dangerouslySetInnerHTML={{
-                      __html: singleHomeAssessmentList?.content,
+                      __html: singleHomeAssessment?.content,
                     }}
                   ></div>
                 </Card>
@@ -248,8 +248,8 @@ const ViewStudentsAssessment = () => {
                   onClick={() => {
                     history.push(
                       `${classLocations.homeAssessmentDetails
-                      }?homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId
-                      }&sessionClassId=${singleHomeAssessmentList?.sessionClassId
+                      }?homeAssessmentId=${singleHomeAssessment?.homeAssessmentId
+                      }&sessionClassId=${singleHomeAssessment?.sessionClassId
                       }&type=${"home-assessment"}`
                     );
                   }}
@@ -301,7 +301,7 @@ const ViewStudentsAssessment = () => {
                       </tr>
                     </tbody>
                     <tbody>
-                      {singleHomeAssessmentList?.studentList?.map(
+                      {singleHomeAssessment?.studentList?.map(
                         (item, idx) => (
                           <tr key={idx}>
                             <td className="text-uppercase">

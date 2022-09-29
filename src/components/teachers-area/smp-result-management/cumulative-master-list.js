@@ -77,12 +77,12 @@ const CumulativeMasterList = () => {
   return (
     <>
       {!showCumulativeMasterListTable ? (
-        <div className="col-md-12 mx-auto d-flex justify-content-center">
+        <div className="col-lg-6 mx-auto">
           <Row>
             <Col sm="12">
               <Card>
                 <Card.Header>
-                  <h6>CUMULATIVE RESULT</h6>
+                  <h6><b>CUMULATIVE RESULT</b></h6>
                 </Card.Header>
                 <Card.Body>
                   <Formik
@@ -116,7 +116,7 @@ const CumulativeMasterList = () => {
                               </div>
                             )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="10" className="form-group h6">
                             <label
                               className="form-label fw-bold"
                               htmlFor="sessionId"
@@ -150,7 +150,7 @@ const CumulativeMasterList = () => {
                               <div className="text-danger">{errors.terms}</div>
                             )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="10" className="form-group h6">
                             <label
                               className="form-label fw-bold"
                               htmlFor="terms"
@@ -196,7 +196,7 @@ const CumulativeMasterList = () => {
                                 </div>
                               )}
                           </Col>
-                          <Col md="10" className="form-group">
+                          <Col md="10" className="form-group h6">
                             <label
                               className="form-label fw-bold"
                               htmlFor="sessionClassId"
