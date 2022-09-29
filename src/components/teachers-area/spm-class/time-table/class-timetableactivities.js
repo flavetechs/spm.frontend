@@ -68,7 +68,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                 <h4>{`${selectedTimetable?.className} Class Timetable`}</h4>
                             </div>
                             <div className='d-flex justify-content-end'>
-                                
+
                                 <Button className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3"
                                     onClick={() => {
                                         showHideModal(true)(dispatch);
@@ -76,11 +76,27 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                     }
                                     }
                                 >
-                                    <i className="btn-inner">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                        </svg>
-                                    </i>
+                                    <svg className='' width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.09277 9.40421H20.9167" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M16.442 13.3097H16.4512" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M12.0045 13.3097H12.0137" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M7.55818 13.3097H7.56744" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M16.442 17.1962H16.4512" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M12.0045 17.1962H12.0137" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M7.55818 17.1962H7.56744" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                        <path d="M16.0433 2V5.29078" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M7.96515 2V5.29078" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path fillRule="evenodd" clipRule="evenodd"
+                                            d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z"
+                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg> {" "}
                                     <span>Add Day</span>
                                 </Button>
 
@@ -91,22 +107,24 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                     }
                                     }
                                 >
-                                    <i className="btn-inner">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                        </svg>
-                                    </i>
+                                    <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" clipRule="evenodd"
+                                            d="M21.25 12.0005C21.25 17.1095 17.109 21.2505 12 21.2505C6.891 21.2505 2.75 17.1095 2.75 12.0005C2.75 6.89149 6.891 2.75049 12 2.75049C17.109 2.75049 21.25 6.89149 21.25 12.0005Z"
+                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M15.4316 14.9429L11.6616 12.6939V7.84692" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round" />
+                                    </svg> {" "}
                                     <span>Add Time</span>
                                 </Button>
                             </div>
                         </Card.Header>
                         {modal === 'newDayModal' ?
                             <NewDayModal
-                            selectedTimetable={selectedTimetable}
+                                selectedTimetable={selectedTimetable}
                                 selectedClassId={selectedClassId}
                             /> : modal === 'newTimeModal' ?
                                 <NewTimeModal
-                                selectedTimetable={selectedTimetable}
+                                    selectedTimetable={selectedTimetable}
                                     selectedClassId={selectedClassId}
                                 /> :
                                 modal === 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} selectedTimetable={selectedTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
