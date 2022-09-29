@@ -44,7 +44,7 @@ const StudentNotes = () => {
   // //VALIDATION
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId") || "";
-  const statusQuery = queryParams.get("status") || "";
+  const statusQuery = queryParams.get("status") || "-2";
 
   React.useEffect(() => {
     getAllStudentSubjects()(dispatch);
@@ -52,7 +52,7 @@ const StudentNotes = () => {
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteStudentNotes(studentNoteId, subjectIdQuery,statusQuery)(dispatch);
+      deleteStudentNotes(studentNoteId, subjectIdQuery, statusQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -61,17 +61,11 @@ const StudentNotes = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse,dispatch,studentNoteId]);
+  }, [dialogResponse, dispatch, studentNoteId]);
 
   React.useEffect(() => {
-    if(statusQuery && subjectIdQuery){
-      getAllStudentNotes(subjectIdQuery,statusQuery)(dispatch);
-    }else if(!statusQuery && subjectIdQuery){
-      getAllStudentNotes(subjectIdQuery, "2")(dispatch);
-    }else{
-      getAllStudentNotes("", "2")(dispatch);
-    }
-  }, [subjectIdQuery,statusQuery,dispatch,locations.search]);
+    getAllStudentNotes(subjectIdQuery, statusQuery)(dispatch);
+  }, [subjectIdQuery, statusQuery, dispatch, locations.search]);
 
   const filteredStudentNotes = studentNotes?.filter((item) => {
     if (searchQuery === "") {
@@ -154,9 +148,9 @@ const StudentNotes = () => {
                 //validationSchema={validation}
                 onSubmit={(values) => {
                   !values.subjectId ? showErrorToast("Subject is required")(dispatch) :
-                  history.push( 
-                    `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
-                  );
+                    history.push(
+                      `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
+                    );
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -186,11 +180,11 @@ const StudentNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   e.target.value === ""
                                     ? history.push(
-                                        studentNoteLocations.studentNotes
-                                      )
+                                      studentNoteLocations.studentNotes
+                                    )
                                     : history.push(
-                                        `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
-                                      );
+                                      `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
+                                    );
                                 }}
                               >
                                 <option value="">Select Subject</option>
@@ -243,7 +237,7 @@ const StudentNotes = () => {
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getAllStudentNotes(subjectIdQuery,"2")(dispatch);
+                                    getAllStudentNotes(subjectIdQuery, "2")(dispatch);
                                     history.push(
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
                                     );

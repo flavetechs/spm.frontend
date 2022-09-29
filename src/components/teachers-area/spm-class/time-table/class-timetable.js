@@ -8,7 +8,7 @@ import Tab from 'react-bootstrap/Tab';
 import './timetable.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
-import { getAllTimetable } from '../../../../store/actions/timetable-actions';
+import { getAllTimetable, getTimetableActiveClass } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
 
 function ClassTimeTable() {
@@ -20,13 +20,12 @@ function ClassTimeTable() {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { activeClasses } = state.class;
-    const { selectedTimetable } = state.timetable;
+    const { selectedTimetable, activeClasses } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
 
 
     React.useEffect(() => {
-        getAllActiveClasses()(dispatch);
+        getTimetableActiveClass()(dispatch);
     }, ['123', dispatch]);
 
     return (
