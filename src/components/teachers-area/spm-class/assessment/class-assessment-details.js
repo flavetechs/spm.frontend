@@ -10,7 +10,7 @@ const ClassAssessmentDetails = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { singleClassAssessmentList,studentClassAssessment } = state.class;
+  const { singleClassAssessment,studentClassAssessment } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const classAssessmentIdQuery = queryParams.get("classAssessmentId");
@@ -58,7 +58,7 @@ const ClassAssessmentDetails = () => {
                     </OverlayTrigger>
                    
                   </div>
-                 <div>{singleClassAssessmentList?.sessionClassName}</div>
+                 <div>{singleClassAssessment?.sessionClassName}</div>
                 </div>
                 <div className="d-flex justify-content-start my-4">
                   <div>
@@ -110,7 +110,7 @@ const ClassAssessmentDetails = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {singleClassAssessmentList?.title}
+                      {singleClassAssessment?.title}
                     </span>
                     <br />
                   </div>

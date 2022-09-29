@@ -6,7 +6,7 @@ import { closeHomeAssessment } from "../../../../store/actions/class-actions";
 export function HomeAssessmentList(props) {
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log("this", props.assessmentList);
+
   return (
     <>
       <Col md="6" lg="4" xxl="3" className="" key={props.idx}>
@@ -243,6 +243,35 @@ export function HomeAssessmentList(props) {
                         ></path>
                       </svg>
                       delete
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        history.push(
+                          `${classLocations.scoreRecord}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassId=${props.item.sessionClassId}&sessionClassSubjectId=${props.sessionClassSubjectIdQueryParam}&groupId=${props.groupIdQueryParam}&type=${props.typeQueryParam}`
+                        );
+                        props.setShowMenuDropdown(false);
+                      }}
+                      className="dropdown-item"
+                      role="button"
+                      draggable="false"
+                    >
+                      <svg
+                        width="20"
+                        clipRule="evenodd"
+                        fillRule="evenodd"
+                        fill="currentColor"
+                        strokeLinejoin="round"
+                        strokeMiterlimit="2"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="m10.5 17.25c0-.414.336-.75.75-.75h10c.414 0 .75.336.75.75s-.336.75-.75.75h-10c-.414 0-.75-.336-.75-.75zm-1.5-3.55c0-.53-.47-1-1-1h-5c-.53 0-1 .47-1 1v4.3c0 .53.47 1 1 1h5c.53 0 1-.47 1-1zm-5.5.5h4v3.3h-4zm7-2.2c0-.414.336-.75.75-.75h10c.414 0 .75.336.75.75s-.336.75-.75.75h-10c-.414 0-.75-.336-.75-.75zm-1.5-6c0-.53-.47-1-1-1h-5c-.53 0-1 .47-1 1v4.3c0 .53.47 1 1 1h5c.53 0 1-.47 1-1zm-5.5.5h4v3.3h-4zm7 .25c0-.414.336-.75.75-.75h10c.414 0 .75.336.75.75s-.336.75-.75.75h-10c-.414 0-.75-.336-.75-.75z"
+                          fillRule="nonzero"
+                        />
+                      </svg>
+                     {" "}score record
                     </div>
                   </div>
                 )}

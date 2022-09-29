@@ -33,7 +33,7 @@ const EditHomeAssessment = () => {
   const {
     createSuccessful,
     groupList,
-    singleHomeAssessmentList,
+   singleHomeAssessment,
     assessmentScore,
   } = state.class;
   const queryParams = new URLSearchParams(locations.search);
@@ -56,13 +56,13 @@ const EditHomeAssessment = () => {
   ]);
 
   useEffect(() => {
-    if (singleHomeAssessmentList?.sessionClassSubjectId) {
+    if (singleHomeAssessment?.sessionClassSubjectId) {
       getAssessmentScore(
-        singleHomeAssessmentList?.sessionClassSubjectId,
+        singleHomeAssessment?.sessionClassSubjectId,
         sessionClassIdQuery
       )(dispatch);
     }
-  }, [singleHomeAssessmentList,sessionClassIdQuery, dispatch]);
+  }, [singleHomeAssessment,sessionClassIdQuery, dispatch]);
 
   useEffect(() => {
     createSuccessful && history.goBack();
@@ -74,9 +74,9 @@ const EditHomeAssessment = () => {
   const [assessmentScoreMax, setAssessmentScoreMax] = useState(false);
 
   useEffect(() => {
-    setContent(singleHomeAssessmentList?.content);
-    setComment(singleHomeAssessmentList?.comment);
-  }, [singleHomeAssessmentList]);
+    setContent(singleHomeAssessment?.content);
+    setComment(singleHomeAssessment?.comment);
+  }, [singleHomeAssessment]);
 
   const textEditorModules = useMemo(
     () => ({
@@ -124,17 +124,17 @@ const EditHomeAssessment = () => {
                 <Formik
                   initialValues={{
                     homeAssessmentId: homeAssessmentIdQuery,
-                    title: singleHomeAssessmentList?.title || "",
-                    assessmentScore: singleHomeAssessmentList?.assessmentScore || "",
+                    title: singleHomeAssessment?.title || "",
+                    assessmentScore: singleHomeAssessment?.assessmentScore || "",
                     sessionClassId: sessionClassIdQuery,
                     sessionClassSubjectId:
-                      singleHomeAssessmentList?.sessionClassSubjectId || "",
+                      singleHomeAssessment?.sessionClassSubjectId || "",
                     sessionClassGroupId:
-                      singleHomeAssessmentList?.sessionClassGroupId || "",
+                      singleHomeAssessment?.sessionClassGroupId || "",
                     shouldSendToStudents:
-                      singleHomeAssessmentList?.status !== "saved",
-                    timeDeadLine: singleHomeAssessmentList?.timeDeadLine || "",
-                    dateDeadLine: singleHomeAssessmentList?.dateDeadLine || "",
+                      singleHomeAssessment?.status !== "saved",
+                    timeDeadLine: singleHomeAssessment?.timeDeadLine || "",
+                    dateDeadLine: singleHomeAssessment?.dateDeadLine || "",
                     total:assessmentScore?.totalAssessment || "",
                     used:assessmentScore?.used || "",
                   }}
@@ -165,8 +165,8 @@ const EditHomeAssessment = () => {
                       <Row className="d-flex justify-content-center">
                       <Col md="11">
                       <h5 className="mb-3">
-                        {singleHomeAssessmentList?.sessionClassName}-
-                        {singleHomeAssessmentList?.sessionClassSubjectName}
+                        {singleHomeAssessment?.sessionClassName}-
+                        {singleHomeAssessment?.sessionClassSubjectName}
                       </h5>
                       </Col>
                         <Col md="11">
@@ -219,7 +219,7 @@ const EditHomeAssessment = () => {
                                 key={idx}
                                 value={item.groupId}
                                 selected={
-                                  singleHomeAssessmentList?.sessionClassGroupId ===
+                                  singleHomeAssessment?.sessionClassGroupId ===
                                   item.groupId
                                 }
                               >

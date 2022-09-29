@@ -19,7 +19,7 @@ const StudentAssessmentDetails = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [filesArray, setFilesArray] = useState([]);
   const state = useSelector((state) => state);
-  const { studentSingleHomeAssessmentList, singleHomeAssessmentList, createSuccessful } = state.class;
+  const {studentSingleHomeAssessment, singleHomeAssessment, createSuccessful } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
@@ -36,16 +36,16 @@ const StudentAssessmentDetails = () => {
   }, [homeAssessmentFeedBackIdQuery, homeAssessmentIdQuery, dispatch]);
 
   React.useEffect(() => {
-    setContent(homeAssessmentFeedBackIdQuery !== "null" && studentSingleHomeAssessmentList?.content);
-  }, [studentSingleHomeAssessmentList, homeAssessmentFeedBackIdQuery]);
+    setContent(homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessment?.content);
+  }, [studentSingleHomeAssessment,homeAssessmentFeedBackIdQuery]);
 
   React.useEffect(() => {
     createSuccessful && history.push(
       `${assessmentLocations.assessment}?status=${3}`
     );
     setFilesArray([]);
-  }, [createSuccessful, history, studentSingleHomeAssessmentList?.status]);
-
+  }, [createSuccessful,history,studentSingleHomeAssessment?.status]);
+  
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({
     toolbar: {
@@ -161,10 +161,10 @@ const StudentAssessmentDetails = () => {
                     <span className="text-end text-primary">
                     </span>
                   </div> */}
-                  <div>
-                    Deadline:
+                  <div> 
+                    <b> Deadline:</b>
                     <span className="text-end text-primary">
-                      {studentSingleHomeAssessmentList?.assessment?.dateDeadLine}{' '}{studentSingleHomeAssessmentList?.assessment?.timeDeadLine}
+                    {studentSingleHomeAssessment?.assessment.dateDeadLine}{' '}{studentSingleHomeAssessment?.assessment.timeDeadLine}
                     </span>
                   </div>
                 </div>
@@ -218,7 +218,7 @@ const StudentAssessmentDetails = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.assessment?.title : singleHomeAssessmentList?.title}
+                      {homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.assessment?.title : singleHomeAssessment?.title}
                     </span>
                     <br />
                   </div>
@@ -226,7 +226,7 @@ const StudentAssessmentDetails = () => {
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.assessment?.content : singleHomeAssessmentList?.content,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.assessment?.content : singleHomeAssessment?.content,
                   }}
                 ></div>
                 <hr />
@@ -234,45 +234,101 @@ const StudentAssessmentDetails = () => {
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.assessment?.comment : singleHomeAssessmentList?.comment,
+                    __html: homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.assessment?.comment : singleHomeAssessment?.comment,
                   }}
                 ></div>
                 <hr />
                 <Formik
-                  initialValues={{
-                    files: homeAssessmentFeedBackIdQuery !== "null" && studentSingleHomeAssessmentList?.files,
-                    content: "",
-                    shouldSubmit: studentSingleHomeAssessmentList?.status === 3 ? true : false,
-                    homeAssessmentId: homeAssessmentFeedBackIdQuery !== "null" ? studentSingleHomeAssessmentList?.homeAssessmentId : singleHomeAssessmentList?.homeAssessmentId,
-                    homeAssessmentFeedBackId: homeAssessmentFeedBackIdQuery !== "null" ? homeAssessmentFeedBackIdQuery : "",
-                  }}
-                  enableReinitialize={true}
-                  onSubmit={(values) => {
-                    if (!content) {
-                      showErrorToast('Body is required')(dispatch);
-                      return;
-                    }
-                    values.content = content;
-                    values.files = filesArray;
-                    const params = new FormData();
-                    params.append("files", values.files);
-                    params.append("content", values.content);
-                    params.append("shouldSubmit", values.shouldSubmit);
-                    params.append("homeAssessmentId", values.homeAssessmentId);
-                    params.append("homeAssessmentFeedBackId", values.homeAssessmentFeedBackId);
-                    submitStudentAssessment(params, 3)(dispatch);
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    values,
-                    setFieldValue,
-                    touched,
-                    errors,
-                  }) => (
-                    <Form className="mx-auto">
-
-                      <Row className="d-flex justify-content-center">
+                      initialValues={{
+                        files:homeAssessmentFeedBackIdQuery !=="null" && studentSingleHomeAssessment?.files,
+                        content: "",
+                        shouldSubmit: studentSingleHomeAssessment?.status === 3 ?true : false,
+                        homeAssessmentId:homeAssessmentFeedBackIdQuery !=="null" ? studentSingleHomeAssessment?.homeAssessmentId : singleHomeAssessment?.homeAssessmentId ,
+                        homeAssessmentFeedBackId:homeAssessmentFeedBackIdQuery !=="null" ? homeAssessmentFeedBackIdQuery: "" ,
+                      }}
+                      enableReinitialize={true}
+                      onSubmit={(values) => {
+                        if(!content){
+                          showErrorToast('Body is required')(dispatch);
+                          return;
+                        }
+                        values.content = content;
+                        values.files = filesArray;
+                        const params = new FormData();
+                        params.append("files",values.files);
+                        params.append("content",values.content);
+                        params.append("shouldSubmit",values.shouldSubmit);
+                        params.append("homeAssessmentId",values.homeAssessmentId);
+                        params.append("homeAssessmentFeedBackId",values.homeAssessmentFeedBackId);
+                        submitStudentAssessment(params,3)(dispatch);
+                      }}
+                    >
+                      {({
+                        handleSubmit,
+                        values,
+                        setFieldValue,
+                        touched,
+                        errors,
+                      }) => (
+                        <Form className="mx-auto">
+                        <div className="h5 text-secondary fw-bold mb-2"> Answer(s)</div>
+                          <Row className="d-flex justify-content-center">  
+                            <Col md="11" className="form-group text-dark">
+                              <label className="form-label h6" >
+                                <b>Upload file:</b>
+                              </label>
+                              <input
+                                type="file"
+                                name="files"
+                                className="form-control border-secondary "
+                                id="files"
+                                multiple
+                                onChange={(event)=>{ createFileArray(event) }}
+                              />
+                            </Col>
+                            <Col md="11">
+                              {touched.content && errors.content && (
+                                <div className="text-danger">{errors.content}</div>
+                              )}
+                            </Col>
+                            <Col md="11" className="form-group text-dark ">
+                              <label className="form-label d-flex justify-content-end h6">
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      view full screen
+                                    </Tooltip>
+                                  }
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    className="mx-2"
+                                    onClick={() => {
+                                      openFullscreen("note-editor");
+                                     // setFullScreen(true);
+                                    }}
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
+                                  </svg>
+                                </OverlayTrigger>
+                              </label>
+                              <ReactQuill
+                                theme="snow"
+                                value={content}
+                                onChange={setContent}
+                                modules={textEditorModules}
+                                id="note-editor"
+                                ref={elementRef}
+                                className="bg-white"
+                                style={{height: '300px'}}
+                              />
+                            </Col>
+    
                         
                         <Col md="11" className="form-group text-dark">
                         <div className="h5 text-secondary fw-bold mb-2"> Answer(s)</div>

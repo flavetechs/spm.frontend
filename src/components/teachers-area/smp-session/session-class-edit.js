@@ -146,13 +146,13 @@ const SessionClassEdit = () => {
   }
 
   //HANDLER FUNCTIONS
-  const getSubjectId = (event, subjectId) => {
+  const getSubjectId = (event, subjectId,subjectTeacherId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
       examScore,
       assessmentScore,
       subjectId,
-      "",
+      subjectTeacherId,
       classSubjects,
       checkBoxValue
     )(dispatch);
@@ -191,6 +191,7 @@ const SessionClassEdit = () => {
     )(dispatch);
   };
   //HANDLER FUNCTIONS
+
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -515,14 +516,13 @@ const SessionClassEdit = () => {
                                     ) || false
                                   }
                                   onChange={(e) => {
-                                    getSubjectId(e, subject.lookupId);
+                                    getSubjectId(e, subject.lookupId,"");
                                   }}
-                                />{" "}
+                                />
                                 {subject.name}
                               </td>
 
                               <td>
-                                {" "}
                                 {classSubjects.find(
                                   (sub) => sub.subjectId === subject.lookupId
                                 ) ? (
@@ -602,11 +602,12 @@ const SessionClassEdit = () => {
                                   className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
+                                    values.subjectId ?
                                     getSubjectTeacherId(
                                       subject.lookupId,
                                       e.target.value
-                                    );
-
+                                    ):
+                                    getSubjectId(e, subject.lookupId,e.target.value);
                                   }}
                                 >
                                   <option value="">Select Teacher</option>

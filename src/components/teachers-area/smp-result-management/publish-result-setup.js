@@ -56,7 +56,7 @@ const PublishResult = () => {
 
   return (
     <>
-      <div className="col-md-12 mx-auto d-flex justify-content-center">
+      <div className="col-lg-6 mx-auto">
         <Row>
           <Col sm="12">
             <Card>
