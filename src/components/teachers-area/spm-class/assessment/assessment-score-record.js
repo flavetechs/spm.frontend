@@ -5,7 +5,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
   getScoreRecords,
-  getSingleHomeAssessment,
   includeClassToScoreRecord,
   includeStudentToScoreRecord,
 } from "../../../../store/actions/class-actions";
@@ -153,7 +152,7 @@ const ScoreRecord = () => {
                                   //     dispatch
                                   //   )
                                   // }
-                                  to={`${classLocations.scoreRecordDetails}?&homeAssessmentId=${homeAssessmentIdQuery}&sessionClassId=${sessionClassIdQuery}`}
+                                  to={`${classLocations.scoreRecordDetails}?&homeAssessmentId=${homeAssessmentIdQuery}&sessionClassId=${sessionClassIdQuery}&homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg
