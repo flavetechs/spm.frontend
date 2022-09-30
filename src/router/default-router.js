@@ -87,6 +87,7 @@ import AdminScoreEntryTable from '../components/teachers-area/smp-result-managem
 import BatchPrintPreview from '../components/teachers-area/smp-result-management/print-result-by-batch-preview';
 import ScoreRecord from '../components/teachers-area/spm-class/assessment/assessment-score-record';
 import ScoreRecordDetails from '../components/teachers-area/spm-class/assessment/assessment-score-record-details';
+import PublishedClassList from '../components/teachers-area/smp-result-management/published-classes-result';
 
 const DashboardRouter = () => {
 
@@ -180,6 +181,7 @@ const DashboardRouter = () => {
                       <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
                       <Route path={resultManagement.scoreEntryTable} exact component={ScoreEntryTable} />
                       <Route path={resultManagement.publishResult} exact component={PublishResult} />
+                      <Route path={resultManagement.publishedClassList} exact component={PublishedClassList} />
                       <Route path={resultManagement.adminScoreEntry} exact component={AdminScoreEntry} />
                       <Route path={resultManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
                       <Route path={resultManagement.masterList} exact component={MasterList} />

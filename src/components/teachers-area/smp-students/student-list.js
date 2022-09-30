@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Row, Col, Tooltip, OverlayTrigger, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
@@ -8,6 +8,7 @@ import {
   removeId,
   returnList,
   deleteStudent,
+  uploadStudentsListFile,
 } from "../../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
@@ -28,6 +29,7 @@ const StudentList = () => {
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [studentsExcelFile, setStudentsExcelFile] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -61,7 +63,7 @@ const StudentList = () => {
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
-  }, [deleteDialogResponse,dispatch]);
+  }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER
   const checkSingleItem = (isChecked, userAccountId, studentList) => {
     studentList.forEach((item) => {
@@ -114,7 +116,7 @@ const StudentList = () => {
     if (modalResponse === 'continue') {
       enrollStudent(selectedIds)(dispatch);
     }
-  }, [modalResponse,dispatch]);
+  }, [modalResponse, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -125,7 +127,22 @@ const StudentList = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,dispatch]);
+  }, [dialogResponse, dispatch]);
+
+
+  const handleFileUpload = (event) => {
+    setStudentsExcelFile(event.target.files[0]);
+  }
+
+  const handleSubmit = () => {
+    if (!studentsExcelFile) {
+      showErrorToast("Please choose a file")(dispatch);
+    } else {
+      const params = new FormData();
+      params.append("studentsExcelFile", studentsExcelFile);
+      uploadStudentsListFile(params)(dispatch)
+    }
+  }
 
   return (
     <>
@@ -181,6 +198,79 @@ const StudentList = () => {
                       />
                     </div>
                   </div>
+                </div>
+                <div className="">
+                  <Form>
+                    <div className="d-md-flex d-xs-block justify-content-end">
+                      <div className="">
+                        <input
+                          type="file"
+                          id="file"
+                          name="file"
+                          className="form-control "
+                          accept=".xlsx, .xls, .csv"
+                          onChange={handleFileUpload}
+                        />
+                      </div>
+                      <div className="mx-3">
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                          onClick={handleSubmit}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M12.0215 2.19044V14.2314"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> Upload</span>
+                        </button> {" "}
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                          // onClick={handleSubmit}
+                        >
+                          <i className="btn-inner">
+                            <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                strokeLinejoin="round" />
+                              <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" strokeWidth="1.5"
+                                strokeLinecap="round" strokeLinejoin="round" />
+                              <path
+                                d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
+                                stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </i>
+                          <span>Download</span>
+                        </button>
+                      </div>
+                    </div>
+                  </Form>
                 </div>
                 <div>
                   {hasAccess(NavPermissions.deleteStudent) && (
@@ -340,7 +430,7 @@ const StudentList = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  checked={selectedIds.find(i=>i===student.userAccountId)||false}
+                                  checked={selectedIds.find(i => i === student.userAccountId) || false}
                                   onChange={(e) => {
                                     checkSingleItem(
                                       e.target.checked,

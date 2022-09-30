@@ -64,6 +64,18 @@ const PublishResult = () => {
                 <h6>
                   <b>PUBLISH RESULT</b>
                 </h6>
+                <div className="d-flex justify-content-end">
+                  <Button
+                    type="button"
+                    className="btn-sm"
+                    variant="btn btn-primary"
+                    onClick={() => {
+                      history.push(`${resultManagement.publishedClassList}`)
+                    }}
+                  >
+                    Published CLasses
+                  </Button>
+                </div>
               </Card.Header>
               <Card.Body>
                 {/* {!isPreviewMode ? ( */}

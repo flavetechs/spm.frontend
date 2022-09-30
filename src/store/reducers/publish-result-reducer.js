@@ -164,6 +164,29 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.FETCH_PUBLISH_LIST_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
+
+    case actions.FETCH_PUBLISH_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        publishedList: payload,
+      };
+
+    case actions.FETCH_PUBLISH_LIST_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload
+      };
+
     default:
       return state
   }
