@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllActiveClasses } from '../../../../store/actions/class-actions';
 import { getAllTimetable, getTimetableActiveClass } from '../../../../store/actions/timetable-actions';
 import ClassTimeTableActivities from './class-timetableactivities';
+import { PrintCSV } from '../../../../utils/export-csv';
 
 function ClassTimeTable() {
 
@@ -75,7 +76,7 @@ function ClassTimeTable() {
                                     </div>
                                     :
                                     <ClassTimeTableActivities
-                                    selectedTimetable={selectedTimetable}
+                                        selectedTimetable={selectedTimetable}
                                         selectedClassId={selectedClassId}
                                     />
                                 }

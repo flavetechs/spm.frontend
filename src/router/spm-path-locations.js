@@ -107,6 +107,7 @@ export const resultManagement = {
   scoreEntry: "/dashboard/smp-result/score-entry",
   scoreEntryTable: "/dashboard/smp-result/score-entry-table",
   publishResult: "/dashboard/smp-result/publish-result",
+  publishedClassList: "/dashboard/smp-result/published-class-list",
   publishResultTable:"/dashboard/smp-result/publish-result-table",
   publishResultEdit: "/dashboard/smp-result/edit-publish-result",
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
