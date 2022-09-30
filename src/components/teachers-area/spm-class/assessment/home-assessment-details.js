@@ -19,8 +19,8 @@ const HomeAssessmentDetails = () => {
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
-//  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
-//  const groupIdQuery = queryParams.get("groupId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const groupIdQuery = queryParams.get("groupId");
 
   useEffect(() => {
     getSingleHomeAssessment(
@@ -273,7 +273,7 @@ const HomeAssessmentDetails = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
-                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}`}
+                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}`}
                                   >
                                     <span className="btn-inner">
                                       <svg

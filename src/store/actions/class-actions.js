@@ -1966,13 +1966,15 @@ export const updateStudentClassAssessment = (sessionClassSubjectId, classAssessm
         });
 }
 
-export const submitHomeAssessmentScore = (homeAssessmentFeedBackId, score, homeAssessmentId, sessionClassId) => (dispatch) => {
+export const submitHomeAssessmentFeedback = (homeAssessmentFeedBackId, score, comment, include, homeAssessmentId, sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.SUBMIT_ASSESSMENT_LOADING
     });
     const payload = {
         homeAssessmentFeedBackId,
-        score
+        score,
+        comment,
+        include
     }
     axiosInstance.post('/homeassessment/api/v1/score/assessment-feedback', payload)
         .then((res) => {
@@ -2059,9 +2061,79 @@ export const getAssessmentScore = (sessionClassSubjectId, sessionClassId) => (di
                 type: actions.FETCH_ASSESSMENT_SCORE_FAILED,
                 payload: err.response.data.result
             })
+            showErrorToast("An error occured, please try again")(dispatch);
         });
 }
 
+export const getScoreRecords = (homeAssessmentId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SCORE_RECORD_LOADING
+    });
+
+    axiosInstance.post('/homeassessment/api/v1/get/home-assessment/score-record', {homeAssessmentId})
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SCORE_RECORD_SUCCESS,
+                payload: res.data.result
+            });
+
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SCORE_RECORD_FAILED,
+                payload: err.response.data.result
+            });
+        });
+}
+
+export const includeClassToScoreRecord = (homeAssessmentId) => (dispatch) => {
+    dispatch({
+        type: actions.INCLUDE_CLASS_SCORE_RECORD_LOADING
+    });
+    const payload = {
+        homeAssessmentId
+    }
+
+    axiosInstance.post('/homeassessment/api/v1/include-class/home-assessment/to-scoreentry', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.INCLUDE_CLASS_SCORE_RECORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getScoreRecords (homeAssessmentId)(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.INCLUDE_CLASS_SCORE_RECORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const includeStudentToScoreRecord = (homeAssessmentFeedBackId,homeAssessmentId) => (dispatch) => {
+    dispatch({
+        type: actions.INCLUDE_STUDENT_SCORE_RECORD_LOADING
+    });
+    const payload = {
+        homeAssessmentFeedBackId
+    }
+
+    axiosInstance.post('/homeassessment/api/v1/include-student/home-assessment/to-scoreentry', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.INCLUDE_STUDENT_SCORE_RECORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getScoreRecords(homeAssessmentId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.INCLUDE_STUDENT_SCORE_RECORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
 
 export const fetchData = (sessionClassIdQuery, sessionClassSubjectIdQuery, classAssessmentIdQuery) => async (dispatch) => {
 

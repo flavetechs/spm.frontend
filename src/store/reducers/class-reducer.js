@@ -1566,7 +1566,72 @@ export const classReducer = (state = _state, { type, payload }) => {
               assessmentScore: {},
             };
           }
+          case actions.FETCH_SCORE_RECORD_LOADING: {
+            return {
+              ...state,
+              loading: true,
+            };
+          }
+          case actions.FETCH_SCORE_RECORD_SUCCESS: {
+            return {
+              ...state,
+              loading: false,
+              scoreRecordList: payload,
+            };
+          }
+          case actions.FETCH_SCORE_RECORD_FAILED: {
+            return {
+              ...state,
+              loading: false,
+              scoreRecordList: [],
+            };
+          }
+          case actions.INCLUDE_CLASS_SCORE_RECORD_LOADING:
+            return {
+              ...state,
+              loading: true,
+              isSuccessful: false,
+            };
+          case actions.INCLUDE_CLASS_SCORE_RECORD_SUCCESS:
+            return {
+              ...state,
+              isSuccessful: true,
+              createSuccessful:true,
+              message:payload,
+              loading: false,
+            };
+          case actions.INCLUDE_CLASS_SCORE_RECORD_FAILED:
+            return {
+              ...state,
+              isSuccessful: false,
+              createSuccessful:false,
+              message:payload,
+              loading: false,
+            };
       
+            case actions.INCLUDE_STUDENT_SCORE_RECORD_LOADING:
+              return {
+                ...state,
+                loading: true,
+                isSuccessful: false,
+              };
+            case actions.INCLUDE_STUDENT_SCORE_RECORD_SUCCESS:
+              return {
+                ...state,
+                isSuccessful: true,
+                createSuccessful:true,
+                message:payload,
+                loading: false,
+              };
+            case actions.INCLUDE_STUDENT_SCORE_RECORD_FAILED:
+              return {
+                ...state,
+                isSuccessful: false,
+                createSuccessful:false,
+                message:payload,
+                loading: false,
+              };
+          
 
     default:
       return state;
