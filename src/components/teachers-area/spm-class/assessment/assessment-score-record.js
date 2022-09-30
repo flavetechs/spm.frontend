@@ -22,8 +22,8 @@ const ScoreRecord = () => {
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   useEffect(() => {
-    getScoreRecords(homeAssessmentIdQuery)(dispatch);
-  }, []);
+    homeAssessmentIdQuery && getScoreRecords(homeAssessmentIdQuery)(dispatch);
+  }, [homeAssessmentIdQuery]);
 
   return (
     <>
@@ -82,9 +82,7 @@ const ScoreRecord = () => {
                             className="form-check-input "
                             id="included"
                             onChange={(e) => {
-                              includeClassToScoreRecord(homeAssessmentIdQuery)(
-                                dispatch
-                              );
+                              includeClassToScoreRecord(homeAssessmentIdQuery)(dispatch);
                             }}
                           />
                         </td>
@@ -130,9 +128,7 @@ const ScoreRecord = () => {
                               id="included"
                               defaultChecked={item.included|| false}
                               onChange={(e) => {
-                                includeStudentToScoreRecord(
-                                  item.homeAsessmentFeedbackId,homeAssessmentIdQuery
-                                )(dispatch);
+                                includeStudentToScoreRecord( item.homeAsessmentFeedbackId,homeAssessmentIdQuery)(dispatch);
                               }}
                             />
 }
@@ -152,11 +148,11 @@ const ScoreRecord = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  onClick={() =>
-                                    getScoreRecords(homeAssessmentIdQuery)(
-                                      dispatch
-                                    )
-                                  }
+                                  // onClick={() =>
+                                  //   getScoreRecords(homeAssessmentIdQuery)(
+                                  //     dispatch
+                                  //   )
+                                  // }
                                   to={`${classLocations.scoreRecordDetails}?&homeAssessmentId=${homeAssessmentIdQuery}&sessionClassId=${sessionClassIdQuery}`}
                                 >
                                   <span className="btn-inner">

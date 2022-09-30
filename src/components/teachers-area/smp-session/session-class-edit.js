@@ -214,7 +214,7 @@ const SessionClassEdit = () => {
                       return;
                     }
                     console.log('values', values);
-                    // updateSessionClass(values)(dispatch);
+                    updateSessionClass(values)(dispatch);
                   }}
                 >
                   {({

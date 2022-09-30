@@ -18,15 +18,10 @@ const ScoreRecordDetails = () => {
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
-//  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
-//  const groupIdQuery = queryParams.get("groupId");
 
   useEffect(() => {
-    getSingleHomeAssessment(
-      homeAssessmentIdQuery,
-      sessionClassIdQuery
-    )(dispatch);
-  }, []);
+    homeAssessmentIdQuery &&  sessionClassIdQuery && getSingleHomeAssessment(homeAssessmentIdQuery, sessionClassIdQuery)(dispatch);
+  }, [sessionClassIdQuery, homeAssessmentIdQuery]);
 
   return (
     <>
@@ -47,11 +42,6 @@ const ScoreRecordDetails = () => {
                     >
                       <svg
                         onClick={() => {
-                          // getAllHomeAssessment(
-                          //   sessionClassIdQuery,
-                          //   sessionClassSubjectIdQuery,
-                          //   groupIdQuery
-                          // )(dispatch);
                           history.goBack();
                         }}
                         style={{ cursor: "pointer" }}

@@ -165,7 +165,7 @@ const ResultTemplateTwo = (props) => {
                       <div className="py-2">
                         POSITION:{" "}
                         <span className="">
-                          {results?.position} out of {results?.noOfStudents}{" "}
+                          {results?.position} 
                           student(s)
                         </span>
                       </div>
