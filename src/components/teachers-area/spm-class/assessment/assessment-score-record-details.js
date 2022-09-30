@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getSingleHomeAssessment } from "../../../../store/actions/class-actions";
+import { getAllSingleHomeAssessment } from "../../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 
 const ScoreRecordDetails = () => {
@@ -13,15 +13,23 @@ const ScoreRecordDetails = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
-  const { singleHomeAssessment } = state.class;
+  const { singleHomeAssessment,studentSingleHomeAssessment } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
+  const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId");
 
   useEffect(() => {
-    homeAssessmentIdQuery &&  sessionClassIdQuery && getSingleHomeAssessment(homeAssessmentIdQuery, sessionClassIdQuery)(dispatch);
-  }, [sessionClassIdQuery, homeAssessmentIdQuery]);
+    homeAssessmentFeedBackIdQuery &&
+      sessionClassIdQuery &&
+      homeAssessmentIdQuery &&
+      getAllSingleHomeAssessment(
+        homeAssessmentIdQuery,
+        homeAssessmentFeedBackIdQuery,
+        sessionClassIdQuery
+      )(dispatch);
+  }, [sessionClassIdQuery, homeAssessmentIdQuery, homeAssessmentFeedBackIdQuery,dispatch]);
 
   return (
     <>
@@ -179,7 +187,7 @@ const ScoreRecordDetails = () => {
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: singleHomeAssessment?.content,
+                    __html: studentSingleHomeAssessment?.content,
                   }}
                 ></div>
                 <hr />

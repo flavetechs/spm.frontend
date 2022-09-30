@@ -241,7 +241,7 @@ const ViewStudentsAssessment = () => {
                     __html: studentSingleHomeAssessment?.content,
                   }}
                 ></div>
-                <Card className="shadow-none bg-transparent border border-secondary my-3 p-4">
+                <Card className="shadow-none bg-light border border-secondary my-3 p-4">
                   <div
                     style={{ minHeight: "25vh" }}
                     className="h6 font-italic"
@@ -284,7 +284,7 @@ const ViewStudentsAssessment = () => {
                         }}
                       />
                     </Col>
-                    <div className="form-group h6 mt-3">
+                    <div className="form-group h6 mt-4">
                       <input
                         type="checkbox"
                         name="include"
