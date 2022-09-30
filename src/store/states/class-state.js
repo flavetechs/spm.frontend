@@ -43,4 +43,5 @@ export const _state = {
   studentSingleHomeAssessment:null,
   assessmentScore:{},
   studentClassAssessment:null,
+  scoreRecordList:[],
 };

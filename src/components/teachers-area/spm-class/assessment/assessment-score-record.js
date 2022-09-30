@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
-import { getSingleHomeAssessment } from "../../../../store/actions/class-actions";
+import {
+  getScoreRecords,
+  getSingleHomeAssessment,
+  includeClassToScoreRecord,
+  includeStudentToScoreRecord,
+} from "../../../../store/actions/class-actions";
 
 const ScoreRecord = () => {
   //VARIABLE DECLARATIONS
@@ -11,18 +16,15 @@ const ScoreRecord = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { singleHomeAssessment } = state.class;
+  const { scoreRecordList } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
+  const sessionClassIdQuery = queryParams.get("sessionClassId");
   useEffect(() => {
-    getSingleHomeAssessment(
-      homeAssessmentIdQuery,
-      sessionClassIdQuery
-    )(dispatch);
+    getScoreRecords(homeAssessmentIdQuery)(dispatch);
   }, []);
-  console.log("singleHomeAssessment",singleHomeAssessment);
+
   return (
     <>
       <div>
@@ -54,7 +56,7 @@ const ScoreRecord = () => {
                   </svg>
                 </OverlayTrigger>
               </div>
-              <Card.Header> 
+              <Card.Header>
                 <h4 className="mb-3">Score Record</h4>
               </Card.Header>
               <Card.Body>
@@ -71,12 +73,26 @@ const ScoreRecord = () => {
                           Student Name
                         </td>
                         <td className="text-center">Status</td>
+                        <td className="text-center">Is Include</td>
                         <td className="text-center">Score</td>
+                        <td className="text-center">
+                          Included{" "}
+                          <input
+                            type="checkbox"
+                            className="form-check-input "
+                            id="included"
+                            onChange={(e) => {
+                              includeClassToScoreRecord(homeAssessmentIdQuery)(
+                                dispatch
+                              );
+                            }}
+                          />
+                        </td>
                         <td className="text-center"></td>
                       </tr>
                     </tbody>
                     <tbody>
-                      {singleHomeAssessment?.studentList.map((item, idx) => (
+                      {scoreRecordList?.map((item, idx) => (
                         <tr key={idx}>
                           <td className="text-uppercase">{item.studentName}</td>
 
@@ -85,13 +101,43 @@ const ScoreRecord = () => {
                               className={
                                 item.status === "submitted"
                                   ? "badge bg-success"
+                                  : item.status === "uncompleted"
+                                  ? "badge bg-warning"
                                   : "badge bg-danger"
                               }
                             >
                               {item.status}
                             </div>
                           </td>
+                          <td className="text-center">
+                            <div
+                              className={
+                                item.included === true
+                                  ? "badge bg-success"
+                                  : "badge bg-danger"
+                              }
+                            >
+                              {item.included ? "true" : "false"}
+                            </div>
+                          </td>
                           <td className="text-center">{item.score}</td>
+                          <td className="text-center">
+                           { item.status === "submitted" &&
+                            <input
+                              type="checkbox"
+                              name="included"
+                              className="form-check-input "
+                              id="included"
+                              defaultChecked={item.included|| false}
+                              onChange={(e) => {
+                                includeStudentToScoreRecord(
+                                  item.homeAsessmentFeedbackId,homeAssessmentIdQuery
+                                )(dispatch);
+                              }}
+                            />
+}
+                          </td>
+
                           <td className="text-center">
                             {item?.status === "submitted" && (
                               <OverlayTrigger
@@ -107,12 +153,11 @@ const ScoreRecord = () => {
                                   title=""
                                   data-original-title="Details"
                                   onClick={() =>
-                                    getSingleHomeAssessment(
-                                      homeAssessmentIdQuery,
-                                      sessionClassIdQuery
-                                    )(dispatch)
+                                    getScoreRecords(homeAssessmentIdQuery)(
+                                      dispatch
+                                    )
                                   }
-                                  to={`${classLocations.scoreRecordDetails}?&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}`}
+                                  to={`${classLocations.scoreRecordDetails}?&homeAssessmentId=${homeAssessmentIdQuery}&sessionClassId=${sessionClassIdQuery}`}
                                 >
                                   <span className="btn-inner">
                                     <svg
@@ -154,20 +199,6 @@ const ScoreRecord = () => {
                       ))}
                     </tbody>
                   </table>
-                  <Col md="11" className="form-group ">
-                          <input
-                            type="checkbox"
-                            name="shouldSendToStudents"
-                            className="form-check-input "
-                            id="shouldSendToStudents"
-                            onClick={(e) => {
-                           
-                            }}
-                          />
-                          <label className="form-label mx-1">
-                            <h6>include to class assessment score record</h6>
-                          </label>
-                        </Col>
                 </div>
               </Card.Body>
             </Card>
