@@ -4,6 +4,7 @@ import {
   Col,
   OverlayTrigger,
   Tooltip,
+  Badge,
 } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Card from "../../Card";
@@ -65,17 +66,23 @@ const PromotionSetup = () => {
         <Row>
           <Col sm="12">
             <Card>
-              <Card.Header className="d-flex justify-content-between">
-                <div className="header-title">
-                  <h4 className="card-title">Promotion Management</h4>
-                </div>
-                <div className="header-title">
-                    {resultSettingsItem.promoteAll ? 
-                      <h4>Promote All Students</h4>
-                     : 
-                      <h4>Promote Students By Pass Mark</h4>
+              <Card.Header className="d-md-flex justify-content-between">
+                <Row className="d-md-flex justify-content-between w-100">
+                  <div className="col col-md-6">
+                    <h4 className="card-title">Promotion Management</h4>
+                  </div>
+                  <div className="col col-md-6 d-md-flex justify-content-end">
+                    {resultSettingsItem.promoteAll ?
+                      <h4 >
+                        <Badge bg="light text-dark">All students will be promoted</Badge>
+                      </h4>
+                      :
+                      <h4>
+                        <Badge bg="light text-dark">Students will be promoted based on passmark</Badge>
+                      </h4>
                     }
-                </div>
+                  </div>
+                </Row>
               </Card.Header>
               <Card.Body className="px-0">
                 <div className="table-responsive">
