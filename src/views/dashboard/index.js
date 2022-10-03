@@ -34,9 +34,10 @@ import shapes5 from '../../assets/images/shapes/05.png'
 import CountUp from 'react-countup';
 // store
 import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
-import { connect } from "react-redux"
+import { connect, useDispatch, useSelector } from "react-redux"
 import SchoolSetting from '../../components/teachers-area/smp-portal-setting/school-setting.js'
 import { getUserDetails } from '../../utils/permissions.js'
+import { getAllDashboardCount } from '../../store/actions/dashboard-actions.js'
 
 
 // install Swiper modules
@@ -72,7 +73,24 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Index = (props) => {
+
+     //VARIABLE DECLARATIONS
+  const dispatch = useDispatch();
+  //VARIABLE DECLARATIONS
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { dashboardCountItem } = state.dashboard;
+  // ACCESSING STATE FROM REDUX STORE
+
     var userDetail = getUserDetails();
+
+    // React.useEffect(() => {
+    //     getAllDashboardCount()(dispatch);
+    // }, [dispatch]);
+    
+
+
     useEffect(() => {
         AOS.init({
             startEvent: 'DOMContentLoaded',
@@ -102,7 +120,6 @@ const Index = (props) => {
 
 
     });
-
 
 
     const chart1 = {
@@ -277,6 +294,8 @@ const Index = (props) => {
             data: [40, 50, 55, 50, 30, 80, 30, 40, 50, 55]
         }]
     }
+
+    // console.log('dashboardCountItem', dashboardCountItem);
     return (
         <>
             <Row>
