@@ -53,6 +53,8 @@ const PromotionSetup = () => {
         promoteStudent(classToPromote, classToPromoteTo.sessionClassId)(dispatch);
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
+        setClassToPromoteTo({ sessionClassId: "", className: "" });
+        setClassToPromote("");
       }
     }
     return () => {

@@ -88,129 +88,132 @@ import BatchPrintPreview from '../components/teachers-area/smp-result-management
 import ScoreRecord from '../components/teachers-area/spm-class/assessment/assessment-score-record';
 import ScoreRecordDetails from '../components/teachers-area/spm-class/assessment/assessment-score-record-details';
 import PublishedClassList from '../components/teachers-area/smp-result-management/published-classes-result';
+import Protected from '../components/spm-auth/protected';
 
 const DashboardRouter = () => {
 
     return (
-        <TransitionGroup>
-            <CSSTransition classNames="fadein" timeout={300}>
-                <Switch>
-                    {/* dashboard */}
-                    <Route exact path="/" component={Index}></Route>
-                    <Route path={dashboardLocations.dashboard} exact component={Index} />
+        <Protected>
+            <TransitionGroup>
+                <CSSTransition classNames="fadein" timeout={300}>
+                    <Switch>
+                        {/* dashboard */}
+                        <Route exact path="/" component={Index}></Route>
+                        <Route path={dashboardLocations.dashboard} exact component={Index} />
 
-                    {/* permissions */}
-                    <Route path={permissionLocations.roleList} exact component={RoleList} />
-                    <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
-                    <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
-                    <Route path={permissionLocations.addUser} exact component={AddUser} />
-                    <Route path={permissionLocations.removeUser} exact component={RemoveUser} />
+                        {/* permissions */}
+                        <Route path={permissionLocations.roleList} exact component={RoleList} />
+                        <Route path={permissionLocations.roleEdit} exact component={RoleEdit} />
+                        <Route path={permissionLocations.roleAdd} exact component={RoleAdd} />
+                        <Route path={permissionLocations.addUser} exact component={AddUser} />
+                        <Route path={permissionLocations.removeUser} exact component={RemoveUser} />
 
-                    {/* class */}
-                    <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
-                    <Route path={classLocations.updateClassAttendance} exact component={UpdateAttendance} />
-                    <Route path={classLocations.createClassAttendance} exact component={CreateAttendance} />
-                    <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
-                    <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
-                    <Route path={classLocations.assessment} exact component={AssessmentList} />
-                    <Route path={classLocations.createHomeAssessment} exact component={CreateHomeAssessment} />
-                    <Route path={classLocations.editHomeAssessment} exact component={EditHomeAssessment} />
-                    <Route path={classLocations.editClassAssessment} exact component={EditClassAssessment} />
-                    <Route path={classLocations.homeAssessmentDetails} exact component={HomeAssessmentDetails} />
-                    <Route path={classLocations.classAssessmentDetails} exact component={ClassAssessmentDetails} />
-                    <Route path={classLocations.viewStudentsHomeAssessment} exact component={ViewStudentsAssessment} />
-                    <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
-                    <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
-                    <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
-                    <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
-                    <Route path={classLocations.studentNotes} exact component={StudentNotes} />
-                    <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
-                    <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
-                    <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
-                    <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
-
-                    
-                    <Route path={classLocations.classGroup} exact component={ClassGroup} />
-                    <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
-                    <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
-                    {/* session */}
-                    <Route path={sessionLocations.sessionList} exact component={SessionList} />
-                    <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
-                    <Route path={sessionLocations.sessionDetails} exact component={SessionDetails} />
-                    <Route path={sessionLocations.classSetupList} exact component={ClassSetupList} />
-                    <Route path={sessionLocations.classSetupAdd} exact component={ClassSetupAdd} />
-                    <Route path={sessionLocations.classSetupEdit} exact component={ClassSetupEdit} />
-                    <Route path={sessionLocations.subjectSetupList} exact component={SubjectSetupList} />
-                   <Route path={sessionLocations.editSubjectSetup} exact component={SubjectSetupEdit} />
-                    <Route path={sessionLocations.addSubjectSetup} exact component={SubjectSetupAdd} />
-                    <Route path={sessionLocations.sessionClassList} exact component={SessionClassList} />
-                   <Route path={sessionLocations.sessionClassEdit} exact component={SessionClassEdit} />
-                    <Route path={sessionLocations.sessionClassAdd} exact component={SessionClassAdd} />
-                    <Route path={sessionLocations.sessionClassDetail} exact component={SessionClassDetails} />
-                    <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
-                     <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />
-                     <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
-
-                    {/* students */}
-                    <Route path={studentsLocations.studentList} exact component={StudentList} />
-                   <Route path={studentsLocations.studentAdd} exact component={StudentAdd} />
-                    <Route path={studentsLocations.studentEdit} exact component={StudentEdit} />
-                    <Route path={studentsLocations.studentDetails} exact component={StudentDetails} />
-
-                     {/* staff */}
-                     <Route path={staffLocations.staffList} exact component={StaffList} />
-                    <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
-                    <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
-                    <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
-
-                     {/* enrollment */}
-                     <Route path={studentsLocations.unenrolledStudents} exact component={UnenrolledStudentsList} />
-                     <Route path={studentsLocations.enrolledStudents} exact component={EnrolledStudents} />
+                        {/* class */}
+                        <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
+                        <Route path={classLocations.updateClassAttendance} exact component={UpdateAttendance} />
+                        <Route path={classLocations.createClassAttendance} exact component={CreateAttendance} />
+                        <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
+                        <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
+                        <Route path={classLocations.assessment} exact component={AssessmentList} />
+                        <Route path={classLocations.createHomeAssessment} exact component={CreateHomeAssessment} />
+                        <Route path={classLocations.editHomeAssessment} exact component={EditHomeAssessment} />
+                        <Route path={classLocations.editClassAssessment} exact component={EditClassAssessment} />
+                        <Route path={classLocations.homeAssessmentDetails} exact component={HomeAssessmentDetails} />
+                        <Route path={classLocations.classAssessmentDetails} exact component={ClassAssessmentDetails} />
+                        <Route path={classLocations.viewStudentsHomeAssessment} exact component={ViewStudentsAssessment} />
+                        <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
+                        <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
+                        <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
+                        <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
+                        <Route path={classLocations.studentNotes} exact component={StudentNotes} />
+                        <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
+                        <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
+                        <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
+                        <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
 
 
-                     {/* Pin Management */}
-                      <Route path={pinManagement.pins} exact component={Pins} />
-                      <Route path={pinManagement.usedPins} exact component={UsedPins} />
-                      <Route path={pinManagement.pinDetails} exact component={PinDetails} />
-                      <Route path={pinManagement.usedPinDetails} exact component={UsedPinDetails} />
+                        <Route path={classLocations.classGroup} exact component={ClassGroup} />
+                        <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
+                        <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
+                        {/* session */}
+                        <Route path={sessionLocations.sessionList} exact component={SessionList} />
+                        <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
+                        <Route path={sessionLocations.sessionDetails} exact component={SessionDetails} />
+                        <Route path={sessionLocations.classSetupList} exact component={ClassSetupList} />
+                        <Route path={sessionLocations.classSetupAdd} exact component={ClassSetupAdd} />
+                        <Route path={sessionLocations.classSetupEdit} exact component={ClassSetupEdit} />
+                        <Route path={sessionLocations.subjectSetupList} exact component={SubjectSetupList} />
+                        <Route path={sessionLocations.editSubjectSetup} exact component={SubjectSetupEdit} />
+                        <Route path={sessionLocations.addSubjectSetup} exact component={SubjectSetupAdd} />
+                        <Route path={sessionLocations.sessionClassList} exact component={SessionClassList} />
+                        <Route path={sessionLocations.sessionClassEdit} exact component={SessionClassEdit} />
+                        <Route path={sessionLocations.sessionClassAdd} exact component={SessionClassAdd} />
+                        <Route path={sessionLocations.sessionClassDetail} exact component={SessionClassDetails} />
+                        <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
+                        <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />
+                        <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
 
-                      {/* Grade Setting */}
-                      <Route path={gradeSetting.setting} exact component={GradeSetting} />
+                        {/* students */}
+                        <Route path={studentsLocations.studentList} exact component={StudentList} />
+                        <Route path={studentsLocations.studentAdd} exact component={StudentAdd} />
+                        <Route path={studentsLocations.studentEdit} exact component={StudentEdit} />
+                        <Route path={studentsLocations.studentDetails} exact component={StudentDetails} />
 
-                      {/* resultManagement */}
-                      <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
-                      <Route path={resultManagement.scoreEntryTable} exact component={ScoreEntryTable} />
-                      <Route path={resultManagement.publishResult} exact component={PublishResult} />
-                      <Route path={resultManagement.publishedClassList} exact component={PublishedClassList} />
-                      <Route path={resultManagement.adminScoreEntry} exact component={AdminScoreEntry} />
-                      <Route path={resultManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
-                      <Route path={resultManagement.masterList} exact component={MasterList} />
-                      <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
-                      <Route path={resultManagement.publishResultTable} exact component={PublishResultTable} />
-                      <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
-                      <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
-                      <Route path={resultManagement.printResult} exact component={PrintResult} />
-                      <Route path={resultManagement.batchPrintPreview} exact component={BatchPrintPreview} />
-                      <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
+                        {/* staff */}
+                        <Route path={staffLocations.staffList} exact component={StaffList} />
+                        <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
+                        <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
+                        <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
 
-                      {/* portal setting */}
-                      <Route path={portalSetting.setting} exact component={Setting} />
+                        {/* enrollment */}
+                        <Route path={studentsLocations.unenrolledStudents} exact component={UnenrolledStudentsList} />
+                        <Route path={studentsLocations.enrolledStudents} exact component={EnrolledStudents} />
 
-                       {/* notificationManagement */}
-                      <Route path={notificationManagement.announcement} exact component={AnnouncementList} />
-                      <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
-                      <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
-                      <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />
 
-                      {/* user profile page */}
-                      <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />
-                      <Route path={authLocations.staffProfileEdit} exact component={StaffProfileEdit} />
+                        {/* Pin Management */}
+                        <Route path={pinManagement.pins} exact component={Pins} />
+                        <Route path={pinManagement.usedPins} exact component={UsedPins} />
+                        <Route path={pinManagement.pinDetails} exact component={PinDetails} />
+                        <Route path={pinManagement.usedPinDetails} exact component={UsedPinDetails} />
 
-                       {/* user profile page */}
-                       <Route path={inprogress.unactivated} exact component={InProgress} />
-                </Switch>
-            </CSSTransition>
-        </TransitionGroup>
+                        {/* Grade Setting */}
+                        <Route path={gradeSetting.setting} exact component={GradeSetting} />
+
+                        {/* resultManagement */}
+                        <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
+                        <Route path={resultManagement.scoreEntryTable} exact component={ScoreEntryTable} />
+                        <Route path={resultManagement.publishResult} exact component={PublishResult} />
+                        <Route path={resultManagement.publishedClassList} exact component={PublishedClassList} />
+                        <Route path={resultManagement.adminScoreEntry} exact component={AdminScoreEntry} />
+                        <Route path={resultManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
+                        <Route path={resultManagement.masterList} exact component={MasterList} />
+                        <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
+                        <Route path={resultManagement.publishResultTable} exact component={PublishResultTable} />
+                        <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
+                        <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
+                        <Route path={resultManagement.printResult} exact component={PrintResult} />
+                        <Route path={resultManagement.batchPrintPreview} exact component={BatchPrintPreview} />
+                        <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
+
+                        {/* portal setting */}
+                        <Route path={portalSetting.setting} exact component={Setting} />
+
+                        {/* notificationManagement */}
+                        <Route path={notificationManagement.announcement} exact component={AnnouncementList} />
+                        <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
+                        <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
+                        <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />
+
+                        {/* user profile page */}
+                        <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />
+                        <Route path={authLocations.staffProfileEdit} exact component={StaffProfileEdit} />
+
+                        {/* user profile page */}
+                        <Route path={inprogress.unactivated} exact component={InProgress} />
+                    </Switch>
+                </CSSTransition>
+            </TransitionGroup>
+        </Protected>
     )
 }
 
