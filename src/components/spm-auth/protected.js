@@ -14,7 +14,7 @@ const Protected = (props) => {
           setIsActive(false);
         }}
       />
-      {isActive && props.children}
+      {props.children}
     </>
   );
 };

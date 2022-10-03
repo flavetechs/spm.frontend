@@ -89,6 +89,7 @@ const IdleSessionTimeOutHandler = (props) => {
         removeEvents={removeEvents}
         timer={timer}
         setLogout={setLogout}
+        startTimer={startTimer}
       />
     </div>
   );
