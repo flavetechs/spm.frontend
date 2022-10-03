@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -33,8 +33,23 @@ import shapes5 from '../../assets/images/shapes/05.png'
 //Count-up
 import CountUp from 'react-countup';
 // store
-import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
-import { connect, useDispatch, useSelector } from "react-redux"
+import { 
+    NavbarstyleAction, 
+    getDirMode, 
+    getcustomizerMode, 
+    getcustomizerprimaryMode, 
+    getcustomizerinfoMode, 
+    SchemeDirAction, 
+    ColorCustomizerAction, 
+    getNavbarStyleMode, 
+    getSidebarActiveMode, 
+    SidebarActiveStyleAction, 
+    getDarkMode, 
+    ModeAction, 
+    SidebarColorAction, 
+    getSidebarColorMode, 
+    getSidebarTypeMode, getDashboardCount } from '../../store/setting/setting'
+import { connect } from "react-redux"
 import SchoolSetting from '../../components/teachers-area/smp-portal-setting/school-setting.js'
 import { getUserDetails } from '../../utils/permissions.js'
 import { getAllDashboardCount } from '../../store/actions/dashboard-actions.js'
@@ -56,42 +71,29 @@ const mapStateToProps = (state) => {
         navbarstylemode: getNavbarStyleMode(state),
     };
 }
-const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(
-        {
-            ModeAction,
-            SchemeDirAction,
-            SidebarColorAction,
-            SidebarActiveStyleAction,
-            NavbarstyleAction,
-            ColorCustomizerAction,
-        },
-        dispatch
-    )
-})
-
+const mapDispatchToProps = dispatch => (
+    {
+        ...bindActionCreators(
+            {
+                ModeAction,
+                SchemeDirAction,
+                SidebarColorAction,
+                SidebarActiveStyleAction,
+                NavbarstyleAction,
+                ColorCustomizerAction,
+            },
+            dispatch
+        ),
+    }
+)
 
 
 const Index = (props) => {
-
-     //VARIABLE DECLARATIONS
-  const dispatch = useDispatch();
-  //VARIABLE DECLARATIONS
-
-  // ACCESSING STATE FROM REDUX STORE
-  const state = useSelector((state) => state);
-  const { dashboardCountItem } = state.dashboard;
-  // ACCESSING STATE FROM REDUX STORE
-
     var userDetail = getUserDetails();
-
-    // React.useEffect(() => {
-    //     getAllDashboardCount()(dispatch);
-    // }, [dispatch]);
+    const [dashboardCount, setDashboardCount] = useState(null);
     
-
-
     useEffect(() => {
+        console.log('some thing huge');
         AOS.init({
             startEvent: 'DOMContentLoaded',
             disable: function () {
@@ -118,9 +120,11 @@ const Index = (props) => {
 
         }
 
+        
+        setDashboardCount(getAllDashboardCount())
+        console.log('sds', dashboardCount);
 
     });
-
 
     const chart1 = {
         options: {
@@ -294,8 +298,6 @@ const Index = (props) => {
             data: [40, 50, 55, 50, 30, 80, 30, 40, 50, 55]
         }]
     }
-
-    // console.log('dashboardCountItem', dashboardCountItem);
     return (
         <>
             <Row>
@@ -478,7 +480,7 @@ const Index = (props) => {
                                 </div>
                             </div>
                         </Col>
-                      <Col md="12" xl="6">
+                        <Col md="12" xl="6">
                             <div className="card" data-aos="fade-up" data-aos-delay="900">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
                                     <div className="header-title">
@@ -789,7 +791,7 @@ const Index = (props) => {
                                         <p className="text-info">Total Cards Sales</p>
                                     </div>
                                     <div className="grid-cols-2 d-grid gap">
-                                        <button disabled={true}  className="btn btn-primary text-uppercase">PURCHASE CARDS</button>
+                                        <button disabled={true} className="btn btn-primary text-uppercase">PURCHASE CARDS</button>
                                         <button disabled={true} className="btn btn-info text-uppercase">ANALYTICS</button>
                                     </div>
                                 </div>
