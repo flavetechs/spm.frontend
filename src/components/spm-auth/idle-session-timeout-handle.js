@@ -21,7 +21,7 @@ const IdleSessionTimeOutHandler = (props) => {
     };
   }, [modalResponse]);
   let timer = undefined;
-  const events = ["mouseClick", "scroll", "load", "keydown"];
+  const events = ["click", "scroll", "load", "keydown"];
 
   const startTimer = () => {
     if (timer) {
