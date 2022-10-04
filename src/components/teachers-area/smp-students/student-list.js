@@ -159,7 +159,7 @@ const StudentList = () => {
                 </div>
               </Card.Header>
               <ClassesModal />
-              <div className="d-md-flex justify-content-between">
+              <div className="d-xl-flex justify-content-between">
                 <div>
                   <div className="input-group">
                     <span
@@ -202,7 +202,7 @@ const StudentList = () => {
                 </div>
                 <div className="">
                   <Form>
-                    <div className="d-md-flex d-xs-block justify-content-end">
+                    <div className="mt-sm-3 mt-xl-1 d-md-flex d-xs-block justify-content-end">
                       <div className="">
                         <input
                           type="file"
@@ -275,7 +275,7 @@ const StudentList = () => {
                 </div>
                 <div>
                   {hasAccess(NavPermissions.deleteStudent) && (
-                    <div className="d-flex  px-3">
+                    <div className="d-flex  px-3 mx-sm-4 mt-sm-2 mt-xl-1 mx-xl-1">
                       {showDeleteButton ? (
                         <button
                           type="button"

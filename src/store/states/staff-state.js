@@ -9,4 +9,5 @@ export const _state = {
     selectedItem: {},
     teacherClassesAndSubjects : null,
     submitSuccessful: false,
+    filterProps: {},
 }

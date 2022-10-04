@@ -85,7 +85,8 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        enrolledStudents: payload,
+        enrolledStudents: payload.data,
+        filterProps: payload,
       };
     case actions.FETCH_ENROLLED_STUDENTS_FAILED:
       return {
