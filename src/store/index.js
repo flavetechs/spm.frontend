@@ -18,6 +18,7 @@ import { portalSettingReducer } from './reducers/portal-setting-reducer'
 import { notificationReducer } from './reducers/notification-reducer'
 import { pinReducer } from './reducers/pin-management-reducer'
 import { timetableReducer } from './reducers/timetable-reducer'
+import { dashboardReducer } from './reducers/dashboard-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -39,5 +40,6 @@ export default createStore(
         notification: notificationReducer,
         pin: pinReducer,
         timetable: timetableReducer,
+        dashboard: dashboardReducer,
     })
 )
