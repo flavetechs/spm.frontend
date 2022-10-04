@@ -129,6 +129,15 @@ const ScoreRecordDetails = () => {
                     </span>
                   </div>
                 </div>
+                <div className="mt-5 h5 text-uppercase fw-bold d-flex justify-content-center">
+                  {
+                    singleHomeAssessment?.studentList?.find(
+                      (s) =>
+                        s.homeAsessmentFeedbackId ===
+                        homeAssessmentFeedBackIdQuery
+                    )?.studentName
+                  }
+                </div>
                 <div className="d-flex justify-content-start my-4">
                   <div>
                     <button
