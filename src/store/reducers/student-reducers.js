@@ -32,7 +32,8 @@ export const studentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        studentList: payload,
+        studentList: payload.data,
+        filterProps: payload
       };
     case actions.FETCH_STUDENTS_FAILED:
       return {

@@ -59,8 +59,6 @@ export const createClass = (form) => (dispatch) => {
         type: actions.CREATE_CLASSLOOKUP_LOADING
     });
 
-
-
     axiosInstance.post('/class/api/v1/create/class-lookup', form)
         .then((res) => {
             dispatch({

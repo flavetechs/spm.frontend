@@ -124,7 +124,7 @@ const PublishedClassList = () => {
                                                         {idx + 1}
                                                     </td>
                                                     <td className="text-uppercase">
-                                                        <b>{item.name}</b>
+                                                        <b>{item.sessionClass}</b>
                                                     </td>
                                                     <td className="">
                                                         {item.status === "published" ? <Badge bg="success">Published</Badge> :

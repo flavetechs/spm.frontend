@@ -23,12 +23,12 @@ export const returnList = (students) => (dispatch) => {
 }
 
 
-export const getAllStudents = () => (dispatch) => {
+export const getAllStudents = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENTS_LOADING
     });
 
-    axiosInstance.get('/student/api/v1/getall/students')
+    axiosInstance.get(`/student/api/v1/getall/students?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENTS_SUCCESS,
