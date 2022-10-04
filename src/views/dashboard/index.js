@@ -342,7 +342,7 @@ const Index = (props) => {
                                                     </Circularprogressbar>
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Students</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem.totaldStudent} duration={3} /></h4>
+                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totaldStudent} duration={3} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -357,7 +357,7 @@ const Index = (props) => {
                                                     </Circularprogressbar>
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Teachers</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem.totalStaff} duration={3} /></h4>
+                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totalStaff} duration={3} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -402,7 +402,7 @@ const Index = (props) => {
                                                     </Circularprogressbar>
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Total Subjects</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem.totalSubjects} duration={3} /></h4>
+                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totalSubjects} duration={3} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -417,7 +417,7 @@ const Index = (props) => {
                                                     </Circularprogressbar>
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Total Class</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem.totalClass} duration={3} /></h4>
+                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totalClass} duration={3} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -432,7 +432,7 @@ const Index = (props) => {
                                                     </Circularprogressbar>
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Total Assessment</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem.totalAssessments} duration={3} /></h4>
+                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totalAssessments} duration={3} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -462,7 +462,7 @@ const Index = (props) => {
                                                     </Circularprogressbar>
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Unused Pins</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem.totalUnusedPins} duration={3} /></h4>
+                                                        <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totalUnusedPins} duration={3} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
