@@ -19,7 +19,7 @@ import {
   showHideDialog,
   showHideModal,
 } from "../../../../store/actions/toaster-actions";
-import { getUserDetails } from "../../../../utils/permissions";
+import { getUserDetails, hasAccess, NavPermissions } from "../../../../utils/permissions";
 import { NoteShareModal } from "./note-share-modal";
 import { NoteSendModal } from "./note-send-modal";
 import { getActiveSession, getAllSession } from "../../../../store/actions/session-actions";
@@ -57,8 +57,8 @@ const LessonNotes = () => {
 
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
-      getActiveSession()(dispatch);
-      getAllSession()(dispatch);
+    getActiveSession()(dispatch);
+    getAllSession()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -68,22 +68,22 @@ const LessonNotes = () => {
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
-      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam,termIdQueryParam)(dispatch);
-     
+      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam)(dispatch);
+
     };
     fetchNotes();
   }, [approvalStatusQueryParam, subjectIdQueryParam, classIdQueryParam, dispatch]);
 
   React.useEffect(() => {
-    if(!termIdQueryParam)
+    if (!termIdQueryParam)
       history.push(`${classLocations.lessonNotes}?termId=${activeSession?.terms.find(
         (term) => term.isActive === true
       )?.sessionTermId}`)
-  }, [activeSession,dispatch]);
+  }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteLessonNotes(teacherClassNoteId, subjectIdQueryParam, classIdQueryParam, approvalStatusQueryParam,termIdQueryParam)(dispatch);
+      deleteLessonNotes(teacherClassNoteId, subjectIdQueryParam, classIdQueryParam, approvalStatusQueryParam, termIdQueryParam)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -194,7 +194,7 @@ const LessonNotes = () => {
               }
               <Formik
                 initialValues={{
-                  terms:termIdQueryParam ,
+                  terms: termIdQueryParam,
                   classId: classIdQueryParam,
                   sessionClassId: sessionClassIdQueryParam,
                   subjectId: subjectIdQueryParam,
@@ -218,7 +218,7 @@ const LessonNotes = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
-                          <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
                                 {touched.terms &&
                                   errors.terms && (
@@ -228,34 +228,34 @@ const LessonNotes = () => {
                                   )}
                               </div>
                               <Field
-                            as="select"
-                            name="terms"
-                            className="form-select"
-                            id="terms"
-                            onChange={(e)=>{
-                              setFieldValue("terms",e.target.value);
-                              history.push(`${classLocations.lessonNotes}?termId=${e.target.value}&classId=${""}&sessionClassId=${""}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
-                              );
-                            }}
+                                as="select"
+                                name="terms"
+                                className="form-select"
+                                id="terms"
+                                onChange={(e) => {
+                                  setFieldValue("terms", e.target.value);
+                                  history.push(`${classLocations.lessonNotes}?termId=${e.target.value}&classId=${""}&sessionClassId=${""}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
+                                  );
+                                }}
                               >
-                            <option value="">Select Term</option>
-                            {sessionList
-                              ?.find(
-                                (session, idx) =>
-                                  session.sessionId.toLowerCase() ===
-                                  activeSession?.sessionId
-                              )
-                              ?.terms.map((term, id) => (
-                                <option
-                                  key={id}
-                                  name={values.terms}
-                                  value={term.sessionTermId.toLowerCase()}
-                                  selected={term.sessionTermId === values.terms}
-                                >
-                                  {term.termName}
-                                </option>
-                              ))}
-                          </Field>
+                                <option value="">Select Term</option>
+                                {sessionList
+                                  ?.find(
+                                    (session, idx) =>
+                                      session.sessionId.toLowerCase() ===
+                                      activeSession?.sessionId
+                                  )
+                                  ?.terms.map((term, id) => (
+                                    <option
+                                      key={id}
+                                      name={values.terms}
+                                      value={term.sessionTermId.toLowerCase()}
+                                      selected={term.sessionTermId === values.terms}
+                                    >
+                                      {term.termName}
+                                    </option>
+                                  ))}
+                              </Field>
                             </div>
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
@@ -350,7 +350,9 @@ const LessonNotes = () => {
                                   <option value="1">Approved</option>
                                   <option value="2">Saved</option>
                                   <option value="3">In progress</option>
-                                  <option value="-2">Unreviewed</option>
+                                  {hasAccess(NavPermissions.reviewLessonNote) && (
+                                    <option value="-2">Unreviewed</option>
+                                  )}
                                 </>
                                 {/* ):""} */}
                               </Field>
