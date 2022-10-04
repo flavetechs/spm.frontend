@@ -33,9 +33,7 @@ const IdleSessionTimeOutHandler = (props) => {
         const diff = moment.duration(
           moment().diff(moment(lastInteractionTime))
         );
-        let timeOutInterval = props.timeOutInterval
-          ? props.timeOutInterval
-          : 60000;
+        let timeOutInterval = props.timeOutInterval ? props.timeOutInterval : 60000;
         if (isLogout) {
           clearTimeout(timer);
         } else {
