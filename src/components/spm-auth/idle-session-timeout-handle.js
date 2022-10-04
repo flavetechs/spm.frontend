@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import {
   respondModal,
-  showHideModal,
+ showHideTimeOutModal,
 } from "../../store/actions/toaster-actions";
 import { useDispatch, useSelector } from "react-redux";
 import IdleSessionTimeOutModal from "./idle-session-timeout-modal";
@@ -35,7 +35,7 @@ const IdleSessionTimeOutHandler = (props) => {
         );
         let timeOutInterval = props.timeOutInterval
           ? props.timeOutInterval
-          : 60000;
+          : 300000;
         if (isLogout) {
           clearTimeout(timer);
         } else {
@@ -44,11 +44,11 @@ const IdleSessionTimeOutHandler = (props) => {
             props.onActive();
           } else {
             props.onIdle();
-            showHideModal(true)(dispatch);
+            showHideTimeOutModal(true)(dispatch);
           }
         }
       },
-      props.timeOutInterval ? props.timeOutInterval : 60000
+      props.timeOutInterval ? props.timeOutInterval : 300000
     );
   };
 
