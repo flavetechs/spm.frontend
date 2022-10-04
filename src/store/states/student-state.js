@@ -9,4 +9,5 @@ export const _state = {
     countries:[],
     states:[],
     cities:[],
+    filterProps: {}
   };

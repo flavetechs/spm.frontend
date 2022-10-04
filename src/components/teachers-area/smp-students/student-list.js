@@ -23,6 +23,7 @@ import {
 import { enrollStudent, unEnrollStudent } from "../../../store/actions/enrollment-actions";
 import { ClassesModal } from "../smp-enrollment/classesModal";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import PaginationFilter from "../../partials/components/pagination-filter";
 const StudentList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
@@ -34,12 +35,12 @@ const StudentList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { studentList, selectedIds } = state.student;
+  const { studentList, filterProps, selectedIds } = state.student;
   const { deleteDialogResponse, modalResponse, dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllStudents()(dispatch);
+    getAllStudents(1)(dispatch);
   }, [dispatch]);
 
   //DELETE HANDLER
@@ -253,7 +254,7 @@ const StudentList = () => {
                         <button
                           type="button"
                           className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                          // onClick={handleSubmit}
+                        // onClick={handleSubmit}
                         >
                           <i className="btn-inner">
                             <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -725,6 +726,9 @@ const StudentList = () => {
                   </table>
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter filterProps={filterProps} action={getAllStudents} dispatch={dispatch}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
