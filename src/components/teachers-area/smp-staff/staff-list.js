@@ -17,6 +17,7 @@ import {
   showSingleDeleteDialog,
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import PaginationFilter from "../../partials/components/pagination-filter";
 
 const StaffList = () => {
   //VARIABLE DECLARATIONS
@@ -28,7 +29,7 @@ const StaffList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { staffList, selectedIds } = state.staff;
+  const { staffList, filterProps,selectedIds } = state.staff;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -52,7 +53,7 @@ const StaffList = () => {
   });
 
   React.useEffect(() => {
-    getAllStaffAccount()(dispatch);
+    getAllStaffAccount(1)(dispatch);
   }, [dispatch]);
 
   //DELETE HANDLER
@@ -474,6 +475,9 @@ const StaffList = () => {
                   </table>
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter filterProps={filterProps} action={ getAllStaffAccount} dispatch={dispatch}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

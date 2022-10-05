@@ -53,12 +53,12 @@ export const fetchSingleStaff = (teacherAccountId) => dispatch => {
 
 
 //STAFF ACTION HANDLERS
-export const getAllStaffAccount = () => (dispatch) => {
+export const getAllStaffAccount = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STAFFACCOUNT_LOADING
     });
 
-    axiosInstance.get('/tercher/api/v1/getall/teachers')
+    axiosInstance.get(`/tercher/api/v1/getall/teachers?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFFACCOUNT_SUCCESS,

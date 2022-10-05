@@ -93,6 +93,13 @@ export const showHideModal = (value) => (dispatch) => {
     });
 }
 
+export const showHideTimeOutModal = (value) => (dispatch) => {
+    dispatch({
+        type: actions.SHOW_HIDE_TIME_OUT_MODAL,
+        payload: value
+    });
+}
+
 export const respondModal = (message) => dispatch=> {
     dispatch({
         type: actions.RESPOND_MODAL,

@@ -20,7 +20,10 @@ import {
   showHideModal,
   showSingleDeleteDialog,
 } from "../../../store/actions/toaster-actions";
-import { enrollStudent, unEnrollStudent } from "../../../store/actions/enrollment-actions";
+import {
+  enrollStudent,
+  unEnrollStudent,
+} from "../../../store/actions/enrollment-actions";
 import { ClassesModal } from "../smp-enrollment/classesModal";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
@@ -93,7 +96,7 @@ const StudentList = () => {
     if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) return -1;
     if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) return 1;
     return 0;
-  })
+  });
   const filteredStudentList = sortedList.filter((students) => {
     if (searchQuery === "") {
       //if query is empty
@@ -103,18 +106,23 @@ const StudentList = () => {
     ) {
       //returns filtered array
       return students;
-    } else if (students.lastName.toLowerCase().includes(searchQuery.toLowerCase())) {
+    } else if (
+      students.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
       //returns filtered array
       return students;
-    } else if (students.registrationNumber.toLowerCase().includes(searchQuery.toLowerCase())) {
+    } else if (
+      students.registrationNumber
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    ) {
       //returns filtered array
       return students;
     }
-
   });
 
   React.useEffect(() => {
-    if (modalResponse === 'continue') {
+    if (modalResponse === "continue") {
       enrollStudent(selectedIds)(dispatch);
     }
   }, [modalResponse, dispatch]);
@@ -122,7 +130,7 @@ const StudentList = () => {
   React.useEffect(() => {
     if (dialogResponse === "continue") {
       unEnrollStudent(selectedIds)(dispatch);
-      showHideDialog(false, null)(dispatch)
+      showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
     }
     return () => {
@@ -130,10 +138,9 @@ const StudentList = () => {
     };
   }, [dialogResponse, dispatch]);
 
-
   const handleFileUpload = (event) => {
     setStudentsExcelFile(event.target.files[0]);
-  }
+  };
 
   const handleSubmit = () => {
     if (!studentsExcelFile) {
@@ -141,9 +148,9 @@ const StudentList = () => {
     } else {
       const params = new FormData();
       params.append("studentsExcelFile", studentsExcelFile);
-      uploadStudentsListFile(params)(dispatch)
+      uploadStudentsListFile(params)(dispatch);
     }
-  }
+  };
 
   return (
     <>
@@ -159,7 +166,7 @@ const StudentList = () => {
                 </div>
               </Card.Header>
               <ClassesModal />
-              <div className="d-md-flex justify-content-between">
+              <div className="d-xl-flex justify-content-between">
                 <div>
                   <div className="input-group">
                     <span
@@ -202,7 +209,7 @@ const StudentList = () => {
                 </div>
                 <div className="">
                   <Form>
-                    <div className="d-md-flex d-xs-block justify-content-end">
+                    <div className="mt-sm-3 mt-xl-1 d-md-flex d-xs-block justify-content-end">
                       <div className="">
                         <input
                           type="file"
@@ -250,21 +257,40 @@ const StudentList = () => {
                             </svg>
                           </i>
                           <span> Upload</span>
-                        </button> {" "}
+                        </button>{" "}
                         <button
                           type="button"
                           className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                        // onClick={handleSubmit}
+                          // onClick={handleSubmit}
                         >
                           <i className="btn-inner">
-                            <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                strokeLinejoin="round" />
-                              <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" strokeWidth="1.5"
-                                strokeLinecap="round" strokeLinejoin="round" />
+                            <svg
+                              width="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12.1221 15.436L12.1221 3.39502"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
                               <path
                                 d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
-                                stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
                             </svg>
                           </i>
                           <span>Download</span>
@@ -275,7 +301,7 @@ const StudentList = () => {
                 </div>
                 <div>
                   {hasAccess(NavPermissions.deleteStudent) && (
-                    <div className="d-flex  px-3">
+                    <div className="d-flex  px-3 mx-sm-4 mt-sm-2 mt-xl-1 mx-xl-1">
                       {showDeleteButton ? (
                         <button
                           type="button"
@@ -431,7 +457,11 @@ const StudentList = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  checked={selectedIds.find(i => i === student.userAccountId) || false}
+                                  checked={
+                                    selectedIds.find(
+                                      (i) => i === student.userAccountId
+                                    ) || false
+                                  }
                                   onChange={(e) => {
                                     checkSingleItem(
                                       e.target.checked,
@@ -511,12 +541,14 @@ const StudentList = () => {
                                   </span>
                                 </Link>
                               </OverlayTrigger>{" "}
-
                               {hasAccess(NavPermissions.editStudent) && (
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
-                                    <Tooltip id="button-tooltip-2"> Edit Student</Tooltip>
+                                    <Tooltip id="button-tooltip-2">
+                                      {" "}
+                                      Edit Student
+                                    </Tooltip>
                                   }
                                 >
                                   <Link
@@ -560,15 +592,17 @@ const StudentList = () => {
                                       </svg>
                                     </span>
                                   </Link>
-
-
                                 </OverlayTrigger>
-                              )}
-                              {" "}
+                              )}{" "}
                               {hasAccess(NavPermissions.enrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
-                                  overlay={<Tooltip id="button-tooltip-2"> Enroll Student</Tooltip>}
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      {" "}
+                                      Enroll Student
+                                    </Tooltip>
+                                  }
                                 >
                                   <Link
                                     className="btn btn-sm btn-icon btn-warning"
@@ -580,7 +614,9 @@ const StudentList = () => {
                                     data-id={student.studentAccountId}
                                     onClick={() => {
                                       showHideModal(true)(dispatch);
-                                      dispatch(pushId(student.studentAccountId));
+                                      dispatch(
+                                        pushId(student.studentAccountId)
+                                      );
                                     }}
                                   >
                                     <span className="btn-inner">
@@ -628,14 +664,16 @@ const StudentList = () => {
                                       </svg>
                                     </span>
                                   </Link>
-
                                 </OverlayTrigger>
-                              )}
-                              {" "}
+                              )}{" "}
                               {hasAccess(NavPermissions.unenrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
-                                  overlay={<Tooltip id="button-tooltip-2">Unenroll Student</Tooltip>}
+                                  overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                      Unenroll Student
+                                    </Tooltip>
+                                  }
                                 >
                                   <Link
                                     className="btn btn-sm btn-icon btn-danger"
@@ -646,20 +684,34 @@ const StudentList = () => {
                                     to="#"
                                     data-id={student.studentAccountId}
                                     onClick={() => {
-                                      dispatch(pushId(student.studentAccountId));
-                                      const message = selectedIds.length === 1 ? `Are you sure to unenroll student ?` : `Are you sure to unenroll students ?`;
+                                      dispatch(
+                                        pushId(student.studentAccountId)
+                                      );
+                                      const message =
+                                        selectedIds.length === 1
+                                          ? `Are you sure to unenroll student ?`
+                                          : `Are you sure to unenroll students ?`;
                                       showHideDialog(true, message)(dispatch);
                                     }}
                                   >
                                     <span className="btn-inner">
-                                      <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M14.0545 15.26C14.3416 14.97 14.3416 14.5 14.0545 14.21L12.8465 12.99L14.0545 11.77C14.3416 11.48 14.3416 11.01 14.0545 10.72C13.7673 10.42 13.2921 10.42 13.005 10.72L11.797 11.94L10.5891 10.72C10.302 10.42 9.83663 10.42 9.5495 10.72C9.26238 11.01 9.26238 11.48 9.5495 11.77L10.7574 12.99L9.5495 14.21C9.26238 14.5 9.26238 14.97 9.5495 15.26C9.68812 15.41 9.87624 15.48 10.0644 15.48C10.2525 15.48 10.4505 15.41 10.5891 15.26L11.797 14.04L13.005 15.26C13.1535 15.41 13.3416 15.48 13.5297 15.48C13.7178 15.48 13.9059 15.41 14.0545 15.26ZM19.3354 9.02557C19.5686 9.02289 19.8209 9.02 20.0446 9.02C20.302 9.02 20.5 9.22 20.5 9.47V17.51C20.5 19.99 18.5099 22 16.0446 22H8.17327C5.58911 22 3.5 19.89 3.5 17.29V6.51C3.5 4.03 5.5 2 7.96535 2H13.2525C13.5 2 13.7079 2.21 13.7079 2.46V5.68C13.7079 7.51 15.203 9.01 17.0149 9.02C17.4333 9.02 17.8077 9.02318 18.1346 9.02595C18.3878 9.02809 18.6125 9.03 18.8069 9.03C18.9488 9.03 19.135 9.02786 19.3354 9.02557ZM19.6056 7.5662C18.7918 7.5692 17.8334 7.5662 17.1433 7.5592C16.0482 7.5592 15.1462 6.6482 15.1462 5.5422V2.9062C15.1462 2.4752 15.6641 2.2612 15.9591 2.5722C16.7215 3.37207 17.8885 4.59784 18.8749 5.63398C19.2746 6.05384 19.6447 6.44257 19.9462 6.7592C20.2344 7.0622 20.0235 7.5652 19.6056 7.5662Z" fill="currentColor"></path></svg>
+                                      <svg
+                                        width="32"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M14.0545 15.26C14.3416 14.97 14.3416 14.5 14.0545 14.21L12.8465 12.99L14.0545 11.77C14.3416 11.48 14.3416 11.01 14.0545 10.72C13.7673 10.42 13.2921 10.42 13.005 10.72L11.797 11.94L10.5891 10.72C10.302 10.42 9.83663 10.42 9.5495 10.72C9.26238 11.01 9.26238 11.48 9.5495 11.77L10.7574 12.99L9.5495 14.21C9.26238 14.5 9.26238 14.97 9.5495 15.26C9.68812 15.41 9.87624 15.48 10.0644 15.48C10.2525 15.48 10.4505 15.41 10.5891 15.26L11.797 14.04L13.005 15.26C13.1535 15.41 13.3416 15.48 13.5297 15.48C13.7178 15.48 13.9059 15.41 14.0545 15.26ZM19.3354 9.02557C19.5686 9.02289 19.8209 9.02 20.0446 9.02C20.302 9.02 20.5 9.22 20.5 9.47V17.51C20.5 19.99 18.5099 22 16.0446 22H8.17327C5.58911 22 3.5 19.89 3.5 17.29V6.51C3.5 4.03 5.5 2 7.96535 2H13.2525C13.5 2 13.7079 2.21 13.7079 2.46V5.68C13.7079 7.51 15.203 9.01 17.0149 9.02C17.4333 9.02 17.8077 9.02318 18.1346 9.02595C18.3878 9.02809 18.6125 9.03 18.8069 9.03C18.9488 9.03 19.135 9.02786 19.3354 9.02557ZM19.6056 7.5662C18.7918 7.5692 17.8334 7.5662 17.1433 7.5592C16.0482 7.5592 15.1462 6.6482 15.1462 5.5422V2.9062C15.1462 2.4752 15.6641 2.2612 15.9591 2.5722C16.7215 3.37207 17.8885 4.59784 18.8749 5.63398C19.2746 6.05384 19.6447 6.44257 19.9462 6.7592C20.2344 7.0622 20.0235 7.5652 19.6056 7.5662Z"
+                                          fill="currentColor"
+                                        ></path>
+                                      </svg>
                                     </span>
-
                                   </Link>
-
                                 </OverlayTrigger>
-                              )}
-                              {" "}
+                              )}{" "}
                               {hasAccess(NavPermissions.deleteStudent) && (
                                 <OverlayTrigger
                                   placement="top"
@@ -715,7 +767,6 @@ const StudentList = () => {
                                       </svg>
                                     </span>
                                   </Link>
-
                                 </OverlayTrigger>
                               )}
                             </div>
@@ -727,7 +778,11 @@ const StudentList = () => {
                 </div>
               </Card.Body>
               <Card.Footer>
-                <PaginationFilter filterProps={filterProps} action={getAllStudents} dispatch={dispatch}/>
+                <PaginationFilter
+                  filterProps={filterProps}
+                  action={getAllStudents}
+                  dispatch={dispatch}
+                />
               </Card.Footer>
             </Card>
           </Col>

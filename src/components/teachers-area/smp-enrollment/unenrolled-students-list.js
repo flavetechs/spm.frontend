@@ -76,7 +76,7 @@ const UnenrolledStudentsList = () => {
     });
     returnList(unenrolledStudents)(dispatch);
   };
-  const sortedList = unenrolledStudents.sort(function (a, b) {
+  const sortedList = unenrolledStudents?.sort(function (a, b) {
     if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
     if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
     return 0;

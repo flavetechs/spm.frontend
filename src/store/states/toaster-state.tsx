@@ -13,5 +13,6 @@ export const _state = {
     dialogResponse: '',
     dialogMessage:'',
     showModal: false,
+    showTimeOutModal:false,
     modalResponse : ''
 }
