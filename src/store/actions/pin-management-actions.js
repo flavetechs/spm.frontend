@@ -3,11 +3,11 @@ import { actions } from "../action-types/pin-management-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
-export const getAllUnusedPinList = () => (dispatch) => {
+export const getAllUnusedPinList = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNUSED_PIN_LOADING,
-    });   
-    axiosInstance.get(`/pin/api/v1/get/unused-pins`)
+    });    
+    axiosInstance.get(`/pin/api/v1/get/unused-pins?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNUSED_PIN_SUCCESS,

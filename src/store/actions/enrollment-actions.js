@@ -76,12 +76,12 @@ export const enrollStudent = (values) => (dispatch) => {
         });
 }
 
-export const getAllEnrolledStudents = (sessionClassId) => (dispatch) => {
+export const  getAllEnrolledStudents = (sessionClassId,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ENROLLED_STUDENTS_LOADING
     });
 
-    axiosInstance.get(`/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}`)
+    axiosInstance.get(`/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,

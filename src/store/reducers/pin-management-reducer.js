@@ -14,8 +14,9 @@ export const pinReducer = (state = _state, { type, payload }) => {
             return {
                 ...state,
                 loading: false,
-                unUsedPinList: payload,
+                unUsedPinList: payload.data,
                 isSuccessful: true,
+                filterProps: payload,
             };
         case actions.FETCH_UNUSED_PIN_FAILED:
             return {

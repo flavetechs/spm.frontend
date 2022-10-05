@@ -9,7 +9,7 @@ import { getAllUsedPinList } from "../../../store/actions/pin-management-actions
 import { Field, Formik } from "formik";
 import { getAllSession } from "../../../store/actions/session-actions";
 import { getAllTerms } from "../../../store/actions/publish-actions";
-import PaginationFilter from "../../partials/components/pagination-filter";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
 const UsedPins = () => {
   //VARIABLE DECLARATIONS
@@ -284,12 +284,12 @@ const UsedPins = () => {
                     }
                   </Card.Body>
                   <Card.Footer>
-                    <PaginationFilter
+                    <PaginationFilter2
                       filterProps={filterProps}
                       action={getAllUsedPinList}
                       dispatch={dispatch}
-                      sessionIdQueryParam={sessionIdQueryParam}
-                      termIdQueryParam={termIdQueryParam}
+                      param1={sessionIdQueryParam}
+                      param2={termIdQueryParam}
                     />
                   </Card.Footer>
                 </Card>

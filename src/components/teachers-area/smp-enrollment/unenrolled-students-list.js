@@ -53,7 +53,6 @@ const UnenrolledStudentsList = () => {
   }, [modalResponse, unenrolledStudents, dispatch, selectedIds]);
   //ENROLL HANDLER
 
-
   const checkSingleItem = (isChecked, studentContactId, unenrolledStudents) => {
     unenrolledStudents.forEach((item) => {
       if (item.studentContactId === studentContactId) {
@@ -67,7 +66,7 @@ const UnenrolledStudentsList = () => {
     }
   };
   const checkAllItems = (isChecked, unenrolledStudents) => {
-    unenrolledStudents.forEach((item) => {
+    unenrolledStudents?.forEach((item) => {
       item.isChecked = isChecked;
       if (item.isChecked) {
         dispatch(pushId(item.studentContactId));
@@ -77,16 +76,13 @@ const UnenrolledStudentsList = () => {
     });
     returnList(unenrolledStudents)(dispatch);
   };
-
-  const unenrolledStudentsTruthyOrFalsyValue = unenrolledStudents || [];
-
-  const sortedList = unenrolledStudentsTruthyOrFalsyValue.sort(function (a, b) {
+  const sortedList = unenrolledStudents?.sort(function (a, b) {
     if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
     if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
     return 0;
   });
 
-  const filteredUnenrolledStudents = sortedList.filter((students) => {
+  const filteredUnenrolledStudents = sortedList?.filter((students) => {
     if (searchQuery === "") {
       //if query is empty
       return students;

@@ -24,6 +24,7 @@ import {
 } from "../../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 
 
 const EnrolledStudents = () => {
@@ -41,7 +42,7 @@ const EnrolledStudents = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { enrolledStudents, selectedIds } = state.enrollment;
+  const { enrolledStudents,filterProps, selectedIds } = state.enrollment;
   const { activeSession, sessionList } = state.session;
   const { itemList: classList } = state.class;
   const { dialogResponse } = state.alert;
@@ -54,7 +55,7 @@ const EnrolledStudents = () => {
 
   React.useEffect(() => {
     sessionClassIdQuery&&
-    getAllEnrolledStudents(sessionClassIdQuery)(dispatch);
+    getAllEnrolledStudents(sessionClassIdQuery,1)(dispatch);
   }, [sessionClassIdQuery,dispatch]);
 
   React.useEffect(() => {
@@ -114,7 +115,7 @@ const EnrolledStudents = () => {
     });
     returnListEnrolled(enrolledStudents)(dispatch);
   };
-  const sortedList = enrolledStudents.sort(function (a, b) {
+  const sortedList = enrolledStudents?.sort(function (a, b) {
     if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
     if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
     return 0;
@@ -135,7 +136,7 @@ const EnrolledStudents = () => {
       return students;
     }
   });
-
+console.log("enrolledStudents",enrolledStudents);
   return (
     <>
       <div>
@@ -508,6 +509,9 @@ const EnrolledStudents = () => {
                   </div>
                 )}
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter1 filterProps={filterProps} action={getAllEnrolledStudents} dispatch={dispatch} param1={sessionClassIdQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
