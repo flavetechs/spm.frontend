@@ -209,7 +209,7 @@ const StudentList = () => {
                 </Col>
                 <Col xl="8"className="mt-3">
                   
-                    <div className="d-lg-flex mx-3">
+                    <div className="d-md-flex mx-3">
                       <div className="">
                         <input
                           type="file"
@@ -220,7 +220,7 @@ const StudentList = () => {
                           onChange={handleFileUpload}
                         />
                       </div>
-                      <div className="mx-3 d-xl-flex">
+                      <div className="mx-md-3 mx-1 d-xl-flex mt-3  mt-md-0">
                         <button
                           type="button"
                           className="text-center btn-primary btn-icon me-2  btn btn-primary"
@@ -299,7 +299,7 @@ const StudentList = () => {
                     </div>
                   
                 </Col>
-                <Col md="4" className="mt-3 d-xl-flex justify-content-end">
+                <Col xl="4" className="mt-2 mt-xl-3 d-xl-flex justify-content-end">
                   {hasAccess(NavPermissions.deleteStudent) && (
                     <div className="d-flex  px-3">
                       {showDeleteButton ? (
