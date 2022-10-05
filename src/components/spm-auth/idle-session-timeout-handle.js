@@ -35,7 +35,7 @@ const IdleSessionTimeOutHandler = (props) => {
         );
         let timeOutInterval = props.timeOutInterval
           ? props.timeOutInterval
-          : 3000;
+          : 300000;
         if (isLogout) {
           clearTimeout(timer);
         } else {
@@ -48,7 +48,7 @@ const IdleSessionTimeOutHandler = (props) => {
           }
         }
       },
-      props.timeOutInterval ? props.timeOutInterval : 3000
+      props.timeOutInterval ? props.timeOutInterval : 300000
     );
   };
 
