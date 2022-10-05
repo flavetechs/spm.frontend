@@ -483,7 +483,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        classRegister: payload,
+        classRegister: payload.data,
+        filterProps:payload,
       };
     }
     case actions.FETCH_CLASS_REGISTER_FAILED: {
@@ -983,7 +984,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        lessonNotes: payload,
+        lessonNotes: payload.data,
+        filterProps:payload,
       };
     }
     case actions.FETCH_LESSON_NOTES_FAILED: {
@@ -1307,7 +1309,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        assessmentList: payload,
+        assessmentList: payload.data,
+        filterProps:payload,
       };
     }
     case actions.FETCH_HOME_ASSESSMENT_FAILED: {

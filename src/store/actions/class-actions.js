@@ -501,13 +501,13 @@ export const createRegister = (sessionClass) => (dispatch) => {
         });
 }
 
-export const getAllClassRegister = (sessionClassId,termId) => (dispatch) => {
+export const getAllClassRegister = (sessionClassId,termId,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_REGISTER_LOADING,
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/attendance/api/v1/get/all/class-register/${sessionClassId}?termId=${termId}`)
+    axiosInstance.get(`/attendance/api/v1/get/all/class-register/${sessionClassId}?termId=${termId}?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CLASS_REGISTER_SUCCESS,
@@ -849,12 +849,12 @@ export const sendForApproval = (classNoteId) => (dispatch) => {
 }
 
 
-export const getAllLessonNotes = (classId,subjectId,status,termId) => (dispatch) => {
+export const getAllLessonNotes = (classId,subjectId,status,termId,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_LESSON_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?classId=${classId}&subjectId=${subjectId}&status=${status}&termId=${termId}`)
+    axiosInstance.get(`/classnotes/api/v1/get/classnotes/by-teacher?classId=${classId}&subjectId=${subjectId}&status=${status}&termId=${termId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_LESSON_NOTES_SUCCESS,
@@ -1586,11 +1586,11 @@ export const getClassSubjects = (sessionClassId) => (dispatch) => {
 
 //ASSESSMENT ACTIONS
 
-export const getAllHomeAssessment = (sessionClassId, sessionClassSubjectId, groupId) => (dispatch) => {
+export const getAllHomeAssessment = (sessionClassId, sessionClassSubjectId, groupId,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_HOME_ASSESSMENT_LOADING,
     });
-    axiosInstance.get(`/homeassessment/api/v1/get/home-assessments?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}&groupId=${groupId}`)
+    axiosInstance.get(`/homeassessment/api/v1/get/home-assessments?sessionClassId=${sessionClassId}&sessionClassSubjectId=${sessionClassSubjectId}&groupId=${groupId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_HOME_ASSESSMENT_SUCCESS,
