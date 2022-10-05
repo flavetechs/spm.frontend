@@ -75,7 +75,7 @@ const AttendanceRegisterList = () => {
   const sessionClassIdQuery = queryParams.get("sessionClassId") || "";
   const termIdQuery = queryParams.get("termId") || "";
   React.useEffect(() => {
-    sessionClassIdQuery && termIdQuery && getAllClassRegister(sessionClassIdQuery, termIdQuery)(dispatch);
+    sessionClassIdQuery && termIdQuery && getAllClassRegister(sessionClassIdQuery, termIdQuery,1)(dispatch);
   }, [sessionClassIdQuery, dispatch, termIdQuery]);
 
   React.useEffect(() => {

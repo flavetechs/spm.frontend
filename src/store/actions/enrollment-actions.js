@@ -63,7 +63,7 @@ export const enrollStudent = (values) => (dispatch) => {
                 type: actions.ENROLL_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStudents()(dispatch);
+            getAllStudents(1)(dispatch);
             getAllUnenrolledStudents()(dispatch);
             showHideModal(false)(dispatch)
             respondModal('cancel')(dispatch);
@@ -109,7 +109,7 @@ export const unEnrollStudent = (studentContactId, sessionClassId) => (dispatch) 
                 type: actions.UNENROLL_STUDENTS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllEnrolledStudents(sessionClassId)(dispatch);
+            getAllEnrolledStudents(sessionClassId,1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

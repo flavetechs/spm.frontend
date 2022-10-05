@@ -49,7 +49,7 @@ const CumulativeMasterList = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
     return () => {
       resetCumulativeListEntryOnExit(cumulativeEntry)(dispatch);
       setShowCumulativeMasterListTable(false);

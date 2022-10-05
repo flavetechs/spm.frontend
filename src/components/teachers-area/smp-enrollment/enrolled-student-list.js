@@ -50,7 +50,7 @@ const EnrolledStudents = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {

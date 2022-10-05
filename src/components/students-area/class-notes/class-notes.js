@@ -9,6 +9,7 @@ import {
 } from "../../../store/actions/class-actions";
 import { getUserDetails } from "../../../utils/permissions";
 import { classNoteLocations } from "../../../router/students-path-locations";
+import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 
 const ClassNotes = () => {
   //VARIABLE DECLARATIONS
@@ -22,7 +23,7 @@ const ClassNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { classNotes, studentSubjectList } = state.class;
+  const { classNotes, studentSubjectList,filterProps } = state.class;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
@@ -34,9 +35,9 @@ const ClassNotes = () => {
   const subjectIdQuery = queryParams.get("subjectId");
   React.useEffect(() => {
     if (subjectIdQuery) {
-      getAllClassNotes(subjectIdQuery)(dispatch);
+      getAllClassNotes(subjectIdQuery,1)(dispatch);
     } else if (!subjectIdQuery) {
-      getAllClassNotes("")(dispatch);
+      getAllClassNotes("",1)(dispatch);
     }
   }, [subjectIdQuery, dispatch]);
 
@@ -304,6 +305,9 @@ const ClassNotes = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter1 filterProps={filterProps} action={getAllClassNotes} dispatch={dispatch} param1={subjectIdQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

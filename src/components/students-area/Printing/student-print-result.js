@@ -44,7 +44,7 @@ const PrintStudentResult = () => {
   //VALIDATION SCHEMA
 
   React.useEffect(() => {
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
     getActiveSession()(dispatch);
   }, [dispatch]);
 

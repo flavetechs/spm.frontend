@@ -18,6 +18,7 @@ import {
 } from "../../../utils/permissions";
 import * as Yup from "yup";
 import { studentNoteLocations } from "../../../router/students-path-locations";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -32,7 +33,7 @@ const StudentNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { studentNotes, studentSubjectList } = state.class;
+  const { studentNotes, studentSubjectList,filterProps } = state.class;
   const { dialogResponse } = state.alert;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
@@ -64,7 +65,7 @@ const StudentNotes = () => {
   }, [dialogResponse, dispatch, studentNoteId]);
 
   React.useEffect(() => {
-    getAllStudentNotes(subjectIdQuery, statusQuery)(dispatch);
+    getAllStudentNotes(subjectIdQuery, statusQuery,1)(dispatch);
   }, [subjectIdQuery, statusQuery, dispatch, locations.search]);
 
   const filteredStudentNotes = studentNotes?.filter((item) => {
@@ -237,7 +238,7 @@ const StudentNotes = () => {
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getAllStudentNotes(subjectIdQuery, "2")(dispatch);
+                                    getAllStudentNotes(subjectIdQuery, "2",1)(dispatch);
                                     history.push(
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
                                     );
@@ -489,6 +490,9 @@ const StudentNotes = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter2 filterProps={filterProps} action={getAllStudentNotes} dispatch={dispatch} param1={subjectIdQuery} param2={statusQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

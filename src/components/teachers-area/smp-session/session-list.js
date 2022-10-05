@@ -10,6 +10,7 @@ import { respondDialog, respondToDeleteDialog, showErrorToast, showHideDialog, s
 import { ordinalSuffixOf } from '../../../utils/tools';
 import { hasAccess, NavPermissions } from '../../../utils/permissions';
 import "./class-setup.scss"
+import PaginationFilter from '../../partials/components/pagination-filter';
 
 
 
@@ -33,12 +34,12 @@ const SessionList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { sessionList, selectedIds, activeSession } = state.session;
+  const { sessionList, selectedIds, activeSession,filterProps } = state.session;
   const { deleteDialogResponse, dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
     getActiveSession()(dispatch);
 
   }, []);
@@ -441,6 +442,9 @@ const SessionList = () => {
                   </table>
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter filterProps={filterProps} action={getAllSession} dispatch={dispatch} />
+                </Card.Footer>
             </Card>
           </Col>
         </Row>

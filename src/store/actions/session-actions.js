@@ -44,13 +44,13 @@ export const fetchSingleSession = (sessionId) => dispatch => {
 
 
 //SESSION FETCH
-export const getAllSession = () => (dispatch) => {
+export const getAllSession = (pageNumber) => (dispatch) => {
 
     dispatch({
         type: actions.FETCH_SESSION_LOADING
     });
 
-    axiosInstance.get('session/api/v1/getall')
+    axiosInstance.get(`session/api/v1/getall?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
@@ -98,7 +98,7 @@ export const deleteSession = (session) => (dispatch) => {
                 type: actions.DELETE_SESSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllSession()(dispatch);
+            getAllSession(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -171,7 +171,7 @@ export const switchTerm = (term) => (dispatch) => {
             });
             getActiveSession()(dispatch);
             getGeneralActiveSession()(dispatch)
-            getAllSession()(dispatch)
+            getAllSession(1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -197,7 +197,7 @@ export const activateSession = (sessionid) => (dispatch) => {
                 type: actions.SWITCH_SESSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllSession()(dispatch);
+            getAllSession(1)(dispatch);
             getActiveSession()(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {

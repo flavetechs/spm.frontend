@@ -6,6 +6,7 @@ import {
   getStatusFilterForStudentAssessment,
 } from "../../../store/actions/class-actions";
 import { assessmentLocations } from "../../../router/students-path-locations";
+import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 
 const StudentAssessmentList = () => {
   //VARIABLE DECLARATIONS
@@ -18,16 +19,16 @@ const StudentAssessmentList = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { assessmentList } = state.class;
+  const { assessmentList,filterProps } = state.class;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
   const statusQuery = queryParams.get("status");
   React.useEffect(() => {
     if (!statusQuery) {
-      getStatusFilterForStudentAssessment(-1)(dispatch);
+      getStatusFilterForStudentAssessment(-1,1)(dispatch);
     } else {
-      getStatusFilterForStudentAssessment(statusQuery)(dispatch);
+      getStatusFilterForStudentAssessment(statusQuery,1)(dispatch);
     }
   }, [statusQuery, dispatch]);
 
@@ -268,6 +269,9 @@ const StudentAssessmentList = () => {
                   ))}
                 </Row>
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter1 filterProps={filterProps} action={getStatusFilterForStudentAssessment} dispatch={dispatch} param1={statusQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

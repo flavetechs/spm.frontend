@@ -24,7 +24,7 @@ import {
 } from "../../../../store/actions/toaster-actions";
 import { HomeAssessmentList } from "./home-assement-list";
 import { ClassAssessmentList } from "./class-assessment-list";
-import { PaginationFilter3 } from "../../../partials/components/pagination-filter";
+import { PaginationFilter2, PaginationFilter3 } from "../../../partials/components/pagination-filter";
 
 const AssessmentList = () => {
   //VARIABLE DECLARATIONS
@@ -84,12 +84,14 @@ const AssessmentList = () => {
         getAllHomeAssessment(
           sessionClassIdQueryParam,
           sessionClassSubjectIdQueryParam,
-          groupIdQueryParam
+          groupIdQueryParam,
+          1
         )(dispatch);
       if (typeQueryParam === "class-assessment")
         getAllClassAssessment(
           sessionClassIdQueryParam,
-          sessionClassSubjectIdQueryParam
+          sessionClassSubjectIdQueryParam,
+          1
         )(dispatch);
     };
 
@@ -182,7 +184,7 @@ const AssessmentList = () => {
                   showErrorToast("Subject is required")(dispatch);
                   return;
                 }
-                if (!groupIdQueryParam) {
+                if (!groupIdQueryParam && typeQueryParam === "home-assessment") {
                   showErrorToast("Please select a group of students")(dispatch);
                   return;
                 }
@@ -512,8 +514,13 @@ const AssessmentList = () => {
                     </Row>
                   </Card.Body>
                   <Card.Footer>
+                 { typeQueryParam === "home-assessment" ?
                 <PaginationFilter3 filterProps={filterProps} action={getAllHomeAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam} param3={groupIdQueryParam}/>
-              </Card.Footer>
+                :typeQueryParam === "class-assessment" &&
+                <PaginationFilter2 filterProps={filterProps} action={getAllClassAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam}/>
+              
+              }
+                </Card.Footer>
                 </Card>
               )}
             </Formik>

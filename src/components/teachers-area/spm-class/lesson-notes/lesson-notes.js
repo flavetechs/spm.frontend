@@ -59,7 +59,7 @@ const LessonNotes = () => {
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -69,7 +69,7 @@ const LessonNotes = () => {
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
-      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam)(dispatch);
+      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam,1)(dispatch);
 
     };
     fetchNotes();

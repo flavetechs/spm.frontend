@@ -49,7 +49,7 @@ const MasterList = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
     return () => {
       resetListEntryOnExit(masterEntry)(dispatch);
       setShowMasterListTable(false);
