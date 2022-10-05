@@ -301,6 +301,7 @@ const Index = (props) => {
         }]
     }
 
+
     return (
         <>
             <Row>
@@ -365,36 +366,6 @@ const Index = (props) => {
                                         <SwiperSlide className=" card card-slide" >
                                             <div className="card-body">
                                                 <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={70} id="circle-progress-03" >
-                                                        <svg className="" width="24" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Total Pin</p>
-                                                        <h4 className="counter"><CountUp start={0} end={150} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Used Pins</p>
-                                                        <h4 className="counter"><CountUp start={0} end={50} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
                                                     <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
                                                         <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
                                                             <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
@@ -440,21 +411,6 @@ const Index = (props) => {
                                         <SwiperSlide className=" card card-slide" >
                                             <div className="card-body">
                                                 <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={50} id="circle-progress-05" >
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Revenue</p>
-                                                        <h4 className="counter"><CountUp start={0} end={0} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
                                                     <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' Linecap='rounded' strokewidth="4px" value={40} style={{ width: 60, height: 60, }} id="circle-progress-06">
                                                         <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
                                                             <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
@@ -463,21 +419,6 @@ const Index = (props) => {
                                                     <div className="progress-detail">
                                                         <p className="mb-2">Unused Pins</p>
                                                         <h4 className="counter"><CountUp start={0} end={dashboardCountItem?.totalUnusedPins} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide">
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.colorprimarymode} Linecap='rounded' trailstroke='#ddd' strokewidth="4px" width="60px" height="60px" value={30} style={{ width: 60, height: 60, }} id="circle-progress-07" >
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Express</p>
-                                                        <h4 className="counter"><CountUp start={2} end={0} duration={3} decimals={1} /></h4>
                                                     </div>
                                                 </div>
                                             </div>
