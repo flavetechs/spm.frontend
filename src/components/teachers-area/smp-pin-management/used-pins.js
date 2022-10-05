@@ -9,6 +9,7 @@ import { getAllUsedPinList } from "../../../store/actions/pin-management-actions
 import { Field, Formik } from "formik";
 import { getAllSession } from "../../../store/actions/session-actions";
 import { getAllTerms } from "../../../store/actions/publish-actions";
+import PaginationFilter from "../../partials/components/pagination-filter";
 
 const UsedPins = () => {
   //VARIABLE DECLARATIONS
@@ -20,7 +21,7 @@ const UsedPins = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { usedPinList } = state.pin;
+  const { usedPinList, filterProps } = state.pin;
   const { sessionList } = state.session;
   const { sessionTerms } = state.publish;
   // ACCESSING STATE FROM REDUX STORE
@@ -40,7 +41,8 @@ const UsedPins = () => {
         getAllTerms(sessionIdQueryParam)(dispatch);
       }
       if (sessionIdQueryParam && termIdQueryParam) {
-        getAllUsedPinList(sessionIdQueryParam, termIdQueryParam)(dispatch);
+        let initialPageNumber = 1;
+        getAllUsedPinList(sessionIdQueryParam, termIdQueryParam, initialPageNumber)(dispatch);
       }
     };
     fetchUsedPins();
@@ -281,6 +283,15 @@ const UsedPins = () => {
                       </div>
                     }
                   </Card.Body>
+                  <Card.Footer>
+                    <PaginationFilter
+                      filterProps={filterProps}
+                      action={getAllUsedPinList}
+                      dispatch={dispatch}
+                      sessionIdQueryParam={sessionIdQueryParam}
+                      termIdQueryParam={termIdQueryParam}
+                    />
+                  </Card.Footer>
                 </Card>
               )}
             </Formik>

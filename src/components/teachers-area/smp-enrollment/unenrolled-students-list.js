@@ -17,6 +17,7 @@ import {
 } from "../../../store/actions/toaster-actions";
 import { ClassesModal } from "./classesModal";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import PaginationFilter from "../../partials/components/pagination-filter";
 
 const UnenrolledStudentsList = () => {
   //VARIABLE DECLARATIONS
@@ -28,13 +29,13 @@ const UnenrolledStudentsList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { unenrolledStudents, selectedIds } = state.enrollment;
+  const { unenrolledStudents, selectedIds, filterProps } = state.enrollment;
   const { modalResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getAllUnenrolledStudents()(dispatch);
-  }, [dispatch]);
+    getAllUnenrolledStudents(1)(dispatch);
+  }, []);
 
   //ENROLL HANDLER
   React.useEffect(() => {
@@ -49,7 +50,7 @@ const UnenrolledStudentsList = () => {
     return () => {
       respondModal("")(dispatch)
     }
-  }, [modalResponse,unenrolledStudents,dispatch,selectedIds]);
+  }, [modalResponse, unenrolledStudents, dispatch, selectedIds]);
   //ENROLL HANDLER
 
 
@@ -76,23 +77,23 @@ const UnenrolledStudentsList = () => {
     });
     returnList(unenrolledStudents)(dispatch);
   };
-  const sortedList = unenrolledStudents.sort(function (a, b) {
+
+  const unenrolledStudentsTruthyOrFalsyValue = unenrolledStudents || [];
+
+  const sortedList = unenrolledStudentsTruthyOrFalsyValue.sort(function (a, b) {
     if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
     if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
     return 0;
   });
+
   const filteredUnenrolledStudents = sortedList.filter((students) => {
     if (searchQuery === "") {
       //if query is empty
       return students;
-    } else if (
-      students.studentName.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
+    } else if (students.studentName.toLowerCase().includes(searchQuery.toLowerCase())) {
       //returns filtered array
       return students;
-    } else if (
-      students.studentRegNumber.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
+    } else if (students.studentRegNumber.toLowerCase().includes(searchQuery.toLowerCase())) {
       //returns filtered array
       return students;
     }
@@ -149,120 +150,120 @@ const UnenrolledStudentsList = () => {
                   </div>
                 </div>
                 {hasAccess(NavPermissions.enrollStudents) && (
-                <div className="d-flex justify-content-end px-2">
-                  {showEnrollButton ? (
-                    <button
-                      type="button"
-                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary "
-                      onClick={() => {
-                        setEnrollButton(!showEnrollButton);
-                        setShowCheckBoxes(!showCheckBoxes);
-                      }}
-                    >
-                      <i className="btn-inner">
-                        <svg
-                          width="32"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M19.2036 8.66919V12.6792"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M21.2497 10.6741H17.1597"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg>
-                      </i>
-                      <span> Enroll Students</span>
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      data-toggle="modal"
-                      data-target="#viewModal"
-                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                      onClick={() => {
-                        if (selectedIds.length === 0) {
-                          showErrorToast("No Student selected to be enrolled")(
-                            dispatch
-                          );
-                        } else {
-                          showHideModal(true)(dispatch);
-                        }
-                      }}
-                    >
-                      <i className="btn-inner">
-                        <svg
-                          width="32"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M19.2036 8.66919V12.6792"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                          <path
-                            d="M21.2497 10.6741H17.1597"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          ></path>
-                        </svg>
-                      </i>
-                      <span> Enroll Selected</span>
-                    </button>
-                  )}
-                </div>
+                  <div className="d-flex justify-content-end px-2">
+                    {showEnrollButton ? (
+                      <button
+                        type="button"
+                        className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary "
+                        onClick={() => {
+                          setEnrollButton(!showEnrollButton);
+                          setShowCheckBoxes(!showCheckBoxes);
+                        }}
+                      >
+                        <i className="btn-inner">
+                          <svg
+                            width="32"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              d="M19.2036 8.66919V12.6792"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              d="M21.2497 10.6741H17.1597"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                          </svg>
+                        </i>
+                        <span> Enroll Students</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#viewModal"
+                        className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                        onClick={() => {
+                          if (selectedIds.length === 0) {
+                            showErrorToast("No Student selected to be enrolled")(
+                              dispatch
+                            );
+                          } else {
+                            showHideModal(true)(dispatch);
+                          }
+                        }}
+                      >
+                        <i className="btn-inner">
+                          <svg
+                            width="32"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              d="M19.2036 8.66919V12.6792"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              d="M21.2497 10.6741H17.1597"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                          </svg>
+                        </i>
+                        <span> Enroll Selected</span>
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
               <Card.Body className="px-0">
@@ -297,7 +298,7 @@ const UnenrolledStudentsList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredUnenrolledStudents.map((student, idx) => (
+                      {filteredUnenrolledStudents?.map((student, idx) => (
                         <tr key={idx}>
                           <td className="">
                             <b>
@@ -389,64 +390,64 @@ const UnenrolledStudentsList = () => {
                                 }
                               >
                                 {hasAccess(NavPermissions.enrollStudents) && (
-                                <Link
-                                  className="btn btn-sm btn-icon btn-warning"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title=""
-                                  data-original-title="Enroll"
-                                  to="#"
-                                  data-id={student.studentContactId}
-                                  onClick={() => {
-                                    showHideModal(true)(dispatch);
-                                    dispatch(pushId(student.studentContactId));
-                                  }}
-                                >
-                                  <span className="btn-inner">
-                                    <svg
-                                      data-toggle="tooltip"
-                                      data-placement="top"
-                                      title="Enroll"
-                                      width="32"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        d="M19.2036 8.66919V12.6792"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                      <path
-                                        d="M21.2497 10.6741H17.1597"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      ></path>
-                                    </svg>
-                                  </span>
-                                </Link>
+                                  <Link
+                                    className="btn btn-sm btn-icon btn-warning"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title=""
+                                    data-original-title="Enroll"
+                                    to="#"
+                                    data-id={student.studentContactId}
+                                    onClick={() => {
+                                      showHideModal(true)(dispatch);
+                                      dispatch(pushId(student.studentContactId));
+                                    }}
+                                  >
+                                    <span className="btn-inner">
+                                      <svg
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Enroll"
+                                        width="32"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M19.2036 8.66919V12.6792"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                        <path
+                                          d="M21.2497 10.6741H17.1597"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        ></path>
+                                      </svg>
+                                    </span>
+                                  </Link>
                                 )}
                               </OverlayTrigger>
                             </div>
@@ -457,6 +458,9 @@ const UnenrolledStudentsList = () => {
                   </table>
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter filterProps={filterProps} action={getAllUnenrolledStudents} dispatch={dispatch} />
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
