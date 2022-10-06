@@ -106,3 +106,10 @@ export const respondModal = (message) => dispatch=> {
         payload: message
     })
 }
+
+export const timeOutRespondModal = (message) => dispatch=> {
+    dispatch({
+        type: actions.RESPOND_TIME_OUT_MODAL,
+        payload: message
+    })
+}

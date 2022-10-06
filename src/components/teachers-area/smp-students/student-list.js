@@ -165,7 +165,7 @@ const StudentList = () => {
                   </h4>
                 </div>
               </Card.Header>
-              <ClassesModal />
+              {/* <ClassesModal /> */}
               <Row className="">
                 <Col md="12">
                   <div className="input-group">

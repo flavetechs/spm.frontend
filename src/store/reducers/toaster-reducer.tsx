@@ -93,6 +93,11 @@ export const alertReducer = (state = _state, { type, payload }: any) => {
                 ...state,
                 modalResponse: payload
             }
+            case actions.RESPOND_TIME_OUT_MODAL:
+                return {
+                    ...state,
+                    timeOutModalResponse: payload
+                }
         default:
             return state
     }
