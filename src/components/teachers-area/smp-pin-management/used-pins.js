@@ -31,7 +31,7 @@ const UsedPins = () => {
   const termIdQueryParam = queryParams.get("termId") || "";
 
   React.useEffect(() => {
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, []);
 
 

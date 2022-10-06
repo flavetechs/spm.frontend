@@ -39,7 +39,8 @@ export const sessionReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        sessionList: payload,
+        sessionList: payload.data,
+        filterProps:payload,
       };
 
     case actions.FETCH_SESSION_FAILED:

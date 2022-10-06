@@ -11,6 +11,7 @@ import {
 import * as Yup from "yup";
 import { classLocations } from "../../../../router/spm-path-locations";
 import { getStaffClassSubjects } from "../../../../store/actions/results-actions";
+import { PaginationFilter3 } from "../../../partials/components/pagination-filter";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -25,7 +26,7 @@ const StudentNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { studentNotesByTeacher } = state.class;
+  const { studentNotesByTeacher,filterProps } = state.class;
   const { staffClassSubjects } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId") || "";
@@ -45,7 +46,7 @@ const StudentNotes = () => {
   }, [sessionClassIdQuery, dispatch]);
 
   React.useEffect(() => {
-    getStudentNotesByTeacher(sessionClassIdQuery, subjectIdQuery, statusQuery)(dispatch);
+    getStudentNotesByTeacher(sessionClassIdQuery, subjectIdQuery, statusQuery,1)(dispatch);
   }, [statusQuery, subjectIdQuery, dispatch, sessionClassIdQuery]);
 
   
@@ -382,6 +383,9 @@ const StudentNotes = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter3 filterProps={filterProps} action={ getStudentNotesByTeacher} dispatch={dispatch} param1={sessionClassIdQuery} param2={subjectIdQuery} param3={statusQuery}/>
+                </Card.Footer>
             </Card>
           </Col>
         </Row>

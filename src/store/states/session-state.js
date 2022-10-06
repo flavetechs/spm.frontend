@@ -7,5 +7,6 @@ export const _state = {
     name: '',
     selectedIds: [],
     selectedItem: null,
-    activeSession: null
+    activeSession: null,
+    filterProps:{},
 }

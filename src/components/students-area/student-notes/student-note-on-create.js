@@ -29,7 +29,7 @@ const CreateStudentNote = () => {
     });
     //VALIDATION
     React.useEffect(() => {
-      getAllStaffAccount()(dispatch);
+      getAllStaffAccount(1)(dispatch);
       getSubjectTeacher(subjectId)(dispatch);
       getAllStudentSubjects(userDetail.id)(dispatch);
     }, [subjectId,dispatch]);

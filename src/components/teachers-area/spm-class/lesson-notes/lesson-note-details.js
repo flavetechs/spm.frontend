@@ -7,13 +7,10 @@ import {
   addComments,
   addReplies,
   approveNotes,
-  getAllComments,
-  getClassNoteViewers,
-  getDetails,
   getLessonNoteDetails,
-  getRelatedNotes,
   getSingleLessonNotes,
 } from "../../../../store/actions/class-actions";
+import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 import { hasAccess, NavPermissions } from "../../../../utils/permissions";
 
@@ -26,6 +23,7 @@ const LessonNoteDetails = () => {
     viewers,
     relatedNotes,
   } = state.class;
+  const { staffClasses } = state.results;
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const location = useLocation();
@@ -45,6 +43,7 @@ const LessonNoteDetails = () => {
     const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
+    getAllStaffClasses()(dispatch);
   }, []);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const LessonNoteDetails = () => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
-
+ 
   return (
     <>
       <div className="col-sm-12 mx-auto">
@@ -389,7 +388,6 @@ const LessonNoteDetails = () => {
                           <label htmlFor="css">disapprove</label>
                         </div>
                       )}
-
                     </Row>
                   </form>
                   <div className="mt-5 mt-sm-0 d-flex justify-content-end">
@@ -469,7 +467,7 @@ const LessonNoteDetails = () => {
             </Card>
             <Card>
               <Card.Body>
-                <h4 className="mb-3">Viewers</h4>
+                <h4 className="mb-3">Shared To</h4>
                 <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
                   {viewers?.map((viewer, idx) => (
                     <li key={idx} className="">
@@ -480,6 +478,11 @@ const LessonNoteDetails = () => {
                       </div>
                     </li>
                   ))}
+                   {singleLessonNotes?.classes.map((item, index) => (
+                  <li key={index}>
+                    <h6 className="iq-categories-name mb-0">{staffClasses?.find(i=>i.classId === item).sessionClass}</h6>
+                  </li>
+   ))}
                 </ul>
               </Card.Body>
             </Card>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import {
-  respondModal,
- showHideTimeOutModal,
+ showHideTimeOutModal, timeOutRespondModal,
 } from "../../store/actions/toaster-actions";
 import { useDispatch, useSelector } from "react-redux";
 import IdleSessionTimeOutModal from "./idle-session-timeout-modal";
@@ -10,16 +9,16 @@ import IdleSessionTimeOutModal from "./idle-session-timeout-modal";
 const IdleSessionTimeOutHandler = (props) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { modalResponse } = state.alert;
+  const {  timeOutModalResponse } = state.alert;
   const [isLogout, setLogout] = useState(false);
   useEffect(() => {
-    if (modalResponse === "cancel") {
+    if (timeOutModalResponse === "cancel") {
       setLogout(false);
     }
     return () => {
-      respondModal("")(dispatch);
+      timeOutRespondModal("")(dispatch);
     };
-  }, [modalResponse]);
+  }, [timeOutModalResponse]);
   let timer = undefined;
   const events = ["click", "scroll", "load", "keydown"];
 

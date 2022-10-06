@@ -23,6 +23,7 @@ import {
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
 const AttendanceRegisterList = () => {
   //VARIABLE DECLARATIONS
@@ -45,7 +46,7 @@ const AttendanceRegisterList = () => {
   const locations = useLocation();
   const state = useSelector((state) => state);
   const textInput = React.createRef();
-  const { classRegister, createSuccessful, newClassRegister } = state.class;
+  const { classRegister, createSuccessful, newClassRegister,filterProps } = state.class;
 
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
@@ -74,7 +75,7 @@ const AttendanceRegisterList = () => {
   const sessionClassIdQuery = queryParams.get("sessionClassId") || "";
   const termIdQuery = queryParams.get("termId") || "";
   React.useEffect(() => {
-    sessionClassIdQuery && termIdQuery && getAllClassRegister(sessionClassIdQuery, termIdQuery)(dispatch);
+    sessionClassIdQuery && termIdQuery && getAllClassRegister(sessionClassIdQuery, termIdQuery,1)(dispatch);
   }, [sessionClassIdQuery, dispatch, termIdQuery]);
 
   React.useEffect(() => {
@@ -627,6 +628,9 @@ const AttendanceRegisterList = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter2 filterProps={filterProps} action={getAllClassRegister} dispatch={dispatch} param1={sessionClassIdQuery} param2={termIdQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

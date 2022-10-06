@@ -19,6 +19,7 @@ import PrintStudentResult from '../components/students-area/Printing/student-pri
 import StudentTemplateControl from '../components/students-area/Printing/result-templates/student-template-control';
 import StudentAnnouncement from '../components/students-area/announcement/student-announcement-list';
 import StudentAnnouncementDetails from '../components/students-area/announcement/student-announcement-details';
+import Protected from '../components/spm-auth/protected';
 
 
 
@@ -26,6 +27,7 @@ import StudentAnnouncementDetails from '../components/students-area/announcement
 const StudentDashboardRouter = () => {
 
     return (
+        <Protected>
         <TransitionGroup>
             <CSSTransition classNames="fadein" timeout={300}>
                 <Switch>
@@ -68,6 +70,7 @@ const StudentDashboardRouter = () => {
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
+        </Protected>
     )
 }
 

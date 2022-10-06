@@ -23,6 +23,7 @@ import { getUserDetails, hasAccess, NavPermissions } from "../../../../utils/per
 import { NoteShareModal } from "./note-share-modal";
 import { NoteSendModal } from "./note-send-modal";
 import { getActiveSession, getAllSession } from "../../../../store/actions/session-actions";
+import { PaginationFilter4 } from "../../../partials/components/pagination-filter";
 
 const LessonNotes = () => {
   //VARIABLE DECLARATIONS
@@ -41,7 +42,7 @@ const LessonNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { lessonNotes } = state.class;
+  const { lessonNotes,filterProps } = state.class;
   const { staffClasses, staffClassSubjects } = state.results;
   const { dialogResponse, modalResponse } = state.alert;
   const { activeSession, sessionList } = state.session;
@@ -58,7 +59,7 @@ const LessonNotes = () => {
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -68,7 +69,7 @@ const LessonNotes = () => {
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
-      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam)(dispatch);
+      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam,1)(dispatch);
 
     };
     fetchNotes();
@@ -707,6 +708,9 @@ const LessonNotes = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter4 filterProps={filterProps} action={getAllLessonNotes} dispatch={dispatch} param1={classIdQueryParam} param2={subjectIdQueryParam} param3={approvalStatusQueryParam} param4={termIdQueryParam}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

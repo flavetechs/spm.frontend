@@ -165,9 +165,9 @@ const StudentList = () => {
                   </h4>
                 </div>
               </Card.Header>
-              <ClassesModal />
-              <div className="d-xl-flex justify-content-between">
-                <div>
+              {/* <ClassesModal /> */}
+              <Row className="">
+                <Col md="12">
                   <div className="input-group">
                     <span
                       className="input-group-text border-0"
@@ -206,10 +206,10 @@ const StudentList = () => {
                       />
                     </div>
                   </div>
-                </div>
-                <div className="">
-                  <Form>
-                    <div className="mt-sm-3 mt-xl-1 d-md-flex d-xs-block justify-content-end">
+                </Col>
+                <Col xl="8"className="mt-3">
+                  
+                    <div className="d-md-flex mx-3">
                       <div className="">
                         <input
                           type="file"
@@ -220,7 +220,7 @@ const StudentList = () => {
                           onChange={handleFileUpload}
                         />
                       </div>
-                      <div className="mx-3">
+                      <div className="mx-md-3 mx-1 d-xl-flex mt-3  mt-md-0">
                         <button
                           type="button"
                           className="text-center btn-primary btn-icon me-2  btn btn-primary"
@@ -297,11 +297,11 @@ const StudentList = () => {
                         </button>
                       </div>
                     </div>
-                  </Form>
-                </div>
-                <div>
+                  
+                </Col>
+                <Col xl="4" className="mt-2 mt-xl-3 d-xl-flex justify-content-end">
                   {hasAccess(NavPermissions.deleteStudent) && (
-                    <div className="d-flex  px-3 mx-sm-4 mt-sm-2 mt-xl-1 mx-xl-1">
+                    <div className="d-flex  px-3">
                       {showDeleteButton ? (
                         <button
                           type="button"
@@ -417,8 +417,8 @@ const StudentList = () => {
                       )}
                     </div>
                   )}
-                </div>
-              </div>
+                </Col>
+              </Row>
               <Card.Body className="px-0">
                 <div className="table-responsive">
                   <table
@@ -594,7 +594,7 @@ const StudentList = () => {
                                   </Link>
                                 </OverlayTrigger>
                               )}{" "}
-                              {hasAccess(NavPermissions.enrollStudents) && (
+                              {/* {hasAccess(NavPermissions.enrollStudents) && (
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -711,7 +711,7 @@ const StudentList = () => {
                                     </span>
                                   </Link>
                                 </OverlayTrigger>
-                              )}{" "}
+                              )}{" "} */}
                               {hasAccess(NavPermissions.deleteStudent) && (
                                 <OverlayTrigger
                                   placement="top"

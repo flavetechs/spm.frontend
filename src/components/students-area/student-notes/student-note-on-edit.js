@@ -51,7 +51,7 @@ const EditStudentNote = () => {
   }, [dispatch,location.search]);
 
   React.useEffect(() => {
-    getAllStaffAccount()(dispatch);
+    getAllStaffAccount(1)(dispatch);
     getSubjectTeacher(singleStudentNotes?.subjectId)(dispatch);
   }, [singleStudentNotes,dispatch]);
 

@@ -35,7 +35,7 @@ const AdminScoreEntryTable = () => {
   React.useEffect(() => {
     getAllPreviousClassScore(sessionClassId, subjectId, term)(dispatch);
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
     setIndexRow("");
     setEditMode(false);
     setPreviewMode(false);

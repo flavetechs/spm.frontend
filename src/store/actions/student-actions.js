@@ -96,7 +96,7 @@ export const deleteStudent = (studentId) => (dispatch) => {
                 type: actions.DELETE_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStudents()(dispatch);
+            getAllStudents(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -220,7 +220,7 @@ export const uploadStudentsListFile = (formData) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
-            getAllStudents()(dispatch);
+            getAllStudents(1)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.UPLOAD_STUDENTS_LIST_FILE_FAILED,

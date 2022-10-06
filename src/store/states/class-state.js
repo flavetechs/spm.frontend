@@ -44,4 +44,5 @@ export const _state = {
   assessmentScore:{},
   studentClassAssessment:null,
   scoreRecordList:[],
+  filterProps:{},
 };

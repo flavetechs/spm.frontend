@@ -50,7 +50,7 @@ const EnrolledStudents = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -136,7 +136,7 @@ const EnrolledStudents = () => {
       return students;
     }
   });
-console.log("enrolledStudents",enrolledStudents);
+
   return (
     <>
       <div>
@@ -331,10 +331,10 @@ console.log("enrolledStudents",enrolledStudents);
               <Card.Body className="px-0">
                 {!sessionClassIdQuery ? (
                   <div className="jumbotron jumbotron-fluid">
-                    <div className="container d-flex justify-content-center mt-5 bg-white">
-                      <h2 className="display-4">
+                    <div className="container d-flex justify-content-center mt-5 bg-light">
+                      <h3 className="display-4">
                         Please select a class to view enrolled students
-                      </h2>
+                      </h3>
                     </div>
                   </div>
                 ) : (
