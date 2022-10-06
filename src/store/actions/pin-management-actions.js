@@ -3,11 +3,11 @@ import { actions } from "../action-types/pin-management-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
-export const getAllUnusedPinList = () => (dispatch) => {
+export const getAllUnusedPinList = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNUSED_PIN_LOADING,
-    });   
-    axiosInstance.get(`/pin/api/v1/get/unused-pins`)
+    });    
+    axiosInstance.get(`/pin/api/v1/get/unused-pins?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNUSED_PIN_SUCCESS,
@@ -22,11 +22,11 @@ export const getAllUnusedPinList = () => (dispatch) => {
         });
 };
 
-export const getAllUsedPinList = (sessionId, termId) => (dispatch) => {
+export const getAllUsedPinList = (sessionId, termId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_USED_PIN_LOADING,
     });          
-    axiosInstance.get(`/pin/api/v1/get/used-pins?sessionId=${sessionId}&termId=${termId}`)
+    axiosInstance.get(`/pin/api/v1/get/used-pins?sessionId=${sessionId}&termId=${termId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_USED_PIN_SUCCESS,

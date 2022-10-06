@@ -6,4 +6,5 @@ export const _state = {
     selectedUsedPin: null,
     unUsedPinList:[],
     usedPinList:[],
+    filterProps: {},
   };

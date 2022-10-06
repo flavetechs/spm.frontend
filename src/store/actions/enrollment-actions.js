@@ -35,12 +35,11 @@ export const resetEnrolledStudentsState = () => (dispatch) => {
     })
 }
 
-export const getAllUnenrolledStudents = () => (dispatch) => {
+export const getAllUnenrolledStudents = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNENROLLED_STUDENTS_LOADING
     });
-
-    axiosInstance.get('/errollment/api/v1/getall/unenrolled')
+    axiosInstance.get(`/errollment/api/v1/getall/unenrolled?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNENROLLED_STUDENTS_SUCCESS,
