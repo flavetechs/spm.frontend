@@ -7,6 +7,7 @@ import { deleteAnnouncement, getAllAnnouncement, pushId, removeId, updateSeenAnn
 import { respondToDeleteDialog, showErrorToast, showSingleDeleteDialog } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { stripHtml } from "../../../utils/tools";
+import PaginationFilter from "../../partials/components/pagination-filter";
 import "./announcement.scss";
 
 const AnnouncementList = () => {
@@ -18,10 +19,10 @@ const AnnouncementList = () => {
   const history = useHistory();
   const state = useSelector((state) => state);
   const { deleteDialogResponse } = state.alert;
-  const { announcementList, selectedIds } = state.notification;
+  const { announcementList, selectedIds, filterProps } = state.notification;
 
   React.useEffect(() => {
-    getAllAnnouncement()(dispatch);
+    getAllAnnouncement(1)(dispatch);
   }, [dispatch]);
 
   function truncateString(str) {
@@ -420,6 +421,13 @@ const AnnouncementList = () => {
               </Button>
             </div>
           </Card.Body>
+          <Card.Footer>
+            <PaginationFilter
+              filterProps={filterProps}
+              action={getAllAnnouncement}
+              dispatch={dispatch}
+            />
+          </Card.Footer>
         </Card>
       </div>
     </>
