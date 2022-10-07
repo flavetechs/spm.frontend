@@ -408,18 +408,6 @@ const AnnouncementList = () => {
               </div>
 
             </div>
-            <div className="d-flex justify-content-end">
-              <Button
-                type="button"
-                className="btn-sm mt-4 mb-3"
-                variant="btn btn-danger"
-                onClick={() => {
-                  history.goBack();
-                }}
-              >
-                Back
-              </Button>
-            </div>
           </Card.Body>
           <Card.Footer>
             <PaginationFilter
