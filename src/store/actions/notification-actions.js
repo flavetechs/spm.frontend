@@ -54,12 +54,11 @@ export const createAnnouncement = (values) => (dispatch) => {
 }
 
 
-export const getAllAnnouncement = () => (dispatch) => {
+export const getAllAnnouncement = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ANNOUNCEMENT_LOADING
     });
-
-    axiosInstance.get("/announcements/api/v1/get/announcements")
+    axiosInstance.get(`/announcements/api/v1/get/announcements?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ANNOUNCEMENT_SUCCESS,

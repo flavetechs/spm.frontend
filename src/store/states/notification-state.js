@@ -8,4 +8,5 @@ export const _state = {
     announcementDetails:null,
     selectedIds: [],
     selectedItem: null,
+    filterProps: {},
     }
