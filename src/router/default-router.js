@@ -89,6 +89,7 @@ import ScoreRecord from '../components/teachers-area/spm-class/assessment/assess
 import ScoreRecordDetails from '../components/teachers-area/spm-class/assessment/assessment-score-record-details';
 import PublishedClassList from '../components/teachers-area/smp-result-management/published-classes-result';
 import Protected from '../components/spm-auth/protected';
+import PrintTimeTable from '../components/teachers-area/spm-class/time-table/printTimetable';
 
 const DashboardRouter = () => {
 
@@ -128,6 +129,7 @@ const DashboardRouter = () => {
                         <Route path={classLocations.studentNotes} exact component={StudentNotes} />
                         <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
                         <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
+                        <Route path={classLocations.printTimeTable} exact component={PrintTimeTable} />
                         <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
                         <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
 
