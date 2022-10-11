@@ -1,4 +1,4 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -6,6 +6,7 @@ import {
   getStatusFilterForStudentAssessment,
 } from "../../../store/actions/class-actions";
 import { assessmentLocations } from "../../../router/students-path-locations";
+import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 
 const StudentAssessmentList = () => {
   //VARIABLE DECLARATIONS
@@ -18,18 +19,18 @@ const StudentAssessmentList = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { assessmentList } = state.class;
+  const { assessmentList,filterProps } = state.class;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
   const statusQuery = queryParams.get("status");
   React.useEffect(() => {
-    if(!statusQuery){
-      getStatusFilterForStudentAssessment(-1)(dispatch);
-    }else{
-      getStatusFilterForStudentAssessment(statusQuery)(dispatch);
+    if (!statusQuery) {
+      getStatusFilterForStudentAssessment(-1,1)(dispatch);
+    } else {
+      getStatusFilterForStudentAssessment(statusQuery,1)(dispatch);
     }
-  }, [statusQuery,dispatch]);
+  }, [statusQuery, dispatch]);
 
   return (
     <>
@@ -63,14 +64,16 @@ const StudentAssessmentList = () => {
                             name="status"
                             className="form-select"
                             id="status"
+                            value={statusQuery}
                             onChange={(e) => {
-                                history.push(
-                                  `${assessmentLocations.assessment}?status=${e.target.value}`
-                                );
+                              history.push(
+                                `${assessmentLocations.assessment}?status=${e.target.value}`
+                              );
                             }}
                           >
-                             <option value={1}>Select All</option>
-                            <option value={0}>Saved</option>
+                            <option value={-1}>Select All</option>
+                            <option value={1}>Open</option>
+                            {/* <option value={0}>Unsubmitted</option> */}
                             <option value={3}>Submitted</option>
                             <option value={2}>Closed</option>
                           </select>
@@ -185,7 +188,7 @@ const StudentAssessmentList = () => {
                                         strokeLinejoin="round"
                                       ></path>
                                     </svg>
-                                  view/details
+                                    view/details
                                   </div>
 
                                   {/* <div
@@ -240,26 +243,24 @@ const StudentAssessmentList = () => {
 
                           <h6 className="mb-3 text-uppercase">{item.title}</h6>
 
-                          <div className="">
-                            {/* <small className="" draggable="false">
-                              Created:
-                              <div className="text-success">
-                                {/* {item.dateTime
-                                       .split(" ")[0]
-                                      }
-                                18-07-2022 
-                              </div>
-                            </small>*/}
+                          <div className="d-flex justify-content-between">
+                            
                             <small className="" draggable="false">
-                              Deadline:
-                              <div className=" text-warning">
+                              <div className="w-100 d-inline-block">Deadline:</div>
+                              <div className="text-warning">
                                 {item.dateDeadLine}{' '}{item.timeDeadLine}
+                              </div>
+                            </small>
+
+                            <small className="" draggable="false">
+                              <div className="w-100 d-inline-block">Status:</div>
+                              <div className="badge bg-primary p-1">
+                                {item.status}
                               </div>
                             </small>
                           </div>
                         </Card.Body>
-                        <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
-                          <div>{item.status}</div>
+                        <small className="d-flex justify-content-around p-0 mb-2 mt-n3"> 
                           <div>{item.sessionClassGroupName}</div>
                           <div className="text-lowercase">{item.sessionClassSubjectName}</div>
                         </small>
@@ -268,6 +269,9 @@ const StudentAssessmentList = () => {
                   ))}
                 </Row>
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter1 filterProps={filterProps} action={getStatusFilterForStudentAssessment} dispatch={dispatch} param1={statusQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

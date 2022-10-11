@@ -23,6 +23,7 @@ import {
 } from "../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
+import { studentNoteLocations } from "../../../router/students-path-locations";
 
 const EditStudentNote = () => {
   const history = useHistory();
@@ -31,15 +32,16 @@ const EditStudentNote = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
-  const { createSuccessful,  singleStudentNotes,subjectTeacher } = state.class;
+  const { createSuccessful,  singleStudentNotes,subjectTeacher} = state.class;
   const { staffList } = state.staff;
   //VALIDATION
   const validation = Yup.object().shape({
     noteTitle: Yup.string().required("Title is required"),
   });
   //VALIDATION
-  React.useEffect(() => {
-    createSuccessful && history.goBack();
+  useEffect(() => {
+    createSuccessful &&
+    history.goBack();
   }, [createSuccessful,history]);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const EditStudentNote = () => {
   }, [dispatch,location.search]);
 
   React.useEffect(() => {
-    getAllStaffAccount()(dispatch);
+    getAllStaffAccount(1)(dispatch);
     getSubjectTeacher(singleStudentNotes?.subjectId)(dispatch);
   }, [singleStudentNotes,dispatch]);
 
@@ -89,7 +91,7 @@ const EditStudentNote = () => {
       setContent(atob(reader.result.split(",")[1]));
     };
   }
- 
+ console.log("singleStudentNotes",singleStudentNotes);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -101,7 +103,7 @@ const EditStudentNote = () => {
                   initialValues={{
                     noteTitle: singleStudentNotes?.noteTitle || "",
                     subjectId: singleStudentNotes?.subjectId || "",
-                    submitForReview: false,
+                    submitForReview: singleStudentNotes?.approvalStatus !==2 ? true :false,
                     teacherId:subjectTeacher,
                   }}
                   validationSchema={validation}
@@ -113,7 +115,7 @@ const EditStudentNote = () => {
                     }
                     values.noteContent = content;
                     values.studentNoteId = singleStudentNotes?.studentNoteId;
-                    values.submitForReview === true && sendForReview(singleStudentNotes?.studentNoteId,true)(dispatch);
+                    sendForReview(singleStudentNotes?.studentNoteId)(dispatch);
                     updateStudentNotes(values)(dispatch);
                   }}
                 >
@@ -125,20 +127,24 @@ const EditStudentNote = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                       <h6 className="mb-3 d-flex justify-content-end">{singleStudentNotes?.subjectName}</h6>
+                       <h4 className="mb-4">{singleStudentNotes?.subjectName}</h4>
                       <Row className="d-flex justify-content-center">
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Subject Teacher:</b>
                           </label>
-                          <input
-                            type="text"
-                            name="subjectTeacher"
-                            className="form-control border-secondary text-dark"
-                            id="noteTitle"
-                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName|| ""} 
-                           readOnly
-                          />
+                          <Field
+                            as="select"
+                            name="teacherId"
+                            className="form-select border-secondary h6"
+                            id="noteTitle">
+                              <option value="">Select Teacher</option>
+                                {staffList?.map((item, idx) => (
+                                  <option key={idx} value={item.teacherAccountId} >
+                                    {item.firstName}{""}{item.lastName}
+                                  </option>
+                                ))}
+                          </Field>
                         </Col>
                         <Col md="11">
                           {touched.noteTitle && errors.noteTitle && (
@@ -147,21 +153,21 @@ const EditStudentNote = () => {
                             </div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-secondary">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Title:</b>
                           </label>
                           <Field
                             type="text"
                             name="noteTitle"
-                            className="form-control border-secondary text-secondary"
+                            className="form-control border-secondary h6"
                             id="noteTitle"
                             onChange={(e) => {
                              setFieldValue("noteTitle",e.target.value)
                             }}
                           />
                         </Col>
-                        <Col md="11" className="form-group text-secondary">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Upload note(text,word,excel):</b>
                           </label>
@@ -184,7 +190,7 @@ const EditStudentNote = () => {
                         </Col>
                         <Col
                           md="11"
-                          className="form-group text-secondary"
+                          className="form-group h6"
                         >
                           <label
                             className="form-label d-flex justify-content-between"
@@ -230,16 +236,13 @@ const EditStudentNote = () => {
                           />
                         </Col>
 
-                        {singleStudentNotes?.approvalStatus === 2 && (
-                          <Col md="11" className="form-group text-secondary mt-5">
+                       {singleStudentNotes?.approvalStatus === 2 && (
+                          <Col md="11" className="form-group h6 mt-5">
                             <Field
                               type="checkbox"
                               name="submitForReview"
                               className="form-check-input"
                               id="submitForReview"
-                              onChange={(e) => {
-                                setFieldValue("submitForReview",e.target.value)
-                               }}
                             />
                             <label
                               className="form-label mx-1"

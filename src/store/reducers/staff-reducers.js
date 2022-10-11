@@ -46,7 +46,8 @@ export const staffReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        staffList: payload,
+        staffList: payload.data,
+        filterProps: payload,
       };
 
     case actions.FETCH_STAFFACCOUNT_FAILED:

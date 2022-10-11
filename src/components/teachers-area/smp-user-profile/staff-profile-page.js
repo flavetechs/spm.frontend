@@ -57,7 +57,7 @@ const StaffProfilePage = () => {
                                 </div>
                                 <p className="fw-bold mb-1">Hobbies :</p>
                                 <div className="">
-                                    {selectedItem?.hobbies.map((item, index) => (
+                                    {selectedItem?.hobbies?.map((item, index) => (
                                         <div className="tag-item bg-light m-1 text-capitalize" key={index}>
                                             <span className="text">{item}</span>
                                             {item ? <span className="p-1">

@@ -35,12 +35,11 @@ export const resetEnrolledStudentsState = () => (dispatch) => {
     })
 }
 
-export const getAllUnenrolledStudents = () => (dispatch) => {
+export const getAllUnenrolledStudents = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNENROLLED_STUDENTS_LOADING
     });
-
-    axiosInstance.get('/errollment/api/v1/getall/unenrolled')
+    axiosInstance.get(`/errollment/api/v1/getall/unenrolled?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNENROLLED_STUDENTS_SUCCESS,
@@ -63,7 +62,7 @@ export const enrollStudent = (values) => (dispatch) => {
                 type: actions.ENROLL_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStudents()(dispatch);
+            getAllStudents(1)(dispatch);
             getAllUnenrolledStudents()(dispatch);
             showHideModal(false)(dispatch)
             respondModal('cancel')(dispatch);
@@ -77,12 +76,12 @@ export const enrollStudent = (values) => (dispatch) => {
         });
 }
 
-export const getAllEnrolledStudents = (sessionClassId) => (dispatch) => {
+export const  getAllEnrolledStudents = (sessionClassId,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ENROLLED_STUDENTS_LOADING
     });
 
-    axiosInstance.get(`/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}`)
+    axiosInstance.get(`/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
@@ -109,7 +108,7 @@ export const unEnrollStudent = (studentContactId, sessionClassId) => (dispatch) 
                 type: actions.UNENROLL_STUDENTS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllEnrolledStudents(sessionClassId)(dispatch);
+            getAllEnrolledStudents(sessionClassId,1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

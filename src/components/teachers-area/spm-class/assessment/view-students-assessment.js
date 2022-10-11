@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
   getAllSingleHomeAssessment,
-  submitHomeAssessmentScore,
+  submitHomeAssessmentFeedback,
 } from "../../../../store/actions/class-actions";
+import { showErrorToast } from "../../../../store/actions/toaster-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
 
 const ViewStudentsAssessment = () => {
@@ -18,10 +19,11 @@ const ViewStudentsAssessment = () => {
   const studentListRef = useRef(null);
   const scrollToStudentList = () => studentListRef.current.scrollIntoView();
   const [fullScreen, setFullScreen] = useState(false);
+  const [comment, setComment] = useState("");
+  const [include, setInclude] = useState(false);
   const [score, setScore] = useState("");
   const state = useSelector((state) => state);
-  const { singleHomeAssessmentList, studentSingleHomeAssessmentList } =
-    state.class;
+  const { singleHomeAssessment, studentSingleHomeAssessment } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get(
@@ -29,14 +31,40 @@ const ViewStudentsAssessment = () => {
   );
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const groupIdQuery = queryParams.get("groupId");
   useEffect(() => {
-    getAllSingleHomeAssessment(
-      homeAssessmentIdQuery,
-      homeAssessmentFeedBackIdQuery,
-      sessionClassIdQuery
-    )(dispatch);
-    setScore("");
-  }, [homeAssessmentFeedBackIdQuery,homeAssessmentIdQuery,sessionClassIdQuery,dispatch]);
+    homeAssessmentFeedBackIdQuery &&
+      sessionClassIdQuery &&
+      homeAssessmentIdQuery &&
+      getAllSingleHomeAssessment(
+        homeAssessmentIdQuery,
+        homeAssessmentFeedBackIdQuery,
+        sessionClassIdQuery
+      )(dispatch);
+  }, [
+    homeAssessmentFeedBackIdQuery,
+    sessionClassIdQuery,
+    homeAssessmentIdQuery,
+  ]);
+
+  useEffect(() => {
+    setScore(
+      singleHomeAssessment?.studentList?.find(
+        (s) => s.homeAsessmentFeedbackId === homeAssessmentFeedBackIdQuery
+      )?.score
+    );
+    setInclude(
+      singleHomeAssessment?.studentList?.find(
+        (s) => s.homeAsessmentFeedbackId === homeAssessmentFeedBackIdQuery
+      )?.included
+    );
+    setComment(
+      singleHomeAssessment?.studentList?.find(
+        (s) => s.homeAsessmentFeedbackId === homeAssessmentFeedBackIdQuery
+      )?.comment
+    );
+  }, [singleHomeAssessment]);
 
   return (
     <>
@@ -59,10 +87,8 @@ const ViewStudentsAssessment = () => {
                         onClick={() => {
                           history.push(
                             `${
-                              classLocations.homeAssessmentDetails
-                            }?homeAssessmentId=${
-                              singleHomeAssessmentList.homeAssessmentId
-                            }&sessionClassId=${sessionClassIdQuery}&type=${"home assessment"}`
+                              classLocations.assessment
+                            }?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${"home-assessment"}`
                           );
                         }}
                         style={{ cursor: "pointer" }}
@@ -130,22 +156,22 @@ const ViewStudentsAssessment = () => {
                       </OverlayTrigger>
                     )}
                   </div>
-                  <div>
-                    {singleHomeAssessmentList?.sessionClassName}-
-                    {singleHomeAssessmentList?.sessionClassSubjectName}
+                  <div className="fw-bold">
+                    {singleHomeAssessment?.sessionClassName}-
+                    {singleHomeAssessment?.sessionClassSubjectName}
                   </div>
                   <div>
-                    Deadline:
+                    <b> Deadline:</b>
                     <span className="text-end text-primary">
-                      {singleHomeAssessmentList?.dateDeadLine}{" "}
-                      {singleHomeAssessmentList?.timeDeadLine}
+                      {singleHomeAssessment?.dateDeadLine}{" "}
+                      {singleHomeAssessment?.timeDeadLine}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-3 text-uppercase fw-bold d-flex justify-content-center">
+                <div className="mt-5 h5 text-uppercase fw-bold d-flex justify-content-center">
                   {
-                    singleHomeAssessmentList?.studentList?.find(
+                    singleHomeAssessment?.studentList?.find(
                       (s) =>
                         s.homeAsessmentFeedbackId ===
                         homeAssessmentFeedBackIdQuery
@@ -203,7 +229,7 @@ const ViewStudentsAssessment = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h4 text-secondary fw-bold">
-                      {singleHomeAssessmentList?.title}
+                      {studentSingleHomeAssessment?.assessment?.title}
                     </span>
                     <br />
                   </div>
@@ -212,42 +238,68 @@ const ViewStudentsAssessment = () => {
                   style={{ minHeight: "25vh" }}
                   className="h6"
                   dangerouslySetInnerHTML={{
-                    __html: studentSingleHomeAssessmentList?.content,
+                    __html: studentSingleHomeAssessment?.content,
                   }}
                 ></div>
-                <Card className="shadow-none bg-transparent border border-secondary my-3 p-4">
+                <Card className="shadow-none bg-light border border-secondary my-3 p-4">
                   <div
                     style={{ minHeight: "25vh" }}
                     className="h6 font-italic"
                     dangerouslySetInnerHTML={{
-                      __html: singleHomeAssessmentList?.content,
+                      __html: singleHomeAssessment?.content,
                     }}
                   ></div>
                 </Card>
                 <hr />
                 <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
+                {/* <div
+                  dangerouslySetInnerHTML={{
+                    __html: singleHomeAssessment?.comment,
+                  }}
+                ></div> */}
                 <textarea
                   name="comment"
                   id="comment"
                   rows="3"
+                  value={comment}
                   className="w-100"
+                  onChange={(e) => {
+                    setComment(e.target.value);
+                  }}
                 ></textarea>
                 <div className="d-flex justify-content-end">
-                  <Col md="3" className="form-group h6 mt-3">
-                    <label className="form-label">
-                      <h6>Feedback Score</h6>
-                    </label>
-                    <input
-                      type="number"
-                      name="assessmentScore"
-                      className="form-control h6 py-0 px-1"
-                      placeholder="Enter mark..."
-                      value={score}
-                      onChange={(e) => {
-                        setScore(e.target.value);
-                      }}
-                    />
-                  </Col>
+                  <div className="d-flex justify-content-between">
+                    <Col md="4" className="form-group h6 mt-3">
+                      <label className="form-label">
+                        <h6>Feedback Score</h6>
+                      </label>
+                      <input
+                        type="number"
+                        name="assessmentScore"
+                        className="form-control h6 py-0 px-1"
+                        placeholder="Enter mark..."
+                        value={score}
+                        onChange={(e) => {
+                          setScore(e.target.value);
+                        }}
+                      />
+                    </Col>
+                    <div className="form-group h6 mt-4">
+                      <input
+                        type="checkbox"
+                        name="include"
+                        className="form-check-input"
+                        id="include"
+                        checked={include}
+                        onChange={(e) => {
+                          setInclude(e.target.checked);
+                        }}
+                      />
+                      <label className="form-label mx-1 mt-1">
+                        <h6>Include to score entry</h6>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </Card.Body>
               <div className="d-flex justify-content-end">
@@ -257,10 +309,8 @@ const ViewStudentsAssessment = () => {
                   onClick={() => {
                     history.push(
                       `${
-                        classLocations.homeAssessmentDetails
-                      }?homeAssessmentId=${
-                        singleHomeAssessmentList.homeAssessmentId
-                      }&sessionClassId=${sessionClassIdQuery}&type=${"home assessment"}`
+                        classLocations.assessment
+                      }?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${"home-assessment"}`
                     );
                   }}
                 >
@@ -269,18 +319,24 @@ const ViewStudentsAssessment = () => {
 
                 <button
                   type="button"
-                  className="btn btn-primary btn-sm my-3 mx-2"
+                  className="btn btn-primary btn-sm my-3 mx-3"
                   onClick={() => {
-                    submitHomeAssessmentScore(
-                      homeAssessmentFeedBackIdQuery,
-                      score,
-                      homeAssessmentIdQuery,
-                      sessionClassIdQuery
-                    )(dispatch);
+                    if (score) {
+                      submitHomeAssessmentFeedback(
+                        homeAssessmentFeedBackIdQuery,
+                        score,
+                        comment,
+                        include,
+                        homeAssessmentIdQuery,
+                        sessionClassIdQuery
+                      )(dispatch);
+                    } else {
+                      showErrorToast("Please Enter Mark")(dispatch);
+                    }
                     scrollToStudentList();
                   }}
                 >
-                  Mark
+                  Submit
                 </button>
               </div>
             </Card>
@@ -307,82 +363,82 @@ const ViewStudentsAssessment = () => {
                       </tr>
                     </tbody>
                     <tbody>
-                      {singleHomeAssessmentList?.studentList?.map(
-                        (item, idx) => (
-                          <tr key={idx}>
-                            <td className="text-uppercase">
-                              {item.studentName}
-                            </td>
+                      {singleHomeAssessment?.studentList?.map((item, idx) => (
+                        <tr key={idx}>
+                          <td className="text-uppercase">{item.studentName}</td>
 
-                            <td className="text-center">
-                              <div
-                                className={
-                                  item.status === "submitted"
-                                    ? "badge bg-success"
-                                    : "badge bg-danger"
+                          <td className="text-center">
+                            <div
+                              className={
+                                item.status === "submitted"
+                                  ? "badge bg-success"
+                                  : item.status === "uncompleted"
+                                  ? "badge bg-warning"
+                                  : "badge bg-danger"
+                              }
+                            >
+                              {item.status}
+                            </div>
+                          </td>
+                          <td className="text-center">{item.score}</td>
+                          <td className="text-center">
+                            {item?.status === "submitted" && (
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">view</Tooltip>
                                 }
                               >
-                                {item.status}
-                              </div>
-                            </td>
-                            <td className="text-center">{item.score}</td>
-                            <td className="text-center">
-                              {item?.status !== "not started" && (
-                                <OverlayTrigger
-                                  placement="top"
-                                  overlay={
-                                    <Tooltip id="button-tooltip-2">
-                                      view
-                                    </Tooltip>
+                                <div
+                                  className="btn btn-sm btn-icon btn-success"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Details"
+                                  onClick={() =>
+                                    history.push(
+                                      `${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}`
+                                    )
                                   }
                                 >
-                                  <Link
-                                    className="btn btn-sm btn-icon btn-success"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title=""
-                                    data-original-title="Details"
-                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId}`}
-                                  >
-                                    <span className="btn-inner">
-                                      <svg
-                                        width="32"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          fillRule="evenodd"
-                                          clipRule="evenodd"
-                                          d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
-                                          stroke="currentColor"
-                                          strokeWidth="1.5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        ></path>
-                                        <path
-                                          d="M11.9946 16V12"
-                                          stroke="currentColor"
-                                          strokeWidth="1.5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        ></path>
-                                        <path
-                                          d="M11.9896 8.2041H11.9996"
-                                          stroke="currentColor"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        ></path>
-                                      </svg>
-                                    </span>
-                                  </Link>
-                                </OverlayTrigger>
-                              )}
-                            </td>
-                          </tr>
-                        )
-                      )}
+                                  <span className="btn-inner">
+                                    <svg
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9946 16V12"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M11.9896 8.2041H11.9996"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </svg>
+                                  </span>
+                                </div>
+                              </OverlayTrigger>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

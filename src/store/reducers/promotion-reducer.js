@@ -46,7 +46,8 @@ export const promotionReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        promotionList: payload,
+        promotionList: payload[0],
+        resultSettingsItem: payload[1],
       };
     }
       

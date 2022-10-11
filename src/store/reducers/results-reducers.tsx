@@ -208,6 +208,53 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       };
     }
 
+    case actions.FETCH_BATCH_RESULT_PREVIEW_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        batchResultPreview: null,
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_PREVIEW_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        batchResultPreview: payload,
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_PREVIEW_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        batchResultPreview: null,
+      };
+    }
+
+    case actions.FETCH_BATCH_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        batchResult: null,
+        printSuccessful:"loading"
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        batchResult: payload,
+        printSuccessful:"successful"
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        batchResult: null,
+        printSuccessful:"unsuccessful"
+      };
+    }
+
     case actions.FETCH_SINGLE_PRINT_RESULT_LOADING: {
       return {
         ...state,
@@ -298,7 +345,8 @@ case actions.SET_TEMPLATE_SETTING_STATE_SUCCESS: {
     ...state,
     isSuccessful: true,
     loading: false,
-    message: payload
+    message: payload,
+    
   };
 }
 case actions.SET_TEMPLATE_SETTING_STATE_FAILED: {

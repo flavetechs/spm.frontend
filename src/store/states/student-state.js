@@ -6,4 +6,8 @@ export const _state = {
     isSuccessful: false,
     selectedIds: [],
     submitSuccessful: false,
+    countries:[],
+    states:[],
+    cities:[],
+    filterProps: {}
   };

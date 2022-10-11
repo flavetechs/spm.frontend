@@ -50,6 +50,8 @@ export const classLocations = {
   addClassGroup: "/dashboard/smp-class/add-class-group",
   editClassGroup: "/dashboard/smp-class/edit-class-group",
   classTimeTable: "/dashboard/smp-class/time-table",
+  scoreRecord: "/dashboard/smp-class/score-record",
+  scoreRecordDetails: "/dashboard/smp-class/score-record-details",
 };
 
 export const sessionLocations = {
@@ -105,11 +107,13 @@ export const resultManagement = {
   scoreEntry: "/dashboard/smp-result/score-entry",
   scoreEntryTable: "/dashboard/smp-result/score-entry-table",
   publishResult: "/dashboard/smp-result/publish-result",
+  publishedClassList: "/dashboard/smp-result/published-class-list",
   publishResultTable:"/dashboard/smp-result/publish-result-table",
   publishResultEdit: "/dashboard/smp-result/edit-publish-result",
   previewPublishedResult: "/dashboard/smp-result/preview-published-result",
   masterList: "/dashboard/smp-result/master-list",
   printResult: "/dashboard/smp-result/print-result",
+  batchPrintPreview: "/dashboard/smp-result/batch-print-preview",
   resultTemplate: "/dashboard/smp-result/result-template",
   cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
 }

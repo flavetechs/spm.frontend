@@ -30,3 +30,14 @@ export function stripHtml(html)
    return result;
 }
 
+
+export const HandleMultipleCheckbox = (event, selectedArray) => {
+    const checkBoxValue = event.target.checked;
+    const checkedValue = event.target.id;
+    const otherSelectedArray = selectedArray.filter((item) => item !== checkedValue);
+    if (checkBoxValue === false) {
+        return [...otherSelectedArray];
+    } else {
+      return [...otherSelectedArray, checkedValue];
+    }
+  };

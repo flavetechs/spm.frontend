@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
@@ -8,7 +8,7 @@ import {
 } from "../../../store/actions/session-actions";
 import { getTermClasses } from "../../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getSinglePrintResult } from "../../../store/actions/results-actions";
 import { resultManagement } from "../../../router/spm-path-locations";
 
@@ -18,6 +18,12 @@ const PrintResult = () => {
   const history = useHistory();
   const [printSingle, setPrintSingle] = useState(false);
   const [batchPrint, setBatchPrint] = useState(false);
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionIdQueryParam = queryParams.get("sessionId") || "";
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const termIdQueryParam = queryParams.get("termId") || "";
+  const printOptionQueryParam = queryParams.get("printOption") || "";
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -25,15 +31,6 @@ const PrintResult = () => {
   const { termClasses } = state.publish;
   const { studentResult } = state.results;
   const { activeSession, sessionList } = state.session;
-  const [selectedSession, setSelectedSession] = useState(null);
-  const [initialValues, setInitialValues] = useState({
-    sessionId: "",
-    sessionTermId: "",
-    sessionClassId: "",
-    printOption: "",
-    studentRegNo: "",
-    ePin: "",
-  });
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -64,33 +61,40 @@ const PrintResult = () => {
   //VALIDATION SCHEMA
 
   React.useEffect(() => {
-    getAllSession()(dispatch);
     getActiveSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
-    setSelectedSession(activeSession);
-    initialValues.sessionId = activeSession?.sessionId;
-    initialValues.sessionTermId = activeSession?.terms.find(
-      (term) => term.isActive === true
-    )?.sessionTermId;
-    setInitialValues(initialValues);
-    getTermClasses(
-      activeSession?.sessionId,
-      activeSession?.sessionTermId
-    )(dispatch);
-  }, [activeSession,dispatch]);
+    sessionIdQueryParam && getTermClasses(sessionIdQueryParam)(dispatch);
+  }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
+    history.push(`${resultManagement.printResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+  }, [activeSession]);
+
+
+  useEffect(() => {
+    if (printOptionQueryParam === "printSingle") {
+      setPrintSingle(true);
+      setBatchPrint(false);
+    } else if (printOptionQueryParam === "batchPrinting") {
+      setBatchPrint(true);
+      setPrintSingle(false);
+    }
+  }, [printOptionQueryParam])
+
+
+  useEffect(() => {
     if (printSingle && studentResult) {
       history.push(resultManagement.resultTemplate);
     }
-  }, [studentResult,history]);
+  }, [studentResult, history]);
 
   return (
     <>
-      <div className="col-md-12 mx-auto d-flex justify-content-center">
-        <Col sm="6">
+      <div className="col-lg-6 mx-auto">
+        <Col sm="12">
           <Card>
             <Card.Header>
               <h6>
@@ -99,17 +103,28 @@ const PrintResult = () => {
             </Card.Header>
             <Card.Body>
               <Formik
-                initialValues={initialValues}
+                initialValues={{
+                  sessionId: sessionIdQueryParam,
+                  sessionTermId: termIdQueryParam,
+                  sessionClassId: sessionClassIdQueryParam,
+                  printOption: printOptionQueryParam,
+                  studentRegNo: "",
+                  ePin: "",
+                }}
                 validationSchema={validation}
                 enableReinitialize={true}
                 onSubmit={(values) => {
-                  //printSingle ?
-                  getSinglePrintResult(
-                    values.ePin,
-                    values.sessionTermId,
-                    values.studentRegNo
-                  )(dispatch);
-                  //: getBatchPrintResult()(dispatch)
+                  if (printSingle) {
+                    getSinglePrintResult(
+                      values.ePin,
+                      values.sessionTermId,
+                      values.studentRegNo
+                    )(dispatch);
+                  } else if (batchPrint) {
+                    history.push(
+                      `${resultManagement.batchPrintPreview}?sessionClassId=${values.sessionClassId}&sessionTermId=${values.sessionTermId}`
+                    );
+                  }
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -120,7 +135,7 @@ const PrintResult = () => {
                           <div className="text-danger">{errors.sessionId}</div>
                         )}
                       </Col>
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                         <label className="form-label" htmlFor="sessionId">
                           <b>Session:</b>
                         </label>
@@ -132,12 +147,7 @@ const PrintResult = () => {
                           values={values.sessionId}
                           onChange={(e) => {
                             setFieldValue("sessionId", e.target.value);
-                            setSelectedSession(
-                              sessionList.find(
-                                (s) =>
-                                  s.sessionId.toLowerCase() === e.target.value
-                              )
-                            );
+                            history.push(`${resultManagement.printResult}?sessionId=${e.target.value}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
                           }}
                         >
                           <option value="">Select Session</option>
@@ -159,7 +169,7 @@ const PrintResult = () => {
                           </div>
                         )}
                       </Col>
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                         <label className="form-label" htmlFor="sessionClassId">
                           <b>Terms:</b>
                         </label>
@@ -171,22 +181,27 @@ const PrintResult = () => {
                           value={values.sessionTermId}
                           onChange={(e) => {
                             setFieldValue("sessionTermId", e.target.value);
-                            getTermClasses(
-                              selectedSession?.sessionId,
-                              e.target.value
-                            )(dispatch);
+                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
+
                           }}
                         >
                           <option value="">Select Term</option>
-                          {selectedSession?.terms?.map((term, idx) => (
-                            <option
-                              key={idx}
-                              name={values.sessionTermId}
-                              value={term.sessionTermId}
-                            >
-                              {term.termName}
-                            </option>
-                          ))}
+                          {sessionList
+                            ?.find(
+                              (session, idx) =>
+                                session.sessionId.toLowerCase() ===
+                                values.sessionId
+                            )
+                            ?.terms.map((term, id) => (
+                              <option
+                                key={id}
+                                name={values.terms}
+                                value={term.sessionTermId.toLowerCase()}
+                                selected={term.sessionTermId === values.terms}
+                              >
+                                {term.termName}
+                              </option>
+                            ))}
                         </Field>
                       </Col>
                       <Col md="11">
@@ -196,7 +211,7 @@ const PrintResult = () => {
                           </div>
                         )}
                       </Col>
-                      <Col md="11" className="form-group text-dark">
+                      <Col md="11" className="form-group h6">
                         <label className="form-label">
                           <b>Print Option:</b>
                         </label>
@@ -207,6 +222,7 @@ const PrintResult = () => {
                           id="printOption"
                           onChange={(e) => {
                             setFieldValue("printOption", e.target.value);
+                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${e.target.value}&sessionClassId=${sessionClassIdQueryParam}`)
                             if (e.target.value === "printSingle") {
                               setPrintSingle(true);
                               setBatchPrint(false);
@@ -230,7 +246,7 @@ const PrintResult = () => {
                               </div>
                             )}
                           </Col>
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>Student Registration No:</b>
                             </label>
@@ -248,7 +264,7 @@ const PrintResult = () => {
                               <div className="text-danger">{errors.ePin}</div>
                             )}
                           </Col>
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>E-pin:</b>
                             </label>
@@ -273,7 +289,7 @@ const PrintResult = () => {
                                 </div>
                               )}
                           </Col>
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>Classes:</b>
                             </label>
@@ -284,10 +300,8 @@ const PrintResult = () => {
                               id="sessionClassId"
                               onChange={(e) => {
                                 setFieldValue("sessionClassId", e.target.value);
-                                // getAllResultList(
-                                //   e.target.value,
-                                //   values.sessionTermId
-                                // )(dispatch);
+                                history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
+
                               }}
                             >
                               <option value="">Select Class</option>
@@ -313,7 +327,7 @@ const PrintResult = () => {
                             handleSubmit();
                           }}
                         >
-                          Print
+                          View
                         </Button>
                       </div>
                     </Row>

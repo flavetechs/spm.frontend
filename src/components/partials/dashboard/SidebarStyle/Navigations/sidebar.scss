@@ -1,0 +1,9 @@
+.isPreview {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+@media only print {
+    .isPreview { display:none !important; } 
+        .isPrint { display:block !important; } }

@@ -41,7 +41,7 @@ const EditLessonNote = () => {
   //const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     createSuccessful && history.goBack();
-  }, [createSuccessful,history]);
+  }, [createSuccessful, history]);
 
   useEffect(() => {
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
@@ -67,13 +67,52 @@ const EditLessonNote = () => {
           ],
           [{ align: [] }],
           ["image", "link"],
-          [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
+          [
+            {
+              color: [
+                "#000000",
+                "#e60000",
+                "#ff9900",
+                "#ffff00",
+                "#008a00",
+                "#0066cc",
+                "#9933ff",
+                "#ffffff",
+                "#facccc",
+                "#ffebcc",
+                "#ffffcc",
+                "#cce8cc",
+                "#cce0f5",
+                "#ebd6ff",
+                "#bbbbbb",
+                "#f06666",
+                "#ffc266",
+                "#ffff66",
+                "#66b966",
+                "#66a3e0",
+                "#c285ff",
+                "#888888",
+                "#a10000",
+                "#b26b00",
+                "#b2b200",
+                "#006100",
+                "#0047b2",
+                "#6b24b2",
+                "#444444",
+                "#5c0000",
+                "#663d00",
+                "#666600",
+                "#003700",
+                "#002966",
+                "#3d1466",
+              ],
+            },
+          ],
         ],
         //   handlers: {
         //     image: imageHandler
         //   }
       },
-      
     }),
     []
   );
@@ -109,7 +148,7 @@ const EditLessonNote = () => {
                     }
                     values.noteContent = content;
                     values.classNoteId = singleLessonNotes?.classNoteId;
-                    sendForApproval(singleLessonNotes?.classNoteId)(dispatch)
+                    sendForApproval(singleLessonNotes?.classNoteId)(dispatch);
                     updateLessonNotes(values)(dispatch);
                   }}
                 >
@@ -121,8 +160,12 @@ const EditLessonNote = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                       <h5 className="mb-3">{singleLessonNotes?.subjectName}</h5>
                       <Row className="d-flex justify-content-center">
+                        <Col md="11">
+                          <h5 className="mb-3">
+                            {singleLessonNotes?.subjectName}
+                          </h5>
+                        </Col>
                         <Col md="11">
                           {touched.noteTitle && errors.noteTitle && (
                             <div className="text-danger">
@@ -131,7 +174,7 @@ const EditLessonNote = () => {
                           )}
                         </Col>
                         <Col md="11" className="form-group text-secondary">
-                          <label className="form-label" >
+                          <label className="form-label">
                             <b>Title:</b>
                           </label>
                           <Field
@@ -140,15 +183,12 @@ const EditLessonNote = () => {
                             className="form-control border-secondary text-secondary"
                             id="noteTitle"
                             onChange={(e) => {
-                              setFieldValue(
-                                "noteTitle",
-                                e.target.value
-                              );
+                              setFieldValue("noteTitle", e.target.value);
                             }}
                           />
                         </Col>
                         <Col md="11" className="form-group text-secondary">
-                          <label className="form-label" >
+                          <label className="form-label">
                             <b>Upload note(text,word,excel):</b>
                           </label>
                           <Field
@@ -168,39 +208,34 @@ const EditLessonNote = () => {
                             <div className="text-danger">{errors.content}</div>
                           )}
                         </Col>
-                        <Col
-                          md="11"
-                          className="form-group text-secondary"
-                        >
-                          <label
-                            className="form-label d-flex justify-content-between"
-                          >
+                        <Col md="11" className="form-group text-secondary">
+                          <label className="form-label d-flex justify-content-between">
                             <b>Note:</b>{" "}
                             <div className="">
                               {/* {!fullScreen ? ( */}
-                                <OverlayTrigger
-                                  placement="top"
-                                  overlay={
-                                    <Tooltip id="button-tooltip-2">
-                                      view full screen
-                                    </Tooltip>
-                                  }
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    view full screen
+                                  </Tooltip>
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  className="mx-2"
+                                  onClick={() => {
+                                    openFullscreen("note-editor");
+                                    setFullScreen(true);
+                                  }}
+                                  style={{ cursor: "pointer" }}
                                 >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    className="mx-2"
-                                    onClick={() => {
-                                      openFullscreen("note-editor");
-                                      setFullScreen(true);
-                                    }}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
-                                  </svg>
-                                </OverlayTrigger>
+                                  <path d="M21.414 18.586l2.586-2.586v8h-8l2.586-2.586-5.172-5.172 2.828-2.828 5.172 5.172zm-13.656-8l2.828-2.828-5.172-5.172 2.586-2.586h-8v8l2.586-2.586 5.172 5.172zm10.828-8l-2.586-2.586h8v8l-2.586-2.586-5.172 5.172-2.828-2.828 5.172-5.172zm-8 13.656l-2.828-2.828-5.172 5.172-2.586-2.586v8h8l-2.586-2.586 5.172-5.172z" />
+                                </svg>
+                              </OverlayTrigger>
                               {/*  ) : (
                               //   <OverlayTrigger 
                               //     placement="top"
@@ -240,18 +275,15 @@ const EditLessonNote = () => {
                         </Col>
 
                         {singleLessonNotes?.approvalStatus === 2 && (
-                          <Col md="11" className="form-group text-secondary mt-5">
+                          <Col
+                            md="11"
+                            className="form-group text-secondary mt-5"
+                          >
                             <Field
                               type="checkbox"
                               name="shouldSendForApproval"
                               className="form-check-input"
                               id="shouldSendForApproval"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  "shouldSendForApproval",
-                                  e.target.value
-                                );
-                              }}
                             />
                             <label
                               className="form-label mx-1"

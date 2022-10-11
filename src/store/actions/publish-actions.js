@@ -49,8 +49,8 @@ export const getAllTerms = (sessionId) => (dispatch) => {
     });
 };
 
-export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
-  if (!sessionId || !sessionTermId) {
+export const getTermClasses = (sessionId) => (dispatch) => {
+  if (!sessionId) {
     return
   }
   dispatch({
@@ -59,7 +59,7 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
   });
   axiosInstance
     .get(
-      `/session/api/v1/get/session-term/classes?sessionId=${sessionId}&termId=${sessionTermId}`
+      `/session/api/v1/get/session-term/classes?sessionId=${sessionId}`
     )
     .then((res) => {
       dispatch({
@@ -78,7 +78,7 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
 export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
   dispatch({
     type: actions.FETCH_RESULT_LIST_LOADING,
-    payload: sessionClassId,
+    //payload: sessionClassId,
   });
   axiosInstance
     .get(
@@ -258,8 +258,8 @@ export const resetPublishPage = () => (dispatch) => {
 export const updatePublishedResult = (sessionClassId, sessionTermId, publish) => (dispatch) => {
   dispatch({
     type: actions.UPDATE_PUBLISH_RESULT_LOADING
-  });       
-  axiosInstance.post(`/api/v1/result/update/publish-result`,{ sessionClassId, sessionTermId, publish })
+  });
+  axiosInstance.post(`/api/v1/result/update/publish-result`, { sessionClassId, sessionTermId, publish })
     .then((res) => {
       dispatch({
         type: actions.UPDATE_PUBLISH_RESULT_SUCCESS,
@@ -273,5 +273,23 @@ export const updatePublishedResult = (sessionClassId, sessionTermId, publish) =>
         payload: err.response.data.message.friendlyMessage
       });
       showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+    });
+}
+
+export const getPublishedList = () => (dispatch) => {
+  dispatch({
+    type: actions.FETCH_PUBLISH_LIST_LOADING
+  });
+  axiosInstance.get('/api/v1/result/get/publish-list')
+    .then((res) => {
+      dispatch({
+        type: actions.FETCH_PUBLISH_LIST_SUCCESS,
+        payload: res.data.result
+      });
+    }).catch(err => {
+      dispatch({
+        type: actions.FETCH_PUBLISH_LIST_FAILED,
+        payload: err.response.data.result
+      })
     });
 }

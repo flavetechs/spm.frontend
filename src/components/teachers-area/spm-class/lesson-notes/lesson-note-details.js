@@ -10,8 +10,9 @@ import {
   getLessonNoteDetails,
   getSingleLessonNotes,
 } from "../../../../store/actions/class-actions";
+import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import { closeFullscreen, openFullscreen } from "../../../../utils/export-csv";
-import { getUserDetails } from "../../../../utils/permissions";
+import { hasAccess, NavPermissions } from "../../../../utils/permissions";
 
 const LessonNoteDetails = () => {
   const state = useSelector((state) => state);
@@ -22,6 +23,7 @@ const LessonNoteDetails = () => {
     viewers,
     relatedNotes,
   } = state.class;
+  const { staffClasses } = state.results;
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const location = useLocation();
@@ -45,7 +47,7 @@ const LessonNoteDetails = () => {
     const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getSingleLessonNotes(teacherClassNoteId)(dispatch);
-    // setRoomConnection(connectToCommentRoom("flave"));
+    getAllStaffClasses()(dispatch);
   }, []);
 
   useEffect(() => {
@@ -53,9 +55,7 @@ const LessonNoteDetails = () => {
       getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
     }
   }, [singleLessonNotes]);
-
-  
-
+ 
   return (
     <>
       <div className="col-sm-12 mx-auto">
@@ -93,7 +93,7 @@ const LessonNoteDetails = () => {
                           ></path>
                         </svg>
                       </OverlayTrigger>
-                   
+
                       {!fullScreen ? (
                         <OverlayTrigger
                           placement="top"
@@ -373,27 +373,29 @@ const LessonNoteDetails = () => {
                           ok
                         </div>
                       </div>
-                      <div className="col-lg-12 d-flex ">
-                        <input
-                          type="radio"
-                          id="approve"
-                          name="shouldApprove"
-                          value="approve"
-                          className="mx-1 form-check-input"
-                          onChange={(e) => {
-                            setIsChecked(e.target.checked);
-                          }}
-                        />
-                        <label htmlFor="html">approve</label>
-                        <input
-                          type="radio"
-                          id="disapprove"
-                          name="shouldApprove"
-                          value="disapprove"
-                          className="mx-1 form-check-input"
-                        />
-                        <label htmlFor="css">disapprove</label>
-                      </div>
+                      {hasAccess(NavPermissions.reviewLessonNote) && (
+                        <div className="col-lg-12 d-flex ">
+                          <input
+                            type="radio"
+                            id="approve"
+                            name="shouldApprove"
+                            value="approve"
+                            className="mx-1 form-check-input"
+                            onChange={(e) => {
+                              setIsChecked(e.target.checked);
+                            }}
+                          />
+                          <label htmlFor="html">approve</label>
+                          <input
+                            type="radio"
+                            id="disapprove"
+                            name="shouldApprove"
+                            value="disapprove"
+                            className="mx-1 form-check-input"
+                          />
+                          <label htmlFor="css">disapprove</label>
+                        </div>
+                      )}
                     </Row>
                   </form>
                   <div className="mt-5 mt-sm-0 d-flex justify-content-end">
@@ -469,7 +471,7 @@ const LessonNoteDetails = () => {
             </Card>
             <Card>
               <Card.Body>
-                <h4 className="mb-3">Viewers</h4>
+                <h4 className="mb-3">Shared To</h4>
                 <ul className="list-inline list-main d-flex flex-column gap-4 mb-0">
                   {viewers?.map((viewer, idx) => (
                     <li key={idx} className="">
@@ -480,6 +482,11 @@ const LessonNoteDetails = () => {
                       </div>
                     </li>
                   ))}
+                   {singleLessonNotes?.classes.map((item, index) => (
+                  <li key={index}>
+                    <h6 className="iq-categories-name mb-0">{staffClasses?.find(i=>i.classId === item).sessionClass}</h6>
+                  </li>
+   ))}
                 </ul>
               </Card.Body>
             </Card>

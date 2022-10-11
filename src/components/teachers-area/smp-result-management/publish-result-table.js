@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Row,
   Button,
@@ -36,9 +36,9 @@ const PublishResultTable = () => {
   const sessionTermId = queryParams.get("sessionTermId");
   //DECLARING VARIABLES
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAllResultList(sessionClassId, sessionTermId)(dispatch);
-  }, [dispatch, sessionClassId, sessionTermId]);
+  }, [dispatch]);
 
   return (
     <>
@@ -52,7 +52,6 @@ const PublishResultTable = () => {
               <svg
                 onClick={() => {
                   history.goBack();
-                  resetPublishPage()(dispatch);
                 }}
                 style={{ cursor: "pointer" }}
                 className=" text-primary"

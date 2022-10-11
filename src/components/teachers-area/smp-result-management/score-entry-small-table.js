@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Row, Table, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllClassScore,
-  getAllStaffClasses,
-} from "../../../store/actions/results-actions";
 import LargeTable from "./score-entry-large-table";
 import Preview from "./score-entry-preview";
 import { useHistory, useLocation } from "react-router-dom";
@@ -31,12 +27,10 @@ const ScoreEntryTable = () => {
   //DECLARING VARIABLES
 
   React.useEffect(() => {
-    getAllStaffClasses()(dispatch);
-    getAllClassScore(sessionClassId, subjectId)(dispatch);
     setIndexRow("");
     setEditMode(false);
     setPreviewMode(false);
-  }, [dispatch,sessionClassId, subjectId]);
+  }, [dispatch]);
 
   return (
     <>

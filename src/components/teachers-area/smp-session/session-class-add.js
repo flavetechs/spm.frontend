@@ -176,7 +176,7 @@ const SessionClassAdd = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     values.sessionId = activeSession?.sessionId;
-                    values.classSubjects = classSubjects;
+                    // values.classSubjects = classSubjects;
                     const score =
                       Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
@@ -185,6 +185,15 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
+
+                    for (let i = 0; i < classSubjects.length; i++) {
+                      if (!classSubjects[i].assessment)
+                        classSubjects[i].assessment = values.assessmentScore;
+                      if (!classSubjects[i].examSCore)
+                        classSubjects[i].examSCore = values.examScore;
+                    }
+                    values.classSubjects = classSubjects;
+
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -208,7 +217,7 @@ const SessionClassAdd = () => {
                             name="subjectExamScore"
                             id="subjectExamScore"
                             values={values.subjectExamScore}
-                            onChange={(e)=>setFieldValue("subjectExamScore",e.target.value)}
+                            onChange={(e) => setFieldValue("subjectExamScore", e.target.value)}
                           />
                         </Col>
                         <Col md={6}>
@@ -219,7 +228,7 @@ const SessionClassAdd = () => {
                             name="subjectAssessmentScore"
                             id="subjectAssessmentScore"
                             values={values.subjectAssessmentScore}
-                            onChange={(e)=>setFieldValue("subjectAssessmentScore",e.target.value)}
+                            onChange={(e) => setFieldValue("subjectAssessmentScore", e.target.value)}
                           />
                         </Col>
                       </Row>
@@ -580,6 +589,7 @@ const SessionClassAdd = () => {
                                       subject.lookupId,
                                       e.target.value
                                     );
+
                                   }}
                                 >
                                   <option value="">Select Teacher</option>

@@ -25,6 +25,7 @@ export const dashboardLocations = {
 
   export const announcementLocations = {
     announcement: "/stds-dashboard/student-announcement",
+    studentAnnouncementDetails: "/stds-dashboard/student-announcement-details",
   };
 
   export const timeTableLocations = {
@@ -33,6 +34,7 @@ export const dashboardLocations = {
 
   export const printResultLocations = {
     printResult: "/stds-dashboard/student-print-result",
+    resultTemplate:"/stds-dashboard/student-result-template",
   };
 
   export const profileLocations = {

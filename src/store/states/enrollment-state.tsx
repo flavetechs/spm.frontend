@@ -7,5 +7,6 @@ export const _state = {
     isSuccessful: false,
     selectedIds: [],
     showModal: false,
-    modalResponse:''
+    modalResponse:'',
+    filterProps: {},
 }

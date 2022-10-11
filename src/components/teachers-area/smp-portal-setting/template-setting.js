@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getResultSettingList } from "../../../store/actions/portal-setting-action";
+import { getResultSetting, updateSelectedResultTemplate } from "../../../store/actions/portal-setting-action";
 import { setTemplateSettingState } from "../../../store/actions/results-actions";
 import { respondDialog, showHideDialog, showHideModal } from "../../../store/actions/toaster-actions";
 import { TemplateModal } from "./template-modal";
@@ -10,7 +10,7 @@ const TemplateSetting = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const { dialogResponse } = state.alert;
-  const { resultSettingList } = state.portal;
+  const { selectedTemplate } = state.portal;
   const [imageDisplay, setImageDisplay] = useState("");
   const [templateName, setTemplateName] = useState("");
 
@@ -18,64 +18,65 @@ const TemplateSetting = () => {
     {
       image:
         "http://flavetech-001-site1.etempurl.com/ProfileImage/0cb16f26-cb41-4c75-99e1-4ed12ac1023d.PNG",
-      isChecked: resultSettingList?.selectedTemplate === "template-one" ? true : false,
+      isChecked: selectedTemplate === "template-one" ? true : false,
       templateName:"template-one",
     },
     {
       image:
         "http://flavetech-001-site1.etempurl.com/ProfileImage/c3c356a9-2bb3-4132-b43b-a62c210e29c5.PNG",
-      isChecked: resultSettingList?.selectedTemplate === "template-two" ? true : false,
+      isChecked: selectedTemplate === "template-two" ? true : false,
       templateName:"template-two",
     },
     // {
     //   image:
     //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/2.png",
-    //   isChecked: resultSettingList?.selectedTemplate == "template-three" ? true : false,
+    //   isChecked: selectedTemplate == "template-three" ? true : false,
     //   templateName:"template-three",
     // },
     // {
     //   image:
     //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/1.png",
-    //   isChecked: resultSettingList?.selectedTemplate == "template-four" ? true : false,
+    //   isChecked: selectedTemplate == "template-four" ? true : false,
     //   templateName:"template-four",
     // },
     // {
     //   image:
     //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/6.png",
-    //   isChecked: resultSettingList?.selectedTemplate == "template-five" ? true : false,
+    //   isChecked: selectedTemplate == "template-five" ? true : false,
     //   templateName:"template-five",
     // },
     // {
     //   image:
     //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/5.png",
-    //   isChecked: resultSettingList?.selectedTemplate == "template-six" ? true : false,
+    //   isChecked: selectedTemplate == "template-six" ? true : false,
     //   templateName:"template-six",
     // },
     // {
     //   image:
     //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/4.png",
-    //   isChecked: resultSettingList?.selectedTemplate == "template-seven" ? true : false,
+    //   isChecked: selectedTemplate == "template-seven" ? true : false,
     //   templateName:"template-seven",
     // },
     // {
     //   image:
     //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
-    //   isChecked: resultSettingList?.selectedTemplate == "template-eight" ? true : false,
+    //   isChecked: selectedTemplate == "template-eight" ? true : false,
     //   templateName:"template-eight",
     // },
   ];
   useEffect(() => {
-    getResultSettingList()(dispatch);
+    getResultSetting()(dispatch);
   }, [dispatch])
-  
+
   useEffect(() => {
-    if(!templateName){
-    setTemplateName(imageData.find(d=>d.isChecked === true)?.templateName)
+    if (!templateName) {
+      setTemplateName(imageData.find(d => d.isChecked === true)?.templateName)
     }
-  }, [imageData,dispatch]);
+  }, [imageData, dispatch]);
 
   useEffect(() => {
     if (dialogResponse === "continue") {
+      updateSelectedResultTemplate(templateName)(dispatch);
       setTemplateSettingState(templateName)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
@@ -83,8 +84,8 @@ const TemplateSetting = () => {
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,dispatch]);
-console.log(resultSettingList?.selectedTemplate);
+  }, [dialogResponse, dispatch]);
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -100,7 +101,7 @@ console.log(resultSettingList?.selectedTemplate);
               <Card.Body>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                   {imageData.map((data, idx) => (
-                    <div key={idx}className="col">
+                    <div key={idx} className="col">
                       <div className="card iq-file-manager">
                         <div className="card-body card-thumbnail">
                           <img

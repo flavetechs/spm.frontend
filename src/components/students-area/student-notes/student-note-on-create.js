@@ -7,9 +7,10 @@ import * as Yup from "yup";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { showErrorToast } from "../../../store/actions/toaster-actions";
-import {  addStudentNotes, getSubjectTeacher } from "../../../store/actions/class-actions";
+import {  addStudentNotes, getAllStudentSubjects, getSubjectTeacher } from "../../../store/actions/class-actions";
 import { openFullscreen } from "../../../utils/export-csv";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
+import { getUserDetails } from "../../../utils/permissions";
 
 const CreateStudentNote = () => {
     const history = useHistory();
@@ -17,18 +18,20 @@ const CreateStudentNote = () => {
     const dispatch = useDispatch();
     const elementRef = useRef(null);
     const state = useSelector((state) => state);
-    const { createSuccessful,subjectTeacher } = state.class;
+    const { createSuccessful,subjectTeacher,studentSubjectList  } = state.class;
     const { staffList } = state.staff;
     const queryParams = new URLSearchParams(location.search);
     const subjectId = queryParams.get("subjectId");
+    var userDetail = getUserDetails();
     //VALIDATION
     const validation = Yup.object().shape({
       noteTitle: Yup.string().required("Title is required"),
     });
     //VALIDATION
     React.useEffect(() => {
-      getAllStaffAccount()(dispatch);
+      getAllStaffAccount(1)(dispatch);
       getSubjectTeacher(subjectId)(dispatch);
+      getAllStudentSubjects(userDetail.id)(dispatch);
     }, [subjectId,dispatch]);
     React.useEffect(() => {
       createSuccessful && history.goBack();
@@ -93,33 +96,38 @@ const CreateStudentNote = () => {
                         errors,
                       }) => (
                         <Form className="mx-auto">
+                       <h4 className="mb-4">{studentSubjectList?.find(i=>i.value === subjectId)?.name}</h4>
                           <Row className="d-flex justify-content-center">
-                          <Col md="11" className="form-group text-dark">
+                          <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Subject Teacher:</b>
                           </label>
-                          <input
-                            type="text"
-                            name="subjectTeacher"
-                            className="form-control border-secondary text-dark"
-                            id="noteTitle"
-                            value={staffList?.find(l=>l.teacherAccountId === subjectTeacher)?.fullName || ""}
-                           readOnly
-                          />
+                          <Field
+                            as="select"
+                            name="teacherId"
+                            className="form-select border-secondary h6"
+                            id="noteTitle">
+                              <option value="">Select Teacher</option>
+                                {staffList?.map((item, idx) => (
+                                  <option key={idx} value={item.teacherAccountId}>
+                                    {item.firstName}{""}{item.lastName}
+                                  </option>
+                                ))}
+                          </Field>
                         </Col>
                             <Col md="11">
                               {touched.noteTitle && errors.noteTitle && (
                                 <div className="text-danger">{errors.noteTitle}</div>
                               )}
                             </Col>
-                            <Col md="11" className="form-group text-dark">
+                            <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Title:</b>
                           </label>
                           <Field
                             type="text"
                             name="noteTitle"
-                            className="form-control border-secondary text-dark"
+                            className="form-control border-secondary h6"
                             id="noteTitle"
                             placeholder="Enter note title..."
                             onChange={(e) => {
@@ -127,7 +135,7 @@ const CreateStudentNote = () => {
                              }}
                           />
                         </Col>
-                            <Col md="11" className="form-group text-dark">
+                            <Col md="11" className="form-group h6">
                               <label className="form-label" >
                                 <b>Upload note(text,word,excel):</b>
                               </label>
@@ -146,7 +154,7 @@ const CreateStudentNote = () => {
                                 <div className="text-danger">{errors.noteContent}</div>
                               )}
                             </Col>
-                            <Col md="11" className="form-group text-dark ">
+                            <Col md="11" className="form-group h6 ">
                               <label className="form-label d-flex justify-content-between">
                                 <b>Note:</b>
                                 <OverlayTrigger
@@ -186,15 +194,13 @@ const CreateStudentNote = () => {
                             </Col>
     
                            
-                            <Col md="11" className="form-group text-dark mt-5">
+                            <Col md="11" className="form-group h6 mt-5">
                               <Field
                                 type="checkbox"
                                 name="submitForReview"
                                 className="form-check-input"
                                 id="submitForReview"
-                                onChange={(e) => {
-                                  setFieldValue("submitForReview",e.target.value)
-                                 }}
+                               
                               />
                                  <label className="form-label mx-1" >
                                 <b>Submit for review</b>

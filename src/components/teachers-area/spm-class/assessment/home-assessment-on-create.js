@@ -116,8 +116,10 @@ const CreateHomeAssessment = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <h6 className="mb-3 d-flex justify-content-end">{staffClasses?.find(i => i.sessionClassId === sessionClassIdQueryParam)?.sessionClass}</h6>
                       <Row className="d-flex justify-content-center">
+                      <Col md="11">
+                      <h5 className="mb-3">{staffClasses?.find(i => i.sessionClassId === sessionClassIdQueryParam)?.sessionClass}</h5>
+                        </Col>
                         <Col md="11">
                           {touched.title && errors.title && (
                             <div className="text-danger">{errors.title}</div>
@@ -147,6 +149,7 @@ const CreateHomeAssessment = () => {
                           </label>
                           <Field
                             as="select"
+                            disabled={true}
                             name="sessionClassSubjectId"
                             className="form-select"
                             id="sessionClassSubjectId"
@@ -185,6 +188,7 @@ const CreateHomeAssessment = () => {
                             name="sessionClassGroupId"
                             className="form-select h6"
                             id=" sessionClassGroupId"
+                            disabled={true}
                             onChange={(e) => {
                               setFieldValue(
                                 "sessionClassGroupId",

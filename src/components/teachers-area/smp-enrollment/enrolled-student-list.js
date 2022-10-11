@@ -24,6 +24,7 @@ import {
 } from "../../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 
 
 const EnrolledStudents = () => {
@@ -41,7 +42,7 @@ const EnrolledStudents = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { enrolledStudents, selectedIds } = state.enrollment;
+  const { enrolledStudents,filterProps, selectedIds } = state.enrollment;
   const { activeSession, sessionList } = state.session;
   const { itemList: classList } = state.class;
   const { dialogResponse } = state.alert;
@@ -49,12 +50,12 @@ const EnrolledStudents = () => {
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
-    getAllSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
     sessionClassIdQuery&&
-    getAllEnrolledStudents(sessionClassIdQuery)(dispatch);
+    getAllEnrolledStudents(sessionClassIdQuery,1)(dispatch);
   }, [sessionClassIdQuery,dispatch]);
 
   React.useEffect(() => {
@@ -114,7 +115,7 @@ const EnrolledStudents = () => {
     });
     returnListEnrolled(enrolledStudents)(dispatch);
   };
-  const sortedList = enrolledStudents.sort(function (a, b) {
+  const sortedList = enrolledStudents?.sort(function (a, b) {
     if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
     if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
     return 0;
@@ -330,10 +331,10 @@ const EnrolledStudents = () => {
               <Card.Body className="px-0">
                 {!sessionClassIdQuery ? (
                   <div className="jumbotron jumbotron-fluid">
-                    <div className="container d-flex justify-content-center mt-5 bg-white">
-                      <h2 className="display-4">
+                    <div className="container d-flex justify-content-center mt-5 bg-light">
+                      <h3 className="display-4">
                         Please select a class to view enrolled students
-                      </h2>
+                      </h3>
                     </div>
                   </div>
                 ) : (
@@ -508,6 +509,9 @@ const EnrolledStudents = () => {
                   </div>
                 )}
               </Card.Body>
+              <Card.Footer>
+                <PaginationFilter1 filterProps={filterProps} action={getAllEnrolledStudents} dispatch={dispatch} param1={sessionClassIdQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

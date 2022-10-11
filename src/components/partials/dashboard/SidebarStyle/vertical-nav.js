@@ -20,6 +20,7 @@ import { ResultLink } from "./Navigations/result-links";
 import { PinLink } from "./Navigations/pin-links";
 import { PortalSettingsLink } from "./Navigations/portal-setting-links";
 
+
 function CustomToggle({ children, eventKey, onClick }) {
     const { activeEventKey } = useContext(AccordionContext);
 
@@ -30,21 +31,31 @@ function CustomToggle({ children, eventKey, onClick }) {
     const isCurrentEventKey = activeEventKey === eventKey;
 
     return (
-        <Link
-            to="#"
-            aria-expanded={isCurrentEventKey ? "true" : "false"}
-            className="nav-link"
+        <span
             role="button"
+            className="nav-link"
+            aria-expanded={isCurrentEventKey ? "true" : "false"}
             onClick={(e) => {
                 decoratedOnClick(isCurrentEventKey);
             }}
         >
             {children}
-        </Link>
+        </span>
+        // <Link
+        //     to="#"
+        //     aria-expanded={isCurrentEventKey ? "true" : "false"}
+        //     className="nav-link"
+        //     role="button"
+        //     onClick={(e) => {
+        //         decoratedOnClick(isCurrentEventKey);
+        //     }}
+        // >
+        //     {children}
+        // </Link>
     );
 }
 const minisidebar = () => {
-  
+
     if (window.innerWidth < 800) {
         if (
             !document
@@ -61,7 +72,7 @@ const VerticalNav = () => {
 
     return (
         <>
-            <Accordion as="ul" className="navbar-nav iq-main-menu">
+            <Accordion as="ul" className="navbar-nav iq-main-menu isPreview">
                 <li className="nav-item static-item">
                     <Link className="nav-link static-item disabled" to="#" tabIndex="-1">
                         <span className="default-icon">Home</span>

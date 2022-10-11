@@ -130,8 +130,8 @@ const SessionClassEdit = () => {
     getAllActiveClasses()(dispatch);
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
-    
-  }, [activeSession,dispatch,locations.search]);
+
+  }, [activeSession, dispatch, locations.search]);
 
   React.useEffect(() => {
     setExamScore(selectedItem?.examScore);
@@ -146,13 +146,13 @@ const SessionClassEdit = () => {
   }
 
   //HANDLER FUNCTIONS
-  const getSubjectId = (event, subjectId) => {
+  const getSubjectId = (event, subjectId, subjectTeacherId) => {
     const checkBoxValue = event.target.checked;
     buildClassSubjectArray(
       examScore,
       assessmentScore,
       subjectId,
-      "",
+      subjectTeacherId,
       classSubjects,
       checkBoxValue
     )(dispatch);
@@ -191,6 +191,7 @@ const SessionClassEdit = () => {
     )(dispatch);
   };
   //HANDLER FUNCTIONS
+
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -212,6 +213,7 @@ const SessionClassEdit = () => {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
+                    console.log('values', values);
                     updateSessionClass(values)(dispatch);
                   }}
                 >
@@ -235,7 +237,7 @@ const SessionClassEdit = () => {
                             name="subjectExamScore"
                             id="subjectExamScore"
                             values={values.subjectExamScore}
-                            onChange={(e)=>setFieldValue("subjectExamScore",e.target.value)}
+                            onChange={(e) => setFieldValue("subjectExamScore", e.target.value)}
                           />
                         </Col>
                         <Col md={6}>
@@ -464,7 +466,7 @@ const SessionClassEdit = () => {
                               </option>
                               {activeTeachers.map((teacher, idx) => (
                                 <option
-                                  selected={selectedItem?.formTeacherId === teacher.teacherAccountId ? true: false }
+                                  selected={selectedItem?.formTeacherId === teacher.teacherAccountId ? true : false}
                                   key={idx}
                                   value={teacher.teacherAccountId}
                                 >
@@ -514,14 +516,13 @@ const SessionClassEdit = () => {
                                     ) || false
                                   }
                                   onChange={(e) => {
-                                    getSubjectId(e, subject.lookupId);
+                                    getSubjectId(e, subject.lookupId, "");
                                   }}
-                                />{" "}
+                                />
                                 {subject.name}
                               </td>
 
                               <td>
-                                {" "}
                                 {classSubjects.find(
                                   (sub) => sub.subjectId === subject.lookupId
                                 ) ? (
@@ -533,7 +534,7 @@ const SessionClassEdit = () => {
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore||values.examScore}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore || values.examScore}
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(e.target.value),
@@ -567,7 +568,7 @@ const SessionClassEdit = () => {
                                     type="number"
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment||values.assessmentScore}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment || values.assessmentScore}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
@@ -601,11 +602,12 @@ const SessionClassEdit = () => {
                                   className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
-                                    getSubjectTeacherId(
-                                      subject.lookupId,
-                                      e.target.value
-                                    );
-
+                                    values.subjectId ?
+                                      getSubjectTeacherId(
+                                        subject.lookupId,
+                                        e.target.value
+                                      ) :
+                                      getSubjectId(e, subject.lookupId, e.target.value);
                                   }}
                                 >
                                   <option value="">Select Teacher</option>

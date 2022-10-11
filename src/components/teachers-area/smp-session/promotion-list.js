@@ -4,6 +4,7 @@ import {
   Col,
   OverlayTrigger,
   Tooltip,
+  Badge,
 } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Card from "../../Card";
@@ -29,7 +30,7 @@ const PromotionSetup = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { promotionList } = state.promotion;
+  const { promotionList, resultSettingsItem } = state.promotion;
   const { itemList: classesToPromoteTo } = state.class;
   const { activeSession } = state.session;
   const { dialogResponse } = state.alert;
@@ -52,23 +53,38 @@ const PromotionSetup = () => {
         promoteStudent(classToPromote, classToPromoteTo.sessionClassId)(dispatch);
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
+        setClassToPromoteTo({ sessionClassId: "", className: "" });
+        setClassToPromote("");
       }
     }
     return () => {
       respondDialog("")(dispatch);
     };
-  }, [dialogResponse,classToPromote,classToPromoteTo.sessionClassId, dispatch]);
- 
+  }, [dialogResponse, classToPromote, classToPromoteTo.sessionClassId, dispatch]);
+
   return (
     <>
       <div>
         <Row>
           <Col sm="12">
             <Card>
-              <Card.Header className="d-flex justify-content-between">
-                <div className="header-title">
-                  <h4 className="card-title">Promotion Management</h4>
-                </div>
+              <Card.Header className="d-md-flex justify-content-between">
+                <Row className="d-md-flex justify-content-between w-100">
+                  <div className="col col-md-6">
+                    <h4 className="card-title">Promotion Management</h4>
+                  </div>
+                  <div className="col col-md-6 d-md-flex justify-content-end">
+                    {resultSettingsItem.promoteAll ?
+                      <h4 >
+                        <Badge bg="light text-dark">All students will be promoted</Badge>
+                      </h4>
+                      :
+                      <h4>
+                        <Badge bg="light text-dark">Students will be promoted based on passmark</Badge>
+                      </h4>
+                    }
+                  </div>
+                </Row>
               </Card.Header>
               <Card.Body className="px-0">
                 <div className="table-responsive">
@@ -129,7 +145,7 @@ const PromotionSetup = () => {
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details" 
+                                  data-original-title="Details"
                                 >
                                   {item.totalStudentsPassed}
                                 </a>
@@ -152,7 +168,7 @@ const PromotionSetup = () => {
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
-                                  data-original-title="Details" 
+                                  data-original-title="Details"
                                 >
                                   {item.totalStudentsFailed}
                                 </a>
@@ -160,8 +176,7 @@ const PromotionSetup = () => {
                             </OverlayTrigger>
                           </td>
                           <td className="h4 text-center">
-                            {item.totalStudentsInClass -
-                              item.totalStudentsFailed}
+                            {item.studentsToBePromoted}
                           </td>
                           <td className="h5 text-center">
                             <div className="form-group">
@@ -178,7 +193,6 @@ const PromotionSetup = () => {
                                 <option defaultValue={""}>
                                   Select promotion class
                                 </option>
-                                {/* .slice(idx - 1, classesToPromoteTo.length) */}
                                 {classesToPromoteTo?.filter(d => d.class !== item.sessionClassName)
                                   .map((promoteTo, idx) => (
                                     <option

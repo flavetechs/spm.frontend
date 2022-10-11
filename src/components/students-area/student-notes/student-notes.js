@@ -10,6 +10,7 @@ import {
 } from "../../../store/actions/class-actions";
 import {
   respondDialog,
+  showErrorToast,
   showHideDialog,
 } from "../../../store/actions/toaster-actions";
 import {
@@ -17,6 +18,7 @@ import {
 } from "../../../utils/permissions";
 import * as Yup from "yup";
 import { studentNoteLocations } from "../../../router/students-path-locations";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -31,27 +33,27 @@ const StudentNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { studentNotes, studentSubjectList } = state.class;
+  const { studentNotes, studentSubjectList,filterProps } = state.class;
   const { dialogResponse } = state.alert;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
-  //VALIDATION
-  const validation = Yup.object().shape({
-    subjectId: Yup.string().required("Subject is required"),
-  });
-  //VALIDATION
+  // //VALIDATION
+  // const validation = Yup.object().shape({
+  //   subjectId: Yup.string().required("Subject is required"),
+  // });
+  // //VALIDATION
   const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  const statusQuery = queryParams.get("status");
+  const subjectIdQuery = queryParams.get("subjectId") || "";
+  const statusQuery = queryParams.get("status") || "-2";
 
   React.useEffect(() => {
-    getAllStudentSubjects(userDetail.id)(dispatch);
-  }, [dispatch,userDetail.id]);
+    getAllStudentSubjects()(dispatch);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteStudentNotes(studentNoteId, subjectIdQuery)(dispatch);
+      deleteStudentNotes(studentNoteId, subjectIdQuery, statusQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -60,26 +62,11 @@ const StudentNotes = () => {
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
     };
-  }, [dialogResponse,dispatch,studentNoteId, subjectIdQuery]);
+  }, [dialogResponse, dispatch, studentNoteId]);
 
   React.useEffect(() => {
-    // if (subjectIdQuery && !statusQuery) {
-    //   getAllStudentNotes(subjectIdQuery)(dispatch);
-    // }else if(!subjectIdQuery && !statusQuery){
-    //   getAllStudentNotes("")(dispatch);
-    // }
-    if(statusQuery){
-      getAllStudentNotes(
-      subjectIdQuery,
-      statusQuery
-    )(dispatch);
-    }else{
-      getAllStudentNotes(
-        subjectIdQuery,
-        "2"
-      )(dispatch);
-    }
-  }, [subjectIdQuery,statusQuery,dispatch,locations.search]);
+    getAllStudentNotes(subjectIdQuery, statusQuery,1)(dispatch);
+  }, [subjectIdQuery, statusQuery, dispatch, locations.search]);
 
   const filteredStudentNotes = studentNotes?.filter((item) => {
     if (searchQuery === "") {
@@ -159,11 +146,12 @@ const StudentNotes = () => {
                   approvalStatus: statusQuery ? statusQuery : "",
                 }}
                 enableReinitialize={true}
-                validationSchema={validation}
+                //validationSchema={validation}
                 onSubmit={(values) => {
-                  history.push(
-                    `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
-                  );
+                  !values.subjectId ? showErrorToast("Subject is required")(dispatch) :
+                    history.push(
+                      `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
+                    );
                 }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
@@ -177,13 +165,13 @@ const StudentNotes = () => {
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
-                              <div>
+                              {/* <div>
                                 {touched.subjectId && errors.subjectId && (
                                   <div className="text-danger">
                                     {errors.subjectId}
                                   </div>
                                 )}
-                              </div>
+                              </div> */}
                               <Field
                                 as="select"
                                 name="subjectId"
@@ -193,11 +181,11 @@ const StudentNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   e.target.value === ""
                                     ? history.push(
-                                        studentNoteLocations.studentNotes
-                                      )
+                                      studentNoteLocations.studentNotes
+                                    )
                                     : history.push(
-                                        `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
-                                      );
+                                      `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
+                                    );
                                 }}
                               >
                                 <option value="">Select Subject</option>
@@ -250,7 +238,7 @@ const StudentNotes = () => {
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getAllStudentNotes(subjectIdQuery,"2")(dispatch);
+                                    getAllStudentNotes(subjectIdQuery, "2",1)(dispatch);
                                     history.push(
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
                                     );
@@ -425,6 +413,7 @@ const StudentNotes = () => {
 
                                       <div
                                         onClick={() => {
+                                          setShowMenuDropdown(false);
                                           setStudentNoteId(item.studentNoteId);
                                           showHideDialog(
                                             true,
@@ -490,9 +479,10 @@ const StudentNotes = () => {
                                 </small>
                               </div>
                             </Card.Body>
-                            <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                              {item.subjectName}
-                            </small>
+                            <div className="d-flex justify-content-between mx-2 p-0 mb-2 mt-n3 text-lowercase">
+                              <small>{item.studentName}</small><small>{item.subjectName}</small> 
+                            </div>
+
                           </Card>
                         </Col>
                       ))}
@@ -500,6 +490,9 @@ const StudentNotes = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter2 filterProps={filterProps} action={getAllStudentNotes} dispatch={dispatch} param1={subjectIdQuery} param2={statusQuery}/>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

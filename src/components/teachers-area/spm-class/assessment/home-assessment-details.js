@@ -14,19 +14,20 @@ const HomeAssessmentDetails = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const state = useSelector((state) => state);
-  const { singleHomeAssessmentList } = state.class;
+  const { singleHomeAssessment } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
- // const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
+  const groupIdQuery = queryParams.get("groupId");
 
   useEffect(() => {
     getSingleHomeAssessment(
       homeAssessmentIdQuery,
       sessionClassIdQuery
     )(dispatch);
-  }, [dispatch, homeAssessmentIdQuery, sessionClassIdQuery]);
+  }, []);
 
   return (
     <>
@@ -47,6 +48,11 @@ const HomeAssessmentDetails = () => {
                     >
                       <svg
                         onClick={() => {
+                          // getAllHomeAssessment(
+                          //   sessionClassIdQuery,
+                          //   sessionClassSubjectIdQuery,
+                          //   groupIdQuery
+                          // )(dispatch);
                           history.goBack();
                         }}
                         style={{ cursor: "pointer" }}
@@ -114,15 +120,15 @@ const HomeAssessmentDetails = () => {
                       </OverlayTrigger>
                     )}
                   </div>
-                  <div>
-                    {singleHomeAssessmentList?.sessionClassName}-
-                    {singleHomeAssessmentList?.sessionClassSubjectName}
+                  <div className="fw-bold">
+                    {singleHomeAssessment?.sessionClassName}-
+                    {singleHomeAssessment?.sessionClassSubjectName}
                   </div>
                   <div>
-                    Deadline:
+                   <b> Deadline:</b>
                     <span className="text-end text-primary">
-                      {singleHomeAssessmentList?.dateDeadLine}{" "}
-                      {singleHomeAssessmentList?.timeDeadLine}
+                      {singleHomeAssessment?.dateDeadLine}{" "}
+                      {singleHomeAssessment?.timeDeadLine}
                     </span>
                   </div>
                 </div>
@@ -176,7 +182,7 @@ const HomeAssessmentDetails = () => {
                   </div>
                   <div className="ms-2 mt-2 ">
                     <span className="h5 text-secondary fw-bold">
-                      {singleHomeAssessmentList?.title}
+                      {singleHomeAssessment?.title}
                     </span>
                     <br />
                   </div>
@@ -184,14 +190,14 @@ const HomeAssessmentDetails = () => {
                 <div
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
-                    __html: singleHomeAssessmentList?.content,
+                    __html: singleHomeAssessment?.content,
                   }}
                 ></div>
                 <hr />
                 <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: singleHomeAssessmentList?.comment,
+                    __html: singleHomeAssessment?.comment,
                   }}
                 ></div>
               </Card.Body>
@@ -230,7 +236,7 @@ const HomeAssessmentDetails = () => {
                       </tr>
                     </tbody>
                     <tbody>
-                      {singleHomeAssessmentList?.studentList?.map(
+                      {singleHomeAssessment?.studentList?.map(
                         (item, idx) => (
                           <tr key={idx}>
                             <td className="text-uppercase">
@@ -242,6 +248,8 @@ const HomeAssessmentDetails = () => {
                                 className={
                                   item.status === "submitted"
                                     ? "badge bg-success"
+                                    : item.status === "uncompleted" ?
+                                    "badge bg-warning"
                                     : "badge bg-danger"
                                 }
                               >
@@ -250,7 +258,7 @@ const HomeAssessmentDetails = () => {
                             </td>
                             <td className="text-center">{item.score}</td>
                             <td className="text-center">
-                              {item?.status !== "not started" && (
+                              {item?.status === "submitted" && (
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -265,7 +273,7 @@ const HomeAssessmentDetails = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Details"
-                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessmentList?.homeAssessmentId}&sessionClassId=${singleHomeAssessmentList?.sessionClassId}`}
+                                    to={`${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}`}
                                   >
                                     <span className="btn-inner">
                                       <svg

@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  getAllClassScore,
   getAllStaffClasses,
   getStaffClassSubjects,
 } from "../../../store/actions/results-actions";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { resultManagement } from "../../../router/spm-path-locations";
 
@@ -22,6 +21,11 @@ const ScoreEntry = () => {
   const history = useHistory();
   const state = useSelector((state) => state);
   const { staffClasses, staffClassSubjects } = state.results;
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
+  const subjectIdQueryParam = queryParams.get("subjectId") || "";
+
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION SCHEMA
@@ -36,31 +40,29 @@ const ScoreEntry = () => {
     getAllStaffClasses()(dispatch);
   }, [dispatch]);
 
+  React.useEffect(() => {
+    sessionClassIdQueryParam && getStaffClassSubjects(sessionClassIdQueryParam)(dispatch);
+  }, [dispatch, sessionClassIdQueryParam]);
+
   return (
     <>
-       <div className="col-md-12 mx-auto d-flex justify-content-center">
+      <div className="col-lg-6 mx-auto">
         <Row>
           <Col sm="12">
             <Card>
               <Card.Header>
-                <h6>SCORE ENTRY</h6>
+                <h6 className="mx-3 mt-3"><b>SCORE ENTRY</b></h6>
               </Card.Header>
               <Card.Body>
                 <Formik
                   initialValues={{
-                    sessionClassId: "",
-                    subjectId: "",
+                    sessionClassId: sessionClassIdQueryParam,
+                    subjectId: subjectIdQueryParam,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    getAllClassScore(
-                      values.sessionClassId,
-                      values.subjectId
-                    )(dispatch);
-                    history.push(
-                      `${resultManagement.scoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`
-                    );
+                    history.push(`${resultManagement.scoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`);
                   }}
                 >
                   {({
@@ -119,8 +121,8 @@ const ScoreEntry = () => {
                           )}
                         </Col>
 
-                        <Col md="10" className="form-group">
-                          <label className="form-label">Class:</label>
+                        <Col md="10" className="form-group h6">
+                          <label className="form-label fw-bold">Class:</label>
                           <Field
                             as="select"
                             name="sessionClassId"
@@ -128,7 +130,7 @@ const ScoreEntry = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
-                              getStaffClassSubjects(e.target.value)(dispatch);
+                              history.push(`${resultManagement.scoreEntry}?sessionClassId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Class</option>
@@ -151,15 +153,17 @@ const ScoreEntry = () => {
                             </div>
                           )}
                         </Col>
-                        <Col md="10" className="form-group">
-                          <label className="form-label">Subject:</label>
+                        <Col md="10" className="form-group h6">
+                          <label className="form-label fw-bold">Subject:</label>
                           <Field
                             as="select"
+                            disabled={values.sessionClassId ? false : true}
                             name="subjectId"
                             className="form-select"
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
+                              history.push(`${resultManagement.scoreEntry}?sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Subject</option>

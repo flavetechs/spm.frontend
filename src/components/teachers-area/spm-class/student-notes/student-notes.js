@@ -11,6 +11,7 @@ import {
 import * as Yup from "yup";
 import { classLocations } from "../../../../router/spm-path-locations";
 import { getStaffClassSubjects } from "../../../../store/actions/results-actions";
+import { PaginationFilter3 } from "../../../partials/components/pagination-filter";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -25,36 +26,30 @@ const StudentNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { studentNotesByTeacher } = state.class;
+  const { studentNotesByTeacher,filterProps } = state.class;
   const { staffClassSubjects } = state.results;
   const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const statusQuery = queryParams.get("status");
+  const subjectIdQuery = queryParams.get("subjectId") || "";
+  const sessionClassIdQuery = queryParams.get("sessionClassId") || "";
+  const statusQuery = queryParams.get("status") || -2;
   // ACCESSING STATE FROM REDUX STORE
 
   //VALIDATION
   const validation = Yup.object().shape({
-    status: Yup.string().required("Status is required"),
+    // status: Yup.string().required("Status is required"),
     subjectId: Yup.string().required("Subject is required"),
   });
   //VALIDATION
 
   React.useEffect(() => {
-    getStaffClassSubjects(sessionClassIdQuery, approveNotes)(dispatch);
+    sessionClassIdQuery && getStaffClassSubjects(sessionClassIdQuery)(dispatch);
   }, [sessionClassIdQuery, dispatch]);
 
   React.useEffect(() => {
-    if (subjectIdQuery) {
-      getStudentNotesByTeacher(subjectIdQuery, statusQuery)(dispatch);
-    }
-  }, [statusQuery, subjectIdQuery, dispatch]);
+    getStudentNotesByTeacher(sessionClassIdQuery, subjectIdQuery, statusQuery,1)(dispatch);
+  }, [statusQuery, subjectIdQuery, dispatch, sessionClassIdQuery]);
 
-  React.useEffect(() => {
-    if (!subjectIdQuery) {
-      getStudentNotesByTeacher(subjectId)(dispatch);
-    }
-  }, [subjectIdQuery, dispatch]);
+  
 
   const filteredStudentNotes = studentNotesByTeacher?.filter((item) => {
     if (searchQuery === "") {
@@ -226,10 +221,8 @@ const StudentNotes = () => {
                                       `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getStudentNotesByTeacher("")(dispatch);
-                                    history.push(
-                                      `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${e.target.value}`
-                                    );
+                                    // getStudentNotesByTeacher("")(dispatch);
+                                    history.push( `${classLocations.studentNotes}?sessionClassId=${sessionClassIdQuery}&subjectId=${e.target.value}`);
                                   }
                                 }}
                               >
@@ -380,9 +373,9 @@ const StudentNotes = () => {
                                 </small>
                               </div>
                             </Card.Body>
-                            <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                              {item.subjectName}
-                            </small>
+                            <div className="d-flex justify-content-between mx-2 p-0 mb-2 mt-n3 text-lowercase">
+                            <small>{item.studentName}</small><small>{item.subjectName}</small>
+                            </div>
                           </Card>
                         </Col>
                       ))}
@@ -390,6 +383,9 @@ const StudentNotes = () => {
                   </Card.Body>
                 )}
               </Formik>
+              <Card.Footer>
+                <PaginationFilter3 filterProps={filterProps} action={ getStudentNotesByTeacher} dispatch={dispatch} param1={sessionClassIdQuery} param2={subjectIdQuery} param3={statusQuery}/>
+                </Card.Footer>
             </Card>
           </Col>
         </Row>

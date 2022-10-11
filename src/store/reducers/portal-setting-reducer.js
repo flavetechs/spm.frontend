@@ -9,13 +9,13 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
-        schoolSettingList: "",
+        schoolSetting: {},
       };
     case actions.FETCH_SCHOOL_SETTING_SUCCESS:
       return {
         ...state,
         loading: false,
-        schoolSettingList: payload,
+        schoolSetting: payload,
       };
     case actions.FETCH_SCHOOL_SETTING_FAILED:
       return {
@@ -25,19 +25,29 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+
+    case actions.UPDATE_SELECTED_TEMPLATE: {
+        return {
+          ...state,
+          selectedTemplate: payload,
+        };
+      }
+
     case actions.FETCH_RESULT_SETTING_LOADING:
       return {
         ...state,
         loading: true,
         message: "",
-       isSuccessful: false,
+        isSuccessful: false,
       };
     case actions.FETCH_RESULT_SETTING_SUCCESS:
       return {
         ...state,
-       loading: false,
-        resultSettingList: payload,
+        loading: false,
+        resultSetting: payload,
+        selectedTemplate:payload.selectedTemplate,
       };
+
     case actions.FETCH_RESULT_SETTING_FAILED:
       return {
         ...state,
@@ -52,13 +62,13 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
-        notificationSettingList: "",
+        notificationSettingResult: "",
       };
     case actions.FETCH_NOTIFICATION_SETTING_SUCCESS:
       return {
         ...state,
         loading: false,
-        notificationSettingList: payload,
+        notificationSettingResult: payload,
       };
     case actions.FETCH_NOTIFICATION_SETTING_FAILED:
       return {

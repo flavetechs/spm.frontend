@@ -68,7 +68,8 @@ export const notificationReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        announcementList: payload,
+        announcementList: payload.data,
+        filterProps: payload,
       };
     case actions.FETCH_ANNOUNCEMENT_FAILED:
       return {

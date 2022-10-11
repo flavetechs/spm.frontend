@@ -32,7 +32,8 @@ export const studentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        studentList: payload,
+        studentList: payload.data,
+        filterProps: payload
       };
     case actions.FETCH_STUDENTS_FAILED:
       return {
@@ -150,6 +151,86 @@ export const studentReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
         submitSuccessful: false,
+      };
+
+    case actions.FETCH_COUNTRY_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case actions.FETCH_COUNTRY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        countries: payload,
+      };
+    case actions.FETCH_COUNTRY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        countries: [],
+      };
+
+    case actions.FETCH_STATE_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.FETCH_STATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        states: payload,
+      };
+
+    case actions.FETCH_STATE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        states: [],
+      };
+
+    case actions.FETCH_CITY_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.FETCH_CITY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        cities: payload,
+      };
+
+    case actions.FETCH_CITY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        cities: [],
+      };
+
+
+    case actions.UPLOAD_STUDENTS_LIST_FILE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPLOAD_STUDENTS_LIST_FILE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPLOAD_STUDENTS_LIST_FILE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
       };
 
 

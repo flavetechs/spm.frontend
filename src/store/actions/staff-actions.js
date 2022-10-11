@@ -53,12 +53,12 @@ export const fetchSingleStaff = (teacherAccountId) => dispatch => {
 
 
 //STAFF ACTION HANDLERS
-export const getAllStaffAccount = () => (dispatch) => {
+export const getAllStaffAccount = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STAFFACCOUNT_LOADING
     });
 
-    axiosInstance.get('/tercher/api/v1/getall/teachers')
+    axiosInstance.get(`/tercher/api/v1/getall/teachers?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFFACCOUNT_SUCCESS,
@@ -82,7 +82,7 @@ export const createStaffAccount = (staff, formData) => (dispatch) => {
                 type: actions.CREATE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStaffAccount()(dispatch);
+            getAllStaffAccount(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -107,7 +107,7 @@ export const deleteStaffAccount = (teacherUserAccountId) => (dispatch) => {
                 type: actions.DELETE_STAFFACCOUNT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStaffAccount()(dispatch);
+            getAllStaffAccount(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -130,7 +130,7 @@ export const updateStaffAccount = (teacherAccountId, formData) => (dispatch) => 
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
-            getAllStaffAccount()(dispatch);
+            getAllStaffAccount(1)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_STAFFACCOUNT_FAILED,

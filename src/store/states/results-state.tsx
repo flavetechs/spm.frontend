@@ -8,8 +8,11 @@ export const _state = {
     scoreEntryPreview: null,
     fetchPreviewSuccessful: false,
     masterEntry: null,
-    previousScoreEntry:null,
-    previousScoreEntryPreview:null,
-    cumulativeEntry:null,
-    studentResult:null,
-    }
+    previousScoreEntry: null,
+    previousScoreEntryPreview: null,
+    cumulativeEntry: null,
+    studentResult: null,
+    batchResultPreview: null,
+    batchResult: null,
+    printSuccessful: "loading",
+}
