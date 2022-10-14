@@ -42,7 +42,6 @@ import PinDetails from '../components/teachers-area/smp-pin-management/pin-detai
 import TemplateSetting from '../components/teachers-area/smp-portal-setting/template-setting';
 import UsedPinDetails from '../components/teachers-area/smp-pin-management/used-pin-details';
 import AnnouncementList from '../components/teachers-area/smp-notifications/announcement-list';
-import MakeAnnouncement from '../components/teachers-area/smp-notifications/make-announcement';
 import AnnouncementDetails from '../components/teachers-area/smp-notifications/announcement-details';
 import AnnouncementEdit from '../components/teachers-area/smp-notifications/announcement-edit';
 import AddUser from '../components/teachers-area/spm-permissions/role-add-user';
@@ -89,6 +88,7 @@ import ScoreRecord from '../components/teachers-area/spm-class/assessment/assess
 import ScoreRecordDetails from '../components/teachers-area/spm-class/assessment/assessment-score-record-details';
 import PublishedClassList from '../components/teachers-area/smp-result-management/published-classes-result';
 import Protected from '../components/spm-auth/protected';
+import MakeAnnouncement from '../components/teachers-area/smp-notifications/make-announcement';
 
 const DashboardRouter = () => {
 

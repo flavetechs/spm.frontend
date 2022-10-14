@@ -95,7 +95,7 @@ const Index = (props) => {
     let dashboardCountItem = JSON.parse(sessionStorage.getItem("dashboardData"));
 
     useEffect(() => {
-        console.log('some thing huge');
+        
         AOS.init({
             startEvent: 'DOMContentLoaded',
             disable: function () {
@@ -124,7 +124,6 @@ const Index = (props) => {
 
 
         setDashboardCount(getAllDashboardCount())
-        console.log('sds', dashboardCount);
 
     });
 

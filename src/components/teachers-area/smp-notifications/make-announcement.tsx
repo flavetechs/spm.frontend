@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -7,17 +7,19 @@ import * as Yup from "yup";
 import { notificationManagement } from "../../../router/spm-path-locations";
 import {
   createAnnouncement,
-  resetAnnouncementSuccessfulState,
 } from "../../../store/actions/notification-actions";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { textEditorModules } from "../../../utils/text-editor-modules";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
+import hubInstance from "../../../HubConnection/hub-instance";
+import { getUserDetails } from "../../../utils/permissions";
+import getHubInstance from "../../../HubConnection/hubService";
+import { HubConnection } from "@microsoft/signalr";
 
 const MakeAnnouncement = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
+  const state = useSelector((state: any) => state);
   const { announcementSuccessful } = state.notification;
   //VALIDATION
   const validation = Yup.object().shape({
@@ -29,7 +31,8 @@ const MakeAnnouncement = () => {
     announcementSuccessful && history.push(notificationManagement.announcement);
   }, [announcementSuccessful]);
 
-  
+
+
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({
     toolbar: {
@@ -61,7 +64,7 @@ const MakeAnnouncement = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
 
-                    if(!content){
+                    if (!content) {
                       showErrorToast('Body is required')(dispatch);
                       return;
                     }
@@ -79,6 +82,7 @@ const MakeAnnouncement = () => {
                     <Form className="mx-auto">
                       <Row className="d-flex justify-content-center">
                         <Col md="11">
+
                           {touched.header && errors.header && (
                             <div className="text-danger">{errors.header}</div>
                           )}
@@ -109,7 +113,7 @@ const MakeAnnouncement = () => {
                             value={content}
                             onChange={setContent}
                             modules={textEditorModules}
-                            style={{height: '300px'}}
+                            style={{ height: '300px' }}
                             className="h6"
                           />
                         </Col>
@@ -130,7 +134,7 @@ const MakeAnnouncement = () => {
                             name="assignedTo"
                             className="form-select border-secondary"
                             id="assignedTo"
-                            onChange={(e) => {
+                            onChange={(e: any) => {
                               setFieldValue("assignedTo", e.target.value);
                             }}
                           >

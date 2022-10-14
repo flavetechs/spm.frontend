@@ -1,35 +1,50 @@
 import { useEffect, useState } from 'react'
-import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
+import { Dropdown } from 'react-bootstrap'
 import CustomToggle from '../../../dropdowns'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
-import flag1 from '../../../../assets/images/Flag/flag001.png'
-import flag2 from '../../../../assets/images/Flag/flag-02.png'
-import flag3 from '../../../../assets/images/Flag/flag-03.png'
-import flag4 from '../../../../assets/images/Flag/flag-04.png'
-import flag5 from '../../../../assets/images/Flag/flag-05.png'
-import flag6 from '../../../../assets/images/Flag/flag-06.png'
 import shapes1 from '../../../../assets/images/shapes/01.png'
 import shapes2 from '../../../../assets/images/shapes/02.png'
 import shapes3 from '../../../../assets/images/shapes/03.png'
 import shapes4 from '../../../../assets/images/shapes/04.png'
-import shapes5 from '../../../../assets/images/shapes/05.png'
-import { connectToNotificationHub } from '../../../../HubConnection/connection'
+import hubInstance from '../../../../HubConnection/hub-instance'
+import axiosInstance from '../../../../axios/axiosInstance'
 const PushedNotifications = () => {
+    const [notifications, setNotifications] = useState([]);
+    const [date, setDate] = useState("");
     useEffect(() => {
-        const connection = connectToNotificationHub("PushedNotification");
-        connection.then(x => {
-            console.log('connection', x);
-            x.on("NotificationArea", (user, message) => {
-                console.log("Notification received", message);
-            });
-        }).catch(er => {
-            return er
-        })
-    }, []);
+        try {
+            hubInstance().then(x => {
+                x.on("NotificationArea", (user, message) => {
+                    setDate(message);
+                    console.log("message", message);
+                });
+                // sessionStorage.setItem('hubConnection', JSON.stringify(x));
+            }).catch(error => {
+                return error
+            })
 
-    
+        } catch (error) {
+            console.log("error", error);
+        }
+    }, [date]);
+
+    useEffect(() => {
+
+        function fetchNotifications() {
+            axiosInstance.get(`notification/api/v1/get-notifications?pageNumber=1`)
+                .then((res) => {
+                    setNotifications([...res.data.result.data])
+
+                    console.log(notifications);
+                })
+        }
+
+        fetchNotifications();
+    }, [date]);
+
+
     return (
         <>
             <Dropdown as="li" className="nav-item">
@@ -47,57 +62,29 @@ const PushedNotifications = () => {
                                 <h5 className="mb-0 text-white">All Notifications</h5>
                             </div>
                         </div>
+
                         <div className="p-0 card-body">
-                            <Link to="#" className="iq-sub-card">
-                                <div className="d-flex align-items-center">
-                                    <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes1} alt="" />
-                                    <div className="ms-3 w-100">
-                                        <h6 className="mb-0 ">Emma Watson Bni</h6>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <p className="mb-0">95 MB</p>
-                                            <small className="float-right font-size-12">Just Now</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link to="#" className="iq-sub-card">
-                                <div className="d-flex align-items-center">
-                                    <div className="">
-                                        <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes2} alt="" />
-                                    </div>
-                                    <div className="ms-3 w-100">
-                                        <h6 className="mb-0 ">New customer is join</h6>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <p className="mb-0">Cyst Bni</p>
-                                            <small className="float-right font-size-12">5 days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link to="#" className="iq-sub-card">
-                                <div className="d-flex align-items-center">
-                                    <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes3} alt="" />
-                                    <div className="ms-3 w-100">
-                                        <h6 className="mb-0 ">Two customer is left</h6>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <p className="mb-0">Cyst Bni</p>
-                                            <small className="float-right font-size-12">2 days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                            <Link to="#" className="iq-sub-card">
-                                <div className="d-flex align-items-center">
-                                    <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes4} alt="" />
-                                    <div className="w-100 ms-3">
-                                        <h6 className="mb-0 ">New Mail from Fenny</h6>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <p className="mb-0">Cyst Bni</p>
-                                            <small className="float-right font-size-12">3 days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
+
+                            {
+                                notifications.map((x, i) => {
+                                    return (
+                                        <Link to={x?.notificationPageLink} className="iq-sub-card" key={i}>
+                                            <div className="d-flex align-items-center">
+                                                <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes1} alt="" />
+                                                <div className="ms-3 w-100">
+                                                    <h6 className="mb-0 ">{x?.subject}</h6>
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        <p className="mb-0">{x?.type}</p>
+                                                        <small className="float-right font-size-12">{x.dateCreated}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    )
+
+                                })
+                            }
+
                         </div>
                     </div>
                 </Dropdown.Menu>
