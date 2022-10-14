@@ -38,7 +38,7 @@ var userDetail = getUserDetails();
                 <div className="container-fluid navbar-inner">
                    <MobildeOffcanvas/>
                     <Link to="/dashboard" className="logo-center navbar-brand col-md-3 col-lg-3">
-                        <Logo color={true} />
+                        {/* <Logo color={true} /> */}
                         <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                     </Link>
                     <HorizontalNav />

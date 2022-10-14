@@ -38,7 +38,7 @@ const HeaderStyle1 = () => {
                     <MobildeOffcanvas/>
                         <Navbar.Brand as="div" className="col-lg-2 col-lg-3 ">
                             <Link to="/dashboard" className="d-flex">
-                                <Logo color={true} />
+                                {/* <Logo color={true} /> */}
                                 <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                             </Link>
                         </Navbar.Brand>
