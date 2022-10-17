@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
@@ -25,7 +25,7 @@ import {
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { PaginationFilter1 } from "../../partials/components/pagination-filter";
-import { ReturnFilteredList } from "../../../utils/tools";
+import { CheckMultiple, CheckSingleItem, ReturnFilteredList } from "../../../utils/tools";
 
 
 const EnrolledStudents = () => {
@@ -36,6 +36,8 @@ const EnrolledStudents = () => {
   const [showUnenrollButton, setUnenrollButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [objectArray, setObjectArray] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [sessionId, setSessionId] = useState("");
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("classId");
@@ -43,7 +45,7 @@ const EnrolledStudents = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { enrolledStudents,filterProps, selectedIds } = state.enrollment;
+  const { enrolledStudents,filterProps } = state.enrollment;
   const { activeSession, sessionList } = state.session;
   const { itemList: classList } = state.class;
   const { dialogResponse } = state.alert;
@@ -67,6 +69,17 @@ const EnrolledStudents = () => {
     }
   }, [sessionId, activeSession,dispatch]);
 
+  useEffect(() => {
+    setObjectArray(ReturnFilteredList(enrolledStudents, searchQuery,
+      ["studentName", "studentRegNumber", "class"]
+    ));
+  }, [searchQuery, enrolledStudents])
+
+  const setStateArraysAndIds = (checked) => {
+    const result = CheckMultiple(checked, objectArray, "studentContactId");
+    setObjectArray(result[0]);
+    setSelectedIds(result[1]);
+  }
   //UNENROLL HANDLER
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -76,52 +89,20 @@ const EnrolledStudents = () => {
         unEnrollStudent(selectedIds, sessionClassIdQuery)(dispatch);
         setUnenrollButton(!showUnenrollButton);
         setShowCheckBoxes(false);
-
+        setStateArraysAndIds(false);
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
       }
-    } else {
+    } else{
       setUnenrollButton(true);
       setShowCheckBoxes(false);
-      selectedIds.forEach((id) => {
-        dispatch(removeId(id));
-      });
+      setStateArraysAndIds(false);
     }
     return () => {
       respondDialog("")(dispatch);
     };
   }, [dialogResponse,dispatch,sessionClassIdQuery]);
   //UNENROLL HANDLER
-
-  const checkSingleItem = (isChecked, studentContactId, enrolledStudents) => {
-    enrolledStudents.forEach((item) => {
-      if (item.studentContactId === studentContactId) {
-        item.isChecked = isChecked;
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(studentContactId));
-    } else {
-      dispatch(removeId(studentContactId));
-    }
-  };
-  const checkAllItems = (isChecked, enrolledStudents) => {
-    enrolledStudents.forEach((item) => {
-      item.isChecked = isChecked;
-      if (item.isChecked) {
-        dispatch(pushId(item.studentContactId));
-      } else {
-        dispatch(removeId(item.studentContactId));
-      }
-    });
-    returnListEnrolled(enrolledStudents)(dispatch);
-  };
- 
-  const filteredEnrolledStudents = ReturnFilteredList(
-    enrolledStudents,
-    searchQuery,
-    ["studentName", "studentRegNumber", "class"]
-  );
 
   return (
     <>
@@ -267,7 +248,7 @@ const EnrolledStudents = () => {
                       ) : (
                         <button
                           type="button"
-                          className="text-center btn-primary btn-icon  me-2 mt-3 mt-xl-0 btn btn-primary"
+                          className="text-center btn-primary btn-icon  me-2 mt-3 mt-xl-0 btn btn-primary d-flex"
                           onClick={() => {
                             const message =
                               selectedIds.length === 1
@@ -339,10 +320,7 @@ const EnrolledStudents = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 onChange={(e) => {
-                                  checkAllItems(
-                                    e.target.checked,
-                                    enrolledStudents
-                                  );
+                                  setStateArraysAndIds(e.target.checked);
                                 }}
                               />
                             ) : (
@@ -356,7 +334,7 @@ const EnrolledStudents = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredEnrolledStudents.map((student, idx) => (
+                        {objectArray.map((student, idx) => (
                           <tr key={idx}>
                             <td className="">
                               <b>
@@ -366,11 +344,13 @@ const EnrolledStudents = () => {
                                     type="checkbox"
                                     checked={student.isChecked || false}
                                     onChange={(e) => {
-                                      checkSingleItem(
+                                      const result = CheckSingleItem(
                                         e.target.checked,
                                         student.studentContactId,
-                                        enrolledStudents
+                                        enrolledStudents,"studentContactId"
                                       );
+                                      setObjectArray(result[0]);
+                                      setSelectedIds(result[1]);
                                     }}
                                   />
                                 ) : (
