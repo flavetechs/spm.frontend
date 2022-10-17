@@ -37,12 +37,15 @@ export const createAnnouncement = (values) => (dispatch) => {
     });
 
     axiosInstance.post('/announcements/api/v1/create/announcement', values)
-        .then((res) => {
+        .then(async (res) => {
             dispatch({
                 type: actions.CREATE_ANNOUNCEMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             resetAnnouncementSuccessfulState()(dispatch);
+
+            // await hubConnection.invoke("JoinNotificationRoom", { user: user, message: user });
+
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -144,9 +147,9 @@ export const updateAnnouncement = (values) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
-export const  resetAnnouncementSuccessfulState = () => (dispatch) => {
+export const resetAnnouncementSuccessfulState = () => (dispatch) => {
     dispatch({
-          type: actions.RESET_ANNOUNCEMENT_SUCCESSFUL,
-          payload: null
-      });
-  }
+        type: actions.RESET_ANNOUNCEMENT_SUCCESSFUL,
+        payload: null
+    });
+}
