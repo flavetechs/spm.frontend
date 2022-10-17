@@ -261,6 +261,29 @@ export const getAllSessionClasses = (sessionId) => (dispatch) => {
             })
         });
 }
+export const getAllSessionClasses1 = (sessionId) => (dispatch) => {
+
+    if (!sessionId) {
+        return;
+    }
+
+    dispatch({
+        type: actions.FETCH_SESSION_CLASS_LOADING
+    });
+
+    axiosInstance.get(`/class/api/v1/get-all/session-classes1/${sessionId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SESSION_CLASS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SESSION_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
 export const createSessionClass = (sessionClass) => (dispatch) => {
     dispatch({

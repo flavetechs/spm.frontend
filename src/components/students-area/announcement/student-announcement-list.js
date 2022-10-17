@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { announcementLocations } from "../../../router/students-path-locations";
 import { getAllAnnouncement, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
 import { stripHtml } from "../../../utils/tools";
+import PaginationFilter from "../../partials/components/pagination-filter";
 import "../../teachers-area/smp-notifications/announcement.scss";
 
 const StudentAnnouncement = () => {
@@ -12,10 +13,10 @@ const StudentAnnouncement = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const state = useSelector((state) => state);
-    const { announcementList } = state.notification;
+    const { announcementList, filterProps } = state.notification;
 
     React.useEffect(() => {
-        getAllAnnouncement()(dispatch);
+        getAllAnnouncement(1)(dispatch);
     }, []);
 
     function truncateString(str) {
@@ -235,21 +236,11 @@ const StudentAnnouncement = () => {
                                     </div>
                                 ))}
                             </div>
-
-                        </div>
-                        <div className="d-flex justify-content-end">
-                            <Button
-                                type="button"
-                                className="btn-sm mt-4 mb-3"
-                                variant="btn btn-danger"
-                                onClick={() => {
-                                    history.goBack();
-                                }}
-                            >
-                                Back
-                            </Button>
                         </div>
                     </Card.Body>
+                    <Card.Footer>
+                        <PaginationFilter filterProps={filterProps} action={getAllAnnouncement} dispatch={dispatch} />
+                    </Card.Footer>
                 </Card>
             </div>
         </>

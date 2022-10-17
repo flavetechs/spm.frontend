@@ -13,7 +13,7 @@ import {
   getAllSession,
 } from "../../../store/actions/session-actions";
 import MasterListLargeTable from "./master-list-large-table";
-import { getAllSessionClasses } from "../../../store/actions/class-actions";
+import { getAllSessionClasses1 } from "../../../store/actions/class-actions";
 import { useHistory, useLocation } from "react-router-dom";
 import { resultManagement } from "../../../router/spm-path-locations";
 
@@ -57,7 +57,7 @@ const MasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getAllSessionClasses(sessionIdQueryParam)(dispatch);
+    sessionIdQueryParam && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
