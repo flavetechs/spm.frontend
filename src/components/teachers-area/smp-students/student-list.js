@@ -27,6 +27,8 @@ import {
 import { ClassesModal } from "../smp-enrollment/classesModal";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
+import { ReturnFilteredList } from "../../../utils/tools";
+import { SearchInput } from "../../partials/components/search-input";
 const StudentList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
@@ -92,34 +94,11 @@ const StudentList = () => {
     });
     returnList(studentList)(dispatch);
   };
-  const sortedList = studentList.sort(function (a, b) {
-    if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) return -1;
-    if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) return 1;
-    return 0;
-  });
-  const filteredStudentList = sortedList.filter((students) => {
-    if (searchQuery === "") {
-      //if query is empty
-      return students;
-    } else if (
-      students.firstName.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return students;
-    } else if (
-      students.lastName.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return students;
-    } else if (
-      students.registrationNumber
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return students;
-    }
-  });
+
+
+  const filteredStudentList = ReturnFilteredList(studentList, searchQuery,
+    ["firstName", "lastName", "registrationNumber", "sessionClass"]
+  );
 
   React.useEffect(() => {
     if (modalResponse === "continue") {
@@ -149,6 +128,7 @@ const StudentList = () => {
       const params = new FormData();
       params.append("studentsExcelFile", studentsExcelFile);
       uploadStudentsListFile(params)(dispatch);
+      setStudentsExcelFile("")
     }
   };
 
@@ -198,106 +178,101 @@ const StudentList = () => {
                       </svg>
                     </span>
                     <div>
-                      <input
-                        type="search"
-                        className="form-control text-lowercase"
-                        placeholder="Search..."
-                        onChange={(event) => setSearchQuery(event.target.value)}
-                      />
+                      <SearchInput setSearchQuery={setSearchQuery} />
                     </div>
                   </div>
                 </Col>
-                <Col xl="8"className="mt-3">
-                  
-                    <div className="d-md-flex mx-3">
-                      <div className="">
-                        <input
-                          type="file"
-                          id="file"
-                          name="file"
-                          className="form-control "
-                          accept=".xlsx, .xls, .csv"
-                          onChange={handleFileUpload}
-                        />
-                      </div>
-                      <div className="mx-md-3 mx-1 d-xl-flex mt-3  mt-md-0">
-                        <button
-                          type="button"
-                          className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                          onClick={handleSubmit}
-                        >
-                          <i className="btn-inner">
-                            <svg
-                              width="18"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              ></path>
-                              <path
-                                d="M12.0215 2.19044V14.2314"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              ></path>
-                              <path
-                                d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              ></path>
-                            </svg>
-                          </i>
-                          <span> Upload</span>
-                        </button>{" "}
-                        <button
-                          type="button"
-                          className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                          // onClick={handleSubmit}
-                        >
-                          <i className="btn-inner">
-                            <svg
-                              width="18"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M12.1221 15.436L12.1221 3.39502"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </i>
-                          <span>Download</span>
-                        </button>
-                      </div>
+                <Col xl="8" className="mt-3">
+
+                  <div className="d-md-flex mx-3">
+                    <div className="">
+                      <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        className="form-control "
+                        accept=".xlsx, .xls, .csv"
+                        onChange={handleFileUpload}
+                      />
                     </div>
-                  
+                    <div className="mx-md-3 mx-1 d-xl-flex mt-3  mt-md-0">
+                      <button
+                        type="button"
+                        className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                        onClick={handleSubmit}
+                      >
+                        <i className="btn-inner">
+                          <svg
+                            width="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              d="M12.0215 2.19044V14.2314"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                            <path
+                              d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            ></path>
+                          </svg>
+                        </i>
+                        <span> Upload</span>
+                      </button>{" "}
+                      <button
+                        type="button"
+                        className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                      // onClick={handleSubmit}
+                      >
+                        <i className="btn-inner">
+                          <svg
+                            width="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12.1221 15.436L12.1221 3.39502"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </i>
+                        <span>Download</span>
+                      </button>
+                    </div>
+                  </div>
+
                 </Col>
                 <Col xl="4" className="mt-2 mt-xl-3 d-xl-flex justify-content-end">
                   {hasAccess(NavPermissions.deleteStudent) && (

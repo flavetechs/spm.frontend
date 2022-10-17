@@ -14,20 +14,20 @@ const PushedNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [date, setDate] = useState("");
     useEffect(() => {
-        try {
-            hubInstance().then(x => {
-                x.on("NotificationArea", (user, message) => {
-                    setDate(message);
-                    console.log("message", message);
-                });
-                // sessionStorage.setItem('hubConnection', JSON.stringify(x));
-            }).catch(error => {
-                return error
-            })
+        // try {
+        //     hubInstance().then(x => {
+        //         x.on("NotificationArea", (user, message) => {
+        //             setDate(message);
+        //             console.log("message", message);
+        //         });
+        //         // sessionStorage.setItem('hubConnection', JSON.stringify(x));
+        //     }).catch(error => {
+        //         return error
+        //     })
 
-        } catch (error) {
-            console.log("error", error);
-        }
+        // } catch (error) {
+        //     console.log("error", error);
+        // }
     }, [date]);
 
     useEffect(() => {

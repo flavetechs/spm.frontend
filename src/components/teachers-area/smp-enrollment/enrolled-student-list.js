@@ -25,6 +25,7 @@ import {
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { PaginationFilter1 } from "../../partials/components/pagination-filter";
+import { ReturnFilteredList } from "../../../utils/tools";
 
 
 const EnrolledStudents = () => {
@@ -115,27 +116,12 @@ const EnrolledStudents = () => {
     });
     returnListEnrolled(enrolledStudents)(dispatch);
   };
-  const sortedList = enrolledStudents?.sort(function (a, b) {
-    if (a.studentName.toLowerCase() < b.studentName.toLowerCase()) return -1;
-    if (a.studentName.toLowerCase() > b.studentName.toLowerCase()) return 1;
-    return 0;
-  });
-  let filteredEnrolledStudents = sortedList.filter((students) => {
-    if (searchQuery === "") {
-      //if query is empty
-      return students;
-    } else if (
-      students.studentName.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return students;
-    } else if (
-      students.studentRegNumber.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return students;
-    }
-  });
+ 
+  const filteredEnrolledStudents = ReturnFilteredList(
+    enrolledStudents,
+    searchQuery,
+    ["studentName", "studentRegNumber", "class"]
+  );
 
   return (
     <>
