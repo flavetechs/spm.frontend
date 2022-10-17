@@ -1,6 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/auth-action-types"
-import { getAllDashboardCount } from "./dashboard-actions";
 import { getActiveSession } from "./session-actions";
 
 export const loginUser = ({ userName, password }) => (dispatch) => {
