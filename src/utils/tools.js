@@ -13,7 +13,7 @@ export function ordinalSuffixOf(i) {
     return i + "th";
 }
 
-export function isNumber (evt) {
+export function isNumber(evt) {
     var iKeyCode = (evt.which) ? evt.which : evt.keyCode
     if (iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
         return false;
@@ -21,13 +21,12 @@ export function isNumber (evt) {
 }
 
 
-export function stripHtml(html)
-{
-   let tmp = document.createElement("DIV");
-   tmp.innerHTML = html;
-   let result = tmp.textContent || tmp.innerText || "";
-   tmp.innerHTML = '';
-   return result;
+export function stripHtml(html) {
+    let tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    let result = tmp.textContent || tmp.innerText || "";
+    tmp.innerHTML = '';
+    return result;
 }
 
 
@@ -38,6 +37,52 @@ export const HandleMultipleCheckbox = (event, selectedArray) => {
     if (checkBoxValue === false) {
         return [...otherSelectedArray];
     } else {
-      return [...otherSelectedArray, checkedValue];
+        return [...otherSelectedArray, checkedValue];
     }
-  };
+};
+
+export const ReturnFilteredList = (arrayofObjects = [], searchQuery = "", columns = []) => { 
+    return arrayofObjects && arrayofObjects.filter((item) => {
+        if (searchQuery === "") {
+            return item;
+        }
+        for (let i = 0; i < columns.length; i++) {
+            if (item[columns[i]]?.toLowerCase()?.includes(searchQuery?.toLowerCase()))
+                return item;
+        }
+       
+    });
+}
+
+export const CheckSingleItem = (isChecked, selectedId, objectArray = [], column = "") => {
+    let selectedIds = [];
+    objectArray.forEach((item) => {
+        if (item[column] === selectedId) {
+            if (isChecked) {
+                selectedIds.push(selectedId);
+                item.isChecked = true;
+            } else {
+                item.isChecked = false;
+                const index = selectedIds.indexOf(selectedId);
+                if (index > -1) {
+                    selectedIds.splice(index, 1);
+                }
+            }
+        }
+    });
+    return [objectArray, selectedIds]
+};
+export const CheckMultiple = (isChecked = false, objectArray = [], column = "") => {
+    let selectedIds = [];
+    objectArray.forEach((item) => {
+        if (isChecked === true) {
+            selectedIds.push(item[column]);
+            item.isChecked = true;
+        } else {
+            selectedIds = [];
+            item.isChecked = false;
+        }
+    });
+    return [objectArray, selectedIds]
+};
+
