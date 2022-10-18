@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Row,Col,Dropdown,Button} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -35,6 +35,7 @@ import CountUp from 'react-countup';
 // store
 import {NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode,  getcustomizerinfoMode,  SchemeDirAction, ColorCustomizerAction,  getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../store/setting/setting'
 import {connect} from "react-redux"
+import { getAllStudentDashboardCount } from '../../store/actions/dashboard-actions.js'
 
   
 // install Swiper modules
@@ -70,6 +71,9 @@ const mapDispatchToProps = dispatch => ({
 
 
 const StudentIndex = (props) => {
+
+    
+
     useEffect(() => {
     AOS.init({
         startEvent: 'DOMContentLoaded',
@@ -97,7 +101,6 @@ const StudentIndex = (props) => {
             
     }
     
-      
     })
 
     const chart1={
@@ -272,6 +275,10 @@ const StudentIndex = (props) => {
             data: [40, 50, 55, 50, 30, 80, 30, 40, 50, 55]
         }]
     }
+    getAllStudentDashboardCount()
+    let studentDashboardCountItem = JSON.parse(sessionStorage.getItem("studentDashboardData"));
+
+
         return (
             <>
                 <Row>
@@ -305,8 +312,8 @@ const StudentIndex = (props) => {
                                                     </svg>
                                                 </Circularprogressbar>
                                                 <div className="progress-detail">
-                                                    <p  className="mb-2">Total Sales</p>
-                                                    <h4 className="counter">$<CountUp  start={120} end={560} duration={3}/>K</h4>
+                                                    <p  className="mb-2">Total Subjects</p>
+                                                    <h4 className="counter"><CountUp  start={0} end={studentDashboardCountItem?.totalSubjects} duration={3}/></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -320,8 +327,8 @@ const StudentIndex = (props) => {
                                                     </svg>
                                                 </Circularprogressbar>
                                                 <div className="progress-detail">
-                                                <p  className="mb-2">Total Profit</p>
-                                                <h4 className="counter">$<CountUp  start={20} end={158} duration={3}/>K</h4>
+                                                <p  className="mb-2">Total Assessment</p>
+                                                <h4 className="counter"><CountUp  start={0} end={studentDashboardCountItem?.totalAssessments} duration={3}/></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -335,8 +342,8 @@ const StudentIndex = (props) => {
                                                     </svg>
                                                 </Circularprogressbar>
                                                 <div className="progress-detail">
-                                                    <p  className="mb-2">Total Cost</p>
-                                                    <h4 className="counter">$<CountUp  start={120} end={378} duration={3}/>K</h4>
+                                                    <p  className="mb-2">Lesson Notes</p>
+                                                    <h4 className="counter"><CountUp  start={0} end={studentDashboardCountItem?.totaldLessonNotes} duration={3}/></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -350,13 +357,13 @@ const StudentIndex = (props) => {
                                                     </svg>
                                                 </Circularprogressbar>
                                                 <div className="progress-detail">
-                                                    <p  className="mb-2">Revenue</p>
-                                                    <h4 className="counter">$<CountUp  start={212} end={742} duration={3}/>K</h4>
+                                                    <p  className="mb-2">Student's Notes</p>
+                                                    <h4 className="counter"><CountUp  start={0} end={studentDashboardCountItem?.studentNotes} duration={3}/></h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </SwiperSlide>
-                                    <SwiperSlide className=" card card-slide" >
+                                    {/* <SwiperSlide className=" card card-slide" >
                                         <div className="card-body">
                                             <div className="progress-widget">
                                                 <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{width:60, height:60,}} value={50} id="circle-progress-05" >
@@ -400,7 +407,7 @@ const StudentIndex = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </SwiperSlide>
+                                    </SwiperSlide> */}
                                     <div className="swiper-button swiper-button-next"></div>
                                     <div className="swiper-button swiper-button-prev"></div>
                                 </Swiper>

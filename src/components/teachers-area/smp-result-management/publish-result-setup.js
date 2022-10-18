@@ -46,13 +46,16 @@ const PublishResult = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getTermClasses(sessionIdQueryParam)(dispatch);
+    if(sessionIdQueryParam){
+      getTermClasses(sessionIdQueryParam)(dispatch);
+    }else{
+      return
+    }
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
     history.push(`${resultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
   }, [activeSession]);
-
 
   return (
     <>
@@ -92,9 +95,8 @@ const PublishResult = () => {
                       values.sessionClassId,
                       values.sessionTermId
                     )(dispatch);
-                    history.push(
-                      `${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`
-                    );
+                    history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
+                    // history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`);
                   }}
                 >
                   {({
@@ -165,6 +167,7 @@ const PublishResult = () => {
                             value={values.sessionTermId}
                             onChange={(e) => {
                               setFieldValue("sessionTermId", e.target.value);
+                              console.log('e.target.value', e.target.value);
                               history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
                               // getTermClasses(
                               //   selectedSession?.sessionId,
@@ -184,7 +187,7 @@ const PublishResult = () => {
                                   key={id}
                                   name={values.terms}
                                   value={term.sessionTermId.toLowerCase()}
-                                  selected={term.sessionTermId === values.terms}
+                                  // selected={term.sessionTermId === values.terms}
                                 >
                                   {term.termName}
                                 </option>
@@ -207,6 +210,7 @@ const PublishResult = () => {
                             name="sessionClassId"
                             className="form-select"
                             id="sessionClassId"
+                            value={values.sessionClassId}
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
                               history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
