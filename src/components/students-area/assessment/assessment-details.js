@@ -21,6 +21,7 @@ import "react-quill/dist/quill.snow.css";
 import { Field, Formik } from "formik";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import { assessmentLocations } from "../../../router/students-path-locations";
+import { TextEditorToolBar } from "../../../utils/tools";
 
 const StudentAssessmentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -29,7 +30,7 @@ const StudentAssessmentDetails = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [filesArray, setFilesArray] = useState([]);
+  const [filesArray, setFilesArray] = useState(null);
   const [fileInputList, setFileInputList] = useState([]);
   const state = useSelector((state) => state);
   const {
@@ -55,7 +56,7 @@ const StudentAssessmentDetails = () => {
   React.useEffect(() => {
     setContent(
       homeAssessmentFeedBackIdQuery !== "null" &&
-        studentSingleHomeAssessment?.content
+      studentSingleHomeAssessment?.content
     );
   }, [studentSingleHomeAssessment, homeAssessmentFeedBackIdQuery]);
 
@@ -66,91 +67,34 @@ const StudentAssessmentDetails = () => {
   }, [createSuccessful, history, studentSingleHomeAssessment?.status]);
 
   const [content, setContent] = useState("");
-  const textEditorModules = useMemo(
-    () => ({
-      toolbar: {
-        container: [
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          ["bold", "italic", "underline", "strike"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          [{ align: [] }],
-          ["image", "link"],
-          [
-            {
-              color: [
-                "#000000",
-                "#e60000",
-                "#ff9900",
-                "#ffff00",
-                "#008a00",
-                "#0066cc",
-                "#9933ff",
-                "#ffffff",
-                "#facccc",
-                "#ffebcc",
-                "#ffffcc",
-                "#cce8cc",
-                "#cce0f5",
-                "#ebd6ff",
-                "#bbbbbb",
-                "#f06666",
-                "#ffc266",
-                "#ffff66",
-                "#66b966",
-                "#66a3e0",
-                "#c285ff",
-                "#888888",
-                "#a10000",
-                "#b26b00",
-                "#b2b200",
-                "#006100",
-                "#0047b2",
-                "#6b24b2",
-                "#444444",
-                "#5c0000",
-                "#663d00",
-                "#666600",
-                "#003700",
-                "#002966",
-                "#3d1466",
-              ],
-            },
-          ],
-        ],
-        //   handlers: {
-        //     image: imageHandler
-        //   }
-      },
-    }),
+  const textEditorModules = useMemo(() => ({
+    toolbar: TextEditorToolBar
+  }),
     []
   );
- const createFileArray = (event) => {
+  const createFileArray = (event) => {
     const newFiles = event.target.files[0];
     const previousFiles = filesArray.filter((i) => i !== newFiles);
     const files = [...previousFiles, newFiles];
     setFilesArray(files);
   };
-
-  const FileInput = ()=>{
+  
+  const FileInput = () => {
     return <input
-    type="file"
-    name="files"
-    className="form-control border-secondary mt-2"
-    id="files"
-    onChange={(event) => {
-     createFileArray(event);
-    }}
-  />
+      type="file"
+      name="files"
+      className="form-control border-secondary mt-2"
+      id="files"
+      multiple
+      onChange={(event) => {
+        setFilesArray(event.target.files[0]);
+      }}
+    />
   }
   const onAddFileBtnClick = event => {
     setFileInputList(fileInputList.concat(<FileInput key={fileInputList.length} />));
   };
-console.log("filr",filesArray);
+  console.log("filr", filesArray);
   return (
     <>
       <div>
@@ -381,8 +325,8 @@ console.log("filr",filesArray);
                           <label className="form-label h6">
                             <b>Upload file:</b>
                           </label>
-                        <div className="btn btn-primary mx-2" onClick={onAddFileBtnClick}>Add file</div> 
-                        {fileInputList}
+                          <div className="btn btn-primary mx-2" onClick={onAddFileBtnClick}>Add file</div>
+                          {fileInputList}
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
