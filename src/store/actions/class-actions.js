@@ -305,7 +305,7 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
         });
 }
 
-export const deleteSessionClass = (selectedIds, activeSessionId) => (dispatch) => {
+export const deleteSessionClass = (selectedIds, sessionId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_SESSION_CLASS_LOADING
     });
@@ -318,7 +318,7 @@ export const deleteSessionClass = (selectedIds, activeSessionId) => (dispatch) =
                 type: actions.DELETE_SESSION_CLASS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllSessionClasses(activeSessionId)(dispatch);
+            getAllSessionClasses(sessionId)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
