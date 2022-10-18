@@ -20,7 +20,7 @@ export const DecisionDialog = () => {
                     <Button type="button" variant="primary" data-bs-dismiss="toast"
                         onClick={() => {
                             showHideDialog(false, null)(dispatch);
-                            respondDialog('')(dispatch);
+                            respondDialog('cancel')(dispatch);
                         }}> NO </Button>{'  '}
                     <Button onClick={() => {
                         showHideDialog(false, null)(dispatch);

@@ -10,7 +10,7 @@ const hubInstance = async () => {
             .configureLogging(LogLevel.Information)
             .build();
 
-        connection.on("NotificationArea", ( message) => {
+        connection.on("NotificationArea", ( message : any) => {
              console.log("Message received" + user.userId, message);
         });
 

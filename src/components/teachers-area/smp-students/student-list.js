@@ -1,33 +1,23 @@
-import React, { useState } from "react";
-import { Row, Col, Tooltip, OverlayTrigger, Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   getAllStudents,
-  pushId,
-  removeId,
-  returnList,
   deleteStudent,
   uploadStudentsListFile,
 } from "../../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
 import {
-  respondDialog,
   respondToDeleteDialog,
   showErrorToast,
   showHideDialog,
-  showHideModal,
   showSingleDeleteDialog,
 } from "../../../store/actions/toaster-actions";
-import {
-  enrollStudent,
-  unEnrollStudent,
-} from "../../../store/actions/enrollment-actions";
-import { ClassesModal } from "../smp-enrollment/classesModal";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
-import { ReturnFilteredList } from "../../../utils/tools";
+import { CheckMultiple, CheckSingleItem, ReturnFilteredList } from "../../../utils/tools";
 import { SearchInput } from "../../partials/components/search-input";
 const StudentList = () => {
   //VARIABLE DECLARATIONS
@@ -35,19 +25,33 @@ const StudentList = () => {
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [objectArray, setObjectArray] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [studentsExcelFile, setStudentsExcelFile] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { studentList, filterProps, selectedIds } = state.student;
-  const { deleteDialogResponse, modalResponse, dialogResponse } = state.alert;
+  const { studentList, filterProps } = state.student;
+  const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getAllStudents(1)(dispatch);
   }, [dispatch]);
 
+
+  useEffect(() => {
+    setObjectArray(ReturnFilteredList(studentList, searchQuery,
+      ["firstName", "lastName", "registrationNumber", "sessionClass"]
+    ));
+  }, [searchQuery, studentList]) 
+
+  const setStateArraysAndIds = (checked) => {
+    const result = CheckMultiple(checked, objectArray, "userAccountId");
+    setObjectArray(result[0]);
+    setSelectedIds(result[1]);
+  }
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
@@ -57,65 +61,21 @@ const StudentList = () => {
         deleteStudent(selectedIds)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
+        setStateArraysAndIds(false);
+        showHideDialog(false, null)(dispatch);
         respondToDeleteDialog("")(dispatch);
       }
     } else {
       setDeleteButton(true);
       setShowCheckBoxes(false);
-      selectedIds.forEach((id) => {
-        dispatch(removeId(id));
-      });
+      setStateArraysAndIds(false);
     }
     return () => {
       respondToDeleteDialog("")(dispatch);
     };
   }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER
-  const checkSingleItem = (isChecked, userAccountId, studentList) => {
-    studentList.forEach((item) => {
-      if (item.userAccountId === userAccountId) {
-        item.isChecked = isChecked;
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(userAccountId));
-    } else {
-      dispatch(removeId(userAccountId));
-    }
-  };
-  const checkAllItems = (isChecked, studentList) => {
-    studentList.forEach((item) => {
-      item.isChecked = isChecked;
-      if (item.isChecked) {
-        dispatch(pushId(item.userAccountId));
-      } else {
-        dispatch(removeId(item.userAccountId));
-      }
-    });
-    returnList(studentList)(dispatch);
-  };
 
-
-  const filteredStudentList = ReturnFilteredList(studentList, searchQuery,
-    ["firstName", "lastName", "registrationNumber", "sessionClass"]
-  );
-
-  React.useEffect(() => {
-    if (modalResponse === "continue") {
-      enrollStudent(selectedIds)(dispatch);
-    }
-  }, [modalResponse, dispatch]);
-
-  React.useEffect(() => {
-    if (dialogResponse === "continue") {
-      unEnrollStudent(selectedIds)(dispatch);
-      showHideDialog(false, null)(dispatch);
-      respondDialog("")(dispatch);
-    }
-    return () => {
-      respondDialog("")(dispatch);
-    };
-  }, [dialogResponse, dispatch]);
 
   const handleFileUpload = (event) => {
     setStudentsExcelFile(event.target.files[0]);
@@ -410,7 +370,7 @@ const StudentList = () => {
                               className="form-check-input"
                               type="checkbox"
                               onChange={(e) => {
-                                checkAllItems(e.target.checked, studentList);
+                                setStateArraysAndIds(e.target.checked);
                               }}
                             />
                           ) : (
@@ -424,7 +384,7 @@ const StudentList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredStudentList.map((student, idx) => (
+                      {objectArray.map((student, idx) => (
                         <tr key={idx}>
                           <td className="">
                             <b>
@@ -433,16 +393,18 @@ const StudentList = () => {
                                   className="form-check-input"
                                   type="checkbox"
                                   checked={
-                                    selectedIds.find(
-                                      (i) => i === student.userAccountId
-                                    ) || false
+                                   student.isChecked
+                                     || false
                                   }
                                   onChange={(e) => {
-                                    checkSingleItem(
+                                    const result =  CheckSingleItem(
                                       e.target.checked,
                                       student.userAccountId,
-                                      studentList
+                                      studentList,
+                                      "userAccountId"
                                     );
+                                    setObjectArray(result[0]);
+                                    setSelectedIds(result[1]);
                                   }}
                                 />
                               ) : (
@@ -706,7 +668,6 @@ const StudentList = () => {
                                     to="#"
                                     data-id={student.userAccountId}
                                     onClick={() => {
-                                      dispatch(pushId(student.userAccountId));
                                       showSingleDeleteDialog(true)(dispatch);
                                     }}
                                   >

@@ -46,7 +46,7 @@ const SessionClassList = () => {
       if (selectedIds.length === 0) {
         showErrorToast("No Item selected to be deleted")(dispatch);
       } else {
-        deleteSessionClass(selectedIds, activeSession.activeSessionId)(dispatch);
+        deleteSessionClass(selectedIds, activeSession.sessionId)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
         respondToDeleteDialog("")(dispatch);

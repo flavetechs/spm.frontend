@@ -56,7 +56,7 @@ const UnenrolledStudentsList = () => {
   //ENROLL HANDLER
   React.useEffect(() => {
     if (modalResponse === "cancel") {
-      setStateArraysAndIds(false)
+      setStateArraysAndIds(false);
       setEnrollButton(true);
       setShowCheckBoxes(false);
     }
