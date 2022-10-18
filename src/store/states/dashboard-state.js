@@ -3,4 +3,5 @@ export const _state = {
     message: "",
     isSuccessful: false,
     dashboardCountItem: {},
+    studentDashboardCountItem: {},
   };

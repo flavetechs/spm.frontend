@@ -1,16 +1,7 @@
-import React, { useState } from 'react'
-import { Row, Col, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { respondToDeleteDialog, showErrorToast, showHideModal, showSingleDeleteDialog } from '../../../../store/actions/toaster-actions'
+import React from 'react'
+import { Row } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 import Card from '../../../Card'
-import './printTimetable.scss';
-import { NewTimeModal } from './new-time-modal'
-import { NewDayModal } from './new-day-modal'
-import { UpdateDayModal } from './update-day-modal'
-import { UpdateTimeModal } from './update-time-modal'
-import { PeriodActivityModal } from './period-activity-modal'
-import { deleteClassTimetabledays, deleteClassTimetableTime, pushId, removeId } from '../../../../store/actions/timetable-actions'
 import { PrintCSV } from '../../../../utils/export-csv'
 
 
@@ -21,35 +12,14 @@ const PrintTimeTable = () => {
     const { selectedTimetable } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
 
-    //VARIABLE DECLARATION
-    const dispatch = useDispatch();
-    //VARIABLE DECLARATION
-
     React.useEffect(() => {
         PrintCSV("printTable");
-    }, [])
-
-    // (function () {
-    //     var state = document.readyState;
-    //     if (state === 'complete') {
-    //         PrintCSV("printTable");
-    //     }
-    //     // else setTimeout(arguments.callee, 100);
-    // })();
-
-    const tableStyle = {
-        overflowX: 'scroll',
-        border: '1px solid red',
-        width: '500px',
-        float: 'left',
-        height: '500px',
-        position: 'relative'
-    };
+    }, []);
 
     return (
         <>
-            <Row id="printTable">
-                <Col sm="12">
+            <Row id="printTable" style={{width: "100%"}}>
+ 
                     <Card className='mt-0'>
                         <Card.Header className="d-flex justify-content-between flex-wrap">
                             <div className="header-title">
@@ -57,13 +27,13 @@ const PrintTimeTable = () => {
                             </div>
                         </Card.Header>
                         <Card.Body>
-                            <div>
-                                <table className='table-1'>
+                            <div style={{width: "100%"}}>
+                                <table style={{ border: "1px solid rgb(90, 89, 89)", borderCollapse: "collapse", width: "100%", textAlign: "left", }}>
                                     <thead>
                                         <tr>
-                                            <th className='table-th'></th>
+                                            <th className='table-th' style={{ padding: 15, backgroundColor: "rgb(74, 72, 72)", color: "white", textAlign: "left", }}></th>
                                             {selectedTimetable?.timetable?.days?.map((items, index) => (
-                                                <th className="table-th" key={index} >{items.day}
+                                                <th className="table-th" key={index} style={{ padding: 15, backgroundColor: "rgb(74, 72, 72)", color: "white", textAlign: "left", }}>{items.day}
                                                 </th>
                                             ))}
                                         </tr>
@@ -71,12 +41,13 @@ const PrintTimeTable = () => {
                                     <tbody>
                                         {selectedTimetable?.timetable?.times?.map((item, index) => (
                                             <tr key={index}>
-                                                <td className='table-td'>
+                                                <td className='table-td' style={{ padding: 15, border: "1px solid rgb(90, 89, 89)", textAlign: "left", }}>
                                                     {item.period}
                                                 </td>
                                                 {
                                                     item?.periodActivities?.map((activityItem, idx) => {
                                                         return <td
+                                                            style={{ padding: 15, border: "1px solid rgb(90, 89, 89)", textAlign: "left", textAlign: "left", }}
                                                             className='table-td'
                                                             key={idx}
                                                         >
@@ -92,7 +63,7 @@ const PrintTimeTable = () => {
                         </Card.Body>
                     </Card>
 
-                </Col>
+
             </Row>
         </>
     )

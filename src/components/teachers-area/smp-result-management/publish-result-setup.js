@@ -53,7 +53,6 @@ const PublishResult = () => {
     history.push(`${resultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
   }, [activeSession]);
 
-
   return (
     <>
       <div className="col-lg-6 mx-auto">
@@ -92,9 +91,8 @@ const PublishResult = () => {
                       values.sessionClassId,
                       values.sessionTermId
                     )(dispatch);
-                    history.push(
-                      `${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`
-                    );
+                    history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
+                    // history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`);
                   }}
                 >
                   {({
@@ -134,7 +132,7 @@ const PublishResult = () => {
                               // );
                             }}
                           >
-                            <option value="">Select Session</option>
+                            <option value="DEFAULT">Select Session</option>
                             {sessionList.map((item, idx) => (
                               <option
                                 key={idx}
@@ -172,7 +170,7 @@ const PublishResult = () => {
                               // )(dispatch);
                             }}
                           >
-                            <option value="">Select Term</option>
+                            <option value="DEFAULT">Select Term</option>
                             {sessionList
                               ?.find(
                                 (session, idx) =>
@@ -207,12 +205,13 @@ const PublishResult = () => {
                             name="sessionClassId"
                             className="form-select"
                             id="sessionClassId"
+                            value={'DEFAULT'}
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
                               history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
                             }}
                           >
-                            <option value="">Select Class</option>
+                            <option value="DEFAULT">Select Class</option>
                             {termClasses?.map((termClass, idx) => (
                               <option
                                 key={idx}
