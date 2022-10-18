@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Tooltip, OverlayTrigger, Form } from "react-bootstrap";
+import { Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
@@ -17,18 +17,17 @@ import {
   respondToDeleteDialog,
   showErrorToast,
   showHideDialog,
-  showHideModal,
   showSingleDeleteDialog,
 } from "../../../store/actions/toaster-actions";
 import {
   enrollStudent,
   unEnrollStudent,
 } from "../../../store/actions/enrollment-actions";
-import { ClassesModal } from "../smp-enrollment/classesModal";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
 import { ReturnFilteredList } from "../../../utils/tools";
 import { SearchInput } from "../../partials/components/search-input";
+
 const StudentList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
@@ -36,6 +35,7 @@ const StudentList = () => {
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [studentsExcelFile, setStudentsExcelFile] = useState("");
+  const fileInputRef = React.useRef();
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -117,10 +117,6 @@ const StudentList = () => {
     };
   }, [dialogResponse, dispatch]);
 
-  const handleFileUpload = (event) => {
-    setStudentsExcelFile(event.target.files[0]);
-  };
-
   const handleSubmit = () => {
     if (!studentsExcelFile) {
       showErrorToast("Please choose a file")(dispatch);
@@ -128,7 +124,8 @@ const StudentList = () => {
       const params = new FormData();
       params.append("studentsExcelFile", studentsExcelFile);
       uploadStudentsListFile(params)(dispatch);
-      setStudentsExcelFile("")
+      fileInputRef.current.value = "";
+      setStudentsExcelFile("");
     }
   };
 
@@ -190,9 +187,10 @@ const StudentList = () => {
                         type="file"
                         id="file"
                         name="file"
-                        className="form-control "
+                        className="form-control"
                         accept=".xlsx, .xls, .csv"
-                        onChange={handleFileUpload}
+                        onChange={event => setStudentsExcelFile(event.target.files[0])}
+                        ref={fileInputRef}
                       />
                     </div>
                     <div className="mx-md-3 mx-1 d-xl-flex mt-3  mt-md-0">
