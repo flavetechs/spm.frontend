@@ -30,6 +30,7 @@ const StudentAssessmentDetails = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const [filesArray, setFilesArray] = useState([]);
+  const [fileInputList, setFileInputList] = useState([]);
   const state = useSelector((state) => state);
   const {
     studentSingleHomeAssessment,
@@ -128,14 +129,28 @@ const StudentAssessmentDetails = () => {
     }),
     []
   );
-
-  const createFileArray = (event) => {
+ const createFileArray = (event) => {
     const newFiles = event.target.files[0];
     const previousFiles = filesArray.filter((i) => i !== newFiles);
     const files = [...previousFiles, newFiles];
     setFilesArray(files);
   };
 
+  const FileInput = ()=>{
+    return <input
+    type="file"
+    name="files"
+    className="form-control border-secondary mt-2"
+    id="files"
+    onChange={(event) => {
+     createFileArray(event);
+    }}
+  />
+  }
+  const onAddFileBtnClick = event => {
+    setFileInputList(fileInputList.concat(<FileInput key={fileInputList.length} />));
+  };
+console.log("filr",filesArray);
   return (
     <>
       <div>
@@ -366,16 +381,8 @@ const StudentAssessmentDetails = () => {
                           <label className="form-label h6">
                             <b>Upload file:</b>
                           </label>
-                          <input
-                            type="file"
-                            name="files"
-                            className="form-control border-secondary "
-                            id="files"
-                            multiple
-                            onChange={(event) => {
-                              createFileArray(event);
-                            }}
-                          />
+                        <div className="btn btn-primary mx-2" onClick={onAddFileBtnClick}>Add file</div> 
+                        {fileInputList}
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
