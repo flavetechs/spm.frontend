@@ -313,129 +313,131 @@ const Index = (props) => {
             <Row>
                 <Col md="12" lg="12">
                     <Row className="row-cols-1">
-                        {hasAccess(NavPermissions.totalClasses) &&
-                            hasAccess(NavPermissions.usedPins) &&
-                            hasAccess(NavPermissions.totalPins) &&
-                            hasAccess(NavPermissions.totalStaff) &&
-                            hasAccess(NavPermissions.totalSubjects) &&
-                            hasAccess(NavPermissions.unusedPins) && (
+                        <div className="overflow-hidden d-slider1 ">
+                            <Swiper className="p-0 m-0 mb-2 list-inline "
+                                slidesPerView={5}
+                                spaceBetween={32}
+                                navigation={{
+                                    nextEl: '.swiper-button-next',
+                                    prevEl: '.swiper-button-prev'
+                                }}
+                                breakpoints={{
+                                    320: { slidesPerView: 1 },
+                                    550: { slidesPerView: 2 },
+                                    991: { slidesPerView: 3 },
+                                    1400: { slidesPerView: 4 },
+                                    1500: { slidesPerView: 5 },
+                                    1920: { slidesPerView: 6 },
+                                    2040: { slidesPerView: 7 },
+                                    2440: { slidesPerView: 8 }
+                                }} data-aos="fade-up" data-aos-delay="700"
+                            >
+                                {hasAccess(NavPermissions.totalEnrolledStudent) && (
+                                    <SwiperSlide className="card card-slide" >
+                                        <div className="card-body">
+                                            <div className="progress-widget" >
+                                                <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" Linecap='rounded' trailstroke='#ddd' strokewidth="4px" style={{ width: 60, height: 60, }} value={90} id="circle-progress-01" >
+                                                    <svg className="" width="24" height="24px" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p className="mb-2">Students</p>
+                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totaldStudent} duration={3} /></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )}
 
-                                <div className="overflow-hidden d-slider1 ">
-                                    <Swiper className="p-0 m-0 mb-2 list-inline "
-                                        slidesPerView={5}
-                                        spaceBetween={32}
-                                        navigation={{
-                                            nextEl: '.swiper-button-next',
-                                            prevEl: '.swiper-button-prev'
-                                        }}
-                                        breakpoints={{
-                                            320: { slidesPerView: 1 },
-                                            550: { slidesPerView: 2 },
-                                            991: { slidesPerView: 3 },
-                                            1400: { slidesPerView: 4 },
-                                            1500: { slidesPerView: 5 },
-                                            1920: { slidesPerView: 6 },
-                                            2040: { slidesPerView: 7 },
-                                            2440: { slidesPerView: 8 }
-                                        }} data-aos="fade-up" data-aos-delay="700"
-                                    >
-                                        <SwiperSlide className="card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget" >
-                                                    <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" Linecap='rounded' trailstroke='#ddd' strokewidth="4px" style={{ width: 60, height: 60, }} value={90} id="circle-progress-01" >
-                                                        <svg className="" width="24" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Students</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCount?.totaldStudent} duration={3} /></h4>
-                                                    </div>
+                                {hasAccess(NavPermissions.totalStaff) && (
+                                    <SwiperSlide className=" card card-slide" >
+                                        <div className="card-body">
+                                            <div className="progress-widget">
+                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-02" >
+                                                    <svg className="" width="24" height="24" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p className="mb-2">Teachers</p>
+                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalStaff} duration={3} /></h4>
                                                 </div>
                                             </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-02" >
-                                                        <svg className="" width="24" height="24" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Teachers</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalStaff} duration={3} /></h4>
-                                                    </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )}
+                                {hasAccess(NavPermissions.totalSubjects) && (
+                                    <SwiperSlide className=" card card-slide" >
+                                        <div className="card-body">
+                                            <div className="progress-widget">
+                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
+                                                    <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p className="mb-2">Subjects</p>
+                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalSubjects} duration={3} /></h4>
                                                 </div>
                                             </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Subjects</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalSubjects} duration={3} /></h4>
-                                                    </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )}
+                                {hasAccess(NavPermissions.totalClasses) && (
+                                    <SwiperSlide className=" card card-slide" >
+                                        <div className="card-body">
+                                            <div className="progress-widget">
+                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
+                                                    <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p className="mb-2">Total Class</p>
+                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalClass} duration={3} /></h4>
                                                 </div>
                                             </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Total Class</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalClass} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Assessment</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalAssessments} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <SwiperSlide className=" card card-slide" >
-                                            <div className="card-body">
-                                                <div className="progress-widget">
-                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' Linecap='rounded' strokewidth="4px" value={40} style={{ width: 60, height: 60, }} id="circle-progress-06">
-                                                        <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                        </svg>
-                                                    </Circularprogressbar>
-                                                    <div className="progress-detail">
-                                                        <p className="mb-2">Unused Pins</p>
-                                                        <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalUnusedPins} duration={3} /></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SwiperSlide>
-                                        <div className="swiper-button swiper-button-next"></div>
-                                        <div className="swiper-button swiper-button-prev"></div>
-                                    </Swiper>
-                                </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )}
 
-                            )}
-
+                                <SwiperSlide className=" card card-slide" >
+                                    <div className="card-body">
+                                        <div className="progress-widget">
+                                            <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
+                                                <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                </svg>
+                                            </Circularprogressbar>
+                                            <div className="progress-detail">
+                                                <p className="mb-2">Assessment</p>
+                                                <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalAssessments} duration={3} /></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                {hasAccess(NavPermissions.unusedPins) && (
+                                    <SwiperSlide className=" card card-slide" >
+                                        <div className="card-body">
+                                            <div className="progress-widget">
+                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' Linecap='rounded' strokewidth="4px" value={40} style={{ width: 60, height: 60, }} id="circle-progress-06">
+                                                    <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p className="mb-2">Unused Pins</p>
+                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalUnusedPins} duration={3} /></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )}
+                                <div className="swiper-button swiper-button-next"></div>
+                                <div className="swiper-button swiper-button-prev"></div>
+                            </Swiper>
+                        </div>
                     </Row>
                 </Col>
                 <Col md="12" lg="8">

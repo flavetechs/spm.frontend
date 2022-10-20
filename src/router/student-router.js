@@ -20,6 +20,7 @@ import StudentTemplateControl from '../components/students-area/Printing/result-
 import StudentAnnouncement from '../components/students-area/announcement/student-announcement-list';
 import StudentAnnouncementDetails from '../components/students-area/announcement/student-announcement-details';
 import Protected from '../components/spm-auth/protected';
+import PrintTimeTable from '../components/students-area/student-timetable/print-timetable';
 
 
 
@@ -59,6 +60,7 @@ const StudentDashboardRouter = () => {
                     {/* timeTable */}
                     {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
                     <Route path={timeTableLocations.timeTable} exact component={StudentTimeTable} />
+                    <Route path={timeTableLocations.printTimeTable} exact component={PrintTimeTable} />
 
                     {/* printResult */}
                     <Route path={printResultLocations.printResult} exact component={PrintStudentResult} />
