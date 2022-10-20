@@ -65,7 +65,7 @@ const ViewStudentsAssessment = () => {
       )?.comment
     );
   }, [singleHomeAssessment]);
-
+  console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
   return (
     <>
       <div>

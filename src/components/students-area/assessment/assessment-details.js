@@ -101,19 +101,8 @@ const StudentAssessmentDetails = () => {
     setFilesArray(files);
   };
   
-  const FileInput = () => {
-    return <input
-    type="file"
-    name="files"
-    className="form-control border-secondary mt-2"
-    id="files"
-    multiple
-    onChange={(event) => {
-     createFileArray(event);
-    }}
-  />
-  }
 
+console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
   return (
     <>
       <div>
@@ -270,6 +259,7 @@ const StudentAssessmentDetails = () => {
                   </div>
                 </div>
                 <div
+                 className="mx-5"
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
                     __html:
@@ -279,8 +269,9 @@ const StudentAssessmentDetails = () => {
                   }}
                 ></div>
                 <hr />
-                <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
+                <div className="h5 text-secondary fw-bold mb-2 mx-5"> Comment</div>
                 <div
+                className="mx-5"
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
                     __html:
@@ -335,25 +326,28 @@ const StudentAssessmentDetails = () => {
                     errors,
                   }) => (
                     <Form className="mx-auto">
-                      <div className="h5 text-secondary fw-bold mb-2">
+                      <div className="h5 text-secondary fw-bold mb-2 mx-5">
                         {" "}
                         Answer(s)
                       </div>
                       <Row className="d-flex justify-content-center">
-                        <Col md="11" className="form-group h6">
+                        <Col md="11"  className="form-group h6">
                           <label className="form-label h6">
                             <b>Upload file:</b>
                           </label> 
+                          <Col md="6" sm="11">
                          <input
                           type="file"
                           name="files"
-                          className="form-control border-secondary mt-2"
+                          className="form-control border-secondary mt-2 "
                           id="files"
+                          accept=".doc,.docx,.application/pdf,.txt"
                           multiple
                           onChange={(event) => {
                            createFileArray(event);
                           }}
                           />
+                          </Col>
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
