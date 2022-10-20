@@ -30,7 +30,6 @@ const StudentAssessmentDetails = () => {
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
   const [filesArray, setFilesArray] = useState([]);
-  const [fileInputList, setFileInputList] = useState([]);
   const state = useSelector((state) => state);
   const {
     studentSingleHomeAssessment,
@@ -82,42 +81,7 @@ const StudentAssessmentDetails = () => {
           ["image", "link"],
           [
             {
-              color: [
-                "#000000",
-                "#e60000",
-                "#ff9900",
-                "#ffff00",
-                "#008a00",
-                "#0066cc",
-                "#9933ff",
-                "#ffffff",
-                "#facccc",
-                "#ffebcc",
-                "#ffffcc",
-                "#cce8cc",
-                "#cce0f5",
-                "#ebd6ff",
-                "#bbbbbb",
-                "#f06666",
-                "#ffc266",
-                "#ffff66",
-                "#66b966",
-                "#66a3e0",
-                "#c285ff",
-                "#888888",
-                "#a10000",
-                "#b26b00",
-                "#b2b200",
-                "#006100",
-                "#0047b2",
-                "#6b24b2",
-                "#444444",
-                "#5c0000",
-                "#663d00",
-                "#666600",
-                "#003700",
-                "#002966",
-                "#3d1466",
+              color: ["#000000","#e60000","#ff9900","#ffff00","#008a00","#0066cc","#9933ff","#ffffff","#facccc","#ffebcc","#ffffcc","#cce8cc","#cce0f5","#ebd6ff","#bbbbbb","#f06666","#ffc266","#ffff66","#66b966","#66a3e0","#c285ff","#888888","#a10000","#b26b00","#b2b200","#006100","#0047b2","#6b24b2","#444444","#5c0000","#663d00","#666600","#003700","#002966","#3d1466",
               ],
             },
           ],
@@ -142,15 +106,13 @@ const StudentAssessmentDetails = () => {
     name="files"
     className="form-control border-secondary mt-2"
     id="files"
+    multiple
     onChange={(event) => {
      createFileArray(event);
     }}
   />
   }
-  const onAddFileBtnClick = event => {
-    setFileInputList(fileInputList.concat(<FileInput key={fileInputList.length} />));
-  };
-console.log("filr",filesArray);
+
   return (
     <>
       <div>
@@ -380,9 +342,17 @@ console.log("filr",filesArray);
                         <Col md="11" className="form-group h6">
                           <label className="form-label h6">
                             <b>Upload file:</b>
-                          </label>
-                        <div className="btn btn-primary mx-2" onClick={onAddFileBtnClick}>Add file</div> 
-                        {fileInputList}
+                          </label> 
+                         <input
+                          type="file"
+                          name="files"
+                          className="form-control border-secondary mt-2"
+                          id="files"
+                          multiple
+                          onChange={(event) => {
+                           createFileArray(event);
+                          }}
+                          />
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
