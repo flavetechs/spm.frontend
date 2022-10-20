@@ -65,7 +65,7 @@ const ViewStudentsAssessment = () => {
       )?.comment
     );
   }, [singleHomeAssessment]);
-  console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
+ 
   return (
     <>
       <div>
@@ -243,6 +243,7 @@ const ViewStudentsAssessment = () => {
                 ></div>
                 <Row>
                   <Col md="4">
+                  {studentSingleHomeAssessment?.files.map((file)=>(
                     <div className="card iq-file-manager">
                       <div className="card-body card-thumbnail shadow">
                         <span
@@ -254,25 +255,40 @@ const ViewStudentsAssessment = () => {
                           data-bs-toggle="modal"
                           data-bs-target="#file-documents"
                         >
-                          <div className="p-2 d-flex justify-content-center align-items-center iq-document rounded bg-body">
+                           <a href={file} className="p-2 d-flex justify-content-center align-items-center iq-document rounded bg-body">
                             <img
-                              src={//file.type == "application/pdf"?
+                              src={
+                                file.slice(file.length - 3) === "pdf"?
                                 "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/pdf.svg"
-                              //:file.type == "img/png"||file.type == "png" ||file.type == "png" ? {File.imglink}
-                              //:file.type == "application/vnd.ms-excel" ? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/excel.svg"
-                              // :file.word == "word" ? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/word.svg"
-                            
-                            }
+                                : file.slice(file.length - 3) === "doc"? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/word.svg"
+                                :file.slice(file.length - 4) === "docx" ? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/word.svg"
+                                :file.slice(file.length - 3) === "txt" ? "http://flavetech-001-site1.etempurl.com/ProfileImage/6f43a5f9-154c-4570-b6e9-fba8ea6c5815.png"
+                                :''
+                              }
                               className="img-fluid"
                               alt="pdf.svg"
                               loading="lazy"
                             />
-                          </div>
+                          </a>
                         </span>
                         <div className="mt-2">
-                          <div >
-                            <span href=""><svg onClick={()=>{}} className="mx-1" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" fillRule="evenodd" clipRule="evenodd"><path d="M23 24v-20h-8v2h6v16h-18v-16h6v-2h-8v20h22zm-12-13h-4l5 6 5-6h-4v-11h-2v11z"/></svg>Download </span>
-
+                          <div>
+                            <span href="">
+                              <svg
+                                onClick={() => {}}
+                                style={{cursor:'pointer'}}
+                                className="mx-1"
+                                width="24"
+                                height="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="#4c67ff"
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                              >
+                                <path d="M23 24v-20h-8v2h6v16h-18v-16h6v-2h-8v20h22zm-12-13h-4l5 6 5-6h-4v-11h-2v11z" />
+                              </svg>
+                              Download
+                            </span>
                           </div>
                           <div className="d-flex align-items-center mb-2 text-primary gap-2">
                             <svg
@@ -294,72 +310,15 @@ const ViewStudentsAssessment = () => {
                                 fill="currentColor"
                               ></path>
                             </svg>
-                            <p className=" mb-0 text-dark">Doc-123472578.pdf</p>
-                          </div><div className="d-flex justify-content-end">5mb</div> 
+                            <p className=" mb-0 text-dark">{file.split("/")[4]}</p>
+                          </div>
+                          {/* <div className="d-flex justify-content-end">5mb</div> */}
                         </div>
                       </div>
-                      
-                    </div>{" "}
+                    </div>
+                    ))}
                   </Col>
-                  <Col md="4">
-                    <div className="card iq-file-manager">
-                      <div className="card-body card-thumbnail shadow">
-                        <span
-                          href="#"
-                          data-title="PDF"
-                          data-load-file="file"
-                          data-load-target="#resolte-contaniner"
-                          data-url="../file-manager/assets/images/doc-files/demo.pdf"
-                          data-bs-toggle="modal"
-                          data-bs-target="#file-documents"
-                        >
-                          <div className="p-2 d-flex justify-content-center align-items-center iq-document rounded bg-body">
-                            <img
-                              src={//file.type == "application/pdf"?
-                                "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/pdf.svg"
-                              //:file.type == "img/png"||file.type == "png" ||file.type == "png" ? {File.imglink}
-                              //:file.type == "application/vnd.ms-excel" ? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/excel.svg"
-                              // :file.word == "word" ? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/word.svg"
-                            
-                            }
-                              className="img-fluid"
-                              alt="pdf.svg"
-                              loading="lazy"
-                            />
-                          </div>
-                        </span>
-                        <div className="mt-2">
-                          <div >
-                            <span href=""><svg onClick={()=>{}} className="mx-1" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" fillRule="evenodd" clipRule="evenodd"><path d="M23 24v-20h-8v2h6v16h-18v-16h6v-2h-8v20h22zm-12-13h-4l5 6 5-6h-4v-11h-2v11z"/></svg>Download </span>
-
-                          </div>
-                          <div className="d-flex align-items-center mb-2 text-primary gap-2">
-                            <svg
-                              className="icon-24"
-                              width="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                opacity="0.4"
-                                d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                                fill="currentColor"
-                              ></path>
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                                fill="currentColor"
-                              ></path>
-                            </svg>
-                            <p className=" mb-0 text-dark">Doc-123472578.pdf</p>
-                          </div><div className="d-flex justify-content-end">5mb</div> 
-                        </div>
-                      </div>
-                      
-                    </div>{" "}
-                  </Col>
+                  
                 </Row>
                 <Card className="shadow-none bg-light border border-secondary my-3 p-4">
                   <div

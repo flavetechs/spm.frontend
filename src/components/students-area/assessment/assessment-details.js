@@ -30,7 +30,7 @@ const StudentAssessmentDetails = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [filesArray, setFilesArray] = useState([]);
+  const [filesArray, setFilesArray] = useState(null);
   const state = useSelector((state) => state);
   const {
     studentSingleHomeAssessment,
@@ -55,7 +55,7 @@ const StudentAssessmentDetails = () => {
   React.useEffect(() => {
     setContent(
       homeAssessmentFeedBackIdQuery !== "null" &&
-      studentSingleHomeAssessment?.content
+        studentSingleHomeAssessment?.content
     );
   }, [studentSingleHomeAssessment, homeAssessmentFeedBackIdQuery]);
 
@@ -66,43 +66,9 @@ const StudentAssessmentDetails = () => {
   }, [createSuccessful, history, studentSingleHomeAssessment?.status]);
 
   const [content, setContent] = useState("");
-  const textEditorModules = useMemo(
-    () => ({
-      toolbar: {
-        container: [
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          ["bold", "italic", "underline", "strike"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          [{ align: [] }],
-          ["image", "link"],
-          [
-            {
-              color: ["#000000","#e60000","#ff9900","#ffff00","#008a00","#0066cc","#9933ff","#ffffff","#facccc","#ffebcc","#ffffcc","#cce8cc","#cce0f5","#ebd6ff","#bbbbbb","#f06666","#ffc266","#ffff66","#66b966","#66a3e0","#c285ff","#888888","#a10000","#b26b00","#b2b200","#006100","#0047b2","#6b24b2","#444444","#5c0000","#663d00","#666600","#003700","#002966","#3d1466",
-              ],
-            },
-          ],
-        ],
-        //   handlers: {
-        //     image: imageHandler
-        //   }
-      },
-    }),
-    []
-  );
-  const createFileArray = (event) => {
-    const newFiles = event.target.files[0];
-    const previousFiles = filesArray.filter((i) => i !== newFiles);
-    const files = [...previousFiles, newFiles];
-    setFilesArray(files);
-  };
-  
+  const textEditorModules = useMemo(() => ({ toolbar: TextEditorToolBar }), []);
 
-console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
+
   return (
     <>
       <div>
@@ -259,7 +225,7 @@ console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
                   </div>
                 </div>
                 <div
-                 className="mx-5"
+                  className="mx-5"
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
                     __html:
@@ -269,9 +235,12 @@ console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
                   }}
                 ></div>
                 <hr />
-                <div className="h5 text-secondary fw-bold mb-2 mx-5"> Comment</div>
+                <div className="h5 text-secondary fw-bold mb-2 mx-5">
+                  {" "}
+                  Comment
+                </div>
                 <div
-                className="mx-5"
+                  className="mx-5"
                   style={{ minHeight: "25vh" }}
                   dangerouslySetInnerHTML={{
                     __html:
@@ -331,22 +300,100 @@ console.log("studentSingleHomeAssessment",studentSingleHomeAssessment);
                         Answer(s)
                       </div>
                       <Row className="d-flex justify-content-center">
-                        <Col md="11"  className="form-group h6">
+                        <Col md="11" className="form-group h6">
                           <label className="form-label h6">
-                            <b>Upload file:</b>
-                          </label> 
+                            <b>Attachments:</b>
+                          </label>
+                          <Row>
+                  <Col md="3">
+                    {studentSingleHomeAssessment?.files.map((file)=>(
+                    <div className="card iq-file-manager">
+                      <div className="card-body card-thumbnail shadow">
+                        <span
+                          href="#"
+                          data-title="PDF"
+                          data-load-file="file"
+                          data-load-target="#resolte-contaniner"
+                          data-url="../file-manager/assets/images/doc-files/demo.pdf"
+                          data-bs-toggle="modal"
+                          data-bs-target="#file-documents"
+                        > 
+                          <a href={file} className="p-2 d-flex justify-content-center align-items-center iq-document rounded bg-body">
+                            <img
+                              src={
+                                file.slice(file.length - 3) === "pdf"?
+                                "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/pdf.svg"
+                                : file.slice(file.length - 3) === "doc"? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/word.svg"
+                                :file.slice(file.length - 4) === "docx" ? "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/word.svg"
+                                :file.slice(file.length - 3) === "txt" ? "http://flavetech-001-site1.etempurl.com/ProfileImage/6f43a5f9-154c-4570-b6e9-fba8ea6c5815.png"
+                                :''
+                              }
+                              className="img-fluid"
+                              alt="click to view"
+                              loading="lazy"
+                            />
+                          </a>
+                        </span>
+                        <div className="mt-2">
+                          <div>
+                            <span href="">
+                              <svg
+                                onClick={() => {}}
+                                style={{cursor:'pointer'}}
+                                className="mx-1 "
+                                width="24"
+                                height="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="#4c67ff"
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                              >
+                                <path d="M23 24v-20h-8v2h6v16h-18v-16h6v-2h-8v20h22zm-12-13h-4l5 6 5-6h-4v-11h-2v11z" />
+                              </svg>
+                           Download
+                            </span>
+                          </div>
+                          <div className="d-flex align-items-center mb-2 text-primary gap-2">
+                            <svg
+                              className="icon-24"
+                              width="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                opacity="0.4"
+                                d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
+                                fill="currentColor"
+                              ></path>
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
+                                fill="currentColor"
+                              ></path>
+                            </svg>
+                            <p className=" mb-0 text-dark">{file.split("/")[4]}</p>
+                          </div>
+                          {/* <div className="d-flex justify-content-end">5mb</div> */}
+                        </div>
+                      </div>
+                    </div>
+                    ))}
+                  </Col>
+                </Row>
                           <Col md="6" sm="11">
-                         <input
-                          type="file"
-                          name="files"
-                          className="form-control border-secondary mt-2 "
-                          id="files"
-                          accept=".doc,.docx,.application/pdf,.txt"
-                          multiple
-                          onChange={(event) => {
-                           createFileArray(event);
-                          }}
-                          />
+                            <input
+                              type="file"
+                              name="files"
+                              accept=".doc,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,.txt,.pdf,application/pdf,"
+                              className="form-control border-secondary mt-2"
+                              id="files"
+                              multiple
+                              onChange={(event) => {
+                                setFilesArray(event.target.files[0]);
+                              }}
+                            />
                           </Col>
                         </Col>
                         <Col md="11">
