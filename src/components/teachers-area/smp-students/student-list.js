@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
 import {
+  respondDialog,
   respondToDeleteDialog,
   showErrorToast,
   showHideDialog,
@@ -39,7 +40,7 @@ const StudentList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentList, filterProps } = state.student;
-  const { deleteDialogResponse } = state.alert;
+  const { deleteDialogResponse, modalResponse, dialogResponse} = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
