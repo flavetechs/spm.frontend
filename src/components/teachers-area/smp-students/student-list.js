@@ -10,15 +10,21 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
 import {
+  respondDialog,
   respondToDeleteDialog,
   showErrorToast,
   showHideDialog,
   showSingleDeleteDialog,
 } from "../../../store/actions/toaster-actions";
+import {
+  enrollStudent,
+  unEnrollStudent,
+} from "../../../store/actions/enrollment-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
 import { CheckMultiple, CheckSingleItem, ReturnFilteredList } from "../../../utils/tools";
 import { SearchInput } from "../../partials/components/search-input";
+
 const StudentList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
@@ -28,12 +34,13 @@ const StudentList = () => {
   const [objectArray, setObjectArray] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [studentsExcelFile, setStudentsExcelFile] = useState("");
+  const fileInputRef = React.useRef();
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentList, filterProps } = state.student;
-  const { deleteDialogResponse } = state.alert;
+  const { deleteDialogResponse, modalResponse, dialogResponse} = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -77,9 +84,26 @@ const StudentList = () => {
   //DELETE HANDLER
 
 
-  const handleFileUpload = (event) => {
-    setStudentsExcelFile(event.target.files[0]);
-  };
+  const filteredStudentList = ReturnFilteredList(studentList, searchQuery,
+    ["firstName", "lastName", "registrationNumber", "sessionClass"]
+  );
+
+  React.useEffect(() => {
+    if (modalResponse === "continue") {
+      enrollStudent(selectedIds)(dispatch);
+    }
+  }, [modalResponse, dispatch]);
+
+  React.useEffect(() => {
+    if (dialogResponse === "continue") {
+      unEnrollStudent(selectedIds)(dispatch);
+      showHideDialog(false, null)(dispatch);
+      respondDialog("")(dispatch);
+    }
+    return () => {
+      respondDialog("")(dispatch);
+    };
+  }, [dialogResponse, dispatch]);
 
   const handleSubmit = () => {
     if (!studentsExcelFile) {
@@ -88,7 +112,8 @@ const StudentList = () => {
       const params = new FormData();
       params.append("studentsExcelFile", studentsExcelFile);
       uploadStudentsListFile(params)(dispatch);
-      setStudentsExcelFile("")
+      fileInputRef.current.value = "";
+      setStudentsExcelFile("");
     }
   };
 
@@ -150,9 +175,10 @@ const StudentList = () => {
                         type="file"
                         id="file"
                         name="file"
-                        className="form-control "
+                        className="form-control"
                         accept=".xlsx, .xls, .csv"
-                        onChange={handleFileUpload}
+                        onChange={event => setStudentsExcelFile(event.target.files[0])}
+                        ref={fileInputRef}
                       />
                     </div>
                     <div className="mx-md-3 mx-1 d-xl-flex mt-3  mt-md-0">

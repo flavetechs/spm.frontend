@@ -21,6 +21,7 @@ import "react-quill/dist/quill.snow.css";
 import { Field, Formik } from "formik";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import { assessmentLocations } from "../../../router/students-path-locations";
+import { TextEditorToolBar } from "../../../utils/tools";
 
 const StudentAssessmentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -54,7 +55,7 @@ const StudentAssessmentDetails = () => {
   React.useEffect(() => {
     setContent(
       homeAssessmentFeedBackIdQuery !== "null" &&
-        studentSingleHomeAssessment?.content
+      studentSingleHomeAssessment?.content
     );
   }, [studentSingleHomeAssessment, homeAssessmentFeedBackIdQuery]);
 
@@ -93,14 +94,14 @@ const StudentAssessmentDetails = () => {
     }),
     []
   );
- const createFileArray = (event) => {
+  const createFileArray = (event) => {
     const newFiles = event.target.files[0];
     const previousFiles = filesArray.filter((i) => i !== newFiles);
     const files = [...previousFiles, newFiles];
     setFilesArray(files);
   };
-
-  const FileInput = ()=>{
+  
+  const FileInput = () => {
     return <input
     type="file"
     name="files"

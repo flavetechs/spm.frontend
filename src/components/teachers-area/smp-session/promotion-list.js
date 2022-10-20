@@ -24,8 +24,8 @@ const PromotionSetup = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
-  const [classToPromoteTo, setClassToPromoteTo] = useState({ sessionClassId: "", className: "" });
-  const [classToPromote, setClassToPromote] = useState("");
+  const promIntialState = { fromSessionClassId: "", fromClassName: "", passedStudents: "", failedStudents: "", toSessionClassId: "", toClassName: "" };
+  const [promotion, setPromotion] = useState(promIntialState);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -47,20 +47,19 @@ const PromotionSetup = () => {
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      if (!classToPromoteTo.sessionClassId) {
-        showErrorToast("No class selected to be promoted")(dispatch);
+      if (!promotion.toSessionClassId) {
+        showErrorToast("No class selected")(dispatch);
       } else {
-        promoteStudent(classToPromote, classToPromoteTo.sessionClassId)(dispatch);
+        promoteStudent(promotion)(dispatch);
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
-        setClassToPromoteTo({ sessionClassId: "", className: "" });
-        setClassToPromote("");
+        setPromotion(promIntialState)
+      }
+      return () => {
+        respondDialog("")(dispatch)
       }
     }
-    return () => {
-      respondDialog("")(dispatch);
-    };
-  }, [dialogResponse, classToPromote, classToPromoteTo.sessionClassId, dispatch]);
+  }, [dialogResponse, promotion.toSessionClassId, dispatch]);
 
   return (
     <>
@@ -74,7 +73,7 @@ const PromotionSetup = () => {
                     <h4 className="card-title">Promotion Management</h4>
                   </div>
                   <div className="col col-md-6 d-md-flex justify-content-end">
-                    {resultSettingsItem.promoteAll ?
+                    {resultSettingsItem?.promoteAll ?
                       <h4 >
                         <Badge bg="light text-dark">All students will be promoted</Badge>
                       </h4>
@@ -186,8 +185,15 @@ const PromotionSetup = () => {
                                 name="classId"
                                 id="form"
                                 disabled={item.isPromoted}
-                                onChange={(e) =>
-                                  setClassToPromoteTo({ sessionClassId: e.target.value, className: e.target.selectedOptions[0].dataset.tag })
+                                onChange={(e) => {
+                                  promotion.fromSessionClassId = item.sessionClassId;
+                                  promotion.fromClassName = item.sessionClassName;
+                                  promotion.passedStudents = item.passedStudentIds;
+                                  promotion.failedStudents = item.failedStudentIds;
+                                  promotion.toSessionClassId = e.target.value;
+                                  promotion.toClassName = e.target.selectedOptions[0].dataset.tag
+                                }
+                                  // setPromotion(promotion)
                                 }
                               >
                                 <option defaultValue={""}>
@@ -226,10 +232,10 @@ const PromotionSetup = () => {
                                     data-original-title="Details"
                                     to="#"
                                     onClick={() => {
-                                      setClassToPromote(item.sessionClassId);
+
                                       const message =
-                                        classToPromoteTo.className !== ""
-                                        && `Are you sure you want to promote ${item.sessionClassName} students to ${classToPromoteTo.className}?`
+                                        promotion.className !== ""
+                                        && `Are you sure you want to promote ${item.sessionClassName} students to ${promotion.toClassName}?`
                                       showHideDialog(true, message)(dispatch);
                                     }}
                                   >

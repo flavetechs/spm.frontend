@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Row, Col, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { respondToDeleteDialog, showErrorToast, showHideModal, showSingleDeleteDialog } from '../../../../store/actions/toaster-actions'
 import Card from '../../../Card'
 import './timetable.scss';
@@ -13,6 +13,8 @@ import { PeriodActivityModal } from './period-activity-modal'
 import { deleteClassTimetabledays, deleteClassTimetableTime, pushId, removeId } from '../../../../store/actions/timetable-actions'
 import { PrintCSV } from '../../../../utils/export-csv'
 import { hasAccess, NavPermissions } from '../../../../utils/permissions'
+import { classLocations } from '../../../../router/spm-path-locations'
+import PrintTimeTable from './printTimetable'
 
 
 const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
@@ -25,6 +27,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
+    let history = useHistory();
     const [selectedActivityId, setSelectedActivityId] = useState("");
     const [deleteIds, setDeleteIds] = useState('');
     const [modal, setModal] = useState('');
@@ -33,7 +36,15 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
     const [timetableDayId, setTimetableDayId] = useState("");
     const [currentPeriod, setCurrentPeriod] = useState("");
     const [timetableTimeId, setTimetableTimeId] = useState("");
+    const [showPrintTimetable, setShowPrintTimetable] = useState(true);
+    const [selectedTimetableAsProp, setSelectedTimetableAsProp] = useState(selectedTimetable);
+
     //VARIABLE DECLARATION
+
+    React.useEffect(() => {
+        setSelectedTimetableAsProp(selectedTimetable)
+    }, []);
+    // console.log('selectedTimetable now', newSelectedTimetable);
 
     //DELETE HANDLER
     React.useEffect(() => {
@@ -59,6 +70,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
         };
     }, [deleteDialogResponse, dispatch]);
     //DELETE HANDLER
+
 
     return (
         <>
@@ -120,7 +132,10 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                     </Button> {" "}
 
                                     <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
-                                        onClick={() => PrintCSV("class-timetable")}
+                                        // onClick={() => PrintCSV("class-timetable")}
+                                        onClick={() => {
+                                            history.push(classLocations.printTimeTable)
+                                        }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">
                                             <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
@@ -304,7 +319,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                                     :
                                                     item?.periodActivities?.map((activityItem, idx) => {
                                                         return <td
-                                                        key={idx}
+                                                            key={idx}
                                                         >
                                                             {activityItem.activity}
                                                         </td>
@@ -316,6 +331,11 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                 </table>
                             </div>
                         </Card.Body>
+                        {/* <Card.Footer>
+                            <PrintTimeTable
+                                selectedTimetableAsProp={selectedTimetableAsProp}
+                            />
+                        </Card.Footer> */}
                     </Card>
 
                 </Col>
