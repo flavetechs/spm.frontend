@@ -1,3 +1,4 @@
+import { propTypes } from "react-bootstrap/esm/Image"
 import axiosInstance from "../../axios/axiosInstance"
 import { actions } from "../action-types/promotion-action-types"
 import { showErrorToast, showSuccessToast } from "./toaster-actions"
@@ -86,15 +87,17 @@ export const getAllPromotionList = () => (dispatch) => {
 }
 
 
-export const promoteStudent = (classToBePromoted, classToPromoteTo) => (dispatch) => {
+export const promoteStudent = (promotion) => (dispatch) => {
 
     dispatch({
         type: actions.PROMOTE_STUDENT_LOADING
     });
 
     const payload = {
-        classToBePromoted,
-        classToPromoteTo
+        classToBePromoted: promotion.fromSessionClassId,
+        classToPromoteTo: promotion.toSessionClassId,
+        passedStudents: promotion.passedStudents,
+        failedStudents: promotion.failedStudents
     }
     axiosInstance.post('/promotion/api/v1/promote/class', payload)
         .then((res) => {
