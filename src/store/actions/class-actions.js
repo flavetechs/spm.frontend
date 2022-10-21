@@ -915,7 +915,7 @@ export const getLessonNoteContent = (formData) => (dispatch) => {
     dispatch({
         type: actions.FETCH_LESSON_NOTE_CONTENT_LOADING,
     });
-console.log("formData",formData);
+
     axiosInstance.post('/homeassessment/api/v1/get/lessonnote-content',formData)
         .then((res) => {
             dispatch({
@@ -1483,7 +1483,12 @@ export const getSubjectTeacher = (subjectId) => (dispatch) => {
             })
         });
 }
-
+export const resetLessonNoteContentState = () => (dispatch) => {
+    dispatch({
+        type: actions.RESET_LESSON_NOTE_CONTENT_STATE,
+        payload: {},
+    });
+}
 
 //LESSON NOTE ACTION
 

@@ -14,10 +14,11 @@ import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { showErrorToast } from "../../../../store/actions/toaster-actions";
+import { respondDialog, showErrorToast, showHideDialog } from "../../../../store/actions/toaster-actions";
 import {
   getLessonNoteContent,
   getSingleLessonNotes,
+  resetLessonNoteContentState,
   sendForApproval,
   updateLessonNotes,
 } from "../../../../store/actions/class-actions";
@@ -31,10 +32,11 @@ const EditLessonNote = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [fileContent, setFileContent] = useState({});
+  const [fileContent, setFileContent] = useState(null);
   const state = useSelector((state) => state);
   const { createSuccessful, singleLessonNotes, lessonNoteContent } =
     state.class;
+  const { dialogResponse } = state.alert;
 
   //VALIDATION
   const validation = Yup.object().shape({
@@ -45,6 +47,7 @@ const EditLessonNote = () => {
   //const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     createSuccessful && history.goBack();
+    resetLessonNoteContentState()(dispatch)
   }, [createSuccessful, history]);
 
   useEffect(() => {
@@ -55,16 +58,30 @@ const EditLessonNote = () => {
 
   const [content, setContent] = useState("");
   useEffect(() => {
-    if(lessonNoteContent) {
+    if(Object.keys(lessonNoteContent).length !== 0) {
       setContent(lessonNoteContent);
     }else{
     setContent(singleLessonNotes?.noteContent);
     }
   }, [singleLessonNotes,lessonNoteContent]);
+
+  
+  useEffect(() => {
+    if (dialogResponse === "continue") {
+      const params = new FormData();
+      params.append("file", fileContent);
+     getLessonNoteContent(params)(dispatch);
+     } else if(dialogResponse === "cancel"){
+        showHideDialog(false, null)(dispatch);
+        respondDialog("")(dispatch);
+      }
+      return () => {
+        respondDialog("")(dispatch)
+      }
+  }, [dialogResponse,fileContent, dispatch]);
+
   const textEditorModules = useMemo(() => ({ toolbar: TextEditorToolBar }), []);
 
-console.log("lessonNoteContent",lessonNoteContent);
-console.log("fileContent",fileContent);
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -146,9 +163,15 @@ console.log("fileContent",fileContent);
                               />
                             </Col>
                             <div className="btn btn-success mx-2  mt-3 mt-md-0" onClick={()=>{
-                               const params = new FormData();
-                               params.append("file", fileContent);
-                              getLessonNoteContent(params)(dispatch)}}>
+                            if(content === ""){
+                              const params = new FormData();
+                             params.append("file", fileContent);
+                            getLessonNoteContent(params)(dispatch);
+                           }
+                            else{
+                            fileContent && showHideDialog(true, "Note that uploading a lesson note will overwrite current content in the editor, do you want to continue?")(dispatch);
+                            }
+                           }}>
                               Upload
                             </div>
                           </div>
@@ -227,6 +250,7 @@ console.log("fileContent",fileContent);
                             variant="btn btn-danger"
                             onClick={() => {
                               history.goBack();
+                              resetLessonNoteContentState()(dispatch)
                             }}
                           >
                             Cancel
