@@ -27,7 +27,7 @@ const PrintTimeTable = () => {
                             </div>
                         </Card.Header>
                         <Card.Body>
-                            <div style={{width: "100%"}}>
+                            <div style={{width: "100%", overflowX : 'auto'}}>
                                 <table style={{ border: "1px solid rgb(90, 89, 89)", borderCollapse: "collapse", width: "100%", textAlign: "left", }}>
                                     <thead>
                                         <tr>

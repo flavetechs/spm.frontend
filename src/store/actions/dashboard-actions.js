@@ -14,7 +14,7 @@ export async function getAllDashboardCount () {
 export const getAllStudentDashboardCount = async () => {
    axiosInstance.get(`/dashboard/api/v1/get-student/dashboard-count`)
       .then(async (res) => {
-         //sessionStorage.setItem("studentDashboardData", JSON.stringify(res?.data?.result));
+         localStorage.setItem('studentDashboardData', JSON.stringify(res?.data?.result));
          return res?.data?.result;
 
       })
