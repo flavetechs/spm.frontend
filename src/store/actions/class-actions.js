@@ -911,6 +911,26 @@ export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
         });
 }
 
+export const getLessonNoteContent = (formData) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_LESSON_NOTE_CONTENT_LOADING,
+    });
+console.log("formData",formData);
+    axiosInstance.post('/homeassessment/api/v1/get/lessonnote-content',formData)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_LESSON_NOTE_CONTENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_LESSON_NOTE_CONTENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
 export const getNotesByStatus = (subjectId, status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STATUS_LOADING,

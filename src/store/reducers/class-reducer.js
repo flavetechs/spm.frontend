@@ -996,6 +996,26 @@ export const classReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.FETCH_LESSON_NOTE_CONTENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_LESSON_NOTE_CONTENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        lessonNoteContent: payload,
+      };
+    }
+    case actions.FETCH_LESSON_NOTE_CONTENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
     case actions.FETCH_CLASS_NOTES_LOADING: {
       return {
         ...state,
