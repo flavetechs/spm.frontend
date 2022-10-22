@@ -616,6 +616,13 @@ export const classReducer = (state = _state, { type, payload }) => {
         };
       }
 
+      case actions.RESET_LESSON_NOTE_CONTENT_STATE: {
+        return {
+          ...state,
+          lessonNoteContent: payload,
+        };
+      }
+
       case actions.RESET_CLASS_REGISTER_STATE: {
         return {
           ...state,
@@ -993,6 +1000,26 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         lessonNotes: [],
+      };
+    }
+
+    case actions.FETCH_LESSON_NOTE_CONTENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_LESSON_NOTE_CONTENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        lessonNoteContent: payload,
+      };
+    }
+    case actions.FETCH_LESSON_NOTE_CONTENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
       };
     }
 

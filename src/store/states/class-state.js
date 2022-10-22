@@ -22,6 +22,7 @@ export const _state = {
   sendApprovalSuccessful:false,
 
   lessonNotes: [],
+  lessonNoteContent:{},
   unapprovedLessonNotes:[],
   singleLessonNotes:null,
   singleStudentNotes: null,

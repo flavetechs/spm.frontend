@@ -232,7 +232,6 @@ const PromotionSetup = () => {
                                     data-original-title="Details"
                                     to="#"
                                     onClick={() => {
-
                                       const message =
                                         promotion.className !== ""
                                         && `Are you sure you want to promote ${item.sessionClassName} students to ${promotion.toClassName}?`
