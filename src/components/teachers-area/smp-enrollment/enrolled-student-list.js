@@ -12,10 +12,7 @@ import {
 } from "../../../store/actions/toaster-actions";
 import {
   getAllEnrolledStudents,
-  pushId,
-  removeId,
   resetEnrolledStudentsState,
-  returnListEnrolled,
   unEnrollStudent,
 } from "../../../store/actions/enrollment-actions";
 import {
@@ -78,7 +75,7 @@ const EnrolledStudents = () => {
   const setStateArraysAndIds = (checked) => {
     const result = CheckMultiple(checked, objectArray, "studentContactId");
     setObjectArray(result[0]);
-    setSelectedIds(result[1]);
+    setSelectedIds([...new Set(result[1])]);
   }
   //UNENROLL HANDLER
   React.useEffect(() => {
@@ -103,7 +100,7 @@ const EnrolledStudents = () => {
     };
   }, [dialogResponse,dispatch,sessionClassIdQuery]);
   //UNENROLL HANDLER
-
+console.log("selectedIds",selectedIds);
   return (
     <>
       <div>
@@ -346,11 +343,12 @@ const EnrolledStudents = () => {
                                     onChange={(e) => {
                                       const result = CheckSingleItem(
                                         e.target.checked,
+                                        selectedIds,
                                         student.studentContactId,
                                         enrolledStudents,"studentContactId"
                                       );
                                       setObjectArray(result[0]);
-                                      setSelectedIds(result[1]);
+                                      setSelectedIds([...new Set(result[1])]);
                                     }}
                                   />
                                 ) : (
@@ -491,9 +489,7 @@ const EnrolledStudents = () => {
                                       title=""
                                       data-original-title="Delete"
                                       onClick={() => {
-                                        dispatch(
-                                          pushId(student.studentContactId)
-                                        );
+                                      setSelectedIds([...new Set([...selectedIds,student.studentContactId])]);
                                         const message =
                                           selectedIds.length === 1
                                             ? `Are you sure to unenroll student ?`

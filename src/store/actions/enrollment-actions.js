@@ -63,7 +63,7 @@ export const enrollStudent = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             getAllStudents(1)(dispatch);
-            getAllUnenrolledStudents()(dispatch);
+            getAllUnenrolledStudents(1)(dispatch);
             showHideModal(false)(dispatch)
             respondModal('cancel')(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)

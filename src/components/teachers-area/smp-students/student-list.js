@@ -57,7 +57,7 @@ const StudentList = () => {
   const setStateArraysAndIds = (checked) => {
     const result = CheckMultiple(checked, objectArray, "userAccountId");
     setObjectArray(result[0]);
-    setSelectedIds(result[1]);
+    setSelectedIds([...new Set(result[1])]);
   }
   //DELETE HANDLER
   React.useEffect(() => {
@@ -116,7 +116,7 @@ const StudentList = () => {
       setStudentsExcelFile("");
     }
   };
-
+  console.log("selectedIds",selectedIds);
   return (
     <>
       <div>
@@ -425,12 +425,13 @@ const StudentList = () => {
                                   onChange={(e) => {
                                     const result =  CheckSingleItem(
                                       e.target.checked,
+                                      selectedIds,
                                       student.userAccountId,
                                       studentList,
                                       "userAccountId"
                                     );
                                     setObjectArray(result[0]);
-                                    setSelectedIds(result[1]);
+                                    setSelectedIds([...new Set(result[1])]);
                                   }}
                                 />
                               ) : (
@@ -694,6 +695,7 @@ const StudentList = () => {
                                     to="#"
                                     data-id={student.userAccountId}
                                     onClick={() => {
+                                      setSelectedIds([...new Set([...selectedIds,student.userAccountId])]);
                                       showSingleDeleteDialog(true)(dispatch);
                                     }}
                                   >

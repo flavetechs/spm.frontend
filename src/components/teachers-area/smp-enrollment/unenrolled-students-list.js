@@ -50,7 +50,7 @@ const UnenrolledStudentsList = () => {
   const setStateArraysAndIds = (checked) => {
     const result = CheckMultiple(checked, objectArray, "studentContactId");
     setObjectArray(result[0]);
-    setSelectedIds(result[1]);
+    setSelectedIds([...new Set(result[1])]);
   }
 
   //ENROLL HANDLER
@@ -65,10 +65,7 @@ const UnenrolledStudentsList = () => {
     }
   }, [modalResponse, dispatch, selectedIds]);
   //ENROLL HANDLER
-
-
-
-
+  console.log("selectedIds",selectedIds);
   return (
     <>
       <div>
@@ -80,7 +77,7 @@ const UnenrolledStudentsList = () => {
                   <h4 className="card-title mb-3">Unenrolled Students List</h4>
                 </div>
               </Card.Header>
-              <ClassesModal />
+              <ClassesModal selectedIds={selectedIds}/>
               <div className="d-md-flex justify-content-between">
                 <div>
                   <div className="input-group">
@@ -277,11 +274,11 @@ const UnenrolledStudentsList = () => {
                                     type="checkbox"
                                     checked={student.isChecked || false}
                                     onChange={(e) => {
-                                      const result = CheckSingleItem(e.target.checked, student.studentContactId,
+                                      const result = CheckSingleItem(e.target.checked, selectedIds,student.studentContactId,
                                         unenrolledStudents, "studentContactId"
                                       );
                                       setObjectArray(result[0]);
-                                      setSelectedIds(result[1]);
+                                      setSelectedIds([...new Set(result[1])]);
 
                                     }}
                                   />
@@ -370,7 +367,7 @@ const UnenrolledStudentsList = () => {
                                       data-id={student.studentContactId}
                                       onClick={() => {
                                         showHideModal(true)(dispatch);
-                                        // dispatch(pushId(student.studentContactId));
+                                        setSelectedIds([...new Set([...selectedIds,student.studentContactId])]);
                                       }}
                                     >
                                       <span className="btn-inner">

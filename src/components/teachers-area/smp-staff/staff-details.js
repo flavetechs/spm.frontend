@@ -20,6 +20,7 @@ import {
   updateStaffAccount,
 } from "../../../store/actions/staff-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import { getCities, getStates } from "../../../store/actions/student-actions";
 
 const StaffDetails = () => {
   //VARIABLE DECLARATIONS
@@ -46,6 +47,7 @@ const StaffDetails = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
+  const { cities, countries, states } = state.student;
   const { isSuccessful, message, selectedItem } = state.staff;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -315,6 +317,48 @@ const StaffDetails = () => {
                               placeholder="Enter Date of Birth"
                             />
                           </Form.Group>
+                          <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="countryId">
+                            <b>Country:</b>
+                          </label>
+                          <Field
+                            type="text"
+                            name="countryId"
+                            className="form-control"
+                            id="countryId"
+                            disabled={true}
+                            value={selectedItem?.countryId}
+                           
+                          />
+                          
+                        </div>
+                       
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="stateId">
+                            <b>State:</b>
+                          </label>
+                          <Field
+                            type="text"
+                            name="stateId"
+                            className="form-control"
+                            id="stateId"
+                            disabled={true}
+                            value={selectedItem?.stateId}
+                          />
+                        </div>
+                        <div className="col-md-6  form-group">
+                          <label className="form-label" htmlFor="cityId">
+                            <b>City:</b>
+                          </label>
+                          <Field
+                            type="text"
+                            name="cityId"
+                            className="form-control"
+                            id="cityId"
+                            disabled={true}
+                            value={selectedItem?.cityId}
+                          />
+                        </div>
                         </div>
                         <div className="d-flex justify-content-end">
                           <Button
