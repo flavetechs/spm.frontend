@@ -132,9 +132,8 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                     </Button> {" "}
 
                                     <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
-                                        // onClick={() => PrintCSV("class-timetable")}
                                         onClick={() => {
-                                            history.push(classLocations.printTimeTable)
+                                            history.push(classLocations.printTimeTable);
                                         }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">
