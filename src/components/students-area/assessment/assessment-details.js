@@ -403,9 +403,11 @@ const StudentAssessmentDetails = () => {
                               accept=".doc,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,.txt,.pdf,application/pdf,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel ,.xls"
                               className="form-control border-secondary mt-2"
                               id="files"
+                             // value={"2a6bc22f-5ee1-46f4-b79d-56184c5f5b05.pdf"}
                               multiple
                               onChange={(event) => {
                                 setFilesArray(event.target.files[0]);
+                                setFieldValue("files",event.target.files[0])
                               }}
                             />
                           </Col>

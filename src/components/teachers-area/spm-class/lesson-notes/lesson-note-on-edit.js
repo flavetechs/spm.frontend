@@ -47,7 +47,7 @@ const EditLessonNote = () => {
   //const sessionClassIdQuery = queryParams.get("classId");
   React.useEffect(() => {
     createSuccessful && history.goBack();
-    resetLessonNoteContentState()(dispatch)
+    resetLessonNoteContentState()(dispatch);
   }, [createSuccessful, history]);
 
   useEffect(() => {

@@ -32,7 +32,7 @@ const CreateLessonNote = () => {
   const classIdQueryParam = queryParams.get("classId") || "";
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAllStaffClasses()(dispatch);
     classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
   }, [dispatch, sessionClassIdQueryParam]);
@@ -64,7 +64,7 @@ const CreateLessonNote = () => {
 
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({ toolbar: TextEditorToolBar }), []);
-console.log("content",content);
+
   return (
     <>
       <div className="col-md-12 mx-auto">

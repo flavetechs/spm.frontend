@@ -14,16 +14,19 @@ import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { showErrorToast } from "../../../store/actions/toaster-actions";
+import { respondDialog, showErrorToast, showHideDialog } from "../../../store/actions/toaster-actions";
 import {
+  getLessonNoteContent,
   getSingleStudentNotes,
   getSubjectTeacher,
+  resetLessonNoteContentState,
   sendForReview,
   updateStudentNotes,
 } from "../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
 import { getAllStaffAccount } from "../../../store/actions/staff-actions";
 import { studentNoteLocations } from "../../../router/students-path-locations";
+import { TextEditorToolBar } from "../../../utils/tools";
 
 const EditStudentNote = () => {
   const history = useHistory();
@@ -31,9 +34,11 @@ const EditStudentNote = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
+  const [fileContent, setFileContent] = useState(null);
   const state = useSelector((state) => state);
-  const { createSuccessful,  singleStudentNotes,subjectTeacher} = state.class;
+  const { createSuccessful,  singleStudentNotes,subjectTeacher,lessonNoteContent} = state.class;
   const { staffList } = state.staff;
+  const { dialogResponse } = state.alert;
   //VALIDATION
   const validation = Yup.object().shape({
     noteTitle: Yup.string().required("Title is required"),
@@ -42,6 +47,7 @@ const EditStudentNote = () => {
   useEffect(() => {
     createSuccessful &&
     history.goBack();
+    resetLessonNoteContentState()(dispatch);
   }, [createSuccessful,history]);
 
   useEffect(() => {
@@ -57,41 +63,30 @@ const EditStudentNote = () => {
 
   const [content, setContent] = useState("");
   useEffect(() => {
+    if(Object.keys(lessonNoteContent).length !== 0) {
+      setContent(lessonNoteContent);
+    }else{
     setContent(singleStudentNotes?.noteContent);
-  }, [singleStudentNotes]);
-  const textEditorModules = useMemo(
-    () => ({
-      toolbar: {
-        container: [
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          ["bold", "italic", "underline", "strike"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          [{ align: [] }],
-          ["image", "link"],
-          [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466'] }]
-        ],
-        //   handlers: {
-        //     image: imageHandler
-        //   }
-      },
-      
-    }),
-    []
-  );
+    }
+  }, [singleStudentNotes,lessonNoteContent]);
 
-  function getBase64(file) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setContent(atob(reader.result.split(",")[1]));
-    };
-  }
- console.log("singleStudentNotes",singleStudentNotes);
+  useEffect(() => {
+    if (dialogResponse === "continue") {
+      const params = new FormData();
+      params.append("file", fileContent);
+     getLessonNoteContent(params)(dispatch);
+     } else if(dialogResponse === "cancel"){
+        showHideDialog(false, null)(dispatch);
+        respondDialog("")(dispatch);
+      }
+      return () => {
+        respondDialog("")(dispatch)
+      }
+  }, [dialogResponse,fileContent, dispatch]);
+
+  const textEditorModules = useMemo(() => ({ toolbar: TextEditorToolBar }), []);
+
+
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -171,6 +166,8 @@ const EditStudentNote = () => {
                           <label className="form-label" >
                             <b>Upload note(text,word,excel):</b>
                           </label>
+                          <div className="d-md-flex">
+                            <Col sm="11" md="6">
                           <Field
                             type="file"
                             name="noteFile"
@@ -179,9 +176,23 @@ const EditStudentNote = () => {
                             className="form-control border-secondary"
                             id="noteFile"
                             onChange={(event) => {
-                              getBase64(event.target.files[0]);
+                              setFileContent(event.target.files[0]);
                             }}
                           />
+                          </Col>
+                            <div className="btn btn-success mx-2  mt-3 mt-md-0" onClick={()=>{
+                            if(content === ""){
+                              const params = new FormData();
+                             params.append("file", fileContent);
+                            getLessonNoteContent(params)(dispatch);
+                           }
+                            else{
+                            fileContent && showHideDialog(true, "Note that uploading a lesson note will overwrite current content in the editor, do you want to continue?")(dispatch);
+                            }
+                           }}>
+                              Upload
+                            </div>
+                          </div>
                         </Col>
                         <Col md="11">
                           {touched.content && errors.content && (
@@ -259,6 +270,7 @@ const EditStudentNote = () => {
                             variant="btn btn-danger"
                             onClick={() => {
                               history.goBack();
+                              resetLessonNoteContentState()(dispatch)
                             }}
                           >
                             Cancel
