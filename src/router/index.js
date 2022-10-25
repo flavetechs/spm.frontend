@@ -12,6 +12,7 @@ import { authLocations } from './spm-path-locations'
 import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
+import parentDefault from '../layouts/dashboard/parent-default'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,11 +30,17 @@ const IndexRouters = () => {
             <Switch>
                 {
                     <>
+                       
                         <Route exact path="/"
                             component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
 
                         <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : "/dashboard"}
                             component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
+                        
+
+                        {/* parentRoute */}
+                        <Route path={"/parent-dashboard"}
+                            component={parentDefault}></Route>
 
                         <Route path={authLocations.login} component={SignIn}></Route>
                         

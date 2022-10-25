@@ -15,6 +15,7 @@ import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, get
 import { connect } from "react-redux"
 import { notificationManagement } from '../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../utils/permissions'
+import { dashboardLocations, headerLocations } from '../../../../router/parents-path-locations'
 
 const mapStateToProps = (state) => {
     return {

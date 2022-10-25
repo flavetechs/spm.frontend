@@ -4,9 +4,13 @@ import {Navbar,Container,Nav,NavDropdown} from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
 import { getUserDetails } from '../../../../utils/permissions'
+import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations } from '../../../../router/parents-path-locations'
 
 const HeaderStyle4 = () => {
-    var userDetail = getUserDetails();
+    // var userDetail = getUserDetails();
+
+
+    console.log('announcementLocations.announcement', announcementLocations.announcement);
     
     return (
         <>
@@ -14,7 +18,7 @@ const HeaderStyle4 = () => {
                 <Container fluid>
                     <Link to="/dashboard" className="navbar-brand d-flex align-items-center">
                         {/* <Logo color={true} /> */}
-                        <h4 className="logo-title text-light ms-3 mb-0"> {userDetail?.schoolAbbreviation ?? ''}</h4>
+                        {/* <h4 className="logo-title text-light ms-3 mb-0"> {userDetail?.schoolAbbreviation ?? ''}</h4> */}
                     </Link>
                     <Navbar.Toggle className="p-0 border-0"  aria-controls="navbarSideCollapse" >
                         <span className="navbar-toggler-icon">
@@ -26,7 +30,7 @@ const HeaderStyle4 = () => {
                     <Navbar.Collapse className="offcanvas-collapse" >
                         <Nav as="ul" className=" me-auto mb-2 mb-lg-0">
                             <Nav.Item as="li">
-                                <Nav.Link  active aria-current="page" href="#">Dashboard</Nav.Link>
+                                <Nav.Link  active aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
                             </Nav.Item>
                             <Nav.Item as="li">
                                 <Nav.Link  href="#">Notifications</Nav.Link>
@@ -52,18 +56,25 @@ const HeaderStyle4 = () => {
             </Navbar>
             <div className="nav-scroller bg-body shadow-sm">
                 <nav className="nav nav-underline" aria-label="Secondary navigation">
-                    <Nav.Link aria-current="page" href="#">Dashboard</Nav.Link>
+                    <Nav.Link aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
                     <Nav.Link href="#">
-                        Friends
-                        <span className="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+                        Student(s)
+                        <span className="badge bg-light text-dark rounded-pill align-text-bottom">7</span>
                     </Nav.Link>
-                    <Nav.Link href="#">Explore</Nav.Link>
+                    {/* <Nav.Link href="#">Explore</Nav.Link>
                     <Nav.Link href="#">Suggestions</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link>
-                    <Nav.Link href="#">Link</Nav.Link>
+                    <Nav.Link href="#">Link</Nav.Link> */}
+                    <Nav.Link href={myWardsLocations.myWards}>My Wards</Nav.Link>
+                    <Nav.Link href={teachersNoteLocations.teachersNote}>Teacher's Note</Nav.Link>
+                    <Nav.Link href="#">Ward's Note</Nav.Link>
+                    <Nav.Link href="#">Assessment</Nav.Link>
+                    <Nav.Link href={printResultLocations.printResult}>Print Result</Nav.Link>
+                    <Nav.Link href={timeTableLocations.timeTable}>Timetable</Nav.Link>
+                    <Nav.Link href={announcementLocations.announcement}>Announcement</Nav.Link>
                 </nav>
             </div>     
         </>
