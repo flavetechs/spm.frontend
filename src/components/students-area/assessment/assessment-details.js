@@ -159,14 +159,16 @@ const StudentAssessmentDetails = () => {
                     <span className="text-end text-primary">
                     </span>
                   </div> */}
-                  <div>
+                  {/* <div>
                     <b> Deadline:</b>
                     <span className="text-end text-primary">
                       {studentSingleHomeAssessment?.assessment.dateDeadLine}{" "}
                       {studentSingleHomeAssessment?.assessment.timeDeadLine}
                     </span>
-                  </div>
+                  </div> */}
                 </div>
+                <Row>
+                  <Col md="8">
                 <div className="d-flex justify-content-start my-4">
                   <div>
                     <button
@@ -234,6 +236,53 @@ const StudentAssessmentDetails = () => {
                         : singleHomeAssessment?.content,
                   }}
                 ></div>
+                </Col>
+                <Col md="4">
+                <div className="table-responsive">
+                  <table
+                    id="role-list-table"
+                    className="table  table-borderless table-sm"
+                    role="grid"
+                    data-toggle="data-table"
+                  >
+                    <tbody>
+                      <tr className="ligth">
+                        <td className="">Subject</td>
+                        <td className="">Teacher's name</td>
+                        <td className=""> Deadline</td>
+                        <td className="text-center">Status</td>
+                        <td className="text-center">Score</td>
+                        <td className="text-center"></td>
+                      </tr>
+                    </tbody>
+                    <tbody>
+                  
+                        <tr >
+                          <td className="text-uppercase">{studentSingleHomeAssessment?.assessment.sessionClassSubjectName}</td>
+                      <td>{studentSingleHomeAssessment?.teacher}</td>
+                     <td> {studentSingleHomeAssessment?.assessment.dateDeadLine}{" "}
+                      {studentSingleHomeAssessment?.assessment.timeDeadLine}</td>
+                          <td className="text-center">
+                            <div
+                              className={
+                                studentSingleHomeAssessment?.status === "submitted"
+                                  ? "badge bg-success"
+                                  : studentSingleHomeAssessment?.status === "uncompleted"
+                                  ? "badge bg-warning"
+                                  : "badge bg-danger"
+                              }
+                            >
+                              {studentSingleHomeAssessment?.status}
+                            </div>
+                          </td>
+                          <td className="text-center">{studentSingleHomeAssessment?.score}</td>
+                        </tr>
+                  
+                    </tbody>
+                  </table>
+                </div>
+                </Col>
+                </Row>
                 <hr />
                 <div className="h5 text-secondary fw-bold mb-2 mx-5">
                   {" "}
