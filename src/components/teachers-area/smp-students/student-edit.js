@@ -297,6 +297,7 @@ const StudentEdit = () => {
                           <Field
                             as="select"
                             name="sessionClassId"
+                            disabled
                             className="form-select"
                             id="sessionClassId"
                           >

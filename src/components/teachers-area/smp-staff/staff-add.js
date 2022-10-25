@@ -16,6 +16,7 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { staffLocations } from "../../../router/spm-path-locations";
 import { createStaffAccount } from "../../../store/actions/staff-actions";
+import { getCities, getCountries, getStates } from "../../../store/actions/student-actions";
 
 const StaffAdd = () => {
   //VARIABLE DECLARATIONS
@@ -44,8 +45,12 @@ const StaffAdd = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
+  const { cities, countries, states } = state.student;
   const { isSuccessful, message } = state.staff;
   // ACCESSING STATE FROM REDUX STORE
+  React.useEffect(() => {
+    getCountries()(dispatch);
+  }, [dispatch]);
 
   if (isSuccessful) {
     history.push(staffLocations.staffList);
@@ -315,6 +320,76 @@ const StaffAdd = () => {
                               placeholder="Enter Date of Birth"
                             />
                           </Form.Group>
+                          <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="countryId">
+                            <b>Country:</b>
+                          </label>
+                          <Field
+                            as="select"
+                            name="countryId"
+                            className="form-select text-uppercase"
+                            id="countryId"
+                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
+                          >
+                            <option value="">Select Country</option>
+                            {countries?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                           
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                            
+                          </Field>
+                        </div>
+                       
+                        <div className="col-md-6 form-group">
+                          <label className="form-label" htmlFor="stateId">
+                            <b>State:</b>
+                          </label>
+                          <Field
+                            as="select"
+                            name="stateId"
+                            className="form-select text-uppercase"
+                            id="stateId"
+                            onChange={(e)=>{setFieldValue("stateId",e.target.value); getCities(e.target.value)(dispatch)}}
+                          >
+                            <option value="">Select State</option>
+                           {states?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                               
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                          </Field>
+                        </div>
+                        <div className="col-md-6  form-group">
+                          <label className="form-label" htmlFor="cityId">
+                            <b>City:</b>
+                          </label>
+                          <Field
+                            as="select"
+                            name="cityId"
+                            className="form-select text-uppercase"
+                            id="cityId"
+                          >
+                            <option value="">Select City</option>
+                           {cities?.map((item, idx) => (
+                              <option
+                                key={idx}
+                                value={item.value}
+                          
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                          </Field>
+                        </div>
                         </div>
                         <div className="d-flex justify-content-end">
                           <Button

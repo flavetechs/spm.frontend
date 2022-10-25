@@ -54,12 +54,13 @@ export const ReturnFilteredList = (arrayofObjects = [], searchQuery = "", column
     });
 }
 
-export const CheckSingleItem = (isChecked, selectedId, objectArray = [], column = "") => {
+export const CheckSingleItem = (isChecked,  prevSelectedId, selectedId, objectArray = [], column = "") => {
     let selectedIds = [];
     objectArray.forEach((item) => {
         if (item[column] === selectedId) {
             if (isChecked) {
-                selectedIds.push(selectedId);
+               // selectedIds.push(selectedId);
+                selectedIds = [...prevSelectedId,selectedId]
                 item.isChecked = true;
             } else {
                 item.isChecked = false;

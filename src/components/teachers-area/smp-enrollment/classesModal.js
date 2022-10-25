@@ -11,7 +11,7 @@ import React from "react";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 
-export function ClassesModal() {
+export function ClassesModal(props) {
     const dispatch = useDispatch();
 
     //VALIDATIONS SCHEMA
@@ -22,7 +22,7 @@ export function ClassesModal() {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { selectedIds, message } = state.enrollment;
+    const {  message } = state.enrollment;
     const { itemList } = state.class;
     const { activeSession } = state.appState;
     // ACCESSING STATE FROM REDUX STORE
@@ -45,7 +45,7 @@ export function ClassesModal() {
                 }}
                 validationSchema={validation}
                 onSubmit={(values, { resetForm }) => {
-                    values.studentContactIds = selectedIds;
+                    values.studentContactIds = props.selectedIds;
                     resetForm();
                     enrollStudent(values)(dispatch);
                 }}
