@@ -4,7 +4,7 @@ import {Navbar,Container,Nav,NavDropdown} from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
 import { getUserDetails } from '../../../../utils/permissions'
-import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations } from '../../../../router/parents-path-locations'
+import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
 
 const HeaderStyle4 = () => {
     // var userDetail = getUserDetails();
@@ -70,7 +70,7 @@ const HeaderStyle4 = () => {
                     <Nav.Link href="#">Link</Nav.Link> */}
                     <Nav.Link href={myWardsLocations.myWards}>My Wards</Nav.Link>
                     <Nav.Link href={teachersNoteLocations.teachersNote}>Teacher's Note</Nav.Link>
-                    <Nav.Link href="#">Ward's Note</Nav.Link>
+                    <Nav.Link href={wardsNoteLocations.wardsNote}>Ward's Note</Nav.Link>
                     <Nav.Link href="#">Assessment</Nav.Link>
                     <Nav.Link href={printResultLocations.printResult}>Print Result</Nav.Link>
                     <Nav.Link href={timeTableLocations.timeTable}>Timetable</Nav.Link>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { teachersNoteLocations } from '../../../router/parents-path-locations';
 
 const TeachersNote = () => {
 
@@ -13,29 +15,44 @@ const TeachersNote = () => {
   return (
     <Row>
       <Card>
-        <Card.Header>
-          <div className='bg-light'>
+        {/* <Card.Header>
+          <div className=''>
             <h4>Teacher Note</h4>
           </div>
-        </Card.Header>
+        </Card.Header> */}
+        <Card>
+          <Card.Body>
+            <div className=''>
+              <h4>Teacher Note</h4>
+            </div>
+          </Card.Body>
+        </Card>
         <Card.Body>
           <Row>
             {studentList?.map((item, index) => (
-              <Col key={item.index}>
-                <Card style={{ width: '18rem' }}>
+              <Col key={index}>
+                <Card style={{ width: '16rem' }}>
                   <Card.Img variant="top" src={item.photo}
-                    style={{ width: "18rem", height: "18rem"}}
+                    style={{ width: "16rem", height: "16rem" }}
                     alt="Student Photo"
                   />
-                  <Card.Body>
-                    <Card.Title>{item.name}</Card.Title>
+                  <Card.Body >
+                    <Card.Title className='bg-light'>{item.name}</Card.Title>
                     <Card.Title>{item.RegNo}</Card.Title>
                     <Card.Title>{item.studentClass}</Card.Title>
                     {/* <Card.Text>
                       Some quick example text to build on the card title and make up the
                       bulk of the card's content.
                     </Card.Text> */}
-                    <Button variant="primary">View Student Note</Button>
+                    {/* <Button variant="primary"> */}
+                      <Link
+                      className='btn btn-primary'
+                      to={`${teachersNoteLocations.teachersNotesView}`}
+                      >
+                         View Student Note
+                      </Link>
+                     
+                    {/* </Button> */}
                   </Card.Body>
                 </Card>
               </Col>

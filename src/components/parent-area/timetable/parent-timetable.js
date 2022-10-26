@@ -67,7 +67,7 @@ function ParentTimeTable() {
                                     <div className="jumbotron jumbotron-fluid d-flex justify-content-center mt-5">
                                         <div className="container d-flex justify-content-center header-message">
                                             <h6 className="display-6 d-flex justify-content-center mt-4">
-                                                Please select class to view Timetable
+                                                Please select student class to view
                                             </h6>
                                         </div>
                                     </div>

@@ -9,10 +9,13 @@ export const myWardsLocations = {
 export const teachersNoteLocations = {
     teachersNote: "/parent-dashboard/teachers-note",
     teachersNotesDetails: "/parent-dashboard/teachers-note/teachers-note-details",
+    teachersNotesView: "/parent-dashboard/teachers-note/teachers-note-view",
 };
 
 export const wardsNoteLocations = {
     wardsNote: "/parent-dashboard/wards-note",
+    wardsNotesDetails: "/parent-dashboard/wards-note/wards-note-details",
+    wardsNotesView: "/parent-dashboard/wards-note/waards-note-view",
 };
 
 export const assessmentLocations = {

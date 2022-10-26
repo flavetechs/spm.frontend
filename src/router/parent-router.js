@@ -7,10 +7,15 @@ import WardList from '../components/parent-area/my-wards/wards-list';
 import PrintParentResult from '../components/parent-area/print-result/parent-print-result';
 import ParentTemplateControl from '../components/parent-area/print-result/result-template/parent-template-control';
 import TeachersNote from '../components/parent-area/teachers-note/teachers-note';
+import TeachersNoteView from '../components/parent-area/teachers-note/teachers-note-view';
+import TeachersNoteDetails from '../components/parent-area/teachers-note/teachers-notes-details';
 import ParentTimeTable from '../components/parent-area/timetable/parent-timetable';
+import WardsNote from '../components/parent-area/wards-note/ward-note';
+import WardsNoteDetails from '../components/parent-area/wards-note/ward-note-details';
+import WardsNoteView from '../components/parent-area/wards-note/wards-note-view';
 import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
-import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations } from './parents-path-locations';
+import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from './parents-path-locations';
 
 
 const ParentDashboardRouter = () => {
@@ -36,6 +41,13 @@ const ParentDashboardRouter = () => {
 
                         {/* teachersnote */}
                         <Route path={teachersNoteLocations.teachersNote} exact component={TeachersNote} />
+                        <Route path={teachersNoteLocations.teachersNotesView} exact component={TeachersNoteView} />
+                        <Route path={teachersNoteLocations.teachersNote} exact component={TeachersNoteDetails} />
+
+                        {/* wardsnote */}
+                        <Route path={wardsNoteLocations.wardsNote} exact component={WardsNote} />
+                        <Route path={wardsNoteLocations.wardsNotesView} exact component={WardsNoteView} />
+                        <Route path={wardsNoteLocations.wardsNotesDetails} exact component={WardsNoteDetails} />
 
                         {/* announcement */}
                         <Route path={announcementLocations.announcement} exact component={AnnouncementList} />
