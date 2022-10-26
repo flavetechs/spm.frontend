@@ -55,7 +55,7 @@ const StudentAssessmentDetails = () => {
   React.useEffect(() => {
     setContent(
       homeAssessmentFeedBackIdQuery !== "null" &&
-        studentSingleHomeAssessment?.content
+      studentSingleHomeAssessment?.content
     );
   }, [studentSingleHomeAssessment, homeAssessmentFeedBackIdQuery]);
 
