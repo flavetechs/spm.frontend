@@ -1057,7 +1057,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        studentNotes: payload.data,
+        studentNotes: payload,
         filterProps:payload,
       };
     }
