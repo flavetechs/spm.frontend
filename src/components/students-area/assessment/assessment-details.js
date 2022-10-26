@@ -256,7 +256,7 @@ const StudentAssessmentDetails = () => {
                           </tr>
                           <tr>
                             <td className="">Teacher's name</td>
-                            <td>{studentSingleHomeAssessment?.teacher}</td>
+                            <td>{studentSingleHomeAssessment?.teacherName}</td>
                           </tr>
                           <tr>
                             <td className=""> Deadline</td>

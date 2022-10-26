@@ -203,7 +203,7 @@ const ResultTemplateTwo = (props) => {
                     bordered
                     responsive
                     className="mt-4 border-secondary"
-                    style={{ marginTop: "20px" }}
+                    style={{border:"1px solid black",borderCollapse:"collapse",marginTop: "20px" }}
                     draggable="false"
                   >
                     <thead>
@@ -292,7 +292,7 @@ const ResultTemplateTwo = (props) => {
                         <img
                           src={resultSetting?.filepath}
                           alt="stamp"
-                          style={{ width: "12%" }}
+                          style={{ width: "28%" }}
                           draggable="false"
                         />
                       </div>

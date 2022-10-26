@@ -330,7 +330,7 @@ const ResultTemplateOne = (props) => {
                         <img
                           src={resultSetting?.filepath}
                           alt="stamp"
-                          style={{ maxWidth: "12%" }}
+                          style={{ maxWidth: "28%" }}
                           draggable="false"
                         />
                       </div>
