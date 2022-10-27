@@ -129,7 +129,7 @@ const ResultTemplateOne = (props) => {
                         bordered
                         size="sm"
                         className=" table-bordered border-dark"
-                        //style={{border:"1px solid black"}}
+                        style={{border:"1px solid black" ,borderCollapse:"collapse"}}
                         draggable="false"
                       >
                         <tbody>
@@ -151,7 +151,7 @@ const ResultTemplateOne = (props) => {
                       bordered
                       size="sm"
                       className=" table-bordered border-dark"
-                      style={{ background: "#b9d7f7"}}
+                      style={{border:"1px solid black" ,borderCollapse:"collapse",background: "#b9d7f7"}}
                       draggable="false"
                     >
                       <tbody>
@@ -259,7 +259,7 @@ const ResultTemplateOne = (props) => {
                         bordered
                         size="sm"
                         className=" table-bordered border-dark"
-                        //style={{border:"1px solid black"}}
+                        style={{border:"1px solid black",borderCollapse:"collapse"}}
                         draggable="false"
                       >
                         <tbody>
@@ -282,7 +282,7 @@ const ResultTemplateOne = (props) => {
                     bordered
                     responsive
                     className="mt-4 border-secondary"
-                    style={{  marginTop:"20px"}}
+                    style={{border:"1px solid black",borderCollapse:"collapse",marginTop:"20px"}}
                     draggable="false"
                   >
                     <tbody>
@@ -330,7 +330,7 @@ const ResultTemplateOne = (props) => {
                         <img
                           src={resultSetting?.filepath}
                           alt="stamp"
-                          style={{ maxWidth: "12%" }}
+                          style={{ maxWidth: "28%" }}
                           draggable="false"
                         />
                       </div>
