@@ -101,7 +101,7 @@ const EnrolledStudents = () => {
     };
   }, [dialogResponse,dispatch,sessionClassIdQuery]);
   //UNENROLL HANDLER
-console.log("selectedIds",selectedIds);
+
   return (
     <>
       <div>
