@@ -43,6 +43,7 @@ const RemoveUser = () => {
     return () => {
       setUserId("");
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse,dispatch,addedUsers?.roleId]);
   const filteredAddedUsers = addedUsers?.users.filter((user) => {

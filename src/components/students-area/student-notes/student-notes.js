@@ -60,6 +60,7 @@ const StudentNotes = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [dialogResponse, dispatch, studentNoteId]);

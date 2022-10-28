@@ -50,22 +50,16 @@ const ViewStudentsAssessment = () => {
 
   useEffect(() => {
     setScore(
-      singleHomeAssessment?.studentList?.find(
-        (s) => s.homeAsessmentFeedbackId === homeAssessmentFeedBackIdQuery
-      )?.score
+      studentSingleHomeAssessment?.score
     );
     setInclude(
-      singleHomeAssessment?.studentList?.find(
-        (s) => s.homeAsessmentFeedbackId === homeAssessmentFeedBackIdQuery
-      )?.included
+      studentSingleHomeAssessment?.included
     );
     setComment(
-      singleHomeAssessment?.studentList?.find(
-        (s) => s.homeAsessmentFeedbackId === homeAssessmentFeedBackIdQuery
-      )?.comment
+      studentSingleHomeAssessment?.comment
     );
-  }, [singleHomeAssessment]);
- 
+  }, [studentSingleHomeAssessment]);
+ ;
   return (
     <>
       <div>

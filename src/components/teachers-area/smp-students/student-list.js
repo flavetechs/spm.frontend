@@ -79,6 +79,7 @@ const StudentList = () => {
     }
     return () => {
       respondToDeleteDialog("")(dispatch);
+      showSingleDeleteDialog(false)(dispatch);
     };
   }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER
@@ -102,6 +103,7 @@ const StudentList = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse, dispatch]);
 

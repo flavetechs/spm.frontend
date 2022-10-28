@@ -57,6 +57,7 @@ const PromotionSetup = () => {
       }
       return () => {
         respondDialog("")(dispatch)
+        showHideDialog(false, null)(dispatch);
       }
     }
   }, [dialogResponse, promotion.toSessionClassId, dispatch]);

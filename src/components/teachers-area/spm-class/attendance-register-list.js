@@ -67,6 +67,7 @@ const AttendanceRegisterList = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [dialogResponse, dispatch]);

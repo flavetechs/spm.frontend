@@ -59,6 +59,7 @@ const CreateLessonNote = () => {
       }
       return () => {
         respondDialog("")(dispatch)
+        showHideDialog(false, null)(dispatch);
       }
   }, [dialogResponse,fileContent, dispatch]);
 

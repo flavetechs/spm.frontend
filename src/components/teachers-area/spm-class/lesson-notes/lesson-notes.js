@@ -91,6 +91,7 @@ const LessonNotes = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [dialogResponse, dispatch]);

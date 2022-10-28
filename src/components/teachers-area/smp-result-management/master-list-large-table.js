@@ -35,6 +35,7 @@ const MasterListLargeTable = ({ masterEntry, setShowMasterListTable }) => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse, dispatch]);
 
