@@ -48,6 +48,7 @@ const ResultTemplateTwo = (props) => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse, dispatch]);
   return (

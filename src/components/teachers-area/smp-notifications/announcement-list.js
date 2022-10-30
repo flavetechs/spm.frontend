@@ -61,6 +61,7 @@ const AnnouncementList = () => {
     }
     return () => {
       respondToDeleteDialog('')(dispatch);
+      showSingleDeleteDialog(false)(dispatch);
     }
   }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER

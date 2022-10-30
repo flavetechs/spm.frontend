@@ -76,6 +76,7 @@ const StaffList = () => {
     }
     return () => {
       respondToDeleteDialog("")(dispatch);
+      showSingleDeleteDialog(false)(dispatch);
     };
   }, [deleteDialogResponse, dispatch]);
   //DELETE HANDLER

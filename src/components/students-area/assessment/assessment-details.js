@@ -39,9 +39,8 @@ const StudentAssessmentDetails = () => {
   } = state.class;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
-  const homeAssessmentFeedBackIdQuery = queryParams.get(
-    "homeAssessmentFeedBackId"
-  );
+  const homeAssessmentFeedBackIdQuery =
+    queryParams.get("homeAssessmentFeedBackId");
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
   // const statusQuery = queryParams.get("status");
   useEffect(() => {
@@ -55,7 +54,7 @@ const StudentAssessmentDetails = () => {
   React.useEffect(() => {
     setContent(
       homeAssessmentFeedBackIdQuery !== "null" &&
-      studentSingleHomeAssessment?.content
+        studentSingleHomeAssessment?.content
     );
   }, [studentSingleHomeAssessment, homeAssessmentFeedBackIdQuery]);
 
@@ -67,7 +66,7 @@ const StudentAssessmentDetails = () => {
 
   const [content, setContent] = useState("");
   const textEditorModules = useMemo(() => ({ toolbar: TextEditorToolBar }), []);
-
+ 
   return (
     <>
       <div>
@@ -153,18 +152,7 @@ const StudentAssessmentDetails = () => {
                       </OverlayTrigger>
                     )}
                   </div>
-                  {/* <div>
-                    Created:
-                    <span className="text-end text-primary">
-                    </span>
-                  </div> */}
-                  {/* <div>
-                    <b> Deadline:</b>
-                    <span className="text-end text-primary">
-                      {studentSingleHomeAssessment?.assessment.dateDeadLine}{" "}
-                      {studentSingleHomeAssessment?.assessment.timeDeadLine}
-                    </span>
-                  </div> */}
+                 
                 </div>
                 <Row>
                   <Col md="8">
@@ -248,28 +236,36 @@ const StudentAssessmentDetails = () => {
                           <tr>
                             <td className="">Subject</td>
                             <td className="text-uppercase">
-                              {
-                                studentSingleHomeAssessment?.assessment
-                                  .sessionClassSubjectName
-                              }
+                              {homeAssessmentFeedBackIdQuery !== "null"
+                                ? studentSingleHomeAssessment?.assessment
+                                    .sessionClassSubjectName
+                                : singleHomeAssessment?.sessionClassSubjectName}
                             </td>
                           </tr>
                           <tr>
                             <td className="">Teacher's name</td>
-                            <td>{studentSingleHomeAssessment?.teacherName}</td>
+                            <td>
+                              {homeAssessmentFeedBackIdQuery !== "null"
+                                ? studentSingleHomeAssessment?.teacherName
+                                : singleHomeAssessment?.teacherName}
+                            </td>
                           </tr>
                           <tr>
                             <td className=""> Deadline</td>
                             <td>
-                              {" "}
-                              {
-                                studentSingleHomeAssessment?.assessment
-                                  .dateDeadLine
-                              }{" "}
-                              {
-                                studentSingleHomeAssessment?.assessment
-                                  .timeDeadLine
-                              }
+                              {homeAssessmentFeedBackIdQuery !== "null"
+                                ? `${
+                                    studentSingleHomeAssessment?.assessment
+                                      .dateDeadLine
+                                  }${" "}
+                             ${
+                               studentSingleHomeAssessment?.assessment
+                                 .timeDeadLine
+                             }`
+                                : `${
+                                    singleHomeAssessment?.dateDeadLine
+                                  }${" "}
+                           ${singleHomeAssessment?.timeDeadLine}`}
                             </td>
                           </tr>
                           <tr>
@@ -277,22 +273,32 @@ const StudentAssessmentDetails = () => {
                             <td>
                               <div
                                 className={
-                                  studentSingleHomeAssessment?.assessment.status ===
-                                  "submitted"
+                                  homeAssessmentFeedBackIdQuery !== "null"
+                                    ? (studentSingleHomeAssessment?.assessment
+                                        .status === "submitted"
+                                      ? "badge bg-success"
+                                      : studentSingleHomeAssessment?.assessment.status === "open"
+                                      ? "badge bg-warning"
+                                      : "badge bg-danger")
+                                    : (singleHomeAssessment?.status === "submitted"
                                     ? "badge bg-success"
-                                    : studentSingleHomeAssessment?.assessment.status ===
-                                      "open"
+                                    : singleHomeAssessment?.status === "open"
                                     ? "badge bg-warning"
-                                    : "badge bg-danger"
+                                    : "badge bg-danger")
                                 }
                               >
-                                {studentSingleHomeAssessment?.assessment.status}
+                                {homeAssessmentFeedBackIdQuery !== "null"
+                                  ? studentSingleHomeAssessment?.assessment
+                                      .status
+                                  : singleHomeAssessment?.status}
                               </div>
                             </td>
                           </tr>
                           <tr>
                             <td>Score</td>
-                            <td>{studentSingleHomeAssessment?.score}</td>
+                            <td>{homeAssessmentFeedBackIdQuery !== "null"
+                                  ? studentSingleHomeAssessment?.score
+                                  : singleHomeAssessment?.score}</td>
                           </tr>
                         </tbody>
                       </table>

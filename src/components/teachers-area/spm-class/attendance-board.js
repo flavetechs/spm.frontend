@@ -58,6 +58,7 @@ const AttendanceBoard = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [dialogResponse]);

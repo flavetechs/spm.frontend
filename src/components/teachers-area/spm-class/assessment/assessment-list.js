@@ -123,6 +123,7 @@ const AssessmentList = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [

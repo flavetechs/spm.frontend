@@ -45,6 +45,7 @@ const CumulativeMasterListLargeTable = ({
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse, dispatch]);
 

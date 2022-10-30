@@ -55,6 +55,7 @@ const RoleList = () => {
     }
     return () => {
       respondToDeleteDialog("")(dispatch);
+   showSingleDeleteDialog(false)(dispatch);
     };
   }, [deleteDialogResponse,dispatch,selectedIds]);
   //DELETE HANDLER

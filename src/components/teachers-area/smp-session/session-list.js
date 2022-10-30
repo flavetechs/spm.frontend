@@ -114,6 +114,7 @@ const SessionList = () => {
     }
     return () => {
       respondToDeleteDialog('')(dispatch);
+      showSingleDeleteDialog(false)(dispatch);
     }
   }, [deleteDialogResponse]);
   //DELETE HANDLER
@@ -144,6 +145,7 @@ const SessionList = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
 
   }, [dialogResponse]);

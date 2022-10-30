@@ -80,7 +80,8 @@ const EditStudentNote = () => {
         respondDialog("")(dispatch);
       }
       return () => {
-        respondDialog("")(dispatch)
+        respondDialog("")(dispatch);
+        showHideDialog(false, null)(dispatch);
       }
   }, [dialogResponse,fileContent, dispatch]);
 

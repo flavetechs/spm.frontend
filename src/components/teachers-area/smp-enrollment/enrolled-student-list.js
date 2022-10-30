@@ -97,10 +97,11 @@ const EnrolledStudents = () => {
     }
     return () => {
       respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse,dispatch,sessionClassIdQuery]);
   //UNENROLL HANDLER
-console.log("selectedIds",selectedIds);
+
   return (
     <>
       <div>
