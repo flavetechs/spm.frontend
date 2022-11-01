@@ -1,17 +1,42 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {Navbar,Container,Nav,NavDropdown} from 'react-bootstrap'
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
-import { getUserDetails } from '../../../../utils/permissions'
-import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
+// import { getUserDetails } from '../../../../utils/permissions'
+import { announcementLocations, assessmentLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
+import { Link, useHistory } from 'react-router-dom'
+import './header-style-4.scss'
+import { getMyWardsList } from '../../../../store/actions/parent-actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const HeaderStyle4 = () => {
     // var userDetail = getUserDetails();
 
+    //VARIABLE DECLARATIONS
+    let history = useHistory();
+    const dispatch = useDispatch();
+    //VARIABLE DECLARATIONS
 
-    console.log('announcementLocations.announcement', announcementLocations.announcement);
-    
+    // ACCESSING STATE FROM REDUX STORE
+    const state = useSelector((state) => state);
+    const { myWardList, filterProps } = state.parent;
+    // ACCESSING STATE FROM REDUX STORE
+
+    React.useEffect(() => {
+        getMyWardsList(1)(dispatch);
+    }, [dispatch]);
+
+    let parentNavLinks = [
+        { name: "Dashboard", link: dashboardLocations.dashboard },
+        { name: "My Wards", link: myWardsLocations.myWards },
+        { name: "Teacher's Note", link: teachersNoteLocations.teachersNote },
+        { name: "Ward's Note", link: wardsNoteLocations.wardsNote },
+        { name: "Assessment", link: assessmentLocations.assessment },
+        { name: "Print Result", link: printResultLocations.printResult },
+        { name: "Timetable", link: timeTableLocations.timeTable },
+        { name: "Announcement", link: announcementLocations.announcement },
+    ]
+
     return (
         <>
             <Navbar bg='dark' expand="lg" variant="dark" className="fixed-top iq-navbar" aria-label="Main navigation">
@@ -20,7 +45,7 @@ const HeaderStyle4 = () => {
                         {/* <Logo color={true} /> */}
                         {/* <h4 className="logo-title text-light ms-3 mb-0"> {userDetail?.schoolAbbreviation ?? ''}</h4> */}
                     </Link>
-                    <Navbar.Toggle className="p-0 border-0"  aria-controls="navbarSideCollapse" >
+                    <Navbar.Toggle className="p-0 border-0" aria-controls="navbarSideCollapse" >
                         <span className="navbar-toggler-icon">
                             <span className="navbar-toggler-bar bar1 mt-2"></span>
                             <span className="navbar-toggler-bar bar2"></span>
@@ -30,16 +55,16 @@ const HeaderStyle4 = () => {
                     <Navbar.Collapse className="offcanvas-collapse" >
                         <Nav as="ul" className=" me-auto mb-2 mb-lg-0">
                             <Nav.Item as="li">
-                                <Nav.Link  active aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
+                                <Nav.Link active aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
                             </Nav.Item>
                             <Nav.Item as="li">
-                                <Nav.Link  href="#">Notifications</Nav.Link>
+                                <Nav.Link href="#">Notifications</Nav.Link>
                             </Nav.Item>
                             <Nav.Item as="li">
-                                <Nav.Link  href="#">Profile</Nav.Link>
+                                <Nav.Link href="#">Profile</Nav.Link>
                             </Nav.Item>
                             <Nav.Item as="li">
-                                <Nav.Link  href="#">Switch account</Nav.Link>
+                                <Nav.Link href="#">Switch account</Nav.Link>
                             </Nav.Item>
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -56,11 +81,17 @@ const HeaderStyle4 = () => {
             </Navbar>
             <div className="nav-scroller bg-body shadow-sm">
                 <nav className="nav nav-underline" aria-label="Secondary navigation">
-                    <Nav.Link aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
-                    <Nav.Link href="#">
+                    <Link
+                        className='header-styles'
+                        to={dashboardLocations.dashboard}
+                    >
+                        Dashboard
+                    </Link>
+                    {/* <Nav.Link aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link> */}
+                    {/* <Nav.Link href="#">
                         Student(s)
                         <span className="badge bg-light text-dark rounded-pill align-text-bottom">7</span>
-                    </Nav.Link>
+                    </Nav.Link> */}
                     {/* <Nav.Link href="#">Explore</Nav.Link>
                     <Nav.Link href="#">Suggestions</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link>
@@ -68,15 +99,61 @@ const HeaderStyle4 = () => {
                     <Nav.Link href="#">Link</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link> */}
-                    <Nav.Link href={myWardsLocations.myWards}>My Wards</Nav.Link>
-                    <Nav.Link href={teachersNoteLocations.teachersNote}>Teacher's Note</Nav.Link>
+                    <Link
+                        className='header-styles'
+                        to={myWardsLocations.myWards}
+                    >
+                        My  Ward(s)
+                        <span className="badge bg-light text-dark rounded-pill align-text-bottom">{myWardList.length}</span>
+                    </Link>
+                    <Link
+                        className='header-styles'
+                        to={teachersNoteLocations.teachersNote}
+                    >
+                        Teacher's Note
+                    </Link>
+                    <Link
+                        className='header-styles'
+                        to={assessmentLocations.assessment}
+                    >
+                        Assessment
+                    </Link>
+                    <Link
+                        className='header-styles'
+                        to={printResultLocations.printResult}
+                    >
+                        Print Result
+                    </Link>
+                    <Link
+                        className='header-styles'
+                        to={timeTableLocations.timeTable}
+                    >
+                        Timetable
+                    </Link>
+                    <Link
+                        className='header-styles'
+                        to={announcementLocations.announcement}
+                    >
+                        Announcement
+                    </Link>
+                    {/* <Nav.Link href={teachersNoteLocations.teachersNote}>Teacher's Note</Nav.Link>
                     <Nav.Link href={wardsNoteLocations.wardsNote}>Ward's Note</Nav.Link>
-                    <Nav.Link href="#">Assessment</Nav.Link>
+                    <Nav.Link href={assessmentLocations.assessment}>Assessment</Nav.Link>
                     <Nav.Link href={printResultLocations.printResult}>Print Result</Nav.Link>
                     <Nav.Link href={timeTableLocations.timeTable}>Timetable</Nav.Link>
-                    <Nav.Link href={announcementLocations.announcement}>Announcement</Nav.Link>
+                    <Nav.Link href={announcementLocations.announcement}>Announcement</Nav.Link> */}
+                    {/* {parentNavLinks.map((item, idx) => (
+                        <Link
+                            className='header-styles'
+                            to={item.link}
+                            key={idx}
+                        >
+                            {item.name}
+                            <span className="badge bg-light text-dark rounded-pill align-text-bottom">7</span>
+                        </Link>
+                    ))} */}
                 </nav>
-            </div>     
+            </div>
         </>
     )
 }

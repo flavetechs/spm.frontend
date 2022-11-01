@@ -24,6 +24,8 @@ const IndexRouters = () => {
             setIsLoggedIn(true)
     }, [isLoggedIn]);
 
+    console.log('userDetail', userDetail);
+
 
     return (
         <>
@@ -32,16 +34,11 @@ const IndexRouters = () => {
                     <>
                        
                         <Route exact path="/"
-                            component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
+                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == 'Parent' ? parentDefault : Default}></Route>
 
-                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : "/dashboard"}
-                            component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
+                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : userDetail?.userType == 'Parent'? "/parent-dashboard" :  "/dashboard"}
+                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == 'Parent' ? parentDefault : Default}></Route>
                         
-
-                        {/* parentRoute */}
-                        <Route path={"/parent-dashboard"}
-                            component={parentDefault}></Route>
-
                         <Route path={authLocations.login} component={SignIn}></Route>
                         
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>

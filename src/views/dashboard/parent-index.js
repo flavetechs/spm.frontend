@@ -35,7 +35,7 @@ import CountUp from 'react-countup';
 // store
 import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
 import { connect } from "react-redux"
-import { getAllStudentDashboardCount } from '../../store/actions/dashboard-actions.js'
+// import { getAllStudentDashboardCount } from '../../store/actions/dashboard-actions.js'
 
 
 // install Swiper modules
@@ -76,12 +76,12 @@ const StudentIndex = (props) => {
 
     const [studentDashboardCountItem, setStudentDashboardCountItem] = useState({});
 
-    useEffect(async () => {
-        await getAllStudentDashboardCount()
-        setTimeout(() => {
-            setStudentDashboardCountItem(JSON.parse(localStorage.getItem('studentDashboardData')));
-        }, 3000)
-    }, [location.search])
+    // useEffect(async () => {
+    //     await getAllStudentDashboardCount()
+    //     setTimeout(() => {
+    //         setStudentDashboardCountItem(JSON.parse(localStorage.getItem('studentDashboardData')));
+    //     }, 3000)
+    // }, [location.search])
 
     useEffect(() => {
 
@@ -335,7 +335,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Total Assessment</p>
-                                                <h4 className="counter"><CountUp start={0} end={studentDashboardCountItem?.totalAssessments} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={44} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -350,7 +350,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Teacher's Notes</p>
-                                                <h4 className="counter"><CountUp start={0} end={studentDashboardCountItem?.totaldLessonNotes} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={66} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -365,7 +365,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Ward's Notes</p>
-                                                <h4 className="counter"><CountUp start={0} end={studentDashboardCountItem?.studentNotes} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={66} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
