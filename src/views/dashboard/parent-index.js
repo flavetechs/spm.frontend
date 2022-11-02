@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { bindActionCreators } from "redux"
 //circular
@@ -69,19 +69,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-
 const StudentIndex = (props) => {
-
-    const location = useLocation();
-
-    const [studentDashboardCountItem, setStudentDashboardCountItem] = useState({});
-
-    // useEffect(async () => {
-    //     await getAllStudentDashboardCount()
-    //     setTimeout(() => {
-    //         setStudentDashboardCountItem(JSON.parse(localStorage.getItem('studentDashboardData')));
-    //     }, 3000)
-    // }, [location.search])
 
     useEffect(() => {
 

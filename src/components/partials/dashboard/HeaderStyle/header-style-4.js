@@ -1,16 +1,18 @@
 import React from 'react'
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
+import { Navbar, Container, Nav, NavDropdown, Dropdown } from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
-// import { getUserDetails } from '../../../../utils/permissions'
+import { getUserDetails } from '../../../../utils/permissions'
 import { announcementLocations, assessmentLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
 import { Link, useHistory } from 'react-router-dom'
 import './header-style-4.scss'
 import { getMyWardsList } from '../../../../store/actions/parent-actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { loginOutUser } from '../../../../store/actions/auth-actions'
+import { authLocations } from '../../../../router/spm-path-locations'
 
 const HeaderStyle4 = () => {
-    // var userDetail = getUserDetails();
+    var userDetail = getUserDetails();
 
     //VARIABLE DECLARATIONS
     let history = useHistory();
@@ -61,16 +63,21 @@ const HeaderStyle4 = () => {
                                 <Nav.Link href="#">Notifications</Nav.Link>
                             </Nav.Item>
                             <Nav.Item as="li">
-                                <Nav.Link href="#">Profile</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item as="li">
                                 <Nav.Link href="#">Switch account</Nav.Link>
                             </Nav.Item>
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
+                            <NavDropdown title="Profile" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item onClick={() => {
+                                    dispatch(loginOutUser());
+                                    history.push(authLocations.login)
+                                }}>Logout</Dropdown.Item>
+                            </NavDropdown>
+                            {/* <NavDropdown title="Settings" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.3">Something else here</NavDropdown.Item>
-                            </NavDropdown>
+                            </NavDropdown> */}
                         </Nav>
                         <form className="d-flex">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -114,6 +121,12 @@ const HeaderStyle4 = () => {
                     </Link>
                     <Link
                         className='header-styles'
+                        to={wardsNoteLocations.wardsNote}
+                    >
+                        Ward's Note
+                    </Link>
+                    <Link
+                        className='header-styles'
                         to={assessmentLocations.assessment}
                     >
                         Assessment
@@ -136,12 +149,6 @@ const HeaderStyle4 = () => {
                     >
                         Announcement
                     </Link>
-                    {/* <Nav.Link href={teachersNoteLocations.teachersNote}>Teacher's Note</Nav.Link>
-                    <Nav.Link href={wardsNoteLocations.wardsNote}>Ward's Note</Nav.Link>
-                    <Nav.Link href={assessmentLocations.assessment}>Assessment</Nav.Link>
-                    <Nav.Link href={printResultLocations.printResult}>Print Result</Nav.Link>
-                    <Nav.Link href={timeTableLocations.timeTable}>Timetable</Nav.Link>
-                    <Nav.Link href={announcementLocations.announcement}>Announcement</Nav.Link> */}
                     {/* {parentNavLinks.map((item, idx) => (
                         <Link
                             className='header-styles'
