@@ -31,7 +31,7 @@ const MasterListSmallTable = ({ masterEntry, setShowMasterListTable}) => {
           
           </div>
         <Row className="pt-3">
-          <Table size="sm" responsive bordered className="w-50 border-secondary" style={{ background: '#d8efd1'}}>
+          <Table size="sm" responsive bordered className="w-50 border-secondary" style={{background: '#d8efd1',border:"1px solid black" ,borderCollapse:"collapse"}}>
             <tbody>
               <tr>
                 <th className="h6"style={{ border: "1px solid grey" }}>Session</th>

@@ -119,8 +119,8 @@ const ResultTemplateOne = (props) => {
                   <h5 className="text-uppercase text-center fw-bold"     style={{textTransform:"uppercase",textAlign:"center",fontWeight:"600"}}>
                     Result for {`${results?.session} ${results?.term} TERM`}
                   </h5>
-                  <div className="text-dark fw-bold  d-md-flex justify-content-around"style={{display:"flex",justifyContent: "space-around"}}>
-                    <div>
+                  <Row className="text-dark fw-bold  "style={{display:"flex",justifyContent: "space-around"}}>
+                    <Col md="3">
                       {" "}
                       <h6 className="text-center text-uppercase" style={{textTransform:"uppercase",textAlign:"center"}}>
                         grade Setting
@@ -146,7 +146,8 @@ const ResultTemplateOne = (props) => {
                           ))}
                         </tbody>
                       </Table>
-                    </div>
+                    </Col>
+                    <Col md="6">
                     <Table
                       responsive
                       bordered
@@ -159,7 +160,7 @@ const ResultTemplateOne = (props) => {
                         <tr>
                           <td
                             className="text-uppercase fw-bold"
-                            style={{ width: "30vw", color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black"  }}
+                            style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black"  }}
                           >
                             Student Name
                           </td>
@@ -251,7 +252,8 @@ const ResultTemplateOne = (props) => {
                         </tr>
                       </tbody>
                     </Table>
-                    <div>
+                    </Col>
+                    <Col md="3">
                       <h6 className="text-center text-uppercase"style={{textTransform:"uppercase",textAlign:"center"}} >
                         cognitive behaviour
                       </h6>
@@ -276,8 +278,8 @@ const ResultTemplateOne = (props) => {
                           ))}
                         </tbody>
                       </Table>
-                    </div>
-                  </div>
+                    </Col>
+                  </Row>
                   <Table
                     size="md"
                     bordered

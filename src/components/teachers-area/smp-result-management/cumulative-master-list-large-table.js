@@ -138,7 +138,7 @@ const CumulativeMasterListLargeTable = ({
               </Button>
             )}
           </div>
-          <Table size="md" bordered responsive className="mt-2">
+          <Table size="md" bordered responsive className="mt-2"  style={{border:"1px solid black" ,borderCollapse:"collapse"}}>
             <thead>
               <tr
                 className="text-center"
