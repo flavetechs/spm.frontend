@@ -12,6 +12,7 @@ import { authLocations } from './spm-path-locations'
 import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
+import parentDefault from '../layouts/dashboard/parent-default'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,20 +24,20 @@ const IndexRouters = () => {
             setIsLoggedIn(true)
     }, [isLoggedIn]);
 
-
     return (
         <>
             <Switch>
                 {
                     <>
-                        <Route exact path="/"
-                            component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
 
-                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : "/dashboard"}
-                            component={userDetail?.userType == 'Student' ? studentDefault : Default}></Route>
+                        <Route exact path="/"
+                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : Default}></Route>
+
+                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
+                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}></Route>
 
                         <Route path={authLocations.login} component={SignIn}></Route>
-                        
+
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
                         <Route path="/errors" component={Simple}></Route>
                     </>

@@ -24,19 +24,22 @@ const SignIn = () => {
 
     useEffect(() => {
         if (userDetail) {
-            if(JSON.parse(userDetail).isFirstTimeLogin === false){
+            if (JSON.parse(userDetail).isFirstTimeLogin === false) {
                 if (JSON.parse(userDetail).userType === 'Student') {
                     window.location.href = '/stds-dashboard';
-                } else {
+                } else if (JSON.parse(userDetail).userType === 'Parent') {
+                    window.location.href = '/parent-dashboard';
+                }
+                else {
                     window.location.href = '/dashboard';
                 }
-            }else{
+            } else {
                 localStorage.removeItem('token');
                 localStorage.removeItem('userDetail')
                 localStorage.removeItem('permissions')
-                history.push(authLocations.firstTimeLogin+'?id='+ JSON.parse(userDetail).userAccountId)
+                history.push(authLocations.firstTimeLogin + '?id=' + JSON.parse(userDetail).userAccountId)
             }
-           
+
         }
     }, [token, history, userDetail])
 

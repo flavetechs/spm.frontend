@@ -19,6 +19,7 @@ import { notificationReducer } from './reducers/notification-reducer'
 import { pinReducer } from './reducers/pin-management-reducer'
 import { timetableReducer } from './reducers/timetable-reducer'
 import { dashboardReducer } from './reducers/dashboard-reducer'
+import { parentReducer } from './reducers/parent-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -41,5 +42,6 @@ export default createStore(
         pin: pinReducer,
         timetable: timetableReducer,
         dashboard: dashboardReducer,
+        parent: parentReducer,
     })
 )

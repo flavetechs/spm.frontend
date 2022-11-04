@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { bindActionCreators } from "redux"
 //circular
@@ -8,7 +8,7 @@ import Circularprogressbar from '../../components/circularprogressbar.js'
 
 // AOS
 import AOS from 'aos'
-import '../../../node_modules/aos/dist/aos'
+import 'aos'
 import '../../../node_modules/aos/dist/aos.css'
 //apexcharts
 import Chart from "react-apexcharts";
@@ -33,26 +33,9 @@ import shapes5 from '../../assets/images/shapes/05.png'
 //Count-up
 import CountUp from 'react-countup';
 // store
-import {
-    NavbarstyleAction,
-    getDirMode,
-    getcustomizerMode,
-    getcustomizerprimaryMode,
-    getcustomizerinfoMode,
-    SchemeDirAction,
-    ColorCustomizerAction,
-    getNavbarStyleMode,
-    getSidebarActiveMode,
-    SidebarActiveStyleAction,
-    getDarkMode,
-    ModeAction,
-    SidebarColorAction,
-    getSidebarColorMode,
-    getSidebarTypeMode,
-} from '../../store/setting/setting'
+import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
 import { connect } from "react-redux"
-import { getUserDetails, hasAccess, NavPermissions } from '../../utils/permissions.js'
-import { getAllDashboardCount } from '../../store/actions/dashboard-actions.js'
+// import { getAllStudentDashboardCount } from '../../store/actions/dashboard-actions.js'
 
 
 // install Swiper modules
@@ -71,36 +54,22 @@ const mapStateToProps = (state) => {
         navbarstylemode: getNavbarStyleMode(state),
     };
 }
-const mapDispatchToProps = dispatch => (
-    {
-        ...bindActionCreators(
-            {
-                ModeAction,
-                SchemeDirAction,
-                SidebarColorAction,
-                SidebarActiveStyleAction,
-                NavbarstyleAction,
-                ColorCustomizerAction,
-            },
-            dispatch
-        ),
-    }
-)
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators(
+        {
+            ModeAction,
+            SchemeDirAction,
+            SidebarColorAction,
+            SidebarActiveStyleAction,
+            NavbarstyleAction,
+            ColorCustomizerAction,
+        },
+        dispatch
+    )
+})
 
 
-const Index = (props) => {
-    var userDetail = getUserDetails();
-
-    const location = useLocation();
-
-    const [dashboardCount, setDashboardCount] = useState({});
-
-    useEffect(async () => {
-        await getAllDashboardCount()
-        setTimeout(() => {
-            setDashboardCount(JSON.parse(localStorage.getItem('dashboardCount')));
-        }, 3000)
-    }, [location.search])
+const StudentIndex = (props) => {
 
     useEffect(() => {
 
@@ -130,8 +99,7 @@ const Index = (props) => {
 
         }
 
-
-    });
+    })
 
     const chart1 = {
         options: {
@@ -306,7 +274,6 @@ const Index = (props) => {
         }]
     }
 
-
     return (
         <>
             <Row>
@@ -331,76 +298,51 @@ const Index = (props) => {
                                     2440: { slidesPerView: 8 }
                                 }} data-aos="fade-up" data-aos-delay="700"
                             >
-                                {hasAccess(NavPermissions.totalEnrolledStudent) && (
-                                    <SwiperSlide className="card card-slide" >
-                                        <div className="card-body">
-                                            <div className="progress-widget" >
-                                                <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" Linecap='rounded' trailstroke='#ddd' strokewidth="4px" style={{ width: 60, height: 60, }} value={90} id="circle-progress-01" >
-                                                    <svg className="" width="24" height="24px" viewBox="0 0 24 24">
-                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                    </svg>
-                                                </Circularprogressbar>
-                                                <div className="progress-detail">
-                                                    <p className="mb-2">Students</p>
-                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totaldStudent} duration={3} /></h4>
-                                                </div>
+                                <SwiperSlide className="card card-slide" >
+                                    <div className="card-body">
+                                        <div className="progress-widget" >
+                                            <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" Linecap='rounded' trailstroke='#ddd' strokewidth="4px" style={{ width: 60, height: 60, }} value={90} id="circle-progress-01" >
+                                                <svg className="" width="24" height="24px" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                </svg>
+                                            </Circularprogressbar>
+                                            <div className="progress-detail">
+                                                <p className="mb-2">Total Wards</p>
+                                                <h4 className="counter"><CountUp start={0} end={3} duration={3} /></h4>
                                             </div>
                                         </div>
-                                    </SwiperSlide>
-                                )}
-
-                                {hasAccess(NavPermissions.totalStaff) && (
-                                    <SwiperSlide className=" card card-slide" >
-                                        <div className="card-body">
-                                            <div className="progress-widget">
-                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-02" >
-                                                    <svg className="" width="24" height="24" viewBox="0 0 24 24">
-                                                        <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                                                    </svg>
-                                                </Circularprogressbar>
-                                                <div className="progress-detail">
-                                                    <p className="mb-2">Teachers</p>
-                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalStaff} duration={3} /></h4>
-                                                </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide className=" card card-slide" >
+                                    <div className="card-body">
+                                        <div className="progress-widget">
+                                            <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-02" >
+                                                <svg className="" width="24" height="24" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                                                </svg>
+                                            </Circularprogressbar>
+                                            <div className="progress-detail">
+                                                <p className="mb-2">Total Assessment</p>
+                                                <h4 className="counter"><CountUp start={0} end={44} duration={3} /></h4>
                                             </div>
                                         </div>
-                                    </SwiperSlide>
-                                )}
-                                {hasAccess(NavPermissions.totalSubjects) && (
-                                    <SwiperSlide className=" card card-slide" >
-                                        <div className="card-body">
-                                            <div className="progress-widget">
-                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
-                                                    <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                    </svg>
-                                                </Circularprogressbar>
-                                                <div className="progress-detail">
-                                                    <p className="mb-2">Subjects</p>
-                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalSubjects} duration={3} /></h4>
-                                                </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide className=" card card-slide" >
+                                    <div className="card-body">
+                                        <div className="progress-widget">
+                                            <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={70} id="circle-progress-03" >
+                                                <svg className="" width="24" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                                                </svg>
+                                            </Circularprogressbar>
+                                            <div className="progress-detail">
+                                                <p className="mb-2">Teacher's Notes</p>
+                                                <h4 className="counter"><CountUp start={0} end={66} duration={3} /></h4>
                                             </div>
                                         </div>
-                                    </SwiperSlide>
-                                )}
-                                {hasAccess(NavPermissions.totalClasses) && (
-                                    <SwiperSlide className=" card card-slide" >
-                                        <div className="card-body">
-                                            <div className="progress-widget">
-                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{ width: 60, height: 60, }} value={60} id="circle-progress-04" >
-                                                    <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
-                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
-                                                    </svg>
-                                                </Circularprogressbar>
-                                                <div className="progress-detail">
-                                                    <p className="mb-2">Total Class</p>
-                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalClass} duration={3} /></h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                )}
-
+                                    </div>
+                                </SwiperSlide>
                                 <SwiperSlide className=" card card-slide" >
                                     <div className="card-body">
                                         <div className="progress-widget">
@@ -410,29 +352,57 @@ const Index = (props) => {
                                                 </svg>
                                             </Circularprogressbar>
                                             <div className="progress-detail">
-                                                <p className="mb-2">Assessment</p>
-                                                <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalAssessments} duration={3} /></h4>
+                                                <p className="mb-2">Ward's Notes</p>
+                                                <h4 className="counter"><CountUp start={0} end={66} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                {hasAccess(NavPermissions.unusedPins) && (
+                                {/* <SwiperSlide className=" card card-slide" >
+                                        <div className="card-body">
+                                            <div className="progress-widget">
+                                                <Circularprogressbar stroke={props.colorprimarymode} width="60px" height="60px" trailstroke='#ddd' strokewidth="4px" Linecap='rounded' style={{width:60, height:60,}} value={50} id="circle-progress-05" >
+                                                <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p  className="mb-2">Net Income</p>
+                                                    <h4 className="counter">$<CountUp  start={35} end={150} duration={3}/>K</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
                                     <SwiperSlide className=" card card-slide" >
                                         <div className="card-body">
                                             <div className="progress-widget">
-                                                <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' Linecap='rounded' strokewidth="4px" value={40} style={{ width: 60, height: 60, }} id="circle-progress-06">
+                                                    <Circularprogressbar stroke={props.cololrinfomode} width="60px" height="60px" trailstroke='#ddd' Linecap='rounded' strokewidth="4px" value={40}  style={{width:60, height:60,}} id="circle-progress-06">
                                                     <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
                                                         <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
                                                     </svg>
                                                 </Circularprogressbar>
                                                 <div className="progress-detail">
-                                                    <p className="mb-2">Unused Pins</p>
-                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalUnusedPins} duration={3} /></h4>
+                                                    <p  className="mb-2">Today</p>
+                                                    <h4 className="counter">$<CountUp  start={652} end={4600} duration={3}/></h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </SwiperSlide>
-                                )}
+                                    <SwiperSlide className=" card card-slide">
+                                        <div className="card-body">
+                                            <div className="progress-widget">
+                                                <Circularprogressbar stroke={props.colorprimarymode}  Linecap='rounded' trailstroke='#ddd' strokewidth="4px" width="60px" height="60px" value={30} style={{width:60, height:60,}} id="circle-progress-07" >
+                                                    <svg className="" width="24px" height="24px" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                                                    </svg>
+                                                </Circularprogressbar>
+                                                <div className="progress-detail">
+                                                    <p  className="mb-2">Members</p>
+                                                    <h4 className="counter"><CountUp  start={2} end={11.2} duration={3} decimals={1}/>M</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide> */}
                                 <div className="swiper-button swiper-button-next"></div>
                                 <div className="swiper-button swiper-button-prev"></div>
                             </Swiper>
@@ -441,132 +411,132 @@ const Index = (props) => {
                 </Col>
                 <Col md="12" lg="8">
                     <Row>
-                        <Col md="12">
-                            <div className="card" data-aos="fade-up" data-aos-delay="800">
-                                <div className="flex-wrap card-header d-flex justify-content-between">
-                                    <div className="header-title">
-                                        <h4 className="card-title">0</h4>
-                                        <p className="mb-0">Pin Sales</p>
-                                    </div>
-                                    <div className="d-flex align-items-center align-self-center">
-                                        <div className="d-flex align-items-center text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" viewBox="0 0 24 24" fill="currentColor">
-                                                <g>
-                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                                </g>
-                                            </svg>
-                                            <div className="ms-2">
-                                                <span className="text-secondary">Unused</span>
+                        {/* <Col md="12">
+                                <div className="card" data-aos="fade-up" data-aos-delay="800">
+                                    <div className="flex-wrap card-header d-flex justify-content-between">
+                                        <div className="header-title">
+                                            <h4 className="card-title">$855.8K</h4>
+                                            <p className="mb-0">Gross Sales</p>          
+                                        </div>
+                                        <div className="d-flex align-items-center align-self-center">
+                                            <div className="d-flex align-items-center text-primary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <g>
+                                                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                    </g>
+                                                </svg>
+                                                <div className="ms-2">
+                                                <span className="text-secondary">Sales</span>
+                                                </div>
+                                            </div>
+                                            <div className="d-flex align-items-center ms-3 text-info">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <g>
+                                                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                                    </g>
+                                                </svg>
+                                                <div className="ms-2">
+                                                    <span className="text-secondary">Cost</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="d-flex align-items-center ms-3 text-info">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" viewBox="0 0 24 24" fill="currentColor">
-                                                <g>
-                                                    <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                                </g>
-                                            </svg>
-                                            <div className="ms-2">
-                                                <span className="text-secondary">Used</span>
-                                            </div>
-                                        </div>
+                                        <Dropdown>
+                                            <Dropdown.Toggle as={Button} href="#" variant=" text-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                This Week
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+                                                <li><Dropdown.Item href="#">This Week</Dropdown.Item></li>
+                                                <li><Dropdown.Item href="#">This Month</Dropdown.Item></li>
+                                                <li><Dropdown.Item href="#">This Year</Dropdown.Item></li>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                     </div>
-                                    <Dropdown>
-                                        <Dropdown.Toggle as={Button} href="#" variant=" text-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Current Session
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
-                                            <li><Dropdown.Item href="#">Current Session</Dropdown.Item></li>
-                                            <li><Dropdown.Item href="#">Previous Session</Dropdown.Item></li>
-                                            <li><Dropdown.Item href="#">Other Sessions</Dropdown.Item></li>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                                <div className="card-body">
-                                    <Chart options={chart1.options} series={chart1.series} type="area" height="245" />
-                                </div>
-                            </div>
-                        </Col>
-                        <Col md="12" xl="6">
-                            <div className="card" data-aos="fade-up" data-aos-delay="900">
-                                <div className="flex-wrap card-header d-flex justify-content-between">
-                                    <div className="header-title">
-                                        <h4 className="card-title">Students</h4>
+                                    <div className="card-body">
+                                        <Chart  options={chart1.options} series={chart1.series} type="area"   height="245"  />
                                     </div>
-                                    <Dropdown>
-                                        <Dropdown.Toggle as={Button} href="#" variant=" text-secondary" id="dropdownMenuButton1" aria-expanded="false">
-                                            This Week
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu className=" dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                            <li><Dropdown.Item href="#">This Week</Dropdown.Item></li>
-                                            <li><Dropdown.Item href="#">This Month</Dropdown.Item></li>
-                                            <li><Dropdown.Item href="#">This Year</Dropdown.Item></li>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
                                 </div>
-                                <div className="card-body">
-                                    <div className="flex-wrap d-flex align-items-center justify-content-between">
-                                        <Chart className="col-md-8 col-lg-8" options={chart2.options} series={chart2.series} type="radialBar" height="250" />
-                                        <div className="d-grid gap col-md-4 col-lg-4">
-                                            <div className="d-flex align-items-start">
+                            </Col> */}
+                        {/* <Col md="12" xl="6">
+                                <div className="card" data-aos="fade-up" data-aos-delay="900">
+                                    <div className="flex-wrap card-header d-flex justify-content-between">
+                                        <div className="header-title">
+                                            <h4 className="card-title">Earnings</h4>            
+                                        </div>   
+                                        <Dropdown>
+                                            <Dropdown.Toggle as={Button} href="#" variant=" text-secondary" id="dropdownMenuButton1" aria-expanded="false">
+                                                This Week
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu className=" dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                                <li><Dropdown.Item href="#">This Week</Dropdown.Item></li>
+                                                <li><Dropdown.Item href="#">This Month</Dropdown.Item></li>
+                                                <li><Dropdown.Item href="#">This Year</Dropdown.Item></li>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </div>
+                                    <div className="card-body">
+                                        <div className="flex-wrap d-flex align-items-center justify-content-between">
+                                            <Chart className="col-md-8 col-lg-8" options={chart2.options} series={chart2.series} type="radialBar"   height="250"  />
+                                            <div className="d-grid gap col-md-4 col-lg-4">
+                                                <div className="d-flex align-items-start">
                                                 <svg className="mt-2" xmlns="http://www.w3.org/2000/svg" width="14" viewBox="0 0 24 24" fill="#3a57e8">
                                                     <g>
                                                         <circle cx="12" cy="12" r="8" fill="#3a57e8"></circle>
                                                     </g>
                                                 </svg>
                                                 <div className="ms-3">
-                                                    <span className="text-secondary">Enrolled</span>
-                                                    <h6>0</h6>
+                                                    <span className="text-secondary">Fashion</span>
+                                                    <h6>251K</h6>
                                                 </div>
-                                            </div>
-                                            <div className="d-flex align-items-start">
+                                                </div>
+                                                <div className="d-flex align-items-start">
                                                 <svg className="mt-2" xmlns="http://www.w3.org/2000/svg" width="14" viewBox="0 0 24 24" fill="#4bc7d2">
                                                     <g>
                                                         <circle cx="12" cy="12" r="8" fill="#4bc7d2"></circle>
                                                     </g>
                                                 </svg>
                                                 <div className="ms-3">
-                                                    <span className="text-secondary">Unenrolled</span>
-                                                    <h6>0</h6>
+                                                    <span className="text-secondary">Accessories</span>
+                                                    <h6>176K</h6>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Col>
-                        {/*   <Col md="12" xl="6">
-                            <div className="card" data-aos="fade-up" data-aos-delay="1000">
-                                <div className="flex-wrap card-header d-flex justify-content-between">
-                                    <div className="header-title">
-                                        <h4 className="card-title">Conversions</h4>
+                            </Col> */}
+                        {/* <Col md="12" xl="6">
+                                <div className="card" data-aos="fade-up" data-aos-delay="1000">
+                                    <div className="flex-wrap card-header d-flex justify-content-between">
+                                        <div className="header-title">
+                                            <h4 className="card-title">Conversions</h4>            
+                                        </div>
+                                        <Dropdown>
+                                            <Dropdown.Toggle as={Button} href="#" variant=" text-secondary" id="dropdownMenuButton3" aria-expanded="false">
+                                                This Week
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="dropdownMenuButton3">
+                                                <li><Dropdown.Item href="#">This Week</Dropdown.Item></li>
+                                                <li><Dropdown.Item href="#">This Month</Dropdown.Item></li>
+                                                <li><Dropdown.Item href="#">This Year</Dropdown.Item></li>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                     </div>
-                                    <Dropdown>
-                                        <Dropdown.Toggle as={Button} href="#" variant=" text-secondary" id="dropdownMenuButton3" aria-expanded="false">
-                                            This Week
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="dropdownMenuButton3">
-                                            <li><Dropdown.Item href="#">This Week</Dropdown.Item></li>
-                                            <li><Dropdown.Item href="#">This Month</Dropdown.Item></li>
-                                            <li><Dropdown.Item href="#">This Year</Dropdown.Item></li>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                    <div className="card-body">
+                                        <Chart className="d-activity" options={chart3.options} series={chart3.series} type="bar"   height="230"  />
+                                    </div>
                                 </div>
-                                <div className="card-body">
-                                    <Chart className="d-activity" options={chart3.options} series={chart3.series} type="bar" height="230" />
-                                </div>
-                            </div>
-                        </Col>
+                            </Col>          */}
                         <Col md="12" lg="12">
                             <div className="overflow-hidden card" data-aos="fade-up" data-aos-delay="600">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
                                     <div className="header-title">
                                         <h4 className="mb-2 card-title">Enterprise Clients</h4>
-                                        <p className="mb-0">
-                                            <svg className="me-2" width="24" height="24" viewBox="0 0 24 24">
-                                                <path fill="#3a57e8" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
-                                            </svg>
-                                            15 new acquired this month
-                                        </p>
+                                        {/* <p className="mb-0">
+                                                <svg className ="me-2" width="24" height="24" viewBox="0 0 24 24">
+                                                    <path fill="#3a57e8" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+                                                </svg>
+                                                15 new acquired this month
+                                            </p>             */}
                                     </div>
                                 </div>
                                 <div className="p-0 card-body">
@@ -717,7 +687,7 @@ const Index = (props) => {
                                     </div>
                                 </div>
                             </div>
-                        </Col> */}
+                        </Col>
                     </Row>
                 </Col>
                 <Col md="12" lg="4">
@@ -728,7 +698,7 @@ const Index = (props) => {
                                     <div className="p-4 border border-white rounded primary-gradient-card">
                                         <div className="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <h5 className="font-weight-bold">FWS CARD </h5>
+                                                <h5 className="font-weight-bold">VISA </h5>
                                                 <p className="mb-0">PREMIUM ACCOUNT</p>
                                             </div>
                                             <div className="master-card-content">
@@ -753,7 +723,7 @@ const Index = (props) => {
                                             <p className="mb-0">Expire Date</p>
                                         </div>
                                         <div className="d-flex align-items-center justify-content-between">
-                                            <h6>{userDetail?.schoolName ?? ''}</h6>
+                                            <h6>Mike Smith</h6>
                                             <h6 className="ms-5">06/11</h6>
                                         </div>
                                     </div>
@@ -769,8 +739,8 @@ const Index = (props) => {
                                                 </div>
                                             </div>
                                             <div className="ms-3">
-                                                <h5>8</h5>
-                                                <small className="mb-0">Active Products</small>
+                                                <h5>1153</h5>
+                                                <small className="mb-0">Products</small>
                                             </div>
                                         </div>
                                         <div className="d-flex align-itmes-center">
@@ -782,92 +752,92 @@ const Index = (props) => {
                                                 </div>
                                             </div>
                                             <div className="ms-3">
-                                                <h5>2</h5>
-                                                <small className="mb-0">Premium Services</small>
+                                                <h5>81K</h5>
+                                                <small className="mb-0">Order Served</small>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mb-4">
-                                        <div className="flex-wrap d-flex justify-content-between">
-                                            <h2 className="mb-2">000</h2>
-                                            <div>
+                                    {/* <div className="mb-4">
+                                            <div className="flex-wrap d-flex justify-content-between">
+                                                <h2 className="mb-2">$405,012,300</h2>
+                                                <div>
                                                 <span className="badge bg-success rounded-pill">YoY 24%</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <p className="text-info">Total Cards Sales</p>
-                                    </div>
+                                            <p className="text-info">Life time sales</p>
+                                        </div> */}
                                     <div className="grid-cols-2 d-grid gap">
-                                        <button disabled={true} className="btn btn-primary text-uppercase">PURCHASE CARDS</button>
-                                        <button disabled={true} className="btn btn-info text-uppercase">ANALYTICS</button>
+                                        <button className="btn btn-primary text-uppercase">SUMMARY</button>
+                                        <button className="btn btn-info text-uppercase">ANALYTICS</button>
                                     </div>
                                 </div>
                             </div>
                             {/* <div className="card" data-aos="fade-up" data-aos-delay="500">
-                                <div className="text-center card-body d-flex justify-content-around">
-                                    <div>
-                                        <h2 className="mb-2">750<small>K</small></h2>
-                                        <p className="mb-0 text-secondary">Website Visitors</p>
+                                    <div className="text-center card-body d-flex justify-content-around">
+                                        <div>
+                                            <h2 className="mb-2">750<small>K</small></h2>
+                                            <p className="mb-0 text-secondary">Website Visitors</p>
+                                        </div>
+                                        <hr className="hr-vertial"/>
+                                        <div>
+                                            <h2 className="mb-2">7,500</h2>
+                                            <p className="mb-0 text-secondary">New Customers</p>
+                                        </div>
                                     </div>
-                                    <hr className="hr-vertial" />
-                                    <div>
-                                        <h2 className="mb-2">7,500</h2>
-                                        <p className="mb-0 text-secondary">New Customers</p>
-                                    </div>
-                                </div>
-                            </div> */}
+                                </div>  */}
                         </Col>
                         {/* <Col md="12">
-                            <div className="card" data-aos="fade-up" data-aos-delay="600">
-                                <div className="flex-wrap card-header d-flex justify-content-between">
-                                    <div className="header-title">
-                                        <h4 className="mb-2 card-title">Activity overview</h4>
-                                        <p className="mb-0">
-                                            <svg className="me-2" width="24" height="24" viewBox="0 0 24 24">
-                                                <path fill="#17904b" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
-                                            </svg>
-                                            16% this month
-                                        </p>
+                                <div className="card" data-aos="fade-up" data-aos-delay="600">
+                                    <div className="flex-wrap card-header d-flex justify-content-between">
+                                        <div className="header-title">
+                                            <h4 className="mb-2 card-title">Activity overview</h4>
+                                            <p className="mb-0">
+                                                <svg className ="me-2" width="24" height="24" viewBox="0 0 24 24">
+                                                    <path fill="#17904b" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
+                                                </svg>
+                                                16% this month
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="card-body">
+                                        <div className="mb-2 d-flex profile-media align-items-top">
+                                            <div className="mt-1 profile-dots-pills border-primary"></div>
+                                            <div className="ms-4">
+                                                <h6 className="mb-1 ">$2400, Purchase</h6>
+                                                <span className="mb-0">11 JUL 8:10 PM</span>
+                                            </div>
+                                        </div>
+                                        <div className="mb-2 d-flex profile-media align-items-top">
+                                            <div className="mt-1 profile-dots-pills border-primary"></div>
+                                            <div className="ms-4">
+                                                <h6 className="mb-1 ">New order #8744152</h6>
+                                                <span className="mb-0">11 JUL 11 PM</span>
+                                            </div>
+                                        </div>
+                                        <div className="mb-2 d-flex profile-media align-items-top">
+                                            <div className="mt-1 profile-dots-pills border-primary"></div>
+                                            <div className="ms-4">
+                                                <h6 className="mb-1 ">Affiliate Payout</h6>
+                                                <span className="mb-0">11 JUL 7:64 PM</span>
+                                            </div>
+                                        </div>
+                                        <div className="mb-2 d-flex profile-media align-items-top">
+                                            <div className="mt-1 profile-dots-pills border-primary"></div>
+                                            <div className="ms-4">
+                                                <h6 className="mb-1 ">New user added</h6>
+                                                <span className="mb-0">11 JUL 1:21 AM</span>
+                                            </div>
+                                        </div>
+                                        <div className="mb-1 d-flex profile-media align-items-top">
+                                            <div className="mt-1 profile-dots-pills border-primary"></div>
+                                            <div className="ms-4">
+                                                <h6 className="mb-1 ">Product added</h6>
+                                                <span className="mb-0">11 JUL 4:50 AM</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="card-body">
-                                    <div className="mb-2 d-flex profile-media align-items-top">
-                                        <div className="mt-1 profile-dots-pills border-primary"></div>
-                                        <div className="ms-4">
-                                            <h6 className="mb-1 ">$2400, Purchase</h6>
-                                            <span className="mb-0">11 JUL 8:10 PM</span>
-                                        </div>
-                                    </div>
-                                    <div className="mb-2 d-flex profile-media align-items-top">
-                                        <div className="mt-1 profile-dots-pills border-primary"></div>
-                                        <div className="ms-4">
-                                            <h6 className="mb-1 ">New order #8744152</h6>
-                                            <span className="mb-0">11 JUL 11 PM</span>
-                                        </div>
-                                    </div>
-                                    <div className="mb-2 d-flex profile-media align-items-top">
-                                        <div className="mt-1 profile-dots-pills border-primary"></div>
-                                        <div className="ms-4">
-                                            <h6 className="mb-1 ">Affiliate Payout</h6>
-                                            <span className="mb-0">11 JUL 7:64 PM</span>
-                                        </div>
-                                    </div>
-                                    <div className="mb-2 d-flex profile-media align-items-top">
-                                        <div className="mt-1 profile-dots-pills border-primary"></div>
-                                        <div className="ms-4">
-                                            <h6 className="mb-1 ">New user added</h6>
-                                            <span className="mb-0">11 JUL 1:21 AM</span>
-                                        </div>
-                                    </div>
-                                    <div className="mb-1 d-flex profile-media align-items-top">
-                                        <div className="mt-1 profile-dots-pills border-primary"></div>
-                                        <div className="ms-4">
-                                            <h6 className="mb-1 ">Product added</h6>
-                                            <span className="mb-0">11 JUL 4:50 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Col> */}
+                            </Col> */}
                     </Row>
                 </Col>
             </Row>
@@ -875,4 +845,4 @@ const Index = (props) => {
     )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default connect(mapStateToProps, mapDispatchToProps)(StudentIndex)
