@@ -18,22 +18,22 @@ const TeachersNoteView = () => {
     const locations = useLocation();
     const state = useSelector((state) => state);
     const { classNotes, studentSubjectList, filterProps } = state.class;
-    var userDetail = getUserDetails();
+    // var userDetail = getUserDetails();
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
-        getAllStudentSubjects(userDetail.id)(dispatch);
-    }, [dispatch, userDetail.id]);
+        // getAllStudentSubjects(userDetail.id)(dispatch);
+    }, [dispatch]);
 
     const queryParams = new URLSearchParams(locations.search);
     const subjectIdQuery = queryParams.get("subjectId");
-    React.useEffect(() => {
-        if (subjectIdQuery) {
-            getAllClassNotes(subjectIdQuery, 1)(dispatch);
-        } else if (!subjectIdQuery) {
-            getAllClassNotes("", 1)(dispatch);
-        }
-    }, [subjectIdQuery, dispatch]);
+    // React.useEffect(() => {
+    //     if (subjectIdQuery) {
+    //         getAllClassNotes(subjectIdQuery, 1)(dispatch);
+    //     } else if (!subjectIdQuery) {
+    //         getAllClassNotes("", 1)(dispatch);
+    //     }
+    // }, [subjectIdQuery, dispatch]);
 
     return (
         <>
@@ -88,7 +88,7 @@ const TeachersNoteView = () => {
                                             <Card.Body className="p-3">
                                                 <div className="d-xl-flex align-items-center justify-content-between">
                                                     <div>
-                                                        <h5>TEACHER'S NOTE FOR JANE PASCHAL</h5>
+                                                        <h5>TEACHER'S NOTE FOR ...</h5>
                                                     </div>
                                                     <div className="d-xl-flex align-items-center flex-wrap">
                                                         <div className=" me-3 mt-3 mt-xl-0 dropdown">

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { teachersNoteLocations } from '../../../router/parents-path-locations';
+import { getMyWardsList } from '../../../store/actions/parent-actions';
 
 const TeachersNote = () => {
 
@@ -12,24 +14,33 @@ const TeachersNote = () => {
     { name: "Andrew Paschal", RegNo: "ABC/091198/XYZ", studentClass: "SS1", photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzNp23uU60xK2i-3ISQWMpgT8t8OscQ9emVQ&usqp=CAU" },
   ]);
 
+  //VARIABLE DECLARATIONS
+  let history = useHistory();
+  const dispatch = useDispatch();
+  //VARIABLE DECLARATIONS
+
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { myWardList, filterProps } = state.parent;
+  // ACCESSING STATE FROM REDUX STORE
+
+  React.useEffect(() => {
+    getMyWardsList(1)(dispatch);
+  }, [dispatch]);
+
   return (
     <Row>
       <Card>
-        {/* <Card.Header>
-          <div className=''>
-            <h4>Teacher Note</h4>
-          </div>
-        </Card.Header> */}
         <Card>
           <Card.Body>
             <div className=''>
-              <h4>Teacher Note</h4>
+              <h4>Teacher's Note</h4>
             </div>
           </Card.Body>
         </Card>
         <Card.Body>
           <Row>
-            {studentList?.map((item, index) => (
+            {myWardList?.map((item, index) => (
               <Col key={index}>
                 <Card style={{ width: '16rem' }}>
                   <Card.Img variant="top" src={item.photo}
@@ -37,21 +48,17 @@ const TeachersNote = () => {
                     alt="Student Photo"
                   />
                   <Card.Body >
-                    <Card.Title className='bg-light'>{item.name}</Card.Title>
-                    <Card.Title>{item.RegNo}</Card.Title>
-                    <Card.Title>{item.studentClass}</Card.Title>
-                    {/* <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the card's content.
-                    </Card.Text> */}
-                    {/* <Button variant="primary"> */}
-                      <Link
+                    <Card.Title className='bg-light'>{item.fullnaName}</Card.Title>
+                    <Card.Title>{item.registrationNumber}</Card.Title>
+                    <Card.Title>{item.class}</Card.Title>
+                    <Link
                       className='btn btn-primary'
-                      to={`${teachersNoteLocations.teachersNotesView}`}
-                      >
-                         View Student Note
-                      </Link>
-                     
+                      to={`${teachersNoteLocations.teachersNotesView}?classId=${item.classId}`}
+
+                    >
+                      View Student Note
+                    </Link>
+
                     {/* </Button> */}
                   </Card.Body>
                 </Card>
