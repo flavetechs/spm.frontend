@@ -119,10 +119,10 @@ const ResultTemplateOne = (props) => {
                   <h5 className="text-uppercase text-center fw-bold"     style={{textTransform:"uppercase",textAlign:"center",fontWeight:"600"}}>
                     Result for {`${results?.session} ${results?.term} TERM`}
                   </h5>
-                  <Row className="text-dark fw-bold  "style={{display:"flex",justifyContent: "space-around"}}>
+                  <Row className="text-dark fw-bold  "style={{display:"flex",justifyContent:"space-evenly"}}>
                     <Col md="3">
                       {" "}
-                      <h6 className="text-center text-uppercase" style={{textTransform:"uppercase",textAlign:"center"}}>
+                      <h6 className="text-center text-uppercase" style={{textTransform:"uppercase",textAlign:"center",marginTop:"-5px"}}>
                         grade Setting
                       </h6>
                       <Table
@@ -254,7 +254,7 @@ const ResultTemplateOne = (props) => {
                     </Table>
                     </Col>
                     <Col md="3">
-                      <h6 className="text-center text-uppercase"style={{textTransform:"uppercase",textAlign:"center"}} >
+                      <h6 className="text-center text-uppercase"style={{textTransform:"uppercase",textAlign:"center",marginTop:"-5px"}} >
                         cognitive behaviour
                       </h6>
                       <Table
@@ -337,7 +337,7 @@ const ResultTemplateOne = (props) => {
                           draggable="false"
                         />
                       </div>
-                      Principal's signature and Stamp
+                      {resultSetting?.headteacher}'s signature and Stamp
                     </div>
                   </div>
                 </div>
