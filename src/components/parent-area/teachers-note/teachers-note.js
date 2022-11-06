@@ -4,6 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { teachersNoteLocations } from '../../../router/parents-path-locations';
 import { getMyWardsList } from '../../../store/actions/parent-actions';
+// import avatars1 from '../../../assets/images/avatars/'
+import avatars1 from "../../../assets/images/avatars/01.png";
+import avatars2 from "../../../assets/images/avatars/avtar_1.png";
+import avatars3 from "../../../assets/images/avatars/avtar_2.png";
+import avatars4 from "../../../assets/images/avatars/avtar_3.png";
+import avatars5 from "../../../assets/images/avatars/avtar_4.png";
+import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 
 const TeachersNote = () => {
 
@@ -43,18 +50,59 @@ const TeachersNote = () => {
             {myWardList?.map((item, index) => (
               <Col key={index}>
                 <Card style={{ width: '16rem' }}>
-                  <Card.Img variant="top" src={item.photo}
-                    style={{ width: "16rem", height: "16rem" }}
-                    alt="Student Photo"
-                  />
+                  {item.profileUrl ?
+                    <Card.Img variant="top" src={item.profileUrl}
+                      style={{ width: "16rem", height: "16rem" }}
+                      alt="Student Photo"
+                    />
+                    :
+                    <div>
+                      <img
+                        style={{ width: "16rem", height: "16rem" }}
+                        src={avatars1}
+                        alt="User-Profile"
+                        className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                      />
+                      <img
+                        style={{ width: "16rem", height: "16rem" }}
+                        src={avatars2}
+                        alt="User-Profile"
+                        className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                      />
+                      <img
+                        style={{ width: "16rem", height: "16rem" }}
+                        src={avatars3}
+                        alt="User-Profile"
+                        className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                      />
+                      <img
+                        style={{ width: "16rem", height: "16rem" }}
+                        src={avatars5}
+                        alt="User-Profile"
+                        className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                      />
+                      <img
+                        style={{ width: "16rem", height: "16rem" }}
+                        src={avatars6}
+                        alt="User-Profile"
+                        className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                      />
+                      <img
+                        style={{ width: "16rem", height: "16rem" }}
+                        src={avatars4}
+                        alt="User-Profile"
+                        className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                      />{" "}
+                    </div>
+                  }
+
                   <Card.Body >
                     <Card.Title className='bg-light'>{item.fullnaName}</Card.Title>
                     <Card.Title>{item.registrationNumber}</Card.Title>
                     <Card.Title>{item.class}</Card.Title>
                     <Link
                       className='btn btn-primary'
-                      to={`${teachersNoteLocations.teachersNotesView}?classId=${item.classId}`}
-
+                      to={`${teachersNoteLocations.teachersNotesView}?classId=${item.classId}&ward=${item.fullnaName}`}
                     >
                       View Student Note
                     </Link>
