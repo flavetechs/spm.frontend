@@ -3,50 +3,40 @@ import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { getAllClassNotes } from "../../../store/actions/class-actions";
-import { getUserDetails } from "../../../utils/permissions";
+import { getAllMyWardsClassNotes } from "../../../store/actions/parent-actions";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
 const TeachersNoteViewList = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [indexRow, setIndexRow] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { classNotes, studentSubjectList,filterProps } = state.class;
+  const { filterProps, myWardsClassNotes } = state.parent;
   // ACCESSING STATE FROM REDUX STORE
 
   const queryParams = new URLSearchParams(locations.search);
+  const classIdQuery = queryParams.get("classId");
   const subjectIdQuery = queryParams.get("subjectId");
-  React.useEffect(() => {
-    if (subjectIdQuery) {
-      getAllClassNotes(subjectIdQuery,1)(dispatch);
-    } else if (!subjectIdQuery) {
-      getAllClassNotes("",1)(dispatch);
-    }
-  }, [subjectIdQuery, dispatch]);
 
-  const filteredLessonNotes = classNotes?.filter((item) => {
-    if (searchQuery === "") {
-      //if query is empty
-      return item;
-    } else if (
-      item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return item;
-    } else if (
-      item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return item;
+  React.useEffect(() => {
+    if (classIdQuery && subjectIdQuery) {
+      getAllMyWardsClassNotes(1,classIdQuery, subjectIdQuery)(dispatch);
+    } else if (!classIdQuery || !subjectIdQuery) {
+      getAllMyWardsClassNotes("", 1)(dispatch);
     }
-  });
+  }, [classIdQuery, subjectIdQuery, dispatch]);
+
+  let myWardsClassNotess = [
+    {noteTitle: "civic manual", status: "approved", date: "20-11-2003", subject: "french"},
+    {noteTitle: "radio activity", status: "rejected", date: "20-11-2003", subject: "english"},
+    {noteTitle: "chemistry pract", status: "declined", date: "20-11-2003", subject: "chemistry"},
+  ]
 
   return (
     <>
@@ -56,10 +46,10 @@ const TeachersNoteViewList = () => {
             <Card className="bg-transparent">
               <Card.Header className="d-flex justify-content-between bg-transparent">
                 <div className="header-title">
-                  <h4 className="card-title mt-3 mb-n3">Class Notes</h4>
+                  <h4 className="card-title mt-3 mb-n3">Teacher's Notes</h4>
                 </div>
                 <div className=" d-flex align-items-center mt-3 mb-n3">
-                  <div className="input-group search-input">
+                  {/* <div className="input-group search-input">
                     <span
                       className="input-group-text border-0 bg-transparent mb-3"
                       id="search-input"
@@ -99,7 +89,7 @@ const TeachersNoteViewList = () => {
                         }}
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Card.Header>
 
@@ -108,11 +98,11 @@ const TeachersNoteViewList = () => {
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
                 }}
                 enableReinitialize={true}
-                onSubmit={(values) => {
-                  history.push(
-                    `${classNoteLocations.createClassNotes}?subjectId=${values.subjectId}`
-                  );
-                }}
+                // onSubmit={(values) => {
+                //   history.push(
+                //     `${classNoteLocations.createClassNotes}?subjectId=${values.subjectId}`
+                //   );
+                // }}
               >
                 {({ handleSubmit, values, setFieldValue, touched, errors }) => (
                   <Card.Body>
@@ -124,7 +114,7 @@ const TeachersNoteViewList = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
-                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                            {/* <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <Field
                                 as="select"
                                 name="subjectId"
@@ -134,11 +124,11 @@ const TeachersNoteViewList = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   e.target.value === ""
                                     ? history.push(
-                                        classNoteLocations.classNotes
-                                      )
+                                      classNoteLocations.classNotes
+                                    )
                                     : history.push(
-                                        `${classNoteLocations.classNotes}?subjectId=${e.target.value}`
-                                      );
+                                      `${classNoteLocations.classNotes}?subjectId=${e.target.value}`
+                                    );
                                 }}
                               >
                                 <option value="">Select Subject</option>
@@ -148,13 +138,13 @@ const TeachersNoteViewList = () => {
                                   </option>
                                 ))}
                               </Field>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </Card.Body>
                     </Card>
                     <Row className="">
-                      {filteredLessonNotes?.map((item, idx) => (
+                      {myWardsClassNotess?.map((item, idx) => (
                         <Col md="6" lg="4" xxl="3" className="" key={idx}>
                           <Card>
                             <Card.Body>
@@ -211,12 +201,12 @@ const TeachersNoteViewList = () => {
                                       data-popper-reference-hidden="false"
                                     >
                                       <div
-                                        onClick={() => {
-                                          history.push(
-                                            `${classNoteLocations.classNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
-                                          );
-                                          setShowMenuDropdown(false);
-                                        }}
+                                        // onClick={() => {
+                                        //   history.push(
+                                        //     `${classNoteLocations.classNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                        //   );
+                                        //   setShowMenuDropdown(false);
+                                        // }}
                                         className="dropdown-item"
                                         role="button"
                                         draggable="true"
@@ -267,26 +257,26 @@ const TeachersNoteViewList = () => {
                               </div>
 
                               <h6 className="mb-3 text-uppercase">
-                                {item.noteTitle}
+                               Note Title
                               </h6>
 
                               <div className="d-flex justify-content-between">
                                 <small className="" draggable="false">
                                   status:
                                   <div className="text-danger">
-                                    {item.approvalStatusName}
+                                    aprroved
                                   </div>
                                 </small>
                                 <small className="mx-2" draggable="false">
                                   date:
                                   <div className="text-success">
-                                    {item.dateCreated}
+                                   20-83-9222
                                   </div>
                                 </small>
                               </div>
                             </Card.Body>
                             <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                              {item.subjectName}
+                             english
                             </small>
                           </Card>
                         </Col>
@@ -296,7 +286,7 @@ const TeachersNoteViewList = () => {
                 )}
               </Formik>
               <Card.Footer>
-                <PaginationFilter1 filterProps={filterProps} action={getAllClassNotes} dispatch={dispatch} param1={subjectIdQuery}/>
+                <PaginationFilter2 filterProps={filterProps} action={getAllMyWardsClassNotes} dispatch={dispatch} param1={subjectIdQuery} param2={classIdQuery} />
               </Card.Footer>
             </Card>
           </Col>

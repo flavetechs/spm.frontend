@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { getAllClassNotes, getAllStudentSubjects, getClassSubjects } from "../../../store/actions/class-actions";
 import { getUserDetails } from "../../../utils/permissions";
+import TeachersNoteViewList from "./teachers-note-view-list";
 
 const TeachersNoteView = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const [showMenuDropdown, setShowMenuDropdown] = useState(false);
     const [indexRow, setIndexRow] = useState("");
-    const [selectedTimetable, setSelectedTimetable] = useState(null);
+    const [selectedTeachersSubject, setSelectedTeachersSubject] = useState(true);
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
@@ -58,7 +59,7 @@ const TeachersNoteView = () => {
                                 </Nav>
                             </Col>
                             <Col className='col-md-9 col-sm-9'>
-                                {selectedTimetable === null ?
+                                {selectedTeachersSubject === null ?
                                     <div className="jumbotron jumbotron-fluid d-flex justify-content-center">
                                         <div className="container d-flex justify-content-center header-message">
                                             <h6 className="display-6 d-flex justify-content-center">
@@ -67,9 +68,8 @@ const TeachersNoteView = () => {
                                         </div>
                                     </div>
                                     :
-                                    null
+                                <TeachersNoteViewList />
                                 }
-
                             </Col>
                         </Row>
                     </Tab.Container>
