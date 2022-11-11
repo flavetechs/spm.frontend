@@ -6,5 +6,7 @@ export const _state = {
     isSuccessful: false,
     selectedIds: [],
     submitSuccessful: false,
-    filterProps: {}
+    filterProps: {},
+    myWardsClassNotes: [],
+    myWardsNotes: [],
   };
