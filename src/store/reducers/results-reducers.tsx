@@ -60,7 +60,8 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       return {
         ...state,
         loading: false,
-        scoreEntry: payload,
+        scoreEntry: payload.data,
+        filterProps: payload,
       };
     }
     case actions.FETCH_CLASS_SCORE_ENTRIES_FAILED: {
@@ -107,7 +108,8 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       return {
         ...state,
         loading: false,
-        previousScoreEntry: payload,
+        previousScoreEntry: payload.data,
+        filterProps: payload,
       };
     }
     case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_FAILED: {

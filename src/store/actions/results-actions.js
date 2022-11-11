@@ -80,13 +80,12 @@ export const getStaffClassSubjectByClassLookup = (classId, sessionClassId) => (d
 }
 
 
-export const getAllClassScore = (sessionClassId, subjectId) => (dispatch) => {
+export const getAllClassScore = (sessionClassId, subjectId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_SCORE_ENTRIES_LOADING,
         payload: sessionClassId
     });
-
-    axiosInstance.get(`/api/v1/result/get/class-score-entries/${sessionClassId}?subjectId=${subjectId}`)
+    axiosInstance.get(`/api/v1/result/get/class-score-entries/${sessionClassId}?subjectId=${subjectId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CLASS_SCORE_ENTRIES_SUCCESS,
@@ -208,13 +207,13 @@ export const showHidePreview = (value = false) => (dispatch) => {
     });
 }
 
-export const getAllPreviousClassScore = (sessionClassId, subjectId, sessionTermId) => (dispatch) => {
+export const getAllPreviousClassScore = (sessionClassId, subjectId, sessionTermId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_LOADING,
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/previous-terms/class-score-entries/${sessionClassId}?subjectId=${subjectId}&sessionTermId=${sessionTermId}`)
+    axiosInstance.get(`/api/v1/result/get/previous-terms/class-score-entries/${sessionClassId}?subjectId=${subjectId}&sessionTermId=${sessionTermId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_SUCCESS,

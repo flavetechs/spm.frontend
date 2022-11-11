@@ -22,7 +22,7 @@ const AdminScoreEntryTable = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { previousScoreEntry } = state.results;
+  const { previousScoreEntry, filterProps } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
   //DECLARING VARIABLES
@@ -33,7 +33,7 @@ const AdminScoreEntryTable = () => {
   //DECLARING VARIABLES
 
   React.useEffect(() => {
-    getAllPreviousClassScore(sessionClassId, subjectId, term)(dispatch);
+    getAllPreviousClassScore(sessionClassId, subjectId, term, 1)(dispatch);
     getActiveSession()(dispatch);
     getAllSession(1)(dispatch);
     setIndexRow("");
@@ -123,6 +123,8 @@ const AdminScoreEntryTable = () => {
           sessionClassId={sessionClassId}
           subjectId={subjectId}
           term={term}
+          getAllPreviousClassScore={getAllPreviousClassScore}
+          filterProps={filterProps}
         />
       ) : (
         <AdminPreview

@@ -6,6 +6,8 @@ import { getAllClassScoreEntryPreview } from "../../../store/actions/results-act
 import { useEffect } from "react";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { useLocation } from "react-router-dom";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
+import Card from "../../Card";
 
 const LargeTable = ({
   validation,
@@ -17,7 +19,8 @@ const LargeTable = ({
   indexRow,
   isPreviewMode,
   sessionClassId,
-  subjectId
+  subjectId,
+  filterProps,
 }) => {
 
   const dispatch = useDispatch();
@@ -31,7 +34,7 @@ const LargeTable = ({
 
   useEffect(() => {
     getActiveSession()(dispatch);
-    getAllClassScore(sessionClassIdQueryParam, subjectIdQueryParam)(dispatch);
+    getAllClassScore(sessionClassIdQueryParam, subjectIdQueryParam, 1)(dispatch);
   }, [dispatch])
 
   return (
@@ -206,6 +209,9 @@ const LargeTable = ({
             </Table>
           )}
         </Formik>
+        <Card.Footer>
+          <PaginationFilter2 filterProps={filterProps} action={getAllClassScore} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={subjectIdQueryParam} />
+        </Card.Footer>
       </Row>
     </>
   );
