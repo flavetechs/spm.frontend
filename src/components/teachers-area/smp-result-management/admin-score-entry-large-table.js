@@ -1,11 +1,14 @@
 import { Row, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik, Field } from "formik";
 import {
+  getAllPreviousClassScore,
   setPreviousAssessmentScoreEntry,
   setPreviousExamScoreEntry,
 } from "../../../store/actions/results-actions";
 import { useDispatch } from "react-redux";
 import { getAllPreviousClassScoreEntryPreview } from "../../../store/actions/results-actions";
+import { PaginationFilter3 } from "../../partials/components/pagination-filter";
+import Card from "../../Card";
 
 const AdminLargeTable = ({
   validation,
@@ -19,9 +22,11 @@ const AdminLargeTable = ({
   sessionClassId,
   subjectId,
   term,
+  filterProps
 }) => {
   const dispatch = useDispatch();
   const handleFocus = (event) => event.target.select();
+
 
   return (
     <>
@@ -49,7 +54,7 @@ const AdminLargeTable = ({
           initialValues={{ examScore: 0, assessmentScore: 0 }}
           validationSchema={validation}
           enableReinitialize={true}
-          onSubmit={(values) => {}}
+          onSubmit={(values) => { }}
         >
           {({ handleSubmit, values, setFieldValue }) => (
             <Table size="md" hover bordered responsive className="mt-2">
@@ -187,11 +192,11 @@ const AdminLargeTable = ({
                       <td style={{ width: "5px" }}>
                         {" "}
                         <Field
-                        name="checked"
+                          name="checked"
                           type="checkbox"
                           className="form-check-input"
                           checked={item.isOffered || false}
-                          onChange={(e)=>setFieldValue("checked",e.target.checked)}
+                          onChange={(e) => setFieldValue("checked", e.target.checked)}
                         />
                       </td>
                       <td>
@@ -256,6 +261,9 @@ const AdminLargeTable = ({
             </Table>
           )}
         </Formik>
+        <Card.Footer>
+          <PaginationFilter3 filterProps={filterProps} action={getAllPreviousClassScore} dispatch={dispatch} param1={sessionClassId} param2={subjectId} param3={term} />
+        </Card.Footer>
       </Row>
     </>
   );

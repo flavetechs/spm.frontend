@@ -116,7 +116,8 @@ const AdminScoreEntry = () => {
                     getAllPreviousClassScore(
                       values.sessionClassId,
                       values.subjectId,
-                      values.terms
+                      values.terms,
+                      1
                     )(dispatch);
                     history.push(
                       `${resultManagement.adminScoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}&term=${values.terms}`
@@ -230,7 +231,7 @@ const AdminScoreEntry = () => {
                             }}
                           >
                             <option value="">Select Class</option>
-                            {classList.map((item, idx) => (
+                            {classList?.map((item, idx) => (
                               <option
                                 key={idx}
                                 name={values.sessionClassId}
