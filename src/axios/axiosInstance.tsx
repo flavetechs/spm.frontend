@@ -9,7 +9,11 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
-    if(error.response.status === 401) {
+    console.log('error.response', error);
+    if(!error.response){
+        return;
+    }
+    if(error.response?.status === 401) {
         localStorage.removeItem('token');
         localStorage.removeItem('permissions');
         localStorage.removeItem('userDetail');
@@ -18,11 +22,14 @@ axiosInstance.interceptors.response.use((response: any) => response, (error: any
 });
 
 axiosInstance.interceptors.response.use(async (response: any) => response, (error: any) => { 
-    if(error.response.status === 500){
+    if(!error.response){
+        return;
+    }
+    if(error?.response?.status === 500){
         console.log('error.response', error.response)
         return error.response
     }
-    if(error.response.status === 404){
+    if(error?.response?.status === 404){
         console.log('error.response', error.response)
         return error.response
     }
