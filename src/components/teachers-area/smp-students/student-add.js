@@ -48,7 +48,7 @@ const StudentAdd = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { isSuccessful, message,cities,countries,states } = state.student;
+  const { isSuccessful, message, cities, countries, states } = state.student;
   const { itemList } = state.class;
   const { activeSession } = state.session;
 
@@ -61,7 +61,7 @@ const StudentAdd = () => {
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
-  }, [activeSession,dispatch]);
+  }, [activeSession, dispatch]);
 
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
@@ -72,6 +72,8 @@ const StudentAdd = () => {
       setImages(URL.createObjectURL(event.target.files[0]));
     }
   };
+
+  const studentparentGuarndianRelationship = ['Father', 'Mother', 'Sister', 'Brother', 'Uncle', 'Aunt', 'Grandparent', 'Other']
 
   return (
     <>
@@ -110,26 +112,26 @@ const StudentAdd = () => {
           values.zipCode = values.zipCode.toString();
           values.photo = images;
           const params = new FormData();
-          params.append("firstName",values.firstName);
-          params.append("lastName",values.lastName);
-          params.append("middleName",values.middleName);
-          params.append("phone",values.phone);
-          params.append("dob",values.dob);
-          params.append("email",values.email);
-          params.append("homePhone",values.homePhone);
-          params.append("emergencyPhone",values.emergencyPhone);
-          params.append("parentOrGuardianName",values.parentOrGuardianName);
-          params.append("parentOrGuardianRelationship",values.parentOrGuardianRelationship);
-          params.append("parentOrGuardianPhone",values.parentOrGuardianPhone);
-          params.append("parentOrGuardianEmail",values.parentOrGuardianEmail);
-          params.append("homeAddress",values.homeAddress);
-          params.append("cityId",values.cityId);
-          params.append("stateId",values.stateId);
-          params.append("countryId",values.countryId);
-          params.append("zipCode",values.zipCode);
-          params.append("photo",values.photo);
-          params.append("profileImage",values.profileImage);
-          params.append("sessionClassId",values.sessionClassId);
+          params.append("firstName", values.firstName);
+          params.append("lastName", values.lastName);
+          params.append("middleName", values.middleName);
+          params.append("phone", values.phone);
+          params.append("dob", values.dob);
+          params.append("email", values.email);
+          params.append("homePhone", values.homePhone);
+          params.append("emergencyPhone", values.emergencyPhone);
+          params.append("parentOrGuardianName", values.parentOrGuardianName);
+          params.append("parentOrGuardianRelationship", values.parentOrGuardianRelationship);
+          params.append("parentOrGuardianPhone", values.parentOrGuardianPhone);
+          params.append("parentOrGuardianEmail", values.parentOrGuardianEmail);
+          params.append("homeAddress", values.homeAddress);
+          params.append("cityId", values.cityId);
+          params.append("stateId", values.stateId);
+          params.append("countryId", values.countryId);
+          params.append("zipCode", values.zipCode);
+          params.append("photo", values.photo);
+          params.append("profileImage", values.profileImage);
+          params.append("sessionClassId", values.sessionClassId);
           createStudent(params)(dispatch);
         }}
         enableReinitialize={true}
@@ -220,7 +222,7 @@ const StudentAdd = () => {
                       </div>
                       <div className="img-extension mt-3">
                         <div className="d-inline-block align-items-center">
-                        <span>Only</span>{" "}
+                          <span>Only</span>{" "}
                           <a href="/hope-ui/react/build/dashboard/app/user-add">
                             .jpg
                           </a>{" "}
@@ -434,7 +436,7 @@ const StudentAdd = () => {
                             name="countryId"
                             className="form-select"
                             id="countryId"
-                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
+                            onChange={(e) => { setFieldValue("countryId", e.target.value); getStates(e.target.value)(dispatch); }}
                           >
                             <option value="Select Country">
                               Select Country
@@ -458,7 +460,7 @@ const StudentAdd = () => {
                             name="stateId"
                             className="form-select"
                             id="stateId"
-                            onChange={(e)=>{setFieldValue("stateId",e.target.value); getCities(e.target.value)(dispatch)}}
+                            onChange={(e) => { setFieldValue("stateId", e.target.value); getCities(e.target.value)(dispatch) }}
                           >
                             <option value="Select State">Select State</option>
                             {states?.map((item, idx) => (
@@ -492,7 +494,7 @@ const StudentAdd = () => {
                             ))}
                           </Field>
                         </div>
-                     
+
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="zipCode">
                             <b>Zip Code:</b>
@@ -553,19 +555,26 @@ const StudentAdd = () => {
                           </div>
                         </Row>
                         <div className="col-md-6 form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="parentOrGuardianRelationship"
-                          >
+                          <label className="form-label" htmlFor="parentOrGuardianRelationship">
                             <b>Relationship:</b>
                           </label>
                           <Field
-                            placeholder="Parent/Guardian Relationship"
-                            type="text"
+                            as="select"
                             name="parentOrGuardianRelationship"
+                            className="form-select"
                             id="parentOrGuardianRelationship"
-                            className="form-control"
-                          />
+                            onChange={(e) => { setFieldValue("parentOrGuardianRelationship", e.target.value)}}
+                          >
+                            <option value="">Select Relationship</option>
+                            {studentparentGuarndianRelationship?.map((relationship, idx) => (
+                              <option
+                                key={idx}
+                                value={relationship}
+                              >
+                                {relationship}
+                              </option>
+                            ))}
+                          </Field>
                         </div>
                         <div className="col-md-6 form-group">
                           <label
