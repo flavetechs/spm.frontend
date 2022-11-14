@@ -84,7 +84,8 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       return {
         ...state,
         loading: false,
-        scoreEntryPreview: payload,
+        scoreEntryPreview: payload.data,
+        filterProps: payload,
         fetchPreviewSuccessful: true,
       };
     }
@@ -132,7 +133,8 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       return {
         ...state,
         loading: false,
-        previousScoreEntryPreview: payload,
+        previousScoreEntryPreview: payload.data,
+        filterProps: payload,
         fetchPreviewSuccessful: true,
       };
     }

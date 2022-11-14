@@ -115,6 +115,8 @@ const ScoreEntryTable = () => {
         <Preview
           setPreviewMode={setPreviewMode}
           isPreviewMode={isPreviewMode}
+          sessionClassId={sessionClassId}
+          subjectId={subjectId}
         />
       )}
     </>

@@ -50,7 +50,8 @@ const LargeTable = ({
               setPreviewMode(!isPreviewMode);
               getAllClassScoreEntryPreview(
                 sessionClassId,
-                subjectId
+                subjectId,
+                1,
               )(dispatch);
             }}
           >

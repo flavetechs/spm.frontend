@@ -14,7 +14,6 @@ export const hideStickyInfoToast = () => dispatch =>{
 }
 
 export const showAlertInfoToast = (message) => dispatch =>{
-    console.log('some toast');
     dispatch({
         type: actions.SHOW_ALERT_INFO_TOAST,
         payload: message
