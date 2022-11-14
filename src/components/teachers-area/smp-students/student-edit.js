@@ -83,11 +83,15 @@ const StudentEdit = () => {
   if (isSuccessful) {
     history.push(studentsLocations.studentList);
   }
+
+
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
       setImages(URL.createObjectURL(event.target.files[0]));
     }
   };
+
+  const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
   return (
     <>
@@ -104,8 +108,7 @@ const StudentEdit = () => {
           homePhone: selectedStudent?.homePhone || "",
           emergencyPhone: selectedStudent?.emergencyPhone || "",
           parentOrGuardianName: selectedStudent?.parentOrGuardianName || "",
-          parentOrGuardianRelationship:
-            selectedStudent?.parentOrGuardianRelationship || "",
+          parentOrGuardianRelationship: selectedStudent?.parentOrGuardianRelationship || "",
           parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone || "",
           parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail || "",
           homeAddress: selectedStudent?.homeAddress || "",
@@ -599,18 +602,26 @@ const StudentEdit = () => {
                           </div>
                         </Row>
                         <div className="col-md-6 form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="parentOrGuardianRelationship"
-                          >
+                          <label className="form-label" htmlFor="parentOrGuardianRelationship">
                             <b>Relationship:</b>
                           </label>
                           <Field
-                            type="text"
+                            as="select"
                             name="parentOrGuardianRelationship"
+                            className="form-select"
                             id="parentOrGuardianRelationship"
-                            className="form-control"
-                          />
+                            onChange={(e) => { setFieldValue("parentOrGuardianRelationship", e.target.value) }}
+                          >
+                            <option value={selectedStudent?.parentOrGuardianRelationship}>{selectedStudent?.parentOrGuardianRelationship}</option>
+                            {studentparentGuarndianRelationship?.filter((item) => (item !== selectedStudent?.parentOrGuardianRelationship))?.map((relationship, idx) => (
+                              <option
+                                key={idx}
+                                value={relationship}
+                              >
+                                {relationship}
+                              </option>
+                            ))}
+                          </Field>
                         </div>
                         <div className="col-md-6 form-group">
                           <label
