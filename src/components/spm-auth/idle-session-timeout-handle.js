@@ -26,8 +26,7 @@ const IdleSessionTimeOutHandler = (props) => {
     if (timer) {
       clearTimeout(timer);
     }
-    timer = setTimeout(
-      () => {
+    timer = setTimeout(() => {
         let lastInteractionTime = localStorage.getItem("lastInteractionTime");
         const diff = moment.duration(
           moment().diff(moment(lastInteractionTime))
@@ -89,6 +88,8 @@ const IdleSessionTimeOutHandler = (props) => {
         timer={timer}
         setLogout={setLogout}
         startTimer={startTimer}
+        isLoggedIn={props.isLoggedIn}
+        setIsLoggedIn={props.setIsLoggedIn}
       />
     </div>
   );

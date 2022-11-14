@@ -25,6 +25,7 @@ let count;
       count--
       if (count === 0) {
         dispatch(loginOutUser());
+        props.setIsLoggedIn(false);
         history.push(authLocations.login);       
       }
     }, 1000);
@@ -50,6 +51,7 @@ let count;
               props.setLogout(true);
               showHideTimeOutModal(false)(dispatch);
               dispatch(loginOutUser());
+              props.setIsLoggedIn(false);
               history.push(authLocations.login);
             }}
           >

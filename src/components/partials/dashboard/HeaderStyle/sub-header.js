@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { bindActionCreators } from "redux"
 //img
 import topHeader from '../../../../assets/images/dashboard/top-header.png'
@@ -13,9 +13,8 @@ import topHeader5 from '../../../../assets/images/dashboard/top-header5.png'
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
 import { connect } from "react-redux"
-import { notificationManagement } from '../../../../router/spm-path-locations'
+import { notificationManagement, sessionLocations } from '../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../utils/permissions'
-import { dashboardLocations, headerLocations } from '../../../../router/parents-path-locations'
 
 const mapStateToProps = (state) => {
     return {
@@ -42,7 +41,13 @@ const mapDispatchToProps = dispatch => ({
 
 
 const SubHeader = (props) => {
-    const[session] = useState(localStorage.getItem('currentSession'));
+    const[session, setSessionDisplay] = useState(localStorage.getItem('currentSession'));
+    const location = useLocation();
+    useEffect(() => {
+        if(location.pathname === sessionLocations.sessionAdd || location.pathname === sessionLocations.sessionList){
+            setSessionDisplay(localStorage.getItem('currentSession'));
+        } 
+    },[session, location.pathname])
     
     useEffect(() => {
         // navbarstylemode
