@@ -59,17 +59,40 @@ const PushedNotifications = () => {
                     <div className="m-0 shadow-none card">
                         <div className="py-3 card-header d-flex justify-content-between bg-primary">
                             <div className="header-title">
-                                <h5 className="mb-0 text-white">All Notifications</h5>
+                                <h5 className="mb-0 text-white">All Notifications
+                                    <span className="badge bg-light text-dark rounded-pill align-text-bottom">{notifications.length}</span>
+                                </h5>
                             </div>
                         </div>
-
                         <div className="p-0 card-body">
-
                             {
                                 notifications.map((x, i) => {
                                     return (
                                         <Link to={x?.notificationPageLink} className="iq-sub-card" key={i}>
                                             <div className="d-flex align-items-center">
+                                                <span>
+                                                    <svg width="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fillRule="evenodd" clipRule="evenodd"
+                                                            d="M12 17.8476C17.6392 17.8476 20.2481 17.1242 20.5 14.2205C20.5 11.3188 18.6812 11.5054 18.6812 7.94511C18.6812 5.16414 16.0452 2 12 2C7.95477 2 5.31885 5.16414 5.31885 7.94511C5.31885 11.5054 3.5 11.3188 3.5 14.2205C3.75295 17.1352 6.36177 17.8476 12 17.8476Z"
+                                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                        <path d="M14.3889 20.8572C13.0247 22.3719 10.8967 22.3899 9.51953 20.8572" stroke="currentColor" strokeWidth="1.5"
+                                                            strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                </span>
+                                                <div className="ms-3 w-100">
+                                                    <h6 className="mb-0">{x?.subject}</h6>
+                                                    <p className="mb-0">{x?.type}</p>
+                                                    <small className="float-right font-size-12">{x.dateCreated}</small>
+                                                </div>
+                                                {/* <div className="ms-3 w-100">
+                                                    <h6 className="mb-0 ">{x?.subject}</h6>
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        <p className="mb-0">{x?.type}</p>
+                                                        <small className="float-right font-size-12">{x.dateCreated}</small>
+                                                    </div>
+                                                </div> */}
+                                            </div>
+                                            {/* <div className="d-flex align-items-center">
                                                 <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes1} alt="" />
                                                 <div className="ms-3 w-100">
                                                     <h6 className="mb-0 ">{x?.subject}</h6>
@@ -78,13 +101,11 @@ const PushedNotifications = () => {
                                                         <small className="float-right font-size-12">{x.dateCreated}</small>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </Link>
                                     )
-
                                 })
                             }
-
                         </div>
                     </div>
                 </Dropdown.Menu>
