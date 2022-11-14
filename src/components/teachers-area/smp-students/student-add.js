@@ -73,7 +73,7 @@ const StudentAdd = () => {
     }
   };
 
-  const studentparentGuarndianRelationship = ['Father', 'Mother', 'Sister', 'Brother', 'Uncle', 'Aunt', 'Grandparent', 'Other']
+  const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
   return (
     <>

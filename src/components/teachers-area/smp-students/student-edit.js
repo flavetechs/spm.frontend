@@ -93,8 +93,6 @@ const StudentEdit = () => {
 
   const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
-  console.log('isSuccessful', isSuccessful);
-
   return (
     <>
       <Formik
@@ -614,8 +612,8 @@ const StudentEdit = () => {
                             id="parentOrGuardianRelationship"
                             onChange={(e) => { setFieldValue("parentOrGuardianRelationship", e.target.value) }}
                           >
-                            <option value="">{selectedStudent?.parentOrGuardianRelationship}</option>
-                            {studentparentGuarndianRelationship.filter((item) => (item !== selectedStudent?.parentOrGuardianRelationship))?.map((relationship, idx) => (
+                            <option value={selectedStudent?.parentOrGuardianRelationship}>{selectedStudent?.parentOrGuardianRelationship}</option>
+                            {studentparentGuarndianRelationship?.filter((item) => (item !== selectedStudent?.parentOrGuardianRelationship))?.map((relationship, idx) => (
                               <option
                                 key={idx}
                                 value={relationship}
