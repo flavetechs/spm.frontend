@@ -167,7 +167,6 @@ const PublishResult = () => {
                             value={values.sessionTermId}
                             onChange={(e) => {
                               setFieldValue("sessionTermId", e.target.value);
-                              console.log('e.target.value', e.target.value);
                               history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
                               // getTermClasses(
                               //   selectedSession?.sessionId,

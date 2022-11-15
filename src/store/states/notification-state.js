@@ -9,4 +9,5 @@ export const _state = {
     selectedIds: [],
     selectedItem: null,
     filterProps: {},
+    pushedNotificationdetails: null,
     }

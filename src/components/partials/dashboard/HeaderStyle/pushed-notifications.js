@@ -10,6 +10,7 @@ import shapes3 from '../../../../assets/images/shapes/03.png'
 import shapes4 from '../../../../assets/images/shapes/04.png'
 import hubInstance from '../../../../HubConnection/hub-instance'
 import axiosInstance from '../../../../axios/axiosInstance'
+import { pushedNotificationManagement } from '../../../../router/spm-path-locations'
 const PushedNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [date, setDate] = useState("");
@@ -68,7 +69,7 @@ const PushedNotifications = () => {
                             {
                                 notifications.map((x, i) => {
                                     return (
-                                        <Link to={x?.notificationPageLink} className="iq-sub-card" key={i}>
+                                        <Link to={`${pushedNotificationManagement.pushedNotificationDetails}?notififcationId=${x.notificationId}`} className="iq-sub-card" key={i}>
                                             <div className="d-flex align-items-center">
                                                 <span>
                                                     <svg width="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,24 +85,7 @@ const PushedNotifications = () => {
                                                     <p className="mb-0">{x?.type}</p>
                                                     <small className="float-right font-size-12">{x.dateCreated}</small>
                                                 </div>
-                                                {/* <div className="ms-3 w-100">
-                                                    <h6 className="mb-0 ">{x?.subject}</h6>
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                        <p className="mb-0">{x?.type}</p>
-                                                        <small className="float-right font-size-12">{x.dateCreated}</small>
-                                                    </div>
-                                                </div> */}
                                             </div>
-                                            {/* <div className="d-flex align-items-center">
-                                                <img className="p-1 avatar-40 rounded-pill bg-soft-primary" src={shapes1} alt="" />
-                                                <div className="ms-3 w-100">
-                                                    <h6 className="mb-0 ">{x?.subject}</h6>
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                        <p className="mb-0">{x?.type}</p>
-                                                        <small className="float-right font-size-12">{x.dateCreated}</small>
-                                                    </div>
-                                                </div>
-                                            </div> */}
                                         </Link>
                                     )
                                 })
