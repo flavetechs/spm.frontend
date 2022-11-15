@@ -10,7 +10,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, Link } from "react-router-dom";
 import { getSinglePushedNotificationDetail } from "../../../../store/actions/notification-actions";
-import { stripHtml } from "../../../../utils/tools";
 import './pushed-notification.scss';
 const PushedNotificationDetail = () => {
     const history = useHistory();
@@ -28,15 +27,15 @@ const PushedNotificationDetail = () => {
 
     function truncateString(str) {
         if (window.innerWidth >= 1400) {
-            return str?.length > 160 ? str.slice(0, 100) + "..." : str;
+            return str?.length > 100 ? str.slice(0, 100) + "" : str;
         } else if (window.innerWidth >= 1200) {
-            return str?.length > 85 ? str.slice(0, 85) + "..." : str;
+            return str?.length > 85 ? str.slice(0, 85) + "" : str;
         } else if (window.innerWidth >= 992) {
-            return str?.length > 35 ? str.slice(0, 35) + "..." : str;
+            return str?.length > 35 ? str.slice(0, 35) + "" : str;
         } else if (window.innerWidth >= 768) {
-            return str?.length > 25 ? str.slice(0, 25) + "..." : str;
+            return str?.length > 25 ? str.slice(0, 25) + "" : str;
         } else if (window.innerWidth < 768) {
-            return str?.length > 25 ? str.slice(0, 25) + "..." : str;
+            return str?.length > 25 ? str.slice(0, 25) + "" : str;
         }
     }
 
@@ -125,7 +124,7 @@ const PushedNotificationDetail = () => {
                                 </div>
                                 <div className="ms-2 mt-2 fw-bold">
                                     <div className="w-50 py-2 item-content"
-                                        dangerouslySetInnerHTML={{ __html: stripHtml(truncateString(pushedNotificationdetails?.content)) }}
+                                        dangerouslySetInnerHTML={{ __html: truncateString(pushedNotificationdetails?.content) }}
                                     >
                                     </div>
                                     <span>
