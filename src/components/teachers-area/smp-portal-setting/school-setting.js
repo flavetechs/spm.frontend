@@ -41,7 +41,6 @@ const SchoolSetting = () => {
     getCountries()(dispatch);
   }, [dispatch]);
 
-
   React.useEffect(() => {
     setImages(schoolSetting?.filepath);
     schoolSetting?.country && getStates(schoolSetting?.country)(dispatch);  

@@ -64,7 +64,7 @@ const LessonNotes = () => {
 
   React.useEffect(() => {
     if (queryParams == {}) {
-      console.log('queryParams', queryParams);
+      // console.log('queryParams', queryParams);
     }
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);

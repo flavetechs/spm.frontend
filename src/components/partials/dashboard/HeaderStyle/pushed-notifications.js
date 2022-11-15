@@ -38,7 +38,7 @@ const PushedNotifications = () => {
                 .then((res) => {
                     setNotifications([...res.data.result.data])
 
-                    console.log(notifications);
+                
                 })
         }
 

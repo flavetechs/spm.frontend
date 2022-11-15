@@ -23,8 +23,6 @@ const ParentAnnouncementDetails = () => {
     updateSeenAnnouncement(announcementsId)(dispatch);
   }, []);
 
-  console.log('announcementDetails', announcementDetails);
-
   return (
     <div className="col-md-12 mx-auto">
       <Row>
