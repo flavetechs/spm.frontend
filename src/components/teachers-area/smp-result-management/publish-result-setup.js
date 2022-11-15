@@ -93,7 +93,8 @@ const PublishResult = () => {
                   onSubmit={(values) => {
                     getAllResultList(
                       values.sessionClassId,
-                      values.sessionTermId
+                      values.sessionTermId,
+                      1,
                     )(dispatch);
                     history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
                     // history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`);
