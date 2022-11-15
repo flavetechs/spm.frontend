@@ -27,6 +27,8 @@ const AdminLargeTable = ({
   const dispatch = useDispatch();
   const handleFocus = (event) => event.target.select();
 
+  let pageCount = 1;
+
 
   return (
     <>
@@ -42,7 +44,8 @@ const AdminLargeTable = ({
               getAllPreviousClassScoreEntryPreview(
                 sessionClassId,
                 subjectId,
-                term
+                term,
+                1,
               )(dispatch);
             }}
           >

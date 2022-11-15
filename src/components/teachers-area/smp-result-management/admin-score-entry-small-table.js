@@ -130,6 +130,10 @@ const AdminScoreEntryTable = () => {
         <AdminPreview
           setPreviewMode={setPreviewMode}
           isPreviewMode={isPreviewMode}
+          sessionClassId={sessionClassId}
+          subjectId={subjectId}
+          term={term}
+          filterProps={filterProps}
         />
       )}
     </>
