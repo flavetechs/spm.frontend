@@ -25,20 +25,6 @@ const PushedNotificationDetail = () => {
         getSinglePushedNotificationDetail(notificationIdQuery)(dispatch);
     }, [dispatch, locations.search]);
 
-    function truncateString(str) {
-        if (window.innerWidth >= 1400) {
-            return str?.length > 100 ? str.slice(0, 100) + "" : str;
-        } else if (window.innerWidth >= 1200) {
-            return str?.length > 85 ? str.slice(0, 85) + "" : str;
-        } else if (window.innerWidth >= 992) {
-            return str?.length > 35 ? str.slice(0, 35) + "" : str;
-        } else if (window.innerWidth >= 768) {
-            return str?.length > 25 ? str.slice(0, 25) + "" : str;
-        } else if (window.innerWidth < 768) {
-            return str?.length > 25 ? str.slice(0, 25) + "" : str;
-        }
-    }
-
     return (
         <div className="col-md-12 mx-auto">
             <Row>
@@ -124,7 +110,7 @@ const PushedNotificationDetail = () => {
                                 </div>
                                 <div className="ms-2 mt-2 fw-bold">
                                     <div className="w-50 py-2 item-content"
-                                        dangerouslySetInnerHTML={{ __html: truncateString(pushedNotificationdetails?.content) }}
+                                        dangerouslySetInnerHTML={{ __html: pushedNotificationdetails?.content }}
                                     >
                                     </div>
                                     <span>
