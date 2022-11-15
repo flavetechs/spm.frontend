@@ -153,3 +153,21 @@ export const resetAnnouncementSuccessfulState = () => (dispatch) => {
         payload: null
     });
 }
+
+export const getSinglePushedNotificationDetail = (notififcationId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PUSHED_NOTIFICATION_DETAILS_LOADING
+    });
+    axiosInstance.get(`/notification/api/v1/get-single-notifications?notififcationId=${notififcationId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PUSHED_NOTIFICATION_DETAILS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_PUSHED_NOTIFICATION_DETAILS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}

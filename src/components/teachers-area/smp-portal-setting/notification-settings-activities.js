@@ -37,7 +37,6 @@ const NotificationSettingActivities = ({ selectedNotificationSetting, activeStyl
                                             onChange={(e) => {
                                                 formData[selectedNotificationSetting.name].media = e.target.value;
                                                 setFormData(formData);
-                                                console.log('email', formData[selectedNotificationSetting.name]);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor="sendNotificationByEmail">
@@ -55,7 +54,6 @@ const NotificationSettingActivities = ({ selectedNotificationSetting, activeStyl
                                                 e.target.value = "sms"
                                                 formData[selectedNotificationSetting.name].media = e.target.value;
                                                 setFormData(formData);
-                                                console.log('sms', formData[selectedNotificationSetting.name]);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor="sendNotificationBySms">

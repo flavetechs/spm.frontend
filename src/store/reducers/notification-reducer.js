@@ -37,14 +37,14 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
-        announcementSuccessful:false,
+        announcementSuccessful: false,
         message: "",
       };
     case actions.CREATE_ANNOUNCEMENT_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
-        announcementSuccessful:true,
+        announcementSuccessful: true,
         loading: false,
         message: payload,
       };
@@ -52,7 +52,7 @@ export const notificationReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: false,
-        announcementSuccessful:false,
+        announcementSuccessful: false,
         loading: false,
         message: payload,
       };
@@ -106,14 +106,14 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: true,
         isSuccessful: false,
-        announcementSuccessful:false,
+        announcementSuccessful: false,
         message: ''
       };
     case actions.UPDATE_ANNOUNCEMENT_SUCCESS:
       return {
         ...state,
         isSuccessful: true,
-        announcementSuccessful:true,
+        announcementSuccessful: true,
         loading: false,
         message: payload
       };
@@ -123,7 +123,7 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: '',
         isSuccessful: false,
-        announcementSuccessful:false,
+        announcementSuccessful: false,
       };
 
     case actions.DELETE_ANNOUNCEMENT_LOADING:
@@ -148,11 +148,34 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-      case actions.RESET_ANNOUNCEMENT_SUCCESSFUL:
-        return {
-          ...state,
-          announcementSuccessful:false,
-        };
+    case actions.RESET_ANNOUNCEMENT_SUCCESSFUL:
+      return {
+        ...state,
+        announcementSuccessful: false,
+      };
+
+    case actions.FETCH_PUSHED_NOTIFICATION_DETAILS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_PUSHED_NOTIFICATION_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        pushedNotificationdetails: payload,
+        isSuccessful: true,
+      };
+    case actions.FETCH_PUSHED_NOTIFICATION_DETAILS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
 
     default:
       return state;

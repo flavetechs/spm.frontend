@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -90,6 +90,7 @@ import PublishedClassList from '../components/teachers-area/smp-result-managemen
 import Protected from '../components/spm-auth/protected';
 import PrintTimeTable from '../components/teachers-area/spm-class/time-table/printTimetable';
 import MakeAnnouncement from '../components/teachers-area/smp-notifications/make-announcement';
+import PushedNotificationDetail from '../components/partials/dashboard/HeaderStyle/pushed-notification-details';
 
 const DashboardRouter = () => {
 
@@ -205,6 +206,9 @@ const DashboardRouter = () => {
                         <Route path={notificationManagement.makeAnnouncement} exact component={MakeAnnouncement} />
                         <Route path={notificationManagement.announcementDetails} exact component={AnnouncementDetails} />
                         <Route path={notificationManagement.announcementEdit} exact component={AnnouncementEdit} />
+
+                        {/* pushedNotification */}
+                        <Route path={pushedNotificationManagement.pushedNotificationDetails} exact component={PushedNotificationDetail} />
 
                         {/* user profile page */}
                         <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />

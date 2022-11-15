@@ -139,3 +139,7 @@ export const notificationManagement = {
   announcementDetails: "/dashboard/smp-notification/announcement-details",
   announcementEdit: "/dashboard/smp-notification/announcement-edit",
 }
+
+export const pushedNotificationManagement = {
+  pushedNotificationDetails: "/dashboard/notification-details",
+}
