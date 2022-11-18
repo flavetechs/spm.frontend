@@ -58,13 +58,16 @@ export const parentReducer = (state = _state, { type, payload }) => {
         message: "",
         isSuccessful: false,
       };
-    case actions.FETCH_MY_WARDS_NOTE_SUCCESS:
+
+      case actions.FETCH_MY_WARDS_NOTE_SUCCESS:
       return {
         ...state,
         loading: false,
-        myWardsNotes: payload,
+        myWardsNotes: payload.data,
+        filterProps: payload,
         isSuccessful: true,
       };
+
     case actions.FETCH_MY_WARDS_NOTE_FAILED:
       return {
         ...state,
