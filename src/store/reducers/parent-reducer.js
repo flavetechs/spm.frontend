@@ -39,7 +39,8 @@ export const parentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        myWardsClassNotes: payload,
+        myWardsClassNotes: payload.data,
+        filterProps: payload,
         isSuccessful: true,
       };
     case actions.FETCH_MY_WARDS_CLASS_NOTE_LOADING:
@@ -59,7 +60,7 @@ export const parentReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
-      case actions.FETCH_MY_WARDS_NOTE_SUCCESS:
+    case actions.FETCH_MY_WARDS_NOTE_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -76,6 +77,54 @@ export const parentReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+    case actions.FETCH_SINGLE_WARDS_NOTE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+
+    case actions.FETCH_SINGLE_WARDS_NOTE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        selectedWardsNote: payload,
+        isSuccessful: true,
+      };
+
+    case actions.FETCH_SINGLE_WARDS_NOTE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+
+      case actions.FETCH_SINGLE_WARDS_CLASS_NOTE_LOADING:
+        return {
+          ...state,
+          loading: true,
+          message: "",
+          isSuccessful: false,
+        };
+  
+      case actions.FETCH_SINGLE_WARDS_CLASS_NOTE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          selectedWardsClassNote: payload,
+          isSuccessful: true,
+        };
+  
+      case actions.FETCH_SINGLE_WARDS_CLASS_NOTE_FAILED:
+        return {
+          ...state,
+          loading: false,
+          message: payload,
+          isSuccessful: false,
+        };
 
     default:
       return state;

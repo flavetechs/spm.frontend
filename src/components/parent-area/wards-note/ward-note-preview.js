@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { wardsNoteLocations } from "../../../router/parents-path-locations";
 import { getAllMyWardsNotes } from "../../../store/actions/parent-actions";
 import { PaginationFilter3 } from "../../partials/components/pagination-filter";
 
@@ -63,9 +64,15 @@ const WardsNotePreview = ({ selectedSubjectId }) => {
                 <Card className="">
                     <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-between">
-                            <div>
-                                <h5>{`${wardNameQuery}'S NOTES`}</h5>
-                            </div>
+                            {myWardsNotes.length < 2 ?
+                                <div>
+                                    <h5>{`${wardNameQuery}'S NOTE`}</h5>
+                                </div>
+                                :
+                                <div>
+                                    <h5>{`${wardNameQuery}'S NOTES`}</h5>
+                                </div>
+                            }
                         </div>
                     </Card.Body>
                 </Card>
@@ -132,12 +139,12 @@ const WardsNotePreview = ({ selectedSubjectId }) => {
                                                         data-popper-reference-hidden="false"
                                                     >
                                                         <div
-                                                            // onClick={() => {
-                                                            //   history.push(
-                                                            //     `${classNoteLocations.classNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
-                                                            //   );
-                                                            //   setShowMenuDropdown(false);
-                                                            // }}
+                                                            onClick={() => {
+                                                                history.push(
+                                                                    `${wardsNoteLocations.wardsNotesDetails}?studentNoteId=${item.studentNoteId}`
+                                                                );
+                                                                setShowMenuDropdown(false);
+                                                            }}
                                                             className="dropdown-item"
                                                             role="button"
                                                             draggable="true"

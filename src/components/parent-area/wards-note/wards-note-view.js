@@ -38,7 +38,7 @@ const WardsNoteView = () => {
                                   SUBJECT(S)
                                 </h5>
                                 <Nav variant="" className="flex-column portal-tab">
-                                    <Nav.Item className='subject-list-item shadow'>
+                                    <Nav.Item className='subject-list-item shadow text-uppercase'>
                                         {classSubjects?.map((subject, index) => (
                                             <Nav.Link eventKey={index + 1} className='py-3 shadow ' key={index} onClick={() => {
                                                 setSelectedSubjectId(subject?.subjectid);

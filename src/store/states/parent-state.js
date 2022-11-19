@@ -9,4 +9,6 @@ export const _state = {
     filterProps: {},
     myWardsClassNotes: [],
     myWardsNotes: [],
+    selectedWardsNote: {},
+    selectedWardsClassNote: {},
   };

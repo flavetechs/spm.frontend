@@ -42,7 +42,7 @@ const ParentDashboardRouter = () => {
                         {/* teachersnote */}
                         <Route path={teachersNoteLocations.teachersNote} exact component={TeachersNote} />
                         <Route path={teachersNoteLocations.teachersNotesView} exact component={TeachersNoteView} />
-                        <Route path={teachersNoteLocations.teachersNote} exact component={TeachersNoteDetails} />
+                        <Route path={teachersNoteLocations.teachersNotesDetails} exact component={TeachersNoteDetails} />
 
                         {/* wardsnote */}
                         <Route path={wardsNoteLocations.wardsNote} exact component={WardsNote} />
