@@ -21,11 +21,13 @@ import {
   updatePublishedResult,
 } from "../../../store/actions/publish-actions";
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
+import { PaginationFilter2 } from "../../partials/components/pagination-filter";
+import Card from "../../Card";
 
 const PublishResultTable = () => {
   //ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { publishResults, termClasses } = state.publish;
+  const { publishResults, termClasses, filterProps} = state.publish;
   const { sessionList } = state.session;
   const dispatch = useDispatch();
   const locations = useLocation();
@@ -41,7 +43,7 @@ const PublishResultTable = () => {
   //DECLARING VARIABLES
 
   useEffect(() => {
-    getAllResultList(sessionClassId, sessionTermId)(dispatch);
+    getAllResultList(sessionClassId, sessionTermId, 1)(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -174,7 +176,7 @@ const PublishResultTable = () => {
             </tr>
           </thead>
           <tbody>
-            {publishResults?.publishResult.map((list, index) => (
+            {publishResults?.publishResult?.map((list, index) => (
               <tr
                 style={{ maxHeight: "30px" }}
                 key={index}
@@ -183,23 +185,23 @@ const PublishResultTable = () => {
                 <td className="fw-bold">{index + 1}</td>
                 <td className="fw-bold text-start text-uppercase">
                   {" "}
-                  {list.studentName}{" "}
+                  {list?.studentName}{" "}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
-                  {list.registrationNumber}
+                  {list?.registrationNumber}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
-                  {list.position}
+                  {list?.position}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
-                  {list.averageScore}
+                  {list?.averageScore}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
-                  {list.totalSubjects}
+                  {list?.totalSubjects}
                 </td>
                 <td className="fw-bold text-start text-uppercase">
                   <Badge bg={list.status === "PASSED" ? "success" : "danger"}>
-                    {list.status}
+                    {list?.status}
                   </Badge>
                 </td>
                 <td>
@@ -366,6 +368,9 @@ const PublishResultTable = () => {
             ))}
           </tbody>
         </Table>
+        <Card.Footer>
+          <PaginationFilter2 filterProps={filterProps} action={getAllResultList} dispatch={dispatch} param1={sessionClassId} param2={sessionTermId} />
+        </Card.Footer>
       </Row>
     </>
   );

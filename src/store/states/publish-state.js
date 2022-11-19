@@ -10,4 +10,5 @@ export const _state = {
     fetchPreviewSuccessful: false,
     idsObj:null,
     publishedList: [],
+    filterProps: {},
 }
