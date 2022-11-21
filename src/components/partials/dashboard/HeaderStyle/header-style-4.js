@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, NavDropdown, Dropdown } from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
 import { getUserDetails } from '../../../../utils/permissions'
-import { announcementLocations, assessmentLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
+import { announcementLocations, assessmentLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, printResultLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
 import { Link, useHistory } from 'react-router-dom'
 import './header-style-4.scss'
 import { getMyWardsList } from '../../../../store/actions/parent-actions'
@@ -31,7 +31,7 @@ const HeaderStyle4 = () => {
     let parentNavLinks = [
         { name: "Dashboard", link: dashboardLocations.dashboard },
         { name: "My Wards", link: myWardsLocations.myWards },
-        { name: "Teacher's Note", link: teachersNoteLocations.teachersNote },
+        { name: "Teacher's Note", link: parentTeachersNoteLocations.parentTeachersNote },
         { name: "Ward's Note", link: wardsNoteLocations.wardsNote },
         { name: "Assessment", link: assessmentLocations.assessment },
         { name: "Print Result", link: printResultLocations.printResult },
@@ -115,7 +115,7 @@ const HeaderStyle4 = () => {
                     </Link>
                     <Link
                         className='header-styles'
-                        to={teachersNoteLocations.teachersNote}
+                        to={parentTeachersNoteLocations.parentTeachersNote}
                     >
                         Teacher's Note
                     </Link>

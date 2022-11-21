@@ -15,7 +15,7 @@ import WardsNoteDetails from '../components/parent-area/wards-note/ward-note-det
 import WardsNoteView from '../components/parent-area/wards-note/wards-note-view';
 import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
-import {  announcementLocations, dashboardLocations, myWardsLocations, printResultLocations, teachersNoteLocations, timeTableLocations, wardsNoteLocations } from './parents-path-locations';
+import {  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, printResultLocations, timeTableLocations, wardsNoteLocations } from './parents-path-locations';
 
 
 const ParentDashboardRouter = () => {
@@ -40,9 +40,9 @@ const ParentDashboardRouter = () => {
                         <Route path={printResultLocations.resultTemplate} exact component={ParentTemplateControl} />
 
                         {/* teachersnote */}
-                        <Route path={teachersNoteLocations.teachersNote} exact component={TeachersNote} />
-                        <Route path={teachersNoteLocations.teachersNotesView} exact component={TeachersNoteView} />
-                        <Route path={teachersNoteLocations.teachersNotesDetails} exact component={TeachersNoteDetails} />
+                        <Route path={parentTeachersNoteLocations.parentTeachersNote} exact component={TeachersNote} />
+                        <Route path={parentTeachersNoteLocations.parentTteachersNotesView} exact component={TeachersNoteView} />
+                        <Route path={parentTeachersNoteLocations.parentTeachersNotesDetails} exact component={TeachersNoteDetails} />
 
                         {/* wardsnote */}
                         <Route path={wardsNoteLocations.wardsNote} exact component={WardsNote} />

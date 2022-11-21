@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { teachersNoteLocations } from "../../../router/parents-path-locations";
+import { parentTeachersNoteLocations } from "../../../router/parents-path-locations";
 import { getAllMyWardsClassNotes } from "../../../store/actions/parent-actions";
 import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
@@ -140,7 +140,7 @@ const TeachersNotePreview = ({ selectedSubjectId }) => {
                             <div
                               onClick={() => {
                                 history.push(
-                                  `${teachersNoteLocations.teachersNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                  `${parentTeachersNoteLocations.parentTeachersNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
                                 );
                                 setShowMenuDropdown(false);
                               }}

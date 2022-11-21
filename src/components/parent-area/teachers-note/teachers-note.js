@@ -2,7 +2,7 @@ import React from 'react'
 import {  Card, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { teachersNoteLocations } from '../../../router/parents-path-locations';
+import { parentTeachersNoteLocations } from '../../../router/parents-path-locations';
 import { getMyWardsList } from '../../../store/actions/parent-actions';
 import avatars1 from "../../../assets/images/avatars/01.png";
 import avatars2 from "../../../assets/images/avatars/avtar_1.png";
@@ -93,7 +93,7 @@ const TeachersNote = () => {
                     <Card.Title>{item.class}</Card.Title>
                     <Link
                       className='btn btn-primary'
-                      to={`${teachersNoteLocations.teachersNotesView}?classId=${item.classId}&ward=${item.fullnaName}`}
+                      to={`${parentTeachersNoteLocations.parentTteachersNotesView}?classId=${item.classId}&ward=${item.fullnaName}`}
                     >
                       View Student Note
                     </Link>
