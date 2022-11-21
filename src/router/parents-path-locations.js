@@ -6,10 +6,10 @@ export const myWardsLocations = {
     myWards: "/parent-dashboard/my-wards",
 };
 
-export const teachersNoteLocations = {
-    teachersNote: "/parent-dashboard/teachers-note",
-    teachersNotesDetails: "/parent-dashboard/teachers-note/teachers-note-details",
-    teachersNotesView: "/parent-dashboard/teachers-note/teachers-note-view",
+export const parentTeachersNoteLocations = {
+    parentTeachersNote: "/parent-dashboard/teachers-note",
+    parentTeachersNotesDetails: "/parent-dashboard/parent-teachers-note/parent-teachers-note-details",
+    parentTteachersNotesView: "/parent-dashboard/parent-teachers-note/parent-teachers-note-view",
 };
 
 export const wardsNoteLocations = {
