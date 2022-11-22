@@ -154,7 +154,6 @@ const PublishResultTable = () => {
             </Table>
           </Row>
         </div>
-
         <Table size="md" hover bordered responsive className="mt-2">
           <thead>
             <tr className="text-center" style={{ background: "#d8efd1" }}>
