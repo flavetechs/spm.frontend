@@ -32,14 +32,14 @@ const TeachersNote = () => {
         <Card>
           <Card.Body>
             <div className=''>
-              <h4>Teacher's Note</h4>
+              <h4>Teacher's Note(s)</h4>
             </div>
           </Card.Body>
         </Card>
         <Card.Body>
           <Row>
             {myWardList?.map((item, index) => (
-              <Col key={index}>
+              <Col key={index} className="d-flex justify-content-center">
                 <Card style={{ width: '16rem' }}>
                   {item.profileUrl ?
                     <Card.Img variant="top" src={item.profileUrl}
