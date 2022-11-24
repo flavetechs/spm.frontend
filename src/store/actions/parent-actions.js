@@ -94,12 +94,12 @@ export const getSingleWardsClassNote = (teacherClassNoteId) => (dispatch) => {
         });
 }
 
-export const getMyWardsHomeAssessment = (pageNumber, sessionClassSubjectId, studentContactId) => (dispatch) => {
+export const getMyWardsHomeAssessment = (pageNumber, sessionClassSubjectId, studentContactId, status) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_LOADING,
     });
-                     ///smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=1&sessionClassSubjectId=8ae6a190-64dd-469c-a295-08daa5d8c70f&studentContactId=17f52da5-b73e-40e1-a5e3-e08b36822354
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=${pageNumber}&sessionClassSubjectId=${sessionClassSubjectId}&studentContactId=${studentContactId}`)
+
+    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=${pageNumber}&sessionClassSubjectId=${sessionClassSubjectId}&studentContactId=${studentContactId}&status=${status}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_SUCCESS,

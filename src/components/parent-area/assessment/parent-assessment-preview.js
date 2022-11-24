@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { parentAssessmentLocations } from "../../../router/parents-path-locations";
 import { getMyWardsHomeAssessment } from "../../../store/actions/parent-actions";
 import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 
@@ -10,6 +11,7 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [indexRow, setIndexRow] = useState("");
+  let status = 1
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -25,12 +27,12 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
 
   React.useEffect(() => {
     if (studentIdQuery && selectedSessionClassSubjectId) {
-        getMyWardsHomeAssessment(1, selectedSessionClassSubjectId, studentIdQuery)(dispatch);
+        getMyWardsHomeAssessment(1, selectedSessionClassSubjectId, studentIdQuery, status)(dispatch);
     }
   }, [dispatch, studentIdQuery, selectedSessionClassSubjectId]);
 
 
-  console.log('myWardsHomeAssessment', myWardsHomeAssessment);
+  // console.log('myWardsHomeAssessment', myWardsHomeAssessment);
 
   return (
     <>
@@ -65,15 +67,7 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
         <Card className="">
           <Card.Body className="p-3">
             <div className="d-xl-flex align-items-center justify-content-between">
-              {myWardsHomeAssessment.length < 2 ?
-                <div>
-                  <h5>{`${wardNameQuery}'S NOTE`}</h5>
-                </div>
-                :
-                <div>
-                  <h5>{`${wardNameQuery}'S NOTES`}</h5>
-                </div>
-              }
+              {myWardsHomeAssessment.length < 2 ? <h5>{wardNameQuery} NOTE </h5> : <h5>{wardNameQuery} NOTES </h5>}
             </div>
           </Card.Body>
         </Card>
@@ -140,12 +134,12 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
                             data-popper-reference-hidden="false"
                           >
                             <div
-                            //   onClick={() => {
-                            //     history.push(
-                            //       `${parentTeachersNoteLocations.parentTeachersNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
-                            //     );
-                            //     setShowMenuDropdown(false);
-                            //   }}
+                              onClick={() => {
+                                history.push(
+                                  `${parentAssessmentLocations.parentAssessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}`
+                                );
+                                setShowMenuDropdown(false);
+                              }}
                               className="dropdown-item"
                               role="button"
                               draggable="true"

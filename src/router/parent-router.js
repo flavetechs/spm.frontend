@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import ParentAnnouncementDetails from '../components/parent-area/announcement/announcement-details';
 import AnnouncementList from '../components/parent-area/announcement/announcement-list';
+import ParentAssessmentDetails from '../components/parent-area/assessment/parent-assessment-details';
 import ParentAssessmentList from '../components/parent-area/assessment/parent-assessment-list';
 import ParentAssessmentView from '../components/parent-area/assessment/parent-assessment-view';
 import WardList from '../components/parent-area/my-wards/wards-list';
@@ -55,10 +56,10 @@ const ParentDashboardRouter = () => {
                         <Route path={announcementLocations.announcement} exact component={AnnouncementList} />
                         <Route path={announcementLocations.parentannouncementDetails} exact component={ParentAnnouncementDetails} />
 
-                        {/* announcement */}
+                        {/* Assessment */}
                         <Route path={parentAssessmentLocations.parentAssessment} exact component={ParentAssessmentList} />
                         <Route path={parentAssessmentLocations.parentAssessmentView} exact component={ParentAssessmentView} />
-                        {/* <Route path={announcementLocations.parentannouncementDetails} exact component={} /> */}
+                        <Route path={parentAssessmentLocations.parentAssessmentDetails} exact component={ParentAssessmentDetails} />
 
                     </Switch>
                 </CSSTransition>
