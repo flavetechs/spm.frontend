@@ -24,15 +24,16 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
   const queryParams = new URLSearchParams(locations.search);
   const classIdQuery = queryParams.get("classId");
   const wardNameQuery = queryParams.get("ward");
+  const statusQuery = queryParams.get("status");
 
   React.useEffect(() => {
     if (studentIdQuery && selectedSessionClassSubjectId) {
-        getMyWardsHomeAssessment(1, selectedSessionClassSubjectId, studentIdQuery, status)(dispatch);
+      getMyWardsHomeAssessment(1, selectedSessionClassSubjectId, studentIdQuery, status)(dispatch);
     }
   }, [dispatch, studentIdQuery, selectedSessionClassSubjectId]);
 
 
-  // console.log('myWardsHomeAssessment', myWardsHomeAssessment);
+  console.log('myWardsHomeAssessment', statusQuery);
 
   return (
     <>
@@ -67,9 +68,62 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
         <Card className="">
           <Card.Body className="p-3">
             <div className="d-xl-flex align-items-center justify-content-between">
-              {myWardsHomeAssessment.length < 2 ? <h5>{wardNameQuery} NOTE </h5> : <h5>{wardNameQuery} NOTES </h5>}
+              <div className="">
+                {myWardsHomeAssessment.length < 2 ? <h5>{wardNameQuery} NOTE </h5> : <h5>{wardNameQuery} NOTES </h5>}
+              </div>
+              <div className="d-flex">
+                <div className="h5 mt-2">filter: </div>
+                <div className=" mx-3 mt-3 mt-lg-0 dropdown">
+                  <select
+                    as="select"
+                    name="status"
+                    className="form-select"
+                    id="status"
+                    // value={statusQuery}
+                    // onChange={(e) => {
+                    //   history.push(
+                    //     `${assessmentLocations.assessment}?status=${e.target.value}`
+                    //   );
+                    // }}
+                  >
+                    <option value={-1}>Select All</option>
+                    <option value={1}>Open</option>
+                    {/* <option value={0}>Unsubmitted</option> */}
+                    <option value={3}>Submitted</option>
+                    <option value={2}>Closed</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </Card.Body>
+          {/* <Card.Body>
+            <div className="d-md-flex align-items-center justify-content-end">
+              <div className="d-flex">
+                <div className="h5 mt-3">filter: </div>
+                <div className=" mx-3 mt-3 mt-lg-0 dropdown">
+                  <select
+                    as="select"
+                    name="status"
+                    className="form-select"
+                    id="status"
+                    value={statusQuery}
+                    onChange={(e) => {
+                      history.push(
+                        `${assessmentLocations.assessment}?status=${e.target.value}`
+                      );
+                    }}
+                  >
+                    <option value={-1}>Select All</option>
+                    <option value={1}>Open</option>
+                    <option value={0}>Unsubmitted</option>
+                    <option value={3}>Submitted</option>
+                    <option value={2}>Closed</option>
+                  </select>
+                </div>
+              </div>
+              <div></div>
+            </div>
+          </Card.Body> */}
         </Card>
         {myWardsHomeAssessment?.length < 1 ?
           <div className="p-3 shadow text-danger">

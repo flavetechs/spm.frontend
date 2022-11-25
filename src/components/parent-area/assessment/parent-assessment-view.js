@@ -28,6 +28,8 @@ const ParentAssessmentView = () => {
         }
     }, [classIdQuery, dispatch]);
 
+    console.log("selectedSessionClassSubjectId", selectedSessionClassSubjectId);
+
     return (
         <>
             <Card>
@@ -53,7 +55,7 @@ const ParentAssessmentView = () => {
                                 </Nav>
                             </Col>
                             <Col className='col-md-10 col-sm-9 col-12'>
-                                {selectedSessionClassSubjectId === "" ?
+                                {!selectedSessionClassSubjectId ?
                                     <div className="jumbotron jumbotron-fluid d-flex justify-content-center mt-5">
                                         <div className="container d-flex justify-content-center header-message">
                                             <h6 className="display-6 d-flex justify-content-center mt-4">

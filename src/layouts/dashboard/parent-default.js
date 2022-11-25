@@ -1,7 +1,9 @@
 
 import { useEffect } from 'react'
 import { bindActionCreators } from "redux"
-
+import ChatBot from 'react-simple-chatbot';
+import { ThemeProvider } from 'styled-components';
+import { steps, theme, config } from "../../components/partials/react-simple-chatbot/chatbot-steps"
 //HorizontalMulti2Router
 // import HorizontalMulti2Router from '../../router/horizontal-multi-2-router'
 
@@ -78,6 +80,15 @@ const ParentDefault = (props) => {
         <div className="conatiner-fluid content-inner">
           <ParentDashboardRouter />
         </div>
+        <ThemeProvider theme={theme}>
+          <ChatBot
+            // This appears as the header
+            // text for the chat bot
+            headerTitle="FlaveTech ChatBot"
+            steps={steps}
+            {...config}
+          />
+        </ThemeProvider>
         <Footer />
       </main>
     </>
