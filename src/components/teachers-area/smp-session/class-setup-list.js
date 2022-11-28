@@ -9,6 +9,7 @@ import {
   returnList,
   deleteClassItems,
   fetchSingleItem,
+  resetClassSetupState,
 } from "../../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../../router/spm-path-locations";
@@ -36,6 +37,10 @@ const ClassSetupList = () => {
 
   React.useEffect(() => {
     getAllClasses()(dispatch);
+    
+    return () => {
+      resetClassSetupState()(dispatch)
+    }
   }, [dispatch]);
 
   //DELETE HANDLER
