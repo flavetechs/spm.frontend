@@ -297,7 +297,7 @@ const ResultTemplateTwo = (props) => {
                           draggable="false"
                         />
                       </div>
-                      Principal's signature and Stamp
+                      {resultSetting?.headteacher}
                     </div>
                   </div>
                 </div>
