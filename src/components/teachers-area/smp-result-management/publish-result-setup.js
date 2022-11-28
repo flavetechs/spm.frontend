@@ -93,7 +93,8 @@ const PublishResult = () => {
                   onSubmit={(values) => {
                     getAllResultList(
                       values.sessionClassId,
-                      values.sessionTermId
+                      values.sessionTermId,
+                      1,
                     )(dispatch);
                     history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
                     // history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`);
@@ -167,7 +168,6 @@ const PublishResult = () => {
                             value={values.sessionTermId}
                             onChange={(e) => {
                               setFieldValue("sessionTermId", e.target.value);
-                              console.log('e.target.value', e.target.value);
                               history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
                               // getTermClasses(
                               //   selectedSession?.sessionId,

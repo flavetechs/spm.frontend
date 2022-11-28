@@ -75,15 +75,12 @@ export const getTermClasses = (sessionId) => (dispatch) => {
     });
 };
 
-export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
+export const getAllResultList = (sessionClassId, termId, pageNumber) => (dispatch) => {
   dispatch({
     type: actions.FETCH_RESULT_LIST_LOADING,
-    //payload: sessionClassId,
-  });
-  axiosInstance
-    .get(
-      `/api/v1/result/get/result-list?sessionClassid=${sessionClassId}&termId=${termId}`
-    )
+
+  }); 
+  axiosInstance.get(`/api/v1/result/get/result-list?sessionClassid=${sessionClassId}&termId=${termId}&pageNumber=${pageNumber}`)
     .then((res) => {
       dispatch({
         type: actions.FETCH_RESULT_LIST_SUCCESS,

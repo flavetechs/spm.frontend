@@ -42,7 +42,7 @@ const LessonNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { lessonNotes,filterProps } = state.class;
+  const { lessonNotes, filterProps } = state.class;
   const { staffClasses, staffClassSubjects } = state.results;
   const { dialogResponse, modalResponse } = state.alert;
   const { activeSession, sessionList } = state.session;
@@ -64,12 +64,12 @@ const LessonNotes = () => {
 
   React.useEffect(() => {
     if (queryParams == {}) {
-      console.log('queryParams', queryParams);
+      // console.log('queryParams', queryParams);
     }
     const fetchNotes = () => {
       classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
-      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam,1)(dispatch);
+      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam, 1)(dispatch);
 
     };
     fetchNotes();
@@ -352,9 +352,11 @@ const LessonNotes = () => {
                                   <option value="1">Approved</option>
                                   <option value="2">Saved</option>
                                   <option value="3">In progress</option>
-                                  {hasAccess(NavPermissions.reviewLessonNote) && (
-                                    <option value="-2">Unreviewed</option>
-                                  )}
+                                  {
+                                    hasAccess(NavPermissions.reviewLessonNote) && (
+                                      <option value="-2">Unreviewed</option>
+                                    )
+                                  }
                                 </>
                                 {/* ):""} */}
                               </Field>
@@ -710,7 +712,7 @@ const LessonNotes = () => {
                 )}
               </Formik>
               <Card.Footer>
-                <PaginationFilter4 filterProps={filterProps} action={getAllLessonNotes} dispatch={dispatch} param1={classIdQueryParam} param2={subjectIdQueryParam} param3={approvalStatusQueryParam} param4={termIdQueryParam}/>
+                <PaginationFilter4 filterProps={filterProps} action={getAllLessonNotes} dispatch={dispatch} param1={classIdQueryParam} param2={subjectIdQueryParam} param3={approvalStatusQueryParam} param4={termIdQueryParam} />
               </Card.Footer>
             </Card>
           </Col>

@@ -1,8 +1,10 @@
 import { Button, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { showHidePreview } from "../../../store/actions/results-actions";
+import { getAllPreviousClassScoreEntryPreview, showHidePreview } from "../../../store/actions/results-actions";
+import Card from "../../Card";
+import { PaginationFilter3 } from "../../partials/components/pagination-filter";
 
-const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
+const AdminPreview = ({ setPreviewMode, isPreviewMode, sessionClassId, subjectId, term, filterProps }) => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { previousScoreEntryPreview } = state.results;
@@ -25,7 +27,7 @@ const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
             Close Preview
           </Button>
         </div>
-        <Table size="md" bordered responsive className="mt-2" style={{ background: '#d1c6c6'}}>
+        <Table size="md" bordered responsive className="mt-2" style={{ background: '#d1c6c6' }}>
           <thead>
             <tr className="text-center">
               <td className="text-uppercase h6">S/No</td>
@@ -44,7 +46,7 @@ const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
             </tr>
           </thead>
           <tbody>
-            {previousScoreEntryPreview?.classScoreEntries.map((item, index) => (
+            {previousScoreEntryPreview?.classScoreEntries?.map((item, index) => (
               <tr
                 style={{ maxHeight: "30px" }}
                 key={index}
@@ -88,6 +90,9 @@ const AdminPreview = ({ setPreviewMode, isPreviewMode }) => {
             ))}
           </tbody>
         </Table>
+        <Card.Footer>
+          <PaginationFilter3 filterProps={filterProps} action={getAllPreviousClassScoreEntryPreview} dispatch={dispatch} param1={sessionClassId} param2={subjectId} param3={term} />
+        </Card.Footer>
       </Row>
     </>
   );

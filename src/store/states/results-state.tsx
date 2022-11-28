@@ -15,4 +15,5 @@ export const _state = {
     batchResultPreview: null,
     batchResult: null,
     printSuccessful: "loading",
+    filterProps: {},
 }

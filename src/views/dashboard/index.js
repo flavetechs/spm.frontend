@@ -102,7 +102,6 @@ const Index = (props) => {
         }, 3000)
     }, [location.search])
 
-
     useEffect(() => {
 
         AOS.init({

@@ -58,7 +58,7 @@ const EnrolledStudents = () => {
     getAllEnrolledStudents(sessionClassIdQuery,1)(dispatch);
   }, [sessionClassIdQuery,dispatch]);
 
-  React.useEffect(() => {
+ useEffect(() => {
     if (!sessionId) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
     } else {
@@ -385,7 +385,7 @@ const EnrolledStudents = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Edit"
-                                    to={`${studentsLocations.studentEdit}?studentAccountId=${student.studentAccountId}`}
+                                    to={`${studentsLocations.studentEdit}?studentAccountId=${student.studentContactId}`}
                                   >
                                     <span className="btn-inner">
                                       <svg

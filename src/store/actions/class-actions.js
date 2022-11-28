@@ -886,7 +886,7 @@ export const getAllLessonNotes = (classId,subjectId,status,termId,pageNumber) =>
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_LESSON_NOTES_FAILED,
-                payload: err.response.data.result
+                payload: err.response?.data?.result
             })
         });
 }

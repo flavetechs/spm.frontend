@@ -17,7 +17,7 @@ const ScoreEntryTable = () => {
   const history = useHistory();
   const location = useLocation();
   const state = useSelector((state) => state);
-  const { scoreEntry } = state.results;
+  const { scoreEntry, filterProps } = state.results;
   // ACCESSING STATE FROM REDUX STORE
 
   //DECLARING VARIABLES
@@ -101,6 +101,7 @@ const ScoreEntryTable = () => {
       {!isPreviewMode ? (
         <LargeTable
           scoreEntry={scoreEntry}
+          filterProps={filterProps}
           isEditMode={isEditMode}
           setEditMode={setEditMode}
           setIndexRow={setIndexRow}
@@ -114,6 +115,8 @@ const ScoreEntryTable = () => {
         <Preview
           setPreviewMode={setPreviewMode}
           isPreviewMode={isPreviewMode}
+          sessionClassId={sessionClassId}
+          subjectId={subjectId}
         />
       )}
     </>

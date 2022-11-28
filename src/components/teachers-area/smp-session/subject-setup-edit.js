@@ -57,7 +57,6 @@ const SubjectSetupEdit = () => {
                   onSubmit={(values) => {
                     values.name = values.name.toUpperCase();
                     values.isActive = isChecked;
-                    console.log(values);
                     updateSubject(values)(dispatch);
                   }}
                 >

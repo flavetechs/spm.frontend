@@ -207,7 +207,6 @@ const AttendanceRegisterList = () => {
                                 className="form-select"
                                 id="terms"
                                 onChange={(e) => {
-                                  console.log('lof', e.target.value);
                                   setFieldValue("terms", e.target.value);
                                   history.push(`${classLocations.classAttendanceBoard}?termId=${e.target.value}&sessionClassId=${""}`);
                                 }}

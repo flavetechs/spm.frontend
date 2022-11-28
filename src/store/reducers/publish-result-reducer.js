@@ -92,7 +92,8 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        publishResults: payload,
+        publishResults: payload.data,
+        filterProps: payload,
       };
     }
     case actions.FETCH_RESULT_LIST_FAILED: {

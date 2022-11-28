@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import Card from "../../Card";
 import {
   getAllRoles,
-  returnList,
-  pushId,
-  removeId,
   deleteItems,
 } from "../../../store/actions/role-actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,17 +14,20 @@ import {
   showSingleDeleteDialog,
 } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
+import { CheckMultiple, CheckSingleItem } from "../../../utils/tools";
 
 const RoleList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
+  const [objectArray, setObjectArray] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { roles, selectedIds } = state.roles;
+  const { roles } = state.roles;
   const { deleteDialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -35,6 +35,11 @@ const RoleList = () => {
     getAllRoles()(dispatch);
   }, [dispatch]);
 
+  const setStateArraysAndIds = (checked) => {
+    const result = CheckMultiple(checked, objectArray, "roleId");
+    setObjectArray(result[0]);
+    setSelectedIds([...new Set(result[1])]);
+  }
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
@@ -44,20 +49,19 @@ const RoleList = () => {
         deleteItems(selectedIds)(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
+        setStateArraysAndIds(false);
         respondToDeleteDialog("")(dispatch);
       }
     } else {
       setDeleteButton(true);
       setShowCheckBoxes(false);
-      selectedIds.forEach((id) => {
-        dispatch(removeId(id));
-      });
+      setStateArraysAndIds(false);
     }
     return () => {
       respondToDeleteDialog("")(dispatch);
    showSingleDeleteDialog(false)(dispatch);
     };
-  }, [deleteDialogResponse,dispatch,selectedIds]);
+  }, [deleteDialogResponse,dispatch]);
   //DELETE HANDLER
 
   const isNotToBeDeleted = (param) => {
@@ -72,34 +76,8 @@ const RoleList = () => {
     }
   };
 
-  const checkSingleItem = (isChecked, roleId, roles) => {
-    roles.forEach((item) => {
-      if (item.roleId === roleId) {
-        item.isChecked = isChecked;
-      }
-    });
-    if (isChecked) {
-      dispatch(pushId(roleId));
-    } else {
-      dispatch(removeId(roleId));
-    }
-  };
-
-  const checkAllItems = (isChecked, roles) => {
-    roles.forEach((item) => {
-      if (!isNotToBeDeleted(item.name)) {
-        item.isChecked = isChecked;
-      }
-
-      if (item.isChecked) {
-        dispatch(pushId(item.roleId));
-      } else {
-        dispatch(removeId(item.roleId));
-      }
-    });
-    returnList(roles)(dispatch);
-  };
-
+ 
+console.log("showCheckBox",showCheckBoxes,selectedIds);
   return (
     <>
       <div>
@@ -242,7 +220,7 @@ const RoleList = () => {
                               className="form-check-input"
                               type="checkbox"
                               onChange={(e) => {
-                                checkAllItems(e.target.checked, roles);
+                                setStateArraysAndIds(e.target.checked);
                               }}
                             />
                           ) : null}
@@ -254,7 +232,7 @@ const RoleList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {roles.map((item, idx) => (
+                      {roles?.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">
                             {showCheckBoxes ? (
@@ -262,12 +240,17 @@ const RoleList = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 hidden={isNotToBeDeleted(item.name)}
+                                checked={item.isChecked || false}
                                 onChange={(e) => {
-                                  checkSingleItem(
+                                const result =  CheckSingleItem(
                                     e.target.checked,
+                                    selectedIds,
                                     item.roleId,
-                                    roles
+                                    roles,
+                                    "roleId"
                                   );
+                                  setObjectArray(result[0]);
+                                  setSelectedIds([...new Set(result[1])]);
                                 }}
                               />
                             ) : null}
@@ -446,7 +429,7 @@ const RoleList = () => {
                                     to="#"
                                     data-id={item.roleId}
                                     onClick={() => {
-                                      dispatch(pushId(item.roleId));
+                                       setSelectedIds([...new Set([...selectedIds,item.roleId])]);
                                       showSingleDeleteDialog(true)(dispatch);
                                     }}
                                   >

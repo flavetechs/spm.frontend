@@ -65,7 +65,6 @@ const UnenrolledStudentsList = () => {
     }
   }, [modalResponse, dispatch, selectedIds]);
   //ENROLL HANDLER
- 
   return (
     <>
       <div>
