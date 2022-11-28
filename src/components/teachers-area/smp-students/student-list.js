@@ -118,7 +118,7 @@ const StudentList = () => {
       setStudentsExcelFile("");
     }
   };
-  console.log("selectedIds",selectedIds);
+
   return (
     <>
       <div>
