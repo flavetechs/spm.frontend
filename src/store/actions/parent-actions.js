@@ -93,3 +93,22 @@ export const getSingleWardsClassNote = (teacherClassNoteId) => (dispatch) => {
             })
         });
 }
+
+export const getMyWardsClassTimetable = (classlkpId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_LOADING,
+    });
+                     ///smp/maywards/api/v1/get-maywards/class-timetable?classlkpId=d564177c-df46-4e52-6993-08da3fdc57d7
+    axiosInstance.get(`/smp/maywards/api/v1/get-maywards/class-timetable?classlkpId=${classlkpId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
