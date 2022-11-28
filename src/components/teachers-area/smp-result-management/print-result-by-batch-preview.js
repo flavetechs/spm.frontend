@@ -13,7 +13,6 @@ import {
 } from "../../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getAllResultList,
   resetPublishPage,
 } from "../../../store/actions/publish-actions";
 import { getAllBatchPrintingResultPreview, getAllBatchPrintingResults } from "../../../store/actions/results-actions";

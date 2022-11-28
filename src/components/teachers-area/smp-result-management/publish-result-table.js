@@ -64,7 +64,7 @@ const PublishResultTable = () => {
   const selectedTermName = selectedSession?.terms?.find(item => {
     return item?.sessionTermId === sessionTermId;
   });
-
+console.log("publishResult",publishResults);
   return (
     <>
       <Row className="pt-3">

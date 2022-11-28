@@ -35,6 +35,7 @@ const CumulativeMasterListLargeTable = ({
     .filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.termName === item.termName)
+        .sort((a,b)=>(a-b))
     );
 
   useEffect(() => {
