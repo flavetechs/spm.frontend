@@ -81,7 +81,7 @@ const StudentEdit = () => {
   }, [selectedStudent, dispatch]);
 
   if (isSuccessful) {
-    history.push(studentsLocations.studentList);
+    history.goBack();
   }
 
 
@@ -667,7 +667,7 @@ const StudentEdit = () => {
                           type="button"
                           variant="btn btn-danger mx-2"
                           onClick={() => {
-                            history.push(studentsLocations.studentList);
+                            history.goBack();
                           }}
                         >
                           Cancel

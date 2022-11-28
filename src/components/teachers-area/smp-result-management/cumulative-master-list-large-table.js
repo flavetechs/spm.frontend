@@ -30,13 +30,13 @@ const CumulativeMasterListLargeTable = ({
       index === self.findIndex((t) => t.subjectName === item.subjectName)
   );
   const filteredCumulativeTermAvgScore = cumulativeEntry?.resultList
-    .map((item) => item.cumulativeTermAvgScore)
+ .map((item) => item.cumulativeTermAvgScore)
     .flat()
     .filter(
       (item, index, self) =>
-        index === self.findIndex((t) => t.termName === item.termName)
-        .sort((a,b)=>(a-b))
-    );
+        index === self.findIndex((t) => t.termName === item.termName)    
+    ).sort((a, b)=>  a.termName > b.termName ? 1 : -1,);
+   
 
   useEffect(() => {
     if (dialogResponse === "continue") {
