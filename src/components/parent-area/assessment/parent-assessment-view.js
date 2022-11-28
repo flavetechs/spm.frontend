@@ -28,8 +28,6 @@ const ParentAssessmentView = () => {
         }
     }, [classIdQuery, dispatch]);
 
-    console.log("selectedSessionClassSubjectId", selectedSessionClassSubjectId);
-
     return (
         <>
             <Card>
@@ -69,7 +67,6 @@ const ParentAssessmentView = () => {
                                         studentIdQuery={studentIdQuery}
                                     />
                                 }
-
                             </Col>
                         </Row>
                     </Tab.Container>

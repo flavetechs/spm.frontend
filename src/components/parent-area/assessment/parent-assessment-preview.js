@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { parentAssessmentLocations } from "../../../router/parents-path-locations";
 import { getMyWardsHomeAssessment } from "../../../store/actions/parent-actions";
-import { PaginationFilter2 } from "../../partials/components/pagination-filter";
+import { PaginationFilter3 } from "../../partials/components/pagination-filter";
 
 const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery }) => {
   //VARIABLE DECLARATIONS
@@ -22,18 +22,18 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
   // ACCESSING STATE FROM REDUX STORE
 
   const queryParams = new URLSearchParams(locations.search);
-  const classIdQuery = queryParams.get("classId");
-  const wardNameQuery = queryParams.get("ward");
-  const statusQuery = queryParams.get("status");
+  const classIdQuery = queryParams.get("classId") || "";
+  const wardNameQuery = queryParams.get("ward") || "";
+  const statusQuery = queryParams.get("status") || "";
 
   React.useEffect(() => {
-    if (studentIdQuery && selectedSessionClassSubjectId) {
-      getMyWardsHomeAssessment(1, selectedSessionClassSubjectId, studentIdQuery, status)(dispatch);
+    if (studentIdQuery && selectedSessionClassSubjectId && statusQuery) {
+      getMyWardsHomeAssessment(1, selectedSessionClassSubjectId, studentIdQuery, statusQuery)(dispatch);
     }
-  }, [dispatch, studentIdQuery, selectedSessionClassSubjectId]);
+  }, [dispatch, studentIdQuery, selectedSessionClassSubjectId, statusQuery]);
 
 
-  console.log('myWardsHomeAssessment', statusQuery);
+  // console.log('myWardsHomeAssessment', myWardsHomeAssessment.length);
 
   return (
     <>
@@ -68,227 +68,204 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
         <Card className="">
           <Card.Body className="p-3">
             <div className="d-xl-flex align-items-center justify-content-between">
-              <div className="">
-                {myWardsHomeAssessment.length < 2 ? <h5>{wardNameQuery} NOTE </h5> : <h5>{wardNameQuery} NOTES </h5>}
+              <div className="bg-light">
+                {myWardsHomeAssessment.length < 2 ? <h5>{wardNameQuery} ASSESSMENT </h5> : <h5>{wardNameQuery} ASSESSMENTS </h5>}
               </div>
               <div className="d-flex">
-                <div className="h5 mt-2">filter: </div>
+                <div className="h5 mt-2">Select Open or Closed: </div>
                 <div className=" mx-3 mt-3 mt-lg-0 dropdown">
                   <select
                     as="select"
                     name="status"
                     className="form-select"
                     id="status"
-                    // value={statusQuery}
-                    // onChange={(e) => {
-                    //   history.push(
-                    //     `${assessmentLocations.assessment}?status=${e.target.value}`
-                    //   );
-                    // }}
+                    value={statusQuery || ""}
+                    onChange={(e) => {
+                      history.push(
+                        `${parentAssessmentLocations.parentAssessmentView}?classId=${classIdQuery}&studentId=${studentIdQuery}&ward=${wardNameQuery}&status=${e.target.value}`
+                      );
+                    }}
                   >
-                    <option value={-1}>Select All</option>
+                    <option value="">Select Option</option>
                     <option value={1}>Open</option>
-                    {/* <option value={0}>Unsubmitted</option> */}
-                    <option value={3}>Submitted</option>
                     <option value={2}>Closed</option>
                   </select>
                 </div>
               </div>
             </div>
           </Card.Body>
-          {/* <Card.Body>
-            <div className="d-md-flex align-items-center justify-content-end">
-              <div className="d-flex">
-                <div className="h5 mt-3">filter: </div>
-                <div className=" mx-3 mt-3 mt-lg-0 dropdown">
-                  <select
-                    as="select"
-                    name="status"
-                    className="form-select"
-                    id="status"
-                    value={statusQuery}
-                    onChange={(e) => {
-                      history.push(
-                        `${assessmentLocations.assessment}?status=${e.target.value}`
-                      );
-                    }}
-                  >
-                    <option value={-1}>Select All</option>
-                    <option value={1}>Open</option>
-                    <option value={0}>Unsubmitted</option>
-                    <option value={3}>Submitted</option>
-                    <option value={2}>Closed</option>
-                  </select>
-                </div>
-              </div>
-              <div></div>
-            </div>
-          </Card.Body> */}
         </Card>
-        {myWardsHomeAssessment?.length < 1 ?
-          <div className="p-3 shadow text-danger">
-            Subject has no Assessment
+        {!statusQuery ?
+          <div className="p-3 shadow display-6">
+            Select Open or closed option
           </div>
           :
           <Row className="">
-            {myWardsHomeAssessment?.map((item, idx) => (
-              <Col md="6" lg="4" xxl="3" className="" key={idx}>
-                <Card>
-                  <Card.Body>
-                    <div className="d-flex justify-content-between">
-                      <div className="mb-0">Title</div>
-                      <div className="dropdown show bg-light">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            setShowMenuDropdown(!showMenuDropdown);
-                            setIndexRow(idx);
-                          }}
-                        >
-                          <g>
-                            <g>
-                              <circle
-                                cx="7"
-                                cy="12"
-                                r="1"
-                                fill="black"
-                              ></circle>
-                              <circle
-                                cx="12"
-                                cy="12"
-                                r="1"
-                                fill="black"
-                              ></circle>
-                              <circle
-                                cx="17"
-                                cy="12"
-                                r="1"
-                                fill="black"
-                              ></circle>
-                            </g>
-                          </g>
-                        </svg>
-                        {showMenuDropdown && indexRow === idx && (
-                          <div
-                            x-placement="bottom-start"
-                            aria-labelledby=""
-                            className="dropdown-menu show"
-                            style={{
-                              position: "absolute",
-                              inset: "-25px auto auto -100px",
-                              transform: "translate(0px, 42px)",
-                            }}
-                            data-popper-placement="bottom-end"
-                            data-popper-escaped="false"
-                            data-popper-reference-hidden="false"
-                          >
-                            <div
+            {myWardsHomeAssessment.length === 0 ?
+              <div className="p-3 shadow display-6 text-danger">
+                No Assessment for this Subject
+              </div>
+              :
+              <div className="d-md-flex">
+                {myWardsHomeAssessment?.map((item, idx) => (
+                  <Col md="6" lg="4" xxl="3" className="" key={idx}>
+                    <Card>
+                      <Card.Body>
+                        <div className="d-flex justify-content-between">
+                          <div className="mb-0">Title</div>
+                          <div className="dropdown show bg-light">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              style={{ cursor: "pointer" }}
                               onClick={() => {
-                                history.push(
-                                  `${parentAssessmentLocations.parentAssessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}`
-                                );
-                                setShowMenuDropdown(false);
+                                setShowMenuDropdown(!showMenuDropdown);
+                                setIndexRow(idx);
                               }}
-                              className="dropdown-item"
-                              role="button"
-                              draggable="true"
                             >
-                              <svg
-                                width="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="me-2"
+                              <g>
+                                <g>
+                                  <circle
+                                    cx="7"
+                                    cy="12"
+                                    r="1"
+                                    fill="black"
+                                  ></circle>
+                                  <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="1"
+                                    fill="black"
+                                  ></circle>
+                                  <circle
+                                    cx="17"
+                                    cy="12"
+                                    r="1"
+                                    fill="black"
+                                  ></circle>
+                                </g>
+                              </g>
+                            </svg>
+                            {showMenuDropdown && indexRow === idx && (
+                              <div
+                                x-placement="bottom-start"
+                                aria-labelledby=""
+                                className="dropdown-menu show"
+                                style={{
+                                  position: "absolute",
+                                  inset: "-25px auto auto -100px",
+                                  transform: "translate(0px, 42px)",
+                                }}
+                                data-popper-placement="bottom-end"
+                                data-popper-escaped="false"
+                                data-popper-reference-hidden="false"
                               >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M14.7366 2.76175H8.08455C6.00455 2.75375 4.29955 4.41075 4.25055 6.49075V17.3397C4.21555 19.3897 5.84855 21.0807 7.89955 21.1167C7.96055 21.1167 8.02255 21.1167 8.08455 21.1147H16.0726C18.1416 21.0937 19.8056 19.4087 19.8026 17.3397V8.03975L14.7366 2.76175Z"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                ></path>{" "}
-                                <path
-                                  d="M14.4741 2.75V5.659C14.4741 7.079 15.6231 8.23 17.0431 8.234H19.7971"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                ></path>{" "}
-                                <path
-                                  d="M14.2936 12.9141H9.39355"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                ></path>{" "}
-                                <path
-                                  d="M11.8442 15.3639V10.4639"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                ></path>
-                              </svg>
-                              view/details
-                            </div>
+                                <div
+                                  onClick={() => {
+                                    history.push(
+                                      `${parentAssessmentLocations.parentAssessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}`
+                                    );
+                                    setShowMenuDropdown(false);
+                                  }}
+                                  className="dropdown-item"
+                                  role="button"
+                                  draggable="true"
+                                >
+                                  <svg
+                                    width="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="me-2"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M14.7366 2.76175H8.08455C6.00455 2.75375 4.29955 4.41075 4.25055 6.49075V17.3397C4.21555 19.3897 5.84855 21.0807 7.89955 21.1167C7.96055 21.1167 8.02255 21.1167 8.08455 21.1147H16.0726C18.1416 21.0937 19.8056 19.4087 19.8026 17.3397V8.03975L14.7366 2.76175Z"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>{" "}
+                                    <path
+                                      d="M14.4741 2.75V5.659C14.4741 7.079 15.6231 8.23 17.0431 8.234H19.7971"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>{" "}
+                                    <path
+                                      d="M14.2936 12.9141H9.39355"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>{" "}
+                                    <path
+                                      d="M11.8442 15.3639V10.4639"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </svg>
+                                  view/details
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <h6 className="mb-3 text-uppercase">
-                      {item.title}
-                    </h6>
-
-                    <div className="d-flex justify-content-between">
-                      <small className="" draggable="false">
-                        Status:
-                        <div className="text-danger">
-                          {item.status}
                         </div>
-                      </small>
-                      <small className="mx-2" draggable="false">
-                        Assessment Score:
-                        <div className="text-success">
-                          {item.assessmentScore}
-                        </div>
-                      </small>
-                    </div>
 
+                        <h6 className="mb-3 text-uppercase">
+                          {item.title}
+                        </h6>
 
-                    <div className="d-flex justify-content-between">
-                      <small className="" draggable="false">
-                        Group Name:
-                        <div className="text-danger">
-                          {item.sessionClassGroupName}
+                        <div className="d-flex justify-content-between">
+                          <small className="" draggable="false">
+                            Status:
+                            <div className="text-danger">
+                              {item.status}
+                            </div>
+                          </small>
+                          <small className="mx-2" draggable="false">
+                            Assessment Score:
+                            <div className="text-success">
+                              {item.assessmentScore}
+                            </div>
+                          </small>
                         </div>
-                      </small>
-                      <small className="mx-2" draggable="false">
-                        Dead line date:
-                        <div className="text-success">
-                          {item.dateDeadLine}
+                        <div className="d-flex justify-content-between">
+                          <small className="" draggable="false">
+                            Group Name:
+                            <div className="text-danger">
+                              {item.sessionClassGroupName}
+                            </div>
+                          </small>
+                          <small className="mx-2" draggable="false">
+                            Dead line date:
+                            <div className="text-success">
+                              {item.dateDeadLine}
+                            </div>
+                          </small>
                         </div>
+                      </Card.Body>
+                      <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
+                        {item.sessionClassSubjectName}
                       </small>
-                    </div>
-                  </Card.Body>
-                  <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                    {item.sessionClassSubjectName}
-                  </small>
-                </Card>
-              </Col>
-            ))}
+                    </Card>
+                  </Col>
+                ))}
+              </div>
+            }
+
           </Row>
         }
       </Card.Body>
       <Card.Footer>
-        <PaginationFilter2 filterProps={filterProps} action={getMyWardsHomeAssessment} dispatch={dispatch} param1={selectedSessionClassSubjectId} param2={studentIdQuery} />
+        <PaginationFilter3 filterProps={filterProps} action={getMyWardsHomeAssessment} dispatch={dispatch} param1={studentIdQuery} param2={selectedSessionClassSubjectId} param3={statusQuery} />
       </Card.Footer>
     </>
   );
