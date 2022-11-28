@@ -89,7 +89,7 @@ export const upLoadPinFile = (upLoadFile, formData) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
-            getAllUnusedPinList(dispatch);
+            getAllUnusedPinList(1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPLOAD_PIN_FILE_FAILED,

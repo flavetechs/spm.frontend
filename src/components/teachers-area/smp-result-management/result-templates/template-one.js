@@ -337,7 +337,7 @@ const ResultTemplateOne = (props) => {
                           draggable="false"
                         />
                       </div>
-                      {resultSetting?.headteacher}'s signature and Stamp
+                      {resultSetting?.headteacher}
                     </div>
                   </div>
                 </div>

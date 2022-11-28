@@ -58,7 +58,7 @@ const EnrolledStudents = () => {
     getAllEnrolledStudents(sessionClassIdQuery,1)(dispatch);
   }, [sessionClassIdQuery,dispatch]);
 
-  React.useEffect(() => {
+ useEffect(() => {
     if (!sessionId) {
       getAllSessionClasses(activeSession?.sessionId)(dispatch);
     } else {
