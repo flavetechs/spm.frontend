@@ -108,7 +108,7 @@ const ParentTimeTableActivities = () => {
                               return (
                                 <td
                                   key={idx}
-                                  className="border border-3"
+                                  className="border border-3 text-uppercase"
                                 >
                                   {activityItem.activity}
                                 </td>
