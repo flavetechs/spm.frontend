@@ -56,6 +56,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         isSuccessful: true,
         loading: false,
         message: payload,
+        submitSuccessful:true,
       };
     case actions.CREATE_STUDENT_FAILED:
       return {
@@ -63,6 +64,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
         loading: false,
         message: payload,
+        submitSuccessful:false,
       };
 
     case actions.UPDATE_STUDENT_LOADING:
@@ -78,6 +80,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
+        submitSuccessful:true,
       };
     case actions.UPDATE_STUDENT_FAILED:
       return {
@@ -85,6 +88,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
+        submitSuccessful:false,
       };
 
     case actions.DELETE_STUDENT_LOADING:

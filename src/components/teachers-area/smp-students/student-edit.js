@@ -55,7 +55,7 @@ const StudentEdit = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedStudent, isSuccessful, message, cities, countries, states } =
+  const { selectedStudent, submitSuccessful, message, cities, countries, states } =
     state.student;
   const { itemList } = state.class;
   const { activeSession } = state.session;
@@ -80,10 +80,9 @@ const StudentEdit = () => {
     getCities(selectedStudent?.stateId)(dispatch);
   }, [selectedStudent, dispatch]);
 
-  if (isSuccessful) {
-    history.goBack();
-  }
-
+  React.useEffect(() => {
+    submitSuccessful && history.goBack()
+  }, [submitSuccessful,history]);
 
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
