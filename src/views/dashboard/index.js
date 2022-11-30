@@ -394,7 +394,7 @@ const Index = (props) => {
                                                 </Circularprogressbar>
                                                 <div className="progress-detail">
                                                     <p className="mb-2">Total Class</p>
-                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalClass} duration={3} /></h4>
+                                                    <h4 className="counter"><CountUp start={0} end={dashboardCount?.totalClass} duration={2} /></h4>
                                                 </div>
                                             </div>
                                         </div>

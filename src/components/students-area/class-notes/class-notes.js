@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
 import { getUserDetails } from "../../../utils/permissions";
 import { classNoteLocations } from "../../../router/students-path-locations";
 import { PaginationFilter1 } from "../../partials/components/pagination-filter";
+import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
 
 const ClassNotes = () => {
   //VARIABLE DECLARATIONS
@@ -23,21 +24,30 @@ const ClassNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { classNotes, studentSubjectList,filterProps } = state.class;
+  const { activeSession, sessionList } = state.session;
+  const { classNotes, studentSubjectList, filterProps } = state.class;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAllStudentSubjects(userDetail.id)(dispatch);
   }, [dispatch, userDetail.id]);
 
+  useEffect(() => {
+    getActiveSession()(dispatch);
+    getAllSession(1)(dispatch);
+  }, [dispatch]);
+
   const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId");
-  React.useEffect(() => {
+  const subjectIdQuery = queryParams.get("subjectId" || "");
+  const termIdQueryParam = queryParams.get("termId") || "";
+
+  useEffect(() => {
     if (subjectIdQuery) {
-      getAllClassNotes(subjectIdQuery,1)(dispatch);
-    } else if (!subjectIdQuery) {
-      getAllClassNotes("",1)(dispatch);
+      getAllClassNotes(subjectIdQuery, 1,termIdQueryParam)(dispatch);
+    } 
+    else if (!subjectIdQuery && termIdQueryParam) {
+      getAllClassNotes("", 1,termIdQueryParam)(dispatch);
     }
   }, [subjectIdQuery, dispatch]);
 
@@ -115,6 +125,7 @@ const ClassNotes = () => {
 
               <Formik
                 initialValues={{
+                  terms: termIdQueryParam,
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
                 }}
                 enableReinitialize={true}
@@ -135,9 +146,51 @@ const ClassNotes = () => {
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <div>
+                                {touched.terms && errors.terms && (
+                                  <div className="text-danger">
+                                    {errors.terms}
+                                  </div>
+                                )}
+                              </div>
+                              <Field
+                                as="select"
+                                name="terms"
+                                className="form-select"
+                                id="terms"
+                                onChange={(e) => {
+                                  setFieldValue("terms", e.target.value);
+                                  history.push(
+                                    `${classNoteLocations.classNotes}?termId=${e.target.value}`
+                                  );
+                                }}
+                              >
+                                <option value="">Select Term</option>
+                                {sessionList
+                                  ?.find(
+                                    (session, idx) =>
+                                      session.sessionId.toLowerCase() ===
+                                      activeSession?.sessionId
+                                  )
+                                  ?.terms.map((term, id) => (
+                                    <option
+                                      key={id}
+                                      name={values.terms}
+                                      value={term.sessionTermId.toLowerCase()}
+                                      selected={
+                                        term.sessionTermId === values.terms
+                                      }
+                                    >
+                                      {term.termName}
+                                    </option>
+                                  ))}
+                              </Field>
+                            </div>
+                            <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <Field
                                 as="select"
                                 name="subjectId"
+                                disabled={termIdQueryParam ? false : true}
                                 className="form-select"
                                 id="subjectId"
                                 onChange={(e) => {
@@ -147,7 +200,7 @@ const ClassNotes = () => {
                                         classNoteLocations.classNotes
                                       )
                                     : history.push(
-                                        `${classNoteLocations.classNotes}?subjectId=${e.target.value}`
+                                        `${classNoteLocations.classNotes}?termId=${termIdQueryParam}&subjectId=${e.target.value}`
                                       );
                                 }}
                               >
@@ -306,7 +359,12 @@ const ClassNotes = () => {
                 )}
               </Formik>
               <Card.Footer>
-                <PaginationFilter1 filterProps={filterProps} action={getAllClassNotes} dispatch={dispatch} param1={subjectIdQuery}/>
+                <PaginationFilter1
+                  filterProps={filterProps}
+                  action={getAllClassNotes}
+                  dispatch={dispatch}
+                  param1={subjectIdQuery}
+                />
               </Card.Footer>
             </Card>
           </Col>

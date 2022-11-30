@@ -1188,12 +1188,12 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
     })
 }
 
-export const getAllClassNotes = (subjectId,pageNumber) => (dispatch) => {
+export const getAllClassNotes = (subjectId,pageNumber,termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/smp/studentclassnotes/api/v1/get-classnote/bystudents?subjectId=${subjectId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/studentclassnotes/api/v1/get-classnote/bystudents?subjectId=${subjectId}&pageNumber=${pageNumber}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CLASS_NOTES_SUCCESS,
