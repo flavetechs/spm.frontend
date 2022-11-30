@@ -128,6 +128,12 @@ export const fetchSingleClass = (classId) => dispatch => {
     });
 
 }
+export const resetClassSetupState = () => dispatch => {
+    dispatch({
+        type: actions.RESET_CLASS_SETUP
+    });
+
+}
 //CLASS ACTION HANDLERS
 
 

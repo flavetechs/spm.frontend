@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, NavDropdown, Dropdown } from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
 import { getUserDetails } from '../../../../utils/permissions'
-import { announcementLocations, assessmentLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, printResultLocations, timeTableLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
+import { announcementLocations, assessmentLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
 import { Link, useHistory } from 'react-router-dom'
 import './header-style-4.scss'
 import { getMyWardsList } from '../../../../store/actions/parent-actions'
@@ -35,7 +35,7 @@ const HeaderStyle4 = () => {
         { name: "Ward's Note", link: wardsNoteLocations.wardsNote },
         { name: "Assessment", link: assessmentLocations.assessment },
         { name: "Print Result", link: printResultLocations.printResult },
-        { name: "Timetable", link: timeTableLocations.timeTable },
+        { name: "Timetable", link: parentTimeTableLocations.parentTimeTable },
         { name: "Announcement", link: announcementLocations.announcement },
     ]
 
@@ -139,7 +139,7 @@ const HeaderStyle4 = () => {
                     </Link>
                     <Link
                         className='header-styles'
-                        to={timeTableLocations.timeTable}
+                        to={parentTimeTableLocations.parentTimeTable}
                     >
                         Timetable
                     </Link>
