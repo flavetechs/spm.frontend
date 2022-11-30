@@ -100,17 +100,17 @@ const StaffProfileEdit = () => {
         <>
             <Formik
                 initialValues={{
-                    TeacherUserAccountId: selectedItem?.teacherUserAccountId,
+                    TeacherUserAccountId: selectedItem?.teacherUserAccountId || "",
                     Hobbies: [],
                     ProfileImage: null,
-                    Email: selectedItem?.email,
-                    FirstName: selectedItem?.firstName,
-                    LastName: selectedItem?.lastName,
-                    MiddleName: selectedItem?.middleName,
-                    Phone: selectedItem?.phone,
-                    DOB: selectedItem?.dob,
-                    Address: selectedItem?.address,
-                    ShortBiography: selectedItem?.shortBiography,
+                    Email: selectedItem?.email|| "",
+                    FirstName: selectedItem?.firstName||"",
+                    LastName: selectedItem?.lastName|| "",
+                    MiddleName: selectedItem?.middleName  || "",
+                    Phone: selectedItem?.phone|| "",
+                    DOB: selectedItem?.dob|| "",
+                    Address: selectedItem?.address|| "",
+                    ShortBiography: selectedItem?.shortBiography|| "",
                 }}
                 validationSchema={validation}
                 onSubmit={(values) => {
