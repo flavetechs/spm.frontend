@@ -51,6 +51,7 @@ const ClassNotes = () => {
     }
   }, [activeSession])
   
+  
   useEffect(() => {
     if (subjectIdQueryParam) {
       getAllClassNotes(subjectIdQueryParam, 1,termIdQueryParam)(dispatch);

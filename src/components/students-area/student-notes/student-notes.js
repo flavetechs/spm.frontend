@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -19,6 +19,7 @@ import {
 import * as Yup from "yup";
 import { studentNoteLocations } from "../../../router/students-path-locations";
 import { PaginationFilter2 } from "../../partials/components/pagination-filter";
+import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -35,6 +36,7 @@ const StudentNotes = () => {
   const state = useSelector((state) => state);
   const { studentNotes, studentSubjectList,filterProps } = state.class;
   const { dialogResponse } = state.alert;
+  const { sessionList,activeSession } = state.session;
   var userDetail = getUserDetails();
   // ACCESSING STATE FROM REDUX STORE
 
@@ -46,14 +48,27 @@ const StudentNotes = () => {
   const queryParams = new URLSearchParams(locations.search);
   const subjectIdQuery = queryParams.get("subjectId") || "";
   const statusQuery = queryParams.get("status") || "-2";
+  const sessionIdQuery= queryParams.get("sessionId") || "";
+  const termIdQuery =  queryParams.get("termId") || "";
 
-  React.useEffect(() => {
+
+  useEffect(() => {
     getAllStudentSubjects()(dispatch);
+    getActiveSession()(dispatch);
+    getAllSession(1)(dispatch);
   }, [dispatch]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if(!termIdQuery && activeSession){
+      history.push(
+        `${studentNoteLocations.studentNotes}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.sessionTermId}`
+      );
+    }
+  }, [activeSession])
+console.log(activeSession);
+   useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteStudentNotes(studentNoteId, subjectIdQuery, statusQuery)(dispatch);
+      deleteStudentNotes(studentNoteId, subjectIdQuery, statusQuery,termIdQuery)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -66,7 +81,7 @@ const StudentNotes = () => {
   }, [dialogResponse, dispatch, studentNoteId]);
 
   React.useEffect(() => {
-    getAllStudentNotes(subjectIdQuery, statusQuery,1)(dispatch);
+    getAllStudentNotes(subjectIdQuery, statusQuery,1,termIdQuery)(dispatch);
   }, [subjectIdQuery, statusQuery, dispatch, locations.search]);
 
   const filteredStudentNotes = studentNotes?.filter((item) => {
@@ -143,6 +158,8 @@ const StudentNotes = () => {
 
               <Formik
                 initialValues={{
+                  sessionId:sessionIdQuery,
+                  terms:termIdQuery,
                   subjectId: subjectIdQuery ? subjectIdQuery : "",
                   approvalStatus: statusQuery ? statusQuery : "",
                 }}
@@ -165,6 +182,78 @@ const StudentNotes = () => {
                       <Card.Body className="p-3">
                         <div className="d-xl-flex align-items-center justify-content-end flex-wrap">
                           <div className="d-xl-flex align-items-center flex-wrap">
+                          <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <div>
+                                {touched.sessionId && errors.sessionId && (
+                                  <div className="text-danger">
+                                    {errors.sessionId}
+                                  </div>
+                                )}
+                              </div>
+                              <Field
+                              as="select"
+                              name="sessionId"
+                              className="form-select"
+                              id="sessionId"
+                              onChange={(e) => {
+                                setFieldValue("sessionId", e.target.value);
+                                history.push(`${studentNoteLocations.studentNotes}?sessionId=${e.target.value}`)
+                              }}
+                            >
+                              <option value="">Select Session</option>
+                              {sessionList?.map((session, idx) => (
+                                <option
+                                  key={idx}
+                                  name={values.sessionId}
+                                  value={session.sessionId.toLowerCase()}
+                                >
+                                  {session.startDate} / {session.endDate}
+                                </option>
+                              ))}
+                            </Field>
+                            </div>
+                          <div className=" me-3 mt-3 mt-xl-0 dropdown">
+                              <div>
+                                {touched.terms && errors.terms && (
+                                  <div className="text-danger">
+                                    {errors.terms}
+                                  </div>
+                                )}
+                              </div>
+                              <Field
+                                as="select"
+                                name="terms"
+                                disabled= {sessionIdQuery ? false : true}
+                                className="form-select"
+                                id="terms"
+                                onChange={(e) => {
+                                  setFieldValue("terms", e.target.value);
+                                  history.push(
+                                    `${studentNoteLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${e.target.value}`
+                                  );
+                                }}
+                              >
+                                <option value="">Select Term</option>
+                                {sessionList
+                                ?.find(
+                                  (session, idx) =>
+                                    session.sessionId.toLowerCase() ===
+                                    values.sessionId
+                                )
+                                ?.terms.map((term, id) => (
+                                    <option
+                                      key={id}
+                                      name={values.terms}
+                                      value={term.sessionTermId.toLowerCase()}
+                                      selected={
+                                        term.sessionTermId === values.terms
+                                      }
+                                    >
+                                      {term.termName}
+                                    </option>
+                                  ))}
+                              </Field>
+                            </div>
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               {/* <div>
                                 {touched.subjectId && errors.subjectId && (
@@ -176,6 +265,7 @@ const StudentNotes = () => {
                               <Field
                                 as="select"
                                 name="subjectId"
+                                disabled={termIdQuery ? false : true}
                                 className="form-select"
                                 id="subjectId"
                                 onChange={(e) => {
@@ -185,7 +275,7 @@ const StudentNotes = () => {
                                       studentNoteLocations.studentNotes
                                     )
                                     : history.push(
-                                      `${studentNoteLocations.studentNotes}?subjectId=${e.target.value}`
+                                      `${studentNoteLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${termIdQuery}&subjectId=${e.target.value}`
                                     );
                                 }}
                               >
@@ -236,10 +326,10 @@ const StudentNotes = () => {
                                   );
                                   if (e.target.value !== "all") {
                                     history.push(
-                                      `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}&status=${e.target.value}`
+                                      `${studentNoteLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${termIdQuery}&subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
-                                    getAllStudentNotes(subjectIdQuery, "2",1)(dispatch);
+                                    getAllStudentNotes(subjectIdQuery, "2",1,termIdQuery)(dispatch);
                                     history.push(
                                       `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
                                     );

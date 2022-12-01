@@ -9,7 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 import { respondDialog, showErrorToast, showHideDialog } from "../../../../store/actions/toaster-actions";
 import { createLessonNotes, getLessonNoteContent, resetLessonNoteContentState } from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
-import { getAllStaffClasses, getStaffClassSubjectByClassLookup} from "../../../../store/actions/results-actions";
+import { getAllStaffClasses, getStaffClassSubjectByFormTeacher} from "../../../../store/actions/results-actions";
 import { TextEditorToolBar } from "../../../../utils/tools";
 
 const CreateLessonNote = () => {
@@ -35,7 +35,7 @@ const CreateLessonNote = () => {
 
   useEffect(() => {
     getAllStaffClasses()(dispatch);
-    classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
+    classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByFormTeacher(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
   }, [dispatch, sessionClassIdQueryParam]);
 
   useEffect(() => {
