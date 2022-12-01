@@ -73,7 +73,7 @@ const LessonNotes = () => {
 
     };
     fetchNotes();
-  }, [approvalStatusQueryParam, subjectIdQueryParam, classIdQueryParam, dispatch]);
+  }, [approvalStatusQueryParam, subjectIdQueryParam, termIdQueryParam,classIdQueryParam, dispatch]);
 
   React.useEffect(() => {
     if (!termIdQueryParam)
