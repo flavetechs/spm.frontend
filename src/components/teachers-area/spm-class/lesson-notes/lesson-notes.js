@@ -75,12 +75,11 @@ const LessonNotes = () => {
     fetchNotes();
   }, [approvalStatusQueryParam, subjectIdQueryParam, termIdQueryParam,classIdQueryParam, dispatch]);
 
-  React.useEffect(() => {
-    if (!termIdQueryParam)
-      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
-  }, [activeSession, dispatch]);
+  // React.useEffect(() => {
+  //   if (!termIdQueryParam && activeSession){
+  //     history.push(`${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`)
+  //   }
+  // }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
