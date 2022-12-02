@@ -484,7 +484,7 @@ const LessonNoteDetails = () => {
                   ))}
                    {singleLessonNotes?.classes.map((item, index) => (
                   <li key={index}>
-                    <h6 className="iq-categories-name mb-0">{staffClasses?.find(i=>i.classId === item).sessionClass}</h6>
+                    <h6 className="iq-categories-name mb-0">{staffClasses?.find(i=>i.classId === item)?.sessionClass}</h6>
                   </li>
    ))}
                 </ul>
