@@ -10,7 +10,7 @@ import {
 } from "../../../../store/actions/class-actions";
 import {
   getAllStaffClasses,
-  getStaffClassSubjectByClassLookup,
+  getStaffClassSubjectByFormTeacher,
 } from "../../../../store/actions/results-actions";
 import {
   respondDialog,
@@ -67,7 +67,7 @@ const LessonNotes = () => {
       // console.log('queryParams', queryParams);
     }
     const fetchNotes = () => {
-      classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
+      classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByFormTeacher(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
       getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam, 1)(dispatch);
 
@@ -75,12 +75,11 @@ const LessonNotes = () => {
     fetchNotes();
   }, [approvalStatusQueryParam, subjectIdQueryParam, termIdQueryParam,classIdQueryParam, dispatch]);
 
-  React.useEffect(() => {
-    if (!termIdQueryParam)
-      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
-  }, [activeSession, dispatch]);
+  // React.useEffect(() => {
+  //   if (!termIdQueryParam && activeSession){
+  //     history.push(`${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`)
+  //   }
+  // }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {

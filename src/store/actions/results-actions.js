@@ -79,6 +79,24 @@ export const getStaffClassSubjectByClassLookup = (classId, sessionClassId) => (d
     });
 }
 
+export const getStaffClassSubjectByFormTeacher = (classId, sessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STAFF_CLASS_SUBJECTS_LOADING,
+    });
+
+    axiosInstance.get(`/api/v1/result/get/staff-class-subjects/by-formteacher/${classId}/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASS_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASS_SUBJECTS_FAILED,
+                payload: err.response.data.result
+            })
+    });
+}
 
 export const getAllClassScore = (sessionClassId, subjectId, pageNumber) => (dispatch) => {
     dispatch({

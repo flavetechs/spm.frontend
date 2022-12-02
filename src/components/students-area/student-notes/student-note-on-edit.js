@@ -33,6 +33,7 @@ const EditStudentNote = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const elementRef = useRef(null);
+  const [errorOnUpload, setErrorOnUpload] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
   const [fileContent, setFileContent] = useState(null);
   const state = useSelector((state) => state);
@@ -163,6 +164,11 @@ const EditStudentNote = () => {
                             }}
                           />
                         </Col>
+                        <Col md="11">
+                          {!fileContent && 
+                            <div className="text-danger">{errorOnUpload}</div>
+                          }
+                        </Col>
                         <Col md="11" className="form-group h6">
                           <label className="form-label" >
                             <b>Upload note(text,word,excel):</b>
@@ -182,6 +188,8 @@ const EditStudentNote = () => {
                           />
                           </Col>
                             <div className="btn btn-success mx-2  mt-3 mt-md-0" onClick={()=>{
+                               if(!fileContent){setErrorOnUpload("No file found to Upload");}
+                               else{
                             if(content === ""){
                               const params = new FormData();
                              params.append("file", fileContent);
@@ -189,7 +197,7 @@ const EditStudentNote = () => {
                            }
                             else{
                             fileContent && showHideDialog(true, "Note that uploading a lesson note will overwrite current content in the editor, do you want to continue?")(dispatch);
-                            }
+                            }}
                            }}>
                               Upload
                             </div>

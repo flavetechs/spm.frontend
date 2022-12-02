@@ -39,17 +39,27 @@ const ClassNotes = () => {
   }, [dispatch]);
 
   const queryParams = new URLSearchParams(locations.search);
-  const subjectIdQuery = queryParams.get("subjectId" || "");
+  const subjectIdQueryParam = queryParams.get("subjectId" || "");
   const termIdQueryParam = queryParams.get("termId") || "";
 
+
   useEffect(() => {
-    if (subjectIdQuery) {
-      getAllClassNotes(subjectIdQuery, 1,termIdQueryParam)(dispatch);
+    if(!termIdQueryParam && activeSession){
+      history.push(
+        `${classNoteLocations.classNotes}?termId=${activeSession?.sessionTermId}`
+      );
+    }
+  }, [activeSession])
+  
+  
+  useEffect(() => {
+    if (subjectIdQueryParam) {
+      getAllClassNotes(subjectIdQueryParam, 1,termIdQueryParam)(dispatch);
     } 
-    else if (!subjectIdQuery && termIdQueryParam) {
+    else if (!subjectIdQueryParam && termIdQueryParam) {
       getAllClassNotes("", 1,termIdQueryParam)(dispatch);
     }
-  }, [subjectIdQuery, dispatch]);
+  }, [subjectIdQueryParam,termIdQueryParam, dispatch]);
 
   const filteredLessonNotes = classNotes?.filter((item) => {
     if (searchQuery === "") {
@@ -126,7 +136,7 @@ const ClassNotes = () => {
               <Formik
                 initialValues={{
                   terms: termIdQueryParam,
-                  subjectId: subjectIdQuery ? subjectIdQuery : "",
+                  subjectId: subjectIdQueryParam ? subjectIdQueryParam : "",
                 }}
                 enableReinitialize={true}
                 onSubmit={(values) => {
@@ -363,7 +373,7 @@ const ClassNotes = () => {
                   filterProps={filterProps}
                   action={getAllClassNotes}
                   dispatch={dispatch}
-                  param1={subjectIdQuery}
+                  param1={subjectIdQueryParam}
                 />
               </Card.Footer>
             </Card>

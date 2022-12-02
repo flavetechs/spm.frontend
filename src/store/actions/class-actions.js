@@ -1207,12 +1207,12 @@ export const getAllClassNotes = (subjectId,pageNumber,termId) => (dispatch) => {
         });
 }
 
-export const getAllStudentNotes = (subjectId, status,pageNumber) => (dispatch) => {
+export const getAllStudentNotes = (subjectId, status,pageNumber,termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_NOTES_LOADING,
     });
 
-    axiosInstance.get(`/smp/studentnotes/api/v1/get/studentnotes/by-student?subjectId=${subjectId}&status=${status}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/studentnotes/api/v1/get/studentnotes/by-student?subjectId=${subjectId}&status=${status}&pageNumber=${pageNumber}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENT_NOTES_SUCCESS,
@@ -1308,7 +1308,7 @@ export const updateStudentNotes = (values) => (dispatch) => {
         });
 }
 
-export const deleteStudentNotes = (item, subjectId,status) => (dispatch) => {
+export const deleteStudentNotes = (item, subjectId,status,termId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
     });
@@ -1321,7 +1321,7 @@ export const deleteStudentNotes = (item, subjectId,status) => (dispatch) => {
                 type: actions.DELETE_LESSON_NOTES_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStudentNotes(subjectId,status,1)(dispatch)
+            getAllStudentNotes(subjectId,status,1,termId)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
