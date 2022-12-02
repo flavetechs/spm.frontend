@@ -4,6 +4,7 @@ export const dashboardLocations = {
 
 export const myWardsLocations = {
     myWards: "/parent-dashboard/my-wards",
+    wardsDetails: "/parent-dashboard/wards-details",
 };
 
 export const parentTeachersNoteLocations = {
