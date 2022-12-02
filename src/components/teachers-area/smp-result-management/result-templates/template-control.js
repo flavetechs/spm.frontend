@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { resultManagement } from "../../../../router/spm-path-locations";
 
 import { getResultSetting } from "../../../../store/actions/portal-setting-action";
 
@@ -22,8 +23,8 @@ const TemplateControl = () => {
   const { batchResult } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const batchPrinting = queryParams.get("batchPrinting");
-  // const sessionClassId = queryParams.get("sessionClassId");
-  // const sessionTermId = queryParams.get("sessionTermId");
+   const sessionClassId = queryParams.get("sessionClassId");
+  const sessionTermId = queryParams.get("sessionTermId");
 
   useEffect(() => {
     getResultSetting()(dispatch);
@@ -43,7 +44,9 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.goBack();
+                      history.push(
+                        `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
+                      );
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -123,7 +126,9 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.goBack();
+                      history.push(
+                        `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
+                      );
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
