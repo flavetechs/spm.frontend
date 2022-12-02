@@ -6,14 +6,13 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
   getAllCumulativeMasterList,
-  getAllFormTeacherClasses,
   resetCumulativeListEntryOnExit,
 } from "../../../store/actions/results-actions";
 import {
   getActiveSession,
   getAllSession,
 } from "../../../store/actions/session-actions";
-import { getAllSessionClasses } from "../../../store/actions/class-actions";
+import { getAllSessionClasses1 } from "../../../store/actions/class-actions";
 import CumulativeMasterListLargeTable from "./cumulative-master-list-large-table";
 import { useHistory, useLocation } from "react-router-dom";
 import { resultManagement } from "../../../router/spm-path-locations";
@@ -57,7 +56,7 @@ const CumulativeMasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getAllFormTeacherClasses(sessionIdQueryParam)(dispatch);
+    sessionIdQueryParam && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
@@ -214,7 +213,7 @@ const CumulativeMasterList = () => {
                               }}
                             >
                               <option value="">Select Class</option>
-                              {staffClasses?.map((item, idx) => (
+                              {classList?.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
