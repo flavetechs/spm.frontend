@@ -23,12 +23,14 @@ import {
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
 import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 import Card from "../../Card";
+import { getResultSetting } from "../../../store/actions/portal-setting-action";
 
 const PublishResultTable = () => {
   //ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { publishResults, termClasses, filterProps} = state.publish;
   const { sessionList } = state.session;
+  const { resultSetting } = state.portal;
   const dispatch = useDispatch();
   const locations = useLocation();
   const history = useHistory();
@@ -49,6 +51,7 @@ const PublishResultTable = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession(1)(dispatch);
+    getResultSetting()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -64,7 +67,7 @@ const PublishResultTable = () => {
   const selectedTermName = selectedSession?.terms?.find(item => {
     return item?.sessionTermId === sessionTermId;
   });
-console.log("publishResult",publishResults);
+
   return (
     <>
       <Row className="pt-3">
@@ -164,7 +167,8 @@ console.log("publishResult",publishResults);
               <th className="text-uppercase h6 text-start">
                 Student Registration No
               </th>
-              <th className="text-uppercase h6">Position</th>
+              {resultSetting?.showPositionOnResult && 
+                <th className="text-uppercase h6">Position</th>} 
               <th className="text-uppercase h6">Average Score</th>
               <th className="text-uppercase h6 px-2">
                 Total No. of <br />
@@ -189,9 +193,9 @@ console.log("publishResult",publishResults);
                 <td className="fw-bold text-start text-uppercase">
                   {list?.registrationNumber}
                 </td>
-                <td className="fw-bold text-start text-uppercase">
+                {resultSetting?.showPositionOnResult && <td className="fw-bold text-start text-uppercase">
                   {list?.position}
-                </td>
+                </td>}
                 <td className="fw-bold text-start text-uppercase">
                   {list?.averageScore}
                 </td>
