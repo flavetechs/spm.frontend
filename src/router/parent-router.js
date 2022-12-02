@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import ParentAnnouncementDetails from '../components/parent-area/announcement/announcement-details';
 import AnnouncementList from '../components/parent-area/announcement/announcement-list';
+import WardsDetails from '../components/parent-area/my-wards/ward-details';
 import WardList from '../components/parent-area/my-wards/wards-list';
 import PrintParentResult from '../components/parent-area/print-result/parent-print-result';
 import ParentTemplateControl from '../components/parent-area/print-result/result-template/parent-template-control';
@@ -38,6 +39,7 @@ const ParentDashboardRouter = () => {
 
                         {/* mywards */}
                         <Route path={myWardsLocations.myWards} exact component={WardList} />
+                        <Route path={myWardsLocations.wardsDetails} exact component={WardsDetails} />
 
                         {/* printResult */}
                         <Route path={printResultLocations.printResult} exact component={PrintParentResult} />

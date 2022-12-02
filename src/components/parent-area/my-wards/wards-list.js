@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
 import { getMyWardsList } from "../../../store/actions/parent-actions";
 import PaginationFilter from "../../partials/components/pagination-filter";
+import { myWardsLocations } from "../../../router/parents-path-locations";
 
 const WardsList = () => {
   //VARIABLE DECLARATIONS
@@ -158,8 +159,8 @@ const WardsList = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to="#"
-                                //   to={`${}?wardId=${}`}
+                                  // to="#"
+                                  to={`${myWardsLocations.wardsDetails}?studentId=${ward.studentId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg
