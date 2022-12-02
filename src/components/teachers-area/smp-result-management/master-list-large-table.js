@@ -26,7 +26,7 @@ const MasterListLargeTable = ({ masterEntry, setShowMasterListTable }) => {
   const filteredSubjectList = subjectList?.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
-  );
+  ).sort((a, b)=>  a.subjectName > b.subjectName ? 1 : -1);
   useEffect(() => {
     if (dialogResponse === "continue") {
       PrintCSV("master-list");

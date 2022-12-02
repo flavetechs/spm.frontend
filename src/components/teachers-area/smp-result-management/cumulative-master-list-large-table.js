@@ -28,7 +28,7 @@ const CumulativeMasterListLargeTable = ({
   const filteredSubjectList = subjectList?.filter(
     (item, index, self) =>
       index === self.findIndex((t) => t.subjectName === item.subjectName)
-  );
+  ).sort((a, b)=>  a.subjectName > b.subjectName ? 1 : -1);
   const filteredCumulativeTermAvgScore = cumulativeEntry?.resultList
  .map((item) => item.cumulativeTermAvgScore)
     .flat()
