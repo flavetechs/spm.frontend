@@ -22,6 +22,25 @@ export const getAllStaffClasses = () => (dispatch) => {
         });
 }
 
+export const getAllFormTeacherClasses = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_STAFF_CLASSES_LOADING
+    });
+
+    axiosInstance.get("/api/v1/result/get/formteacher-classes")
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASSES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_STAFF_CLASSES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const getAllSharedOnStaffClasses = (teacherClassNoteId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STAFF_CLASSES_LOADING
@@ -79,24 +98,7 @@ export const getStaffClassSubjectByClassLookup = (classId, sessionClassId) => (d
     });
 }
 
-export const getStaffClassSubjectByFormTeacher = (classId, sessionClassId) => (dispatch) => {
-    dispatch({
-        type: actions.FETCH_STAFF_CLASS_SUBJECTS_LOADING,
-    });
 
-    axiosInstance.get(`/api/v1/result/get/staff-class-subjects/by-formteacher/${classId}/${sessionClassId}`)
-        .then((res) => {
-            dispatch({
-                type: actions.FETCH_STAFF_CLASS_SUBJECTS_SUCCESS,
-                payload: res.data.result
-            });
-        }).catch((err) => {
-            dispatch({
-                type: actions.FETCH_STAFF_CLASS_SUBJECTS_FAILED,
-                payload: err.response.data.result
-            })
-    });
-}
 
 export const getAllClassScore = (sessionClassId, subjectId, pageNumber) => (dispatch) => {
     dispatch({

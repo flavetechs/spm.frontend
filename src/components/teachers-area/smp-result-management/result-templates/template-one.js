@@ -210,8 +210,8 @@ const ResultTemplateOne = (props) => {
                             className="fw-bold text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
                           >
-                            {results?.position} out of {results?.noOfStudents}{" "}
-                            student(s)
+                            {resultSetting?.showPositionOnResult && results?.position} 
+                            
                           </td>
                         </tr>
                         <tr>

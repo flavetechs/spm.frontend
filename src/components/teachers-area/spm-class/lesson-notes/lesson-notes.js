@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -10,7 +10,7 @@ import {
 } from "../../../../store/actions/class-actions";
 import {
   getAllStaffClasses,
-  getStaffClassSubjectByFormTeacher,
+  getStaffClassSubjectByClassLookup,
 } from "../../../../store/actions/results-actions";
 import {
   respondDialog,
@@ -67,7 +67,7 @@ const LessonNotes = () => {
       // console.log('queryParams', queryParams);
     }
     const fetchNotes = () => {
-      classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByFormTeacher(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
+      classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
 
       getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam, 1)(dispatch);
 
@@ -75,11 +75,11 @@ const LessonNotes = () => {
     fetchNotes();
   }, [approvalStatusQueryParam, subjectIdQueryParam, termIdQueryParam,classIdQueryParam, dispatch]);
 
-  // React.useEffect(() => {
-  //   if (!termIdQueryParam && activeSession){
-  //     history.push(`${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`)
-  //   }
-  // }, [activeSession, dispatch]);
+   useEffect(() => {
+    if (!termIdQueryParam && activeSession){
+      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`)
+    }
+  }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
@@ -561,6 +561,7 @@ const LessonNotes = () => {
                                             onClick={() => {
                                               showHideModal(true)(dispatch);
                                               setShowMenuDropdown(false);
+                                              setNoteSendModal(false);
                                               setNoteShareModal(true);
                                               setClassNoteId(item.classNoteId);
                                             }}
@@ -592,6 +593,7 @@ const LessonNotes = () => {
                                           showHideModal(true)(dispatch);
                                           setShowMenuDropdown(false);
                                           setNoteSendModal(true);
+                                          setNoteShareModal(false);
                                           setTeacherClassNoteId(item.teacherClassNoteId);
                                         }}
                                         className="dropdown-item"

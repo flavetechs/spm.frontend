@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
+  getAllFormTeacherClasses,
   getAllMasterList,
   resetListEntryOnExit,
 } from "../../../store/actions/results-actions";
@@ -32,7 +33,7 @@ const MasterList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { itemList: classList } = state.class;
-  const { masterEntry } = state.results;
+  const { masterEntry,staffClasses } = state.results;
   const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -57,7 +58,7 @@ const MasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
+    sessionIdQueryParam && getAllFormTeacherClasses(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
@@ -213,13 +214,13 @@ const MasterList = () => {
                               }}
                             >
                               <option value="">Select Class</option>
-                              {classList?.map((item, idx) => (
+                              {staffClasses?.map((item, idx) => (
                                 <option
                                   key={idx}
                                   name={values.sessionClassId}
                                   value={item.sessionClassId}
                                 >
-                                  {item.class}
+                                  {item.sessionClass}
                                 </option>
                               ))}
                             </Field>
