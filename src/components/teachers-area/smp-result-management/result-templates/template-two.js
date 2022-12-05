@@ -163,13 +163,14 @@ const ResultTemplateTwo = (props) => {
                       </div>
                     </div>
                     <div className="px-2 h6">
-                      <div className="py-2">
+                    {resultSetting?.showPositionOnResult &&   
+                    <div className="py-2">
                         POSITION:{" "}
                         <span className="">
-                          {results?.position} out of {results?.noOfStudents}{" "}
-                          student(s)
+                        {results?.position}
                         </span>
                       </div>
+                      }
                       <div className="py-2 h6">
                         TOTAL:{" "}
                         <span
@@ -297,7 +298,7 @@ const ResultTemplateTwo = (props) => {
                           draggable="false"
                         />
                       </div>
-                      Principal's signature and Stamp
+                      {resultSetting?.headteacher}
                     </div>
                   </div>
                 </div>

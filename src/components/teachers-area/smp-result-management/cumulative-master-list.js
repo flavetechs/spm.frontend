@@ -12,9 +12,8 @@ import {
   getActiveSession,
   getAllSession,
 } from "../../../store/actions/session-actions";
-import { getAllSessionClasses } from "../../../store/actions/class-actions";
+import { getAllSessionClasses1 } from "../../../store/actions/class-actions";
 import CumulativeMasterListLargeTable from "./cumulative-master-list-large-table";
-import CumulativeMasterListSmallTable from "./cumulative-master-list-small-table";
 import { useHistory, useLocation } from "react-router-dom";
 import { resultManagement } from "../../../router/spm-path-locations";
 
@@ -34,7 +33,7 @@ const CumulativeMasterList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { itemList: classList } = state.class;
-  const { cumulativeEntry } = state.results;
+  const { cumulativeEntry,staffClasses } = state.results;
   const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -57,7 +56,7 @@ const CumulativeMasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getAllSessionClasses(sessionIdQueryParam)(dispatch);
+    sessionIdQueryParam && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
@@ -220,7 +219,7 @@ const CumulativeMasterList = () => {
                                   name={values.sessionClassId}
                                   value={item.sessionClassId}
                                 >
-                                  {item.class}
+                                  {item.sessionClass}
                                 </option>
                               ))}
                             </Field>

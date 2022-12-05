@@ -12,4 +12,6 @@ export const _state = {
     selectedWardsNote: {},
     selectedWardsClassNote: {},
     myWardsHomeAssessment: [],
+    myWardsClassTimetable: {},
+    selectedWardDetails: {},
   };

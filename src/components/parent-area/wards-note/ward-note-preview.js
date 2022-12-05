@@ -78,7 +78,7 @@ const WardsNotePreview = ({ selectedSubjectId }) => {
                 </Card>
                 {myWardsNotes.length < 1 ?
                     <div className="p-3 shadow text-danger">
-                        Sorry! Subject does not have Note
+                        There is no Note for the subject
                     </div>
                     :
                     <Row className="">

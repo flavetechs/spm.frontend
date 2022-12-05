@@ -32,7 +32,7 @@ const MasterList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { itemList: classList } = state.class;
-  const { masterEntry } = state.results;
+  const { masterEntry,staffClasses } = state.results;
   const { activeSession, sessionList } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -219,7 +219,7 @@ const MasterList = () => {
                                   name={values.sessionClassId}
                                   value={item.sessionClassId}
                                 >
-                                  {item.class}
+                                  {item.sessionClass}
                                 </option>
                               ))}
                             </Field>

@@ -206,13 +206,15 @@ const ResultTemplateOne = (props) => {
                           >
                             Position
                           </td>
-                          <td
+                        {resultSetting?.showPositionOnResult &&  
+                        <td
                             className="fw-bold text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"uppercase",fontWeight:"600",border:"1px solid black" }}
                           >
-                            {results?.position} out of {results?.noOfStudents}{" "}
-                            student(s)
+                            {results?.position} 
+                            
                           </td>
+                          }
                         </tr>
                         <tr>
                           <td
@@ -337,7 +339,7 @@ const ResultTemplateOne = (props) => {
                           draggable="false"
                         />
                       </div>
-                      {resultSetting?.headteacher}'s signature and Stamp
+                      {resultSetting?.headteacher}
                     </div>
                   </div>
                 </div>

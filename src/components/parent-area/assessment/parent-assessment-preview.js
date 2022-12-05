@@ -33,8 +33,6 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
   }, [dispatch, studentIdQuery, selectedSessionClassSubjectId, statusQuery]);
 
 
-  // console.log('myWardsHomeAssessment', myWardsHomeAssessment.length);
-
   return (
     <>
 
@@ -166,7 +164,7 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
                                 <div
                                   onClick={() => {
                                     history.push(
-                                      `${parentAssessmentLocations.parentAssessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}`
+                                      `${parentAssessmentLocations.parentAssessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}&sessionClassId=${item.sessionClassId}`
                                     );
                                     setShowMenuDropdown(false);
                                   }}

@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
 import { bindActionCreators } from "redux"
-import ChatBot from 'react-simple-chatbot';
-import { ThemeProvider } from 'styled-components';
-import { steps, theme, config } from "../../components/partials/react-simple-chatbot/chatbot-steps"
 
 //header
 import Header from '../../components/partials/dashboard/HeaderStyle/header'
@@ -115,15 +112,6 @@ const Default = (props) => {
                     <ErrorToast />
                     <DashboardRouter />
                 </div>
-                <ThemeProvider theme={theme}>
-                    <ChatBot
-                        // This appears as the header
-                        // text for the chat bot
-                        headerTitle="FlaveTech ChatBot"
-                        steps={steps}
-                        {...config}
-                    />
-                </ThemeProvider>
                 <Footer />
             </main>
             <SettingOffcanvas />

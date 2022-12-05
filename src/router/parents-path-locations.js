@@ -4,6 +4,7 @@ export const dashboardLocations = {
 
 export const myWardsLocations = {
     myWards: "/parent-dashboard/my-wards",
+    wardsDetails: "/parent-dashboard/wards-details",
 };
 
 export const parentTeachersNoteLocations = {
@@ -30,16 +31,13 @@ export const printResultLocations = {
     resultTemplate: "/parent-dashboard/parent-result-template",
 };
 
-export const timeTableLocations = {
-    timeTable: "/parent-dashboard/parent-time-table",
-    printTimeTable: "/parent-dashboard/print-time-table",
+export const parentTimeTableLocations = {
+    parentTimeTable: "/parent-dashboard/parent-timetable",
+    parentTimetableActivities: "/parent-dashboard/parent-timetable-activities",
+    printTimeTable: "/parent-dashboard/print-timetable",
 };
 
 export const announcementLocations = {
     announcement: "/parent-dashboard/announcement",
     parentannouncementDetails: "/parent-dashboard/parent-announcement-details",
-};
-
-export const chatAdminLocations = {
-    chatAdmin: "/parent-dashboard/chat-admin",
 };

@@ -1,5 +1,5 @@
 import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -73,13 +73,12 @@ const LessonNotes = () => {
 
     };
     fetchNotes();
-  }, [approvalStatusQueryParam, subjectIdQueryParam, classIdQueryParam, dispatch]);
+  }, [approvalStatusQueryParam, subjectIdQueryParam, termIdQueryParam,classIdQueryParam, dispatch]);
 
-  React.useEffect(() => {
-    if (!termIdQueryParam)
-      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.terms.find(
-        (term) => term.isActive === true
-      )?.sessionTermId}`)
+   useEffect(() => {
+    if (!termIdQueryParam && activeSession){
+      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`)
+    }
   }, [activeSession, dispatch]);
 
   React.useEffect(() => {
@@ -562,6 +561,7 @@ const LessonNotes = () => {
                                             onClick={() => {
                                               showHideModal(true)(dispatch);
                                               setShowMenuDropdown(false);
+                                              setNoteSendModal(false);
                                               setNoteShareModal(true);
                                               setClassNoteId(item.classNoteId);
                                             }}
@@ -593,6 +593,7 @@ const LessonNotes = () => {
                                           showHideModal(true)(dispatch);
                                           setShowMenuDropdown(false);
                                           setNoteSendModal(true);
+                                          setNoteShareModal(false);
                                           setTeacherClassNoteId(item.teacherClassNoteId);
                                         }}
                                         className="dropdown-item"

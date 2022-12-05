@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   Col,
@@ -9,10 +9,8 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { Formik } from "formik";
-import { getSingleHomeAssessment, getSingleStudentHomeAssessment, submitStudentAssessment } from "../../../store/actions/class-actions";
+import { getSingleHomeAssessment, getSingleStudentHomeAssessment } from "../../../store/actions/class-actions";
 import { closeFullscreen, openFullscreen } from "../../../utils/export-csv";
-import { showErrorToast } from "../../../store/actions/toaster-actions";
 
 const ParentAssessmentDetails = () => {
   //VARIABLE DECLARATIONS
@@ -21,7 +19,6 @@ const ParentAssessmentDetails = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [filesArray, setFilesArray] = useState(null);
   const state = useSelector((state) => state);
   const [content, setContent] = useState("");
   const {
@@ -32,12 +29,13 @@ const ParentAssessmentDetails = () => {
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentFeedBackIdQuery = queryParams.get("homeAssessmentFeedBackId") || "";
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId") || "";
+  const sessionClassIdQuery = queryParams.get("sessionClassId") || "";
 
   useEffect(() => {
     if (homeAssessmentFeedBackIdQuery !== "null") {
       getSingleStudentHomeAssessment(homeAssessmentFeedBackIdQuery)(dispatch);
     } else {
-      getSingleHomeAssessment(homeAssessmentIdQuery, "")(dispatch);
+      getSingleHomeAssessment(homeAssessmentIdQuery, sessionClassIdQuery)(dispatch);
     }
   }, [homeAssessmentFeedBackIdQuery, homeAssessmentIdQuery, dispatch]);
 
