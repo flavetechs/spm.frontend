@@ -225,35 +225,24 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
 
                         <div className="d-flex justify-content-between">
                           <small className="" draggable="false">
-                            Status:
+                            <b>Deadline:</b>
                             <div className="text-danger">
-                              {item.status}
-                            </div>
-                          </small>
-                          <small className="mx-2" draggable="false">
-                            Assessment Score:
-                            <div className="text-success">
-                              {item.assessmentScore}
-                            </div>
-                          </small>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <small className="" draggable="false">
-                            Group Name:
-                            <div className="text-danger">
-                              {item.sessionClassGroupName}
-                            </div>
-                          </small>
-                          <small className="mx-2" draggable="false">
-                            Dead line date:
-                            <div className="text-success">
                               {item.dateDeadLine}
+                            </div>
+                          </small>
+                          <small className="mx-2" draggable="false">
+                            <b>Status:</b> <br />
+                            <div className="bg-primary badge">
+                              {item.status}
                             </div>
                           </small>
                         </div>
                       </Card.Body>
-                      <small className="d-flex justify-content-end mx-2 p-0 mb-2 mt-n3">
-                        {item.sessionClassSubjectName}
+                      <small className="d-flex justify-content-around mx-2 p-0 mb-2 mt-n3">
+                        <div>{item.sessionClassGroupName}</div>
+                        <div className="text-lowercase">
+                          {item.sessionClassSubjectName}
+                        </div>
                       </small>
                     </Card>
                   </Col>
