@@ -219,7 +219,7 @@ const CumulativeMasterList = () => {
                                   name={values.sessionClassId}
                                   value={item.sessionClassId}
                                 >
-                                  {item.sessionClass}
+                                  {item.class}
                                 </option>
                               ))}
                             </Field>

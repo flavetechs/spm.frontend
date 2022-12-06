@@ -511,10 +511,10 @@ export const resetCumulativeListEntryOnExit = () => (dispatch) => {
     });
 }
 
-export const resetStudentResultState = () => (dispatch) => {
+export const resetPrintSuccessfulState = () => (dispatch) => {
     dispatch({
-         type: actions.RESET_STUDENT_RESULT_STATE,
-         payload: null
+         type: actions.RESET_PRINT_SUCCESSFUL_STATE,
+         payload: "loading"
      });
  }
 

@@ -7,6 +7,7 @@ export const _state = {
   selectedItem: null,
   message: "",
   isSuccessful: false,
+  submitSuccessful:false,
   activeSubjects: [],
   activeClasses: [],
   classSubjects: [],

@@ -9,7 +9,7 @@ import {
 import { getTermClasses } from "../../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { getSinglePrintResult, resetStudentResultState } from "../../../store/actions/results-actions";
+import { getSinglePrintResult } from "../../../store/actions/results-actions";
 import { printResultLocations } from "../../../router/students-path-locations";
 
 const PrintStudentResult = () => {
