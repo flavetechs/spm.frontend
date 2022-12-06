@@ -219,7 +219,7 @@ const MasterList = () => {
                                   name={values.sessionClassId}
                                   value={item.sessionClassId}
                                 >
-                                  {item.sessionClass}
+                                  {item.class}
                                 </option>
                               ))}
                             </Field>

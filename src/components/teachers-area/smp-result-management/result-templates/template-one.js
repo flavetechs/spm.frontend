@@ -200,12 +200,14 @@ const ResultTemplateOne = (props) => {
                           </td>
                         </tr>
                         <tr>
+                        {resultSetting?.showPositionOnResult &&  
                           <td
                             className="fw-bold h6 text-uppercase"
                             style={{ color: "#2d2d2d",textTransform:"capitalize",fontWeight:"600",border:"1px solid black" }}
                           >
                             Position
                           </td>
+}
                         {resultSetting?.showPositionOnResult &&  
                         <td
                             className="fw-bold text-uppercase"

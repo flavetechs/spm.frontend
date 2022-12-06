@@ -195,6 +195,25 @@ export const createSubject = (subject) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+export const createSessionClassSubject = (subject) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_SUBJECT_LOADING
+    });
+    axiosInstance.post('/subject/api/v1/create/subject', subject)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_SUBJECT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_SUBJECT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
 
 export const deleteSubject = (subjectId) => (dispatch) => {
     dispatch({
@@ -227,6 +246,27 @@ export const updateSubject = (updatedSubject) => (dispatch) => {
     });
 
     axiosInstance.post('/subject/api/v1/update/subject', updatedSubject)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_SUBJECT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_SUBJECT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const updateSessionClassSubjects = (values) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_SUBJECT_LOADING
+    });
+
+    axiosInstance.post('/class/api/v1/add-update/session-class-subjects',values )
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SUBJECT_SUCCESS,
@@ -380,12 +420,14 @@ export const getAllActiveClasses = () => (dispatch) => {
 //GET ACTIVE CLASSES ACTION  HANDLER
 
 //CLASS SUBJECT IDS//
-export const buildClassSubjectArray = (examSCore, assessment, subjectId, subjectTeacherId, classSubjects, checkBoxValue = true) => (dispatch) => {
+export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject,subjectTeacherId,subjectTeacher, classSubjects, checkBoxValue = true) => (dispatch) => {
     var existingClassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
     if (existingClassSubject) {
         if (checkBoxValue) {
             existingClassSubject.subjectId = subjectId;
+            existingClassSubject.subject = subject;
+            existingClassSubject.subjectTeacher = subjectTeacher === "" ? existingClassSubject.subjectTeacher : subjectTeacher;
             existingClassSubject.subjectTeacherId = subjectTeacherId === "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
             existingClassSubject.examSCore = examSCore === "" ? existingClassSubject.examSCore : examSCore;
             existingClassSubject.assessment = assessment === "" ? existingClassSubject.assessment : assessment;
@@ -396,7 +438,9 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
     } else {
         let newClassSubject = {
             subjectId,
+            subject,
             subjectTeacherId,
+            subjectTeacher,
             examSCore,
             assessment
         }

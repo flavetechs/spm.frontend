@@ -217,6 +217,7 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
         ...state,
         loading: true,
         batchResultPreview: null,
+        printSuccessful:"loading",
       };
     }
     case actions.FETCH_BATCH_RESULT_PREVIEW_SUCCESS: {
@@ -224,6 +225,7 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
         ...state,
         loading: false,
         batchResultPreview: payload,
+        printSuccessful:"loading",
       };
     }
     case actions.FETCH_BATCH_RESULT_PREVIEW_FAILED: {
@@ -330,10 +332,10 @@ export const resultsReducer = (state = _state, { type, payload}: any) => {
       };
     }
 
-    case actions.RESET_STUDENT_RESULT_STATE: {
+    case actions.RESET_PRINT_SUCCESSFUL_STATE: {
       return {
         ...state,
-        studentResult: payload,
+        printSuccessful: payload,
       };
     }
 //template setting reducer

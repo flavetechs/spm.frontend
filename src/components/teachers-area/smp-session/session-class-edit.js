@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Button, Table } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../../router/spm-path-locations";
@@ -50,11 +50,10 @@ const SessionClassEdit = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const {
-    isSuccessful,
+    submitSuccessful,
     message,
     selectedItem,
     activeTeachers,
-    activeSubjects,
     activeClasses,
     classSubjects,
   } = state.class;
@@ -80,22 +79,11 @@ const SessionClassEdit = () => {
     subjectExamScore: 70,
     subjectAssessmentScore: 30,
   });
-
+  const queryParams = new URLSearchParams(locations.search);
+    const sessionClassId = queryParams.get("sessionClassId");
   //VARIABLE DECLARATIONS
 
-  const setCurrentSubjectScores1 = (
-    subjectExamScore,
-    subjectAssessmentScore,
-    subjectId
-  ) => {
-    initialValues[`${subjectId}_subjectExamScore`] = subjectExamScore;
-    initialValues[`${subjectId}_subjectAssessmentScore`] =
-      subjectAssessmentScore;
-
-    initialValues.subjectExamScore = subjectExamScore;
-    initialValues.subjectAssessmentScore = subjectAssessmentScore;
-    setInitialValues(initialValues);
-  };
+ 
 
   const setCurrentSubjectScores2 = (
     subjectExamScore,
@@ -122,8 +110,7 @@ const SessionClassEdit = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
+  
     if (!sessionClassId) return;
     fetchSingleSessionClass(sessionClassId)(dispatch);
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
@@ -141,56 +128,13 @@ const SessionClassEdit = () => {
     setInitialValues(initialValues);
   }, [selectedItem]);
 
-  if (isSuccessful) {
-    history.push(sessionLocations.sessionClassList);
-  }
 
-  //HANDLER FUNCTIONS
-  const getSubjectId = (event, subjectId, subjectTeacherId) => {
-    const checkBoxValue = event.target.checked;
-    buildClassSubjectArray(
-      examScore,
-      assessmentScore,
-      subjectId,
-      subjectTeacherId,
-      classSubjects,
-      checkBoxValue
-    )(dispatch);
-  };
+  React.useEffect(() => {
+    submitSuccessful &&
+    history.push(`${sessionLocations.sessionClassTableEdit}?sessionClassId=${sessionClassId}`);
+   }, [submitSuccessful]);
+ 
 
-  const getExamScores = (subjectId) => {
-    buildClassSubjectArray(
-      initialValues.subjectExamScore,
-      initialValues.subjectAssessmentScore,
-      subjectId,
-      "",
-      classSubjects,
-      true
-    )(dispatch);
-  };
-
-  const getAssessmentScores = (subjectId) => {
-    buildClassSubjectArray(
-      initialValues.subjectExamScore,
-      initialValues.subjectAssessmentScore,
-      subjectId,
-      "",
-      classSubjects,
-      true
-    )(dispatch);
-  };
-
-  const getSubjectTeacherId = (subjectId, subjectTeacherId) => {
-    buildClassSubjectArray(
-      "",
-      "",
-      subjectId,
-      subjectTeacherId,
-      classSubjects,
-      true
-    )(dispatch);
-  };
-  //HANDLER FUNCTIONS
 
   return (
     <>
@@ -213,6 +157,7 @@ const SessionClassEdit = () => {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
+                   
                     updateSessionClass(values)(dispatch);
                   }}
                 >
@@ -255,22 +200,7 @@ const SessionClassEdit = () => {
                           <div className="text-danger">{message}</div>
                         )}
 
-                        {touched.formTeacherId && errors.formTeacherId && (
-                          <div className="text-danger">
-                            {errors.formTeacherId}
-                          </div>
-                        )}
-                        {touched.examScore && errors.examScore && (
-                          <div className="text-danger">{errors.examScore}</div>
-                        )}
-                        {touched.assessmentScore && errors.assessmentScore && (
-                          <div className="text-danger">
-                            {errors.assessmentScore}
-                          </div>
-                        )}
-                        {touched.passMark && errors.passMark && (
-                          <div className="text-danger">{errors.passMark}</div>
-                        )}
+                       
                       </Row>
                       <Field
                         type="text"
@@ -301,6 +231,7 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
                         <Col >
+                      
                           <div className="form-group">
                             <label htmlFor="classId" className="form-label">
                               {" "}
@@ -335,7 +266,12 @@ const SessionClassEdit = () => {
                       </Row>
 
                       <div className="d-flex row justify-content-between">
-                        <Col sm="6" lg="2">
+                        <Col md="6" >
+                      
+                        {touched.examScore && errors.examScore && (
+                          <div className="text-danger">{errors.examScore}</div>
+                        )}
+                      
                           <div className="form-group">
                             <label htmlFor="examScore" className="form-label">
                               {" "}
@@ -365,7 +301,14 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
 
-                        <Col sm="6" lg="2">
+                        <Col md="6" >
+                       
+                        {touched.assessmentScore && errors.assessmentScore && (
+                          <div className="text-danger">
+                            {errors.assessmentScore}
+                          </div>
+                        )}
+                        
                           <div className="form-group">
                             <label
                               htmlFor="assessmentScore"
@@ -416,7 +359,11 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
 
-                        <Col sm="6" lg="2">
+                        <Col md="6">
+                       
+                        {touched.passMark && errors.passMark && (
+                          <div className="text-danger">{errors.passMark}</div>
+                        )}
                           <div className="form-group">
                             <label htmlFor="passMark" className="form-label">
                               {" "}
@@ -442,7 +389,13 @@ const SessionClassEdit = () => {
                           </div>
                         </Col>
 
-                        <Col sm="6" lg="6">
+                        <Col md="6" >
+                        {touched.formTeacherId && errors.formTeacherId && (
+                          <div className="text-danger">
+                            {errors.formTeacherId}
+                          </div>
+                        )}
+                        
                           <div className="form-group">
                             <label
                               htmlFor="formTeacherId"
@@ -477,171 +430,14 @@ const SessionClassEdit = () => {
                         </Col>
                       </div>
 
-                      {touched.subjectExamScore && errors.subjectExamScore && (
-                        <div className="text-danger">
-                          {errors.subjectExamScore}
-                        </div>
-                      )}
-                      {touched.subjectAssessmentScore &&
-                        errors.subjectAssessmentScore && (
-                          <div className="text-danger">
-                            {errors.subjectAssessmentScore}
-                          </div>
-                        )}
-
-                      <Table bordered responsive>
-                        <thead>
-                          <tr>
-                            <th>Subject</th>
-                            <th>Exam</th>
-                            <th>Assessment</th>
-                            <th>Subject Teacher</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {activeSubjects.map((subject, idx) => (
-                            <tr key={idx}>
-                              <td style={{ width: "50%" }}>
-                                {" "}
-                                <Field
-                                  type="checkbox"
-                                  id="subjectId"
-                                  name="subjectId"
-                                  className="form-check-input text-capitalize"
-                                  checked={
-                                    classSubjects.find(
-                                      (sub) =>
-                                        sub.subjectId === subject.lookupId
-                                    ) || false
-                                  }
-                                  onChange={(e) => {
-                                    getSubjectId(e, subject.lookupId, "");
-                                  }}
-                                />
-                                {subject.name}
-                              </td>
-
-                              <td>
-                                {classSubjects.find(
-                                  (sub) => sub.subjectId === subject.lookupId
-                                ) ? (
-                                  <Field
-                                    type="number"
-                                    className="form-control px-1"
-                                    name={`${subject.lookupId}_subjectExamScore`}
-                                    id={`${subject.lookupId}_subjectExamScore`}
-                                    aria-describedby={`${subject.lookupId}_subjectExamScore`}
-                                    required
-                                    placeholder=" "
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore || values.examScore}
-                                    onChange={(e) => {
-                                      setCurrentSubjectScores1(
-                                        Number(e.target.value),
-                                        Number(100 - e.target.value),
-                                        subject.lookupId
-                                      );
-                                      setFieldValue(
-                                        "subjectExamScore",
-                                        Number(e.target.value)
-                                      );
-                                      getExamScores(subject.lookupId);
-                                      getAssessmentScores(subject.lookupId);
-                                      setFieldValue(
-                                        `${subject.lookupId}_subjectExamScore`,
-                                        Number(e.target.value)
-                                      );
-                                      setFieldValue(
-                                        `${subject.lookupId}_subjectAssessmentScore`,
-                                        Number(100 - e.target.value)
-                                      );
-                                    }}
-                                  />
-                                ) : null}
-                              </td>
-
-                              <td>
-                                {classSubjects.find(
-                                  (sub) => sub.subjectId === subject.lookupId
-                                ) ? (
-                                  <Field
-                                    type="number"
-                                    className="form-control px-1 w-50"
-                                    name={`${subject.lookupId}_subjectAssessmentScore`}
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment || values.assessmentScore}
-                                    id={`${subject.lookupId}_subjectAssessmentScore`}
-                                    aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
-                                    required
-                                    placeholder=" "
-                                    onChange={(e) => {
-                                      setCurrentSubjectScores1(
-                                        Number(100 - e.target.value),
-                                        Number(e.target.value),
-                                        subject.lookupId
-                                      );
-                                      setFieldValue(
-                                        "subjectAssessmentScore",
-                                        Number(e.target.value)
-                                      );
-                                      setFieldValue(
-                                        `${subject.lookupId}_subjectAssessmentScore`,
-                                        Number(e.target.value)
-                                      );
-                                      setFieldValue(
-                                        `${subject.lookupId}_subjectExamScore`,
-                                        Number(100 - e.target.value)
-                                      );
-                                    }}
-                                  />
-                                ) : null}
-                              </td>
-
-                              <td style={{ width: "30%" }}>
-                                <select
-                                  name="subjectTeacherId"
-                                  className="form-select text-capitalize"
-                                  id="subjectTeacherId"
-                                  onChange={(e) => {
-                                    values.subjectId ?
-                                      getSubjectTeacherId(
-                                        subject.lookupId,
-                                        e.target.value
-                                      ) :
-                                      getSubjectId(e, subject.lookupId, e.target.value);
-                                  }}
-                                >
-                                  <option value="">Select Teacher</option>
-
-                                  {activeTeachers.map((teacher, id) => (
-                                    <option
-                                      key={id}
-                                      value={teacher.teacherAccountId}
-                                      selected={
-                                        classSubjects.find(
-                                          (sub) =>
-                                            sub.subjectTeacherId ===
-                                            teacher.teacherAccountId &&
-                                            sub.subjectId === subject.lookupId
-                                        )
-                                          ? true
-                                          : false
-                                      }
-                                    >
-                                      {teacher.fullName}
-                                    </option>
-                                  ))}
-                                </select>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
+                    
 
                       <div className="d-flex justify-content-end">
                         <Button
                           type="button"
                           variant="btn btn-danger mx-2"
                           onClick={() => {
-                            history.push(sessionLocations.sessionClassList);
+                            history.goBack()
                           }}
                         >
                           Cancel
@@ -649,9 +445,11 @@ const SessionClassEdit = () => {
                         <Button
                           type="button"
                           variant="btn btn-primary"
-                          onClick={handleSubmit}
+                          onClick={handleSubmit
+                          }
                         >
-                          Submit
+                          set up subjects
+
                         </Button>
                       </div>
                     </Form>
