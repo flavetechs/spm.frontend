@@ -177,6 +177,56 @@ export const parentReducer = (state = _state, { type, payload }) => {
       };
 
 
+    case actions.FETCH_SINGLE_WARD_DETAILS_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+
+    case actions.FETCH_SINGLE_WARD_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        selectedWardDetails: payload,
+        isSuccessful: true,
+      };
+
+    case actions.FETCH_SINGLE_WARD_DETAILS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+    case actions.FETCH_MY_WARDS_HOME_ASSESSMENT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+
+    case actions.FETCH_MY_WARDS_HOME_ASSESSMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        myWardsHomeAssessment: payload.data,
+        filterProps: payload,
+        isSuccessful: true,
+      };
+
+    case actions.FETCH_MY_WARDS_HOME_ASSESSMENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+
     default:
       return state;
   }

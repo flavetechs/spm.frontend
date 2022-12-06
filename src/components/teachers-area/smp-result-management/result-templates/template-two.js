@@ -163,12 +163,14 @@ const ResultTemplateTwo = (props) => {
                       </div>
                     </div>
                     <div className="px-2 h6">
-                      <div className="py-2">
+                    {resultSetting?.showPositionOnResult &&   
+                    <div className="py-2">
                         POSITION:{" "}
                         <span className="">
-                        {resultSetting?.showPositionOnResult && results?.position}
+                        {results?.position}
                         </span>
                       </div>
+                      }
                       <div className="py-2 h6">
                         TOTAL:{" "}
                         <span

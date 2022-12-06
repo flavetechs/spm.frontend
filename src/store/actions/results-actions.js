@@ -22,12 +22,12 @@ export const getAllStaffClasses = () => (dispatch) => {
         });
 }
 
-export const getAllFormTeacherClasses = () => (dispatch) => {
+export const getAllFormTeacherClasses = (sessionId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STAFF_CLASSES_LOADING
     });
 
-    axiosInstance.get("/api/v1/result/get/formteacher-classes")
+    axiosInstance.get(`/api/v1/result/get/formteacher-classes/${sessionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASSES_SUCCESS,

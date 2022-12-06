@@ -19,9 +19,10 @@ export const wardsNoteLocations = {
     wardsNotesView: "/parent-dashboard/wards-note/waards-note-view",
 };
 
-export const assessmentLocations = {
-    assessment: "/parent-dashboard/parent-assessment",
-    assessmentDetails: "/parent-dashboard/parent-assessment-details",
+export const parentAssessmentLocations = {
+    parentAssessment: "/parent-dashboard/parent-assessment",
+    parentAssessmentView: "/parent-dashboard/parent-assessment-view",
+    parentAssessmentDetails: "/parent-dashboard/parent-assessment-details",
 };
 
 

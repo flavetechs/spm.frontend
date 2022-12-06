@@ -131,3 +131,22 @@ export const getSingleWardDetails = (StudentAccountId ) => (dispatch) => {
             })
         });
 }
+
+export const getMyWardsHomeAssessment = (pageNumber, sessionClassSubjectId, studentContactId, status ) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_LOADING,
+    });
+                    ///smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=1&sessionClassSubjectId=8ae6a190-64dd-469c-a295-08daa5d8c70f&studentContactId=3ee845d8-7506-4e3a-9cef-c5a29e54d83f&status=1
+    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=${pageNumber}&sessionClassSubjectId=${sessionClassSubjectId}&studentContactId=${studentContactId}&status=${status}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
