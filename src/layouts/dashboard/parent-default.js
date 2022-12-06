@@ -1,7 +1,6 @@
 
 import { useEffect } from 'react'
 import { bindActionCreators } from "redux"
-
 //HorizontalMulti2Router
 // import HorizontalMulti2Router from '../../router/horizontal-multi-2-router'
 

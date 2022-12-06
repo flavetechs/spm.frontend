@@ -86,10 +86,10 @@ const Default = (props) => {
             props.SchemeDirAction(rtlMode);
         }
     })
-    
+
     var token = localStorage.getItem('token');
     let history = useHistory();
-    
+
     if (!token) {
         history.push(authLocations.login);
     }

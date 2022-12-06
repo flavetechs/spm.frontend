@@ -88,10 +88,10 @@ const StudentDefault = (props) => {
             props.SchemeDirAction(rtlMode);
         }
     })
-    
+
     var token = localStorage.getItem('token');
     let history = useHistory();
-    
+
     if (!token) {
         history.push(authLocations.login);
     }
@@ -107,7 +107,6 @@ const StudentDefault = (props) => {
                     <SubHeader />
                 </div>
                 <div className="py-0 conatiner-fluid content-inner mt-n5">
-
                     <DecisionDialog />
                     <SuccessToast />
                     <SingleDeleteDialog />

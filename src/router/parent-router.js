@@ -3,6 +3,9 @@ import { Switch, Route } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import ParentAnnouncementDetails from '../components/parent-area/announcement/announcement-details';
 import AnnouncementList from '../components/parent-area/announcement/announcement-list';
+import ParentAssessmentDetails from '../components/parent-area/assessment/parent-assessment-details';
+import ParentAssessmentList from '../components/parent-area/assessment/parent-assessment-list';
+import ParentAssessmentView from '../components/parent-area/assessment/parent-assessment-view';
 import WardsDetails from '../components/parent-area/my-wards/ward-details';
 import WardList from '../components/parent-area/my-wards/wards-list';
 import PrintParentResult from '../components/parent-area/print-result/parent-print-result';
@@ -18,7 +21,7 @@ import WardsNoteDetails from '../components/parent-area/wards-note/ward-note-det
 import WardsNoteView from '../components/parent-area/wards-note/wards-note-view';
 import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
-import {  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations } from './parents-path-locations';
+import {parentAssessmentLocations,  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations } from './parents-path-locations';
 
 
 const ParentDashboardRouter = () => {
@@ -58,6 +61,11 @@ const ParentDashboardRouter = () => {
                         {/* announcement */}
                         <Route path={announcementLocations.announcement} exact component={AnnouncementList} />
                         <Route path={announcementLocations.parentannouncementDetails} exact component={ParentAnnouncementDetails} />
+
+                        {/* Assessment */}
+                        <Route path={parentAssessmentLocations.parentAssessment} exact component={ParentAssessmentList} />
+                        <Route path={parentAssessmentLocations.parentAssessmentView} exact component={ParentAssessmentView} />
+                        <Route path={parentAssessmentLocations.parentAssessmentDetails} exact component={ParentAssessmentDetails} />
 
                     </Switch>
                 </CSSTransition>

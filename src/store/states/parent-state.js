@@ -11,6 +11,7 @@ export const _state = {
     myWardsNotes: [],
     selectedWardsNote: {},
     selectedWardsClassNote: {},
+    myWardsHomeAssessment: [],
     myWardsClassTimetable: {},
     selectedWardDetails: {},
   };
