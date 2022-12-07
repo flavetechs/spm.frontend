@@ -91,6 +91,8 @@ import Protected from '../components/spm-auth/protected';
 import PrintTimeTable from '../components/teachers-area/spm-class/time-table/printTimetable';
 import MakeAnnouncement from '../components/teachers-area/smp-notifications/make-announcement';
 import PushedNotificationDetail from '../components/partials/dashboard/HeaderStyle/pushed-notification-details';
+import SessionClassTableEdit from '../components/teachers-area/smp-session/session-class-edit-table';
+import SessionClassTableAdd from '../components/teachers-area/smp-session/session-class-add-table';
 
 const DashboardRouter = () => {
 
@@ -151,6 +153,8 @@ const DashboardRouter = () => {
                         <Route path={sessionLocations.sessionClassList} exact component={SessionClassList} />
                         <Route path={sessionLocations.sessionClassEdit} exact component={SessionClassEdit} />
                         <Route path={sessionLocations.sessionClassAdd} exact component={SessionClassAdd} />
+                        <Route path={sessionLocations.sessionClassTableEdit} exact component={SessionClassTableEdit} />
+                        <Route path={sessionLocations.sessionClassTableAdd} exact component={SessionClassTableAdd} />
                         <Route path={sessionLocations.sessionClassDetail} exact component={SessionClassDetails} />
                         <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
                         <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />

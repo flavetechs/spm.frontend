@@ -184,6 +184,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: true,
+        createSuccessful:true,
         loading: false,
         message: payload,
       };
@@ -191,6 +192,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: false,
+        createSuccessful:false,
         loading: false,
         message: payload,
       };
@@ -208,12 +210,14 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
+        createSuccessful:true,
       };
     case actions.UPDATE_SUBJECT_FAILED:
       return {
         ...state,
         loading: false,
         message: payload,
+        createSuccessful:false,
         isSuccessful: false,
       };
 
@@ -253,6 +257,8 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         itemList: payload,
+        submitSuccessful:false,
+        createSuccessful:false,
       };
     case actions.FETCH_SESSION_CLASS_FAILED:
       return {
@@ -273,6 +279,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: true,
+        submitSuccessful:true,
         loading: false,
         message: payload,
       };
@@ -280,6 +287,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: false,
+        submitSuccessful:false,
         loading: false,
         message: payload,
       };
@@ -297,6 +305,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
+        submitSuccessful:true,
       };
     case actions.UPDATE_SESSION_CLASS_FAILED:
       return {
@@ -304,6 +313,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
+        submitSuccessful:false,
       };
 
     case actions.DELETE_SESSION_CLASS_LOADING:
