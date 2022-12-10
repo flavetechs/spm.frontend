@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, admissionLocations } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -93,6 +93,9 @@ import MakeAnnouncement from '../components/teachers-area/smp-notifications/make
 import PushedNotificationDetail from '../components/partials/dashboard/HeaderStyle/pushed-notification-details';
 import SessionClassTableEdit from '../components/teachers-area/smp-session/session-class-edit-table';
 import SessionClassTableAdd from '../components/teachers-area/smp-session/session-class-add-table';
+import AdmissionRegistration from '../components/teachers-area/smp-admission/admission-registration';
+import AdmissionInformation from '../components/teachers-area/smp-admission/admission-information';
+import AdmissionBoard from '../components/teachers-area/smp-admission/admission-board';
 
 const DashboardRouter = () => {
 
@@ -220,6 +223,12 @@ const DashboardRouter = () => {
 
                         {/* user profile page */}
                         <Route path={inprogress.unactivated} exact component={InProgress} />
+
+                        {/* admission */}
+                        <Route path={admissionLocations.admissionRegistration} exact component={AdmissionRegistration} />
+                        <Route path={admissionLocations.admissionRegistrationInformation} exact component={AdmissionInformation} />
+                        <Route path={admissionLocations.admissionBoard} exact component={AdmissionBoard} />
+
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>

@@ -145,3 +145,9 @@ export const notificationManagement = {
 export const pushedNotificationManagement = {
   pushedNotificationDetails: "/dashboard/notification-details",
 }
+
+export const admissionLocations = {
+  admissionRegistration: "/dashboard/smp-admission/admission-registration",
+  admissionRegistrationInformation: "/dashboard/smp-admission/admission-registration-information",
+  admissionBoard: "/dashboard/smp-admission/admission-board",
+}
