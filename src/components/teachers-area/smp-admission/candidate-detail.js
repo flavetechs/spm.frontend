@@ -5,11 +5,11 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import Card from "../../Card";
-import { admissionLocations } from "../../../router/spm-path-locations";
+// import { admissionLocations } from "../../../router/spm-path-locations";
 // import "./student-add.scss"
 
 
-const AdmissionInformation = () => {
+const CandidateDetail = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
@@ -224,4 +224,4 @@ const AdmissionInformation = () => {
     );
 };
 
-export default AdmissionInformation;
+export default CandidateDetail;

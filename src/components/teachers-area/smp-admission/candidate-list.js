@@ -7,9 +7,10 @@ import { getActiveSession, getAllSession } from "../../../store/actions/session-
 import Card from "../../Card";
 import { getAllActiveClasses, getAllClasses } from "../../../store/actions/class-actions";
 import { showHideDialog } from "../../../store/actions/toaster-actions";
+import { candidateLocations } from "../../../router/candidate-path-location";
 
 
-const AdmissionBoard = () => {
+const CandidateList = () => {
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
     const locations = useLocation();
@@ -40,103 +41,11 @@ const AdmissionBoard = () => {
     const admissionList = [
         { name: "Paul Paschal", status: "passed", },
         { name: "Bosco Abaja", status: "passed", },
-        { name: "Olami Turji", status: "passed", },
+        { name: "Olami Turji", status: "failed", },
+        { name: "Emeka Paschal", status: "passed", },
+        { name: "Mary Abaja", status: "failed", },
+        { name: "John Turji", status: "passed", },
     ]
-
-    const userlist = [
-        {
-            name: 'Anna Sthesia',
-            phone: '(760) 756 7568',
-            email: 'annasthesia@gmail.com',
-            country: 'USA',
-            status: 'Active',
-            company: 'Acme Corporation',
-            joindate: '2019/12/01',
-            color: 'bg-primary'
-        },
-        {
-            name: 'Brock Lee',
-            phone: '+62 5689 458 658',
-            email: 'brocklee@gmail.com',
-            country: 'Indonesia',
-            status: 'Active',
-            company: 'Soylent Corp',
-            joindate: '2019/12/01',
-            color: 'bg-primary'
-        },
-        {
-            name: 'Dan Druff',
-            phone: '+55 6523 456 856',
-            email: 'dandruff@gmail.com',
-            country: 'Brazil',
-            status: 'Pending',
-            company: 'Acme Corporation',
-            joindate: '2019/12/01',
-            color: 'bg-warning'
-        },
-        {
-            name: 'Hans Olo',
-            phone: '+91 2586 253 125',
-            email: 'hansolo@gmail.com',
-            country: 'India',
-            status: 'Inactive',
-            company: 'Vehement Capital',
-            joindate: '2019/12/01',
-            color: 'bg-danger'
-        },
-        {
-            name: 'Lynn Guini',
-            phone: '+27 2563 456 589',
-            email: 'lynnguini@gmail.com',
-            country: 'Africa',
-            status: 'Active',
-            company: 'Massive Dynamic',
-            joindate: '2019/12/01',
-            color: 'bg-primary'
-        },
-        {
-            name: 'Eric Shun',
-            phone: '+55 25685 256 589',
-            email: 'ericshun@gmail.com',
-            country: 'Brazil',
-            status: 'Pending',
-            company: 'Globex Corporation',
-            joindate: '2019/12/01',
-            color: 'bg-warning'
-        },
-        {
-            name: 'aaronottix',
-            phone: '(760) 756 7568',
-            email: 'budwiser@ymail.com',
-            country: 'USA',
-            status: 'Hold',
-            company: 'Acme Corporation',
-            joindate: '2019/12/01',
-            color: 'bg-info'
-        },
-        {
-            name: 'Marge Arita',
-            phone: '+27 5625 456 589',
-            email: 'margearita@gmail.com',
-            country: 'Africa',
-            status: 'Complite',
-            company: 'Vehement Capital',
-            joindate: '2019/12/01',
-            color: 'bg-success'
-        },
-        {
-            name: 'Bill Dabear',
-            phone: '+55 2563 456 589',
-            email: 'billdabear@gmail.com',
-            country: 'Brazil',
-            status: 'Active',
-            company: 'Massive Dynamic',
-            joindate: '2019/12/01',
-            color: 'bg-primary'
-        }
-    ]
-
-
 
     return (
         <>
@@ -146,7 +55,7 @@ const AdmissionBoard = () => {
                         <Card>
                             <Card.Header className="d-flex justify-content-between">
                                 <div className="header-title">
-                                    <h4 className="card-title mb-3">Admission Board</h4>
+                                    <h4 className="card-title mb-3">Candidate List</h4>
                                 </div>
                             </Card.Header>
                             <div className="d-xl-flex justify-content-between">
@@ -239,32 +148,37 @@ const AdmissionBoard = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <button
-                                            type="button"
-                                            className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
-                                            onClick={() => {
-                                                setUnenrollButton(!showAdmitButton);
-                                                setShowCheckBoxes(!showCheckBoxes);
-                                            }}
+                                        <Link
+                                            to={candidateLocations.candidateRegistration}
                                         >
-                                            <i className="btn-inner">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-6 w-6"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                                    ></path>
-                                                </svg>
-                                            </i>
-                                            <span> Admit</span>
-                                        </button>
+                                            <button
+                                                type="button"
+                                                className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
+                                                onClick={() => {
+                                                    setUnenrollButton(!showAdmitButton);
+                                                    setShowCheckBoxes(!showCheckBoxes);
+                                                }}
+                                            >
+                                                <i className="btn-inner">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="h-6 w-6"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                        ></path>
+                                                    </svg>
+                                                </i>
+                                                <span> Register</span>
+                                            </button>
+                                        </Link>
+
 
                                     </div>
                                 </div>
@@ -461,4 +375,4 @@ const AdmissionBoard = () => {
     );
 };
 
-export default AdmissionBoard;
+export default CandidateList;

@@ -11,11 +11,11 @@ import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import Card from "../../Card";
-import { admissionLocations } from "../../../router/spm-path-locations";
+// import { admissionLocations } from "../../../router/spm-path-locations";
 // import "./student-add.scss"
 
 
-const AdmissionRegistration = () => {
+const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
@@ -632,9 +632,9 @@ const AdmissionRegistration = () => {
                                                 <Button
                                                     type="button"
                                                     variant="btn btn-danger mx-2"
-                                                //   onClick={() => {
-                                                //     history.push(studentsLocations.studentList);
-                                                //   }}
+                                                    onClick={() => {
+                                                        history.goBack();
+                                                    }}
                                                 >
                                                     Cancel
                                                 </Button>{" "}
@@ -647,7 +647,7 @@ const AdmissionRegistration = () => {
                                                     // }
 
                                                     onClick={() => {
-                                                        history.push(admissionLocations.admissionRegistrationInformation);
+                                                        // history.push(admissionLocations.admissionRegistrationInformation);
                                                     }}
 
 
@@ -667,4 +667,4 @@ const AdmissionRegistration = () => {
     );
 };
 
-export default AdmissionRegistration;
+export default CandidateRegistration;

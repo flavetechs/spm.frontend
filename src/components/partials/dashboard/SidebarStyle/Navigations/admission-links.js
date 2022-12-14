@@ -6,7 +6,7 @@ export function AdmissionLink(props) {
     return (
         <>
             <li className="nav-item">
-                <Link className={`${location.pathname === admissionLocations.admissionBoard ? 'active' : ''} nav-link `} aria-current="page" to={admissionLocations.admissionBoard} onClick={props.minisidebar}>
+                {/* <Link className={`${location.pathname === admissionLocations.admissionBoard ? 'active' : ''} nav-link `} aria-current="page" to={admissionLocations.admissionBoard} onClick={props.minisidebar}>
                     <i className="icon">
                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd"
@@ -22,7 +22,7 @@ export function AdmissionLink(props) {
                         </svg>
                     </i>
                     <span className="item-name">Admission</span>
-                </Link>
+                </Link> */}
             </li>
         </>
     )
