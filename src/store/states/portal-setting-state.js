@@ -6,5 +6,6 @@ export const _state = {
     resultSetting:[],
     selectedTemplate:"",
     notificationSettingResult: {},
+    admissionSettingResult: {},
   };
   
