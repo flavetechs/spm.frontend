@@ -9,7 +9,7 @@ import { createAdmissionSetting, getAdmissionSetting } from "../../../store/acti
 const AdmissionSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const {  admissionSettingResult } = state.portal;
+    const { admissionSettingResult } = state.portal;
     const { itemList } = state.class;
     // ACCESSING STATE FROM REDUX STORE
 
@@ -17,10 +17,10 @@ const AdmissionSetting = () => {
     const dispatch = useDispatch();
     const [editButton, setEditButton] = useState(false);
     const [saveButton, setSaveButton] = useState(false);
-    const [classesAvailableForAdmission, setClassesAvailableForAdmission] = useState([]);
+    const [classesIds, setClassesIds] = useState([]);
     const [disable, setDisable] = useState(true);
-    const [withRegistrationFee, setWithRegistrationFee] = useState(admissionSettingResult?.registrationFee || "");
-    const [admissionStatusValue, setAdmissionStatusValue] = useState(admissionSettingResult?.admissionStatus || "");
+    const [withRegistrationFee, setWithRegistrationFee] = useState(admissionSettingResult?.registrationFee || false);
+    const [admissionStatusValue, setAdmissionStatusValue] = useState(admissionSettingResult?.admissionStatus || false);
     //VARIABLE DECLARATIONS
 
     React.useEffect(() => {
@@ -28,12 +28,9 @@ const AdmissionSetting = () => {
         setEditButton(false);
     }, [dispatch]);
 
-    
     React.useEffect(() => {
-        setWithRegistrationFee(admissionSettingResult?.registrationFee || "");
-        setClassesAvailableForAdmission(admissionSettingResult?.classes || "");
-        setAdmissionStatusValue(admissionSettingResult?.admissionStatus || "")
-        setClassesAvailableForAdmission(admissionSettingResult?.classes || "")
+        setWithRegistrationFee(admissionSettingResult?.registrationFee || false);
+        setAdmissionStatusValue(admissionSettingResult?.admissionStatus || false);
     }, [admissionSettingResult]);
 
 
@@ -45,18 +42,27 @@ const AdmissionSetting = () => {
         }
     }, [dispatch]);
 
+    const handleClassesArray = (event) => {
+        const checkBoxValue = event.target.checked;
+        const classId = event.target.id;
+        let selectedClassessArray;
+        const otherSelectedClasses = classesIds.filter((item) => item != classId);
+        if (checkBoxValue === false) {
+            selectedClassessArray = [...otherSelectedClasses];
+        } else {
+            selectedClassessArray = [...otherSelectedClasses, classId];
+        }
+        setClassesIds(selectedClassessArray);
+    };
 
-    const handleSelectedClasses = (id) => {
-        setClassesAvailableForAdmission([...classesAvailableForAdmission, id]);
-
-        return classesAvailableForAdmission
-    }
-
-    console.log('classesAvailableForAdmission', classesAvailableForAdmission);
-    console.log('withRegistrationFee', withRegistrationFee);
-    console.log('admissionStatusValue', admissionStatusValue);
-    console.log('admissionSettingResult', admissionSettingResult);
-
+    let result =  admissionSettingResult?.classes?.map(element => {
+        return element.classId
+    });
+    React.useEffect(() => {
+        if (admissionSettingResult?.classes) {
+            setClassesIds([...result]);
+        }
+    }, [admissionSettingResult]);
 
     return (
         <>
@@ -65,31 +71,26 @@ const AdmissionSetting = () => {
                 initialValues={{
                     admissionSettingId: admissionSettingResult?.admissionSettingId ?? "",
                     classes: [],
-                    // admissionStatus: admissionSettingResult ?? "",
                     passedExamEmail: admissionSettingResult?.passedExamEmail ?? "",
                     failedExamEmail: admissionSettingResult?.failedExamEmail ?? "",
                     screeningEmail: admissionSettingResult?.screeningEmail ?? "",
-                    registrationFee: admissionSettingResult?.registrationFee ?? "",
-                    //photo: "",
                 }}
 
                 onSubmit={(values) => {
-                    values.classes = classesAvailableForAdmission;
+                    values.classes = classesIds;
                     values.admissionStatus = admissionStatusValue;
                     values.passedExamEmail = values.passedExamEmail;
                     values.failedExamEmail = values.failedExamEmail;
                     values.screeningEmail = values.screeningEmail;
                     values.registrationFee = withRegistrationFee;
-                    console.log("values", values);
                     setSaveButton(!saveButton);
                     setEditButton(!editButton);
                     setDisable(true);
-                    // createAdmissionSetting(values)(dispatch);
+                    createAdmissionSetting(values)(dispatch);
                 }}
             >
                 {({
                     handleSubmit,
-                    setFieldValue,
                 }) => (
 
                     <Row className="mt-0">
@@ -114,11 +115,14 @@ const AdmissionSetting = () => {
                                                         <Field
                                                             disabled={disable}
                                                             type="checkbox"
-                                                            id="classes"
                                                             className="form-check-input"
                                                             name="classes"
-                                                            // checked={}
-                                                            onChange={(e) => handleSelectedClasses(item.lookupId)}
+                                                            checked={!!classesIds?.find((id) => id === item.lookupId
+                                                            )}
+                                                            id={item.lookupId}
+                                                            onChange={(event) => {
+                                                                handleClassesArray(event);
+                                                            }}
                                                         />
                                                         <label htmlFor="classes" className="check-label">
                                                             {item.name}
@@ -182,7 +186,7 @@ const AdmissionSetting = () => {
                                                         id="registrationFee"
                                                         className="form-check-input"
                                                         name="registrationFee"
-                                                        checked={withRegistrationFee? false : true }
+                                                        checked={withRegistrationFee ? false : true}
                                                         onChange={() => {
                                                             setWithRegistrationFee(!withRegistrationFee);
                                                         }}
@@ -222,10 +226,6 @@ const AdmissionSetting = () => {
                                                         id="failedExamEmail"
                                                         name="failedExamEmail"
                                                         className="form-control"
-                                                    // checked={newsletter}
-                                                    // onChange={(e) => {
-                                                    //     setNewsletter(!newsletter)
-                                                    // }}
                                                     />
                                                 </div>
                                                 <div className="col-md-12 form-group mb-3">
@@ -242,10 +242,6 @@ const AdmissionSetting = () => {
                                                         id="screeningEmail"
                                                         name="screeningEmail"
                                                         className="form-control"
-                                                    // checked={newsletter}
-                                                    // onChange={(e) => {
-                                                    //     setNewsletter(!newsletter)
-                                                    // }}
                                                     />
                                                 </div>
 

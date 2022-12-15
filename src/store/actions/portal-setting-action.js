@@ -205,7 +205,6 @@ export const getAdmissionSetting = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_SETTING_LOADING,
     });
-                    ///smp/api/v1/admission-settings/get-settings
     axiosInstance.get(`/smp/api/v1/admission-settings/get-settings`)
         .then((res) => {
             dispatch({
