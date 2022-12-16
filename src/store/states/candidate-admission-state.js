@@ -5,5 +5,8 @@ export const _state = {
     message: '',
     isSuccessful: false,
     permissions: [],
-    userDetail: null
+    userDetail: null,
+    admissionList: [],
+    singleAdmissionDetail: {},
+    admissionClasses: [],
 }
