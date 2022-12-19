@@ -12,44 +12,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SmpLoader from '../loader/smp-loader';
 import Logo from '../partials/components/logo';
+import { userEmailLogin } from '../../store/actions/candidate-admission-actions';
 
 const RegistrationSignIn = () => {
     let history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    const { message } = state.auth;
-    var token = localStorage.getItem('token');
-    var userDetail = localStorage.getItem('userDetail')
+    const { message } = state.candidate;
+    // const { message } = state.auth;
+    var emailToken = localStorage.getItem('emailToken');
+    var candidateUserDetails = JSON.parse(localStorage.getItem('candidateUserDetails'));
+    var authStatus = JSON.parse(localStorage.getItem('authStatus'));
 
-    // useEffect(() => {
-    //     if (userDetail) {
-    //         if (JSON.parse(userDetail).isFirstTimeLogin === false) {
-    //             if (JSON.parse(userDetail).userType === 'Student') {
-    //                 window.location.href = '/stds-dashboard';
-    //             } else if (JSON.parse(userDetail).userType === 'Parent') {
-    //                 window.location.href = '/parent-dashboard';
-    //             }
-    //             else {
-    //                 window.location.href = '/dashboard';
-    //             }
-    //         } else {
-    //             localStorage.removeItem('token');
-    //             localStorage.removeItem('userDetail')
-    //             localStorage.removeItem('permissions')
-    //             history.push(authLocations.firstTimeLogin + '?id=' + JSON.parse(userDetail).userAccountId)
-    //         }
+    useEffect(() => {
+        if (candidateUserDetails) {
+            if (emailToken !== null) {
+                window.location.href = '/candidates';
+                // localStorage.removeItem('emailToken');
+            }else if(authStatus == null){
+                window.location.href = '/candidate-admission/';
+                // localStorage.removeItem('authStatus');
+            }
+             else {
+                localStorage.removeItem('emailToken');
+                localStorage.removeItem('candidateUserDetails')
+                // localStorage.removeItem('permissions')
+                // history.push(authLocations.firstTimeLogin + '?id=' + JSON.parse(userDetail).userAccountId)
+            }
+        }
+    }, [emailToken, history, candidateUserDetails])
 
-    //     }
-    // }, [token, history, userDetail])
+    console.log("emailToken", emailToken);
+    console.log("candidateUserDetails", candidateUserDetails);
+    console.log("authStatus", authStatus);
 
-    // const validation = Yup.object().shape({
-    //     userName: Yup.string()
-    //         .min(2, 'Username Too Short!')
-    //         .max(50, 'Username Too Long!')
-    //         .required('Username is required to login'),
-    //     password: Yup.string().required("Password Required")
-    //         .min(4, 'Password must be a minimum of 4 characters'),
-    // });
+    const validation = Yup.object().shape({
+        parentEmail: Yup.string()
+            .min(2, 'Username Too Short!')
+            .max(50, 'Username Too Long!')
+            .required('Username is required to login'),
+    });
 
     return (
         <>
@@ -61,20 +63,16 @@ const RegistrationSignIn = () => {
                             <Col md="6">
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
-                                        {/* <Link to="#" className="navbar-brand d-flex align-items-center mb-3">
-                                            <Logo color={true} />
-                                        </Link> */}
                                         <h2 className="mb-2 text-center">Sign In  with your Email</h2>
                                         <p className="text-center">Login to stay connected.</p>
 
                                         <Formik
                                             initialValues={{
-                                                userName: '',
-                                                password: '',
+                                                parentEmail: '',
                                             }}
-                                            // validationSchema={validation}
+                                            validationSchema={validation}
                                             onSubmit={values => {
-                                                // loginUser(values)(dispatch)
+                                                userEmailLogin(values)(dispatch)
                                             }}
                                         >
                                             {({
@@ -91,9 +89,9 @@ const RegistrationSignIn = () => {
                                                         {message && <div className='text-danger'>{message}</div>}
                                                         <Col lg="12">
                                                             <div className="form-group">
-                                                                {((touched.userName && errors.userName) || message) && <div className='text-danger'>{errors.userName}</div>}
-                                                                <label htmlFor="userEmail" className="form-label">User Email</label>
-                                                                <Field type="email" className="form-control" name="userEmail" id="userEmail" aria-describedby="userEmail" required placeholder=" " />
+                                                                {((touched.parentEmail && errors.parentEmail) || message) && <div className='text-danger'>{errors.parentEmail}</div>}
+                                                                <label htmlFor="parentEmail" className="form-label">User Email</label>
+                                                                <Field type="email" className="form-control" name="parentEmail" id="parentEmail" aria-describedby="parentEmail" required placeholder=" " />
                                                             </div>
                                                         </Col>
                                                     </Row>
@@ -102,9 +100,6 @@ const RegistrationSignIn = () => {
                                                             handleSubmit()
                                                         }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                                     </div>
-                                                    {/* <p className="mt-3 text-center">
-                                                        Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
-                                                    </p> */}
                                                 </Form>
                                             )}
                                         </Formik>
@@ -124,9 +119,6 @@ const RegistrationSignIn = () => {
                             </svg>
                         </div>
                     </Col>
-                    {/* <Col md="6" className="d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
-                        <Image src={auth1} className="Image-fluid gradient-main animated-scaleX" alt="images" />
-                    </Col> */}
                 </Row>
             </section>
         </>

@@ -2,33 +2,53 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/candidate-admission-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
-export const userEmailLogin = ({ userEmail }) => (dispatch) => {
+export const userEmailLogin = (userEmail) => (dispatch) => {
 
     dispatch({
-        type: actions.LOGIN_USER_LOADING
+        type: actions.LOGIN_CANDIDATE_LOADING
     });
 
-    const payload = {
-        userEmail
-    }
-
-    axiosInstance.post('/smp/api/v1/candidate-admission/login', payload)
+    axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
         .then((res) => {
+            console.log("res", res);
             dispatch({
-                type: actions.LOGIN_USER_SUCCESS,
-                payload: res.data.result
+                type: actions.LOGIN_CANDIDATE_SUCCESS,
+                payload: res.data,
             });
         }).catch(err => {
+            console.log("err", err);
             dispatch({
-                type: actions.LOGIN_USER_FAILED,
+                type: actions.LOGIN_CANDIDATE_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
         })
 }
 
-export const loginOutUser = () => {
+export const confirmUserEmail = (admissionNotificationId) => (dispatch) => {
+
+    dispatch({
+        type: actions.CONFIRM_USER_EMAIL_LOADING
+    });
+
+    axiosInstance.post('/smp/api/v1/candidate-admission/confirm-email', admissionNotificationId)
+        .then((res) => {
+            console.log("res", res.data.result);
+            dispatch({
+                type: actions.CONFIRM_USER_EMAIL_SUCCESS,
+                payload: res.data.result,
+            });
+        }).catch(err => {
+            console.log("err", err);
+            dispatch({
+                type: actions.CONFIRM_USER_EMAIL_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}
+
+export const logOutUserEmail = () => {
     return {
-        type: actions.LOG_OUT_USER
+        type: actions.LOG_OUT_CANDIDATE_USER
     }
 }
 
@@ -36,8 +56,7 @@ export const getCandidatesAdmissionList = (PageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSIONS_LIST_LOADING,
     });
-                     ///smp/api/v1/candidate-admission/get-all-admission?PageNumber=1
-    axiosInstance.get(`/smp/api/v1/candidate-admission/get-all-admission?${PageNumber}`)
+    axiosInstance.get(`/smp/api/v1/candidate-admission/get-all-admission?PageNumber=${PageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADMISSIONS_LIST_SUCCESS,
@@ -56,7 +75,6 @@ export const getSingleAdmissionDetail = (admissionId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_ADMISSION_LOADING,
     });
-                     ///smp/api/v1/candidate-admission/get-single-admission/fe537269-90ca-4d81-2c1e-08dadf36a381
     axiosInstance.get(`/smp/api/v1/candidate-admission/get-single-admission/${admissionId}`)
         .then((res) => {
             dispatch({
@@ -76,7 +94,6 @@ export const getAdmissionClasses = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_CLASSES_LOADING,
     });
-                     ///smp/api/v1/candidate-admission/get-admission-classes
     axiosInstance.get(`/smp/api/v1/candidate-admission/get-admission-classes`)
         .then((res) => {
             dispatch({
@@ -103,6 +120,7 @@ export const createCandidateAdmission = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getCandidatesAdmissionList(1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_CANDIDATE_ADMISSION_FAILED,

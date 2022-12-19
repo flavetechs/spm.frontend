@@ -15,6 +15,11 @@ import FirstTimeLoginPassswordChange from '../components/spm-auth/change-passwor
 import parentDefault from '../layouts/dashboard/parent-default'
 import RegistrationSignIn from '../components/spm-auth/registration-sign-in'
 import candidateDefault from '../layouts/dashboard/candidate-default'
+import { candidateAuthLocation, candidateLocations } from './candidate-path-location'
+import CandidateList from '../components/candidate-admission/candidate-list'
+import CandidateRegistration from '../components/candidate-admission/candidate-registration'
+import CandidateDetails from '../components/candidate-admission/candidate-details'
+import ConfirmUserEmail from '../components/candidate-admission/confirm-login-email'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,7 +51,11 @@ const IndexRouters = () => {
                             component={userDetail?.userType == 'Student' ? candidateDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
                         </Route> */}
 
-                        {/* <Route path={"candidate/sign-in"} component={RegistrationSignIn}></Route> */}
+                        <Route exact path={candidateAuthLocation.signIn} component={RegistrationSignIn}></Route>
+                        <Route exact path={candidateLocations.candidateRegistration} component={CandidateRegistration}></Route>
+                        <Route exact path={candidateLocations.candidateList} component={CandidateList}></Route>
+                        <Route exact path={candidateLocations.candidateDetails} component={CandidateDetails}></Route>
+                        <Route exact path={candidateLocations.candidateAdmissionConfirmation} component={ConfirmUserEmail}></Route>
                         <Route path={authLocations.login} component={SignIn}></Route>
 
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>

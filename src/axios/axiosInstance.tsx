@@ -50,10 +50,15 @@ axiosInstance.interceptors.request.use(
         //     return config;
         // }
         const sessionToken = await localStorage.getItem('token');
-        if (sessionToken !== null) {
-            config.headers.Authorization = 'Bearer ' + sessionToken
+        const emailSessionToken = await localStorage.getItem('emailToken');
+        if (emailSessionToken !== null) {
+            config.headers.Authorization = 'Bearer ' + emailSessionToken
         }
         return config;
+        // if (sessionToken !== null) {
+        //     config.headers.Authorization = 'Bearer ' + sessionToken
+        // }
+        // return config;
     },
     (error: any) => {
         return Promise.reject(error);

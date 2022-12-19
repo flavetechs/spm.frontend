@@ -9,4 +9,7 @@ export const _state = {
     admissionList: [],
     singleAdmissionDetail: {},
     admissionClasses: [],
+    expires: '',
+    filterProps: {},
+    submitSuccessful : false,
 }
