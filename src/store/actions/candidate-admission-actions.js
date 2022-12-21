@@ -1,6 +1,22 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/candidate-admission-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
+import swal from 'sweetalert';
+import { filterSelectedIds } from "../reducers/candidate-admission-reducer";
+
+
+export const pushId = (itemId) => {
+    return {
+        type: actions.PUSH_ITEM_ID,
+        payload: itemId
+    }
+}
+export const removeId = (itemId) => {
+    return {
+        type: actions.REMOVE_ITEM_ID,
+        payload: itemId
+    }
+}
 
 export const userEmailLogin = (userEmail) => (dispatch) => {
 
@@ -30,7 +46,11 @@ export const confirmUserEmail = (admissionNotificationId) => (dispatch) => {
         type: actions.CONFIRM_USER_EMAIL_LOADING
     });
 
-    axiosInstance.post('/smp/api/v1/candidate-admission/confirm-email', admissionNotificationId)
+    const payload = {
+        admissionNotificationId
+    }
+
+    axiosInstance.post('/smp/api/v1/candidate-admission/confirm-email', payload)
         .then((res) => {
             console.log("res", res.data.result);
             dispatch({
@@ -130,22 +150,20 @@ export const createCandidateAdmission = (values) => (dispatch) => {
         });
 }
 
-
-export const deleteCandidateAdmission = (candidateAdmissionId) => (dispatch) => {
+export const deleteCandidateAdmission = (item) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CANDIDATE_ADMISSION_LOADING
     });
     const payload = {
-        item: candidateAdmissionId[0]
+        item: item[0]
     }
-
-    axiosInstance.post('/smp/api/v1/candidate-admission/delete-admission', payload)
+    axiosInstance.post(`/smp/api/v1/candidate-admission/delete-admission`, payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_CANDIDATE_ADMISSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getCandidatesAdmissionList()
+            getCandidatesAdmissionList(1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -154,4 +172,35 @@ export const deleteCandidateAdmission = (candidateAdmissionId) => (dispatch) => 
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
+}
+
+export const successModal= (message) => {swal("Successful",message, "success")} 
+
+export const errorModal= (message ) => {swal("Error",message, "error")} 
+
+export const deleteDialogModal= (id) =>(dispatch) => {swal({
+    title: "Are you sure you want to delete this?",
+    text: "Once deleted, you will not be able to recover this",
+    icon: "warning",
+    buttons: ["cancel",true],
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      // swal(message, {
+      //   icon: "success",
+      // });
+      respondToDeleteDialog('continue')(dispatch)
+    } else {
+      swal("Your item is safe!");
+      respondToDeleteDialog('')(dispatch)
+    }
+  });} 
+
+
+export const respondToDeleteDialog = (value) =>(dispatch) => {
+    dispatch({
+        type: actions.DELETE_DIALOG_RESPPONSE,
+        payload: value
+    })
 }

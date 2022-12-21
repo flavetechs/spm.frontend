@@ -1,6 +1,5 @@
 import { actions } from '../action-types/candidate-admission-action-types';
 import { _state } from '../states/candidate-admission-state';
-import jwt from 'jwt-decode'
 
 export const candidateAdmissionReducer = (state = _state, { type, payload }) => {
     switch (type) {
@@ -23,6 +22,16 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 localStorage.setItem('emailToken', payload?.result?.auth?.token);
                 localStorage.setItem('expires', payload?.result?.auth?.expires);
                 localStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result?.userDetails));
+
+                return {
+                    ...state,
+                    loading: false,
+                    token: payload?.result.auth.token,
+                    expires: payload?.result.auth.expires,
+                    message: '',
+                    isSuccessful: true,
+                }
+
             } else if (payload?.result?.auth === null) {
                 localStorage.removeItem('friendlyMessage');
                 localStorage.removeItem('candidateUserDetails');
@@ -31,38 +40,17 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 localStorage.setItem('authStatus', JSON.stringify(payload?.result?.auth));
                 localStorage.setItem('friendlyMessage', payload?.message?.friendlyMessage);
                 localStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result.userDetails));
-            }
 
-            return {
-                ...state,
-                loading: false,
-                token: payload?.result.auth.token,
-                expires: payload?.result.auth.expires,
-                message: '',
-                isSuccessful: true,
+                return {
+                    ...state,
+                    loading: false,
+                    token: null,
+                    expires: null,
+                    message: '',
+                    isSuccessful: true,
+                }
             }
         }
-        // case actions.LOGIN_CANDIDATE_SUCCESS: {
-        //     localStorage.removeItem('emailToken');
-        //     localStorage.removeItem('expires');
-        //     // localStorage.removeItem('permissions');
-        //     localStorage.removeItem('candidateUserDetails');
-        //     // const decodedToken = jwt<any>(payload.auth.token);
-        //     localStorage.setItem('emailToken', payload.auth?.token);
-        //     localStorage.setItem('expires', payload.auth?.expires);
-        //     // localStorage.setItem('permissions', decodedToken.permissions);
-        //     localStorage.setItem('candidateUserDetails', JSON.stringify(payload.userDetails));
-
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         token: payload.auth.token,
-        //         expires: payload.auth.expires,
-        //         // refreshToken: payload.authResult.refreshToken,
-        //         message: '',
-        //         isSuccessful: true,
-        //     }
-        // }
 
         case actions.LOGIN_CANDIDATE_FAILED:
             return {
@@ -70,19 +58,17 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 loading: false,
                 token: null,
                 expires: "",
-                // refreshToken: null,
                 message: payload,
                 isSuccessful: false,
             }
 
         case actions.LOG_OUT_CANDIDATE_USER: {
             localStorage.removeItem('emailToken');
-            // localStorage.removeItem('permissions');
+            localStorage.removeItem('authStatus');
             localStorage.removeItem('candidateUserDetails');
             return {
                 message: '',
                 token: '',
-                // refreshToken: '',
             }
         }
 
@@ -204,7 +190,73 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 message: payload,
             };
 
+        case actions.DELETE_CANDIDATE_ADMISSION_LOADING:
+            return {
+                ...state,
+                loading: true,
+                isSuccessful: false,
+            };
+        case actions.DELETE_CANDIDATE_ADMISSION_SUCCESS:
+            return {
+                ...state,
+                isSuccessful: true,
+                loading: false,
+                message: payload,
+            };
+        case actions.DELETE_CANDIDATE_ADMISSION_FAILED:
+            return {
+                ...state,
+                isSuccessful: false,
+                loading: false,
+                message: payload,
+            };
+
+        case actions.PUSH_ITEM_ID:
+            var arrayToFilter = [...state.selectedIds, payload]
+            return {
+                ...state,
+                selectedIds: [...new Set(arrayToFilter)],
+            };
+        case actions.REMOVE_ITEM_ID:
+            var filteredIds = filterSelectedIds(state.selectedIds, payload)
+            return {
+                ...state,
+                selectedIds: filteredIds
+            }
+        case actions.RETURN_ITEM_LIST:
+            return {
+                ...state,
+                admissionList: payload,
+            };
+
+
+
+
+
+        case actions.DELETE_DIALOG_RESPPONSE:
+            return {
+                ...state,
+                deleteDialogResponse: payload
+            }
+
+        case actions.CUSTOMISED_MODAL_RESPONSE:
+            return {
+                ...state,
+                customisedModalValue: payload
+            }
+
+        case actions.RESPOND_DECISION_DIALOG:
+            return {
+                ...state,
+                dialogResponse: payload
+            }
+
         default:
             return state
     }
+}
+export function filterSelectedIds(arr, value) {
+    return arr.filter(function (ele) {
+        return ele !== value;
+    });
 }

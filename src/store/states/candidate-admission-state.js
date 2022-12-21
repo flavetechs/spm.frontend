@@ -12,4 +12,9 @@ export const _state = {
     expires: '',
     filterProps: {},
     submitSuccessful : false,
+    selectedIds: [],
+    message: '',
+    deleteDialogResponse: '',
+    dialogResponse: '',
+    customisedModalValue:'',
 }

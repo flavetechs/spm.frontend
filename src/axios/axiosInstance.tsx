@@ -9,12 +9,12 @@ const axiosInstance = axios.create({
     },
 });
 
-axiosInstance.interceptors.response.use((response: any) => response, (error: any) => { 
+axiosInstance.interceptors.response.use((response: any) => response, (error: any) => {
     console.log('error.response', error);
-    if(!error.response){
+    if (!error.response) {
         return;
     }
-    if(error.response?.status === 401) {
+    if (error.response?.status === 401) {
         localStorage.removeItem('token');
         localStorage.removeItem('permissions');
         localStorage.removeItem('userDetail');
@@ -22,15 +22,15 @@ axiosInstance.interceptors.response.use((response: any) => response, (error: any
     throw error;
 });
 
-axiosInstance.interceptors.response.use(async (response: any) => response, (error: any) => { 
-    if(!error.response){
+axiosInstance.interceptors.response.use(async (response: any) => response, (error: any) => {
+    if (!error.response) {
         return;
     }
-    if(error?.response?.status === 500){
+    if (error?.response?.status === 500) {
         console.log('error.response', error.response)
         return error.response
     }
-    if(error?.response?.status === 404){
+    if (error?.response?.status === 404) {
         console.log('error.response', error.response)
         return error.response
     }
@@ -44,21 +44,30 @@ axiosInstance.interceptors.request.use(
         // const online = navigator.onLine;
         // debugger
         // if(online){
-            
+
         //     // showErrorToast('No Internet Connection')(dispatch);
         //     // alert('online');
         //     return config;
         // }
         const sessionToken = await localStorage.getItem('token');
         const emailSessionToken = await localStorage.getItem('emailToken');
-        if (emailSessionToken !== null) {
+        if (sessionToken) {
+            config.headers.Authorization = 'Bearer ' + sessionToken
+            
+            return config;
+        } else if (emailSessionToken) {
             config.headers.Authorization = 'Bearer ' + emailSessionToken
+            
+            return config;
         }
-        return config;
+        // if (emailSessionToken !== null) {
+        //     config.headers.Authorization = 'Bearer ' + emailSessionToken
+        // }
+        // return config;
         // if (sessionToken !== null) {
         //     config.headers.Authorization = 'Bearer ' + sessionToken
         // }
-        // return config;
+        return config;
     },
     (error: any) => {
         return Promise.reject(error);

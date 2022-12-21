@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, } from 'react-bootstrap';
+import { Row, Col, Button, } from 'react-bootstrap';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import SmpLoader from '../loader/smp-loader';
@@ -7,22 +7,9 @@ import { confirmUserEmail, logOutUserEmail } from '../../store/actions/candidate
 import { candidateAuthLocation } from '../../router/candidate-path-location';
 import Card from '../Card';
 
-const ConfirmUserEmail = () => {
+const RegistrationEmailReceived = () => {
 
     let history = useHistory();
-    const dispatch = useDispatch();
-    const locations = useLocation();
-    const queryParams = new URLSearchParams(locations.search);
-    const admissionNotificationIdQuery = queryParams.get("admissionNotificationId") || "";
-
-    React.useEffect(() => {
-        if (!admissionNotificationIdQuery) return;
-        confirmUserEmail(admissionNotificationIdQuery)(dispatch);
-    }, [dispatch, locations.search]);
-
-    var expires = localStorage.getItem('expires');
-
-    console.log("expires", expires);
 
     return (
         <>
@@ -34,19 +21,22 @@ const ConfirmUserEmail = () => {
                             <Col md="6">
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
-                                        <h5 className="mb-2 text-center text-success">Email successfully confirmed. Please proceed to login</h5>
-                                        <p className="text-center text-danger"> Login Access expires on {expires} </p>
-                                        <p className="text-center">
-                                            <Link to={candidateAuthLocation.signIn} className="text-center mb-3"
+                                        <h5 className="mb-2 text-center">Successfully registered. Kindly check your email, a confirmation mail has been sent to you.</h5>
+                                        <p className='text-center'>Thank you for choosing our services</p>
+                                        <div className='text-center'>
+                                            <Button
+                                                type="button"
+                                                variant="btn btn-primary mx-2 text-center mx-auto"
                                                 onClick={() => {
-                                                    dispatch(logOutUserEmail());
-                                                    history.push(candidateAuthLocation.signIn)
+                                                    localStorage.removeItem("authStatus");
+                                                    localStorage.removeItem('emailToken');
+                                                    localStorage.removeItem('candidateUserDetails');
+                                                    history.push(candidateAuthLocation.signIn);
                                                 }}
                                             >
-                                                Log in Again
-                                            </Link>
-                                        </p>
-
+                                                Go Back
+                                            </Button>{" "}
+                                        </div>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -68,4 +58,4 @@ const ConfirmUserEmail = () => {
     )
 }
 
-export default ConfirmUserEmail;
+export default RegistrationEmailReceived;

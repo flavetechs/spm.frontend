@@ -7,19 +7,17 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // img
 import auth1 from '../../assets/images/auth/01.png'
-// import { authLocations, dashboardLocations } from '../../router/spm-path-locations';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SmpLoader from '../loader/smp-loader';
-import Logo from '../partials/components/logo';
 import { userEmailLogin } from '../../store/actions/candidate-admission-actions';
+import { candidateLocations } from '../../router/candidate-path-location';
 
 const RegistrationSignIn = () => {
     let history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.candidate;
-    // const { message } = state.auth;
     var emailToken = localStorage.getItem('emailToken');
     var candidateUserDetails = JSON.parse(localStorage.getItem('candidateUserDetails'));
     var authStatus = JSON.parse(localStorage.getItem('authStatus'));
@@ -28,16 +26,12 @@ const RegistrationSignIn = () => {
         if (candidateUserDetails) {
             if (emailToken !== null) {
                 window.location.href = '/candidates';
-                // localStorage.removeItem('emailToken');
-            }else if(authStatus == null){
-                window.location.href = '/candidate-admission/';
-                // localStorage.removeItem('authStatus');
-            }
-             else {
+            } else if (authStatus === null) {
                 localStorage.removeItem('emailToken');
-                localStorage.removeItem('candidateUserDetails')
-                // localStorage.removeItem('permissions')
-                // history.push(authLocations.firstTimeLogin + '?id=' + JSON.parse(userDetail).userAccountId)
+                history.push(candidateLocations.registrationEmailReceived)
+                // history.push(candidateLocations.candidateAdmissionConfirmation + '?admissionNotificationId=' + candidateUserDetails.admissionNotificationId)
+            } else {
+                localStorage.removeItem('emailToken');
             }
         }
     }, [emailToken, history, candidateUserDetails])
