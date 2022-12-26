@@ -21,6 +21,7 @@ import CandidateRegistration from '../components/candidate-admission/candidate-r
 import CandidateDetails from '../components/candidate-admission/candidate-details'
 import ConfirmUserEmail from '../components/candidate-admission/confirm-login-email'
 import RegistrationEmailReceived from '../components/candidate-admission/registration-email-received-notification'
+import CandidateEdit from '../components/candidate-admission/candidate-edit'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -54,6 +55,7 @@ const IndexRouters = () => {
 
                         <Route exact path={candidateAuthLocation.signIn} component={RegistrationSignIn}></Route>
                         <Route exact path={candidateLocations.candidateRegistration} component={CandidateRegistration}></Route>
+                        <Route exact path={candidateLocations.candidateEdit} component={CandidateEdit}></Route>
                         <Route exact path={candidateLocations.candidateList} component={CandidateList}></Route>
                         <Route exact path={candidateLocations.candidateDetails} component={CandidateDetails}></Route>
                         <Route exact path={candidateLocations.candidateAdmissionConfirmation} component={ConfirmUserEmail}></Route>

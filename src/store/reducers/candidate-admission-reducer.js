@@ -251,6 +251,32 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 dialogResponse: payload
             }
 
+
+        case actions.UPDATE_CANDIDATE_ADMISSION_LOADING:
+            return {
+                ...state,
+                loading: true,
+                isSuccessful: false,
+                message: "",
+                submitSuccessful: false,
+            };
+        case actions.UPDATE_CANDIDATE_ADMISSION_SUCCESS:
+            return {
+                ...state,
+                isSuccessful: true,
+                loading: false,
+                message: payload,
+                submitSuccessful: true,
+            };
+        case actions.UPDATE_CANDIDATE_ADMISSION_FAILED:
+            return {
+                ...state,
+                isSuccessful: false,
+                loading: false,
+                message: payload,
+                submitSuccessful: false,
+            };
+
         default:
             return state
     }

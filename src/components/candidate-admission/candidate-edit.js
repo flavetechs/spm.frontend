@@ -3,16 +3,17 @@ import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
-import { createCandidateAdmission, getAdmissionClasses } from "../../store/actions/candidate-admission-actions";
+import { getAdmissionClasses, getSingleAdmissionDetail, updateCandidateAdmission } from "../../store/actions/candidate-admission-actions";
 import { candidateLocations } from "../../router/candidate-path-location";
 
-const CandidateRegistration = () => {
+const CandidateEdit = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
     const [file, setFiles] = useState("");
+    const [currentClassId, setCurrentClassId] = useState("");
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -39,12 +40,26 @@ const CandidateRegistration = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { admissionClasses, message, submitSuccessful, isSuccessful } = state.candidate;
+    const { admissionClasses, message, singleAdmissionDetail, isSuccessful, submitSuccessful } = state.candidate;
     // ACCESSING STATE FROM REDUX STORE
+
+    const locations = useLocation();
+    const queryParams = new URLSearchParams(locations.search);
+    const admissionIdQuery = queryParams.get("admissionId") || "";
+
+    React.useEffect(() => {
+        if (!admissionIdQuery) return;
+        getSingleAdmissionDetail(admissionIdQuery)(dispatch);
+        setFiles(singleAdmissionDetail?.credentials || "");
+    }, [dispatch, locations.search]);
 
     React.useEffect(() => {
         getAdmissionClasses()(dispatch);
     }, [dispatch]);
+
+    React.useEffect(() => {
+        setCurrentClassId(singleAdmissionDetail?.classId || "");
+    }, []);
 
     const FileDisplay = (event) => {
         if (event.target.files[0]) {
@@ -54,40 +69,41 @@ const CandidateRegistration = () => {
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
-    // React.useEffect(() => {
-    //     submitSuccessful && history.push(candidateLocations.candidateList);
-    // }, [submitSuccessful]);
+  
 
-    // React.useEffect(() => {
-    //     submitSuccessful && history.push(candidateLocations.candidateList);
-    // }, [submitSuccessful, history]);
-    if (isSuccessful) {
-        history.push(candidateLocations.candidateList);
-    }
+    // if(isSuccessful){
+    //     history.push(candidateLocations.candidateList)
+    // }
+    React.useEffect(() => {
+        submitSuccessful && history.push(`${candidateLocations.candidateList}`);
+    }, [submitSuccessful]);
 
-    console.log("submitSuccessful", submitSuccessful);
-
+    console.log("admissionClasses", admissionClasses);
+    console.log("singleAdmissionDetail?.className", singleAdmissionDetail?.className);
     return (
         <>
             <Formik
+                enableReinitialize={true}
                 initialValues={{
-                    Firstname: "",
-                    Lastname: "",
-                    Middlename: "",
-                    Email: "",
-                    PhoneNumber: "",
-                    DateOfBirth: "",
-                    CountryOfOrigin: "",
-                    StateOfOrigin: "",
-                    LGAOfOrigin: "",
-                    Credentials: "",
-                    ParentName: "",
-                    ParentRelationship: "",
-                    ParentPhoneNumber: "",
-                    ClassId: "",
+                    AdmissionId: singleAdmissionDetail.singleAdmissionDetail || "",
+                    Firstname: singleAdmissionDetail.firstname || "",
+                    Lastname: singleAdmissionDetail.lastname || "",
+                    Middlename: singleAdmissionDetail.middlename || "",
+                    Email: singleAdmissionDetail.email || "",
+                    PhoneNumber: singleAdmissionDetail.phoneNumber || "",
+                    DateOfBirth: singleAdmissionDetail.dateOfBirth || "",
+                    CountryOfOrigin: singleAdmissionDetail.countryOfOrigin || "",
+                    StateOfOrigin: singleAdmissionDetail.stateOfOrigin || "",
+                    LGAOfOrigin: singleAdmissionDetail.lgaOfOrigin || "",
+                    Credentials: singleAdmissionDetail.credentials || "",
+                    ParentName: singleAdmissionDetail.parentName || "",
+                    ParentRelationship: singleAdmissionDetail.parentRelationship || "",
+                    ParentPhoneNumber: singleAdmissionDetail.parentPhoneNumber || "",
+                    ClassId: singleAdmissionDetail.classId || "",
                 }}
                 validationSchema={validation}
                 onSubmit={(values) => {
+                    values.AdmissionId = admissionIdQuery;
                     values.Firstname = values.Firstname;
                     values.Middlename = values.Middlename;
                     values.Lastname = values.Lastname;
@@ -103,6 +119,7 @@ const CandidateRegistration = () => {
                     values.ClassId = values.ClassId;
                     values.Credentials = file;
                     const params = new FormData();
+                    params.append("AdmissionId", values.AdmissionId);
                     params.append("Firstname", values.Firstname);
                     params.append("Middlename", values.Middlename);
                     params.append("Lastname", values.Lastname);
@@ -116,12 +133,10 @@ const CandidateRegistration = () => {
                     params.append("ParentName", values.ParentName);
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
-                    params.append("CandidateAdmissionStatus", values.CandidateAdmissionStatus);
                     params.append("ClassId", values.ClassId);
                     console.log("values", values);
-                    // createCandidateAdmission(params)(dispatch);
+                    // updateCandidateAdmission(params)(dispatch);
                 }}
-                enableReinitialize={true}
             >
                 {({
                     handleChange,
@@ -139,7 +154,7 @@ const CandidateRegistration = () => {
                                 <div className="card-header d-flex justify-content-between d-flex justify-content-between border border-light p-3">
                                     {" "}
                                     <div className="header-title">
-                                        <h4 className="card-title"><b>Registration Form</b></h4>
+                                        <h4 className="card-title"><b>Edit Candidate Information</b></h4>
                                     </div>{" "}
                                 </div>
                                 <Card.Body>
@@ -167,9 +182,13 @@ const CandidateRegistration = () => {
                                                         name="ClassId"
                                                         className="form-select"
                                                         id="ClassId"
+                                                    // value={!!values.ClassId}
+                                                    // onChange={(e) => {
+                                                    //   setFieldValue("ClassId", e.target.value);
+                                                    // }}
                                                     >
-                                                        <option value="Select Class">Select Class</option>
-                                                        {admissionClasses.map((item, idx) => (
+                                                        {/* <option value="Select Class">{singleAdmissionDetail?.className}</option> */}
+                                                        {admissionClasses?.map((item, idx) => (
                                                             <option
                                                                 key={idx}
                                                                 name={values.ClassId}
@@ -178,6 +197,15 @@ const CandidateRegistration = () => {
                                                                 {item.className}
                                                             </option>
                                                         ))}
+                                                        {/* {admissionClasses?.map((item, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                name={values.ClassId}
+                                                                value={item.classId}
+                                                            >
+                                                                {item.className}
+                                                            </option>
+                                                        ))} */}
                                                     </Field>
                                                 </div>
                                                 <Row>
@@ -268,11 +296,11 @@ const CandidateRegistration = () => {
                                                         <b>Date Of Birth:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="dd/mm/yyyy"
                                                         type="date"
-                                                        id="DateOfBirth"
-                                                        name="DateOfBirth"
                                                         className="form-control"
+                                                        name="DateOfBirth"
+                                                        id="DateOfBirth"
+                                                        aria-describedby="name"
                                                     />
                                                 </div>
                                                 <div className="col-md-6 form-group">
@@ -385,7 +413,7 @@ const CandidateRegistration = () => {
                                                         name="ParentRelationship"
                                                         className="form-select"
                                                         id="ParentRelationship"
-                                                        onChange={(e) => { setFieldValue("ParentRelationship", e.target.value) }}
+                                                    // onChange={(e) => { setFieldValue("ParentRelationship", e.target.value) }}
                                                     >
                                                         <option value="">Select Relationship</option>
                                                         {studentparentGuarndianRelationship?.map((relationship, idx) => (
@@ -444,4 +472,4 @@ const CandidateRegistration = () => {
     );
 };
 
-export default CandidateRegistration;
+export default CandidateEdit;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
 import { candidateAuthLocation, candidateLocations } from "../../router/candidate-path-location";
@@ -13,12 +13,12 @@ const CandidateList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [searchQuery, setSearchQuery] = useState("");
+    const [admissionIdToBeDeleted, setAdmissionIdToBeDeleted] = useState([]);
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { admissionList, filterProps, selectedIds, deleteDialogResponse } = state.candidate;
-    // const { deleteDialogResponse } = state.alert;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -47,13 +47,14 @@ const CandidateList = () => {
     //DELETE HANDLER
     React.useEffect(() => {
         if (deleteDialogResponse === "continue") {
+            // debugger
             if (selectedIds.length === 0) {
                 return
             } else {
                 deleteCandidateAdmission(selectedIds)(dispatch);
-                // respondToDeleteDialog("")(dispatch);
             }
-        } else {
+        } else  if(deleteDialogResponse !== "continue") {
+            // debugger
             selectedIds.forEach((id) => {
                 dispatch(removeId(id));
             });
@@ -85,8 +86,8 @@ const CandidateList = () => {
     //     };
     // }, [selectedIds, deleteDialogResponse, dispatch]);
 
-    console.log('selectedIds', selectedIds);
-    console.log('deleteDialogResponse', deleteDialogResponse);
+    console.log("selectedIds", selectedIds);
+    console.log("deleteDialogResponse", deleteDialogResponse);
 
     return (
         <>
@@ -206,7 +207,7 @@ const CandidateList = () => {
                                     <div className="jumbotron jumbotron-fluid">
                                         <div className="container d-flex justify-content-center mt-5 bg-light">
                                             <h3 className="display-4">
-                                                No Registered Student, Please register student.
+                                                No Student, Please register student.
                                             </h3>
                                         </div>
                                     </div>
@@ -317,8 +318,7 @@ const CandidateList = () => {
                                                                         data-placement="top"
                                                                         title=""
                                                                         data-original-title="Edit"
-                                                                        to="#"
-                                                                    // to={`${studentsLocations.studentDetails}?studentAccountId=${student.studentContactId}`}
+                                                                        to={`${candidateLocations.candidateEdit}?admissionId=${student.admissionId}`}
                                                                     >
                                                                         <span className="btn-inner">
                                                                             <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

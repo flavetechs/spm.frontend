@@ -150,6 +150,29 @@ export const createCandidateAdmission = (values) => (dispatch) => {
         });
 }
 
+export const updateCandidateAdmission = (values) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_CANDIDATE_ADMISSION_LOADING
+    });
+    axiosInstance.post('/smp/api/v1/candidate-admission/update', values)
+        .then((res) => {
+            console.log("res");
+            dispatch({
+                type: actions.UPDATE_CANDIDATE_ADMISSION_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getCandidatesAdmissionList(1)(dispatch)
+        }).catch((err) => {
+            console.log("err", err);
+            dispatch({
+                type: actions.UPDATE_CANDIDATE_ADMISSION_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
 export const deleteCandidateAdmission = (item) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CANDIDATE_ADMISSION_LOADING
