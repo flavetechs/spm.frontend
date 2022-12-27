@@ -220,6 +220,12 @@ const DashboardRouter = () => {
 
                         {/* user profile page */}
                         <Route path={inprogress.unactivated} exact component={InProgress} />
+
+                        {/* admission */}
+                        {/* <Route path={admissionLocations.admissionRegistration} exact component={AdmissionRegistration} />
+                        <Route path={admissionLocations.admissionRegistrationInformation} exact component={AdmissionInformation} />
+                        <Route path={admissionLocations.admissionBoard} exact component={AdmissionBoard} /> */}
+
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>

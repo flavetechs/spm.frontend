@@ -13,6 +13,15 @@ import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
 import parentDefault from '../layouts/dashboard/parent-default'
+import RegistrationSignIn from '../components/spm-auth/registration-sign-in'
+import candidateDefault from '../layouts/dashboard/candidate-default'
+import { candidateAuthLocation, candidateLocations } from './candidate-path-location'
+import CandidateList from '../components/candidate-admission/candidate-list'
+import CandidateRegistration from '../components/candidate-admission/candidate-registration'
+import CandidateDetails from '../components/candidate-admission/candidate-details'
+import ConfirmUserEmail from '../components/candidate-admission/confirm-login-email'
+import RegistrationEmailReceived from '../components/candidate-admission/registration-email-received-notification'
+import CandidateEdit from '../components/candidate-admission/candidate-edit'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,13 +38,28 @@ const IndexRouters = () => {
             <Switch>
                 {
                     <>
-
                         <Route exact path="/"
-                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : Default}></Route>
+                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : Default}>
+                        </Route>
 
                         <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
-                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}></Route>
+                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
+                        </Route>
+                        {/* <Route exact path="/"
+                            component={userDetail?.userType === 'Student' ? candidateDefault : userDetail?.userType === "Parent" ? parentDefault : Default}>
+                        </Route>
 
+                        <Route path={userDetail?.userType == 'Student' ? '/candidates' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
+                            component={userDetail?.userType == 'Student' ? candidateDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
+                        </Route> */}
+
+                        <Route exact path={candidateAuthLocation.signIn} component={RegistrationSignIn}></Route>
+                        <Route exact path={candidateLocations.candidateRegistration} component={CandidateRegistration}></Route>
+                        <Route exact path={candidateLocations.candidateEdit} component={CandidateEdit}></Route>
+                        <Route exact path={candidateLocations.candidateList} component={CandidateList}></Route>
+                        <Route exact path={candidateLocations.candidateDetails} component={CandidateDetails}></Route>
+                        <Route exact path={candidateLocations.candidateAdmissionConfirmation} component={ConfirmUserEmail}></Route>
+                        <Route exact path={candidateLocations.registrationEmailReceived} component={RegistrationEmailReceived}></Route>
                         <Route path={authLocations.login} component={SignIn}></Route>
 
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
