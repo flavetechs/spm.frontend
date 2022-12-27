@@ -13,7 +13,6 @@ const CandidateList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [searchQuery, setSearchQuery] = useState("");
-    const [admissionIdToBeDeleted, setAdmissionIdToBeDeleted] = useState([]);
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
@@ -47,14 +46,15 @@ const CandidateList = () => {
     //DELETE HANDLER
     React.useEffect(() => {
         if (deleteDialogResponse === "continue") {
-            // debugger
             if (selectedIds.length === 0) {
                 return
             } else {
                 deleteCandidateAdmission(selectedIds)(dispatch);
+                return selectedIds.forEach((id) => {
+                    dispatch(removeId(id));
+                });
             }
-        } else  if(deleteDialogResponse !== "continue") {
-            // debugger
+        } else if (deleteDialogResponse === "cancel") {
             selectedIds.forEach((id) => {
                 dispatch(removeId(id));
             });
@@ -64,30 +64,6 @@ const CandidateList = () => {
         };
     }, [deleteDialogResponse, dispatch]);
     //DELETE HANDLER
-
-
-    // React.useEffect(() => {
-    //     if (deleteDialogResponse === "continue") {
-    //         if (selectedIds.length === 0) {
-    //             return
-    //         } else {
-    //             deleteCandidateAdmission(selectedIds)(dispatch);
-    //             selectedIds.forEach((id) => {
-    //                 dispatch(removeId(id));
-    //             });
-    //         }
-    //     } else {
-    //         selectedIds.forEach((id) => {
-    //             dispatch(removeId(id));
-    //         });
-    //     }
-    //     return () => {
-    //         respondToDeleteDialog("")(dispatch);
-    //     };
-    // }, [selectedIds, deleteDialogResponse, dispatch]);
-
-    console.log("selectedIds", selectedIds);
-    console.log("deleteDialogResponse", deleteDialogResponse);
 
     return (
         <>

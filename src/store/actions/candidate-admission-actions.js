@@ -2,8 +2,6 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/candidate-admission-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 import swal from 'sweetalert';
-import { filterSelectedIds } from "../reducers/candidate-admission-reducer";
-
 
 export const pushId = (itemId) => {
     return {
@@ -216,10 +214,9 @@ export const deleteDialogModal= (id) =>(dispatch) => {swal({
       respondToDeleteDialog('continue')(dispatch)
     } else {
       swal("Your item is safe!");
-      respondToDeleteDialog('')(dispatch)
+      respondToDeleteDialog('cancel')(dispatch)
     }
   });} 
-
 
 export const respondToDeleteDialog = (value) =>(dispatch) => {
     dispatch({

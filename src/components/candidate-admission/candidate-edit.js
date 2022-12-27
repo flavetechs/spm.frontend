@@ -6,14 +6,12 @@ import * as Yup from "yup";
 import { useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import { getAdmissionClasses, getSingleAdmissionDetail, updateCandidateAdmission } from "../../store/actions/candidate-admission-actions";
-import { candidateLocations } from "../../router/candidate-path-location";
 
 const CandidateEdit = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
     const [file, setFiles] = useState("");
-    const [currentClassId, setCurrentClassId] = useState("");
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -40,7 +38,7 @@ const CandidateEdit = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { admissionClasses, message, singleAdmissionDetail, isSuccessful, submitSuccessful } = state.candidate;
+    const { admissionClasses, message, singleAdmissionDetail, submitSuccessful } = state.candidate;
     // ACCESSING STATE FROM REDUX STORE
 
     const locations = useLocation();
@@ -57,10 +55,6 @@ const CandidateEdit = () => {
         getAdmissionClasses()(dispatch);
     }, [dispatch]);
 
-    React.useEffect(() => {
-        setCurrentClassId(singleAdmissionDetail?.classId || "");
-    }, []);
-
     const FileDisplay = (event) => {
         if (event.target.files[0]) {
             setFiles(URL.createObjectURL(event.target.files[0]));
@@ -69,17 +63,9 @@ const CandidateEdit = () => {
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
-  
-
-    // if(isSuccessful){
-    //     history.push(candidateLocations.candidateList)
-    // }
     React.useEffect(() => {
-        submitSuccessful && history.push(`${candidateLocations.candidateList}`);
-    }, [submitSuccessful]);
-
-    console.log("admissionClasses", admissionClasses);
-    console.log("singleAdmissionDetail?.className", singleAdmissionDetail?.className);
+        submitSuccessful && history.goBack()
+    }, [submitSuccessful, history]);
     return (
         <>
             <Formik
@@ -117,7 +103,6 @@ const CandidateEdit = () => {
                     values.ParentRelationship = values.ParentRelationship;
                     values.ParentPhoneNumber = values.ParentPhoneNumber;
                     values.ClassId = values.ClassId;
-                    values.Credentials = file;
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
                     params.append("Firstname", values.Firstname);
@@ -134,8 +119,8 @@ const CandidateEdit = () => {
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
                     params.append("ClassId", values.ClassId);
-                    console.log("values", values);
-                    // updateCandidateAdmission(params)(dispatch);
+                    // console.log("values", values);
+                    updateCandidateAdmission(params)(dispatch);
                 }}
             >
                 {({
@@ -182,30 +167,17 @@ const CandidateEdit = () => {
                                                         name="ClassId"
                                                         className="form-select"
                                                         id="ClassId"
-                                                    // value={!!values.ClassId}
-                                                    // onChange={(e) => {
-                                                    //   setFieldValue("ClassId", e.target.value);
-                                                    // }}
+                                                        onChange={(e) => { setFieldValue("ClassId", e.target.value) }}
                                                     >
-                                                        {/* <option value="Select Class">{singleAdmissionDetail?.className}</option> */}
-                                                        {admissionClasses?.map((item, idx) => (
+                                                        <option value={singleAdmissionDetail?.classId}>{singleAdmissionDetail?.className}</option>
+                                                        {admissionClasses?.filter((item) => (item.className !== singleAdmissionDetail?.className))?.map((c, idx) => (
                                                             <option
                                                                 key={idx}
-                                                                name={values.ClassId}
-                                                                value={item.classId}
+                                                                value={c.classId}
                                                             >
-                                                                {item.className}
+                                                                {c.className}
                                                             </option>
                                                         ))}
-                                                        {/* {admissionClasses?.map((item, idx) => (
-                                                            <option
-                                                                key={idx}
-                                                                name={values.ClassId}
-                                                                value={item.classId}
-                                                            >
-                                                                {item.className}
-                                                            </option>
-                                                        ))} */}
                                                     </Field>
                                                 </div>
                                                 <Row>
@@ -413,7 +385,7 @@ const CandidateEdit = () => {
                                                         name="ParentRelationship"
                                                         className="form-select"
                                                         id="ParentRelationship"
-                                                    // onChange={(e) => { setFieldValue("ParentRelationship", e.target.value) }}
+                                                        onChange={(e) => { setFieldValue("ParentRelationship", e.target.value) }}
                                                     >
                                                         <option value="">Select Relationship</option>
                                                         {studentparentGuarndianRelationship?.map((relationship, idx) => (

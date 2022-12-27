@@ -22,8 +22,6 @@ const ConfirmUserEmail = () => {
 
     var expires = localStorage.getItem('expires');
 
-    console.log("expires", expires);
-
     return (
         <>
             <section className="login-content">

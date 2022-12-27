@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import Card from "../Card";
 import { createCandidateAdmission, getAdmissionClasses } from "../../store/actions/candidate-admission-actions";
-import { candidateLocations } from "../../router/candidate-path-location";
 
 const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
@@ -39,7 +38,7 @@ const CandidateRegistration = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { admissionClasses, message, submitSuccessful, isSuccessful } = state.candidate;
+    const { admissionClasses, message, submitSuccessful } = state.candidate;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -54,18 +53,9 @@ const CandidateRegistration = () => {
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
-    // React.useEffect(() => {
-    //     submitSuccessful && history.push(candidateLocations.candidateList);
-    // }, [submitSuccessful]);
-
-    // React.useEffect(() => {
-    //     submitSuccessful && history.push(candidateLocations.candidateList);
-    // }, [submitSuccessful, history]);
-    if (isSuccessful) {
-        history.push(candidateLocations.candidateList);
-    }
-
-    console.log("submitSuccessful", submitSuccessful);
+    React.useEffect(() => {
+        submitSuccessful && history.goBack()
+    }, [submitSuccessful, history]);
 
     return (
         <>
@@ -101,7 +91,7 @@ const CandidateRegistration = () => {
                     values.ParentRelationship = values.ParentRelationship;
                     values.ParentPhoneNumber = values.ParentPhoneNumber;
                     values.ClassId = values.ClassId;
-                    values.Credentials = file;
+                    // values.Credentials = file;
                     const params = new FormData();
                     params.append("Firstname", values.Firstname);
                     params.append("Middlename", values.Middlename);
@@ -116,10 +106,9 @@ const CandidateRegistration = () => {
                     params.append("ParentName", values.ParentName);
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
-                    params.append("CandidateAdmissionStatus", values.CandidateAdmissionStatus);
                     params.append("ClassId", values.ClassId);
                     console.log("values", values);
-                    // createCandidateAdmission(params)(dispatch);
+                    createCandidateAdmission(params)(dispatch);
                 }}
                 enableReinitialize={true}
             >

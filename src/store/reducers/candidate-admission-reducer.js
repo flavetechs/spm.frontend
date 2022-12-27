@@ -9,7 +9,6 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 loading: true,
                 message: '',
                 token: '',
-                refreshToken: '',
                 isSuccessful: false,
             }
 
@@ -77,7 +76,8 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 ...state,
                 loading: true,
                 message: '',
-                isSuccessful: false
+                isSuccessful: false,
+                submitSuccessful: false,
             };
 
         case actions.FETCH_ADMISSIONS_LIST_SUCCESS:
@@ -86,6 +86,7 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 loading: false,
                 admissionList: payload.data,
                 filterProps: payload,
+                submitSuccessful: false,
             };
 
         case actions.FETCH_ADMISSIONS_LIST_FAILED:
@@ -221,17 +222,13 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
             var filteredIds = filterSelectedIds(state.selectedIds, payload)
             return {
                 ...state,
-                selectedIds: filteredIds
+                selectedIds: filteredIds,
             }
         case actions.RETURN_ITEM_LIST:
             return {
                 ...state,
                 admissionList: payload,
             };
-
-
-
-
 
         case actions.DELETE_DIALOG_RESPPONSE:
             return {
@@ -250,7 +247,6 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 ...state,
                 dialogResponse: payload
             }
-
 
         case actions.UPDATE_CANDIDATE_ADMISSION_LOADING:
             return {
