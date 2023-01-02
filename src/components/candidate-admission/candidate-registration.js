@@ -6,12 +6,15 @@ import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import Card from "../Card";
 import { createCandidateAdmission, getAdmissionClasses } from "../../store/actions/candidate-admission-actions";
+import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
 
 const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
     const [file, setFiles] = useState("");
+    const [selectedCountry, setSelectedCountry] = useState("");
+    const [selectedState, setSelectedState] = useState("");
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -39,17 +42,25 @@ const CandidateRegistration = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { admissionClasses, message, submitSuccessful } = state.candidate;
+    const { countries, states, cities } = state.student;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
         getAdmissionClasses()(dispatch);
+        getCountries()(dispatch);
     }, [dispatch]);
 
-    const FileDisplay = (event) => {
-        if (event.target.files[0]) {
-            setFiles(URL.createObjectURL(event.target.files[0]));
+    React.useEffect(() => {
+        if(selectedCountry){
+            getStates(selectedCountry)(dispatch);
         }
-    };
+    }, [dispatch, selectedCountry]);
+
+    React.useEffect(() => {
+        if(selectedState){
+            getCities(selectedState)(dispatch);
+        }
+    }, [dispatch, selectedState]);
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
@@ -91,7 +102,6 @@ const CandidateRegistration = () => {
                     values.ParentRelationship = values.ParentRelationship;
                     values.ParentPhoneNumber = values.ParentPhoneNumber;
                     values.ClassId = values.ClassId;
-                    // values.Credentials = file;
                     const params = new FormData();
                     params.append("Firstname", values.Firstname);
                     params.append("Middlename", values.Middlename);
@@ -107,7 +117,6 @@ const CandidateRegistration = () => {
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
                     params.append("ClassId", values.ClassId);
-                    console.log("values", values);
                     createCandidateAdmission(params)(dispatch);
                 }}
                 enableReinitialize={true}
@@ -269,39 +278,79 @@ const CandidateRegistration = () => {
                                                         <b>Country:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="Country"
-                                                        type="text"
+                                                        as="select"
                                                         name="CountryOfOrigin"
+                                                        className="form-select"
                                                         id="CountryOfOrigin"
-                                                        className="form-control"
-                                                    />
+                                                        onChange={(e) => {
+                                                            setFieldValue("CountryOfOrigin", e.target.value)
+                                                            setSelectedCountry(e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">Select Country</option>
+                                                        {countries?.map((country, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                value={country.value}
+                                                            >
+                                                                {country.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="StateOfOrigin">
                                                         <b>State:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="State"
-                                                        type="text"
+                                                        as="select"
                                                         name="StateOfOrigin"
+                                                        className="form-select"
                                                         id="StateOfOrigin"
-                                                        className="form-control"
-                                                    />
+                                                        disabled={!selectedCountry? true : false}
+                                                        onChange={(e) => {
+                                                            setFieldValue("StateOfOrigin", e.target.value)
+                                                            setSelectedState(e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">Select State</option>
+                                                        {states?.map((state, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                value={state.value}
+                                                            >
+                                                                {state.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="LGAOfOrigin">
                                                         <b>L.G.A:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="L.G.A"
-                                                        type="text"
+                                                        as="select"
                                                         name="LGAOfOrigin"
+                                                        className="form-select"
                                                         id="LGAOfOrigin"
-                                                        className="form-control"
-                                                    />
+                                                        disabled={!selectedState ? true : false}
+                                                        onChange={(e) => {
+                                                            setFieldValue("LGAOfOrigin", e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">Select City</option>
+                                                        {cities?.map((city, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                value={city.value}
+                                                            >
+                                                                {city.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="zipCode">
+                                                    <label className="form-label" htmlFor="Credentials">
                                                         <b>Choose File (optional):</b>
                                                     </label>
                                                     <div className="">
@@ -313,7 +362,6 @@ const CandidateRegistration = () => {
                                                             accept="image/*, application/pdf,"
                                                             onChange={(event) => {
                                                                 setFieldValue("Credentials", event.target.files[0])
-                                                                FileDisplay(event)
                                                             }}
                                                         />
                                                     </div>

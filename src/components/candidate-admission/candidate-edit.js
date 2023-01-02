@@ -6,12 +6,15 @@ import * as Yup from "yup";
 import { useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import { getAdmissionClasses, getSingleAdmissionDetail, updateCandidateAdmission } from "../../store/actions/candidate-admission-actions";
+import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
 
 const CandidateEdit = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
     const [file, setFiles] = useState("");
+    const [selectedCountry, setSelectedCountry] = useState("");
+    const [selectedState, setSelectedState] = useState("");
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -39,6 +42,7 @@ const CandidateEdit = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { admissionClasses, message, singleAdmissionDetail, submitSuccessful } = state.candidate;
+    const { countries, states, cities } = state.student;
     // ACCESSING STATE FROM REDUX STORE
 
     const locations = useLocation();
@@ -53,19 +57,27 @@ const CandidateEdit = () => {
 
     React.useEffect(() => {
         getAdmissionClasses()(dispatch);
+        getCountries()(dispatch);
     }, [dispatch]);
 
-    const FileDisplay = (event) => {
-        if (event.target.files[0]) {
-            setFiles(URL.createObjectURL(event.target.files[0]));
+    React.useEffect(() => {
+        if (selectedCountry) {
+            getStates(selectedCountry)(dispatch);
         }
-    };
+    }, [dispatch, selectedCountry]);
+
+    React.useEffect(() => {
+        if (selectedState) {
+            getCities(selectedState)(dispatch);
+        }
+    }, [dispatch, selectedState]);
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
     React.useEffect(() => {
         submitSuccessful && history.goBack()
     }, [submitSuccessful, history]);
+
     return (
         <>
             <Formik
@@ -119,7 +131,6 @@ const CandidateEdit = () => {
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
                     params.append("ClassId", values.ClassId);
-                    // console.log("values", values);
                     updateCandidateAdmission(params)(dispatch);
                 }}
             >
@@ -251,7 +262,7 @@ const CandidateEdit = () => {
                                                         )}
                                                     </div>
                                                 </Row>
-                                                <div className="col-md-6 form-group">
+                                                <div className="col-md-9 form-group">
                                                     <label className="form-label" htmlFor="Email">
                                                         <b>Email Address:</b>
                                                     </label>
@@ -280,39 +291,79 @@ const CandidateEdit = () => {
                                                         <b>Country:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="Country"
-                                                        type="text"
+                                                        as="select"
                                                         name="CountryOfOrigin"
+                                                        className="form-select"
                                                         id="CountryOfOrigin"
-                                                        className="form-control"
-                                                    />
+                                                        onChange={(e) => {
+                                                            setFieldValue("CountryOfOrigin", e.target.value)
+                                                            setSelectedCountry(e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">Select Country</option>
+                                                        {countries?.map((country, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                value={country.value}
+                                                            >
+                                                                {country.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="StateOfOrigin">
                                                         <b>State:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="State"
-                                                        type="text"
+                                                        as="select"
                                                         name="StateOfOrigin"
+                                                        className="form-select"
                                                         id="StateOfOrigin"
-                                                        className="form-control"
-                                                    />
+                                                        disabled={!selectedCountry ? true : false}
+                                                        onChange={(e) => {
+                                                            setFieldValue("StateOfOrigin", e.target.value)
+                                                            setSelectedState(e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">Select State</option>
+                                                        {states?.map((state, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                value={state.value}
+                                                            >
+                                                                {state.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
                                                 </div>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="LGAOfOrigin">
                                                         <b>L.G.A:</b>
                                                     </label>
                                                     <Field
-                                                        placeholder="L.G.A"
-                                                        type="text"
+                                                        as="select"
                                                         name="LGAOfOrigin"
+                                                        className="form-select"
                                                         id="LGAOfOrigin"
-                                                        className="form-control"
-                                                    />
+                                                        disabled={!selectedState ? true : false}
+                                                        onChange={(e) => {
+                                                            setFieldValue("LGAOfOrigin", e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">Select Cities</option>
+                                                        {cities?.map((city, idx) => (
+                                                            <option
+                                                                key={idx}
+                                                                value={city.value}
+                                                            >
+                                                                {city.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
                                                 </div>
-                                                <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="zipCode">
+                                                <div className="col-md-9 form-group">
+                                                    <label className="form-label" htmlFor="dd">
                                                         <b>Choose File (optional):</b>
                                                     </label>
                                                     <div className="">
@@ -324,9 +375,34 @@ const CandidateEdit = () => {
                                                             accept="image/*, application/pdf,"
                                                             onChange={(event) => {
                                                                 setFieldValue("Credentials", event.target.files[0])
-                                                                FileDisplay(event)
                                                             }}
                                                         />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 form-group">
+                                                    <label className="form-label" htmlFor="dd">
+                                                        <b>Credential:</b>
+                                                    </label>
+                                                    <div className="">
+                                                        {singleAdmissionDetail?.credentials?.slice(singleAdmissionDetail?.credentials.length - 3) ===
+                                                            "jpg" ? (
+                                                            <div className="">
+                                                                <img 
+                                                                src={singleAdmissionDetail?.credentials}
+                                                                width="250"
+                                                                height="250"
+                                                                alt="credential"
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="">
+                                                                <object data={singleAdmissionDetail?.credentials}
+                                                                    width="250"
+                                                                    height="250">
+                                                                </object>
+                                                            </div>
+                                                        )
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
