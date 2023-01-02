@@ -24,6 +24,8 @@ const CandidateDetails = () => {
         getSingleAdmissionDetail(admissionId)(dispatch);
     }, [dispatch, locations.search]);
 
+    console.log("singleAdmissionDetail", singleAdmissionDetail);
+
     return (
         <>
             <Row>
@@ -41,59 +43,82 @@ const CandidateDetails = () => {
                                 <Form>
                                     <div className="row">
                                         <div className="col-md-6 form-group">
-                                            <p><span>First Name:</span> <span className="h6">{singleAdmissionDetail?.firstname}</span></p>
+                                            <p><span><b>First Name:</b></span> <span className="h6">{singleAdmissionDetail?.firstname}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
-                                            <p><span>Last Name:</span> <span className="h6">{singleAdmissionDetail?.lastname}</span></p>
+                                            <p><span><b>Last Name:</b></span> <span className="h6">{singleAdmissionDetail?.lastname}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
-                                            <p> <span>Middle Name:</span> <span className="h6 text-capitalize">{singleAdmissionDetail?.middlename}</span></p>
+                                            <p> <span><b>Middle Name:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.middlename}</span></p>
                                         </div>
                                         <div className="col-md-6  form-group">
-                                            <p><span>Class:</span> <span className="h6">{singleAdmissionDetail?.className}</span></p>
+                                            <p><span><b>Class:</b></span> <span className="h6">{singleAdmissionDetail?.className}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
-                                            <p><span>Mobile Number:</span> <span className="h6">{singleAdmissionDetail?.phoneNumber}</span></p>
+                                            <p><span><b>Mobile Number:</b></span> <span className="h6">{singleAdmissionDetail?.phoneNumber}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
-                                            <p><span>Email Address:</span> <span className="h6 text-capitalize">{singleAdmissionDetail?.email}</span></p>
+                                            <p><span><b>Email Address:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.email}</span></p>
                                         </div>
                                         <div className="col-md-6  form-group">
-                                            <p> <span>Date Of Birth:</span> <span className="h6">{singleAdmissionDetail?.dateOfBirth}</span></p>
+                                            <p> <span><b>Date Of Birth:</b></span> <span className="h6">{singleAdmissionDetail?.dateOfBirth}</span></p>
                                         </div>
                                         <div className="col-md-6  form-group">
-                                            <p><span>City:</span> <span className="h6 text-capitalize">{singleAdmissionDetail?.lgaOfOrigin}</span></p>
+                                            <p><span><b>City:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.lgaOfOrigin}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
-                                            <p><span>State:</span> <span className="h6 text-capitalize">{singleAdmissionDetail?.stateOfOrigin}</span></p>
+                                            <p><span><b>State:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.stateOfOrigin}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group text-capitalize">
-                                            <p><span>Country:</span> <span className="h6 text-capitalize">{singleAdmissionDetail?.countryOfOrigin}</span></p>
+                                            <p><span><b>Country:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.countryOfOrigin}</span></p>
                                         </div>
-                                        <div className="col-md-6 form-group text-capitalize">
-                                            <p><span>Zip Code:</span> <span className="h6">{singleAdmissionDetail?.firstname}</span></p>
+                                        <div className="col-md-6 form-group">
+                                            <label className="form-label" htmlFor="dd">
+                                                <b>Credential:</b>
+                                            </label>
+                                            <div className="">
+                                                {singleAdmissionDetail?.credentials?.slice(singleAdmissionDetail?.credentials.length - 3) ===
+                                                    "jpg" ? (
+                                                    <div className="">
+                                                        <img
+                                                            src={singleAdmissionDetail?.credentials}
+                                                            width="250"
+                                                            height="250"
+                                                            alt="credential"
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <div className="">
+                                                        <object data={singleAdmissionDetail?.credentials}
+                                                            width="250"
+                                                            height="250">
+                                                        </object>
+                                                    </div>
+                                                )
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
                                     <h5 className="mb-3">Parent/Guardian(s) Information</h5>
                                     <div className="row">
                                         <div className="col-md-6 form-group">
-                                            <p><span>Name:</span> <span className="h6 text-capitalize">{singleAdmissionDetail?.parentName}</span></p>
+                                            <p><span><b>Name:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.parentName}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
                                             <p>
-                                                <span>Relationship:</span>{" "}
+                                                <span><b>Relationship:</b></span>{" "}
                                                 <span className="h6 text-capitalize">{singleAdmissionDetail?.parentRelationship}</span>
                                             </p>
                                         </div>
                                         <div className="col-md-6 form-group">
                                             <p>
-                                                <span>Mobile Number:</span> <span className="h6">{singleAdmissionDetail?.parentPhoneNumber}</span>
+                                                <span><b>Mobile Number:</b></span> <span className="h6">{singleAdmissionDetail?.parentPhoneNumber}</span>
                                             </p>
                                         </div>
                                         <div className="col-md-6 form-group">
                                             <p>
-                                                <span>Email Address:</span> <span className="h6">{singleAdmissionDetail?.parentEmail}</span>
+                                                <span><b>Email Address:</b></span> <span className="h6">{singleAdmissionDetail?.parentEmail}</span>
                                             </p>
                                         </div>
                                     </div>
