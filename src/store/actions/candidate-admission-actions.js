@@ -24,13 +24,11 @@ export const userEmailLogin = (userEmail) => (dispatch) => {
 
     axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
         .then((res) => {
-            console.log("res", res);
             dispatch({
                 type: actions.LOGIN_CANDIDATE_SUCCESS,
                 payload: res.data,
             });
         }).catch(err => {
-            console.log("err", err);
             dispatch({
                 type: actions.LOGIN_CANDIDATE_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -152,7 +150,6 @@ export const updateCandidateAdmission = (values) => (dispatch) => {
     });
     axiosInstance.post('/smp/api/v1/candidate-admission/update', values)
         .then((res) => {
-            console.log("res");
             dispatch({
                 type: actions.UPDATE_CANDIDATE_ADMISSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
@@ -160,7 +157,6 @@ export const updateCandidateAdmission = (values) => (dispatch) => {
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
             getCandidatesAdmissionList(1)(dispatch)
         }).catch((err) => {
-            console.log("err", err);
             dispatch({
                 type: actions.UPDATE_CANDIDATE_ADMISSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
