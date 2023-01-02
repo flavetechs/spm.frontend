@@ -50,13 +50,11 @@ export const confirmUserEmail = (admissionNotificationId) => (dispatch) => {
 
     axiosInstance.post('/smp/api/v1/candidate-admission/confirm-email', payload)
         .then((res) => {
-            console.log("res", res.data.result);
             dispatch({
                 type: actions.CONFIRM_USER_EMAIL_SUCCESS,
                 payload: res.data.result,
             });
         }).catch(err => {
-            console.log("err", err);
             dispatch({
                 type: actions.CONFIRM_USER_EMAIL_FAILED,
                 payload: err.response.data.message.friendlyMessage
