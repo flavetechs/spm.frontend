@@ -21,6 +21,7 @@ import { timetableReducer } from './reducers/timetable-reducer'
 import { dashboardReducer } from './reducers/dashboard-reducer'
 import { parentReducer } from './reducers/parent-reducer'
 import { adminAdmissionReducer } from './reducers/admin-admission-reducer'
+import { candidateAdmissionReducer } from './reducers/candidate-admission-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -45,5 +46,6 @@ export default createStore(
         dashboard: dashboardReducer,
         parent: parentReducer,
         adminAdmission: adminAdmissionReducer,
+        candidate: candidateAdmissionReducer,
     })
 )

@@ -27,11 +27,11 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
 
 
     case actions.UPDATE_SELECTED_TEMPLATE: {
-        return {
-          ...state,
-          selectedTemplate: payload,
-        };
-      }
+      return {
+        ...state,
+        selectedTemplate: payload,
+      };
+    }
 
     case actions.FETCH_RESULT_SETTING_LOADING:
       return {
@@ -45,7 +45,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         resultSetting: payload,
-        selectedTemplate:payload.selectedTemplate,
+        selectedTemplate: payload.selectedTemplate,
       };
 
     case actions.FETCH_RESULT_SETTING_FAILED:
@@ -208,6 +208,51 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         message: payload,
       };
     case actions.UPDATE_NOTIFICATION_SETTING_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+      };
+
+    case actions.FETCH_ADMISSION_SETTING_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_ADMISSION_SETTING_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        admissionSettingResult: payload,
+      };
+    case actions.FETCH_ADMISSION_SETTING_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+
+
+    case actions.CREATE_ADMISSION_SETTING_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.CREATE_ADMISSION_SETTING_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.CREATE_ADMISSION_SETTING_FAILED:
       return {
         ...state,
         isSuccessful: false,

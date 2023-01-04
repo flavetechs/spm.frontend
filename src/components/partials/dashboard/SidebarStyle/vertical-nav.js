@@ -19,6 +19,7 @@ import { StudentLink } from "./Navigations/student-links";
 import { ResultLink } from "./Navigations/result-links";
 import { PinLink } from "./Navigations/pin-links";
 import { PortalSettingsLink } from "./Navigations/portal-setting-links";
+import { AdmissionLink } from "./Navigations/admission-links";
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -81,6 +82,8 @@ const VerticalNav = () => {
                 </li>
 
                 <DashboardLink minisidebar={minisidebar} />
+
+                <AdmissionLink minisidebar={minisidebar} />
 
                 {hasAccess(NavPermissions.roleList) && (
                     <PermissionLink

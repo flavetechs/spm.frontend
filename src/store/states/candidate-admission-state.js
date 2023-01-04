@@ -1,0 +1,17 @@
+export const _state = {
+    loading: false,
+    token: '',
+    message: '',
+    isSuccessful: false,
+    admissionList: [],
+    singleAdmissionDetail: {},
+    admissionClasses: [],
+    expires: '',
+    filterProps: {},
+    submitSuccessful : false,
+    selectedIds: [],
+    message: '',
+    deleteDialogResponse: '',
+    dialogResponse: '',
+    customisedModalValue:'',
+}
