@@ -145,3 +145,8 @@ export const notificationManagement = {
 export const pushedNotificationManagement = {
   pushedNotificationDetails: "/dashboard/notification-details",
 }
+
+export const adminAdmissionLocations = {
+  adminAdmissionList: "/dashboard/smp-admission/admission-setup",
+  adminAdmissionDetail: "/dashboard/smp-session/admission-detail",
+};

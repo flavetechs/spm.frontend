@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -93,6 +93,8 @@ import MakeAnnouncement from '../components/teachers-area/smp-notifications/make
 import PushedNotificationDetail from '../components/partials/dashboard/HeaderStyle/pushed-notification-details';
 import SessionClassTableEdit from '../components/teachers-area/smp-session/session-class-edit-table';
 import SessionClassTableAdd from '../components/teachers-area/smp-session/session-class-add-table';
+import AdmissionList from '../components/teachers-area/smp-admission/admission-setup';
+import AdmissionDetail from '../components/teachers-area/smp-admission/admission-detail';
 
 const DashboardRouter = () => {
 
@@ -217,6 +219,10 @@ const DashboardRouter = () => {
                         {/* user profile page */}
                         <Route path={authLocations.staffProfilePage} exact component={StaffProfilePage} />
                         <Route path={authLocations.staffProfileEdit} exact component={StaffProfileEdit} />
+
+                        {/* admin admission */}
+                        <Route path={adminAdmissionLocations.adminAdmissionList} exact component={AdmissionList} />
+                        <Route path={adminAdmissionLocations.adminAdmissionDetail} exact component={AdmissionDetail} />
 
                         {/* user profile page */}
                         <Route path={inprogress.unactivated} exact component={InProgress} />

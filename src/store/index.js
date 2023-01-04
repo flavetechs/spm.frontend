@@ -20,6 +20,7 @@ import { pinReducer } from './reducers/pin-management-reducer'
 import { timetableReducer } from './reducers/timetable-reducer'
 import { dashboardReducer } from './reducers/dashboard-reducer'
 import { parentReducer } from './reducers/parent-reducer'
+import { adminAdmissionReducer } from './reducers/admin-admission-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -43,5 +44,6 @@ export default createStore(
         timetable: timetableReducer,
         dashboard: dashboardReducer,
         parent: parentReducer,
+        adminAdmission: adminAdmissionReducer,
     })
 )
