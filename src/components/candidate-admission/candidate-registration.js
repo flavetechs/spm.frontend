@@ -82,6 +82,7 @@ const CandidateRegistration = () => {
                     StateOfOrigin: "",
                     LGAOfOrigin: "",
                     Credentials: "",
+                    Photo: "",
                     ParentName: "",
                     ParentRelationship: "",
                     ParentPhoneNumber: "",
@@ -113,6 +114,7 @@ const CandidateRegistration = () => {
                     params.append("StateOfOrigin", values.StateOfOrigin);
                     params.append("LGAOfOrigin", values.LGAOfOrigin);
                     params.append("Credentials", values.Credentials);
+                    params.append("Photo", values.Photo);
                     params.append("ParentName", values.ParentName);
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
@@ -249,7 +251,7 @@ const CandidateRegistration = () => {
                                                         )}
                                                     </div>
                                                 </Row>
-                                                <div className="col-md-6 form-group">
+                                                <div className="col-md-12 form-group">
                                                     <label className="form-label" htmlFor="Email">
                                                         <b>Email Address:</b>
                                                     </label>
@@ -362,6 +364,23 @@ const CandidateRegistration = () => {
                                                             accept="image/*, application/pdf,"
                                                             onChange={(event) => {
                                                                 setFieldValue("Credentials", event.target.files[0])
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 form-group">
+                                                    <label className="form-label" htmlFor="Photo">
+                                                        <b>Choose Photo (optional):</b>
+                                                    </label>
+                                                    <div className="">
+                                                        <input
+                                                            type="file"
+                                                            id="Photo"
+                                                            name="Photo"
+                                                            className="form-control"
+                                                            accept="image/*"
+                                                            onChange={(event) => {
+                                                                setFieldValue("Photo", event.target.files[0])
                                                             }}
                                                         />
                                                     </div>
