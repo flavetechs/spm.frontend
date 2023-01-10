@@ -127,6 +127,7 @@ const CandidateEdit = () => {
                     params.append("StateOfOrigin", values.StateOfOrigin);
                     params.append("LGAOfOrigin", values.LGAOfOrigin);
                     params.append("Credentials", values.Credentials);
+                    params.append("Photo", values.Photo);
                     params.append("ParentName", values.ParentName);
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
@@ -262,7 +263,7 @@ const CandidateEdit = () => {
                                                         )}
                                                     </div>
                                                 </Row>
-                                                <div className="col-md-9 form-group">
+                                                <div className="col-md-12 form-group">
                                                     <label className="form-label" htmlFor="Email">
                                                         <b>Email Address:</b>
                                                     </label>
@@ -362,7 +363,7 @@ const CandidateEdit = () => {
                                                         ))}
                                                     </Field>
                                                 </div>
-                                                <div className="col-md-9 form-group">
+                                                <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="dd">
                                                         <b>Choose File (optional):</b>
                                                     </label>
@@ -380,29 +381,48 @@ const CandidateEdit = () => {
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 form-group">
+                                                    <label className="form-label" htmlFor="Photo">
+                                                        <b>Choose Photo (optional):</b>
+                                                    </label>
+                                                    <div className="">
+                                                        <input
+                                                            type="file"
+                                                            id="Photo"
+                                                            name="Photo"
+                                                            className="form-control"
+                                                            accept="image/*"
+                                                            onChange={(event) => {
+                                                                setFieldValue("Photo", event.target.files[0])
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="dd">
                                                         <b>Credential:</b>
                                                     </label>
                                                     <div className="">
-                                                        {singleAdmissionDetail?.credentials?.slice(singleAdmissionDetail?.credentials.length - 3) ===
-                                                            "jpg" ? (
-                                                            <div className="">
-                                                                <img 
-                                                                src={singleAdmissionDetail?.credentials}
+                                                        <div className="">
+                                                            <object data={singleAdmissionDetail?.credentials}
+                                                                width="250"
+                                                                height="250">
+                                                            </object>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 form-group">
+                                                    <label className="form-label" htmlFor="dd">
+                                                        <b>Photo:</b>
+                                                    </label>
+                                                    <div className="">
+                                                        <div className="">
+                                                            <img
+                                                                src={singleAdmissionDetail?.photo}
                                                                 width="250"
                                                                 height="250"
                                                                 alt="credential"
-                                                                />
-                                                            </div>
-                                                        ) : (
-                                                            <div className="">
-                                                                <object data={singleAdmissionDetail?.credentials}
-                                                                    width="250"
-                                                                    height="250">
-                                                                </object>
-                                                            </div>
-                                                        )
-                                                        }
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
