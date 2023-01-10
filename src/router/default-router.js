@@ -95,6 +95,7 @@ import SessionClassTableEdit from '../components/teachers-area/smp-session/sessi
 import SessionClassTableAdd from '../components/teachers-area/smp-session/session-class-add-table';
 import AdmissionList from '../components/teachers-area/smp-admission/admission-setup';
 import AdmissionDetail from '../components/teachers-area/smp-admission/admission-detail';
+import CBTAssessmentList from '../components/teachers-area/spm-class/assessment/cbt-assessment-list';
 
 const DashboardRouter = () => {
 
@@ -137,6 +138,7 @@ const DashboardRouter = () => {
                         <Route path={classLocations.printTimeTable} exact component={PrintTimeTable} />
                         <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
                         <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
+                        <Route path={classLocations.cbtAssessmentList} exact component={CBTAssessmentList} />
 
 
                         <Route path={classLocations.classGroup} exact component={ClassGroup} />

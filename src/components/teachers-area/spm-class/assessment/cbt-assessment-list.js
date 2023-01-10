@@ -1,8 +1,8 @@
 import { Field, Formik } from "formik";
 import { useState, useEffect } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {
   classLocations,
   inprogress,
@@ -14,6 +14,7 @@ import {
   getAllClassAssessment,
   getAllClassGroup,
   getAllHomeAssessment,
+  getCBTClassAssessment,
   getClassSubjects,
 } from "../../../../store/actions/class-actions";
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
@@ -26,7 +27,7 @@ import { HomeAssessmentList } from "./home-assement-list";
 import { ClassAssessmentList } from "./class-assessment-list";
 import { PaginationFilter2, PaginationFilter3 } from "../../../partials/components/pagination-filter";
 
-const AssessmentList = () => {
+const CBTAssessmentList = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
@@ -56,10 +57,11 @@ const AssessmentList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
-  const sessionClassSubjectIdQueryParam =
-    queryParams.get("sessionClassSubjectId") || "";
+  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || "";
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
+
+  console.log('assessmentList', assessmentList);
   useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, [dispatch]);
@@ -69,85 +71,18 @@ const AssessmentList = () => {
       if (sessionClassIdQueryParam) {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
-
-      if (
-        sessionClassSubjectIdQueryParam &&
-        typeQueryParam === "home-assessment"
-      ) {
-        getAllClassGroup(
-          sessionClassIdQueryParam,
-          sessionClassSubjectIdQueryParam
-        )(dispatch);
-      }
-
-      if (typeQueryParam === "home-assessment")
-        getAllHomeAssessment(
-          sessionClassIdQueryParam,
-          sessionClassSubjectIdQueryParam,
-          groupIdQueryParam,
-          1
-        )(dispatch);
-      if (typeQueryParam === "class-assessment")
-        getAllClassAssessment(
-          sessionClassIdQueryParam,
-          sessionClassSubjectIdQueryParam,
-          1
-        )(dispatch);
+      sessionClassIdQueryParam && getCBTClassAssessment(sessionClassIdQueryParam, 1)(dispatch);
+     
     };
 
     fetchAssessment();
   }, [
     sessionClassIdQueryParam,
     sessionClassSubjectIdQueryParam,
-    groupIdQueryParam,
     typeQueryParam,
   ]);
 
-  useEffect(() => {
-    if (dialogResponse === "continue") {
-      typeQueryParam === "home-assessment"
-        ? deleteHomeAssessment(
-            homeAssessmentId,
-            sessionClassIdQueryParam,
-            selectedSessionClassSubjectId,
-            groupIdQueryParam
-          )(dispatch)
-        : deleteClassAssessment(
-            classAssessmentId,
-            selectedSessionClassSubjectId,
-            sessionClassIdQueryParam
-          )(dispatch);
-      showHideDialog(false, null)(dispatch);
-      respondDialog("")(dispatch);
-      setShowMenuDropdown(false);
-    }
-    return () => {
-      respondDialog("")(dispatch);
-      showHideDialog(false, null)(dispatch);
-      setShowMenuDropdown(false);
-    };
-  }, [
-    dialogResponse,
-    dispatch,
-    classAssessmentId,
-    homeAssessmentId,
-    typeQueryParam,
-    selectedSessionClassSubjectId,
-  ]);
 
-  useEffect(() => {
-    createSuccessful &&
-      history.push(
-        `${classLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
-      );
-  }, [
-    createSuccessful,
-    history,
-    newClassAssessment?.classAssessmentId,
-    sessionClassSubjectIdQueryParam,
-    sessionClassIdQueryParam,
-    typeQueryParam,
-  ]);
 
   const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
@@ -173,33 +108,8 @@ const AssessmentList = () => {
               }}
               enableReinitialize={true}
               onSubmit={(values) => {
-                if (!typeQueryParam) {
-                  showErrorToast("Assessment Type is required")(dispatch);
-                  return;
-                }
-                if (!sessionClassIdQueryParam) {
-                  showErrorToast("Class is required")(dispatch);
-                  return;
-                }
-                if (!sessionClassSubjectIdQueryParam) {
-                  showErrorToast("Subject is required")(dispatch);
-                  return;
-                }
-                if (!groupIdQueryParam && typeQueryParam === "home-assessment") {
-                  showErrorToast("Please select a group of students")(dispatch);
-                  return;
-                }
-                else {
-                  if (typeQueryParam === "home-assessment") {
-                    history.push(
-                      `${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&sessionClassGroupId=${groupIdQueryParam}&type=${typeQueryParam}`
-                    );
-                  } else if (typeQueryParam === "class-assessment") {
-                    addClassAssessment(sessionClassSubjectIdQueryParam)(
-                      dispatch
-                    );
-                  }
-                }
+
+                ///SOME CODE
               }}
             >
               {({ handleSubmit, values, setFieldValue, errors, touched }) => (
@@ -211,7 +121,7 @@ const AssessmentList = () => {
                     }}
                   >
                     <div className="header-title">
-                      <h4 className="card-title mt-4">Assessment Board</h4>
+                      <h4 className="card-title mt-4">CBT Assessment Board</h4>
                     </div>
                     <div className="d-flex align-items-center mt-3 mb-n3">
                       <div className=" d-flex">
@@ -283,7 +193,7 @@ const AssessmentList = () => {
                               ></path>
                             </svg>
                           </i>
-                          <span>Create Assessment</span>
+                          <span>Create CBT Assessment</span>
                         </button>
                       </div>
                     </div>
@@ -337,14 +247,8 @@ const AssessmentList = () => {
                                     );
 
                                     e.target.value === "cbt"
-                                      ? history.push(inprogress.unactivated)
-                                      : history.push(
-                                          `${
-                                            classLocations.assessment
-                                          }?sessionClassId=${
-                                            e.target.value
-                                          }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
-                                        );
+                                      ? history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${e.target.value}&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`)
+                                      : history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${e.target.value}&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`);
                                   }}
                                 >
                                   <option value="">Select Class</option>
@@ -380,14 +284,12 @@ const AssessmentList = () => {
                                       e.target.value
                                     );
                                     e.target.value === "cbt"
-                                      ? history.push(inprogress.unactivated)
+                                      ? history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
                                       : history.push(
-                                          `${
-                                            classLocations.assessment
-                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
-                                            e.target.value
-                                          }&groupId=${""}&type=${typeQueryParam}`
-                                        );
+                                        `${classLocations.cbtAssessmentList
+                                        }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value
+                                        }&groupId=${""}&type=${typeQueryParam}`
+                                      );
                                   }}
                                 >
                                   <option value="">Select Subject</option>
@@ -402,120 +304,153 @@ const AssessmentList = () => {
                                 </Field>
                               </div>
                             </div>
-                            <div>
-                              <div
-                                className=" me-3 mx-2 mt-3 mt-lg-0 dropdown"
-                                style={{
-                                  display:
-                                    typeQueryParam === "class-assessment"
-                                      ? "none"
-                                      : "block",
-                                }}
-                              >
-                                <Field
-                                  as="select"
-                                  name="groupId"
-                                  disabled={
-                                    typeQueryParam &&
-                                    sessionClassIdQueryParam &&
-                                    sessionClassSubjectIdQueryParam
-                                      ? false
-                                      : true
-                                  }
-                                  className="form-select"
-                                  id="groupId"
-                                  onChange={(e) => {
-                                    setFieldValue("groupId", e.target.value);
 
-                                    e.target.value === "cbt"
-                                      ? history.push(inprogress.unactivated)
-                                      : history.push(
-                                          `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}&type=${typeQueryParam}`
-                                        );
-                                  }}
-                                >
-                                  <option value="">Select Group</option>
-                                  <option value="all-students">
-                                    All Students
-                                  </option>
-                                  {groupList?.map((item, idx) => (
-                                    <option key={idx} value={item.groupId}>
-                                      {item.groupName}
-                                    </option>
-                                  ))}
-                                </Field>
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </Card.Body>
                     </Card>
                     <Row className="">
-                      {filteredAssessmentList?.length === 0 &&
-                      !sessionClassIdQueryParam ? (
-                        <div className="jumbotron jumbotron-fluid">
-                          <div className="container d-flex justify-content-center mt-5 bg-white">
-                            <h2 className="display-4">
-                              Please select inputs above to view Assessment List
-                            </h2>
-                          </div>
-                        </div>
-                      ) : (
-                        filteredAssessmentList?.map((item, idx) =>
-                          typeQueryParam === "home-assessment" ? (
-                            <HomeAssessmentList
-                              item={item}
-                              idx={idx}
-                              key={idx}
-                              setShowMenuDropdown={setShowMenuDropdown}
-                              setIndexRow={setIndexRow}
-                              showMenuDropdown={showMenuDropdown}
-                              indexRow={indexRow}
-                              showHideDialog={showHideDialog}
-                              setHomeAssessmentId={setHomeAssessmentId}
-                              sessionClassIdQueryParam={
-                                sessionClassIdQueryParam
-                              }
-                              typeQueryParam={typeQueryParam}
-                              sessionClassSubjectIdQueryParam={
-                                sessionClassSubjectIdQueryParam
-                              }
-                              groupIdQueryParam={groupIdQueryParam}
-                              selectedSessionClassSubjectId={selectedSessionClassSubjectId}
-                            
-                            />
-                          ) : typeQueryParam === "class-assessment" ? (
-                            <ClassAssessmentList
-                              item={item}
-                              idx={idx}
-                              key={idx}
-                              setShowMenuDropdown={setShowMenuDropdown}
-                              setIndexRow={setIndexRow}
-                              showMenuDropdown={showMenuDropdown}
-                              indexRow={indexRow}
-                              showHideDialog={showHideDialog}
-                              setClassAssessmentId={setClassAssessmentId}
-                              sessionClassIdQueryParam={
-                                sessionClassIdQueryParam
-                              }
-                              typeQueryParam={typeQueryParam}
-                              sessionClassSubjectIdQueryParam={
-                                sessionClassSubjectIdQueryParam
-                              }
-                            />
-                          ) : null
-                        )
-                      )}
+                      <div className="table-responsive">
+                        <table
+                          id="role-list-table"
+                          className="table table-striped"
+                          role="grid"
+                          data-toggle="data-table"
+                        >
+                          {
+                            filteredAssessmentList?.length >= 0 || sessionClassIdQueryParam && (
+                              <thead>
+                                <tr className="ligth">
+
+                                  <th>
+                                    <b>Exam Name</b>
+                                  </th>
+                                  <th>
+                                    <b>Last Name</b>
+                                  </th>
+
+                                  <th>
+                                    <b>Email</b>
+                                  </th>
+                                  <th>
+                                    <b>Phone Number</b>
+                                  </th>
+                                  <th min-width="100px">
+                                    <b>Action</b>
+                                  </th>
+                                </tr>
+                              </thead>
+                            )
+                          }
+
+                          <tbody>
+
+                            {
+                              filteredAssessmentList?.length === 0 && !sessionClassIdQueryParam ? (
+                                <div className="jumbotron jumbotron-fluid">
+                                  <div className="container d-flex justify-content-center mt-5 bg-white">
+                                    <h2 className="display-4">
+                                      Please select inputs above to view Assessment List
+                                    </h2>
+                                  </div>
+                                </div>
+                              ) : (
+                                filteredAssessmentList?.map((item, idx) => {
+                                  return (
+
+                                    <tr key={idx}>
+
+                                      <td className="text-uppercase">
+                                        <b>{item.firstName}</b>
+                                      </td>
+                                      <td className="text-uppercase">
+                                        <b>{item.lastName}</b>
+                                      </td>
+                                      <td className="text-uppercase">
+                                        <b>{item.middleName}</b>
+                                      </td>
+                                      <td>
+                                        <b>{item.email}</b>
+                                      </td>
+
+                                      <td>
+                                        <div className="flex align-items-center list-user-action">
+                                          <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                              <Tooltip id="button-tooltip-2">
+                                                Staff Details
+                                              </Tooltip>
+                                            }
+                                          >
+                                            <Link
+                                              className="btn btn-sm btn-icon btn-success"
+                                              data-toggle="tooltip"
+                                              data-placement="top"
+                                              title=""
+                                              data-original-title="Details"
+                                              to={`${classLocations.cbtAssessmentList}`}
+                                            >
+                                              <span className="btn-inner">
+                                                <svg
+                                                  width="32"
+                                                  viewBox="0 0 24 24"
+                                                  fill="none"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                  <path
+                                                    fillRule="evenodd"
+                                                    clipRule="evenodd"
+                                                    d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                  ></path>
+                                                  <path
+                                                    d="M11.9946 16V12"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                  ></path>
+                                                  <path
+                                                    d="M11.9896 8.2041H11.9996"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                  ></path>
+                                                </svg>
+                                              </span>
+                                            </Link>
+                                          </OverlayTrigger>{" "}
+
+                                        </div>
+                                      </td>
+                                    </tr>
+
+
+                                  )
+                                }
+                                )
+                              )}
+
+
+
+                          </tbody>
+                        </table>
+                      </div>
                     </Row>
                   </Card.Body>
                   <Card.Footer>
-                 { typeQueryParam === "home-assessment" ?
-                <PaginationFilter3 filterProps={filterProps} action={getAllHomeAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam} param3={groupIdQueryParam}/>
-                :typeQueryParam === "class-assessment" &&
-                <PaginationFilter2 filterProps={filterProps} action={getAllClassAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam}/>
-              
-              }
-                </Card.Footer>
+                    {typeQueryParam === "home-assessment" ?
+                      <PaginationFilter3 filterProps={filterProps} action={getAllHomeAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam} param3={groupIdQueryParam} />
+                      : typeQueryParam === "class-assessment" &&
+                      <PaginationFilter2 filterProps={filterProps} action={getAllClassAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam} />
+
+                    }
+                  </Card.Footer>
                 </Card>
               )}
             </Formik>
@@ -526,4 +461,6 @@ const AssessmentList = () => {
   );
 };
 
-export default AssessmentList;
+export default CBTAssessmentList;
+
+

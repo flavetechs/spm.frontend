@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/class-action-types";
-import {  getAllSharedOnStaffClasses } from "./results-actions";
+import { getAllSharedOnStaffClasses } from "./results-actions";
 import { respondModal, showErrorToast, showSuccessToast } from "./toaster-actions";
 
 
@@ -266,7 +266,7 @@ export const updateSessionClassSubjects = (values) => (dispatch) => {
         type: actions.UPDATE_SUBJECT_LOADING
     });
 
-    axiosInstance.post('/class/api/v1/add-update/session-class-subjects',values )
+    axiosInstance.post('/class/api/v1/add-update/session-class-subjects', values)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SUBJECT_SUCCESS,
@@ -420,7 +420,7 @@ export const getAllActiveClasses = () => (dispatch) => {
 //GET ACTIVE CLASSES ACTION  HANDLER
 
 //CLASS SUBJECT IDS//
-export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject,subjectTeacherId,subjectTeacher, classSubjects, checkBoxValue = true) => (dispatch) => {
+export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject, subjectTeacherId, subjectTeacher, classSubjects, checkBoxValue = true) => (dispatch) => {
     var existingClassSubject = classSubjects.find(er => er.subjectId === subjectId);
     var otherClassSubject = classSubjects.filter(er => er.subjectId !== subjectId);
     if (existingClassSubject) {
@@ -574,7 +574,7 @@ export const createRegister = (sessionClass) => (dispatch) => {
         });
 }
 
-export const getAllClassRegister = (sessionClassId,termId,pageNumber) => (dispatch) => {
+export const getAllClassRegister = (sessionClassId, termId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_REGISTER_LOADING,
         payload: sessionClassId
@@ -594,7 +594,7 @@ export const getAllClassRegister = (sessionClassId,termId,pageNumber) => (dispat
         });
 }
 
-export const updateRegisterLabel = (classRegisterId, classRegisterLabel, sessionClassId,termId) => (dispatch) => {
+export const updateRegisterLabel = (classRegisterId, classRegisterLabel, sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CLASS_REGISTER_LABEL_LOADING
     });
@@ -605,7 +605,7 @@ export const updateRegisterLabel = (classRegisterId, classRegisterLabel, session
                 type: actions.UPDATE_CLASS_REGISTER_LABEL_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassRegister(sessionClassId,termId,1)(dispatch);
+            getAllClassRegister(sessionClassId, termId, 1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -616,7 +616,7 @@ export const updateRegisterLabel = (classRegisterId, classRegisterLabel, session
         });
 }
 
-export const deleteClassRegister = (classRegisterId, sessionClassId,termId) => (dispatch) => {
+export const deleteClassRegister = (classRegisterId, sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CLASS_REGISTER_LOADING
     });
@@ -627,7 +627,7 @@ export const deleteClassRegister = (classRegisterId, sessionClassId,termId) => (
                 type: actions.DELETE_CLASS_REGISTER_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassRegister(sessionClassId,termId,1)(dispatch)
+            getAllClassRegister(sessionClassId, termId, 1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -922,7 +922,7 @@ export const sendForApproval = (classNoteId) => (dispatch) => {
 }
 
 
-export const getAllLessonNotes = (classId,subjectId,status,termId,pageNumber) => (dispatch) => {
+export const getAllLessonNotes = (classId, subjectId, status, termId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_LESSON_NOTES_LOADING,
     });
@@ -966,7 +966,7 @@ export const getLessonNoteContent = (formData) => (dispatch) => {
         type: actions.FETCH_LESSON_NOTE_CONTENT_LOADING,
     });
 
-    axiosInstance.post('/homeassessment/api/v1/get/lessonnote-content',formData)
+    axiosInstance.post('/homeassessment/api/v1/get/lessonnote-content', formData)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_LESSON_NOTE_CONTENT_SUCCESS,
@@ -1076,7 +1076,7 @@ export const getRelatedNotes = (classNoteId) => (dispatch) => {
         });
 }
 
-export const deleteLessonNotes = (item, subjectId,classId,status,termId) => (dispatch) => {
+export const deleteLessonNotes = (item, subjectId, classId, status, termId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
     });
@@ -1089,7 +1089,7 @@ export const deleteLessonNotes = (item, subjectId,classId,status,termId) => (dis
                 type: actions.DELETE_LESSON_NOTES_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllLessonNotes(classId,subjectId,status,termId,1)(dispatch)
+            getAllLessonNotes(classId, subjectId, status, termId, 1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1232,7 +1232,7 @@ export const getLessonNoteDetails = (classNoteId) => (dispatch) => {
     })
 }
 
-export const getAllClassNotes = (subjectId,pageNumber,termId) => (dispatch) => {
+export const getAllClassNotes = (subjectId, pageNumber, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_NOTES_LOADING,
     });
@@ -1251,7 +1251,7 @@ export const getAllClassNotes = (subjectId,pageNumber,termId) => (dispatch) => {
         });
 }
 
-export const getAllStudentNotes = (subjectId, status,pageNumber,termId) => (dispatch) => {
+export const getAllStudentNotes = (subjectId, status, pageNumber, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_NOTES_LOADING,
     });
@@ -1289,7 +1289,7 @@ export const getSingleStudentNotes = (studentNoteId) => (dispatch) => {
         });
 }
 
-export const getStudentNotesByTeacher = (classId, subjectId, status,pageNumber) => (dispatch) => {
+export const getStudentNotesByTeacher = (classId, subjectId, status, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_NOTES_BY_TEACHER_LOADING,
     });
@@ -1352,7 +1352,7 @@ export const updateStudentNotes = (values) => (dispatch) => {
         });
 }
 
-export const deleteStudentNotes = (item, subjectId,status,termId) => (dispatch) => {
+export const deleteStudentNotes = (item, subjectId, status, termId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_LESSON_NOTES_LOADING
     });
@@ -1365,7 +1365,7 @@ export const deleteStudentNotes = (item, subjectId,status,termId) => (dispatch) 
                 type: actions.DELETE_LESSON_NOTES_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllStudentNotes(subjectId,status,1,termId)(dispatch)
+            getAllStudentNotes(subjectId, status, 1, termId)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1684,7 +1684,7 @@ export const getClassSubjects = (sessionClassId) => (dispatch) => {
 
 //ASSESSMENT ACTIONS
 
-export const getAllHomeAssessment = (sessionClassId, sessionClassSubjectId, groupId,pageNumber) => (dispatch) => {
+export const getAllHomeAssessment = (sessionClassId, sessionClassSubjectId, groupId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_HOME_ASSESSMENT_LOADING,
     });
@@ -1702,7 +1702,7 @@ export const getAllHomeAssessment = (sessionClassId, sessionClassSubjectId, grou
         });
 }
 
-export const getAllClassAssessment = (sessionClassId, sessionClassSubjectId,pageNumber) => (dispatch) => {
+export const getAllClassAssessment = (sessionClassId, sessionClassSubjectId, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CLASS_ASSESSMENT_LOADING,
     });
@@ -1715,6 +1715,24 @@ export const getAllClassAssessment = (sessionClassId, sessionClassSubjectId,page
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_CLASS_ASSESSMENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getCBTClassAssessment = (sessionClassId, pageNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_CBT_ASSESSMENT_LOADING,
+    });
+    axiosInstance.get(`/cbtassessment/api/v1/get/assessments?PageNumber=${pageNumber}&PageSize=${20}&sessionClassId=${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CBT_ASSESSMENT_LOADING,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_CBT_ASSESSMENT_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -1738,7 +1756,7 @@ export const getOpenStudentAssessment = () => (dispatch) => {
         });
 }
 
-export const getStatusFilterForStudentAssessment = (status,pageNumber) => (dispatch) => {
+export const getStatusFilterForStudentAssessment = (status, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_HOME_ASSESSMENT_LOADING,
     });
@@ -1846,12 +1864,12 @@ export const getAllSingleHomeAssessment = (homeassessmentId, homeassessmentFeedB
 
     var urls = [teacherHomeAssessmentUrl, studentHomeAssessmentUrl];
     Promise.all(urls).then(response => {
-      
+
         dispatch({
             type: actions.FETCH_STUDENTS_SINGLE_HOME_ASSESSMENT_SUCCESS,
             payload: response[1].data.result
         });
-        
+
         dispatch({
             type: actions.FETCH_SINGLE_HOME_ASSESSMENT_SUCCESS,
             payload: response[0].data.result
@@ -1882,7 +1900,7 @@ export const deleteHomeAssessment = (item, sessionClassId, sessionClassSubjectId
                 type: actions.DELETE_ASSESSMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllHomeAssessment(sessionClassId, sessionClassSubjectId, groupId,1)(dispatch);
+            getAllHomeAssessment(sessionClassId, sessionClassSubjectId, groupId, 1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1906,7 +1924,7 @@ export const closeHomeAssessment = (homeAssessmentId, sessionClassId, sessionCla
                 type: actions.CLOSE_ASSESSMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllHomeAssessment(sessionClassId, sessionClassSubjectId, groupId,1)(dispatch);
+            getAllHomeAssessment(sessionClassId, sessionClassSubjectId, groupId, 1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -1929,7 +1947,7 @@ export const createHomeAssessment = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
-            getAllHomeAssessment(values.sessionClassId, values.sessionClassSubjectId, values.sessionClassGroupId,1)(dispatch);
+            getAllHomeAssessment(values.sessionClassId, values.sessionClassSubjectId, values.sessionClassGroupId, 1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -1977,7 +1995,7 @@ export const updateHomeAssessment = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
-            getAllHomeAssessment(values.sessionClassId, values.sessionClassSubjectId, values.sessionClassGroupId,1)(dispatch);
+            getAllHomeAssessment(values.sessionClassId, values.sessionClassSubjectId, values.sessionClassGroupId, 1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -1988,12 +2006,12 @@ export const updateHomeAssessment = (values) => (dispatch) => {
         });
 }
 
-export const deleteClassAssessment = (classAssessmentId, selectedSessionClassSubjectId,sessionClassId) => (dispatch) => {
+export const deleteClassAssessment = (classAssessmentId, selectedSessionClassSubjectId, sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_ASSESSMENT_LOADING
     });
     const payload = {
-        item:classAssessmentId, 
+        item: classAssessmentId,
     }
     axiosInstance.post(`/classassessment/api/v1/delete/class-assessment`, payload)
         .then((res) => {
@@ -2001,7 +2019,7 @@ export const deleteClassAssessment = (classAssessmentId, selectedSessionClassSub
                 type: actions.DELETE_ASSESSMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllClassAssessment(sessionClassId,selectedSessionClassSubjectId,1)(dispatch);
+            getAllClassAssessment(sessionClassId, selectedSessionClassSubjectId, 1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -2086,11 +2104,11 @@ export const submitHomeAssessmentFeedback = (homeAssessmentFeedBackId, score, co
                 type: actions.SUBMIT_ASSESSMENT_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
-           showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
         });
 }
 
-export const submitStudentAssessment = (formData,status) => (dispatch) => {
+export const submitStudentAssessment = (formData, status) => (dispatch) => {
     dispatch({
         type: actions.SUBMIT_ASSESSMENT_LOADING
     });
@@ -2102,14 +2120,14 @@ export const submitStudentAssessment = (formData,status) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             resetCreateSuccessfulState()(dispatch);
-            getStatusFilterForStudentAssessment(status,1)(dispatch)
+            getStatusFilterForStudentAssessment(status, 1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
                 type: actions.SUBMIT_ASSESSMENT_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
-        
+
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
         });
 }
@@ -2166,7 +2184,7 @@ export const getScoreRecords = (homeAssessmentId) => (dispatch) => {
         type: actions.FETCH_SCORE_RECORD_LOADING
     });
 
-    axiosInstance.post('/homeassessment/api/v1/get/home-assessment/score-record', {homeAssessmentId})
+    axiosInstance.post('/homeassessment/api/v1/get/home-assessment/score-record', { homeAssessmentId })
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SCORE_RECORD_SUCCESS,
@@ -2195,7 +2213,7 @@ export const includeClassToScoreRecord = (homeAssessmentId) => (dispatch) => {
                 type: actions.INCLUDE_CLASS_SCORE_RECORD_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getScoreRecords (homeAssessmentId)(dispatch)
+            getScoreRecords(homeAssessmentId)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch((err) => {
             dispatch({
@@ -2206,7 +2224,7 @@ export const includeClassToScoreRecord = (homeAssessmentId) => (dispatch) => {
         });
 }
 
-export const includeStudentToScoreRecord = (homeAssessmentFeedBackId,homeAssessmentId) => (dispatch) => {
+export const includeStudentToScoreRecord = (homeAssessmentFeedBackId, homeAssessmentId) => (dispatch) => {
     dispatch({
         type: actions.INCLUDE_STUDENT_SCORE_RECORD_LOADING
     });
@@ -2234,19 +2252,19 @@ export const includeStudentToScoreRecord = (homeAssessmentFeedBackId,homeAssessm
 export const fetchData = (sessionClassIdQuery, sessionClassSubjectIdQuery, classAssessmentIdQuery) => async (dispatch) => {
 
     dispatch({
-        type: actions.FETCH_ASSESSMENT_SCORE_LOADING, 
+        type: actions.FETCH_ASSESSMENT_SCORE_LOADING,
     });
 
     dispatch({
-        type: actions.FETCH_CLASS_SUBJECTS_LOADING, 
+        type: actions.FETCH_CLASS_SUBJECTS_LOADING,
     });
 
     dispatch({
-        type: actions.FETCH_GROUP_LOADING, 
+        type: actions.FETCH_GROUP_LOADING,
     });
 
     dispatch({
-        type: actions.FETCH_SINGLE_CLASS_ASSESSMENT_LOADING, 
+        type: actions.FETCH_SINGLE_CLASS_ASSESSMENT_LOADING,
     });
 
     dispatch({
@@ -2316,4 +2334,4 @@ export const fetchData = (sessionClassIdQuery, sessionClassSubjectIdQuery, class
     })
 }
 
-   
+
