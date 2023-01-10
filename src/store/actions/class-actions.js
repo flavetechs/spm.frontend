@@ -1727,7 +1727,7 @@ export const getCBTClassAssessment = (sessionClassId, pageNumber) => (dispatch) 
     axiosInstance.get(`/cbtassessment/api/v1/get/assessments?PageNumber=${pageNumber}&PageSize=${20}&sessionClassId=${sessionClassId}`)
         .then((res) => {
             dispatch({
-                type: actions.FETCH_CBT_ASSESSMENT_LOADING,
+                type: actions.FETCH_CBT_ASSESSMENT_SUCCESS,
                 payload: res.data.result
             });
         }).catch((err) => {

@@ -1,6 +1,6 @@
 import { Field, Formik } from "formik";
 import { useState, useEffect } from "react";
-import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Badge, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import {
@@ -25,7 +25,7 @@ import {
 } from "../../../../store/actions/toaster-actions";
 import { HomeAssessmentList } from "./home-assement-list";
 import { ClassAssessmentList } from "./class-assessment-list";
-import { PaginationFilter2, PaginationFilter3 } from "../../../partials/components/pagination-filter";
+import { PaginationFilter1, PaginationFilter2, PaginationFilter3 } from "../../../partials/components/pagination-filter";
 
 const CBTAssessmentList = () => {
   //VARIABLE DECLARATIONS
@@ -61,7 +61,7 @@ const CBTAssessmentList = () => {
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
 
-  console.log('assessmentList', assessmentList);
+
   useEffect(() => {
     getAllStaffClasses()(dispatch);
   }, [dispatch]);
@@ -72,15 +72,11 @@ const CBTAssessmentList = () => {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
       sessionClassIdQueryParam && getCBTClassAssessment(sessionClassIdQueryParam, 1)(dispatch);
-     
+
     };
 
     fetchAssessment();
-  }, [
-    sessionClassIdQueryParam,
-    sessionClassSubjectIdQueryParam,
-    typeQueryParam,
-  ]);
+  }, [sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, typeQueryParam]);
 
 
 
@@ -318,22 +314,26 @@ const CBTAssessmentList = () => {
                           data-toggle="data-table"
                         >
                           {
-                            filteredAssessmentList?.length >= 0 || sessionClassIdQueryParam && (
+                            sessionClassIdQueryParam && (
                               <thead>
                                 <tr className="ligth">
-
                                   <th>
-                                    <b>Exam Name</b>
+                                    <b>Examination Name</b>
                                   </th>
                                   <th>
-                                    <b>Last Name</b>
-                                  </th>
-
-                                  <th>
-                                    <b>Email</b>
+                                    <b>Examination ID</b>
                                   </th>
                                   <th>
-                                    <b>Phone Number</b>
+                                    <b>DATE CREATED</b>
+                                  </th>
+                                  <th>
+                                    <b>Status</b>
+                                  </th>
+                                  <th>
+                                    <b>Percentage Passed</b>
+                                  </th>
+                                  <th>
+                                    <b>Target</b>
                                   </th>
                                   <th min-width="100px">
                                     <b>Action</b>
@@ -361,18 +361,44 @@ const CBTAssessmentList = () => {
                                     <tr key={idx}>
 
                                       <td className="text-uppercase">
-                                        <b>{item.firstName}</b>
+                                        <b>{item.examName_Subject}</b>
                                       </td>
                                       <td className="text-uppercase">
-                                        <b>{item.lastName}</b>
+                                        <b>{item.candidateExaminationId}</b>
                                       </td>
                                       <td className="text-uppercase">
-                                        <b>{item.middleName}</b>
+                                        <b>{item.createdOn}</b>
+                                      </td>
+                                      <td className="fw-bold text-start text-uppercase">
+                                        <Badge
+                                          bg={
+                                            item.status == 2
+                                              ? "success"
+                                              : item.status == 0
+                                                ? "warning"
+                                                : item.status == 1
+                                                  ? "primary"
+                                                  : "danger"
+                                          }
+                                        >
+                                          {item.status == 0
+                                            ? "waiting"
+                                            : item.status == 1
+                                              ? "in progress"
+                                              : item.status == 2
+                                                ? "concluded"
+                                                : item.status == 3
+                                                  ? "cancelled"
+                                                  : ""}
+                                        </Badge>
                                       </td>
                                       <td>
-                                        <b>{item.email}</b>
+                                        <b>{item.useAsExamScore === true && 'Examination'}</b>
+                                        <b>{item.useAsAssessmentScore === true && 'Assessment'}</b>
                                       </td>
-
+                                      <td>
+                                        <b>{item.percentage}</b>
+                                      </td>
                                       <td>
                                         <div className="flex align-items-center list-user-action">
                                           <OverlayTrigger
@@ -444,12 +470,7 @@ const CBTAssessmentList = () => {
                     </Row>
                   </Card.Body>
                   <Card.Footer>
-                    {typeQueryParam === "home-assessment" ?
-                      <PaginationFilter3 filterProps={filterProps} action={getAllHomeAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam} param3={groupIdQueryParam} />
-                      : typeQueryParam === "class-assessment" &&
-                      <PaginationFilter2 filterProps={filterProps} action={getAllClassAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam} param2={sessionClassSubjectIdQueryParam} />
-
-                    }
+                  <PaginationFilter1 filterProps={filterProps} action={getCBTClassAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam}  />
                   </Card.Footer>
                 </Card>
               )}
