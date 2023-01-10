@@ -8,4 +8,5 @@ export const _state = {
     submitSuccessful: false,
     selectedIds: [],
     sessionClasses2: [],
+    adminAdmissionClasses: [],
   };

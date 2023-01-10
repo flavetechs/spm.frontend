@@ -25,6 +25,8 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
         adminAdmissionList: payload,
       };
 
+
+
     case actions.FETCH_ALL_ADMISSION_LIST_LOADING:
       return {
         ...state,
@@ -42,6 +44,31 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
       };
 
     case actions.FETCH_ALL_ADMISSION_LIST_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload,
+      };
+
+
+    case actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
+
+    case actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        adminAdmissionClasses: payload,
+        isSuccessful: true,
+      };
+
+    case actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_FAILED:
       return {
         ...state,
         loading: false,
@@ -125,6 +152,57 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
     //     ...state,
 
     //   }
+
+    case actions.ENROLL_SINGLE_CANDIDATE_FAILED:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+        submitSuccessful: false,
+      };
+    case actions.ENROLL_SINGLE_CANDIDATE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+        submitSuccessful: true,
+      };
+    case actions.ENROLL_SINGLE_CANDIDATE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+        submitSuccessful: false,
+      };
+
+      
+      case actions.ENROLL_MULTIPLE_CANDIDATE_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+          message: "",
+          submitSuccessful: false,
+        };
+      case actions.ENROLL_MULTIPLE_CANDIDATE_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload,
+          submitSuccessful: true,
+        };
+      case actions.ENROLL_MULTIPLE_CANDIDATE_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          loading: false,
+          message: payload,
+          submitSuccessful: false,
+        };
 
     default:
       return state;

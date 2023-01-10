@@ -23,13 +23,13 @@ const AdmissionDetail = () => {
   const state = useSelector((state) => state);
   const { selectedAdmissionDetail } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
+  const queryParams = new URLSearchParams(locations.search);
+  const admissionIdQuery = queryParams.get("admissionId");
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const admissionIdQuery = queryParams.get("admissionId");
     if (!admissionIdQuery) return;
     fetchSingleAdminAdmissionDetail(admissionIdQuery)(dispatch);
-  }, [dispatch,locations.search]);
+  }, [dispatch, admissionIdQuery]);
 
   return (
     <>
@@ -45,7 +45,7 @@ const AdmissionDetail = () => {
               <Form className="">
                 <div className="form-group">
                   {!selectedAdmissionDetail?.credentials ? (
-                    <div>
+                    <div className="bg-warning">
                       <img
                         src={avatars1}
                         alt="User-Profile"
@@ -78,9 +78,19 @@ const AdmissionDetail = () => {
                       />
                     </div>
                   ) : (
-                    <img  className="img-fluid mt-4" src={selectedAdmissionDetail?.credentials} alt="profile" />
+                    <img className="img-fluid mt-4" src={selectedAdmissionDetail?.photo} alt="profile" />
                   )}
+                  <div className="bg-success img-fluid">
+                    <p>Credential</p>
+                    <object
+                      className="w-25"
+                     data={selectedAdmissionDetail?.credentials}
+                      width=""
+                      height="">
+                    </object>
+                  </div>
                 </div>
+
               </Form>
             </div>
           </Card>
@@ -98,7 +108,7 @@ const AdmissionDetail = () => {
               <div className="new-user-info">
                 <Form>
                   <div className="row">
-                  <div className="col-md-12  form-group">
+                    <div className="col-md-12  form-group">
                       <p><span>Class:</span><span className="h6"> {selectedAdmissionDetail?.className}</span></p>
                     </div>
                     <div className="col-md-6 form-group">

@@ -22,11 +22,11 @@ export const returnList = (items) => (dispatch) => {
     })
 }
 
-export const fetchAllAdminAdmissionList = (pageNumber) => (dispatch) => {
+export const fetchAllAdminAdmissionList = (pageNumber, classId, examStatus) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ALL_ADMISSION_LIST_LOADING
     });
-    axiosInstance.get(`/smp/api/v1/admission/get-all-admission?PageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/api/v1/admission/get-all-admission?PageNumber=${pageNumber}&classId=${classId}&examStatus=${examStatus}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ALL_ADMISSION_LIST_SUCCESS,
@@ -58,11 +58,16 @@ export const fetchSingleAdminAdmissionDetail = (admissionId) => (dispatch) => {
         });
 }
 
-export const admissionExportToCBT = (values) => (dispatch) => {
+export const admissionExportToCBT = (selectedClassId, categoryName) => (dispatch) => {
     dispatch({
         type: actions.ADMISSION_EXPORT_TO_CBT_LOADING
     });
-    axiosInstance.post('/smp/api/v1/admission/admission/export-to-cbt', values)
+
+    const payload = {
+        classId: selectedClassId,
+        categoryName
+    }
+    axiosInstance.post('/smp/api/v1/admission/admission/export-to-cbt', payload)
         .then((res) => {
             dispatch({
                 type: actions.ADMISSION_EXPORT_TO_CBT_SUCCEESS,
@@ -93,5 +98,73 @@ export const getSessionClasses2 = () => (dispatch) => {
                 type: actions.FETCH_SESSION_CLASSES2_FAILED,
                 payload: err.response.data.result
             })
+        });
+}
+
+export const getAdminAdmissionClasses = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_LOADING
+    });
+    axiosInstance.get(`/smp/api/v1/admission/get-admission-classes`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const enrollSingleCandidate = (selectedIds, selectedSessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.ENROLL_SINGLE_CANDIDATE_LOADING
+    });
+
+    const payload = {
+        admissionId: selectedIds[0],
+        sessionClassId: selectedSessionClassId
+    }
+    axiosInstance.post('/smp/api/v1/admission/enroll-candidate', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ENROLL_SINGLE_CANDIDATE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.ENROLL_SINGLE_CANDIDATE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId) => (dispatch) => {
+    dispatch({
+        type: actions.ENROLL_MULTIPLE_CANDIDATE_LOADING
+    });
+
+    const payload = {
+        admissionIds: selectedIds,
+        sessionClassId: selectedSessionClassId
+    }
+    axiosInstance.post('/smp/api/v1/admission/enroll-candidates', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.ENROLL_MULTIPLE_CANDIDATE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.ENROLL_MULTIPLE_CANDIDATE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }

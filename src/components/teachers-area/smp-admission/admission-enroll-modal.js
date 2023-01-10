@@ -5,23 +5,30 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
-import { getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
+import { enrollMultipleCandidates, enrollSingleCandidate, getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
-export function AdmissionEnrolModal() {
+export function AdmissionEnrolModal({ selectedIds }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
-    const [activity, setActivity] = useState('');
+    const [selectedSessionClassId, seSelectedSessionClassId] = useState('');
     //VARIABLE DECLARATION
 
     //ACCESSING REDUX STATE
     const state = useSelector((state) => state);
     const { sessionClasses2 } = state.adminAdmission;
+    const { showModal } = state.alert;
     //ACCESSING REDUX STATE
 
     React.useEffect(() => {
         getSessionClasses2()(dispatch);
     }, []);
+
+    React.useEffect(() => {
+        if (!showModal) {
+            seSelectedSessionClassId("");
+        }
+    }, [showModal]);
 
     return (
 
@@ -37,6 +44,7 @@ export function AdmissionEnrolModal() {
                                     name="ggf"
                                     id="dd"
                                     value={item.sessionClassId}
+                                    onChange={(e) => seSelectedSessionClassId(e.target.value)}
                                 />
                                 <label className="form-check-label me-3" htmlFor="ggf">
                                     {" "}  {item.class}
@@ -59,7 +67,11 @@ export function AdmissionEnrolModal() {
                             variant="primary"
                             className=""
                             onClick={() => {
-                                // updateTimetableActivity(activity, selectedActivityId, selectedClassId)(dispatch);
+                                if (selectedIds.length === 1) {
+                                    enrollSingleCandidate(selectedIds, selectedSessionClassId)(dispatch);
+                                } else if(selectedIds.length > 1) {
+                                    enrollMultipleCandidates(selectedIds, selectedSessionClassId)(dispatch);
+                                }
                                 showHideModal(false)(dispatch);
                             }}
                         >
