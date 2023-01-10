@@ -147,12 +147,6 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
         message: payload,
       };
 
-    // case actions.FETCH_SESSION_CLASSES2_LOADING:
-    //   return {
-    //     ...state,
-
-    //   }
-
     case actions.ENROLL_SINGLE_CANDIDATE_FAILED:
       return {
         ...state,
