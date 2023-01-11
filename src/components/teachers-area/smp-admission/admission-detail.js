@@ -1,13 +1,7 @@
 import React from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import avatars1 from "../../../assets/images/avatars/01.png";
-import avatars2 from "../../../assets/images/avatars/avtar_1.png";
-import avatars3 from "../../../assets/images/avatars/avtar_2.png";
-import avatars4 from "../../../assets/images/avatars/avtar_3.png";
-import avatars5 from "../../../assets/images/avatars/avtar_4.png";
-import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 
 import { fetchSingleAdminAdmissionDetail } from "../../../store/actions/admin-admission-actions";
 import Card from "../../Card";
@@ -23,69 +17,18 @@ const AdmissionDetail = () => {
   const state = useSelector((state) => state);
   const { selectedAdmissionDetail } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
+  const queryParams = new URLSearchParams(locations.search);
+  const admissionIdQuery = queryParams.get("admissionId");
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const admissionIdQuery = queryParams.get("admissionId");
     if (!admissionIdQuery) return;
     fetchSingleAdminAdmissionDetail(admissionIdQuery)(dispatch);
-  }, [dispatch,locations.search]);
+  }, [dispatch, admissionIdQuery]);
 
   return (
     <>
       <Row>
-        <Col>
-          <Card>
-            <div className="card-header d-flex justify-content-between d-flex justify-content-between">
-              <div className="header-title">
-                <h4 className="card-title">Candidate Details</h4>
-              </div>
-            </div>
-            <div className="card-body ">
-              <Form className="">
-                <div className="form-group">
-                  {!selectedAdmissionDetail?.credentials ? (
-                    <div>
-                      <img
-                        src={avatars1}
-                        alt="User-Profile"
-                        className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars2}
-                        alt="User-Profile"
-                        className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars3}
-                        alt="User-Profile"
-                        className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars5}
-                        alt="User-Profile"
-                        className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars6}
-                        alt="User-Profile"
-                        className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars4}
-                        alt="User-Profile"
-                        className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                    </div>
-                  ) : (
-                    <img  className="img-fluid mt-4" src={selectedAdmissionDetail?.credentials} alt="profile" />
-                  )}
-                </div>
-              </Form>
-            </div>
-          </Card>
-        </Col>
-        <div className="col-xl-9 col-lg-8">
+        <div className="col-xl-9 col-lg-8 mx-auto">
           <div className="card ">
             <div className="card-header d-flex justify-content-between d-flex justify-content-between">
               {" "}
@@ -98,7 +41,7 @@ const AdmissionDetail = () => {
               <div className="new-user-info">
                 <Form>
                   <div className="row">
-                  <div className="col-md-12  form-group">
+                    <div className="col-md-12  form-group">
                       <p><span>Class:</span><span className="h6"> {selectedAdmissionDetail?.className}</span></p>
                     </div>
                     <div className="col-md-6 form-group">
@@ -125,8 +68,36 @@ const AdmissionDetail = () => {
                     <div className="col-md-6 form-group">
                       <p><span>State:</span> <span className="h6 text-capitalize"> {selectedAdmissionDetail?.stateOfOrigin}</span></p>
                     </div>
-                    <div className="col-md-6 form-group text-capitalize">
+                    <div className="col-md-12 form-group text-capitalize">
                       <p><span>Country:</span><span className="h6 text-capitalize"> {selectedAdmissionDetail?.countryOfOrigin}</span></p>
+                    </div>
+                    <div className="col-md-6 form-group">
+                      <label className="form-label" htmlFor="dd">
+                        <b>Credential:</b>
+                      </label>
+                      <div className="">
+                        {!selectedAdmissionDetail?.credentials ?
+                          <div>No Available Credential</div>
+                          :
+                          <object data={selectedAdmissionDetail?.credentials}
+                            width="250"
+                            height="250">
+                          </object>
+                        }
+                      </div>
+                    </div>
+                    <div className="col-md-6 form-group">
+                      <label className="form-label" htmlFor="dd">
+                        <b>Photo:</b>
+                      </label>
+                      <div>
+                        <img className=""
+                          src={selectedAdmissionDetail?.photo}
+                          alt="Photo Document"
+                          height="250px"
+                          width="250px"
+                        />
+                      </div>
                     </div>
                   </div>
                   <hr />

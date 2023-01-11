@@ -5,4 +5,8 @@ export const _state = {
     adminAdmissionList:[],
     selectedAdmissionDetail: {},
     filterProps: {},
+    submitSuccessful: false,
+    selectedIds: [],
+    sessionClasses2: [],
+    adminAdmissionClasses: [],
   };
