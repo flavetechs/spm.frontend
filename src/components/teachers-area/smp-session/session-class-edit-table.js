@@ -7,14 +7,12 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  updateSessionClass,
   buildClassSubjectArray as buildSessionClassSubjectArray,
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
   getAllSessionClasses,
   fetchSingleSessionClass,
-  updateClassSubjects,
   updateSessionClassSubjects,
 } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
@@ -24,7 +22,7 @@ const SessionClassTableEdit = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     // classId: Yup.string().required("Class is required"),
-    formTeacherId: Yup.string().required("Form teacher is required"),
+    //formTeacherId: Yup.string().required("Form teacher is required"),
     examScore: Yup.number()
       .required("Examination score is required")
       .min(0, "Examination score must not be below 0")
@@ -33,10 +31,6 @@ const SessionClassTableEdit = () => {
       .required("Assessment score is required")
       .min(0, "Assessment score must not be below 0")
       .max(100, "Assessment score must not be above 100"),
-    passMark: Yup.number()
-      .required("Pass Mark is required")
-      .min(0, "Pass Mark score must not be below 0")
-      .max(100, "Pass Mark score must not be above 100"),
     subjectExamScore: Yup.number()
       .required("Subject Examination score is required")
       .min(0, "Subject Examination score must not be below 0")
@@ -52,11 +46,9 @@ const SessionClassTableEdit = () => {
   const state = useSelector((state) => state);
   const {
    createSuccessful,
-    message,
     selectedItem,
     activeTeachers,
     activeSubjects,
-    activeClasses,
     classSubjects,
   } = state.class;
   const { activeSession } = state.session;
@@ -135,7 +127,7 @@ const SessionClassTableEdit = () => {
       subjectTeacherId || "",
       subjectTeacher || "",
       classSubjects,
-      true
+      event.target.checked
     )(dispatch);
   };
 
@@ -183,7 +175,8 @@ const SessionClassTableEdit = () => {
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-console.log("classSubjects",classSubjects);
+//console.log("classSubjects",classSubjects);
+
   return (
     <>
       <div className="col-md-10 mx-auto">

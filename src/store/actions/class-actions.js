@@ -195,25 +195,25 @@ export const createSubject = (subject) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
-export const createSessionClassSubject = (subject) => (dispatch) => {
-    dispatch({
-        type: actions.CREATE_SUBJECT_LOADING
-    });
-    axiosInstance.post('/subject/api/v1/create/subject', subject)
-        .then((res) => {
-            dispatch({
-                type: actions.CREATE_SUBJECT_SUCCESS,
-                payload: res.data.message.friendlyMessage
-            });
-            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
-        }).catch((err) => {
-            dispatch({
-                type: actions.CREATE_SUBJECT_FAILED,
-                payload: err.response.data.message.friendlyMessage
-            });
-            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
-        });
-}
+// export const createSessionClassSubject = (subject) => (dispatch) => {
+//     dispatch({
+//         type: actions.CREATE_SUBJECT_LOADING
+//     });
+//     axiosInstance.post('/subject/api/v1/create/subject', subject)
+//         .then((res) => {
+//             dispatch({
+//                 type: actions.CREATE_SUBJECT_SUCCESS,
+//                 payload: res.data.message.friendlyMessage
+//             });
+//             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+//         }).catch((err) => {
+//             dispatch({
+//                 type: actions.CREATE_SUBJECT_FAILED,
+//                 payload: err.response.data.message.friendlyMessage
+//             });
+//             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+//         });
+// }
 
 export const deleteSubject = (subjectId) => (dispatch) => {
     dispatch({
@@ -433,7 +433,7 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
             existingClassSubject.assessment = assessment === "" ? existingClassSubject.assessment : assessment;
             classSubjects = [...otherClassSubject, existingClassSubject]
         } else {
-            classSubjects = [...otherClassSubject]
+           classSubjects = [...otherClassSubject]
         }
     } else {
         let newClassSubject = {

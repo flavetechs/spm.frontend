@@ -102,6 +102,45 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 message: payload,
                 isSuccessful: false,
             }
+
+            case actions.CBT_LOGIN_LOADING:
+                return {
+                    ...state,
+                    loading: true,
+                    message: '',
+                    cbtToken: '',
+                    cbtRefreshToken: '',
+                    isSuccessful: false,
+                }
+    
+            case actions.CBT_LOGIN_SUCCESS: {
+                sessionStorage.removeItem('cbtToken');
+                const decodedToken = jwt<any>(payload.authResult.token);
+                sessionStorage.setItem('cbtToken', payload.authResult.token);
+                sessionStorage.setItem('user', JSON.stringify(decodedToken));
+                sessionStorage.setItem('clientUrl',payload.clientUrl);
+                sessionStorage.setItem('userEmail',payload.userDetails.email)
+                
+                return {
+                    ...state,
+                    loading: false,
+                    cbtToken: payload.authResult.token,
+                    cbtRefreshToken: payload.authResult.refreshToken,
+                    message: '',
+                    isSuccessful: true,
+                }
+            }
+    
+            case actions.CBT_LOGIN_FAILED:
+                return {
+                    ...state,
+                    loading: false,
+                    cbtToken: null,
+                    cbtRefreshToken: null,
+                    message: payload,
+                    isSuccessful: false,
+                }
+
         default:
             return state
     }

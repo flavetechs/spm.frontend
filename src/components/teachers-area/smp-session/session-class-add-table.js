@@ -11,9 +11,9 @@ import {
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  createSessionClassSubject,
+  updateSessionClassSubjects,
 } from "../../../store/actions/class-actions";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 
@@ -22,10 +22,8 @@ const SessionClassTableAdd = () => {
   const state = useSelector((state) => state);
   const {
     createSuccessful,
-    message,
     activeTeachers,
     activeSubjects,
-    activeClasses,
     classSubjects,
   } = state.class;
 
@@ -35,12 +33,18 @@ const SessionClassTableAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
+  const locations = useLocation();
   const [examScore, setExamScore] = useState(70);
   const [assessmentScore, setAssessmentScore] = useState(30);
+  const queryParams = new URLSearchParams(locations.search);
+  const classId = queryParams.get("classId");
+  const formTeacherId = queryParams.get("formTeacherId");
   const [initialValues, setInitialValues] = useState({
     sessionId: activeSession?.session,
-    classId: "",
-    formTeacherId: "",
+    classId,
+    formTeacherId,
+    sessionClassId
+: "b0bea7c2-99d1-49ae-ccbb-08daf3cd2907",
     InSession: true,
     examScore: 70,
     assessmentScore: 30,
@@ -88,7 +92,7 @@ const SessionClassTableAdd = () => {
       subjectTeacherId || "",
       subjectTeacher || "",
       classSubjects,
-      true
+      event.target.checked
     )(dispatch);
   };
 
@@ -149,7 +153,6 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                     values.subjectList = classSubjects;
                     const score =
                       Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
@@ -165,9 +168,9 @@ console.log("classSubjects",classSubjects);
                       if (!classSubjects[i].examSCore)
                         classSubjects[i].examSCore = values.examScore;
                     }
-                    values.classSubjects = classSubjects;
+                    values.subjectList = classSubjects;
 
-                    createSessionClassSubject(values)(dispatch);
+                    updateSessionClassSubjects(values)(dispatch);
                   }}
                 >
                   {({

@@ -1,9 +1,9 @@
 import axios from 'axios';
 const axiosInstance = axios.create({
     // baseURL: process.env.NODE_ENV === "development" ? 'http://flavetechs.com/smp/development/' : "http://flavetechs.com/smp/staging/",
-    baseURL: 'https://localhost:44373/',
+   // baseURL: 'https://localhost:44373/',
     // baseURL: 'http://flavetechs.com/smp/development/',
-    //  baseURL: 'http://flavetechs.com/smp/staging/',
+      baseURL: 'http://flavetechs.com/smp/staging/',
     headers: {
         Authorization: '',
     },
@@ -51,12 +51,18 @@ axiosInstance.interceptors.request.use(
         // }
         const sessionToken = await localStorage.getItem('token');
         const emailSessionToken = await localStorage.getItem('emailToken');
+        const cbtToken = await sessionStorage.getItem('cbtToken');
         if (sessionToken) {
             config.headers.Authorization = 'Bearer ' + sessionToken
             
             return config;
         } else if (emailSessionToken) {
             config.headers.Authorization = 'Bearer ' + emailSessionToken
+            
+            return config;
+        }
+        if(cbtToken){
+            config.headers.Authorization = 'Bearer ' + sessionToken
             
             return config;
         }
