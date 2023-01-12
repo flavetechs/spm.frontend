@@ -103,7 +103,6 @@ const StudentDetails = () => {
               {" "}
               <div className="new-user-info">
                 <Form>
-                  {message && <div className="text-danger">{message}</div>}
                   <div className="row">
                   <div className="col-md-12  form-group">
                       <p><span>Class:</span><span className="h6"> {selectedStudent?.sessionClass}</span></p>

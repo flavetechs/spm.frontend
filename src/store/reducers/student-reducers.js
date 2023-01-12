@@ -117,6 +117,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
+        message: "",
       };
     case actions.FETCH_SINGLE_STUDENT_SUCCESS:
       return {
