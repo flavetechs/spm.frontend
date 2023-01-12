@@ -438,7 +438,6 @@ const StudentEdit = () => {
                             id="email"
                             name="email"
                             className="form-control text-lowercase"
-                            required
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -662,7 +661,6 @@ const StudentEdit = () => {
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
                             className="form-control text-lowercase"
-                            required
                           />
                         </div>
                       </div>

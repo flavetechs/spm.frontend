@@ -404,7 +404,6 @@ const StudentAdd = () => {
                             id="email"
                             name="email"
                             className="form-control text-lowercase"
-                            required
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -618,7 +617,6 @@ const StudentAdd = () => {
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
                             className="form-control text-lowercase"
-                            required
                           />
                         </div>
                       </div>
