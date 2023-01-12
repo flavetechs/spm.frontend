@@ -419,7 +419,7 @@ const CBTAssessmentList = () => {
                                               data-placement="top"
                                               title=""
                                               data-original-title="Details"
-                                              href={`http://localhost:3001/login-option/examiner-login?examinationId=${item.examinationId}&userEmail=${userEmail}`}
+                                              href={`${clientUrl}login-option/examiner-login?examinationId=${item.examinationId}&userEmail=${userEmail}`}
                                             >
                                               <span className="btn-inner">
                                                 <svg
