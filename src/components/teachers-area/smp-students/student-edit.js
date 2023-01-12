@@ -48,7 +48,10 @@ const StudentEdit = () => {
     parentOrGuardianPhone: Yup.string()
       .min(2, "Number Too Short!")
       .required("Parent/Guardian phone number is required"),
-    parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    parentOrGuardianEmail: Yup.string()
+      .required("Please Enter Email")
+      .email("Must be a valid email"),
     sessionClassId: Yup.string().required("Class name is required"),
   });
   //VALIDATIONS SCHEMA
@@ -82,7 +85,7 @@ const StudentEdit = () => {
 
   React.useEffect(() => {
     submitSuccessful && history.goBack()
-  }, [submitSuccessful,history]);
+  }, [submitSuccessful, history]);
 
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
@@ -435,6 +438,7 @@ const StudentEdit = () => {
                             id="email"
                             name="email"
                             className="form-control text-lowercase"
+                            required
                           />
                         </div>
                         <div className="col-md-6  form-group">
@@ -658,6 +662,7 @@ const StudentEdit = () => {
                             name="parentOrGuardianEmail"
                             id="parentOrGuardianEmail"
                             className="form-control text-lowercase"
+                            required
                           />
                         </div>
                       </div>
