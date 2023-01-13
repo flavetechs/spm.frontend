@@ -25,7 +25,7 @@ const SessionClassAdd = () => {
      submitSuccessful,
     message,
     activeTeachers,
-    activeSubjects,
+    selectedItem,
     activeClasses,
     classSubjects,
   } = state.class;
@@ -38,6 +38,7 @@ const SessionClassAdd = () => {
   const dispatch = useDispatch();
   const [classId, setClassId] = useState('');
   const [formTeacherId, setFormTeacherId] = useState('');
+  const [save, setSave] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     classId: "",
@@ -92,12 +93,11 @@ const SessionClassAdd = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    submitSuccessful &&
-    history.push(`${sessionLocations.sessionClassTableAdd}?classId=${classId}&formTeacherId=${formTeacherId}`);
+    submitSuccessful && !save && history.push(`${sessionLocations.sessionClassTableAdd}?classId=${classId}&formTeacherId=${formTeacherId}&sessionClassId=${selectedItem?.sessionClassId}`);
   }, [submitSuccessful]);
 
   
-
+  console.log("selectedItem",selectedItem);
   //HANDLER FUNCTIONS
   return (
     <>
@@ -129,7 +129,7 @@ const SessionClassAdd = () => {
                         classSubjects[i].examSCore = values.examScore;
                     }
                     //values.classSubjects = classSubjects;
-                  
+                   
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -411,7 +411,7 @@ const SessionClassAdd = () => {
                       <div className="d-flex justify-content-end">
                         <Button
                           type="button"
-                          variant="btn btn-danger mx-2"
+                          variant="btn btn-danger  btn-sm"
                           onClick={() => {
                             history.goBack();
                           }}
@@ -420,10 +420,21 @@ const SessionClassAdd = () => {
                         </Button>{" "}
                         <Button
                           type="button"
-                          variant="btn btn-primary"
+                          variant="btn btn-primary mx-2 btn-sm"
                           onClick={() => {
                             handleSubmit();
-                           
+                            setSave(true);
+                          }}
+                        >
+                         Save
+
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="btn btn-primary btn-sm"
+                          onClick={() => {
+                            handleSubmit();
+                           setSave(false);
                           }}
                         >
                          Set up subjects

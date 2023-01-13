@@ -281,7 +281,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: true,
         submitSuccessful: true,
         loading: false,
-        message: payload,
+        selectedItem: payload,
       };
     case actions.CREATE_SESSION_CLASS_FAILED:
       return {
@@ -426,7 +426,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         selectedItem: payload,
-        classSubjects: payload.classSubjects,
+        //classSubjects: payload.classSubjects,
       };
     }
     case actions.FETCH_SINGLE_SESSION_CLASS_FAILED: {
@@ -434,6 +434,26 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         selectedItem: null,
+      };
+    }
+
+    case actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        classSubjects: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_FAILED: {
+      return {
+        ...state,
+        loading: false,
       };
     }
     //GET SINGLE SESSION CLASS
@@ -1703,8 +1723,28 @@ export const classReducer = (state = _state, { type, payload }) => {
         message: payload,
         loading: false,
       };
-
-
+      case actions.INCLUDE_AS_SCORE_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.INCLUDE_AS_SCORE_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful: true,
+          message: payload,
+          loading: false,
+        };
+      case actions.INCLUDE_AS_SCORE_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          createSuccessful: false,
+          message: payload,
+          loading: false,
+        }
     default:
       return state;
   }

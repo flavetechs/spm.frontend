@@ -339,7 +339,7 @@ export const createSessionClass = (sessionClass) => (dispatch) => {
         .then((res) => {
             dispatch({
                 type: actions.CREATE_SESSION_CLASS_SUCCESS,
-                payload: res.data.message.friendlyMessage
+                payload: res.data.result
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
@@ -476,6 +476,46 @@ export const fetchSingleSessionClass = (sessionClassId) => dispatch => {
         }).catch(err => {
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+
+}
+
+export const fetchSingleSessionClassWithoutSubjects = (sessionClassId) => dispatch => {
+    dispatch({
+        type: actions.FETCH_SINGLE_SESSION_CLASS_LOADING,
+        payload: sessionClassId
+    });
+    axiosInstance.get(`/class/api/v1/get-single/session-classes/without-subs-students/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+
+}
+
+export const fetchSingleSessionClassSubjects = (sessionClassId) => dispatch => {
+    dispatch({
+        type: actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_LOADING,
+        payload: sessionClassId
+    });
+    axiosInstance.get(`/class/api/v1/session-classes/subjetcs/${sessionClassId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_FAILED,
                 payload: err.response.data.result
             })
         });
@@ -2248,6 +2288,53 @@ export const includeStudentToScoreRecord = (homeAssessmentFeedBackId, homeAssess
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
         });
 }
+
+export const includeAsAssessment = (payload) => (dispatch) => {
+    dispatch({
+        type: actions.INCLUDE_AS_SCORE_LOADING
+    });
+ 
+
+    axiosInstance.post('/cbtassessment/api/v1/include/assessments', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.INCLUDE_AS_SCORE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+         
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.INCLUDE_AS_SCORE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
+export const includeAsExam = (payload) => (dispatch) => {
+    dispatch({
+        type: actions.INCLUDE_AS_SCORE_LOADING
+    });
+ 
+
+    axiosInstance.post('/cbtassessment/api/v1/include/examintion', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.INCLUDE_AS_SCORE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+         
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.INCLUDE_AS_SCORE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+        });
+}
+
 
 export const fetchData = (sessionClassIdQuery, sessionClassSubjectIdQuery, classAssessmentIdQuery) => async (dispatch) => {
 
