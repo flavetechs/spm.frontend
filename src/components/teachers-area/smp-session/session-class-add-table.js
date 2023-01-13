@@ -131,7 +131,7 @@ const SessionClassTableAdd = () => {
     history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-//console.log("classSubjects",classSubjects);
+
   //HANDLER FUNCTIONS
   return (
     <>
@@ -160,7 +160,6 @@ const SessionClassTableAdd = () => {
                         classSubjects[i].examSCore = examScore;
                     }
                     values.subjectList = classSubjects;
-                    console.log("values",JSON.stringify(values));
                     updateSessionClassSubjects(values)(dispatch);
                   }}
                 >
