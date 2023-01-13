@@ -41,7 +41,10 @@ const StudentAdd = () => {
     parentOrGuardianPhone: Yup.string()
       .min(2, "Number Too Short!")
       .required("Parent/Guardian phone number is required"),
-    parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    parentOrGuardianEmail: Yup.string()
+      .required("Please Enter Email")
+      .email("Must be a valid email"),
     sessionClassId: Yup.string().required("Class name is required"),
   });
   //VALIDATIONS SCHEMA
@@ -563,7 +566,7 @@ const StudentAdd = () => {
                             name="parentOrGuardianRelationship"
                             className="form-select"
                             id="parentOrGuardianRelationship"
-                            onChange={(e) => { setFieldValue("parentOrGuardianRelationship", e.target.value)}}
+                            onChange={(e) => { setFieldValue("parentOrGuardianRelationship", e.target.value) }}
                           >
                             <option value="">Select Relationship</option>
                             {studentparentGuarndianRelationship?.map((relationship, idx) => (
