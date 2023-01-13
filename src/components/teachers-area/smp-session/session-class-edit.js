@@ -36,14 +36,7 @@ const SessionClassEdit = () => {
       .required("Pass Mark is required")
       .min(0, "Pass Mark score must not be below 0")
       .max(100, "Pass Mark score must not be above 100"),
-    subjectExamScore: Yup.number()
-      .required("Subject Examination score is required")
-      .min(0, "Subject Examination score must not be below 0")
-      .max(100, "Subject Examination score must not be above 100"),
-    subjectAssessmentScore: Yup.number()
-      .required("Subject Assessment score is required")
-      .min(0, "Subject Assessment score must not be below 0")
-      .max(100, "Subject Assessment score must not be above 100"),
+
   });
   //VALIDATIONS SCHEMA
 

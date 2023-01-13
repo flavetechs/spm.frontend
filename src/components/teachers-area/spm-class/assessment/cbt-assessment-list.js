@@ -26,6 +26,7 @@ import {
 import { HomeAssessmentList } from "./home-assement-list";
 import { ClassAssessmentList } from "./class-assessment-list";
 import { PaginationFilter1, PaginationFilter2, PaginationFilter3 } from "../../../partials/components/pagination-filter";
+import { loginCBT } from "../../../../store/actions/auth-actions";
 
 const CBTAssessmentList = () => {
   //VARIABLE DECLARATIONS
@@ -60,10 +61,13 @@ const CBTAssessmentList = () => {
   const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || "";
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
+  const clientUrl = sessionStorage.getItem('clientUrl');
+   const userEmail = sessionStorage.getItem('userEmail');
 
 
   useEffect(() => {
     getAllStaffClasses()(dispatch);
+    loginCBT()(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
@@ -405,17 +409,17 @@ const CBTAssessmentList = () => {
                                             placement="top"
                                             overlay={
                                               <Tooltip id="button-tooltip-2">
-                                                Staff Details
+                                                Assessment Details
                                               </Tooltip>
                                             }
                                           >
-                                            <Link
+                                            <a
                                               className="btn btn-sm btn-icon btn-success"
                                               data-toggle="tooltip"
                                               data-placement="top"
                                               title=""
                                               data-original-title="Details"
-                                              to={`${classLocations.cbtAssessmentList}`}
+                                              href={`${clientUrl}login-option/examiner-login?examinationId=${item.examinationId}&userEmail=${userEmail}`}
                                             >
                                               <span className="btn-inner">
                                                 <svg
@@ -449,7 +453,7 @@ const CBTAssessmentList = () => {
                                                   ></path>
                                                 </svg>
                                               </span>
-                                            </Link>
+                                            </a>
                                           </OverlayTrigger>{" "}
 
                                         </div>
