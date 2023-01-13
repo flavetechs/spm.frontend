@@ -16,6 +16,8 @@ import {
   getAllHomeAssessment,
   getCBTClassAssessment,
   getClassSubjects,
+  includeAsAssessment,
+  includeAsExam,
 } from "../../../../store/actions/class-actions";
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import {
@@ -32,10 +34,9 @@ const CBTAssessmentList = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
-  const [indexRow, setIndexRow] = useState("");
+  const [includeScorePayload, setIncludeScorePayload] = useState({});
+  const [useAsExamScore, setUseAsExamScore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [homeAssessmentId, setHomeAssessmentId] = useState("");
-  const [classAssessmentId, setClassAssessmentId] = useState("");
   const [selectedSessionClassSubjectId, setSelectedSessionClassSubjectId] =
     useState("");
   //VARIABLE DECLARATIONS
@@ -47,9 +48,6 @@ const CBTAssessmentList = () => {
   const {
     assessmentList,
     classSubjects,
-    groupList,
-    createSuccessful,
-    newClassAssessment,
     filterProps,
   } = state.class;
   const { staffClasses } = state.results;
@@ -63,7 +61,7 @@ const CBTAssessmentList = () => {
   const typeQueryParam = queryParams.get("type") || "";
   const clientUrl = sessionStorage.getItem('clientUrl');
    const userEmail = sessionStorage.getItem('userEmail');
-
+  
 
   useEffect(() => {
     getAllStaffClasses()(dispatch);
@@ -93,6 +91,18 @@ const CBTAssessmentList = () => {
       return item;
     }
   });
+
+  useEffect(() => {
+    if (dialogResponse === "continue") {
+      useAsExamScore ? includeAsExam(includeScorePayload)(dispatch) : includeAsAssessment(includeScorePayload)(dispatch)
+      showHideDialog(false, null)(dispatch);
+      respondDialog("")(dispatch);
+    }
+    return () => {
+      respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
+    };
+  }, [dialogResponse, dispatch]);
 
   return (
     <>
@@ -455,6 +465,54 @@ const CBTAssessmentList = () => {
                                               </span>
                                             </a>
                                           </OverlayTrigger>{" "}
+
+                                          <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip-2">
+                              {" "}
+                              Include
+                            </Tooltip>
+                          }
+                        >
+                          <div
+                            className="btn btn-sm btn-icon btn-primary"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title=""
+                            data-original-title="Add Question"
+                            onClick={() => {
+                              showHideDialog(true,`Are you sure you want to include this as an ${item.useAsExamScore ?"exam" :"assessment"}`)(dispatch);
+                              setIncludeScorePayload({
+                               sessionClassId: sessionClassIdQueryParam,
+                               subjectId: item.examName_SubjectId,                               
+                                studentRegNos: item.candidateIds,
+                                include:true,
+                                examId:item.examinationId
+                            })
+                            item.useAsExamScore ?  setUseAsExamScore(true) : setUseAsExamScore(false)
+                            }}
+                            
+                          >
+                            <span className="btn-inner ">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                width="32"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                ></path>
+                              </svg>
+                            </span>
+                          </div>
+                        </OverlayTrigger>{" "}
 
                                         </div>
                                       </td>

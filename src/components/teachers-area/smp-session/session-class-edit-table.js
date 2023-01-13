@@ -8,12 +8,10 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
   buildClassSubjectArray as buildSessionClassSubjectArray,
-  getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  getAllSessionClasses,
-  fetchSingleSessionClass,
   updateSessionClassSubjects,
+  fetchSingleSessionClassSubjects,
 } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
@@ -46,7 +44,7 @@ const SessionClassTableEdit = () => {
   const state = useSelector((state) => state);
   const {
    createSuccessful,
-    selectedItem,
+    selectedSessionClassSubject,
     activeTeachers,
     activeSubjects,
     classSubjects,
@@ -62,14 +60,9 @@ const SessionClassTableEdit = () => {
   const locations = useLocation();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({
-    sessionId: selectedItem?.sessionId,
-    classId: selectedItem?.classId,
-    formTeacherId: selectedItem?.formTeacherId,
-    InSession: true,
-    sessionClassId: selectedItem?.sessionClassId,
+    sessionClassId: selectedSessionClassSubject?.sessionClassId,
     examScore: examScore,
     assessmentScore: assessmentScore,
-    passMark: passMark,
     subjectExamScore: 70,
     subjectAssessmentScore: 30,
   });
@@ -90,30 +83,28 @@ const SessionClassTableEdit = () => {
     setInitialValues(initialValues);
   };
 
- 
+ const queryParams = new URLSearchParams(locations.search);
+    const sessionClassId = queryParams.get("sessionClassId");
   React.useEffect(() => {
     getActiveSession()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
+    
     if (!sessionClassId) return;
-    fetchSingleSessionClass(sessionClassId)(dispatch);
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
-    getAllActiveClasses()(dispatch);
+    fetchSingleSessionClassSubjects(sessionClassId)(dispatch);
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
 
   }, [activeSession, dispatch, locations.search]);
 
   React.useEffect(() => {
-    setExamScore(selectedItem?.examScore);
-    setAssessmentScore(selectedItem?.assessmentScore);
-    setPassMark(selectedItem?.passMark);
-    initialValues.formTeacherId = selectedItem?.formTeacherId;
+    setExamScore(selectedSessionClassSubject?.examScore);
+    setAssessmentScore(selectedSessionClassSubject?.assessmentScore);
+    setPassMark(selectedSessionClassSubject?.passMark);
+    initialValues.formTeacherId = selectedSessionClassSubject?.formTeacherId;
     setInitialValues(initialValues);
-  }, [selectedItem]);
+  }, [selectedSessionClassSubject]);
 
  
 
@@ -175,7 +166,7 @@ const SessionClassTableEdit = () => {
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-//console.log("classSubjects",classSubjects);
+console.log("classSubjects",classSubjects);
 
   return (
     <>
@@ -192,7 +183,7 @@ const SessionClassTableEdit = () => {
                     
                     values.subjectList = classSubjects;
                     
-                    values.sessionClassId = selectedItem?.sessionClassId;
+                    values.sessionClassId = sessionClassId;
                     const score = Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
@@ -246,13 +237,12 @@ const SessionClassTableEdit = () => {
                                   name="subjectId"
                                   className="form-check-input text-capitalize mx-2"
                                   checked={
-                                    classSubjects.find(
+                                    classSubjects?.find(
                                       (sub) =>
                                         sub.subjectId === subject.lookupId
                                     ) || false
                                   }
                                   onChange={(e) => {
-                                    console.log("checked",e.target.checked);
                                     getSubjectId(e, subject.lookupId, subject.name);
                                   }}
                                 />{""}
