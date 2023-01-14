@@ -2,18 +2,11 @@ import { Field, Formik } from "formik";
 import { useState, useEffect } from "react";
 import { Badge, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   classLocations,
-  inprogress,
 } from "../../../../router/spm-path-locations";
 import {
-  addClassAssessment,
-  deleteClassAssessment,
-  deleteHomeAssessment,
-  getAllClassAssessment,
-  getAllClassGroup,
-  getAllHomeAssessment,
   getCBTClassAssessment,
   getClassSubjects,
   includeAsAssessment,
@@ -22,12 +15,9 @@ import {
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import {
   respondDialog,
-  showErrorToast,
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
-import { HomeAssessmentList } from "./home-assement-list";
-import { ClassAssessmentList } from "./class-assessment-list";
-import { PaginationFilter1, PaginationFilter2, PaginationFilter3 } from "../../../partials/components/pagination-filter";
+import { PaginationFilter1 } from "../../../partials/components/pagination-filter";
 import { loginCBT } from "../../../../store/actions/auth-actions";
 
 const CBTAssessmentList = () => {
@@ -52,6 +42,7 @@ const CBTAssessmentList = () => {
   } = state.class;
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
+  const { cbtToken,clientUrl } = state.auth;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
@@ -59,8 +50,6 @@ const CBTAssessmentList = () => {
   const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || "";
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
-  const clientUrl = sessionStorage.getItem('clientUrl');
-   const userEmail = sessionStorage.getItem('userEmail');
   
 
   useEffect(() => {
@@ -419,7 +408,7 @@ const CBTAssessmentList = () => {
                                             placement="top"
                                             overlay={
                                               <Tooltip id="button-tooltip-2">
-                                                Assessment Details
+                                               Details
                                               </Tooltip>
                                             }
                                           >
@@ -429,7 +418,8 @@ const CBTAssessmentList = () => {
                                               data-placement="top"
                                               title=""
                                               data-original-title="Details"
-                                              href={`${clientUrl}login-option/examiner-login?examinationId=${item.examinationId}&userEmail=${userEmail}`}
+                                              href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
+                                              target="_blank" rel="noopener noreferrer"
                                             >
                                               <span className="btn-inner">
                                                 <svg

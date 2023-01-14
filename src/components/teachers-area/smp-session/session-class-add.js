@@ -97,7 +97,7 @@ const SessionClassAdd = () => {
   }, [submitSuccessful]);
 
   
-  console.log("selectedItem",selectedItem);
+
   //HANDLER FUNCTIONS
   return (
     <>

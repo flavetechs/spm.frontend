@@ -118,8 +118,6 @@ const SessionClassEdit = () => {
   }, [selectedItem]);
 
 
- 
-  console.log("classSubjects",classSubjects);
 
   return (
     <>
