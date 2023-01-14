@@ -32,8 +32,6 @@ const SessionClassDetails = () => {
     if (!sessionClassId) return;
     fetchSingleSessionClassWithoutSubjects(sessionClassId)(dispatch);
     fetchSingleSessionClassSubjects(sessionClassId)(dispatch);
-    getAllActiveSubjects()(dispatch);
-    getAllActiveTeachers()(dispatch);
     getAllClassStudents(sessionClassId)(dispatch);
   }, [dispatch,locations.search]);
 
