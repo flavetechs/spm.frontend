@@ -7,5 +7,6 @@ export const _state = {
     message: '',
     isSuccessful: false,
     permissions: [],
-    userDetail: null
+    userDetail: null,
+    forgotPasswordEmail: "",
 }

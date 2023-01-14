@@ -1,6 +1,7 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/auth-action-types"
 import { getActiveSession } from "./session-actions";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const loginUser = ({ userName, password }) => (dispatch) => {
 
@@ -132,5 +133,34 @@ export const loginCBT = () => (dispatch) => {
                 type: actions.CBT_LOGIN_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
+        })
+}
+
+
+export const forgotPassword = ({ email }) => (dispatch) => {
+
+    dispatch({
+        type: actions.FORGET_PASSWORD_LOADING
+    });
+
+    const payload = {
+        email,
+    }
+
+    axiosInstance.post('/user/api/v1/forgot-password', payload)
+        .then((res) => {
+            console.log("res", res);
+            dispatch({
+                type: actions.FORGET_PASSWORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch(err => {
+            console.log("err.res", err.response.data.message.friendlyMessage);
+            dispatch({
+                type: actions.FORGET_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         })
 }
