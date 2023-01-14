@@ -149,6 +149,7 @@ export const pushedNotificationManagement = {
 export const adminAdmissionLocations = {
   adminAdmissionList: "/dashboard/smp-admission/admission-setup",
   adminAdmissionDetail: "/dashboard/smp-session/admission-detail",
+  viewCandidateAnswers: "/dashboard/smp-session/view-candidate-answers",
 };
 export const admissionLocations = {
   admissionRegistration: "/dashboard/smp-admission/admission-registration",

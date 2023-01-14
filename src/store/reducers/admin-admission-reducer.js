@@ -172,31 +172,54 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
         submitSuccessful: false,
       };
 
-      
-      case actions.ENROLL_MULTIPLE_CANDIDATE_LOADING:
-        return {
-          ...state,
-          loading: true,
-          isSuccessful: false,
-          message: "",
-          submitSuccessful: false,
-        };
-      case actions.ENROLL_MULTIPLE_CANDIDATE_SUCCESS:
-        return {
-          ...state,
-          isSuccessful: true,
-          loading: false,
-          message: payload,
-          submitSuccessful: true,
-        };
-      case actions.ENROLL_MULTIPLE_CANDIDATE_FAILED:
-        return {
-          ...state,
-          isSuccessful: false,
-          loading: false,
-          message: payload,
-          submitSuccessful: false,
-        };
+
+    case actions.ENROLL_MULTIPLE_CANDIDATE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+        submitSuccessful: false,
+      };
+    case actions.ENROLL_MULTIPLE_CANDIDATE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+        submitSuccessful: true,
+      };
+    case actions.ENROLL_MULTIPLE_CANDIDATE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+        submitSuccessful: false,
+      };
+
+
+    case actions.IMPORT_ADMISSION_RESULT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+      };
+    case actions.IMPORT_ADMISSION_RESULT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        admissionImportedList: payload,
+        isSuccessful: true,
+      };
+    case actions.IMPORT_ADMISSION_RESULT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
 
     default:
       return state;

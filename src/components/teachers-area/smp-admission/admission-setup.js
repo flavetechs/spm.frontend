@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
 import PaginationFilter from "../../partials/components/pagination-filter";
-import { fetchAllAdminAdmissionList, getAdminAdmissionClasses, pushId, removeId, returnList } from "../../../store/actions/admin-admission-actions";
+import { fetchAllAdminAdmissionList, getAdminAdmissionClasses, importAdmissionResult, pushId, removeId, returnList } from "../../../store/actions/admin-admission-actions";
 import { adminAdmissionLocations } from "../../../router/spm-path-locations";
 import { AdminAdmissionModal } from "./admin-admission-modal";
 import { showHideModal } from "../../../store/actions/toaster-actions";
@@ -23,7 +23,7 @@ const AdmissionList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses } = state.adminAdmission;
+  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses, admissionImportedList } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -97,11 +97,11 @@ const AdmissionList = () => {
           <Col sm="12">
             <Formik
               initialValues={{
-                
+
               }}
               enableReinitialize={true}
               onSubmit={() => {
-     
+
               }}
             >
               {() => (
@@ -204,73 +204,217 @@ const AdmissionList = () => {
                     <div>
                       <div className="d-flex justify-content-end">
 
+                        {!selectedClassId ?
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                Please select Class to Import Students CBT Result
+                              </Tooltip>
+                            }
+                          >
+                            <Link
+                              to="#"
+                              className="d-flex justify-content-end"
+                            >
+                              <button
+                                disabled={selectedClassId ? false : true}
+                                type="button"
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              // onClick={() => {
+                              //   showHideModal(true)(dispatch);
+                              // }
+                              // }
+                              >
+                                <i className="btn-inner">
+                                  <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                      strokeLinejoin="round" />
+                                    <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round" />
+                                    <path
+                                      d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
+                                      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                  </svg>{" "}
+                                </i>
+                                <span>Import</span>
+                              </button>
+                            </Link>
+                          </OverlayTrigger>
 
-                        <Link
-                          to="#"
-                          className="d-flex justify-content-end"
-                        >
-                          <button
-                            type="button"
-                            disabled={selectedExamStatus ? false : true}
-                            className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                            onClick={() => {
-                              showHideModal(true)(dispatch);
-                              setSelectModal("enroll-modal");
-                            }
+                          :
+                          <Link
+                            to="#"
+                            className="d-flex justify-content-end"
+                          >
+                            <button
+                              type="button"
+                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              onClick={() => {
+                                importAdmissionResult(selectedClassId)(dispatch);
+                              }
+                              }
+                            >
+                              <i className="btn-inner">
+                                <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round" />
+                                  <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" strokeWidth="1.5"
+                                    strokeLinecap="round" strokeLinejoin="round" />
+                                  <path
+                                    d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
+                                    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>{" "}
+                              </i>
+                              <span>Import</span>
+                            </button>
+                          </Link>
+                        }
+                        {!selectedExamStatus ?
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                Please select Exam Status to Enroll Students
+                              </Tooltip>
                             }
                           >
-                            <i className="btn-inner">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
+                            <Link
+                              to="#"
+                              className="d-flex justify-content-end"
+                            >
+                              <button
+                                type="button"
+                                disabled={selectedExamStatus ? false : true}
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                                onClick={() => {
+                                  showHideModal(true)(dispatch);
+                                  setSelectModal("enroll-modal");
+                                }
+                                }
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                ></path>
-                              </svg>
-                            </i>
-                            <span>Enroll Student</span>
-                          </button>
-                        </Link>
-                        <Link
-                          to="#"
-                          className="d-flex justify-content-end"
-                        >
-                          <button
-                            disabled={selectedClassId ? false : true}
-                            type="button"
-                            className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                            onClick={() => {
-                              showHideModal(true)(dispatch);
-                              setSelectModal("export-modal");
-                            }
+                                <i className="btn-inner">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                    ></path>
+                                  </svg>
+                                </i>
+                                <span>Enroll Student</span>
+                              </button>
+                            </Link>
+                          </OverlayTrigger>
+                          :
+                          <Link
+                            to="#"
+                            className="d-flex justify-content-end"
+                          >
+                            <button
+                              type="button"
+                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              onClick={() => {
+                                showHideModal(true)(dispatch);
+                                setSelectModal("enroll-modal");
+                              }
+                              }
+                            >
+                              <i className="btn-inner">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-6 w-6"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                  ></path>
+                                </svg>
+                              </i>
+                              <span>Enroll Student</span>
+                            </button>
+                          </Link>
+                        }
+                        {!selectedClassId ?
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                Please select Class to Export Students for CBT Exam
+                              </Tooltip>
                             }
                           >
-                            <i className="btn-inner">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
+                            <Link
+                              to="#"
+                              className="d-flex justify-content-end"
+                            >
+                              <button
+                                disabled={selectedClassId ? false : true}
+                                type="button"
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                                onClick={() => {
+                                  showHideModal(true)(dispatch);
+                                  setSelectModal("export-modal");
+                                }
+                                }
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                ></path>
-                              </svg>
-                            </i>
-                            <span>Export</span>
-                          </button>
-                        </Link>
+                                <i className="btn-inner">
+                                  <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                      d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                                      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M12.0215 2.19044V14.2314" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                      strokeLinejoin="round" />
+                                    <path d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                      strokeLinejoin="round" />
+                                  </svg>{" "}
+                                </i>
+                                <span>Export</span>
+                              </button>
+                            </Link>
+                          </OverlayTrigger>
+
+                          :
+                          <Link
+                            to="#"
+                            className="d-flex justify-content-end"
+                          >
+                            <button
+                              type="button"
+                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              onClick={() => {
+                                showHideModal(true)(dispatch);
+                                setSelectModal("export-modal");
+                              }
+                              }
+                            >
+                              <i className="btn-inner">
+                                <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                                    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                  <path d="M12.0215 2.19044V14.2314" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round" />
+                                  <path d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round" />
+                                </svg>{" "}
+                              </i>
+                              <span>Export</span>
+                            </button>
+                          </Link>
+                        }
                       </div>
                     </div>
                   </div>
@@ -369,7 +513,7 @@ const AdmissionList = () => {
                                     placement="top"
                                     overlay={
                                       <Tooltip id="button-tooltip-2">
-                                        Admission Details
+                                        Candidate Exam Details
                                       </Tooltip>
                                     }
                                   >
@@ -379,7 +523,7 @@ const AdmissionList = () => {
                                       data-placement="top"
                                       title=""
                                       data-original-title="Details"
-                                      to={`${adminAdmissionLocations.adminAdmissionDetail}?admissionId=${item.admissionId}`}
+                                      to={`${adminAdmissionLocations.adminAdmissionDetail}`}
                                     >
                                       <span className="btn-inner">
                                         <svg
@@ -429,8 +573,7 @@ const AdmissionList = () => {
                                       data-placement="top"
                                       title=""
                                       data-original-title="Details"
-                                      to="#"
-                                    // to={`${adminAdmissionLocations.adminAdmissionDetail}?admissionId=${item.admissionId}`}
+                                      to={`${adminAdmissionLocations.viewCandidateAnswers}?admissionId=${item.admissionId}`}
                                     >
                                       <span className="btn-inner">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
