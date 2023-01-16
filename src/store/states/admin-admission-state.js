@@ -9,4 +9,5 @@ export const _state = {
     selectedIds: [],
     sessionClasses2: [],
     adminAdmissionClasses: [],
+    admissionImportedList: [],
   };

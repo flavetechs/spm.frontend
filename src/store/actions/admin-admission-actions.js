@@ -168,3 +168,23 @@ export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId) =>
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+export const importAdmissionResult = (classId) => (dispatch) => {
+    dispatch({
+        type: actions.IMPORT_ADMISSION_RESULT_LOADING
+    });
+    axiosInstance.get(`/smp/api/v1/admission/import-result?classId=${classId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.IMPORT_ADMISSION_RESULT_SUCCESS,
+                payload: res.data.result
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch(err => {
+            dispatch({
+                type: actions.IMPORT_ADMISSION_RESULT_FAILED,
+                payload: err.response.data.result
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
