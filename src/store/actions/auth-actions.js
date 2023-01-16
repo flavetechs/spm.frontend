@@ -149,16 +149,44 @@ export const forgotPassword = ({ email }) => (dispatch) => {
 
     axiosInstance.post('/user/api/v1/forgot-password', payload)
         .then((res) => {
-            console.log("res", res);
             dispatch({
                 type: actions.FORGET_PASSWORD_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch(err => {
-            console.log("err.res", err.response.data.message.friendlyMessage);
             dispatch({
                 type: actions.FORGET_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        })
+}
+
+
+
+export const resetForgottenPassword = ({ userId, password, resetToken }) => (dispatch) => {
+
+    dispatch({
+        type: actions.RESET_FORGOTTEN_PASSWORD_LOADING
+    });
+
+    const payload = {
+        userId,
+        password,
+        resetToken,
+    }
+
+    axiosInstance.post('/user/api/v1/reset-password', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.RESET_FORGOTTEN_PASSWORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch(err => {
+            dispatch({
+                type: actions.RESET_FORGOTTEN_PASSWORD_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)

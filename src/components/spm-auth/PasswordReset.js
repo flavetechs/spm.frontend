@@ -10,9 +10,9 @@ import auth1 from '../../assets/images/auth/04.png'
 import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
-import { changeMyPassword, forgotPassword } from '../../store/actions/auth-actions';
+import { changeMyPassword } from '../../store/actions/auth-actions';
 
-const ForgotPassword = () => {
+const PasswordReset = () => {
 
     const locations = useLocation();
     const dispatch = useDispatch();
@@ -23,28 +23,41 @@ const ForgotPassword = () => {
     var token = localStorage.getItem('token');
     var userDetail = localStorage.getItem('userDetail');
     const [userId, setId] = useState('');
-    React.useEffect(() => {
-        const queryParams = new URLSearchParams(locations.search);
-        const id = queryParams.get("id");
-        if (!id) return;
-        setId(id);
-    }, [userId]);
 
-    React.useEffect(() => {
-        if (userDetail) {
-            if (JSON.parse(userDetail).userType === 'Student') {
-                window.location.href = '/stds-dashboard';
-            } else {
-                window.location.href = '/dashboard';
-            }
+    const queryParams = new URLSearchParams(locations.search);
+    const userTokenQuery = queryParams.get("user");
+    const idQuery = queryParams.get("id");
 
-        }
+    // React.useEffect(() => {
+    //     const queryParams = new URLSearchParams(locations.search);
+    //     const id = queryParams.get("id");
+    //     if (!id) return;
+    //     setId(id);
+    // }, [userId]);
 
-    }, [token, userDetail])
+    // React.useEffect(() => {
+    //     if (userDetail) {
+    //         if (JSON.parse(userDetail).userType === 'Student') {
+    //             window.location.href = '/stds-dashboard';
+    //         } else {
+    //             window.location.href = '/dashboard';
+    //         }
+
+    //     }
+
+    // }, [token, userDetail])
 
     const validation = Yup.object().shape({
-        email: Yup.string().required("User Email is Required")
-            .email("Must be a valid email"),
+        oldPassword: Yup.string().required("Old Password Required")
+            .min(4, 'Password must be a minimum of 4 characters'),
+        newPassword: Yup.string().required("New Password Required")
+            .min(4, 'Password must be a minimum of 4 characters'),
+        confirmNewPassword: Yup.string().required("Confirm Password Required")
+            .min(4, 'Password must be a minimum of 4 characters')
+            .when("newPassword", {
+                is: val => (val && val.length > 0 ? true : false),
+                then: Yup.string().oneOf([Yup.ref("newPassword")], "Confirm password need to be the same with new password")
+            })
     })
     return (
         <>
@@ -58,17 +71,18 @@ const ForgotPassword = () => {
                                 <br />
                                 <br />
                                 <br />
-                                <p>Enter your current email to recover forgotten password</p>
+                                <p>Choose new passsword</p>
 
 
                                 <Formik
                                     initialValues={{
-                                        email: '',
+                                        userId: idQuery || "",
+                                        password: '',
+                                        resetToken: userTokenQuery || "",
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
-                                        console.log("values", values);
-                                        forgotPassword(values)(dispatch)
+                                        loginUser(values)(dispatch)
                                     }}
                                 >
                                     {({
@@ -83,11 +97,11 @@ const ForgotPassword = () => {
                                         <Form >
                                             <Row>
                                                 {message && <div className='text-danger'>{message}</div>}
-                                                <Col lg="12">
+                                                <Col lg="12" className="">
                                                     <div className="form-group">
-                                                        {((touched.email && errors.email) || message) && <div className='text-danger'>{errors.email}</div>}
-                                                        <label htmlFor="email" className="form-label">Enter Email</label>
-                                                        <Field type="email" className="form-control" name="email" id="email" aria-describedby="email" required placeholder=" " />
+                                                        {(touched.newPassword && errors.newPassword) && <div className='text-danger'>{errors.newPassword}</div>}
+                                                        <label htmlFor="newPassword" className="form-label">New Password</label>
+                                                        <Field type="password" required className="form-control" name="newPassword" id="newPassword" aria-describedby="newPassword" placeholder=" " />
                                                     </div>
                                                 </Col>
                                                 <Col lg="12" className="d-flex justify-content-between">
@@ -103,9 +117,6 @@ const ForgotPassword = () => {
                                                     handleSubmit()
                                                 }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                             </div>
-                                            {/* <p className="mt-3 text-center">
-                                                        Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
-                                                    </p> */}
                                         </Form>
                                     )}
                                 </Formik>
@@ -134,4 +145,5 @@ const ForgotPassword = () => {
     )
 }
 
-export default ForgotPassword;
+export default PasswordReset
+

@@ -149,19 +149,39 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 isSuccessful: false,
             }
         case actions.FORGET_PASSWORD_SUCCESS:
-            // localStorage.removeItem('token');
-            // localStorage.setItem('token', payload.token);
             return {
                 ...state,
                 loading: false,
                 token: payload.token,
                 refreshToken: payload.refreshToken,
                 message: payload,
-                // message: 'Link for change of password has been sent to your email',
                 isSuccessful: true,
                 forgotPasswordEmail: payload,
             }
         case actions.FORGET_PASSWORD_FAILED:
+            return {
+                ...state,
+                loading: false,
+                message: payload,
+                isSuccessful: false,
+            }
+
+
+        case actions.RESET_FORGOTTEN_PASSWORD_LOADING:
+            return {
+                ...state,
+                loading: true,
+                message: '',
+                isSuccessful: false,
+            }
+        case actions.RESET_FORGOTTEN_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                message: payload,
+                isSuccessful: true,
+            }
+        case actions.RESET_FORGOTTEN_PASSWORD_FAILED:
             return {
                 ...state,
                 loading: false,
