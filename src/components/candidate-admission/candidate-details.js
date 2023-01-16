@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { getSingleAdmissionDetail } from "../../store/actions/candidate-admission-actions";
@@ -23,8 +23,6 @@ const CandidateDetails = () => {
         if (!admissionId) return;
         getSingleAdmissionDetail(admissionId)(dispatch);
     }, [dispatch, locations.search]);
-
-    console.log("singleAdmissionDetail", singleAdmissionDetail);
 
     return (
         <>
@@ -77,25 +75,27 @@ const CandidateDetails = () => {
                                                 <b>Credential:</b>
                                             </label>
                                             <div className="">
-                                                {singleAdmissionDetail?.credentials?.slice(singleAdmissionDetail?.credentials.length - 3) ===
-                                                    "jpg" ? (
-                                                    <div className="">
-                                                        <img
-                                                            src={singleAdmissionDetail?.credentials}
-                                                            width="250"
-                                                            height="250"
-                                                            alt="credential"
-                                                        />
-                                                    </div>
-                                                ) : (
-                                                    <div className="">
-                                                        <object data={singleAdmissionDetail?.credentials}
-                                                            width="250"
-                                                            height="250">
-                                                        </object>
-                                                    </div>
-                                                )
-                                                }
+                                                <div className="">
+                                                    <object data={singleAdmissionDetail?.credentials}
+                                                        width="250"
+                                                        height="250">
+                                                    </object>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 form-group">
+                                            <label className="form-label" htmlFor="dd">
+                                                <b>Photo:</b>
+                                            </label>
+                                            <div className="">
+                                                <div className="">
+                                                    <img
+                                                        src={singleAdmissionDetail?.photo}
+                                                        width="250"
+                                                        height="250"
+                                                        alt="credential"
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -102,6 +102,38 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 message: payload,
                 isSuccessful: false,
             }
+
+            case actions.CBT_LOGIN_LOADING:
+                return {
+                    ...state,
+                    loading: true,
+                    message: '',
+                    cbtToken: '',
+                    cbtRefreshToken: '',
+                    isSuccessful: false,
+                }
+    
+            case actions.CBT_LOGIN_SUCCESS: {
+                return {
+                    ...state,
+                    loading: false,
+                    cbtToken: payload.authResult.token,
+                    clientUrl:payload.clientUrl,
+                    message: '',
+                    isSuccessful: true,
+                }
+            }
+    
+            case actions.CBT_LOGIN_FAILED:
+                return {
+                    ...state,
+                    loading: false,
+                    cbtToken: null,
+                    cbtRefreshToken: null,
+                    message: payload,
+                    isSuccessful: false,
+                }
+
         default:
             return state
     }

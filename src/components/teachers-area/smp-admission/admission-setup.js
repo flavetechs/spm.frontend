@@ -10,6 +10,7 @@ import { AdminAdmissionModal } from "./admin-admission-modal";
 import { showHideModal } from "../../../store/actions/toaster-actions";
 import { Field, Formik } from "formik";
 import { AdmissionEnrolModal } from "./admission-enroll-modal";
+import { loginCBT } from "../../../store/actions/auth-actions";
 
 
 const AdmissionList = () => {
@@ -23,7 +24,8 @@ const AdmissionList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses, admissionImportedList } = state.adminAdmission;
+  const { cbtToken, clientUrl } = state.auth;
+  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -41,6 +43,7 @@ const AdmissionList = () => {
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
+    loginCBT()(dispatch);
   }, [dispatch]);
 
 
@@ -221,10 +224,6 @@ const AdmissionList = () => {
                                 disabled={selectedClassId ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                              // onClick={() => {
-                              //   showHideModal(true)(dispatch);
-                              // }
-                              // }
                               >
                                 <i className="btn-inner">
                                   <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +240,6 @@ const AdmissionList = () => {
                               </button>
                             </Link>
                           </OverlayTrigger>
-
                           :
                           <Link
                             to="#"
@@ -287,11 +285,6 @@ const AdmissionList = () => {
                                 type="button"
                                 disabled={selectedExamStatus ? false : true}
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                                onClick={() => {
-                                  showHideModal(true)(dispatch);
-                                  setSelectModal("enroll-modal");
-                                }
-                                }
                               >
                                 <i className="btn-inner">
                                   <svg
@@ -364,11 +357,6 @@ const AdmissionList = () => {
                                 disabled={selectedClassId ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                                onClick={() => {
-                                  showHideModal(true)(dispatch);
-                                  setSelectModal("export-modal");
-                                }
-                                }
                               >
                                 <i className="btn-inner">
                                   <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -563,25 +551,29 @@ const AdmissionList = () => {
                                     placement="top"
                                     overlay={
                                       <Tooltip id="button-tooltip-2">
-                                        Exam Details
+                                        CBT Exam Details
                                       </Tooltip>
                                     }
                                   >
-                                    <Link
+                                    <a
                                       className="btn btn-sm btn-icon btn-primary"
                                       data-toggle="tooltip"
                                       data-placement="top"
                                       title=""
                                       data-original-title="Details"
-                                      to={`${adminAdmissionLocations.viewCandidateAnswers}?admissionId=${item.admissionId}`}
+                                      href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
+                                      target="_blank" rel="noopener noreferrer"
                                     >
                                       <span className="btn-inner">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                          width="20" height="16" fill="currentColor"
+                                          className="bi bi-info-circle"
+                                          viewBox="0 0 16 16">
                                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                           <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                                         </svg>
                                       </span>
-                                    </Link>
+                                    </a>
                                   </OverlayTrigger>{" "}
                                 </div>
                               </td>

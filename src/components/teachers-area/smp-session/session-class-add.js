@@ -25,7 +25,7 @@ const SessionClassAdd = () => {
      submitSuccessful,
     message,
     activeTeachers,
-    activeSubjects,
+    selectedItem,
     activeClasses,
     classSubjects,
   } = state.class;
@@ -36,8 +36,10 @@ const SessionClassAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [examScore, setExamScore] = useState(70);
-  const [assessmentScore, setAssessmentScore] = useState(30);
+  const [classId, setClassId] = useState('');
+  const [formTeacherId, setFormTeacherId] = useState('');
+  const [save, setSave] = useState(false);
+
   const [initialValues, setInitialValues] = useState({
     classId: "",
     formTeacherId: "",
@@ -67,14 +69,6 @@ const SessionClassAdd = () => {
       .required("Pass Mark is required")
       .min(0, "Pass Mark score must not be below 0")
       .max(100, "Pass Mark score must not be above 100"),
-    subjectExamScore: Yup.number()
-      .required("Subject Examination score is required")
-      .min(0, "Subject Examination score must not be below 0")
-      .max(100, "Subject Examination score must not be above 100"),
-    subjectAssessmentScore: Yup.number()
-      .required("Subject Assessment score is required")
-      .min(0, "Subject Assessment score must not be below 0")
-      .max(100, "Subject Assessment score must not be above 100"),
   });
 
 
@@ -99,8 +93,7 @@ const SessionClassAdd = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    submitSuccessful &&
-    history.push(sessionLocations.sessionClassTableAdd);
+    submitSuccessful && !save && history.push(`${sessionLocations.sessionClassTableAdd}?classId=${classId}&formTeacherId=${formTeacherId}&sessionClassId=${selectedItem?.sessionClassId}`);
   }, [submitSuccessful]);
 
   
@@ -136,7 +129,7 @@ const SessionClassAdd = () => {
                         classSubjects[i].examSCore = values.examScore;
                     }
                     //values.classSubjects = classSubjects;
-                  
+                   
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -226,9 +219,10 @@ const SessionClassAdd = () => {
                               className="form-select"
                               id="classId"
                               defaultValue={values.classId}
-                              onChange={(event) =>
-                                setFieldValue("classId", event.target.value)
-                              }
+                              onChange={(event) =>{
+                                setFieldValue("classId", event.target.value);
+                                setClassId(event.target.value)
+                              }}
                             >
                               <option value={""}>Select Class</option>
                               {activeClasses.map((classLookup, idx) => (
@@ -254,7 +248,6 @@ const SessionClassAdd = () => {
                             <Field
                               type="number"
                               onChange={(e) => {
-                                setExamScore(e.target.value)
                                 setFieldValue("examScore", e.target.value);
                                 setFieldValue(
                                   "assessmentScore",
@@ -308,7 +301,6 @@ const SessionClassAdd = () => {
                             <Field
                               type="number"
                               onChange={(e) => {
-                                setAssessmentScore(e.target.value)
                                 setFieldValue(
                                   "examScore",
                                   100 - e.target.value
@@ -387,12 +379,13 @@ const SessionClassAdd = () => {
                               name="formTeacherId"
                               className="form-select text-capitalize"
                               id="formTeacherId"
-                              onChange={(event) =>
+                              onChange={(event) =>{
                                 setFieldValue(
                                   "formTeacherId",
                                   event.target.value
-                                )
-                              }
+                                );
+                                setFormTeacherId(event.target.value)
+                              }}
                             >
                               <option value={""} >
                                 Select Form Teacher
@@ -418,7 +411,7 @@ const SessionClassAdd = () => {
                       <div className="d-flex justify-content-end">
                         <Button
                           type="button"
-                          variant="btn btn-danger mx-2"
+                          variant="btn btn-danger  btn-sm"
                           onClick={() => {
                             history.goBack();
                           }}
@@ -427,10 +420,21 @@ const SessionClassAdd = () => {
                         </Button>{" "}
                         <Button
                           type="button"
-                          variant="btn btn-primary"
+                          variant="btn btn-primary mx-2 btn-sm"
                           onClick={() => {
                             handleSubmit();
-                           
+                            setSave(true);
+                          }}
+                        >
+                         Save
+
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="btn btn-primary btn-sm"
+                          onClick={() => {
+                            handleSubmit();
+                           setSave(false);
                           }}
                         >
                          Set up subjects

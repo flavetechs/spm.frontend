@@ -7,15 +7,11 @@ import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
-  updateSessionClass,
   buildClassSubjectArray as buildSessionClassSubjectArray,
-  getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  getAllSessionClasses,
-  fetchSingleSessionClass,
-  updateClassSubjects,
   updateSessionClassSubjects,
+  fetchSingleSessionClassSubjects,
 } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
@@ -24,7 +20,7 @@ const SessionClassTableEdit = () => {
   //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     // classId: Yup.string().required("Class is required"),
-    formTeacherId: Yup.string().required("Form teacher is required"),
+    //formTeacherId: Yup.string().required("Form teacher is required"),
     examScore: Yup.number()
       .required("Examination score is required")
       .min(0, "Examination score must not be below 0")
@@ -33,10 +29,6 @@ const SessionClassTableEdit = () => {
       .required("Assessment score is required")
       .min(0, "Assessment score must not be below 0")
       .max(100, "Assessment score must not be above 100"),
-    passMark: Yup.number()
-      .required("Pass Mark is required")
-      .min(0, "Pass Mark score must not be below 0")
-      .max(100, "Pass Mark score must not be above 100"),
     subjectExamScore: Yup.number()
       .required("Subject Examination score is required")
       .min(0, "Subject Examination score must not be below 0")
@@ -52,11 +44,9 @@ const SessionClassTableEdit = () => {
   const state = useSelector((state) => state);
   const {
    createSuccessful,
-    message,
-    selectedItem,
+    selectedSessionClassSubject,
     activeTeachers,
     activeSubjects,
-    activeClasses,
     classSubjects,
   } = state.class;
   const { activeSession } = state.session;
@@ -70,14 +60,9 @@ const SessionClassTableEdit = () => {
   const locations = useLocation();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({
-    sessionId: selectedItem?.sessionId,
-    classId: selectedItem?.classId,
-    formTeacherId: selectedItem?.formTeacherId,
-    InSession: true,
-    sessionClassId: selectedItem?.sessionClassId,
+    sessionClassId: selectedSessionClassSubject?.sessionClassId,
     examScore: examScore,
     assessmentScore: assessmentScore,
-    passMark: passMark,
     subjectExamScore: 70,
     subjectAssessmentScore: 30,
   });
@@ -98,30 +83,28 @@ const SessionClassTableEdit = () => {
     setInitialValues(initialValues);
   };
 
- 
+ const queryParams = new URLSearchParams(locations.search);
+    const sessionClassId = queryParams.get("sessionClassId");
   React.useEffect(() => {
     getActiveSession()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
+    
     if (!sessionClassId) return;
-    fetchSingleSessionClass(sessionClassId)(dispatch);
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
-    getAllActiveClasses()(dispatch);
+    fetchSingleSessionClassSubjects(sessionClassId)(dispatch);
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
 
   }, [activeSession, dispatch, locations.search]);
 
   React.useEffect(() => {
-    setExamScore(selectedItem?.examScore);
-    setAssessmentScore(selectedItem?.assessmentScore);
-    setPassMark(selectedItem?.passMark);
-    initialValues.formTeacherId = selectedItem?.formTeacherId;
+    setExamScore(selectedSessionClassSubject?.examScore);
+    setAssessmentScore(selectedSessionClassSubject?.assessmentScore);
+    setPassMark(selectedSessionClassSubject?.passMark);
+    initialValues.formTeacherId = selectedSessionClassSubject?.formTeacherId;
     setInitialValues(initialValues);
-  }, [selectedItem]);
+  }, [selectedSessionClassSubject]);
 
  
 
@@ -135,7 +118,7 @@ const SessionClassTableEdit = () => {
       subjectTeacherId || "",
       subjectTeacher || "",
       classSubjects,
-      true
+      event.target.checked
     )(dispatch);
   };
 
@@ -183,7 +166,7 @@ const SessionClassTableEdit = () => {
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-console.log("classSubjects",classSubjects);
+
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -199,7 +182,7 @@ console.log("classSubjects",classSubjects);
                     
                     values.subjectList = classSubjects;
                     
-                    values.sessionClassId = selectedItem?.sessionClassId;
+                    values.sessionClassId = sessionClassId;
                     const score = Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
@@ -253,13 +236,12 @@ console.log("classSubjects",classSubjects);
                                   name="subjectId"
                                   className="form-check-input text-capitalize mx-2"
                                   checked={
-                                    classSubjects.find(
+                                    classSubjects?.find(
                                       (sub) =>
                                         sub.subjectId === subject.lookupId
                                     ) || false
                                   }
                                   onChange={(e) => {
-                                    console.log("checked",e.target.checked);
                                     getSubjectId(e, subject.lookupId, subject.name);
                                   }}
                                 />{""}

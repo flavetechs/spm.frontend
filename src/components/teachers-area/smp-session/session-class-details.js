@@ -4,7 +4,8 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory, Link } from "react-router-dom";
 import {
-  fetchSingleSessionClass,
+  fetchSingleSessionClassSubjects,
+  fetchSingleSessionClassWithoutSubjects,
   getAllActiveSubjects,
   getAllActiveTeachers,
   getAllClassStudents,
@@ -29,9 +30,8 @@ const SessionClassDetails = () => {
     const queryParams = new URLSearchParams(locations.search);
     const sessionClassId = queryParams.get("sessionClassId");
     if (!sessionClassId) return;
-    fetchSingleSessionClass(sessionClassId)(dispatch);
-    getAllActiveSubjects()(dispatch);
-    getAllActiveTeachers()(dispatch);
+    fetchSingleSessionClassWithoutSubjects(sessionClassId)(dispatch);
+    fetchSingleSessionClassSubjects(sessionClassId)(dispatch);
     getAllClassStudents(sessionClassId)(dispatch);
   }, [dispatch,locations.search]);
 
@@ -64,7 +64,7 @@ const SessionClassDetails = () => {
                         </th>
                         <td>
                           <span className="badge bg-primary">
-                            {selectedItem?.studentCount}
+                            {classStudents?.length}
                           </span>
                         </td>
                       </tr>
@@ -74,7 +74,7 @@ const SessionClassDetails = () => {
                         </th>
                         <td>
                           <span className="badge bg-primary">
-                            {selectedItem?.subjectCount}
+                            {classSubjects?.length}
                           </span>
                         </td>
                       </tr>

@@ -10,5 +10,4 @@ export const _state = {
     sessionClasses2: [],
     adminAdmissionClasses: [],
     admissionImportedList: [],
-    cbtToken: {},
   };

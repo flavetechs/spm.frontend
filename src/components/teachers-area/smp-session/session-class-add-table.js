@@ -11,9 +11,9 @@ import {
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  createSessionClassSubject,
+  updateSessionClassSubjects,
 } from "../../../store/actions/class-actions";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 
@@ -22,10 +22,8 @@ const SessionClassTableAdd = () => {
   const state = useSelector((state) => state);
   const {
     createSuccessful,
-    message,
     activeTeachers,
     activeSubjects,
-    activeClasses,
     classSubjects,
   } = state.class;
 
@@ -35,16 +33,13 @@ const SessionClassTableAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
+  const locations = useLocation();
   const [examScore, setExamScore] = useState(70);
   const [assessmentScore, setAssessmentScore] = useState(30);
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
   const [initialValues, setInitialValues] = useState({
-    sessionId: activeSession?.session,
-    classId: "",
-    formTeacherId: "",
-    InSession: true,
-    examScore: 70,
-    assessmentScore: 30,
-    passMark: 40,
+    sessionClassId,
     subjectExamScore: 70,
     subjectAssessmentScore: 30,
   });
@@ -88,7 +83,7 @@ const SessionClassTableAdd = () => {
       subjectTeacherId || "",
       subjectTeacher || "",
       classSubjects,
-      true
+      event.target.checked
     )(dispatch);
   };
 
@@ -136,7 +131,7 @@ const SessionClassTableAdd = () => {
     history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-console.log("classSubjects",classSubjects);
+
   //HANDLER FUNCTIONS
   return (
     <>
@@ -149,9 +144,8 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                     values.subjectList = classSubjects;
                     const score =
-                      Number(values.examScore) + Number(values.assessmentScore);
+                      Number(examScore) + Number(assessmentScore);
                     if (score !== 100) {
                       showErrorToast(
                         "Examination and assessment must equal 100"
@@ -161,13 +155,12 @@ console.log("classSubjects",classSubjects);
 
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
-                        classSubjects[i].assessment = values.assessmentScore;
+                        classSubjects[i].assessment = assessmentScore;
                       if (!classSubjects[i].examSCore)
-                        classSubjects[i].examSCore = values.examScore;
+                        classSubjects[i].examSCore = examScore;
                     }
-                    values.classSubjects = classSubjects;
-
-                    createSessionClassSubject(values)(dispatch);
+                    values.subjectList = classSubjects;
+                    updateSessionClassSubjects(values)(dispatch);
                   }}
                 >
                   {({
@@ -234,7 +227,7 @@ console.log("classSubjects",classSubjects);
                                     className="form-control px-1"
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
-                                    defaultValue={values.examScore}
+                                    defaultValue={examScore}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
@@ -272,7 +265,7 @@ console.log("classSubjects",classSubjects);
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
-                                    defaultValue={values.assessmentScore}
+                                    defaultValue={assessmentScore}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
                                     placeholder=" "

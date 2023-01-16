@@ -8,13 +8,12 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import {
   updateSessionClass,
-  buildClassSubjectArray,
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
   getAllSessionClasses,
-  fetchSingleSessionClass,
   updateClassSubjects,
+  fetchSingleSessionClassWithoutSubjects,
 } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
@@ -36,14 +35,7 @@ const SessionClassEdit = () => {
       .required("Pass Mark is required")
       .min(0, "Pass Mark score must not be below 0")
       .max(100, "Pass Mark score must not be above 100"),
-    subjectExamScore: Yup.number()
-      .required("Subject Examination score is required")
-      .min(0, "Subject Examination score must not be below 0")
-      .max(100, "Subject Examination score must not be above 100"),
-    subjectAssessmentScore: Yup.number()
-      .required("Subject Assessment score is required")
-      .min(0, "Subject Assessment score must not be below 0")
-      .max(100, "Subject Assessment score must not be above 100"),
+
   });
   //VALIDATIONS SCHEMA
 
@@ -85,25 +77,23 @@ const SessionClassEdit = () => {
 
  
 
-  const setCurrentSubjectScores2 = (
-    subjectExamScore,
-    subjectAssessmentScore
-  ) => {
-    classSubjects.map((subject, idx) => {
-      initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
-      initialValues[`${subject.subjectId}_subjectAssessmentScore`] =
-        subjectAssessmentScore;
-      updateClassSubjects(
-        subjectExamScore,
-        subjectAssessmentScore,
-        classSubjects
-      )(dispatch);
-    });
+  // const setCurrentSubjectScores2 = (
+  //   subjectExamScore,
+  //   subjectAssessmentScore
+  // ) => {
+  //   classSubjects.map((subject, idx) => {
+  //     initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
+  //     initialValues[`${subject.subjectId}_subjectAssessmentScore`] =
+  //       subjectAssessmentScore;
+  //     updateClassSubjects(
+  //       subjectExamScore,
+  //       subjectAssessmentScore,
+  //       classSubjects
+  //     )(dispatch);
+  //   });
 
-    initialValues.subjectExamScore = subjectExamScore;
-    initialValues.subjectAssessmentScore = subjectAssessmentScore;
-    setInitialValues(initialValues);
-  };
+   
+  
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
@@ -112,8 +102,7 @@ const SessionClassEdit = () => {
   React.useEffect(() => {
   
     if (!sessionClassId) return;
-    fetchSingleSessionClass(sessionClassId)(dispatch);
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
+    fetchSingleSessionClassWithoutSubjects(sessionClassId)(dispatch);
     getAllActiveClasses()(dispatch);
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
@@ -128,12 +117,6 @@ const SessionClassEdit = () => {
     setInitialValues(initialValues);
   }, [selectedItem]);
 
-
-  React.useEffect(() => {
-    submitSuccessful &&
-    history.push(`${sessionLocations.sessionClassTableEdit}?sessionClassId=${sessionClassId}`);
-   }, [submitSuccessful]);
- 
 
 
   return (
@@ -157,7 +140,6 @@ const SessionClassEdit = () => {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
-                   
                     updateSessionClass(values)(dispatch);
                   }}
                 >
@@ -285,7 +267,7 @@ const SessionClassEdit = () => {
                                 setFieldValue("examScore", e.target.value);
                                 setFieldValue("assessmentScore", 100 - e.target.value);
                                 setFieldValue("subjectExamScore", Number(e.target.value));
-                                setCurrentSubjectScores2(Number(e.target.value), Number(100 - e.target.value));
+                                //setCurrentSubjectScores2(Number(e.target.value), Number(100 - e.target.value));
                                 classSubjects.map((subject, idx) => {
                                   setFieldValue(`${subject.subjectId}_subjectExamScore`, Number(e.target.value));
                                   setFieldValue(`${subject.subjectId}_subjectAssessmentScore`, Number(100 - e.target.value));
@@ -334,10 +316,10 @@ const SessionClassEdit = () => {
                                   "subjectAssessmentScore",
                                   Number(e.target.value)
                                 );
-                                setCurrentSubjectScores2(
-                                  Number(100 - e.target.value),
-                                  Number(e.target.value)
-                                );
+                                // setCurrentSubjectScores2(
+                                //   Number(100 - e.target.value),
+                                //   Number(e.target.value)
+                                // );
                                 classSubjects.map((subject, idx) => {
                                   setFieldValue(
                                     `${subject.subjectId}_subjectAssessmentScore`,
@@ -433,22 +415,34 @@ const SessionClassEdit = () => {
                     
 
                       <div className="d-flex justify-content-end">
-                        <Button
+                      <Button
                           type="button"
-                          variant="btn btn-danger mx-2"
+                          variant="btn btn-danger  btn-sm"
                           onClick={() => {
-                            history.goBack()
+                            history.goBack();
                           }}
                         >
                           Cancel
                         </Button>{" "}
                         <Button
                           type="button"
-                          variant="btn btn-primary"
-                          onClick={handleSubmit
-                          }
+                          variant="btn btn-primary mx-2 btn-sm"
+                          onClick={() => {
+                            handleSubmit();
+                          }}
                         >
-                          set up subjects
+                         Save
+
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="btn btn-primary btn-sm"
+                          onClick={() => {
+                            handleSubmit();
+                            history.push(`${sessionLocations.sessionClassTableEdit}?sessionClassId=${sessionClassId}`);
+                          }}
+                        >
+                         Set up subjects
 
                         </Button>
                       </div>
