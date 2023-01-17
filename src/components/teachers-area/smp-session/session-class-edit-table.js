@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +44,6 @@ const SessionClassTableEdit = () => {
   const state = useSelector((state) => state);
   const {
    createSuccessful,
-    selectedSessionClassSubject,
     activeTeachers,
     activeSubjects,
     classSubjects,
@@ -52,19 +51,23 @@ const SessionClassTableEdit = () => {
   const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
-  //VARIABLE DECLARATIONS
-  const [examScore, setExamScore] = useState(70);
-  const [assessmentScore, setAssessmentScore] = useState(30);
-  const [passMark, setPassMark] = useState(40);
-  const history = useHistory();
-  const locations = useLocation();
-  const dispatch = useDispatch();
+  //VARIABLE DECLARATIONS 
+   const locations = useLocation();
+   const history = useHistory();
+   const dispatch = useDispatch();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
+  const exam = Number(queryParams.get("exam"));
+  const assessment= Number(queryParams.get("assessment"));
+  const [examScore, setExamScore] = useState(exam);
+  const [assessmentScore, setAssessmentScore] = useState(assessment);
+
   const [initialValues, setInitialValues] = useState({
-    sessionClassId: selectedSessionClassSubject?.sessionClassId,
+    sessionClassId: sessionClassId,
     examScore: examScore,
     assessmentScore: assessmentScore,
-    subjectExamScore: 70,
-    subjectAssessmentScore: 30,
+    subjectExamScore:exam,
+    subjectAssessmentScore:assessment,
   });
 
   //VARIABLE DECLARATIONS
@@ -83,29 +86,22 @@ const SessionClassTableEdit = () => {
     setInitialValues(initialValues);
   };
 
- const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
+
   React.useEffect(() => {
     getActiveSession()(dispatch);
   }, [dispatch]);
 
   React.useEffect(() => {
-    
     if (!sessionClassId) return;
     fetchSingleSessionClassSubjects(sessionClassId)(dispatch);
     getAllActiveTeachers()(dispatch);
-    getAllActiveSubjects()(dispatch);
+     getAllActiveSubjects()(dispatch);
+  }, [sessionClassId]);
 
-  }, [activeSession, dispatch, locations.search]);
+ 
+  // const hi = classSubjects.forEach(c=>c.examSCore === exam ? c.examSCore)
 
-  React.useEffect(() => {
-    setExamScore(selectedSessionClassSubject?.examScore);
-    setAssessmentScore(selectedSessionClassSubject?.assessmentScore);
-    setPassMark(selectedSessionClassSubject?.passMark);
-    initialValues.formTeacherId = selectedSessionClassSubject?.formTeacherId;
-    setInitialValues(initialValues);
-  }, [selectedSessionClassSubject]);
-
+//console.log("hi",hi);
  
 
   //HANDLER FUNCTIONS
@@ -165,7 +161,7 @@ const SessionClassTableEdit = () => {
    createSuccessful &&
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
-
+console.log("classSubjects",classSubjects);
 
   return (
     <>

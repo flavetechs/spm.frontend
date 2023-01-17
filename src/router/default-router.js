@@ -96,6 +96,7 @@ import SessionClassTableAdd from '../components/teachers-area/smp-session/sessio
 import AdmissionList from '../components/teachers-area/smp-admission/admission-setup';
 import AdmissionDetail from '../components/teachers-area/smp-admission/admission-detail';
 import CBTAssessmentList from '../components/teachers-area/spm-class/assessment/cbt-assessment-list';
+import settingoffcanvas from '../components/partials/components/settingoffcanvas';
 
 const DashboardRouter = () => {
 
@@ -208,6 +209,7 @@ const DashboardRouter = () => {
 
                         {/* portal setting */}
                         <Route path={portalSetting.setting} exact component={Setting} />
+                        <Route path={portalSetting.theme} exact component={settingoffcanvas} />
 
                         {/* notificationManagement */}
                         <Route path={notificationManagement.announcement} exact component={AnnouncementList} />

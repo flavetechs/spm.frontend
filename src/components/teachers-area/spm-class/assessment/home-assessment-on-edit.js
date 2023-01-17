@@ -131,7 +131,7 @@ const EditHomeAssessment = () => {
                       homeAssessmentIdQuery,
                       values.shouldSendToStudents
                     )(dispatch);
-                    updateHomeAssessment(values)(dispatch);
+                   updateHomeAssessment(values)(dispatch);
                   }}
                 >
                   {({

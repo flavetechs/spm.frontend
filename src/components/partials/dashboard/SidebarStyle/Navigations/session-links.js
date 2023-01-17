@@ -18,7 +18,7 @@ export function SessionLink(props) {
                             </path>
                         </svg>
                     </i>
-                    <span className="item-name">Session MGT</span>
+                    <span className="item-name">Session</span>
                     <i className="right-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -47,7 +47,7 @@ export function SessionLink(props) {
                     </Accordion.Collapse>
                 }
 
-                {
+                {/* {
                     hasAccess(NavPermissions.classSetup) &&
                     <Accordion.Collapse eventKey="sidebar-session" >
                         <ul className="sub-nav">
@@ -67,9 +67,9 @@ export function SessionLink(props) {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                }
+                } */}
 
-                {
+                {/* {
                     hasAccess(NavPermissions.subjectSetup) &&
                     <Accordion.Collapse eventKey="sidebar-session" >
                         <ul className="sub-nav">
@@ -89,7 +89,7 @@ export function SessionLink(props) {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                }
+                } */}
 
                 {
                     hasAccess(NavPermissions.sessionSessionClass) &&
