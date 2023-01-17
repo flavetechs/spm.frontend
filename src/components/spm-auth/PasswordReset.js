@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Row, Col, Image } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import Card from '../Card';
 import * as Yup from 'yup';
 
@@ -10,16 +10,17 @@ import auth1 from '../../assets/images/auth/04.png'
 import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
-import { changeMyPassword } from '../../store/actions/auth-actions';
+import { changeMyPassword, resetForgottenPassword } from '../../store/actions/auth-actions';
 
 const PasswordReset = () => {
 
     const locations = useLocation();
+    const history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
 
 
-    const { message } = state.auth;
+    const { message, passwordResetSuccessful } = state.auth;
     var token = localStorage.getItem('token');
     var userDetail = localStorage.getItem('userDetail');
     const [userId, setId] = useState('');
@@ -48,17 +49,15 @@ const PasswordReset = () => {
     // }, [token, userDetail])
 
     const validation = Yup.object().shape({
-        oldPassword: Yup.string().required("Old Password Required")
+        password: Yup.string().required("New Password is Required")
             .min(4, 'Password must be a minimum of 4 characters'),
-        newPassword: Yup.string().required("New Password Required")
-            .min(4, 'Password must be a minimum of 4 characters'),
-        confirmNewPassword: Yup.string().required("Confirm Password Required")
-            .min(4, 'Password must be a minimum of 4 characters')
-            .when("newPassword", {
-                is: val => (val && val.length > 0 ? true : false),
-                then: Yup.string().oneOf([Yup.ref("newPassword")], "Confirm password need to be the same with new password")
-            })
     })
+
+    if(passwordResetSuccessful){
+        history.push(authLocations.login)
+    }
+
+
     return (
         <>
             <section className="login-content">
@@ -82,7 +81,8 @@ const PasswordReset = () => {
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
-                                        loginUser(values)(dispatch)
+                                        console.log("values", values)
+                                        // resetForgottenPassword(values)(dispatch)
                                     }}
                                 >
                                     {({
@@ -99,9 +99,9 @@ const PasswordReset = () => {
                                                 {message && <div className='text-danger'>{message}</div>}
                                                 <Col lg="12" className="">
                                                     <div className="form-group">
-                                                        {(touched.newPassword && errors.newPassword) && <div className='text-danger'>{errors.newPassword}</div>}
-                                                        <label htmlFor="newPassword" className="form-label">New Password</label>
-                                                        <Field type="password" required className="form-control" name="newPassword" id="newPassword" aria-describedby="newPassword" placeholder=" " />
+                                                        {(touched.password && errors.password) && <div className='text-danger'>{errors.password}</div>}
+                                                        <label htmlFor="password" className="form-label">New Password</label>
+                                                        <Field type="password" required className="form-control" name="password" id="password" aria-describedby="password" placeholder=" " />
                                                     </div>
                                                 </Col>
                                                 <Col lg="12" className="d-flex justify-content-between">

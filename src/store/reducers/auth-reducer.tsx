@@ -12,6 +12,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 token: '',
                 refreshToken: '',
                 isSuccessful: false,
+                passwordResetSuccessful: false,
             }
 
         case actions.LOGIN_USER_SUCCESS: {
@@ -173,6 +174,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 loading: true,
                 message: '',
                 isSuccessful: false,
+                passwordResetSuccessful: false,
             }
         case actions.RESET_FORGOTTEN_PASSWORD_SUCCESS:
             return {
@@ -180,6 +182,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 loading: false,
                 message: payload,
                 isSuccessful: true,
+                passwordResetSuccessful: true,
             }
         case actions.RESET_FORGOTTEN_PASSWORD_FAILED:
             return {
@@ -187,6 +190,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 loading: false,
                 message: payload,
                 isSuccessful: false,
+                passwordResetSuccessful: false,
             }
 
 
