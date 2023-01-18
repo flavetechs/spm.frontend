@@ -45,7 +45,7 @@ const AdmissionList = () => {
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
     getSessionClasses2()(dispatch);
-    // loginCBT()(dispatch);
+    loginCBT()(dispatch);
   }, [dispatch]);
 
 
@@ -515,7 +515,8 @@ const AdmissionList = () => {
                                       data-placement="top"
                                       title=""
                                       data-original-title="Details"
-                                      to={`${adminAdmissionLocations.adminAdmissionDetail}`}
+                                      // to={`${adminAdmissionLocations.adminAdmissionDetail}`}
+                                      to={`${adminAdmissionLocations.adminAdmissionDetail}?admissionId=${item.admissionId}`}
                                     >
                                       <span className="btn-inner">
                                         <svg
