@@ -146,14 +146,14 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    const score =
-                      Number(examScore) + Number(assessmentScore);
-                    if (score !== 100) {
-                      showErrorToast(
-                        "Examination and assessment must equal 100"
-                      )(dispatch);
-                      return;
-                    }
+                    // const score =
+                    //   Number(examScore) + Number(assessmentScore);
+                    // if (score !== 100) {
+                    //   showErrorToast(
+                    //     "Examination and assessment must equal 100"
+                    //   )(dispatch);
+                    //   return;
+                    // }
 
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
