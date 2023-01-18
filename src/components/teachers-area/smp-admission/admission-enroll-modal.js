@@ -7,7 +7,7 @@ import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
 import { enrollMultipleCandidates, enrollSingleCandidate, getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
-export function AdmissionEnrolModal({ selectedIds }) {
+export function AdmissionEnrolModal({ selectedIds, sessionClasses2 }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
@@ -16,12 +16,12 @@ export function AdmissionEnrolModal({ selectedIds }) {
 
     //ACCESSING REDUX STATE
     const state = useSelector((state) => state);
-    const { sessionClasses2 } = state.adminAdmission;
+    // const { sessionClasses2 } = state.adminAdmission;
     const { showModal } = state.alert;
     //ACCESSING REDUX STATE
 
     React.useEffect(() => {
-        getSessionClasses2()(dispatch);
+        // getSessionClasses2()(dispatch);
     }, []);
 
     React.useEffect(() => {

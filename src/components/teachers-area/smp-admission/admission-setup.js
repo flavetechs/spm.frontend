@@ -11,6 +11,7 @@ import { showHideModal } from "../../../store/actions/toaster-actions";
 import { Field, Formik } from "formik";
 import { AdmissionEnrolModal } from "./admission-enroll-modal";
 import { loginCBT } from "../../../store/actions/auth-actions";
+import { getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
 
 const AdmissionList = () => {
@@ -25,7 +26,7 @@ const AdmissionList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { cbtToken, clientUrl } = state.auth;
-  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses } = state.adminAdmission;
+  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses, sessionClasses2 } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -43,6 +44,7 @@ const AdmissionList = () => {
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
+    getSessionClasses2()(dispatch);
     loginCBT()(dispatch);
   }, [dispatch]);
 
@@ -92,6 +94,8 @@ const AdmissionList = () => {
     { statusName: "Passed", statusNumber: 1 },
     { statusName: "Failed", statusNumber: 2 },
   ]
+
+  console.log("sessionClasses2", sessionClasses2);
 
   return (
     <>
@@ -408,7 +412,7 @@ const AdmissionList = () => {
                   </div>
                   {selectModal == "export-modal" ?
                     <AdminAdmissionModal selectedClassId={selectedClassId} /> :
-                    <AdmissionEnrolModal selectedIds={selectedIds} />
+                    <AdmissionEnrolModal selectedIds={selectedIds} sessionClasses2={sessionClasses2} />
                   }
                   <Card.Body className="px-0">
                     <div className="table-responsive">
@@ -511,7 +515,8 @@ const AdmissionList = () => {
                                       data-placement="top"
                                       title=""
                                       data-original-title="Details"
-                                      to={`${adminAdmissionLocations.adminAdmissionDetail}`}
+                                      // to={`${adminAdmissionLocations.adminAdmissionDetail}`}
+                                      to={`${adminAdmissionLocations.adminAdmissionDetail}?admissionId=${item.admissionId}`}
                                     >
                                       <span className="btn-inner">
                                         <svg
