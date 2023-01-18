@@ -125,7 +125,8 @@ export const resultManagement = {
 export const portalSetting = {
   active: 'smp-setting',
   setting: "/dashboard/smp-setting",
-  templateSetting: "/dashboard/smp-template-setting"
+  templateSetting: "/dashboard/smp-template-setting",
+  theme: "/dashboard/smp-theme",
 };
 
 export const pinManagement = {

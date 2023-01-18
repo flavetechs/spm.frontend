@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { gradeSetting, portalSetting } from '../../../../../router/spm-path-locations'
+import { gradeSetting, permissionLocations, portalSetting } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
+import Settingoffcanvas from '../../../components/settingoffcanvas'
 
 export function PortalSettingsLink(props){
     var location = useLocation()
@@ -16,7 +17,7 @@ export function PortalSettingsLink(props){
                                 </path>
                             </svg>
                         </i>
-                        <span className="item-name">portal-setting</span>
+                        <span className="item-name">Settings</span>
                         <i className="right-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -37,18 +38,20 @@ export function PortalSettingsLink(props){
                                         </svg>
                                     </i>
                                     <i className="sidenav-mini-icon"> P </i>
-                                    <span className="item-name">Portal Setting</span>
+                                    <span className="item-name">Portal</span>
                                 </Link>
                             </li>
                         </ul>
                     </Accordion.Collapse>
                     }
-                    {
-                    hasAccess(NavPermissions.templateSetting) &&
+
+{
+                    hasAccess(NavPermissions.roleList) &&
                     <Accordion.Collapse eventKey="sidebar-setting">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === portalSetting.templateSetting ? 'active' : ''} nav-link`} to={portalSetting.templateSetting}>
+                                <Link className={`${location.pathname === permissionLocations.roleList ? 'active' : ''} nav-link`} to={permissionLocations.roleList}
+                                    onClick={props.minisidebar}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -56,13 +59,15 @@ export function PortalSettingsLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> P </i>
-                                    <span className="item-name">Template Setting</span>
+                                    <i className="sidenav-mini-icon"> U </i>
+                                    <span className="item-name">Permission</span>
                                 </Link>
                             </li>
+
                         </ul>
                     </Accordion.Collapse>
-                    }
+                }
+                   
                     {
                     hasAccess(NavPermissions.gradeSetting) &&
                     <Accordion.Collapse eventKey="sidebar-setting">
@@ -77,12 +82,36 @@ export function PortalSettingsLink(props){
                                         </svg>
                                     </i>
                                     <i className="sidenav-mini-icon"> P </i>
-                                    <span className="item-name">Grade Setting</span>
+                                    <span className="item-name">Grade</span>
                                 </Link>
                             </li>
                         </ul>
                     </Accordion.Collapse>
                     }
+                     {
+                    hasAccess(NavPermissions.templateSetting) &&
+                    <Accordion.Collapse eventKey="sidebar-setting">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === portalSetting.templateSetting ? 'active' : ''} nav-link`} to={portalSetting.templateSetting}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> P </i>
+                                    <span className="item-name">Result Template</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                    }
+                      <Accordion.Collapse eventKey="sidebar-setting">
+                        <Settingoffcanvas />
+                        
+                    </Accordion.Collapse>
                 </Accordion.Item>
         </>
     )

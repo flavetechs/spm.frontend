@@ -61,11 +61,7 @@ axiosInstance.interceptors.request.use(
             
             return config;
         }
-        if(cbtToken){
-            config.headers.Authorization = 'Bearer ' + sessionToken
-            
-            return config;
-        }
+       
         // if (emailSessionToken !== null) {
         //     config.headers.Authorization = 'Bearer ' + emailSessionToken
         // }

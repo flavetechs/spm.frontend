@@ -20,6 +20,10 @@ import { ResultLink } from "./Navigations/result-links";
 import { PinLink } from "./Navigations/pin-links";
 import { PortalSettingsLink } from "./Navigations/portal-setting-links";
 import { AdmissionLink } from "./Navigations/admission-links";
+import { LessonNoteLink } from "./Navigations/lesson-notes-link";
+import { TimeTableLink } from "./Navigations/timetable-links";
+import { AssessmentLink } from "./Navigations/assessment-links";
+import { AttendanceLink } from "./Navigations/attendance-link";
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -85,13 +89,13 @@ const VerticalNav = () => {
 
                 <AdmissionLink minisidebar={minisidebar} />
 
-                {hasAccess(NavPermissions.roleList) && (
+                {/* {hasAccess(NavPermissions.roleList) && (
                     <PermissionLink
                         minisidebar={minisidebar}
                         CustomToggle={CustomToggle}
                         setActiveMenu={setActiveMenu}
                     />
-                )}
+                )} */}
 
                 {hasAccess2([
                     NavPermissions.sessionSetup,
@@ -113,33 +117,44 @@ const VerticalNav = () => {
                 ]) && (
                         <ClassLink
                             minisidebar={minisidebar}
-                            CustomToggle={CustomToggle}
-                            setActiveMenu={setActiveMenu}
                         />
                     )}
 
-                {hasAccess(NavPermissions.staffList) && (
-                    <>
-                        <li>
-                            <hr className="hr-horizontal" />
-                        </li>
-                        <StaffLink
+              {hasAccess2([
+                    NavPermissions.sessionClass,
+                    NavPermissions.classAttendance
+                ]) && (
+                        <AttendanceLink
                             minisidebar={minisidebar}
-                            CustomToggle={CustomToggle}
-                            setActiveMenu={setActiveMenu}
                         />
-                    </>
-                )}
+                    )}
+
+
+             {hasAccess2([
+                    NavPermissions.sessionClass,
+                    NavPermissions.classAttendance
+                ]) && (
+                        <AssessmentLink
+                            minisidebar={minisidebar}
+                        />
+                    )}
+
 
                 {hasAccess2([
-                    NavPermissions.studentList,
-                    NavPermissions.enrolledStudentsList,
-                    NavPermissions.unenrolledStudentsList
+                    NavPermissions.sessionClass,
+                    NavPermissions.classAttendance
                 ]) && (
-                        <StudentLink
+                        <LessonNoteLink
                             minisidebar={minisidebar}
-                            CustomToggle={CustomToggle}
-                            setActiveMenu={setActiveMenu}
+                        />
+                    )}
+
+             {hasAccess2([
+                    NavPermissions.sessionClass,
+                    NavPermissions.classAttendance
+                ]) && (
+                        <TimeTableLink
+                            minisidebar={minisidebar}
                         />
                     )}
 
@@ -150,24 +165,48 @@ const VerticalNav = () => {
                     NavPermissions.printResult,
                     NavPermissions.cummulativeMasterList
                 ]) && (
-                        <>
-                            <li>
-                                <hr className="hr-horizontal" />
-                            </li>
+                        
                             <ResultLink
                                 minisidebar={minisidebar}
                                 CustomToggle={CustomToggle}
                                 setActiveMenu={setActiveMenu}
                             />
-                        </>
+                        
                     )}
 
                 {hasAccess2([NavPermissions.unusedPins, NavPermissions.usedPins]) && (
-                    <PinLink
+                  
+                   <PinLink
                         minisidebar={minisidebar}
                         CustomToggle={CustomToggle}
-                        setActiveMenu={setActiveMenu}
-                    />
+                        setActiveMenu={setActiveMenu} 
+                      />  
+                    
+                )}
+
+                 {hasAccess2([
+                    NavPermissions.studentList,
+                    NavPermissions.enrolledStudentsList,
+                    NavPermissions.unenrolledStudentsList
+                ]) && (
+              
+                        <StudentLink
+                            minisidebar={minisidebar}
+                            CustomToggle={CustomToggle}
+                            setActiveMenu={setActiveMenu}
+                        />
+                          
+                    )}
+
+
+                     {hasAccess(NavPermissions.staffList) && (
+                    
+                        <StaffLink
+                            minisidebar={minisidebar}
+                            CustomToggle={CustomToggle}
+                            setActiveMenu={setActiveMenu}
+                        />
+                  
                 )}
 
                 {hasAccess2([
