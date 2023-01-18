@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,15 +77,15 @@ const StudentEdit = () => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
   }, [activeSession, dispatch]);
 
-  React.useEffect(() => {
+ useEffect(() => {
     setImages(selectedStudent?.photo);
     getStates(selectedStudent?.countryId)(dispatch);
     getCities(selectedStudent?.stateId)(dispatch);
   }, [selectedStudent, dispatch]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     submitSuccessful && history.goBack()
-  }, [submitSuccessful, history]);
+  }, [submitSuccessful]);
 
   const ImageDisplay = (event) => {
     if (event.target.files[0]) {
@@ -94,7 +94,7 @@ const StudentEdit = () => {
   };
 
   const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
-
+console.log("s",submitSuccessful);
   return (
     <>
       <Formik

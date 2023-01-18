@@ -1,6 +1,6 @@
 import axios from 'axios';
 const axiosInstance = axios.create({
-    baseURL: process.env.NODE_ENV === "development" ? 'http://flavetechs.com/smp/development/' : "http://flavetechs.com/smp/staging/",
+   baseURL: process.env.NODE_ENV === "development" ? 'http://flavetechs.com/smp/development/' : "http://flavetechs.com/smp/staging/",
    // baseURL: 'https://localhost:44373/',
     // baseURL: 'http://flavetechs.com/smp/development/',
     //   baseURL: 'http://flavetechs.com/smp/staging/',
@@ -61,11 +61,7 @@ axiosInstance.interceptors.request.use(
             
             return config;
         }
-        if(cbtToken){
-            config.headers.Authorization = 'Bearer ' + sessionToken
-            
-            return config;
-        }
+       
         // if (emailSessionToken !== null) {
         //     config.headers.Authorization = 'Bearer ' + emailSessionToken
         // }

@@ -127,7 +127,8 @@ export const resultManagement = {
 export const portalSetting = {
   active: 'smp-setting',
   setting: "/dashboard/smp-setting",
-  templateSetting: "/dashboard/smp-template-setting"
+  templateSetting: "/dashboard/smp-template-setting",
+  theme: "/dashboard/smp-theme",
 };
 
 export const pinManagement = {
@@ -152,6 +153,7 @@ export const pushedNotificationManagement = {
 export const adminAdmissionLocations = {
   adminAdmissionList: "/dashboard/smp-admission/admission-setup",
   adminAdmissionDetail: "/dashboard/smp-session/admission-detail",
+  viewCandidateAnswers: "/dashboard/smp-session/view-candidate-answers",
 };
 export const admissionLocations = {
   admissionRegistration: "/dashboard/smp-admission/admission-registration",
