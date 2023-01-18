@@ -52,6 +52,7 @@ export const createStudent = (formData) => (dispatch) => {
                 type: actions.CREATE_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllStudents(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -73,6 +74,7 @@ export const updateStudent = (formData) => (dispatch) => {
                 type: actions.UPDATE_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllStudents(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

@@ -429,8 +429,8 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
             existingClassSubject.subject = subject;
             existingClassSubject.subjectTeacher = subjectTeacher === "" ? existingClassSubject.subjectTeacher : subjectTeacher;
             existingClassSubject.subjectTeacherId = subjectTeacherId === "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
-            existingClassSubject.examSCore = examSCore === "" ? existingClassSubject.examSCore : examSCore;
-            existingClassSubject.assessment = assessment === "" ? existingClassSubject.assessment : assessment;
+            existingClassSubject.examSCore = examSCore == "" ? existingClassSubject.examSCore : examSCore;
+            existingClassSubject.assessment = assessment == "" ? existingClassSubject.assessment : assessment;
             classSubjects = [...otherClassSubject, existingClassSubject]
         } else {
            classSubjects = [...otherClassSubject]
@@ -455,8 +455,10 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
 
 export const updateClassSubjects = (examSCore, assessment, classSubjects) => dispatch => {
     classSubjects = classSubjects.map((subject, idx) => {
+        if(examSCore != subject.examSCore){
         subject.examSCore = examSCore;
         subject.assessment = assessment;
+        }
     })
 }
 //CLASS SUBJECT IDS//
