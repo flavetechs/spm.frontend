@@ -26,7 +26,6 @@ const SessionClassTableAdd = () => {
     activeSubjects,
     classSubjects,
   } = state.class;
-
   const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -34,14 +33,17 @@ const SessionClassTableAdd = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
-  const [examScore, setExamScore] = useState(70);
-  const [assessmentScore, setAssessmentScore] = useState(30);
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassId = queryParams.get("sessionClassId");
+  const exam = Number(queryParams.get("exam"));
+  const assessment= Number(queryParams.get("assessment"));
+  const [examScore, setExamScore] = useState(exam);
+  const [assessmentScore, setAssessmentScore] = useState(assessment);
   const [initialValues, setInitialValues] = useState({
     sessionClassId,
-    subjectExamScore: 70,
-    subjectAssessmentScore: 30,
+    subjectExamScore: exam,
+    subjectAssessmentScore: assessment,
+    subjectId:"",
   });
 
   //VARIABLE DECLARATIONS
@@ -76,8 +78,8 @@ const SessionClassTableAdd = () => {
   //HANDLER FUNCTIONS
   const getSubjectId = (event, subjectId,subject, subjectTeacherId,subjectTeacher) => {
     buildSessionClassSubjectArray(
-      examScore,
-      assessmentScore,
+     examScore,
+     assessmentScore,
       subjectId,
       subject,
       subjectTeacherId || "",
@@ -106,8 +108,8 @@ const SessionClassTableAdd = () => {
       initialValues.subjectAssessmentScore,
       subjectId,
       subject,
-      subjectTeacherId||"",
-      subjectTeacher||"",
+      "",
+      "",
       classSubjects,
       true
     )(dispatch);
@@ -131,8 +133,8 @@ const SessionClassTableAdd = () => {
     history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-
-  //HANDLER FUNCTIONS
+console.log("classSubjects",classSubjects);
+ 
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -204,14 +206,16 @@ const SessionClassTableAdd = () => {
                                 {" "}
                                 <Field
                                   type="checkbox"
+                                   name="subjectId"
                                   id="subjectId"
-                                  name="subjectId"
                                   className="form-check-input"
                                   checked={classSubjects.find(
                                     (sub) => sub.subjectId === subject.lookupId
                                   )||false}
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId,subject.name);
+                                    setFieldValue("subjectId",subject.lookupId);
+                                    
                                   }}
                                 />{" "}
                                 {subject.name}

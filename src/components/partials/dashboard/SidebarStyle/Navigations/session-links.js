@@ -40,7 +40,7 @@ export function SessionLink(props) {
                                         </svg>
                                     </i>
                                     <i className="sidenav-mini-icon"> U </i>
-                                    <span className="item-name">Session Setup</span>
+                                    <span className="item-name">Setup</span>
                                 </Link>
                             </li>
                         </ul>

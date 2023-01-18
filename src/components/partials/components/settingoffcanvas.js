@@ -224,8 +224,7 @@ const SettingOffcanvas = (props ) => {
         props.NavbarstyleAction(navbarstyleMode1);
     }
   })
-  const location = useLocation();
-console.log("d",location);
+
     return (
         <>
             {/* <div className="btn btn-fixed-end btn-warning btn-icon btn-setting" onClick={handleShow} >
