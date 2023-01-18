@@ -95,6 +95,7 @@ import SessionClassTableEdit from '../components/teachers-area/smp-session/sessi
 import SessionClassTableAdd from '../components/teachers-area/smp-session/session-class-add-table';
 import AdmissionList from '../components/teachers-area/smp-admission/admission-setup';
 import AdmissionDetail from '../components/teachers-area/smp-admission/admission-detail';
+import ViewCandidateAnswers from '../components/teachers-area/smp-admission/view-candidate-answers';
 import CBTAssessmentList from '../components/teachers-area/spm-class/assessment/cbt-assessment-list';
 
 const DashboardRouter = () => {
@@ -225,6 +226,7 @@ const DashboardRouter = () => {
                         {/* admin admission */}
                         <Route path={adminAdmissionLocations.adminAdmissionList} exact component={AdmissionList} />
                         <Route path={adminAdmissionLocations.adminAdmissionDetail} exact component={AdmissionDetail} />
+                        <Route path={adminAdmissionLocations.viewCandidateAnswers} exact component={ViewCandidateAnswers} />
 
                         {/* user profile page */}
                         <Route path={inprogress.unactivated} exact component={InProgress} />
