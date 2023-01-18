@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { Row, Col, Image } from 'react-bootstrap'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import Card from '../Card';
@@ -10,7 +9,7 @@ import auth1 from '../../assets/images/auth/04.png'
 import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
-import { changeMyPassword, resetForgottenPassword } from '../../store/actions/auth-actions';
+import { resetForgottenPassword } from '../../store/actions/auth-actions';
 
 const PasswordReset = () => {
 
@@ -19,34 +18,13 @@ const PasswordReset = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
 
-
+    //ACCESSING REDUX STORE
     const { message, passwordResetSuccessful } = state.auth;
-    var token = localStorage.getItem('token');
-    var userDetail = localStorage.getItem('userDetail');
-    const [userId, setId] = useState('');
+     //ACCESSING REDUX STORE
 
     const queryParams = new URLSearchParams(locations.search);
     const userTokenQuery = queryParams.get("user");
     const idQuery = queryParams.get("id");
-
-    // React.useEffect(() => {
-    //     const queryParams = new URLSearchParams(locations.search);
-    //     const id = queryParams.get("id");
-    //     if (!id) return;
-    //     setId(id);
-    // }, [userId]);
-
-    // React.useEffect(() => {
-    //     if (userDetail) {
-    //         if (JSON.parse(userDetail).userType === 'Student') {
-    //             window.location.href = '/stds-dashboard';
-    //         } else {
-    //             window.location.href = '/dashboard';
-    //         }
-
-    //     }
-
-    // }, [token, userDetail])
 
     const validation = Yup.object().shape({
         password: Yup.string().required("New Password is Required")
@@ -71,8 +49,6 @@ const PasswordReset = () => {
                                 <br />
                                 <br />
                                 <p>Choose new passsword</p>
-
-
                                 <Formik
                                     initialValues={{
                                         userId: idQuery || "",
@@ -82,7 +58,7 @@ const PasswordReset = () => {
                                     validationSchema={validation}
                                     onSubmit={values => {
                                         console.log("values", values)
-                                        // resetForgottenPassword(values)(dispatch)
+                                        resetForgottenPassword(values)(dispatch)
                                     }}
                                 >
                                     {({
@@ -120,9 +96,6 @@ const PasswordReset = () => {
                                         </Form>
                                     )}
                                 </Formik>
-
-
-
                             </Card.Body>
                         </Card>
                         <div className="sign-bg">
