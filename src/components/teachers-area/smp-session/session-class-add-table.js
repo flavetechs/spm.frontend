@@ -11,9 +11,9 @@ import {
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  createSessionClassSubject,
+  updateSessionClassSubjects,
 } from "../../../store/actions/class-actions";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 
@@ -22,31 +22,28 @@ const SessionClassTableAdd = () => {
   const state = useSelector((state) => state);
   const {
     createSuccessful,
-    message,
     activeTeachers,
     activeSubjects,
-    activeClasses,
     classSubjects,
   } = state.class;
-
   const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [examScore, setExamScore] = useState(70);
-  const [assessmentScore, setAssessmentScore] = useState(30);
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
+  const exam = Number(queryParams.get("exam"));
+  const assessment= Number(queryParams.get("assessment"));
+  const [examScore, setExamScore] = useState(exam);
+  const [assessmentScore, setAssessmentScore] = useState(assessment);
   const [initialValues, setInitialValues] = useState({
-    sessionId: activeSession?.session,
-    classId: "",
-    formTeacherId: "",
-    InSession: true,
-    examScore: 70,
-    assessmentScore: 30,
-    passMark: 40,
-    subjectExamScore: 70,
-    subjectAssessmentScore: 30,
+    sessionClassId,
+    subjectExamScore: exam,
+    subjectAssessmentScore: assessment,
+    subjectId:"",
   });
 
   //VARIABLE DECLARATIONS
@@ -81,14 +78,14 @@ const SessionClassTableAdd = () => {
   //HANDLER FUNCTIONS
   const getSubjectId = (event, subjectId,subject, subjectTeacherId,subjectTeacher) => {
     buildSessionClassSubjectArray(
-      examScore,
-      assessmentScore,
+     examScore,
+     assessmentScore,
       subjectId,
       subject,
       subjectTeacherId || "",
       subjectTeacher || "",
       classSubjects,
-      true
+      event.target.checked
     )(dispatch);
   };
 
@@ -111,8 +108,8 @@ const SessionClassTableAdd = () => {
       initialValues.subjectAssessmentScore,
       subjectId,
       subject,
-      subjectTeacherId||"",
-      subjectTeacher||"",
+      "",
+      "",
       classSubjects,
       true
     )(dispatch);
@@ -137,7 +134,7 @@ const SessionClassTableAdd = () => {
   }, [createSuccessful]);
 
 console.log("classSubjects",classSubjects);
-  //HANDLER FUNCTIONS
+ 
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -149,9 +146,8 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                     values.subjectList = classSubjects;
                     const score =
-                      Number(values.examScore) + Number(values.assessmentScore);
+                      Number(examScore) + Number(assessmentScore);
                     if (score !== 100) {
                       showErrorToast(
                         "Examination and assessment must equal 100"
@@ -161,13 +157,12 @@ console.log("classSubjects",classSubjects);
 
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
-                        classSubjects[i].assessment = values.assessmentScore;
+                        classSubjects[i].assessment = assessmentScore;
                       if (!classSubjects[i].examSCore)
-                        classSubjects[i].examSCore = values.examScore;
+                        classSubjects[i].examSCore = examScore;
                     }
-                    values.classSubjects = classSubjects;
-
-                    createSessionClassSubject(values)(dispatch);
+                    values.subjectList = classSubjects;
+                    updateSessionClassSubjects(values)(dispatch);
                   }}
                 >
                   {({
@@ -211,14 +206,16 @@ console.log("classSubjects",classSubjects);
                                 {" "}
                                 <Field
                                   type="checkbox"
+                                   name="subjectId"
                                   id="subjectId"
-                                  name="subjectId"
                                   className="form-check-input"
                                   checked={classSubjects.find(
                                     (sub) => sub.subjectId === subject.lookupId
                                   )||false}
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId,subject.name);
+                                    setFieldValue("subjectId",subject.lookupId);
+                                    
                                   }}
                                 />{" "}
                                 {subject.name}
@@ -234,7 +231,7 @@ console.log("classSubjects",classSubjects);
                                     className="form-control px-1"
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
-                                    defaultValue={values.examScore}
+                                    defaultValue={examScore}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
@@ -272,7 +269,7 @@ console.log("classSubjects",classSubjects);
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
-                                    defaultValue={values.assessmentScore}
+                                    defaultValue={assessmentScore}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
                                     placeholder=" "

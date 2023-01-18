@@ -43,12 +43,12 @@ export const getResultSetting = () => (dispatch) => {
             });
         });
 };
-export const updateSelectedResultTemplate =(templateName)=> (dispatch) => {
+export const updateSelectedResultTemplate = (templateName) => (dispatch) => {
     //getResultSetting()(dispatch);
     dispatch({
-       type: actions.UPDATE_SELECTED_TEMPLATE,
-       payload: templateName,
-   });
+        type: actions.UPDATE_SELECTED_TEMPLATE,
+        payload: templateName,
+    });
 }
 
 export const getNotificationSettingResult = (notificationSettingId) => (dispatch) => {
@@ -122,7 +122,7 @@ export const updateNotificationSetting = (formData) => (dispatch) => {
         type: actions.UPDATE_NOTIFICATION_SETTING_LOADING
     });
 
-    
+
     axiosInstance.post('/portalsetting/api/v1/create-update-notification-setting', formData)
         .then((res) => {
             dispatch({
@@ -194,6 +194,46 @@ export const createNotificationSetting = (notification) => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_NOTIFICATION_SETTING_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const getAdmissionSetting = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ADMISSION_SETTING_LOADING,
+    });
+    axiosInstance.get(`/smp/api/v1/admission-settings/get-settings`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ADMISSION_SETTING_SUCCESS,
+                payload: res.data.result,
+            });
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.FETCH_ADMISSION_SETTING_FAILED,
+                payload: err.response.data.result,
+            });
+        });
+};
+
+export const createAdmissionSetting = (result) => (dispatch) => {
+    dispatch({
+        type: actions.CREATE_ADMISSION_SETTING_LOADING
+    });
+    axiosInstance.post('/smp/api/v1/admission-settings/create', result)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_ADMISSION_SETTING_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.CREATE_ADMISSION_SETTING_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)

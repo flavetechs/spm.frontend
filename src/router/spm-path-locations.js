@@ -38,6 +38,7 @@ export const classLocations = {
   createHomeAssessment: "/dashboard/smp-class/create-home-assessment",
   editClassAssessment: "/dashboard/smp-class/edit-class-assessment",
   classAssessmentDetails: "/dashboard/smp-class/class-assessment-details",
+  cbtAssessmentList: "/dashboard/smp-class/cbt-assessment",
   editHomeAssessment: "/dashboard/smp-class/edit-home-assessment",
   viewStudentsHomeAssessment: "/dashboard/smp-class/view-student-home-assessment",
   lessonNotes: "/dashboard/smp-class/lesson-notes",
@@ -124,7 +125,8 @@ export const resultManagement = {
 export const portalSetting = {
   active: 'smp-setting',
   setting: "/dashboard/smp-setting",
-  templateSetting: "/dashboard/smp-template-setting"
+  templateSetting: "/dashboard/smp-template-setting",
+  theme: "/dashboard/smp-theme",
 };
 
 export const pinManagement = {
@@ -146,6 +148,11 @@ export const pushedNotificationManagement = {
   pushedNotificationDetails: "/dashboard/notification-details",
 }
 
+export const adminAdmissionLocations = {
+  adminAdmissionList: "/dashboard/smp-admission/admission-setup",
+  adminAdmissionDetail: "/dashboard/smp-session/admission-detail",
+  viewCandidateAnswers: "/dashboard/smp-session/view-candidate-answers",
+};
 export const admissionLocations = {
   admissionRegistration: "/dashboard/smp-admission/admission-registration",
   admissionRegistrationInformation: "/dashboard/smp-admission/admission-registration-information",

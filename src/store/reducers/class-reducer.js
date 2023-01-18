@@ -184,7 +184,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: true,
-        createSuccessful:true,
+        createSuccessful: true,
         loading: false,
         message: payload,
       };
@@ -192,7 +192,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: false,
-        createSuccessful:false,
+        createSuccessful: false,
         loading: false,
         message: payload,
       };
@@ -210,14 +210,14 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
-        createSuccessful:true,
+        createSuccessful: true,
       };
     case actions.UPDATE_SUBJECT_FAILED:
       return {
         ...state,
         loading: false,
         message: payload,
-        createSuccessful:false,
+        createSuccessful: false,
         isSuccessful: false,
       };
 
@@ -257,8 +257,8 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         itemList: payload,
-        submitSuccessful:false,
-        createSuccessful:false,
+        submitSuccessful: false,
+        createSuccessful: false,
       };
     case actions.FETCH_SESSION_CLASS_FAILED:
       return {
@@ -279,15 +279,15 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         isSuccessful: true,
-        submitSuccessful:true,
+        submitSuccessful: true,
         loading: false,
-        message: payload,
+        selectedItem: payload,
       };
     case actions.CREATE_SESSION_CLASS_FAILED:
       return {
         ...state,
         isSuccessful: false,
-        submitSuccessful:false,
+        submitSuccessful: false,
         loading: false,
         message: payload,
       };
@@ -305,7 +305,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
-        submitSuccessful:true,
+        submitSuccessful: true,
       };
     case actions.UPDATE_SESSION_CLASS_FAILED:
       return {
@@ -313,7 +313,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
-        submitSuccessful:false,
+        submitSuccessful: false,
       };
 
     case actions.DELETE_SESSION_CLASS_LOADING:
@@ -426,7 +426,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         selectedItem: payload,
-        classSubjects: payload.classSubjects,
+        //classSubjects: payload.classSubjects,
       };
     }
     case actions.FETCH_SINGLE_SESSION_CLASS_FAILED: {
@@ -434,6 +434,26 @@ export const classReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         selectedItem: null,
+      };
+    }
+
+    case actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        classSubjects: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_SESSION_CLASS_SUBJECTS_FAILED: {
+      return {
+        ...state,
+        loading: false,
       };
     }
     //GET SINGLE SESSION CLASS
@@ -1390,6 +1410,29 @@ export const classReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.FETCH_CBT_ASSESSMENT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        assessmentList: [],
+      };
+    }
+    case actions.FETCH_CBT_ASSESSMENT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: payload.data,
+        filterProps: payload,
+      };
+    }
+    case actions.FETCH_CBT_ASSESSMENT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        assessmentList: [],
+      };
+    }
+
     case actions.FETCH_SINGLE_HOME_ASSESSMENT_LOADING: {
       return {
         ...state,
@@ -1680,8 +1723,28 @@ export const classReducer = (state = _state, { type, payload }) => {
         message: payload,
         loading: false,
       };
-
-
+      case actions.INCLUDE_AS_SCORE_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+        };
+      case actions.INCLUDE_AS_SCORE_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          createSuccessful: true,
+          message: payload,
+          loading: false,
+        };
+      case actions.INCLUDE_AS_SCORE_FAILED:
+        return {
+          ...state,
+          isSuccessful: false,
+          createSuccessful: false,
+          message: payload,
+          loading: false,
+        }
     default:
       return state;
   }

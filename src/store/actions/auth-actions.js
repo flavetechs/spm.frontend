@@ -113,3 +113,24 @@ export const changeMyPassword = ({ userId, oldPassword, newPassword }) => (dispa
             })
         })
 }
+
+export const loginCBT = () => (dispatch) => {
+
+    dispatch({
+        type: actions.CBT_LOGIN_LOADING
+    });
+
+    axiosInstance.post('user/api/v1/get/cbt-token')
+        .then((res) => {
+            dispatch({
+                type: actions.CBT_LOGIN_SUCCESS,
+                payload: res.data.result
+            });
+            getActiveSession()(dispatch);
+        }).catch(err => {
+            dispatch({
+                type: actions.CBT_LOGIN_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}

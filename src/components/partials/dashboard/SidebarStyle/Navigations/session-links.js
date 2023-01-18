@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { sessionLocations } from '../../../../../router/spm-path-locations'
+import { adminAdmissionLocations, sessionLocations } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function SessionLink(props) {
     var location = useLocation()
@@ -18,7 +18,7 @@ export function SessionLink(props) {
                             </path>
                         </svg>
                     </i>
-                    <span className="item-name">Session MGT</span>
+                    <span className="item-name">Session</span>
                     <i className="right-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -40,14 +40,14 @@ export function SessionLink(props) {
                                         </svg>
                                     </i>
                                     <i className="sidenav-mini-icon"> U </i>
-                                    <span className="item-name">Session Setup</span>
+                                    <span className="item-name">Setup</span>
                                 </Link>
                             </li>
                         </ul>
                     </Accordion.Collapse>
                 }
 
-                {
+                {/* {
                     hasAccess(NavPermissions.classSetup) &&
                     <Accordion.Collapse eventKey="sidebar-session" >
                         <ul className="sub-nav">
@@ -67,9 +67,9 @@ export function SessionLink(props) {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                }
+                } */}
 
-                {
+                {/* {
                     hasAccess(NavPermissions.subjectSetup) &&
                     <Accordion.Collapse eventKey="sidebar-session" >
                         <ul className="sub-nav">
@@ -89,35 +89,54 @@ export function SessionLink(props) {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                }
+                } */}
 
                 {
                     hasAccess(NavPermissions.sessionSessionClass) &&
-                <Accordion.Collapse eventKey="sidebar-session" >
-                    <ul className="sub-nav">
-                        <li className="nav-item">
-                            <Link className={`${location.pathname === sessionLocations.sessionClassList ? 'active' : ''} nav-link`} to={sessionLocations.sessionClassList}
-                                onClick={props.minisidebar}>
-                                <i className="icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                        <g>
-                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                        </g>
-                                    </svg>
-                                </i>
-                                <i className="sidenav-mini-icon"> S </i>
-                                <span className="item-name">Class</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </Accordion.Collapse>
-              }
-               {
+                    <Accordion.Collapse eventKey="sidebar-session" >
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === sessionLocations.sessionClassList ? 'active' : ''} nav-link`} to={sessionLocations.sessionClassList}
+                                    onClick={props.minisidebar}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> S </i>
+                                    <span className="item-name">Class</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                }
+                {
                     hasAccess(NavPermissions.promotionList) &&
+                    <Accordion.Collapse eventKey="sidebar-session">
+                        <ul className="sub-nav">
+                            <li className="nav-item">
+                                <Link className={`${location.pathname === sessionLocations.promotionSetup ? 'active' : ''} nav-link`} to={sessionLocations.promotionSetup}
+                                    onClick={props.minisidebar}>
+                                    <i className="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i className="sidenav-mini-icon"> U </i>
+                                    <span className="item-name">Promotion</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </Accordion.Collapse>
+                }
                 <Accordion.Collapse eventKey="sidebar-session">
                     <ul className="sub-nav">
                         <li className="nav-item">
-                            <Link className={`${location.pathname === sessionLocations.promotionSetup ? 'active' : ''} nav-link`} to={sessionLocations.promotionSetup}
+                            <Link className={`${location.pathname === adminAdmissionLocations.adminAdmissionList ? 'active' : ''} nav-link`} to={adminAdmissionLocations.adminAdmissionList}
                                 onClick={props.minisidebar}>
                                 <i className="icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
@@ -127,12 +146,11 @@ export function SessionLink(props) {
                                     </svg>
                                 </i>
                                 <i className="sidenav-mini-icon"> U </i>
-                                <span className="item-name">Promotion</span>
+                                <span className="item-name">Admission</span>
                             </Link>
                         </li>
                     </ul>
                 </Accordion.Collapse>
-                }
             </Accordion.Item>
         </>
     )

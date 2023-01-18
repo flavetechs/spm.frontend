@@ -1,85 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { sessionLocations } from "../../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
-import * as Yup from "yup";
+
 import {
-  updateSessionClass,
   buildClassSubjectArray as buildSessionClassSubjectArray,
-  getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  getAllSessionClasses,
-  fetchSingleSessionClass,
-  updateClassSubjects,
   updateSessionClassSubjects,
+  fetchSingleSessionClassSubjects,
+  updateClassSubjects,
 } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 
 const SessionClassTableEdit = () => {
-  //VALIDATIONS SCHEMA
-  const validation = Yup.object().shape({
-    // classId: Yup.string().required("Class is required"),
-    formTeacherId: Yup.string().required("Form teacher is required"),
-    examScore: Yup.number()
-      .required("Examination score is required")
-      .min(0, "Examination score must not be below 0")
-      .max(100, "Examination score must not be above 100"),
-    assessmentScore: Yup.number()
-      .required("Assessment score is required")
-      .min(0, "Assessment score must not be below 0")
-      .max(100, "Assessment score must not be above 100"),
-    passMark: Yup.number()
-      .required("Pass Mark is required")
-      .min(0, "Pass Mark score must not be below 0")
-      .max(100, "Pass Mark score must not be above 100"),
-    subjectExamScore: Yup.number()
-      .required("Subject Examination score is required")
-      .min(0, "Subject Examination score must not be below 0")
-      .max(100, "Subject Examination score must not be above 100"),
-    subjectAssessmentScore: Yup.number()
-      .required("Subject Assessment score is required")
-      .min(0, "Subject Assessment score must not be below 0")
-      .max(100, "Subject Assessment score must not be above 100"),
-  });
-  //VALIDATIONS SCHEMA
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const {
    createSuccessful,
-    message,
-    selectedItem,
     activeTeachers,
     activeSubjects,
-    activeClasses,
     classSubjects,
   } = state.class;
   const { activeSession } = state.session;
   // ACCESSING STATE FROM REDUX STORE
 
-  //VARIABLE DECLARATIONS
-  const [examScore, setExamScore] = useState(70);
-  const [assessmentScore, setAssessmentScore] = useState(30);
-  const [passMark, setPassMark] = useState(40);
-  const history = useHistory();
-  const locations = useLocation();
-  const dispatch = useDispatch();
+  //VARIABLE DECLARATIONS 
+   const locations = useLocation();
+   const history = useHistory();
+   const dispatch = useDispatch();
+  const queryParams = new URLSearchParams(locations.search);
+  const sessionClassId = queryParams.get("sessionClassId");
+  const exam = Number(queryParams.get("exam"));
+  const assessment= Number(queryParams.get("assessment"));
+  const [examScore, setExamScore] = useState(exam);
+  const [assessmentScore, setAssessmentScore] = useState(assessment);
   const [initialValues, setInitialValues] = useState({
-    sessionId: selectedItem?.sessionId,
-    classId: selectedItem?.classId,
-    formTeacherId: selectedItem?.formTeacherId,
-    InSession: true,
-    sessionClassId: selectedItem?.sessionClassId,
-    examScore: examScore,
-    assessmentScore: assessmentScore,
-    passMark: passMark,
-    subjectExamScore: 70,
-    subjectAssessmentScore: 30,
+    sessionClassId: sessionClassId,
+    subjectExamScore:exam,
+    subjectAssessmentScore:assessment,
+    subjectId:""
   });
 
   //VARIABLE DECLARATIONS
@@ -98,31 +63,21 @@ const SessionClassTableEdit = () => {
     setInitialValues(initialValues);
   };
 
- 
-  React.useEffect(() => {
-    getActiveSession()(dispatch);
-  }, [dispatch]);
 
   React.useEffect(() => {
-    const queryParams = new URLSearchParams(locations.search);
-    const sessionClassId = queryParams.get("sessionClassId");
-    if (!sessionClassId) return;
-    fetchSingleSessionClass(sessionClassId)(dispatch);
-    getAllSessionClasses(activeSession?.sessionId)(dispatch);
-    getAllActiveClasses()(dispatch);
+    getActiveSession()(dispatch); 
     getAllActiveTeachers()(dispatch);
     getAllActiveSubjects()(dispatch);
+  }, [dispatch]);
 
-  }, [activeSession, dispatch, locations.search]);
 
   React.useEffect(() => {
-    setExamScore(selectedItem?.examScore);
-    setAssessmentScore(selectedItem?.assessmentScore);
-    setPassMark(selectedItem?.passMark);
-    initialValues.formTeacherId = selectedItem?.formTeacherId;
-    setInitialValues(initialValues);
-  }, [selectedItem]);
+    if (!sessionClassId) return;
+    fetchSingleSessionClassSubjects(sessionClassId)(dispatch);
+  }, [sessionClassId]);
 
+ 
+ 
  
 
   //HANDLER FUNCTIONS
@@ -135,7 +90,7 @@ const SessionClassTableEdit = () => {
       subjectTeacherId || "",
       subjectTeacher || "",
       classSubjects,
-      true
+      event.target.checked
     )(dispatch);
   };
 
@@ -184,6 +139,7 @@ const SessionClassTableEdit = () => {
   }, [createSuccessful]);
 
 console.log("classSubjects",classSubjects);
+
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -194,17 +150,20 @@ console.log("classSubjects",classSubjects);
                 <Formik
                   enableReinitialize={true}
                   initialValues={initialValues}
-                  validationSchema={validation}
                   onSubmit={(values) => {
-                    
-                    values.subjectList = classSubjects;
-                    
-                    values.sessionClassId = selectedItem?.sessionClassId;
+                    values.sessionClassId = sessionClassId;
                     const score = Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
                       showErrorToast("Examination and assessment must equal 100")(dispatch);
                       return;
                     }
+                    for (let i = 0; i < classSubjects.length; i++) {
+                      if (!classSubjects[i].assessment)
+                        classSubjects[i].assessment = assessmentScore;
+                      if (!classSubjects[i].examSCore)
+                        classSubjects[i].examSCore = examScore;
+                    }
+                    values.subjectList = classSubjects;
                     updateSessionClassSubjects(values)(dispatch);
                   }}
                 >
@@ -253,14 +212,14 @@ console.log("classSubjects",classSubjects);
                                   name="subjectId"
                                   className="form-check-input text-capitalize mx-2"
                                   checked={
-                                    classSubjects.find(
+                                    classSubjects?.find(
                                       (sub) =>
                                         sub.subjectId === subject.lookupId
                                     ) || false
                                   }
                                   onChange={(e) => {
-                                    console.log("checked",e.target.checked);
                                     getSubjectId(e, subject.lookupId, subject.name);
+                                    setFieldValue("subjectId",e.target.value)
                                   }}
                                 />{""}
                                 {subject.name}
@@ -277,8 +236,7 @@ console.log("classSubjects",classSubjects);
                                     id={`${subject.lookupId}_subjectExamScore`}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
-                                    placeholder=" "
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore || values.examScore}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore || examScore}
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(e.target.value),
