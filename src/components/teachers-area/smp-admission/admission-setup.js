@@ -43,7 +43,7 @@ const AdmissionList = () => {
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
-    // getAllSession2Classes()(dispatch);
+    getAllSession2Classes()(dispatch);
     loginCBT()(dispatch);
   }, []);
 
