@@ -50,7 +50,7 @@ axiosInstance.interceptors.request.use(
         //     return config;
         // }
         const sessionToken = await localStorage.getItem('token');
-        const emailSessionToken = await localStorage.getItem('emailToken');
+        const emailSessionToken = await sessionStorage.getItem('emailToken');
         if (sessionToken) {
             config.headers.Authorization = 'Bearer ' + sessionToken
             

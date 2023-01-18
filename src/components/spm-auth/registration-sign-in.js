@@ -18,27 +18,22 @@ const RegistrationSignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.candidate;
-    var emailToken = localStorage.getItem('emailToken');
-    var candidateUserDetails = JSON.parse(localStorage.getItem('candidateUserDetails'));
-    var authStatus = JSON.parse(localStorage.getItem('authStatus'));
+    var emailToken = sessionStorage.getItem('emailToken');
+    var candidateUserDetails = JSON.parse(sessionStorage.getItem('candidateUserDetails'));
+    var authStatus = JSON.parse(sessionStorage.getItem('authStatus'));
 
     useEffect(() => {
         if (candidateUserDetails) {
             if (emailToken !== null) {
                 window.location.href = '/candidates';
             } else if (authStatus === null) {
-                localStorage.removeItem('emailToken');
+                sessionStorage.removeItem('emailToken');
                 history.push(candidateLocations.registrationEmailReceived)
-                // history.push(candidateLocations.candidateAdmissionConfirmation + '?admissionNotificationId=' + candidateUserDetails.admissionNotificationId)
             } else {
-                localStorage.removeItem('emailToken');
+                sessionStorage.removeItem('emailToken');
             }
         }
-    }, [emailToken, history, candidateUserDetails])
-
-    console.log("emailToken", emailToken);
-    console.log("candidateUserDetails", candidateUserDetails);
-    console.log("authStatus", authStatus);
+    }, [emailToken, history, candidateUserDetails]);
 
     const validation = Yup.object().shape({
         parentEmail: Yup.string()

@@ -24,7 +24,7 @@ const CandidateList = () => {
         getCandidatesAdmissionList(1)(dispatch);
     }, [dispatch]);
 
-    var candidateUserDetails = JSON.parse(localStorage.getItem('candidateUserDetails'));
+    var candidateUserDetails = JSON.parse(sessionStorage.getItem('candidateUserDetails'));
 
     const filteredCandidateList = admissionList.filter((candidate) => {
         if (searchQuery === "") {
