@@ -7,7 +7,8 @@ export const _state = {
     filterProps: {},
     submitSuccessful: false,
     selectedIds: [],
-    sessionClasses2: [],
+    // sessionClasses2: [],
     adminAdmissionClasses: [],
     admissionImportedList: [],
+    session2Classes: [],
   };

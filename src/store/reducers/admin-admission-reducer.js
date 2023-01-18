@@ -123,29 +123,29 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
         submitSuccessful: false,
       };
 
-    case actions.FETCH_SESSION_CLASSES2_LOADING:
-      return {
-        ...state,
-        loading: true,
-        message: '',
-        isSuccessful: false
-      };
+    // case actions.FETCH_SESSION_CLASSES2_LOADING:
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //     message: '',
+    //     isSuccessful: false
+    //   };
 
-    case actions.FETCH_SESSION_CLASSES2_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        sessionClasses2: payload,
-        isSuccessful: true,
-      };
+    // case actions.FETCH_SESSION_CLASSES2_SUCCESS:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     sessionClasses2: payload,
+    //     isSuccessful: true,
+    //   };
 
-    case actions.FETCH_SESSION_CLASSES2_FAILED:
-      return {
-        ...state,
-        loading: false,
-        isSuccessful: false,
-        message: payload,
-      };
+    // case actions.FETCH_SESSION_CLASSES2_FAILED:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     isSuccessful: false,
+    //     message: payload,
+    //   };
 
     case actions.ENROLL_SINGLE_CANDIDATE_FAILED:
       return {
@@ -219,6 +219,32 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
       };
+
+
+    case actions.FETCH_ALL_SESSION_2_CLASSES_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
+
+    case actions.FETCH_ALL_SESSION_2_CLASSES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        session2Classes: payload,
+        isSuccessful: true,
+      };
+
+    case actions.FETCH_ALL_SESSION_2_CLASSES_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload,
+      };
+
 
 
     default:

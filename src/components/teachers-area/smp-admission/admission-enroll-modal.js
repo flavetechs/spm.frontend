@@ -7,7 +7,7 @@ import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
 import { enrollMultipleCandidates, enrollSingleCandidate, getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
-export function AdmissionEnrolModal({ selectedIds, sessionClasses2 }) {
+export function AdmissionEnrolModal({ selectedIds, session2Classes }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
@@ -21,10 +21,6 @@ export function AdmissionEnrolModal({ selectedIds, sessionClasses2 }) {
     //ACCESSING REDUX STATE
 
     React.useEffect(() => {
-        // getSessionClasses2()(dispatch);
-    }, []);
-
-    React.useEffect(() => {
         if (!showModal) {
             seSelectedSessionClassId("");
         }
@@ -36,7 +32,7 @@ export function AdmissionEnrolModal({ selectedIds, sessionClasses2 }) {
             <Form className="pt-3">
                 <div>
                     <div className="mb-3 ">
-                        {sessionClasses2?.map((item, id) => (
+                        {session2Classes?.map((item, id) => (
                             <div key={id}>
                                 <input
                                     className="form-check-input me-2 mb-2"
