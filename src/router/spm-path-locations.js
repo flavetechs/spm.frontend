@@ -22,8 +22,6 @@ export const inprogress = {
 export const authLocations = {
   login: "/smp/sign-in",
   firstTimeLogin: "/smp/change-password-on-login",
-  forgotPassword: "/smp/forgot-password",
-  passwordReset: "/PasswordReset",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
 };

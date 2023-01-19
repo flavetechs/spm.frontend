@@ -12,7 +12,6 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 token: '',
                 refreshToken: '',
                 isSuccessful: false,
-                passwordResetSuccessful: false,
             }
 
         case actions.LOGIN_USER_SUCCESS: {
@@ -23,9 +22,9 @@ export const authReducer = (state = _state, { type, payload }: any) => {
             localStorage.setItem('token', payload.authResult.token);
             localStorage.setItem('permissions', decodedToken.permissions);
             localStorage.setItem('userDetail', JSON.stringify(payload.userDetail));
-
-
-
+            
+       
+            
             return {
                 ...state,
                 loading: false,
@@ -124,68 +123,16 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                     isSuccessful: true,
                 }
             }
-
-        case actions.CBT_LOGIN_FAILED:
-            return {
-                ...state,
-                loading: false,
-                cbtToken: null,
-                cbtRefreshToken: null,
-                message: payload,
-                isSuccessful: false,
-            }
-
-        case actions.FORGET_PASSWORD_LOADING:
-            return {
-                ...state,
-                loading: true,
-                message: '',
-                isSuccessful: false,
-            }
-        case actions.FORGET_PASSWORD_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                token: payload.token,
-                refreshToken: payload.refreshToken,
-                message: payload,
-                isSuccessful: true,
-                forgotPasswordEmail: payload,
-            }
-        case actions.FORGET_PASSWORD_FAILED:
-            return {
-                ...state,
-                loading: false,
-                message: payload,
-                isSuccessful: false,
-            }
-
-
-        case actions.RESET_FORGOTTEN_PASSWORD_LOADING:
-            return {
-                ...state,
-                loading: true,
-                message: '',
-                isSuccessful: false,
-                passwordResetSuccessful: false,
-            }
-        case actions.RESET_FORGOTTEN_PASSWORD_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                message: payload,
-                isSuccessful: true,
-                passwordResetSuccessful: true,
-            }
-        case actions.RESET_FORGOTTEN_PASSWORD_FAILED:
-            return {
-                ...state,
-                loading: false,
-                message: payload,
-                isSuccessful: false,
-                passwordResetSuccessful: false,
-            }
-
+    
+            case actions.CBT_LOGIN_FAILED:
+                return {
+                    ...state,
+                    loading: false,
+                    cbtToken: null,
+                    cbtRefreshToken: null,
+                    message: payload,
+                    isSuccessful: false,
+                }
 
         default:
             return state
