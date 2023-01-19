@@ -222,6 +222,16 @@ console.log("classSubjects",classSubjects);
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId, subject.name);
                                     setFieldValue("subjectId",subject.lookupId);
+                                    if(!e.target.checked){
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectExamScore`,
+                                        Number(exam)
+                                      );
+                                    setFieldValue(
+                                      `${subject.lookupId}_subjectAssessmentScore`,
+                                      Number(assessment)
+                                    );
+                                    }
                                   }}
                                 />{""}
                                 {subject.name}
@@ -237,7 +247,7 @@ console.log("classSubjects",classSubjects);
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore}
+                                    defaultValue={classSubjects?.find((sub) => sub.subjectId === subject.lookupId).examSCore}
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(e.target.value),
