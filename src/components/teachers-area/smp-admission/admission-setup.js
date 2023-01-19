@@ -4,14 +4,13 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
 import PaginationFilter from "../../partials/components/pagination-filter";
-import { fetchAllAdminAdmissionList, getAdminAdmissionClasses, importAdmissionResult, pushId, removeId, returnList } from "../../../store/actions/admin-admission-actions";
+import { fetchAllAdminAdmissionList, getAdminAdmissionClasses, getAllSession2Classes, importAdmissionResult, pushId, removeId, returnList } from "../../../store/actions/admin-admission-actions";
 import { adminAdmissionLocations } from "../../../router/spm-path-locations";
 import { AdminAdmissionModal } from "./admin-admission-modal";
 import { showHideModal } from "../../../store/actions/toaster-actions";
 import { Field, Formik } from "formik";
 import { AdmissionEnrolModal } from "./admission-enroll-modal";
 import { loginCBT } from "../../../store/actions/auth-actions";
-import { getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
 
 const AdmissionList = () => {
@@ -26,7 +25,7 @@ const AdmissionList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { cbtToken, clientUrl } = state.auth;
-  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses, sessionClasses2 } = state.adminAdmission;
+  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses, session2Classes } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -44,9 +43,9 @@ const AdmissionList = () => {
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
-    getSessionClasses2()(dispatch);
+    getAllSession2Classes()(dispatch);
     loginCBT()(dispatch);
-  }, [dispatch]);
+  }, []);
 
 
   const filteredAdmissionList = adminAdmissionList?.filter((admission) => {
@@ -95,7 +94,10 @@ const AdmissionList = () => {
     { statusName: "Failed", statusNumber: 2 },
   ]
 
-  console.log("sessionClasses2", sessionClasses2);
+  const handleClick = (event) => {
+    event.preventDefault();
+  }
+
 
   return (
     <>
@@ -272,12 +274,12 @@ const AdmissionList = () => {
                             </button>
                           </Link>
                         }
-                        {!selectedExamStatus ?
+                        {selectedIds.length < 1 || selectedExamStatus === "" || selectedClassId === "" ?
                           <OverlayTrigger
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                                Please select Exam Status to Enroll Students
+                                Please select class, Exam Status, and check Student(s) to be enrolled
                               </Tooltip>
                             }
                           >
@@ -287,7 +289,7 @@ const AdmissionList = () => {
                             >
                               <button
                                 type="button"
-                                disabled={selectedExamStatus ? false : true}
+                                disabled={true}
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
                                 <i className="btn-inner">
@@ -412,7 +414,7 @@ const AdmissionList = () => {
                   </div>
                   {selectModal == "export-modal" ?
                     <AdminAdmissionModal selectedClassId={selectedClassId} /> :
-                    <AdmissionEnrolModal selectedIds={selectedIds} sessionClasses2={sessionClasses2} />
+                    <AdmissionEnrolModal selectedIds={selectedIds} session2Classes={session2Classes} />
                   }
                   <Card.Body className="px-0">
                     <div className="table-responsive">
@@ -505,7 +507,7 @@ const AdmissionList = () => {
                                     placement="top"
                                     overlay={
                                       <Tooltip id="button-tooltip-2">
-                                        Candidate Exam Details
+                                        Candidate Details
                                       </Tooltip>
                                     }
                                   >
@@ -515,7 +517,6 @@ const AdmissionList = () => {
                                       data-placement="top"
                                       title=""
                                       data-original-title="Details"
-                                      // to={`${adminAdmissionLocations.adminAdmissionDetail}`}
                                       to={`${adminAdmissionLocations.adminAdmissionDetail}?admissionId=${item.admissionId}`}
                                     >
                                       <span className="btn-inner">
@@ -552,34 +553,71 @@ const AdmissionList = () => {
                                       </span>
                                     </Link>
                                   </OverlayTrigger>{" "}
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip id="button-tooltip-2">
-                                        CBT Exam Details
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <a
-                                      className="btn btn-sm btn-icon btn-primary"
-                                      data-toggle="tooltip"
-                                      data-placement="top"
-                                      title=""
-                                      data-original-title="Details"
-                                      href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
-                                      target="_blank" rel="noopener noreferrer"
+
+                                  {item.examinationId === "" ?
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip id="button-tooltip-2">
+                                          No Exam for candidate please import from CBT
+                                        </Tooltip>
+                                      }
                                     >
-                                      <span className="btn-inner">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                          width="20" height="16" fill="currentColor"
-                                          className="bi bi-info-circle"
-                                          viewBox="0 0 16 16">
-                                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                                        </svg>
-                                      </span>
-                                    </a>
-                                  </OverlayTrigger>{" "}
+                                      <a
+                                        className="btn btn-sm btn-icon btn-warning"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title=""
+                                        data-original-title="Details"
+                                        href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
+                                        target="_blank" rel="noopener noreferrer"
+                                        onClick={handleClick}
+                                      >
+                                        <span className="btn-inner">
+                                          <svg xmlns="http://www.w3.org/2000/svg"
+                                            width="20" height="16" fill="currentColor"
+                                            className="bi bi-info-circle"
+                                            viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                          </svg>
+                                        </span>
+                                      </a>
+                                    </OverlayTrigger>
+
+                                    :
+
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip id="button-tooltip-2">
+                                          View CBT Exam Details
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <a
+                                        className="btn btn-sm btn-icon btn-primary"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title=""
+                                        data-original-title="Details"
+                                        href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
+                                        target="_blank" rel="noopener noreferrer"
+                                      >
+                                        <span className="btn-inner">
+                                          <svg xmlns="http://www.w3.org/2000/svg"
+                                            width="20" height="16" fill="currentColor"
+                                            className="bi bi-info-circle"
+                                            viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                          </svg>
+                                        </span>
+                                      </a>
+                                    </OverlayTrigger>
+
+                                  }
+
                                 </div>
                               </td>
                             </tr>
