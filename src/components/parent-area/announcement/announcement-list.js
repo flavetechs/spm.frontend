@@ -3,9 +3,9 @@ import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { announcementLocations } from "../../../router/parents-path-locations";
-import { getAllAnnouncement, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
+import { getMyWardsAnnouncement, getMyWardsSingleAnnouncement, updateMyWardsSeenAnnouncement } from "../../../store/actions/parent-actions";
 import { stripHtml } from "../../../utils/tools";
-// import "../../teachers-area/smp-notifications/announcement.scss";
+import PaginationFilter from "../../partials/components/pagination-filter";
 import "../../teachers-area/smp-notifications/announcement.scss";
 
 const ParentAnnouncement = () => {
@@ -13,11 +13,11 @@ const ParentAnnouncement = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const state = useSelector((state) => state);
-    const { announcementList, filterProps } = state.notification;
+    const { myWardsAnnouncementList, filterProps } = state.parent;
 
     React.useEffect(() => {
-        getAllAnnouncement(1)(dispatch);
-    }, []);
+        getMyWardsAnnouncement(1)(dispatch);
+    }, [dispatch]);
 
     function truncateString(str) {
         str = str.replace("<br>", "<div></div>");
@@ -33,6 +33,7 @@ const ParentAnnouncement = () => {
             return str?.length > 25 ? str.slice(0, 25) + "..." : str;
         }
     }
+    
 
     return (
         <>
@@ -52,7 +53,7 @@ const ParentAnnouncement = () => {
                                 <div className=" mx-3">
                                     <svg
                                         onClick={() => {
-                                            getAllAnnouncement()(dispatch);
+                                            getMyWardsAnnouncement(1)(dispatch);
                                         }}
                                         style={{ cursor: "pointer" }}
                                         width="23"
@@ -70,7 +71,7 @@ const ParentAnnouncement = () => {
                     <Card.Body className="h-100 py-0">
                         <div className="tab-content iq-tab-fade-up" id="myTabContent-2">
                             <div className="tab-pane fade show active">
-                                {announcementList?.map((item, idx) => (
+                                {myWardsAnnouncementList?.map((item, idx) => (
                                     <div key={idx} >
                                         <div className="">
                                             <div
@@ -92,7 +93,7 @@ const ParentAnnouncement = () => {
                                                                 `${announcementLocations.parentannouncementDetails
                                                                 }?announcementsId=${item.announcementsId}`
                                                             );
-                                                            updateSeenAnnouncement(item.announcementsId)(dispatch)
+                                                            updateMyWardsSeenAnnouncement(item.announcementsId)(dispatch)
                                                         }}
                                                     >
                                                         {item.isSeen === false ? (
@@ -201,7 +202,7 @@ const ParentAnnouncement = () => {
                                                             `${announcementLocations.parentannouncementDetails
                                                             }?announcementsId=${item.announcementsId}`
                                                         );
-                                                        updateSeenAnnouncement(item.announcementsId)(dispatch)
+                                                        updateMyWardsSeenAnnouncement(item.announcementsId)(dispatch)
                                                     }}
                                                 >
                                                     {item.header}
@@ -213,7 +214,7 @@ const ParentAnnouncement = () => {
                                                             `${announcementLocations.parentannouncementDetails
                                                             }?announcementsId=${item.announcementsId}`
                                                         );
-                                                        updateSeenAnnouncement(item.announcementsId)(dispatch);
+                                                        updateMyWardsSeenAnnouncement(item.announcementsId)(dispatch);
                                                     }}
                                                 >
 
@@ -224,7 +225,7 @@ const ParentAnnouncement = () => {
                                                             `${announcementLocations.parentannouncementDetails
                                                             }?announcementsId=${item.announcementsId}`
                                                         );
-                                                        updateSeenAnnouncement(item.announcementsId)(dispatch)
+                                                        updateMyWardsSeenAnnouncement(item.announcementsId)(dispatch)
                                                     }}
                                                 >
                                                     {item.announcementDate}
@@ -238,9 +239,9 @@ const ParentAnnouncement = () => {
                             </div>
                         </div>
                     </Card.Body>
-                    {/* <Card.Footer>
-                        <PaginationFilter filterProps={filterProps} action={getAllAnnouncement} dispatch={dispatch} />
-                    </Card.Footer> */}
+                    <Card.Footer>
+                        <PaginationFilter filterProps={filterProps} action={getMyWardsSingleAnnouncement} dispatch={dispatch} />
+                    </Card.Footer>
                 </Card>
             </div>
         </>

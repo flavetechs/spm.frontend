@@ -14,13 +14,13 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
 
         case actions.LOGIN_CANDIDATE_SUCCESS: {
             if (payload?.result?.auth !== null) {
-                localStorage.removeItem('emailToken');
-                localStorage.removeItem('expires');
-                localStorage.removeItem('candidateUserDetails');
+                sessionStorage.removeItem('emailToken');
+                sessionStorage.removeItem('expires');
+                sessionStorage.removeItem('candidateUserDetails');
 
-                localStorage.setItem('emailToken', payload?.result?.auth?.token);
-                localStorage.setItem('expires', payload?.result?.auth?.expires);
-                localStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result?.userDetails));
+                sessionStorage.setItem('emailToken', payload?.result?.auth?.token);
+                sessionStorage.setItem('expires', payload?.result?.auth?.expires);
+                sessionStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result?.userDetails));
 
                 return {
                     ...state,
@@ -32,13 +32,13 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 }
 
             } else if (payload?.result?.auth === null) {
-                localStorage.removeItem('friendlyMessage');
-                localStorage.removeItem('candidateUserDetails');
-                localStorage.removeItem('authStatus');
+                sessionStorage.removeItem('friendlyMessage');
+                sessionStorage.removeItem('candidateUserDetails');
+                sessionStorage.removeItem('authStatus');
 
-                localStorage.setItem('authStatus', JSON.stringify(payload?.result?.auth));
-                localStorage.setItem('friendlyMessage', payload?.message?.friendlyMessage);
-                localStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result.userDetails));
+                sessionStorage.setItem('authStatus', JSON.stringify(payload?.result?.auth));
+                sessionStorage.setItem('friendlyMessage', payload?.message?.friendlyMessage);
+                sessionStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result.userDetails));
 
                 return {
                     ...state,
@@ -62,9 +62,9 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
             }
 
         case actions.LOG_OUT_CANDIDATE_USER: {
-            localStorage.removeItem('emailToken');
-            localStorage.removeItem('authStatus');
-            localStorage.removeItem('candidateUserDetails');
+            sessionStorage.removeItem('emailToken');
+            sessionStorage.removeItem('authStatus');
+            sessionStorage.removeItem('candidateUserDetails');
             return {
                 message: '',
                 token: '',

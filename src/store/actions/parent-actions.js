@@ -150,3 +150,63 @@ export const getMyWardsHomeAssessment = (pageNumber, sessionClassSubjectId, stud
             })
         });
 }
+
+
+export const getMyWardsAnnouncement = (PageNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_MY_WARDS_ANNOUNCEMENT_LOADING,
+    });
+
+    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-announcements?PageNumber=${PageNumber}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_ANNOUNCEMENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_ANNOUNCEMENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getMyWardsSingleAnnouncement = (announcementId ) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_MY_WARDS_SINGLE_ANNOUNCEMENT_LOADING,
+    });
+    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-announcement-details/${announcementId }`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_SINGLE_ANNOUNCEMENT_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_SINGLE_ANNOUNCEMENT_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const updateMyWardsSeenAnnouncement = (announcementsId) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_MY_WARDS_SEEN_ANNOUNCEMENT_LOADING
+    });
+    const payload = {
+        announcementsId
+    }
+
+    axiosInstance.post('/smp/maywards/api/v1/get/maywards/update/seen-announcement', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_MY_WARDS_SEEN_ANNOUNCEMENT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_MY_WARDS_SEEN_ANNOUNCEMENT_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+        });
+}
