@@ -161,6 +161,7 @@ export const importAdmissionResult = (classId) => (dispatch) => {
                 type: actions.IMPORT_ADMISSION_RESULT_SUCCESS,
                 payload: res.data.result
             });
+            fetchAllAdminAdmissionList(1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch(err => {
             dispatch({
@@ -171,20 +172,39 @@ export const importAdmissionResult = (classId) => (dispatch) => {
         });
 }
 
-export const getSessionClasses2 = () => (dispatch) => {
-    dispatch({
-        type: actions.FETCH_SESSION_CLASSES2_LOADING
-    });
+// export const getSessionClasses2 = () => (dispatch) => {
+//     dispatch({
+//         type: actions.FETCH_SESSION_CLASSES2_LOADING
+//     });
 
-    axiosInstance.get('/class/api/v1/get-all/session-classes2')
+//     axiosInstance.get('/class/api/v1/get-all/session-classes2')
+//         .then((res) => {
+//             dispatch({
+//                 type: actions.FETCH_SESSION_CLASSES2_SUCCESS,
+//                 payload: res.data.result
+//             });
+//         }).catch(err => {
+//             dispatch({
+//                 type: actions.FETCH_SESSION_CLASSES2_FAILED,
+//                 payload: err.response.data.result
+//             })
+//         });
+// }
+
+
+export const getAllSession2Classes = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ALL_SESSION_2_CLASSES_LOADING
+    });
+    axiosInstance.get("/class/api/v1/get-all/session-classes2")
         .then((res) => {
             dispatch({
-                type: actions.FETCH_SESSION_CLASSES2_SUCCESS,
+                type: actions.FETCH_ALL_SESSION_2_CLASSES_SUCCESS,
                 payload: res.data.result
             });
         }).catch(err => {
             dispatch({
-                type: actions.FETCH_SESSION_CLASSES2_FAILED,
+                type: actions.FETCH_ALL_SESSION_2_CLASSES_FAILED,
                 payload: err.response.data.result
             })
         });
