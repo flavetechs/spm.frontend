@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Row, Col, Image } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Card from '../Card';
 import * as Yup from 'yup';
 
@@ -10,37 +10,13 @@ import auth1 from '../../assets/images/auth/04.png'
 import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
-import { changeMyPassword, forgotPassword } from '../../store/actions/auth-actions';
+import { forgotPassword } from '../../store/actions/auth-actions';
 
 const ForgotPassword = () => {
 
-    const locations = useLocation();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-
-
     const { message } = state.auth;
-    var token = localStorage.getItem('token');
-    var userDetail = localStorage.getItem('userDetail');
-    const [userId, setId] = useState('');
-    React.useEffect(() => {
-        const queryParams = new URLSearchParams(locations.search);
-        const id = queryParams.get("id");
-        if (!id) return;
-        setId(id);
-    }, [userId]);
-
-    React.useEffect(() => {
-        if (userDetail) {
-            if (JSON.parse(userDetail).userType === 'Student') {
-                window.location.href = '/stds-dashboard';
-            } else {
-                window.location.href = '/dashboard';
-            }
-
-        }
-
-    }, [token, userDetail])
 
     const validation = Yup.object().shape({
         email: Yup.string().required("User Email is Required")
@@ -67,7 +43,6 @@ const ForgotPassword = () => {
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
-                                        console.log("values", values);
                                         forgotPassword(values)(dispatch)
                                     }}
                                 >
