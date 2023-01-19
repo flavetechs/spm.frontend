@@ -78,8 +78,8 @@ const SessionClassTableAdd = () => {
   //HANDLER FUNCTIONS
   const getSubjectId = (event, subjectId,subject, subjectTeacherId,subjectTeacher) => {
     buildSessionClassSubjectArray(
-     examScore,
-     assessmentScore,
+     exam,
+     assessment,
       subjectId,
       subject,
       subjectTeacherId || "",
@@ -146,20 +146,20 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    const score =
-                      Number(examScore) + Number(assessmentScore);
-                    if (score !== 100) {
-                      showErrorToast(
-                        "Examination and assessment must equal 100"
-                      )(dispatch);
-                      return;
-                    }
+                    // const score =
+                    //   Number(examScore) + Number(assessmentScore);
+                    // if (score !== 100) {
+                    //   showErrorToast(
+                    //     "Examination and assessment must equal 100"
+                    //   )(dispatch);
+                    //   return;
+                    // }
 
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
-                        classSubjects[i].assessment = assessmentScore;
+                        classSubjects[i].assessment = assessment;
                       if (!classSubjects[i].examSCore)
-                        classSubjects[i].examSCore = examScore;
+                        classSubjects[i].examSCore = exam;
                     }
                     values.subjectList = classSubjects;
                     updateSessionClassSubjects(values)(dispatch);
@@ -215,7 +215,16 @@ console.log("classSubjects",classSubjects);
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId,subject.name);
                                     setFieldValue("subjectId",subject.lookupId);
-                                    
+                                    if(!e.target.checked){
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectExamScore`,
+                                        Number(exam)
+                                      );
+                                    setFieldValue(
+                                      `${subject.lookupId}_subjectAssessmentScore`,
+                                      Number(assessment)
+                                    );
+                                    }
                                   }}
                                 />{" "}
                                 {subject.name}

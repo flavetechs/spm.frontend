@@ -38,8 +38,8 @@ const SessionClassTableEdit = () => {
   const sessionClassId = queryParams.get("sessionClassId");
   const exam = Number(queryParams.get("exam"));
   const assessment= Number(queryParams.get("assessment"));
-  const [examScore, setExamScore] = useState(exam);
-  const [assessmentScore, setAssessmentScore] = useState(assessment);
+  const [examScore, setExamScore] = useState("");
+  const [assessmentScore, setAssessmentScore] = useState("");
   const [initialValues, setInitialValues] = useState({
     sessionClassId: sessionClassId,
     subjectExamScore:exam,
@@ -77,14 +77,16 @@ const SessionClassTableEdit = () => {
   }, [sessionClassId]);
 
  
+  React.useEffect(() => {
  
+  }, [dispatch]);
  
 
   //HANDLER FUNCTIONS
   const getSubjectId = (event, subjectId,subject, subjectTeacherId,subjectTeacher) => {
     buildSessionClassSubjectArray(
-      examScore,
-      assessmentScore,
+      exam,
+      assessment,
       subjectId,
       subject,
       subjectTeacherId || "",
@@ -152,16 +154,16 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   onSubmit={(values) => {
                     values.sessionClassId = sessionClassId;
-                    const score = Number(values.examScore) + Number(values.assessmentScore);
-                    if (score !== 100) {
-                      showErrorToast("Examination and assessment must equal 100")(dispatch);
-                      return;
-                    }
+                    // const score = Number(values.examScore) + Number(values.assessmentScore);
+                    // if (score !== 100) {
+                    //   showErrorToast("Examination and assessment must equal 100")(dispatch);
+                    //   return;
+                    // }
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
-                        classSubjects[i].assessment = assessmentScore;
+                        classSubjects[i].assessment = assessment;
                       if (!classSubjects[i].examSCore)
-                        classSubjects[i].examSCore = examScore;
+                        classSubjects[i].examSCore = exam;
                     }
                     values.subjectList = classSubjects;
                     updateSessionClassSubjects(values)(dispatch);
@@ -219,7 +221,17 @@ console.log("classSubjects",classSubjects);
                                   }
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId, subject.name);
-                                    setFieldValue("subjectId",e.target.value)
+                                    setFieldValue("subjectId",subject.lookupId);
+                                    if(!e.target.checked){
+                                      setFieldValue(
+                                        `${subject.lookupId}_subjectExamScore`,
+                                        Number(exam)
+                                      );
+                                    setFieldValue(
+                                      `${subject.lookupId}_subjectAssessmentScore`,
+                                      Number(assessment)
+                                    );
+                                    }
                                   }}
                                 />{""}
                                 {subject.name}
@@ -235,8 +247,7 @@ console.log("classSubjects",classSubjects);
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
-                                    required
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).examSCore || examScore}
+                                    defaultValue={classSubjects?.find((sub) => sub.subjectId === subject.lookupId).examSCore}
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(e.target.value),
@@ -270,7 +281,7 @@ console.log("classSubjects",classSubjects);
                                     type="number"
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
-                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment || values.assessmentScore}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
