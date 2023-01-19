@@ -9,17 +9,19 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { updateSeenAnnouncement } from "../../../store/actions/notification-actions";
+import { getMyWardsSingleAnnouncement } from "../../../store/actions/parent-actions";
 
 const ParentAnnouncementDetails = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { announcementDetails } = state.notification;
+  const { myWardsSingleAnnouncement } = state.parent;
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const announcementsId = queryParams.get("announcementsId");
+    getMyWardsSingleAnnouncement(announcementsId)(dispatch);
     updateSeenAnnouncement(announcementsId)(dispatch);
   }, []);
 
@@ -57,10 +59,10 @@ const ParentAnnouncementDetails = () => {
             <Card.Body>
               <div className="d-flex justify-content-between mt-3 flex-wrap">
                 <div>
-                  <h6>{announcementDetails?.senderName}</h6>
+                  <h6>{myWardsSingleAnnouncement?.senderName}</h6>
                 </div>
                 <div className="text-end text-primary">
-                  {announcementDetails?.announcementDate}
+                  {myWardsSingleAnnouncement?.announcementDate}
                 </div>
               </div>
               <div className="d-flex justify-content-start mt-4">
@@ -95,13 +97,13 @@ const ParentAnnouncementDetails = () => {
                   </button>
                 </div>
                 <div className="ms-2 mt-2 fw-bold">
-                  <span>{announcementDetails?.header}</span>
+                  <span>{myWardsSingleAnnouncement?.header}</span>
                   <br />
                 </div>
               </div>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: announcementDetails?.content,
+                  __html: myWardsSingleAnnouncement?.content,
                 }}
               ></div>
               <hr />
