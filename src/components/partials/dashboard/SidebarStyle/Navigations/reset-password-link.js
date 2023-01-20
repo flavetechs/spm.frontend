@@ -8,7 +8,7 @@ export function ResetPasswordLink(props){
         <>
     
               {
-                    hasAccess(NavPermissions.portalSetting) &&
+                    hasAccess(NavPermissions.gradeSetting) &&
                        <li className="nav-item">
                        <Link className={`${location.pathname === authLocations.forgotPassword ? 'active' : ''} nav-link`} to={authLocations.forgotPassword}
                        onClick={()=>{
