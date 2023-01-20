@@ -429,8 +429,8 @@ export const buildClassSubjectArray = (examSCore, assessment, subjectId, subject
             existingClassSubject.subject = subject;
             existingClassSubject.subjectTeacher = subjectTeacher === "" ? existingClassSubject.subjectTeacher : subjectTeacher;
             existingClassSubject.subjectTeacherId = subjectTeacherId === "" ? existingClassSubject.subjectTeacherId : subjectTeacherId;
-            existingClassSubject.examSCore = examSCore == "" ? existingClassSubject.examSCore : examSCore;
-            existingClassSubject.assessment = assessment == "" ? existingClassSubject.assessment : assessment;
+            existingClassSubject.examSCore = examSCore === "" ? existingClassSubject.examSCore : examSCore;
+            existingClassSubject.assessment = assessment === "" ? existingClassSubject.assessment : assessment;
             classSubjects = [...otherClassSubject, existingClassSubject]
         } else {
            classSubjects = [...otherClassSubject]
