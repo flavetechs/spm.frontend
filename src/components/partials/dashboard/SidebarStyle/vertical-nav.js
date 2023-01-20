@@ -24,6 +24,7 @@ import { LessonNoteLink } from "./Navigations/lesson-notes-link";
 import { TimeTableLink } from "./Navigations/timetable-links";
 import { AssessmentLink } from "./Navigations/assessment-links";
 import { AttendanceLink } from "./Navigations/attendance-link";
+import { ResetPasswordLink } from "./Navigations/reset-password-link";
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -232,6 +233,10 @@ const VerticalNav = () => {
                                 minisidebar={minisidebar}
                                 CustomToggle={CustomToggle}
                                 setActiveMenu={setActiveMenu}
+                            />
+
+                                <ResetPasswordLink
+                                minisidebar={minisidebar}
                             />
                         </>
                     )}
