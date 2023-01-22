@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { bindActionCreators } from "redux"
 //circular
@@ -35,6 +35,7 @@ import CountUp from 'react-countup';
 // store
 import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
 import { connect } from "react-redux"
+import { getAllParentDashboardCount } from '../../store/actions/dashboard-actions.js'
 // import { getAllStudentDashboardCount } from '../../store/actions/dashboard-actions.js'
 
 
@@ -70,6 +71,19 @@ const mapDispatchToProps = dispatch => ({
 
 
 const StudentIndex = (props) => {
+
+    const location = useLocation();
+
+    const [parentDashboardCountItem, setParentDashboardCountItem] = useState({});
+
+    useEffect(async () => {
+        await getAllParentDashboardCount()
+        setTimeout(() => {
+            setParentDashboardCountItem(JSON.parse(localStorage.getItem('parentDashboardData')));
+        }, 3000)
+    }, [location.search])
+
+    console.log("parentDashboardCountItem", parentDashboardCountItem);
 
     useEffect(() => {
 
@@ -308,7 +322,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Total Wards</p>
-                                                <h4 className="counter"><CountUp start={0} end={3} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={parentDashboardCountItem?.totalWards} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -323,7 +337,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Total Assessment</p>
-                                                <h4 className="counter"><CountUp start={0} end={44} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={parentDashboardCountItem?.totalAssessment} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -338,7 +352,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Teacher's Notes</p>
-                                                <h4 className="counter"><CountUp start={0} end={66} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={parentDashboardCountItem?.teachersNote} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -353,7 +367,7 @@ const StudentIndex = (props) => {
                                             </Circularprogressbar>
                                             <div className="progress-detail">
                                                 <p className="mb-2">Ward's Notes</p>
-                                                <h4 className="counter"><CountUp start={0} end={66} duration={3} /></h4>
+                                                <h4 className="counter"><CountUp start={0} end={parentDashboardCountItem?.wardsNote} duration={3} /></h4>
                                             </div>
                                         </div>
                                     </div>
