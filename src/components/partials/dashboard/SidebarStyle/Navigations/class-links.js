@@ -8,8 +8,7 @@ export function ClassLink(props){
         <>
        {
                     hasAccess(NavPermissions.sessionClass) &&
-                    // <Accordion.Collapse eventKey="sidebar-special" >
-                       // <ul className="sub-nav">
+                  
                             <li className="nav-item">
                                 <Link className={`${location.pathname === classLocations.sessionClassList2 ? 'active' : ''} nav-link`} to={classLocations.sessionClassList2}
                                 onClick={ props.minisidebar}>
@@ -23,86 +22,7 @@ export function ClassLink(props){
                                     <span className="item-name">Session Class</span>
                                 </Link>
                             </li>
-                       //</> </ul>
-                   
-                    }
-                    {/* {
-                    hasAccess(NavPermissions.classAttendance) &&
-                    <Accordion.Collapse eventKey="sidebar-special" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.classAttendanceBoard ? 'active' : ''} nav-link`} to={classLocations.classAttendanceBoard}
-                                onClick={ props.minisidebar}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> A </i>
-                                    <span className="item-name">Attendance</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                    }
-                    <Accordion.Collapse eventKey="sidebar-special" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.assessment ? 'active' : ''} nav-link`} to={classLocations.assessment}
-                                onClick={ props.minisidebar}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> A </i>
-                                    <span className="item-name">Assessment</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                    <Accordion.Collapse eventKey="sidebar-special" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.lessonNotes ? 'active' : ''} nav-link`} to={classLocations.lessonNotes}
-                                onClick={ props.minisidebar}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> LN </i>
-                                    <span className="item-name">Lesson Notes</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-
-                    <Accordion.Collapse eventKey="sidebar-special" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === classLocations.classTimeTable ? 'active' : ''} nav-link`} to={classLocations.classTimeTable}
-                                onClick={ props.minisidebar}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> TT </i>
-                                    <span className="item-name">Time Table</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse> */}
-                {/* </Accordion.Item> */}
+}
         </>
     )
 }

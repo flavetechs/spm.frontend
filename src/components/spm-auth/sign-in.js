@@ -110,7 +110,7 @@ const SignIn = () => {
                                                                 <Field type="checkbox" id="customCheck1" className="form-check-input" />
                                                                 <label htmlFor="customCheck1" className='check-label'>Remember Me </label>
                                                             </div>
-                                                            <Link to={authLocations.firstTimeLogin}>Forgot Password?</Link>
+                                                            <Link to={authLocations.forgottenPassword}>Forgot Password?</Link>
                                                         </Col>
                                                     </Row>
                                                     <div className="d-flex justify-content-center">

@@ -134,3 +134,51 @@ export const loginCBT = () => (dispatch) => {
             })
         })
 }
+
+export const forgotPasswordFunc = ({ email }) => (dispatch) => {
+    dispatch({
+        type: actions.FORGOT_PASSWORD_LOADING
+    });
+
+    const payload = {
+        email,
+    }
+
+    axiosInstance.post('/user/api/v1/forgot-password', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.FORGOT_PASSWORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FORGOT_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}
+
+export const resetForgotPasswordFunc = ({ userId, password, resetToken }) => (dispatch) => {
+    dispatch({
+        type: actions.RESET_FORGOT_PASSWORD_LOADING
+    });
+
+    const payload = {
+        userId,
+        password,
+        resetToken
+    }
+
+    axiosInstance.post('/user/api/v1/reset-password', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.RESET_FORGOT_PASSWORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.RESET_FORGOT_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}
