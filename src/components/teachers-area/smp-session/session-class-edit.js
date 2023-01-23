@@ -40,7 +40,6 @@ const SessionClassEdit = () => {
   const state = useSelector((state) => state);
   const {
     submitSuccessful,
-    message,
     selectedItem,
     activeTeachers,
     activeClasses,
@@ -244,9 +243,7 @@ const SessionClassEdit = () => {
                                   "assessmentScore",
                                   Number(100 - e.target.value)
                                 );
-                                
-                                //setCurrentSubjectScores2(Number(e.target.value), Number(100 - e.target.value));
-                                
+                            
                               }}
                               className="form-control p-sm-1 p-lg-2"
                               name="examScore"

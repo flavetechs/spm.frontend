@@ -10,7 +10,7 @@ export function ResetPasswordLink(props){
               {
                     hasAccess(NavPermissions.gradeSetting) &&
                        <li className="nav-item">
-                       <Link className={`${location.pathname === authLocations.forgotPassword ? 'active' : ''} nav-link`} to={authLocations.forgotPassword}
+                       <Link className={`${location.pathname === authLocations.forgottenPassword ? 'active' : ''} nav-link`} to={authLocations.forgottenPassword}
                        onClick={()=>{
                         props.minisidebar(); 
                         localStorage.removeItem('userDetail');    

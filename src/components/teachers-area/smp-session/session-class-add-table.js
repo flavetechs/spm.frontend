@@ -240,7 +240,7 @@ console.log("classSubjects",classSubjects);
                                     className="form-control px-1"
                                     name={`${subject.lookupId}_subjectExamScore`}
                                     id={`${subject.lookupId}_subjectExamScore`}
-                                    defaultValue={examScore}
+                                    defaultValue={classSubjects?.find((sub) => sub.subjectId === subject.lookupId).examSCore}
                                     aria-describedby={`${subject.lookupId}_subjectExamScore`}
                                     required
                                     placeholder=" "
@@ -278,7 +278,7 @@ console.log("classSubjects",classSubjects);
                                     className="form-control px-1 w-50"
                                     name={`${subject.lookupId}_subjectAssessmentScore`}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
-                                    defaultValue={assessmentScore}
+                                    defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
                                     required
                                     placeholder=" "
