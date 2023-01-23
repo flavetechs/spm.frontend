@@ -8,11 +8,9 @@ import * as Yup from "yup";
 
 import {
   createSessionClass,
-  buildClassSubjectArray,
   getAllActiveClasses,
   getAllActiveSubjects,
   getAllActiveTeachers,
-  updateClassSubjects,
 } from "../../../store/actions/class-actions";
 import { useHistory } from "react-router-dom";
 import { getActiveSession } from "../../../store/actions/session-actions";
@@ -23,11 +21,9 @@ const SessionClassAdd = () => {
   const state = useSelector((state) => state);
   const {
     submitSuccessful,
-    message,
     activeTeachers,
     selectedItem,
     activeClasses,
-    classSubjects,
   } = state.class;
 
   const { activeSession } = state.session;
@@ -41,7 +37,7 @@ const SessionClassAdd = () => {
   const [save, setSave] = useState(false);
   const [examScore, setExamScore] = useState(70);
   const [assessmentScore, setAssessmentScore] = useState(30);
-
+  const [passMark, setPassMark] = useState(40);
  
   //VARIABLE DECLARATIONS
 
@@ -82,7 +78,6 @@ const SessionClassAdd = () => {
       history.goBack();
     }
   }, [submitSuccessful, save]);
-
   //HANDLER FUNCTIONS
   return (
     <>
@@ -93,8 +88,8 @@ const SessionClassAdd = () => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    classId: "",
-                    formTeacherId: "",
+                    classId,
+                    formTeacherId,
                     InSession: true,
                     examScore,
                     assessmentScore,
@@ -104,7 +99,6 @@ const SessionClassAdd = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     values.sessionId = activeSession?.sessionId;
-
                     const score =
                       Number(values.examScore) + Number(values.assessmentScore);
                     if (score !== 100) {
@@ -113,7 +107,7 @@ const SessionClassAdd = () => {
                       )(dispatch);
                       return;
                     }
-
+                     
                     createSessionClass(values)(dispatch);
                   }}
                 >
@@ -165,7 +159,7 @@ const SessionClassAdd = () => {
                             <div className="text-danger">{errors.classId}</div>
                           )}
                           <div className="form-group">
-                            <label htmlFor="classId" className="form-label">
+                            <label  className="form-label">
                               {" "}
                               Class{" "}
                             </label>
@@ -174,7 +168,6 @@ const SessionClassAdd = () => {
                               name="classId"
                               className="form-select"
                               id="classId"
-                              defaultValue={values.classId}
                               onChange={(event) => {
                                 setFieldValue("classId", event.target.value);
                                 setClassId(event.target.value);
@@ -198,6 +191,7 @@ const SessionClassAdd = () => {
                               {errors.examScore}
                             </div>
                           )}
+
                           <div className="form-group">
                             <label  className="form-label">
                               {" "}
@@ -207,8 +201,9 @@ const SessionClassAdd = () => {
                               type="number"
                               value={examScore}
                               onChange={(e) => {
-                                setExamScore(e.target.value)
-                                setFieldValue("examScore", Number(e.target.value));
+                                setExamScore(e.target.value);
+                                setAssessmentScore(100 - e.target.value);
+                                setFieldValue("examScore",  Number(e.target.value));
                                 setFieldValue(
                                   "assessmentScore",
                                   Number(100 - e.target.value)
@@ -232,8 +227,10 @@ const SessionClassAdd = () => {
                                 {errors.assessmentScore}
                               </div>
                             )}
+
                           <div className="form-group">
                             <label
+                              htmlFor="assessmentScore"
                               className="form-label"
                             >
                               {" "}
@@ -243,14 +240,15 @@ const SessionClassAdd = () => {
                               type="number"
                               value={assessmentScore}
                               onChange={(e) => {
-                                setAssessmentScore(e.target.value)
-                                setFieldValue(
-                                  "examScore",
-                                  Number(100 - e.target.value)
-                                );
+                                setAssessmentScore(e.target.value);
+                                setExamScore(100 - e.target.value);
                                 setFieldValue(
                                   "assessmentScore",
-                                 Number(e.target.value)
+                                  Number(e.target.value)
+                                );
+                                setFieldValue(
+                                  "examScore",
+                                 Number(100 - e.target.value)
                                 );
                                
                               
@@ -274,14 +272,21 @@ const SessionClassAdd = () => {
                               {" "}
                               Pass Mark{" "}
                             </label>
+
                             <Field
-                              type="number"
-                              className="form-control p-sm-1 p-lg-2"
-                              name="passMark"
+                             name="passMark"
                               id="passMark"
+                              type="number"
+                              value={passMark}
+                              onChange={(e) => {
+                                setFieldValue("passMark", e.target.value);
+                                setPassMark(Number(e.target.value))
+                              }}
+                              className="form-control p-sm-1 p-lg-2"
+                             
                               aria-describedby="passMark"
                               required
-                              placeholder=" "
+                              
                             />
                           </div>
                         </Col>
@@ -292,6 +297,7 @@ const SessionClassAdd = () => {
                               {errors.formTeacherId}
                             </div>
                           )}
+
                           <div className="form-group">
                             <label
                               htmlFor="formTeacherId"
@@ -301,26 +307,29 @@ const SessionClassAdd = () => {
                             </label>
                             <Field
                               as="select"
+                              type="select"
                               name="formTeacherId"
                               className="form-select text-capitalize"
                               id="formTeacherId"
-                              onChange={(event) => {
+                              onChange={(event) =>{
+                                setFormTeacherId(event.target.value)
                                 setFieldValue(
                                   "formTeacherId",
                                   event.target.value
-                                );
-                                setFormTeacherId(event.target.value);
+                                )
                               }}
                             >
                               <option value={""}>Select Form Teacher</option>
                               {activeTeachers.map((teacher, idx) => (
                                 <option
+                                  selected={
+                                    selectedItem?.formTeacherId ===
+                                    teacher.teacherAccountId
+                                      ? true
+                                      : false
+                                  }
                                   key={idx}
                                   value={teacher.teacherAccountId}
-                                  selected={
-                                    values?.formTeacherId ===
-                                    teacher.teacherAccountId
-                                  }
                                 >
                                   {teacher.fullName}
                                 </option>
