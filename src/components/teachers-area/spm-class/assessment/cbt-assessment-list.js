@@ -169,11 +169,10 @@ const CBTAssessmentList = () => {
                         </div>
                       </div>
                       <div className="text-body mx-2 mt-n1">
-                        <button
+                        <a
                           type="button"
-                          onClick={() => {
-                            handleSubmit();
-                          }}
+                            href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExam`}
+                          target="_blank" rel="noopener noreferrer"
                           className="btn btn-primary btn-icon  mt-lg-0 mt-2 "
                         >
                           <i className="btn-inner">
@@ -193,7 +192,7 @@ const CBTAssessmentList = () => {
                             </svg>
                           </i>
                           <span>Create CBT Assessment</span>
-                        </button>
+                        </a>
                       </div>
                     </div>
                   </Card.Header>
@@ -418,7 +417,7 @@ const CBTAssessmentList = () => {
                                               data-placement="top"
                                               title=""
                                               data-original-title="Details"
-                                              href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
+                                              href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=examDetails`}
                                               target="_blank" rel="noopener noreferrer"
                                             >
                                               <span className="btn-inner">
