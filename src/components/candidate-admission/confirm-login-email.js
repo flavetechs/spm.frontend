@@ -20,7 +20,7 @@ const ConfirmUserEmail = () => {
         confirmUserEmail(admissionNotificationIdQuery)(dispatch);
     }, [dispatch, locations.search]);
 
-    var expires = localStorage.getItem('expires');
+    var expires = sessionStorage.getItem('expires');
 
     return (
         <>
