@@ -24,6 +24,7 @@ import RegistrationEmailReceived from '../components/candidate-admission/registr
 import CandidateEdit from '../components/candidate-admission/candidate-edit'
 import ForgottenPassword from '../components/spm-auth/forgotten-password'
 import PasswordReset from '../components/spm-auth/PasswordReset'
+import PasswordResetSuccessful from '../components/spm-auth/password-reset-successful'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -65,6 +66,7 @@ const IndexRouters = () => {
                         <Route path={authLocations.login} component={SignIn}></Route>
                         <Route path={authLocations.forgottenPassword} component={ForgottenPassword}></Route>
                         <Route path={authLocations.PasswordReset} component={PasswordReset}></Route>
+                        <Route path={authLocations.passwordResetSuccessful} component={PasswordResetSuccessful}></Route>
 
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
                         <Route path="/errors" component={Simple}></Route>
