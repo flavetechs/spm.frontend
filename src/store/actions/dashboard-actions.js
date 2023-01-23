@@ -23,3 +23,15 @@ export const getAllStudentDashboardCount = async () => {
          return err.response.data.result
       });
 };
+
+export const getAllParentDashboardCount = async () => {
+   axiosInstance.get(`/smp/maywards/api/v1/get/dashboard-count`)
+      .then(async (res) => {
+         localStorage.setItem('parentDashboardData', JSON.stringify(res?.data?.result));
+         return res?.data?.result;
+
+      })
+      .catch((err) => {
+         return err.response.data.result
+      });
+};
