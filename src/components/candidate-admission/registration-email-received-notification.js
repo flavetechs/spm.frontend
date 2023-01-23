@@ -1,9 +1,6 @@
-import React from 'react';
 import { Row, Col, Button, } from 'react-bootstrap';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {  useHistory } from 'react-router-dom';
 import SmpLoader from '../loader/smp-loader';
-import { confirmUserEmail, logOutUserEmail } from '../../store/actions/candidate-admission-actions';
 import { candidateAuthLocation } from '../../router/candidate-path-location';
 import Card from '../Card';
 
@@ -28,9 +25,9 @@ const RegistrationEmailReceived = () => {
                                                 type="button"
                                                 variant="btn btn-primary mx-2 text-center mx-auto"
                                                 onClick={() => {
-                                                    localStorage.removeItem("authStatus");
-                                                    localStorage.removeItem('emailToken');
-                                                    localStorage.removeItem('candidateUserDetails');
+                                                    sessionStorage.removeItem("authStatus");
+                                                    sessionStorage.removeItem('emailToken');
+                                                    sessionStorage.removeItem('candidateUserDetails');
                                                     history.push(candidateAuthLocation.signIn);
                                                 }}
                                             >

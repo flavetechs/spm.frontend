@@ -7,12 +7,12 @@ import { useHistory } from "react-router-dom";
 import Card from "../Card";
 import { createCandidateAdmission, getAdmissionClasses } from "../../store/actions/candidate-admission-actions";
 import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
+import { candidateLocations } from "../../router/candidate-path-location";
 
 const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
-    const [file, setFiles] = useState("");
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedState, setSelectedState] = useState("");
     //VARIABLE DECLARATIONS
@@ -36,6 +36,7 @@ const CandidateRegistration = () => {
             .min(2, "Number Too Short!")
             .required("Parent/Guardian phone number is required"),
         ClassId: Yup.string().required("Class name is required"),
+        Photo: Yup.string().required("Photo is required"),
     });
     //VALIDATIONS SCHEMA
 
@@ -51,13 +52,13 @@ const CandidateRegistration = () => {
     }, [dispatch]);
 
     React.useEffect(() => {
-        if(selectedCountry){
+        if (selectedCountry) {
             getStates(selectedCountry)(dispatch);
         }
     }, [dispatch, selectedCountry]);
 
     React.useEffect(() => {
-        if(selectedState){
+        if (selectedState) {
             getCities(selectedState)(dispatch);
         }
     }, [dispatch, selectedState]);
@@ -65,7 +66,7 @@ const CandidateRegistration = () => {
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
     React.useEffect(() => {
-        submitSuccessful && history.goBack()
+        submitSuccessful && history.push(candidateLocations.candidateList);
     }, [submitSuccessful, history]);
 
     return (
@@ -309,7 +310,7 @@ const CandidateRegistration = () => {
                                                         name="StateOfOrigin"
                                                         className="form-select"
                                                         id="StateOfOrigin"
-                                                        disabled={!selectedCountry? true : false}
+                                                        disabled={!selectedCountry ? true : false}
                                                         onChange={(e) => {
                                                             setFieldValue("StateOfOrigin", e.target.value)
                                                             setSelectedState(e.target.value)
@@ -370,7 +371,7 @@ const CandidateRegistration = () => {
                                                 </div>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="Photo">
-                                                        <b>Choose Photo (optional):</b>
+                                                        <b>Choose Photo:</b>
                                                     </label>
                                                     <div className="">
                                                         <input
