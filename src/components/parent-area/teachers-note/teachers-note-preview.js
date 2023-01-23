@@ -21,14 +21,14 @@ const TeachersNotePreview = ({ selectedSubjectId }) => {
   // ACCESSING STATE FROM REDUX STORE
 
   const queryParams = new URLSearchParams(locations.search);
-  const classIdQuery = queryParams.get("classId");
+  const studentIdQuery = queryParams.get("studentId");
   const wardNameQuery = queryParams.get("ward");
 
   React.useEffect(() => {
-    if (classIdQuery && selectedSubjectId) {
-      getAllMyWardsClassNotes(1, classIdQuery, selectedSubjectId)(dispatch);
+    if (studentIdQuery && selectedSubjectId) {
+      getAllMyWardsClassNotes(1, studentIdQuery, selectedSubjectId)(dispatch);
     }
-  }, [dispatch, classIdQuery, selectedSubjectId]);
+  }, [dispatch, studentIdQuery, selectedSubjectId]);
 
   return (
     <>
@@ -222,7 +222,7 @@ const TeachersNotePreview = ({ selectedSubjectId }) => {
         }
       </Card.Body>
       <Card.Footer>
-        <PaginationFilter2 filterProps={filterProps} action={getAllMyWardsClassNotes} dispatch={dispatch} param1={classIdQuery} param2={selectedSubjectId} />
+        <PaginationFilter2 filterProps={filterProps} action={getAllMyWardsClassNotes} dispatch={dispatch} param1={studentIdQuery} param2={selectedSubjectId} />
       </Card.Footer>
     </>
   );

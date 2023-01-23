@@ -83,7 +83,6 @@ const StudentIndex = (props) => {
         }, 3000)
     }, [location.search])
 
-    console.log("parentDashboardCountItem", parentDashboardCountItem);
 
     useEffect(() => {
 
