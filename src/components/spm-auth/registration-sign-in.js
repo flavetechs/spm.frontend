@@ -37,9 +37,8 @@ const RegistrationSignIn = () => {
 
     const validation = Yup.object().shape({
         parentEmail: Yup.string()
-            .min(2, 'Username Too Short!')
-            .max(50, 'Username Too Long!')
-            .required('Username is required to login'),
+            .email("Must be a valid email")
+            .required('Email is required to login'),
     });
 
     return (
@@ -72,7 +71,6 @@ const RegistrationSignIn = () => {
                                                 touched,
                                                 errors,
                                                 isValid }) => (
-
                                                 <Form >
                                                     <Row>
                                                         {message && <div className='text-danger'>{message}</div>}

@@ -24,6 +24,7 @@ export const userEmailLogin = (userEmail) => (dispatch) => {
 
     axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
         .then((res) => {
+            console.log("res", res);
             dispatch({
                 type: actions.LOGIN_CANDIDATE_SUCCESS,
                 payload: res.data,
