@@ -99,7 +99,10 @@ export const studentsLocations = {
   unenrolledStudents: "/dashboard/smp-student/unenrollment",
 };
 
-
+export const parentsLocations = {
+  parentsList: '/dashboard/smp-parents/parents-list',
+  parentsDetails: '/dashboard/smp-parents/parents-details',
+}
 
 export const gradeSetting = {
   active: 'smp-permigradessions',

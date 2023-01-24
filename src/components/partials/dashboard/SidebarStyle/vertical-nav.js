@@ -25,6 +25,7 @@ import { TimeTableLink } from "./Navigations/timetable-links";
 import { AssessmentLink } from "./Navigations/assessment-links";
 import { AttendanceLink } from "./Navigations/attendance-link";
 import { ResetPasswordLink } from "./Navigations/reset-password-link";
+import { ParentsLink } from "./Navigations/parents-on-admin-link";
 
 
 function CustomToggle({ children, eventKey, onClick }) {
@@ -209,6 +210,14 @@ const VerticalNav = () => {
                         />
                   
                 )}
+
+
+                  {hasAccess(NavPermissions.staffList) && (
+                            <ParentsLink
+                                minisidebar={minisidebar}
+                            />
+                            )}
+
 
                 {hasAccess2([
                     NavPermissions.portalSetting,
