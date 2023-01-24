@@ -1,5 +1,5 @@
 export const candidateAuthLocation = {
-    signIn: "/registration/sign-in",
+    signIn: "/registration",
 };
 
 export const candidateLocations = {
