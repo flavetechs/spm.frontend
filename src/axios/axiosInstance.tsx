@@ -35,40 +35,15 @@ axiosInstance.interceptors.response.use(async (response: any) => response, (erro
         return error.response
     }
     throw error;
-    // return error.response
 });
 
 axiosInstance.interceptors.request.use(
     async (config: any) => {
-        // const dispatch = useDispatch();
-        // const online = navigator.onLine;
-        // debugger
-        // if(online){
-
-        //     // showErrorToast('No Internet Connection')(dispatch);
-        //     // alert('online');
-        //     return config;
-        // }
         const sessionToken = await localStorage.getItem('token');
-        const emailSessionToken = await sessionStorage.getItem('emailToken');
-        const cbtToken = await sessionStorage.getItem('cbtToken');
         if (sessionToken) {
             config.headers.Authorization = 'Bearer ' + sessionToken
-            
-            return config;
-        } else if (emailSessionToken) {
-            config.headers.Authorization = 'Bearer ' + emailSessionToken
-            
             return config;
         }
-       
-        // if (emailSessionToken !== null) {
-        //     config.headers.Authorization = 'Bearer ' + emailSessionToken
-        // }
-        // return config;
-        // if (sessionToken !== null) {
-        //     config.headers.Authorization = 'Bearer ' + sessionToken
-        // }
         return config;
     },
     (error: any) => {
