@@ -3,7 +3,10 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { studentsLocations } from "../../../router/spm-path-locations";
-import { getParentsWard, getSingleParents } from "../../../store/actions/parent-actions";
+import {
+  getParentsWard,
+  getSingleParents,
+} from "../../../store/actions/parent-actions";
 import "./family-tree.css";
 
 const ParentsDetails = () => {
@@ -23,7 +26,7 @@ const ParentsDetails = () => {
   useEffect(() => {
     if (!parentId) return;
     getSingleParents(parentId)(dispatch);
-    getParentsWard(20,1,parentId)(dispatch);
+    getParentsWard(20, 1, parentId)(dispatch);
   }, [parentId]);
 
   console.log("single", singleParents);
@@ -46,10 +49,14 @@ const ParentsDetails = () => {
                   <li>
                     <div>{singleParents?.name}</div>
                     <ul>
-                        {myWardList?.map((ward,idx)=>(
-                      <li>
-                        <a href={`${studentsLocations.studentDetails}?studentAccountId=${ward.studentId}`} >{ward.fullName}</a>
-                      </li>
+                      {myWardList?.map((ward, idx) => (
+                        <li>
+                          <a
+                            href={`${studentsLocations.studentDetails}?studentAccountId=${ward.studentId}`}
+                          >
+                            {ward.fullName}
+                          </a>
+                        </li>
                       ))}
                     </ul>
                   </li>
