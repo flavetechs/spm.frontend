@@ -1,5 +1,6 @@
+import React from 'react';
 import { Row, Col, Image } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card';
 import * as Yup from 'yup';
 
@@ -13,7 +14,10 @@ import { forgotPasswordFunc } from '../../store/actions/auth-actions';
 
 const ForgottenPassword = () => {
 
+    let forgotPasswordMessage = sessionStorage.getItem("forgotPasswordMessage")
+
     const dispatch = useDispatch();
+    const history = useHistory();
     const state = useSelector((state) => state);
     const { message } = state.auth;
 
@@ -21,6 +25,13 @@ const ForgottenPassword = () => {
         email: Yup.string().required("User Email is Required")
             .email("Must be a valid email"),
     })
+
+    React.useEffect(() => {
+        if (forgotPasswordMessage) {
+            history.push(authLocations.passwordResetSuccessful)
+        }
+    }, [forgotPasswordMessage]);
+
     return (
         <>
             <section className="login-content">
@@ -52,7 +63,7 @@ const ForgottenPassword = () => {
                                         isValid }) => (
                                         <Form >
                                             <Row>
-                                                {message && <div className='text-danger'>{message}</div>}
+                                                {forgotPasswordMessage && <div className='text-success'>{forgotPasswordMessage}</div>}
                                                 <Col lg="12">
                                                     <div className="form-group">
                                                         {((touched.email && errors.email) || message) && <div className='text-danger'>{errors.email}</div>}
@@ -70,8 +81,9 @@ const ForgottenPassword = () => {
                                             </Row>
                                             <div className="d-flex justify-content-center">
                                                 <button onSubmit={() => {
-                                                    handleSubmit()
-                                                }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
+                                                    handleSubmit();
+
+                                                }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Reset</button>
                                             </div>
                                         </Form>
                                     )}

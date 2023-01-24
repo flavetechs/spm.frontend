@@ -144,6 +144,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 changedForgotPasswordSuccessful: false,
             }
         case actions.FORGOT_PASSWORD_SUCCESS:
+            sessionStorage.setItem("forgotPasswordMessage", payload)
             return {
                 ...state,
                 loading: false,

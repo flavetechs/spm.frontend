@@ -26,6 +26,7 @@ export const authLocations = {
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
   forgottenPassword: "/smp/forgotten-password",
   PasswordReset: "/PasswordReset",
+  passwordResetSuccessful: "/smp/password-reset-successful",
 };
 
 export const classLocations = {
