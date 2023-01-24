@@ -58,7 +58,7 @@ const MasterList = () => {
 
   React.useEffect(() => {
     sessionIdQueryParam && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
-  }, [sessionIdQueryParam, dispatch]);
+  }, [sessionIdQueryParam]);
 
   React.useEffect(() => {
     history.push(`${resultManagement.masterList}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
@@ -73,6 +73,7 @@ const MasterList = () => {
     }
   }, [masterEntry]);
 
+  
   return (
     <>
       {!showMasterListTable ? (
