@@ -93,7 +93,7 @@ const TeachersNote = () => {
                     <Card.Title>{item.class}</Card.Title>
                     <Link
                       className='btn btn-primary'
-                      to={`${parentTeachersNoteLocations.parentTteachersNotesView}?classId=${item.classId}&ward=${item.fullnaName}`}
+                      to={`${parentTeachersNoteLocations.parentTteachersNotesView}?studentId=${item.studentId}&classId=${item.classId}&ward=${item.fullnaName}`}
                     >
                       View Student Note
                     </Link>

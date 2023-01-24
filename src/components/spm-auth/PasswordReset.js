@@ -1,3 +1,4 @@
+import React from 'react';
 import { Row, Col, Image } from 'react-bootstrap'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import Card from '../Card';
@@ -23,17 +24,16 @@ const PasswordReset = () => {
     const userIdQuery = queryParams.get("id") || "";
     const resetTokenQuery = queryParams.get("user") || "";
 
-    console.log("userIdQuery", userIdQuery);
-    console.log("resetTokenQuery", resetTokenQuery);
-
     const validation = Yup.object().shape({
         password: Yup.string().required("Password Required")
             .min(4, 'Password must be a minimum of 4 characters'),
     })
 
-    if(changedForgotPasswordSuccessful){
-        history.push(authLocations.login)
-    }
+    React.useEffect(() => {
+        if(changedForgotPasswordSuccessful){
+            history.push(authLocations.login)
+        }
+    }, [changedForgotPasswordSuccessful])
 
     return (
         <>
@@ -90,13 +90,13 @@ const PasswordReset = () => {
                                                         <Field type="checkbox" id="customCheck1" className="form-check-input" />
                                                         <label htmlFor="customCheck1" className='check-label'>Remember Me </label>
                                                     </div>
-                                                    <Link to={authLocations.login}>Return back to login?</Link>
+                                                    <Link to={authLocations.forgottenPassword}>Return to Forgot Password?</Link>
                                                 </Col>
                                             </Row>
                                             <div className="d-flex justify-content-center">
                                                 <button onSubmit={() => {
                                                     handleSubmit()
-                                                }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
+                                                }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Submit</button>
                                             </div>
                                         </Form>
                                     )}

@@ -13,7 +13,7 @@ import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
 import parentDefault from '../layouts/dashboard/parent-default'
-import RegistrationSignIn from '../components/spm-auth/registration-sign-in'
+import RegistrationSignIn from '../components/spm-auth/parent-guardian-registration'
 import candidateDefault from '../layouts/dashboard/candidate-default'
 import { candidateAuthLocation, candidateLocations } from './candidate-path-location'
 import CandidateList from '../components/candidate-admission/candidate-list'
@@ -25,6 +25,7 @@ import CandidateEdit from '../components/candidate-admission/candidate-edit'
 import ForgottenPassword from '../components/spm-auth/forgotten-password'
 import PasswordReset from '../components/spm-auth/PasswordReset'
 import ResetPassword from '../components/spm-auth/reset-password'
+import PasswordResetSuccessful from '../components/spm-auth/password-reset-successful'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,6 +68,7 @@ const IndexRouters = () => {
                         <Route path={authLocations.resetPassword} component={ResetPassword}></Route>
                         <Route path={authLocations.forgottenPassword} component={ForgottenPassword}></Route>
                         <Route path={authLocations.PasswordReset} component={PasswordReset}></Route>
+                        <Route path={authLocations.passwordResetSuccessful} component={PasswordResetSuccessful}></Route>
 
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
                         <Route path="/errors" component={Simple}></Route>

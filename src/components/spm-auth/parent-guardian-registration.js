@@ -18,28 +18,25 @@ const RegistrationSignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.candidate;
-    var emailToken = sessionStorage.getItem('emailToken');
-    var candidateUserDetails = JSON.parse(sessionStorage.getItem('candidateUserDetails'));
-    var authStatus = JSON.parse(sessionStorage.getItem('authStatus'));
+    
 
-    useEffect(() => {
-        if (candidateUserDetails) {
-            if (emailToken !== null) {
-                window.location.href = '/candidates';
-            } else if (authStatus === null) {
-                sessionStorage.removeItem('emailToken');
-                history.push(candidateLocations.registrationEmailReceived)
-            } else {
-                sessionStorage.removeItem('emailToken');
-            }
-        }
-    }, [emailToken, history, candidateUserDetails]);
+    // useEffect(() => {
+    //     if (candidateUserDetails) {
+    //         if (emailToken !== null) {
+    //             window.location.href = '/candidates';
+    //         } else if (authStatus === null) {
+    //             sessionStorage.removeItem('emailToken');
+    //             history.push(candidateLocations.registrationEmailReceived)
+    //         } else {
+    //             sessionStorage.removeItem('emailToken');
+    //         }
+    //     }
+    // }, [emailToken, history, candidateUserDetails]);
 
     const validation = Yup.object().shape({
         parentEmail: Yup.string()
-            .min(2, 'Username Too Short!')
-            .max(50, 'Username Too Long!')
-            .required('Username is required to login'),
+            .email("Must be a valid email")
+            .required('Email is required to login'),
     });
 
     return (
@@ -72,7 +69,6 @@ const RegistrationSignIn = () => {
                                                 touched,
                                                 errors,
                                                 isValid }) => (
-
                                                 <Form >
                                                     <Row>
                                                         {message && <div className='text-danger'>{message}</div>}

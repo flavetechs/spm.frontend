@@ -27,6 +27,7 @@ export const authLocations = {
   resetPassword:"/smp/reset-password",
   forgottenPassword: "/smp/forgotten-password",
   PasswordReset: "/PasswordReset",
+  passwordResetSuccessful: "/smp/password-reset-successful",
 };
 
 export const classLocations = {

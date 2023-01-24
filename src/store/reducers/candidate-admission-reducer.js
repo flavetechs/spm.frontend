@@ -14,13 +14,8 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
 
         case actions.LOGIN_CANDIDATE_SUCCESS: {
             if (payload?.result?.auth !== null) {
-                sessionStorage.removeItem('emailToken');
-                sessionStorage.removeItem('expires');
-                sessionStorage.removeItem('candidateUserDetails');
-
-                sessionStorage.setItem('emailToken', payload?.result?.auth?.token);
-                sessionStorage.setItem('expires', payload?.result?.auth?.expires);
-                sessionStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result?.userDetails));
+                localStorage.setItem('token', payload.auth?.token)
+                localStorage.setItem('userDetail', JSON.stringify(payload.userDetails));
 
                 return {
                     ...state,

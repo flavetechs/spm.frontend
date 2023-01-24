@@ -20,11 +20,11 @@ export const getMyWardsList = (pageNumber) => (dispatch) => {
         });
 }
 
-export const getAllMyWardsClassNotes = (pageNumber, classId, subjectId) => (dispatch) => {
+export const getAllMyWardsClassNotes = (pageNumber, studentId, subjectId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MY_WARDS_CLASS_NOTE_LOADING,
     });
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-class-notes?pageNumber=${pageNumber}&classId=${classId}&subjectId=${subjectId}`)
+    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-class-notes?pageNumber=${pageNumber}&studentId=${studentId}&subjectId=${subjectId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_CLASS_NOTE_SUCCESS,
