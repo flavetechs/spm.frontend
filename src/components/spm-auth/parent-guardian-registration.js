@@ -20,18 +20,18 @@ const RegistrationSignIn = () => {
     const { message } = state.candidate;
     
 
-    useEffect(() => {
-        if (candidateUserDetails) {
-            if (emailToken !== null) {
-                window.location.href = '/candidates';
-            } else if (authStatus === null) {
-                sessionStorage.removeItem('emailToken');
-                history.push(candidateLocations.registrationEmailReceived)
-            } else {
-                sessionStorage.removeItem('emailToken');
-            }
-        }
-    }, [emailToken, history, candidateUserDetails]);
+    // useEffect(() => {
+    //     if (candidateUserDetails) {
+    //         if (emailToken !== null) {
+    //             window.location.href = '/candidates';
+    //         } else if (authStatus === null) {
+    //             sessionStorage.removeItem('emailToken');
+    //             history.push(candidateLocations.registrationEmailReceived)
+    //         } else {
+    //             sessionStorage.removeItem('emailToken');
+    //         }
+    //     }
+    // }, [emailToken, history, candidateUserDetails]);
 
     const validation = Yup.object().shape({
         parentEmail: Yup.string()
