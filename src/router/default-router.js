@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations, parentsLocations } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -98,6 +98,8 @@ import AdmissionDetail from '../components/teachers-area/smp-admission/admission
 import ViewCandidateAnswers from '../components/teachers-area/smp-admission/view-candidate-answers';
 import CBTAssessmentList from '../components/teachers-area/spm-class/assessment/cbt-assessment-list';
 import settingoffcanvas from '../components/partials/components/settingoffcanvas';
+import parentsList from '../components/teachers-area/smp-parents/parents-list';
+import ParentsDetails from '../components/teachers-area/smp-parents/parents-details';
 
 const DashboardRouter = () => {
 
@@ -177,6 +179,10 @@ const DashboardRouter = () => {
                         <Route path={staffLocations.staffAdd} exact component={StaffAdd} />
                         <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
                         <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
+
+                         {/* parents */}
+                         <Route path={parentsLocations.parentsList} exact component={parentsList} />
+                        <Route path={parentsLocations.parentsDetails} exact component={ParentsDetails} />
 
                         {/* enrollment */}
                         <Route path={studentsLocations.unenrolledStudents} exact component={UnenrolledStudentsList} />

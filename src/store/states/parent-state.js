@@ -16,4 +16,6 @@ export const _state = {
     selectedWardDetails: {},
     myWardsAnnouncementList: [],
     myWardsSingleAnnouncement: {},
+    parents:[],
+    singleParents:{},
   };

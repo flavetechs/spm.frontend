@@ -210,3 +210,58 @@ export const updateMyWardsSeenAnnouncement = (announcementsId) => (dispatch) => 
             });
         });
 }
+
+
+export const getAllParents = (pageSize,pageNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PARENTS_LOADING
+    });
+    axiosInstance.get(`/parent/api/v1/get-all/parents?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PARENTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_PARENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getSingleParents = (parentId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_PARENTS_LOADING,
+    });
+    axiosInstance.get(`/parent/api/v1/get/parent/${parentId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_PARENTS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_PARENTS_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const getParentsWard = (pageSize,pageNumber,parentId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PARENTS_WARD_LIST_LOADING
+    });
+    axiosInstance.get(`/parent/api/v1/get/parent-wards?pageNumber=${pageNumber}&pageSize=${pageSize}&parentId=${parentId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PARENTS_WARD_LIST_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FETCH_PARENTS_WARD_LIST_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}

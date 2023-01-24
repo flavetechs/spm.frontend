@@ -298,6 +298,71 @@ export const parentReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false
       };
+      case actions.FETCH_PARENTS_LOADING:
+        return {
+          ...state,
+          loading: true,
+          message: "",
+          isSuccessful: false,
+        };
+      case actions.FETCH_PARENTS_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          parents: payload.data,
+          filterProps: payload
+        };
+      case actions.FETCH_PARENTS_FAILED:
+        return {
+          ...state,
+          loading: false,
+          message: payload,
+          isSuccessful: false,
+        };
+  
+  
+        case actions.FETCH_SINGLE_PARENTS_LOADING:
+          return {
+            ...state,
+            loading: true,
+            message: "",
+            isSuccessful: false,
+          };
+        case actions.FETCH_SINGLE_PARENTS_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            singleParents: payload
+          };
+        case actions.FETCH_SINGLE_PARENTS_FAILED:
+          return {
+            ...state,
+            loading: false,
+            message: payload,
+            isSuccessful: false
+          }
+          case actions.FETCH_PARENTS_WARD_LIST_LOADING:
+            return {
+              ...state,
+              loading: true,
+              message: "",
+              isSuccessful: false,
+            };
+          case actions.FETCH_PARENTS_WARD_LIST_SUCCESS:
+            return {
+              ...state,
+              loading: false,
+              myWardList: payload.data,
+              filterProps: payload
+            };
+          case actions.FETCH_PARENTS_WARD_LIST_FAILED:
+            return {
+              ...state,
+              loading: false,
+              message: payload,
+              isSuccessful: false,
+            };
+
 
 
     default:

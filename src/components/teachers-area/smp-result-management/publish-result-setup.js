@@ -46,7 +46,7 @@ const PublishResult = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    if(sessionIdQueryParam){
+    if(sessionIdQueryParam != 'undefined'){
       getTermClasses(sessionIdQueryParam)(dispatch);
     }else{
       return

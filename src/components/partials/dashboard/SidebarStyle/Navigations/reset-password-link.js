@@ -4,17 +4,16 @@ import { authLocations, classLocations } from '../../../../../router/spm-path-lo
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function ResetPasswordLink(props){
     var location = useLocation()
+    var userDetail = localStorage.getItem('userDetail')
     return(
         <>
     
               {
                     hasAccess(NavPermissions.gradeSetting) &&
                        <li className="nav-item">
-                       <Link className={`${location.pathname === authLocations.forgottenPassword ? 'active' : ''} nav-link`} to={authLocations.forgottenPassword}
+                       <Link className={`${location.pathname === authLocations.resetPassword ? 'active' : ''} nav-link`} to={`${authLocations.resetPassword}?id=${JSON.parse(userDetail).userAccountId}`}
                        onClick={()=>{
                         props.minisidebar(); 
-                        localStorage.removeItem('userDetail');    
-                       localStorage.removeItem('token');
                        }}>
                        <i className="icon">
                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

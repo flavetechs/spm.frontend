@@ -57,7 +57,7 @@ const MasterList = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
+    sessionIdQueryParam != 'undefined' && getAllSessionClasses1(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {

@@ -24,6 +24,7 @@ export const authLocations = {
   firstTimeLogin: "/smp/change-password-on-login",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
+  resetPassword:"/smp/reset-password",
   forgottenPassword: "/smp/forgotten-password",
   PasswordReset: "/PasswordReset",
   passwordResetSuccessful: "/smp/password-reset-successful",
@@ -100,7 +101,10 @@ export const studentsLocations = {
   unenrolledStudents: "/dashboard/smp-student/unenrollment",
 };
 
-
+export const parentsLocations = {
+  parentsList: '/dashboard/smp-parents/parents-list',
+  parentsDetails: '/dashboard/smp-parents/parents-details',
+}
 
 export const gradeSetting = {
   active: 'smp-permigradessions',
