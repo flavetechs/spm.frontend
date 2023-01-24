@@ -9,4 +9,5 @@ export const _state = {
     permissions: [],
     userDetail: null,
     changedForgotPasswordSuccessful: false,
+    loginSuccessful:false,
 }

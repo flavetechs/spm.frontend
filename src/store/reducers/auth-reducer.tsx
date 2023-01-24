@@ -12,6 +12,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 token: '',
                 refreshToken: '',
                 isSuccessful: false,
+                loginSuccessful:false,
             }
 
         case actions.LOGIN_USER_SUCCESS: {
@@ -32,6 +33,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 refreshToken: payload.authResult.refreshToken,
                 message: '',
                 isSuccessful: true,
+                loginSuccessful:true,
             }
         }
 
@@ -43,6 +45,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 refreshToken: null,
                 message: payload,
                 isSuccessful: false,
+                loginSuccessful:false,
             }
 
         case actions.LOG_OUT_USER: {
