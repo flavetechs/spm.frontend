@@ -55,7 +55,7 @@ const PublishResultTable = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionIdQueryParam && getTermClasses(sessionIdQueryParam)(dispatch);
+    sessionIdQueryParam != 'undefined' && getTermClasses(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   const selectedTermClasses = termClasses?.find(item => {
