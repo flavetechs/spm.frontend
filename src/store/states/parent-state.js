@@ -17,5 +17,5 @@ export const _state = {
     myWardsAnnouncementList: [],
     myWardsSingleAnnouncement: {},
     parents:[],
-    singleParents:{},
+    singleParent:{},
   };

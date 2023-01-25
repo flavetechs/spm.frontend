@@ -65,7 +65,6 @@ const IndexRouters = () => {
                         <Route exact path={candidateLocations.candidateAdmissionConfirmation} component={ConfirmUserEmail}></Route>
                         <Route exact path={candidateLocations.registrationEmailReceived} component={RegistrationEmailReceived}></Route>
                         <Route path={authLocations.login} component={SignIn}></Route>
-                        <Route path={authLocations.resetPassword} component={ResetPassword}></Route>
                         <Route path={authLocations.forgottenPassword} component={ForgottenPassword}></Route>
                         <Route path={authLocations.PasswordReset} component={PasswordReset}></Route>
                         <Route path={authLocations.passwordResetSuccessful} component={PasswordResetSuccessful}></Route>

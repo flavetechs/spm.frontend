@@ -100,6 +100,7 @@ import CBTAssessmentList from '../components/teachers-area/spm-class/assessment/
 import settingoffcanvas from '../components/partials/components/settingoffcanvas';
 import parentsList from '../components/teachers-area/smp-parents/parents-list';
 import ParentsDetails from '../components/teachers-area/smp-parents/parents-details';
+import ResetPassword from '../components/spm-auth/reset-password';
 
 const DashboardRouter = () => {
 
@@ -111,6 +112,7 @@ const DashboardRouter = () => {
                         {/* dashboard */}
                         <Route exact path="/" component={Index}></Route>
                         <Route path={dashboardLocations.dashboard} exact component={Index} />
+                        <Route path={authLocations.resetPassword} component={ResetPassword}></Route>
 
                         {/* permissions */}
                         <Route path={permissionLocations.roleList} exact component={RoleList} />
