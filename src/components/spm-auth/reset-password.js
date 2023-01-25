@@ -165,7 +165,7 @@ const ResetPassword = () => {
                           />
                         </div>
                       </Col>
-                      <Col lg="12" className="d-flex justify-content-between">
+                      {/* <Col lg="12" className="d-flex justify-content-between">
                         <div className="form-check mb-3 form-Check">
                           <Field
                             type="checkbox"
@@ -179,7 +179,7 @@ const ResetPassword = () => {
                         <Link to={dashboardLocations.dashboard}>
                           Return back to dashboard?
                         </Link>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <div className="d-flex justify-content-center">
                       <button

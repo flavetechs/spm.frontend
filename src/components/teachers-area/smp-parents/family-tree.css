@@ -1,5 +1,6 @@
 .tree{
-    margin-left: -100px;
+    margin-left: -80px;
+  
 }
 .tree ul {
     padding-top: 20px;
@@ -17,8 +18,6 @@
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
-    
-  
     display: inline-block;
     vertical-align: top;
     white-space: nowrap;
@@ -101,6 +100,7 @@
     padding: 10px 15px;
     text-decoration: none;
     color: #666;
+    background-color: #d6d6d6;
     font-size: 18px;
     font-weight: 800;
     display: inline-block;

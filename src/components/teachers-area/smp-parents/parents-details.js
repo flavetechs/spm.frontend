@@ -79,11 +79,12 @@ const ParentsDetails = () => {
             <Card.Body>
                 <Row className="">
               <Col md='5'>
+              <h5 className="mb-3">Parent's Details</h5>
                 <Table
-                  size="md"
+                  size="sm"
                   responsive
-                  borderless
-                  className=" border-secondary"
+                  striped
+                  className=""
                 >
                   <tbody>
                     <tr>
@@ -111,12 +112,14 @@ const ParentsDetails = () => {
                   </tbody>
                 </Table>
               </Col>
-              <Col md="6">
-                <h5 >Parent's Ward(s)</h5>
+
+              <Col md="6" className="mx-5 d-flex justify-content-center">
+                <div>
+              <h5 className="mb-3 text-center">Parent's Ward(s)</h5>
                 <div className="tree ">
                   <ul>
                     <li>
-                      <div>{singleParent?.name}</div>
+                      <div >{singleParent?.name}</div>
                       <ul>
                         {myWardList?.map((ward, idx) => (
                           <OverlayTrigger
@@ -139,6 +142,7 @@ const ParentsDetails = () => {
                       </ul>
                     </li>
                   </ul>
+                </div>
                 </div>
               </Col>
               </Row>
