@@ -45,7 +45,7 @@ const ParentsDetails = () => {
             <Card.Header className="d-flex justify-content-between">
               <div className="header-title">
                 <h4 className="card-title mb-3">
-                  <b>Parents List</b>
+                  <b>Parents Details</b>
                 </h4>
               </div>
             </Card.Header>
@@ -79,7 +79,7 @@ const ParentsDetails = () => {
             <Card.Body>
                 <Row className="">
               <Col md='5'>
-              <h5 className="mb-3">Parent's Details</h5>
+              <h5 className="mb-3">Details</h5>
                 <Table
                   size="sm"
                   responsive
@@ -113,12 +113,14 @@ const ParentsDetails = () => {
                 </Table>
               </Col>
 
-              <Col md="6" className="mx-5 d-flex justify-content-center">
+              <Col md="6" className="mx-5 ">
                 <div>
-              <h5 className="mb-3 text-center">Parent's Ward(s)</h5>
+           
+              <div style={{overflowX:'auto'}}>
                 <div className="tree ">
                   <ul>
-                    <li>
+                    <li> 
+                    <h5 className="mb-4 mt-n4 text-center">Parent's Ward(s)</h5>
                       <div >{singleParent?.name}</div>
                       <ul>
                         {myWardList?.map((ward, idx) => (
@@ -143,7 +145,7 @@ const ParentsDetails = () => {
                     </li>
                   </ul>
                 </div>
-                </div>
+                </div></div>
               </Col>
               </Row>
             </Card.Body>
