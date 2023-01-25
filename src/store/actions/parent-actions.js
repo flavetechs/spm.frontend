@@ -232,17 +232,17 @@ export const getAllParents = (pageSize,pageNumber) => (dispatch) => {
 
 export const getSingleParents = (parentId) => (dispatch) => {
     dispatch({
-        type: actions.FETCH_SINGLE_PARENTS_LOADING,
+        type: actions.FETCH_SINGLE_PARENT_LOADING,
     });
     axiosInstance.get(`/parent/api/v1/get/parent/${parentId}`)
         .then((res) => {
             dispatch({
-                type: actions.FETCH_SINGLE_PARENTS_SUCCESS,
+                type: actions.FETCH_SINGLE_PARENT_SUCCESS,
                 payload: res.data.result
             });
         }).catch((err) => {
             dispatch({
-                type: actions.FETCH_SINGLE_PARENTS_FAILED,
+                type: actions.FETCH_SINGLE_PARENT_FAILED,
                 payload: err.response.data.result
             })
         });

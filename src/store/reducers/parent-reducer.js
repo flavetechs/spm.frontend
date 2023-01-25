@@ -321,20 +321,20 @@ export const parentReducer = (state = _state, { type, payload }) => {
         };
   
   
-        case actions.FETCH_SINGLE_PARENTS_LOADING:
+        case actions.FETCH_SINGLE_PARENT_LOADING:
           return {
             ...state,
             loading: true,
             message: "",
             isSuccessful: false,
           };
-        case actions.FETCH_SINGLE_PARENTS_SUCCESS:
+        case actions.FETCH_SINGLE_PARENT_SUCCESS:
           return {
             ...state,
             loading: false,
-            singleParents: payload
+            singleParent: payload
           };
-        case actions.FETCH_SINGLE_PARENTS_FAILED:
+        case actions.FETCH_SINGLE_PARENT_FAILED:
           return {
             ...state,
             loading: false,
