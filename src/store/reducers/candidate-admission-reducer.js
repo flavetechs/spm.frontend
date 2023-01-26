@@ -10,37 +10,32 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 message: '',
                 token: '',
                 isSuccessful: false,
+                parentGuardianFirstTimeLogin: false,
+                
             }
 
         case actions.LOGIN_CANDIDATE_SUCCESS: {
-            if (payload?.result?.auth !== null) {
-                localStorage.setItem('token', payload.auth?.token)
+            if (payload?.auth !== null) {
+                localStorage.setItem('token', payload.auth?.token);
                 localStorage.setItem('userDetail', JSON.stringify(payload.userDetails));
 
                 return {
                     ...state,
                     loading: false,
-                    token: payload?.result.auth.token,
-                    expires: payload?.result.auth.expires,
+                    token: payload?.auth?.token,
+                    expires: payload?.auth.expires,
                     message: '',
                     isSuccessful: true,
+                    parentGuardianFirstTimeLogin: false,
                 }
-
-            } else if (payload?.result?.auth === null) {
-                sessionStorage.removeItem('friendlyMessage');
-                sessionStorage.removeItem('candidateUserDetails');
-                sessionStorage.removeItem('authStatus');
-
-                sessionStorage.setItem('authStatus', JSON.stringify(payload?.result?.auth));
-                sessionStorage.setItem('friendlyMessage', payload?.message?.friendlyMessage);
-                sessionStorage.setItem('candidateUserDetails', JSON.stringify(payload?.result.userDetails));
-
+            } else {
                 return {
                     ...state,
                     loading: false,
-                    token: null,
-                    expires: null,
-                    message: '',
+                    token: '',
+                    expires: '',
+                    parentGuardianFirstTimeLogin: true,
+                    message: 'Successfully registered. Kindly check your email, a confirmation mail has been sent to you.',
                     isSuccessful: true,
                 }
             }
@@ -54,15 +49,15 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 expires: "",
                 message: payload,
                 isSuccessful: false,
+                parentGuardianFirstTimeLogin: false,
             }
 
         case actions.LOG_OUT_CANDIDATE_USER: {
-            sessionStorage.removeItem('emailToken');
-            sessionStorage.removeItem('authStatus');
-            sessionStorage.removeItem('candidateUserDetails');
+            sessionStorage.removeItem('token');
             return {
                 message: '',
                 token: '',
+                parentGuardianFirstTimeLogin: null,
             }
         }
 
@@ -169,6 +164,7 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 loading: true,
                 isSuccessful: false,
                 message: "",
+                parentGuardianFirstTimeLogin: false,
             };
         case actions.CONFIRM_USER_EMAIL_SUCCESS:
             return {
@@ -177,6 +173,7 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 loading: false,
                 message: payload,
                 submitSuccessful: true,
+                parentGuardianFirstTimeLogin: false,
             };
         case actions.CONFIRM_USER_EMAIL_FAILED:
             return {
@@ -184,6 +181,7 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 isSuccessful: false,
                 loading: false,
                 message: payload,
+                parentGuardianFirstTimeLogin: false,
             };
 
         case actions.DELETE_CANDIDATE_ADMISSION_LOADING:

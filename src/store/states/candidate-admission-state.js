@@ -10,8 +10,8 @@ export const _state = {
     filterProps: {},
     submitSuccessful : false,
     selectedIds: [],
-    message: '',
     deleteDialogResponse: '',
     dialogResponse: '',
     customisedModalValue:'',
+    parentGuardianFirstTimeLogin: false,
 }

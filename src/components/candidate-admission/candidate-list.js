@@ -6,6 +6,7 @@ import Card from "../Card";
 import { candidateAuthLocation, candidateLocations } from "../../router/candidate-path-location";
 import { deleteCandidateAdmission, deleteDialogModal, getCandidatesAdmissionList, logOutUserEmail, pushId, removeId, respondToDeleteDialog } from "../../store/actions/candidate-admission-actions";
 import PaginationFilter from "../partials/components/pagination-filter";
+import { getUserDetails } from "../../utils/permissions";
 
 
 const CandidateList = () => {
@@ -13,6 +14,7 @@ const CandidateList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [searchQuery, setSearchQuery] = useState("");
+    const [getUserDetail, setGetUserDetail] = useState({});
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
@@ -23,8 +25,6 @@ const CandidateList = () => {
     React.useEffect(() => {
         getCandidatesAdmissionList(1)(dispatch);
     }, [dispatch]);
-
-    var candidateUserDetails = JSON.parse(sessionStorage.getItem('candidateUserDetails'));
 
     const filteredCandidateList = admissionList.filter((candidate) => {
         if (searchQuery === "") {
@@ -65,6 +65,10 @@ const CandidateList = () => {
     }, [deleteDialogResponse, dispatch]);
     //DELETE HANDLER
 
+    React.useEffect(() => {
+        setGetUserDetail(getUserDetails())
+    }, []);
+
     return (
         <>
             <div className="container">
@@ -76,7 +80,7 @@ const CandidateList = () => {
                                     <h4 className="card-title mb-3">Candidate List</h4>
                                 </div>
                                 <div className="d-flex justify-content-between">
-                                    <h4 className="card-title mb-3">Welcome {candidateUserDetails?.parentEmail}</h4>
+                                    <h4 className="card-title mb-3">Welcome {getUserDetail?.parentEmail}</h4>
                                     <div>
                                         <Link
                                             to="#"
