@@ -53,12 +53,12 @@
 }
 
 
-.form-group {
+.form-group1 {
     margin-bottom: 40px;
     outline: 0px;
 }
 
-.form-control:focus {
+.form-control1:focus {
     border-color: inherit;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -78,22 +78,17 @@ input:-webkit-autofill:active{
     box-shadow: 0 0 0 30px #1A2226 inset !important;
     color: #ECF0F5 !important;
 } */
-input:focus {
-    outline: none;
-    box-shadow: 0 0 0;
-  
-    
-}
 
-label {
-    margin-bottom: 0px;
-}
+
+
 
 .form-control-label {
     font-size: 10px;
     color: #6C6C6C;
     font-weight: bold;
     letter-spacing: 1px;
+    margin-bottom: 0px;
+
 }
 
 .btn-outline-primary {

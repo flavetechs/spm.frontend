@@ -145,7 +145,7 @@
     -moz-transition: all .4s;
     transition: all .4s;
 }
-button {
+.btn2 {
     outline: none!important;
     border: none;
     background: 0 0;
