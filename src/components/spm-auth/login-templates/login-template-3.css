@@ -7,6 +7,10 @@
     border-radius: 25px !important;
     height: 50px;
 }
+.eyeIcon{
+    cursor:pointer;
+}
+
 .login-wrap h3 {
     font-weight: 300;
     color: #fff;
@@ -25,9 +29,9 @@
 
 
 .inputBg {
-    background: transparent !important;
+    background: white !important;
     height: 50px;
-    color: white !important;
+    color: black !important;
     border: 3px solid white !important;
     border-radius: 40px!important;
     padding-left: 20px !important;

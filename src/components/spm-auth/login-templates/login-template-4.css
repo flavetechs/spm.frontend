@@ -3,6 +3,9 @@
   border: none;
   
 }
+.eyeIcon{
+    cursor:pointer;
+}
 .forms-inputs {
   position: relative;
 }
