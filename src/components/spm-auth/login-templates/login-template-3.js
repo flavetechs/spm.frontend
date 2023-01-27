@@ -8,7 +8,7 @@ import SmpLoader from "../../loader/smp-loader";
 import Logo from "../../partials/components/logo";
 import "./login-template-3.css";
 
-const LoginTemplate3 = () => {
+const LoginTemplate3 = ({ message, auth1, ...form }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <section className="login-content">
@@ -27,16 +27,37 @@ const LoginTemplate3 = () => {
               <div className="login-wrap p-0 ">
                 <h3 className="mb-4 text-center  text-white">Log In</h3>
                 <form action="#" className="signin-form">
+                  {message && <div className="text-danger">{message}</div>}
+                  {((form.touched.userName && form.errors.userName) ||
+                    message) && (
+                    <div className="text-danger">{form.errors.userName}</div>
+                  )}
                   <div className="form-group">
                     <input
+                     onBlur={form.handleBlur('userName')}
+                     value={form.values.userName}
+                     onChange={e => {
+                         form.handleChange('userName')
+                         form.setFieldValue('userName', e.target.value)
+                     }}
                       type="text"
                       className="form-control inputBg"
-                      placeholder="Email"
+                      placeholder="Username"
                     />
                   </div>
+                  {form.touched.password && form.errors.password && (
+                    <div className="text-danger">{form.errors.password}</div>
+                  )}
                   <div className="form-group d-flex">
                     <input
+                      onBlur={form.handleBlur('password')}
+                      value={form.values.password}
+                      onChange={e => {
+                          form.handleChange('password')
+                          form.setFieldValue('password', e.target.value)
+                      }}
                       id="password-field"
+                      name="password"
                       type={showPassword ? "text" : "password"}
                       className="form-control inputBg"
                       placeholder="Password"
@@ -85,7 +106,10 @@ const LoginTemplate3 = () => {
                   </div>
                   <div className="form-group">
                     <button
-                      type="submit"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        form.handleSubmit();
+                    }}
                       className="form-control btn btn-primary roundedDiv submit  px-3"
                     >
                       Sign In
