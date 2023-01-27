@@ -39,7 +39,7 @@ const LoginTemplate4 = () => {
                     {showPassword ? (
                       <svg
                       onClick={()=>setShowPassword(false)}
-                        className="mx-n4 mb-4 eyeIcon"
+                        className="mx-n4 eyeIcon"
                         width="18"
                         viewBox="0 0 24 24"
                         fill="none"
@@ -67,7 +67,7 @@ const LoginTemplate4 = () => {
                     ) : (
                       <svg
                       onClick={()=>setShowPassword(true)}
-                      className="mx-n4 mb-4 eyeIcon"
+                      className="mx-n4  eyeIcon"
                         width="18"
                         viewBox="0 0 24 24"
                         fill="none"
@@ -129,7 +129,7 @@ const LoginTemplate4 = () => {
                   </Col>
                   <div className="mb-3">
                     {" "}
-                    <button className="btn btn-dark w-100">Login</button>{" "}
+                    <button className="btn1 btn btn-dark w-100">Login</button>{" "}
                   </div>
                 </div>
                 <div className="success-data" v-else>

@@ -47,12 +47,12 @@ const LoginTemplate1 = () => {
                     {/* {message && <div className="text-success">{message}</div>} */}
                     <div className="form-group">
                       <label className="form-control-label">USERNAME</label>
-                      <input type="text" className="form-control" />
+                      <input type="text" className="form-control text1" />
                     </div>
                     <div className="form-group">
                       <label className="form-control-label">PASSWORD</label>
                       <div className="d-flex">
-                      <input type={showPassword ? "text" : "password"} className="form-control" />
+                      <input type={showPassword ? "text" : "password"} className="form-control password1" />
                       {showPassword ? (
                       <svg
                       onClick={()=>setShowPassword(false)}
