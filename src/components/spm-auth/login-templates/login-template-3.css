@@ -1,0 +1,40 @@
+.login-wrap {
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    
+}
+.roundedDiv{
+    border-radius: 25px !important;
+    height: 50px;
+}
+.login-wrap h3 {
+    font-weight: 300;
+    color: #fff;
+}
+.heading-section {
+    font-size: 28px;
+    color: #fff;
+}
+.container3 {
+    background-image: url('https://preview.colorlib.com/theme/bootstrap/login-form-20/images/bg.jpg.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+
+
+.inputBg {
+    background: transparent !important;
+    height: 50px;
+    color: white !important;
+    border: 3px solid white !important;
+    border-radius: 40px!important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    -webkit-box-shadow: -8px 6px 15px 3px #000000; 
+    box-shadow: -8px 6px 15px 3px #000000;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
