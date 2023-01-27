@@ -1,37 +1,27 @@
-import { Row, Col, Image, } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
+import { Row, Col, } from 'react-bootstrap'
 import Card from '../Card'
 
 
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // img
-import auth1 from '../../assets/images/auth/01.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SmpLoader from '../loader/smp-loader';
 import { userEmailLogin } from '../../store/actions/candidate-admission-actions';
-import { candidateLocations } from '../../router/candidate-path-location';
 
 const RegistrationSignIn = () => {
-    let history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    const { message } = state.candidate;
-    
+    const { message, parentGuardianFirstTimeLogin, token } = state.candidate;
 
-    // useEffect(() => {
-    //     if (candidateUserDetails) {
-    //         if (emailToken !== null) {
-    //             window.location.href = '/candidates';
-    //         } else if (authStatus === null) {
-    //             sessionStorage.removeItem('emailToken');
-    //             history.push(candidateLocations.registrationEmailReceived)
-    //         } else {
-    //             sessionStorage.removeItem('emailToken');
-    //         }
-    //     }
-    // }, [emailToken, history, candidateUserDetails]);
+    useEffect(() => {
+        if (token && parentGuardianFirstTimeLogin === false) {
+            window.location.href = '/candidates';
+        } else if (parentGuardianFirstTimeLogin === true) {
+            window.location.href = '/candidates/registration-email';
+        }
+    }, [ token, parentGuardianFirstTimeLogin]);
 
     const validation = Yup.object().shape({
         parentEmail: Yup.string()
@@ -62,13 +52,9 @@ const RegistrationSignIn = () => {
                                             }}
                                         >
                                             {({
-                                                handleChange,
-                                                handleBlur,
                                                 handleSubmit,
-                                                values,
                                                 touched,
-                                                errors,
-                                                isValid }) => (
+                                                errors }) => (
                                                 <Form >
                                                     <Row>
                                                         {message && <div className='text-danger'>{message}</div>}
