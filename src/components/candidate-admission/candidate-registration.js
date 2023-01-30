@@ -8,11 +8,13 @@ import Card from "../Card";
 import { createCandidateAdmission, getAdmissionClasses } from "../../store/actions/candidate-admission-actions";
 import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
 import { candidateLocations } from "../../router/candidate-path-location";
+import { getUserDetails } from "../../utils/permissions";
 
 const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
     const history = useHistory();
     const dispatch = useDispatch();
+    const [getUserDetail, setGetUserDetail] = useState({});
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedState, setSelectedState] = useState("");
     //VARIABLE DECLARATIONS
@@ -37,6 +39,7 @@ const CandidateRegistration = () => {
             .required("Parent/Guardian phone number is required"),
         ClassId: Yup.string().required("Class name is required"),
         Photo: Yup.string().required("Photo is required"),
+        DateOfBirth: Yup.string().required("D.O.B is required"),
     });
     //VALIDATIONS SCHEMA
 
@@ -68,6 +71,10 @@ const CandidateRegistration = () => {
     React.useEffect(() => {
         submitSuccessful && history.push(candidateLocations.candidateList);
     }, [submitSuccessful, history]);
+
+    React.useEffect(() => {
+        setGetUserDetail(getUserDetails())
+    }, []);
 
     return (
         <>
@@ -264,6 +271,17 @@ const CandidateRegistration = () => {
                                                         className="form-control text-lowercase"
                                                     />
                                                 </div>
+                                                <Row>
+                                                    <div className="col-md-6">
+                                                        {touched.DateOfBirth && errors.DateOfBirth && (
+                                                            <div className="text-danger">
+                                                                {errors.DateOfBirth}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                    </div>
+                                                </Row>
                                                 <div className="col-md-6  form-group">
                                                     <label className="form-label" htmlFor="DateOfBirth">
                                                         <b>Date Of Birth:</b>
@@ -301,6 +319,22 @@ const CandidateRegistration = () => {
                                                         ))}
                                                     </Field>
                                                 </div>
+                                                <Row>
+                                                    <div className="col-md-6">
+                                                        {touched.StateOfOrigin && errors.StateOfOrigin && (
+                                                            <div className="text-danger">
+                                                                {errors.StateOfOrigin}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        {touched.LGAOfOrigin && errors.LGAOfOrigin && (
+                                                            <div className="text-danger">
+                                                                {errors.LGAOfOrigin}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </Row>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="StateOfOrigin">
                                                         <b>State:</b>
@@ -352,23 +386,16 @@ const CandidateRegistration = () => {
                                                         ))}
                                                     </Field>
                                                 </div>
-                                                <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="Credentials">
-                                                        <b>Choose File (optional):</b>
-                                                    </label>
-                                                    <div className="">
-                                                        <input
-                                                            type="file"
-                                                            id="Credentials"
-                                                            name="Credentials"
-                                                            className="form-control"
-                                                            accept="image/*, application/pdf,"
-                                                            onChange={(event) => {
-                                                                setFieldValue("Credentials", event.target.files[0])
-                                                            }}
-                                                        />
+
+                                                <Row>
+                                                    <div className="col-md-12">
+                                                        {touched.Photo && errors.Photo && (
+                                                            <div className="text-danger">
+                                                                {errors.Photo}
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                </div>
+                                                </Row>
                                                 <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="Photo">
                                                         <b>Choose Photo:</b>
@@ -382,6 +409,23 @@ const CandidateRegistration = () => {
                                                             accept="image/*"
                                                             onChange={(event) => {
                                                                 setFieldValue("Photo", event.target.files[0])
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6 form-group">
+                                                    <label className="form-label" htmlFor="Credentials">
+                                                        <b>Choose File (optional):</b>
+                                                    </label>
+                                                    <div className="">
+                                                        <input
+                                                            type="file"
+                                                            id="Credentials"
+                                                            name="Credentials"
+                                                            className="form-control"
+                                                            accept="image/*, application/pdf,"
+                                                            onChange={(event) => {
+                                                                setFieldValue("Credentials", event.target.files[0])
                                                             }}
                                                         />
                                                     </div>
@@ -400,7 +444,7 @@ const CandidateRegistration = () => {
                                                             )}
                                                     </div>
                                                 </Row>
-                                                <div className="col-md-12 form-group">
+                                                <div className="col-md-6 form-group">
                                                     <label
                                                         className="form-label"
                                                         htmlFor="ParentName"
@@ -413,6 +457,23 @@ const CandidateRegistration = () => {
                                                         name="ParentName"
                                                         id="ParentName"
                                                         className="form-control"
+                                                    />
+                                                </div>
+                                                <div className="col-md-6 form-group">
+                                                    <label
+                                                        className="form-label"
+                                                        htmlFor="ParentEmail"
+                                                    >
+                                                        <b>Parent Email:</b>
+                                                    </label>
+                                                    <Field
+                                                        placeholder="Parent Email"
+                                                        disabled
+                                                        type="email"
+                                                        // name="ParentEmail"
+                                                        // id="ParentEmail"
+                                                        className="form-control"
+                                                        value={getUserDetail?.parentEmail || ""}
                                                     />
                                                 </div>
                                                 <Row>

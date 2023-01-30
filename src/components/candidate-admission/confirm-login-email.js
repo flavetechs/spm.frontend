@@ -20,8 +20,6 @@ const ConfirmUserEmail = () => {
         confirmUserEmail(admissionNotificationIdQuery)(dispatch);
     }, [dispatch, locations.search]);
 
-    var expires = sessionStorage.getItem('expires');
-
     return (
         <>
             <section className="login-content">
@@ -33,7 +31,6 @@ const ConfirmUserEmail = () => {
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
                                         <h5 className="mb-2 text-center text-success">Email successfully confirmed. Please proceed to login</h5>
-                                        <p className="text-center text-danger"> Login Access expires on {expires} </p>
                                         <p className="text-center">
                                             <Link to={candidateAuthLocation.signIn} className="text-center mb-3"
                                                 onClick={() => {
@@ -41,7 +38,7 @@ const ConfirmUserEmail = () => {
                                                     history.push(candidateAuthLocation.signIn)
                                                 }}
                                             >
-                                                Log in Again
+                                                Log in Here
                                             </Link>
                                         </p>
 
