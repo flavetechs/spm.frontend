@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { fetchSingleAdminAdmissionDetail } from "../../../store/actions/admin-admission-actions";
+import { showHideModal } from "../../../store/actions/toaster-actions";
 import Card from "../../Card";
+import { TemplateModal } from "../smp-portal-setting/template-modal";
 
 const AdmissionDetail = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
+  const [photoWidth, setPhotoWidth] = useState("250px")
+  const [photoHeight, setPhotoHeight] = useState("250px")
+  const [displayPhoto, setDisplayPhoto] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -25,6 +30,11 @@ const AdmissionDetail = () => {
     fetchSingleAdminAdmissionDetail(admissionIdQuery)(dispatch);
   }, [dispatch, admissionIdQuery]);
 
+  const handlePhotoZoom = () => {
+    setPhotoWidth("500px");
+    setPhotoHeight("500px");
+  };
+
   return (
     <>
       <Row>
@@ -36,6 +46,9 @@ const AdmissionDetail = () => {
                 <h4 className="card-title">Student Information</h4>
               </div>{" "}
             </div>
+            <TemplateModal>
+              <img src={displayPhoto} alt="display" />
+            </TemplateModal>
             <Card.Body>
               {" "}
               <div className="new-user-info">
@@ -91,11 +104,15 @@ const AdmissionDetail = () => {
                         <b>Photo:</b>
                       </label>
                       <div>
-                        <img className=""
+                        <img
                           src={selectedAdmissionDetail?.photo}
+                          className="img-fluid"
                           alt="Photo Document"
-                          height="250px"
-                          width="250px"
+                          loading="lazy"
+                          onClick={() => {
+                            showHideModal(true)(dispatch);
+                            setDisplayPhoto(selectedAdmissionDetail?.photo)
+                          }}
                         />
                       </div>
                     </div>

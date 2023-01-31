@@ -569,7 +569,7 @@ const AdmissionList = () => {
                                         data-placement="top"
                                         title=""
                                         data-original-title="Details"
-                                        href={`${clientUrl}examiner-dashboard/exam-details?examinationId=${item.examinationId}&taxId=${cbtToken}`}
+                                        href={`${clientUrl}examiner-dashboard/view-result-sms?examinationId=${item.examinationId}`}
                                         target="_blank" rel="noopener noreferrer"
                                         onClick={handleClick}
                                       >
@@ -601,7 +601,7 @@ const AdmissionList = () => {
                                         data-placement="top"
                                         title=""
                                         data-original-title="Details"
-                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=examDetails`}
+                                        href={`${clientUrl}examiner-dashboard/view-result-sms?examinationId=${item.examinationId}`}
                                         target="_blank" rel="noopener noreferrer"
                                       >
                                         <span className="btn-inner">
