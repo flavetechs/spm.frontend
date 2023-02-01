@@ -14,4 +14,5 @@ export const _state = {
     dialogResponse: '',
     customisedModalValue:'',
     parentGuardianFirstTimeLogin: false,
+    admissionStatusDetail: {},
 }

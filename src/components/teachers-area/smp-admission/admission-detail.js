@@ -6,16 +6,16 @@ import { useLocation, useHistory } from "react-router-dom";
 import { fetchSingleAdminAdmissionDetail } from "../../../store/actions/admin-admission-actions";
 import { showHideModal } from "../../../store/actions/toaster-actions";
 import Card from "../../Card";
-import { TemplateModal } from "../smp-portal-setting/template-modal";
+import { CredentialModal, TemplateModal } from "../smp-portal-setting/template-modal";
 
 const AdmissionDetail = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
-  const [photoWidth, setPhotoWidth] = useState("250px")
-  const [photoHeight, setPhotoHeight] = useState("250px")
   const [displayPhoto, setDisplayPhoto] = useState("");
+  const [showModalProp, setShowModalProp] = useState("");
+  const [displayCredential, setDisplayCredential] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -26,14 +26,10 @@ const AdmissionDetail = () => {
   const admissionIdQuery = queryParams.get("admissionId");
 
   React.useEffect(() => {
-    if (!admissionIdQuery) return;
+    if(admissionIdQuery){
     fetchSingleAdminAdmissionDetail(admissionIdQuery)(dispatch);
+    }
   }, [dispatch, admissionIdQuery]);
-
-  const handlePhotoZoom = () => {
-    setPhotoWidth("500px");
-    setPhotoHeight("500px");
-  };
 
   return (
     <>
@@ -46,9 +42,17 @@ const AdmissionDetail = () => {
                 <h4 className="card-title">Student Information</h4>
               </div>{" "}
             </div>
-            <TemplateModal>
-              <img src={displayPhoto} alt="display" />
-            </TemplateModal>
+            {showModalProp === "showPhotoModal" ?
+              <TemplateModal>
+                <img src={displayPhoto} alt="display" />
+              </TemplateModal>
+              :
+              <CredentialModal>
+                <object data={displayCredential}
+                >
+                </object>
+              </CredentialModal>
+            }
             <Card.Body>
               {" "}
               <div className="new-user-info">
@@ -90,11 +94,17 @@ const AdmissionDetail = () => {
                       </label>
                       <div className="">
                         {!selectedAdmissionDetail?.credentials ?
-                          <div>No Available Credential</div>
+                          <div>No available Credential</div>
                           :
                           <object data={selectedAdmissionDetail?.credentials}
                             width="250"
-                            height="250">
+                            height="250"
+                            onClick={() => {
+                              showHideModal(true)(dispatch);
+                              setDisplayCredential(selectedAdmissionDetail?.credentials);
+                              setShowModalProp("showCredentialModal");
+                            }}
+                          >
                           </object>
                         }
                       </div>
@@ -111,7 +121,8 @@ const AdmissionDetail = () => {
                           loading="lazy"
                           onClick={() => {
                             showHideModal(true)(dispatch);
-                            setDisplayPhoto(selectedAdmissionDetail?.photo)
+                            setDisplayPhoto(selectedAdmissionDetail?.photo);
+                            setShowModalProp("showPhotoModal");
                           }}
                         />
                       </div>

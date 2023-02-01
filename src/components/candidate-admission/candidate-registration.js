@@ -27,7 +27,7 @@ const CandidateRegistration = () => {
         Lastname: Yup.string()
             .min(2, "Last Name Too Short!")
             .required("Last Name is required"),
-        Email: Yup.string().email("Invalid email format"),
+        Email: Yup.string().email("Invalid email format").required("Email is required"),
         ParentName: Yup.string()
             .min(2, "Name Too Short!")
             .required("Parent/Guardian Name is required"),
@@ -537,7 +537,7 @@ const CandidateRegistration = () => {
                                                     type="button"
                                                     variant="btn btn-danger mx-2"
                                                     onClick={() => {
-                                                        history.goBack();
+                                                        history.push(candidateLocations.candidateList);
                                                     }}
                                                 >
                                                     Cancel
