@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
 import { candidateAuthLocation, candidateLocations } from "../../router/candidate-path-location";
-import { deleteCandidateAdmission, deleteDialogModal, getCandidatesAdmissionList, logOutUserEmail, pushId, removeId, respondToDeleteDialog } from "../../store/actions/candidate-admission-actions";
+import { admissionOpenAndCloseModal, deleteCandidateAdmission, deleteDialogModal, getAdmissionStatus, getCandidatesAdmissionList, logOutUserEmail, pushId, removeId, respondToDeleteDialog } from "../../store/actions/candidate-admission-actions";
 import PaginationFilter from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
 
@@ -19,11 +19,12 @@ const CandidateList = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { admissionList, filterProps, selectedIds, deleteDialogResponse } = state.candidate;
+    const { admissionList, filterProps, selectedIds, deleteDialogResponse, admissionStatusDetail } = state.candidate;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
         getCandidatesAdmissionList(1)(dispatch);
+        getAdmissionStatus()(dispatch);
     }, [dispatch]);
 
     const filteredCandidateList = admissionList.filter((candidate) => {
@@ -68,6 +69,14 @@ const CandidateList = () => {
     React.useEffect(() => {
         setGetUserDetail(getUserDetails())
     }, []);
+
+    function handleAdmissionStatus() {
+        if (admissionStatusDetail?.admissionStatus === true) {
+            admissionOpenAndCloseModal()(dispatch);
+        } else {
+            history.push(candidateLocations.candidateRegistration);
+        }
+    }
 
     return (
         <>
@@ -154,9 +163,10 @@ const CandidateList = () => {
                                     </div>
                                     <div>
                                         <Link
-                                            to={candidateLocations.candidateRegistration}
+                                            to="#"
                                         >
                                             <button
+                                                onClick={handleAdmissionStatus}
                                                 type="button"
                                                 className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
                                             >
@@ -247,7 +257,6 @@ const CandidateList = () => {
                                                                         data-placement="top"
                                                                         title=""
                                                                         data-original-title="Edit"
-                                                                        // to="#"
                                                                         to={`${candidateLocations.candidateDetails}?admissionId=${student.admissionId}`}
                                                                     >
                                                                         <span className="btn-inner">
