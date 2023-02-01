@@ -11,7 +11,7 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 token: '',
                 isSuccessful: false,
                 parentGuardianFirstTimeLogin: false,
-                
+
             }
 
         case actions.LOGIN_CANDIDATE_SUCCESS: {
@@ -264,6 +264,30 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 loading: false,
                 message: payload,
                 submitSuccessful: false,
+            };
+
+        case actions.FETCH_ADMISSION_STATUS_LOADING:
+            return {
+                ...state,
+                loading: true,
+                message: '',
+                isSuccessful: false,
+            };
+
+        case actions.FETCH_ADMISSION_STATUS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                admissionStatusDetail: payload,
+                isSuccessful: false,
+            };
+
+        case actions.FETCH_ADMISSION_STATUS_FAILED:
+            return {
+                ...state,
+                loading: false,
+                isSuccessful: false,
+                message: payload
             };
 
         default:

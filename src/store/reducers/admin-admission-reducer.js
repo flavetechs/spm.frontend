@@ -82,6 +82,8 @@ export const adminAdmissionReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: true,
+        message: "",
+        selectedAdmissionDetail: {},
       };
     case actions.FETCH_SINGLE_ADMISSION_DETAIL_SUCCESS:
       return {
