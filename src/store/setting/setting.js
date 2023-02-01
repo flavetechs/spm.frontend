@@ -7,9 +7,8 @@ const initstate={
     sidebarcolor: 'white',
     sidebarType: {mini:"", hover:"", boxed:""} ,
     sidebarActiveStyle: 'roundedAllSide',
-    navbarstyle : 'sticky'
-
-    
+    navbarstyle : 'sticky',
+    loginTemplate: 'default-login-template'
 }
 
 // Action/Dispatch
