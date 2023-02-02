@@ -601,7 +601,7 @@ const AdmissionList = () => {
                                         data-placement="top"
                                         title=""
                                         data-original-title="Details"
-                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=resultDetails&candidateEmail=${item.email}`}
+                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=resultDetails&candidateEmail=${item.email}&candidateId=${""}`}
                                         target="_blank" rel="noopener noreferrer"
                                       >
                                         <span className="btn-inner">
