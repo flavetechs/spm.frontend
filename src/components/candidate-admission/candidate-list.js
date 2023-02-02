@@ -71,7 +71,7 @@ const CandidateList = () => {
     }, []);
 
     function handleAdmissionStatus() {
-        if (admissionStatusDetail?.admissionStatus === true) {
+        if (admissionStatusDetail?.admissionStatus === false) {
             admissionOpenAndCloseModal()(dispatch);
         } else {
             history.push(candidateLocations.candidateRegistration);
