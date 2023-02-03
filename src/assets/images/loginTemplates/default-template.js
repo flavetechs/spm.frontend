@@ -1,0 +1,1 @@
+export const defaultTemplate = 'http://flavetech-001-site3.etempurl.com/ProfileImage/61b1d351-3a3c-4ba0-b077-b9983f2059e0.JPG';

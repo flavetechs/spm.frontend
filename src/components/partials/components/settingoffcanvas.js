@@ -35,6 +35,11 @@ import { Link, useLocation } from 'react-router-dom'
 import { getAppLayout, updateAppLayout } from '../../../store/actions/portal-setting-action'
 import { LoginTemplateModal } from '../../spm-auth/login-templates/login-template-modal'
 import {  showHideLoginLayoutModal } from '../../../store/actions/toaster-actions'
+import { template1 } from '../../../assets/images/loginTemplates/template-1'
+import { template2 } from '../../../assets/images/loginTemplates/template-2'
+import { template3 } from '../../../assets/images/loginTemplates/template-3.'
+import { template4 } from '../../../assets/images/loginTemplates/template-4'
+import { defaultTemplate } from '../../../assets/images/loginTemplates/default-template'
 
 
 const mapStateToProps = (state) => {
@@ -234,13 +239,7 @@ const SettingOffcanvas = (props ) => {
   })
   const [imageDisplay, setImageDisplay] = useState("");
   const colorcustomizerMode = sessionStorage.getItem('color-customizer-mode');
-  const templateImg = {
-    'default-template':'http://flavetech-001-site3.etempurl.com/ProfileImage/61b1d351-3a3c-4ba0-b077-b9983f2059e0.JPG',
-    'template-1':'http://flavetech-001-site3.etempurl.com/ProfileImage/d7d26c50-9cae-45ae-b159-406a2aa44367.JPG',
-    'template-2':'http://flavetech-001-site3.etempurl.com/ProfileImage/ec230e10-1562-4ed1-bc33-36d1afd7045d.JPG',
-    'template-3':'http://flavetech-001-site3.etempurl.com/ProfileImage/d9081f2a-1cad-42a4-8fa4-28f5f677c1ba.JPG',
-    'template-4':'http://flavetech-001-site3.etempurl.com/ProfileImage/a0df0e0f-a4df-4887-be1a-588b56f69a0e.JPG',
-    }
+ 
   useEffect(() => {
   getAppLayout()(dispatch)
  }, [])
@@ -502,7 +501,7 @@ const SettingOffcanvas = (props ) => {
                                 
                                 <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-1'? 'active' : ''} btn btn-border mb-4 `} onClick={() => {props.LoginTemplateAction('template-1');showHideLoginLayoutModal(true)(dispatch);
-                              setImageDisplay(templateImg['template-1']);}} >
+                              setImageDisplay(template1);}} >
                                 <span className="ms-2 "> Template 1  </span>
                                 </div>  
                                 <input type="radio" name="template" id="template1" className='mx-2 mb-3' />
@@ -510,7 +509,7 @@ const SettingOffcanvas = (props ) => {
                                 
                                 <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-2'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-2');showHideLoginLayoutModal(true)(dispatch);
-                              setImageDisplay(templateImg['template-2']);}} >
+                              setImageDisplay(template2);}} >
                                     <span className="ms-2 "> Template 2 </span>
                                      </div>
                                     <input type="radio" name="template" id="template2" className='mx-2 mb-3' />
@@ -518,7 +517,7 @@ const SettingOffcanvas = (props ) => {
                                 
                                 <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-3'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-3');showHideLoginLayoutModal(true)(dispatch);
-                              setImageDisplay(templateImg['template-3']);}} >
+                              setImageDisplay(template3);}} >
                                     <span className="ms-2 "> Template 3 </span>
                                 </div>
                                 <input type="radio" name="template" id="template2" className='mx-2 mb-3'/>
@@ -526,7 +525,7 @@ const SettingOffcanvas = (props ) => {
 
                                <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-4'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-4'); showHideLoginLayoutModal(true)(dispatch);
-                              setImageDisplay(templateImg['template-4']);}} >
+                              setImageDisplay(template4);}} >
                                     <span className="ms-2 "> Template 4 </span>
                                 </div>
                                 <input type="radio" name="template" id="template2"  className='mx-2 mb-3'/>
@@ -534,7 +533,7 @@ const SettingOffcanvas = (props ) => {
 
                               <div  className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'default-login-template'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('default-login-template');showHideLoginLayoutModal(true)(dispatch);
-                              setImageDisplay(templateImg['default-template']);}} >
+                              setImageDisplay(defaultTemplate);}} >
                                     
                                     <span className="ms-2 "> Default  </span>
                                 </div>

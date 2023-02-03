@@ -1,0 +1,1 @@
+export const template4 = 'http://flavetech-001-site3.etempurl.com/ProfileImage/a0df0e0f-a4df-4887-be1a-588b56f69a0e.JPG';
