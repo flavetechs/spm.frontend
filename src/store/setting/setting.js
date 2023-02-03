@@ -322,11 +322,11 @@ export const getDarkMode = (state) => layout.scheme;
 export const getcustomizerMode = (state) => layout.colorcustomizer;
 export const getcustomizerinfoMode = (state) => layout.colorinfo;
 export const getcustomizerprimaryMode = (state) => layout.colorprimary;
-export const getDirMode = (state) => layout.schemeDir;
-export const getSidebarColorMode = (state) => layout.sidebarcolor;
-export const getSidebarTypeMode = (state) => layout.sidebarType;
-export const getSidebarActiveMode = (state) => layout.sidebarActiveStyle;
-export const getNavbarStyleMode = (state) => layout.navbarstyle;
-export const getLoginTemplateMode = (state) => layout.loginTemplate;
+export const getDirMode = (state) => state.mode.schemeDir;
+export const getSidebarColorMode = (state) => state.mode.sidebarcolor;
+export const getSidebarTypeMode = (state) => state.mode.sidebarType;
+export const getSidebarActiveMode = (state) => state.mode.sidebarActiveStyle;
+export const getNavbarStyleMode = (state) => state.mode.navbarstyle;
+export const getLoginTemplateMode = (state) => state.mode.loginTemplate;
 
 export default Mode

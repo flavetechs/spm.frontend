@@ -96,15 +96,15 @@ useEffect(() => {
     const baseUrl = window.location.origin;
     const [templateNo, setTemplateNo] = useState(-1)
     useEffect(() => {
-        baseUrl == 'http://localhost:3001' ?
+        baseUrl === 'http://demo.flavetech.com' ?
         setTemplateNo(0):
-        baseUrl == 'http://flavetech-001-site2.itempurl.com' ?
+        baseUrl === 'http://development.flavetechs.com' ?
         setTemplateNo(1):
-        baseUrl == 'http://localhost:3004' ?
+        baseUrl === 'http://flavetechs.com' ?
         setTemplateNo(2):
-        baseUrl == 'http://localhost:3003' ?
+        baseUrl === 'http://testing.flavetechs.com' ?
         setTemplateNo(3):
-        baseUrl == 'http://localhost:3000' &&
+        baseUrl === 'http://localhost:3000' &&
         setTemplateNo(4)
     }, [])
 

@@ -241,8 +241,7 @@ const SettingOffcanvas = (props ) => {
     'template-3':'http://flavetech-001-site3.etempurl.com/ProfileImage/d9081f2a-1cad-42a4-8fa4-28f5f677c1ba.JPG',
     'template-4':'http://flavetech-001-site3.etempurl.com/ProfileImage/a0df0e0f-a4df-4887-be1a-588b56f69a0e.JPG',
     }
-  
-    useEffect(() => {
+  useEffect(() => {
   getAppLayout()(dispatch)
  }, [])
  
@@ -500,31 +499,48 @@ const SettingOffcanvas = (props ) => {
                             <hr className="hr-horizontal"/>
                             <h5 className="mt-4 mb-3">Login Template</h5>
                             <div className="grid-cols-2 mb-4 d-grid gap-x-3">
+                                
+                                <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-1'? 'active' : ''} btn btn-border mb-4 `} onClick={() => {props.LoginTemplateAction('template-1');showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(templateImg['template-1']);}} >
-                                    
-                                    <span className="ms-2 "> Template 1 </span>
+                                <span className="ms-2 "> Template 1  </span>
+                                </div>  
+                                <input type="radio" name="template" id="template1" className='mx-2' />
                                 </div>
+                                
+                                <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-2'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-2');showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(templateImg['template-2']);}} >
-                                   
                                     <span className="ms-2 "> Template 2 </span>
-                                </div>
+                                     </div>
+                                    <input type="radio" name="template" id="template2" />
+                               </div>
+                                
+                                <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-3'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-3');showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(templateImg['template-3']);}} >
-                                  
                                     <span className="ms-2 "> Template 3 </span>
                                 </div>
+                                <input type="radio" name="template" id="template2" />
+                                </div>
+
+                               <div className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'template-4'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-4'); showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(templateImg['template-4']);}} >
-                                    
                                     <span className="ms-2 "> Template 4 </span>
                                 </div>
+                                <input type="radio" name="template" id="template2" />
+                                </div>
+
+                              <div  className='d-flex'>
                                 <div className={`${props.loginTemplateMode === 'default-login-template'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('default-login-template');showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(templateImg['default-template']);}} >
                                     
                                     <span className="ms-2 "> Default  </span>
                                 </div>
+                                <input type="radio" name="template" id="template2" />
+                               </div>
+
                             </div>
                         </Col>
                     </Row>
