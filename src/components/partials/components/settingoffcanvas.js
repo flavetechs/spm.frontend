@@ -505,7 +505,7 @@ const SettingOffcanvas = (props ) => {
                               setImageDisplay(templateImg['template-1']);}} >
                                 <span className="ms-2 "> Template 1  </span>
                                 </div>  
-                                <input type="radio" name="template" id="template1" className='mx-2' />
+                                <input type="radio" name="template" id="template1" className='mx-2 mb-3' />
                                 </div>
                                 
                                 <div className='d-flex'>
@@ -513,7 +513,7 @@ const SettingOffcanvas = (props ) => {
                               setImageDisplay(templateImg['template-2']);}} >
                                     <span className="ms-2 "> Template 2 </span>
                                      </div>
-                                    <input type="radio" name="template" id="template2" />
+                                    <input type="radio" name="template" id="template2" className='mx-2 mb-3' />
                                </div>
                                 
                                 <div className='d-flex'>
@@ -521,7 +521,7 @@ const SettingOffcanvas = (props ) => {
                               setImageDisplay(templateImg['template-3']);}} >
                                     <span className="ms-2 "> Template 3 </span>
                                 </div>
-                                <input type="radio" name="template" id="template2" />
+                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'/>
                                 </div>
 
                                <div className='d-flex'>
@@ -529,7 +529,7 @@ const SettingOffcanvas = (props ) => {
                               setImageDisplay(templateImg['template-4']);}} >
                                     <span className="ms-2 "> Template 4 </span>
                                 </div>
-                                <input type="radio" name="template" id="template2" />
+                                <input type="radio" name="template" id="template2"  className='mx-2 mb-3'/>
                                 </div>
 
                               <div  className='d-flex'>
@@ -538,7 +538,7 @@ const SettingOffcanvas = (props ) => {
                                     
                                     <span className="ms-2 "> Default  </span>
                                 </div>
-                                <input type="radio" name="template" id="template2" />
+                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'/>
                                </div>
 
                             </div>
