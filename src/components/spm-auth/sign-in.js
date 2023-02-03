@@ -24,12 +24,17 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.auth;
-    const { layout } = state.portal;
+    const { layout: appSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
-useEffect(() => {
- //getAppLayout()(dispatch);
-}, [])
+
+
+
+    const schoolUrl = window.location.origin;
+    useEffect(() => {
+        getAppLayout(schoolUrl)(dispatch);
+    }, [schoolUrl])
+
 
     useEffect(() => {
         if (userDetail) {
@@ -77,102 +82,78 @@ useEffect(() => {
             loginUser(values)(dispatch)
         }
     });
-    
-    // const baseUrl = window.location.origin;
-    // const [templateNo, setTemplateNo] = useState(-1)
-    // useEffect(() => {
-    //     layout.loginTemplate == 'default-login-template' ?
-    //     setTemplateNo(0):
-    //     layout.loginTemplate == 'template-1' ?
-    //     setTemplateNo(1):
-    //     layout.loginTemplate == 'template-2' ?
-    //     setTemplateNo(2):
-    //     layout.loginTemplate == 'template-3' ?
-    //     setTemplateNo(3):
-    //     layout.loginTemplate == 'template-4' &&
-    //     setTemplateNo(4)
-    // }, [])
-    // console.log("template",layout.loginTemplate);
-    const baseUrl = window.location.origin;
-    const [templateNo, setTemplateNo] = useState(-1)
-    useEffect(() => {
-        baseUrl === 'http://demo.flavetech.com' ?
-        setTemplateNo(0):
-        baseUrl === 'http://development.flavetechs.com' ?
-        setTemplateNo(1):
-        baseUrl === 'http://flavetechs.com' ?
-        setTemplateNo(2):
-        baseUrl === 'http://testing.flavetechs.com' ?
-        setTemplateNo(3):
-        baseUrl === 'http://localhost:3000' &&
-        setTemplateNo(4)
-    }, [])
+
+
+
+    const defaultTemplate =
+        <DefaultLoginTemplate
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched} />
+
+    const templateOne =
+        <LoginTemplate1
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched} />
+
+    const templateTwo =
+        <LoginTemplate2
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched} />
+
+    const templateThree =
+        <LoginTemplate3
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched} />
+
+    const templateFour =
+        <LoginTemplate4
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched} />
 
     return (
         <>
             <section className="login-content">
                 <SmpLoader />
-                {templateNo == 0 ?
-                <DefaultLoginTemplate
-                    message={message}
-                    auth1={auth1}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                    touched={touched} />
-                    :
-                    templateNo == 1 ?
-                    <LoginTemplate1
-                    message={message}
-                    auth1={auth1}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                    touched={touched} />
-                    :
-                    templateNo == 2 ?
-                    <LoginTemplate2
-                    message={message}
-                    auth1={auth1}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                    touched={touched} />
-                    :
-                    templateNo == 3 ?
-                    <LoginTemplate3
-                    message={message}
-                    auth1={auth1}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                    touched={touched} />
-                    :
-                    templateNo == 4 ?
-                    <LoginTemplate4
-                    message={message}
-                    auth1={auth1}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                    touched={touched} />
-                    :""
-    }
+                {appSetting.loginTemplate === "default-login-template" && defaultTemplate}
+                {appSetting.loginTemplate === "template-1" && templateOne}
+                {appSetting.loginTemplate === "template-2" && templateTwo}
+                {appSetting.loginTemplate === "template-3" && templateThree}
+                {appSetting.loginTemplate === "template-1" && templateFour}
             </section>
         </>
     );
