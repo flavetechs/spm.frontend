@@ -7,5 +7,7 @@ export const _state = {
     selectedTemplate:"",
     notificationSettingResult: {},
     admissionSettingResult: {},
+    filterProps: {},
+    singleAdmissionSettingsDetail: {},
   };
   

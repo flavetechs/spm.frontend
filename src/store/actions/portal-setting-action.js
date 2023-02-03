@@ -201,11 +201,13 @@ export const createNotificationSetting = (notification) => (dispatch) => {
 }
 
 
-export const getAdmissionSetting = () => (dispatch) => {
+export const getAllAdmissionSetting = (PageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_SETTING_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/admission-settings/get-settings`)
+
+    ///smp/api/v1/admission-settings/get-all-settings?PageNumber=1
+    axiosInstance.get(`/smp/api/v1/admission-settings/get-all-settings?PageNumber=${PageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADMISSION_SETTING_SUCCESS,
@@ -219,6 +221,28 @@ export const getAdmissionSetting = () => (dispatch) => {
             });
         });
 };
+export const getSingleAdmissionSetting = (admissionSettingsId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_SINGLE_ADMISSION_SETTING_LOADING,
+    });
+
+                    //smp/api/v1/admission-settings/get-single-settings?admissionSettingsId=07b1bf33-b96b-4ab4-df76-08db05e8300b
+    axiosInstance.get(`/smp/api/v1/admission-settings/get-single-settings?admissionSettingsId=${admissionSettingsId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_ADMISSION_SETTING_SUCCESS,
+                payload: res.data.result,
+            });
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.FETCH_SINGLE_ADMISSION_SETTING_FAILED,
+                payload: err.response.data.result,
+            });
+        });
+};
+
+
 
 export const createAdmissionSetting = (result) => (dispatch) => {
     dispatch({

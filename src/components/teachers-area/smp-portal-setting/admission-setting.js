@@ -4,7 +4,7 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import { getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
-import { createAdmissionSetting, getAdmissionSetting } from "../../../store/actions/portal-setting-action";
+import { createAdmissionSetting, getAllAdmissionSetting } from "../../../store/actions/portal-setting-action";
 
 const AdmissionSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
@@ -36,7 +36,7 @@ const AdmissionSetting = () => {
 
     React.useEffect(() => {
         getAllClasses()(dispatch);
-        getAdmissionSetting()(dispatch);
+        getAllAdmissionSetting(1)(dispatch);
         return () => {
             resetClassSetupState()(dispatch);
         }
@@ -63,6 +63,9 @@ const AdmissionSetting = () => {
             setClassesIds([...result]);
         }
     }, [admissionSettingResult]);
+
+    console.log("admissionSettingResult", admissionSettingResult);
+    console.log("itemList", itemList);
 
     return (
         <>
@@ -107,6 +110,25 @@ const AdmissionSetting = () => {
                                     <div className="new-user-info">
                                         <Form>
                                             <div className="row ms-1">
+                                            <h6 className="">Available Admission list</h6>
+                                                <div className="form-check mb-3 form-Check col-md-5 ms-3">
+                                                    <Field
+                                                        disabled={disable}
+                                                        type="radio"
+                                                        id="admissionStatus"
+                                                        className="form-check-input"
+                                                        name="admissionStatus"
+                                                        checked={admissionStatusValue ? true : false}
+                                                        onChange={() => {
+                                                            setAdmissionStatusValue(!admissionStatusValue);
+                                                        }}
+                                                    />
+                                                    <label htmlFor="admissionStatus" className="check-label">
+                                                        Open{" "}
+                                                    </label>
+                                                </div>
+
+
                                                 <h6 className=""> Select classes for Admission</h6>
                                                 {itemList.map((item, idx) => (
                                                     <div className="form-check mb-3 form-Check col-md-5 ms-3"
