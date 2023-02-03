@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { fetchSingleAdminAdmissionDetail } from "../../../store/actions/admin-admission-actions";
+import { showHideModal } from "../../../store/actions/toaster-actions";
 import Card from "../../Card";
+import { CredentialModal, TemplateModal } from "../smp-portal-setting/template-modal";
 
 const AdmissionDetail = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const locations = useLocation();
   const dispatch = useDispatch();
+  const [displayPhoto, setDisplayPhoto] = useState("");
+  const [showModalProp, setShowModalProp] = useState("");
+  const [displayCredential, setDisplayCredential] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -21,8 +26,9 @@ const AdmissionDetail = () => {
   const admissionIdQuery = queryParams.get("admissionId");
 
   React.useEffect(() => {
-    if (!admissionIdQuery) return;
+    if(admissionIdQuery){
     fetchSingleAdminAdmissionDetail(admissionIdQuery)(dispatch);
+    }
   }, [dispatch, admissionIdQuery]);
 
   return (
@@ -36,6 +42,17 @@ const AdmissionDetail = () => {
                 <h4 className="card-title">Student Information</h4>
               </div>{" "}
             </div>
+            {showModalProp === "showPhotoModal" ?
+              <TemplateModal>
+                <img src={displayPhoto} alt="display" />
+              </TemplateModal>
+              :
+              <CredentialModal>
+                <object data={displayCredential}
+                >
+                </object>
+              </CredentialModal>
+            }
             <Card.Body>
               {" "}
               <div className="new-user-info">
@@ -77,11 +94,17 @@ const AdmissionDetail = () => {
                       </label>
                       <div className="">
                         {!selectedAdmissionDetail?.credentials ?
-                          <div>No Available Credential</div>
+                          <div>No available Credential</div>
                           :
                           <object data={selectedAdmissionDetail?.credentials}
                             width="250"
-                            height="250">
+                            height="250"
+                            onClick={() => {
+                              showHideModal(true)(dispatch);
+                              setDisplayCredential(selectedAdmissionDetail?.credentials);
+                              setShowModalProp("showCredentialModal");
+                            }}
+                          >
                           </object>
                         }
                       </div>
@@ -91,11 +114,16 @@ const AdmissionDetail = () => {
                         <b>Photo:</b>
                       </label>
                       <div>
-                        <img className=""
+                        <img
                           src={selectedAdmissionDetail?.photo}
+                          className="img-fluid"
                           alt="Photo Document"
-                          height="250px"
-                          width="250px"
+                          loading="lazy"
+                          onClick={() => {
+                            showHideModal(true)(dispatch);
+                            setDisplayPhoto(selectedAdmissionDetail?.photo);
+                            setShowModalProp("showPhotoModal");
+                          }}
                         />
                       </div>
                     </div>

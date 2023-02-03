@@ -151,7 +151,7 @@ export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId) =>
         });
 }
 
-export const importAdmissionResult = (classId) => (dispatch) => {
+export const importAdmissionResult = (classId, pageNumber = 1,  examStatus = "") => (dispatch) => {
     dispatch({
         type: actions.IMPORT_ADMISSION_RESULT_LOADING
     });
@@ -161,7 +161,7 @@ export const importAdmissionResult = (classId) => (dispatch) => {
                 type: actions.IMPORT_ADMISSION_RESULT_SUCCESS,
                 payload: res.data.result
             });
-            fetchAllAdminAdmissionList(1)(dispatch)
+            fetchAllAdminAdmissionList(pageNumber, "", examStatus)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch(err => {
             dispatch({

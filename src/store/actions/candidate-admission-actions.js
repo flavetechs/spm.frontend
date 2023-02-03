@@ -24,12 +24,12 @@ export const userEmailLogin = (userEmail) => (dispatch) => {
 
     axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
         .then((res) => {
-            console.log("res", res);
             dispatch({
                 type: actions.LOGIN_CANDIDATE_SUCCESS,
                 payload: res.data.result,
             });
         }).catch(err => {
+            console.log("err", err);
             dispatch({
                 type: actions.LOGIN_CANDIDATE_FAILED,
                 payload: err.response.data.message.friendlyMessage
@@ -219,3 +219,29 @@ export const respondToDeleteDialog = (value) =>(dispatch) => {
         payload: value
     })
 }
+
+export const admissionOpenAndCloseModal= () =>(dispatch) => {swal({
+    title: "Sorry! Admission is closed for this session",
+    text: "Please check back for future intake opportunities",
+    icon: "warning",
+    dangerMode: true,
+  })} 
+
+  export const getAdmissionStatus = () => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ADMISSION_STATUS_LOADING,
+    });
+    axiosInstance.get(`/smp/api/v1/candidate-admission/get-settings`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ADMISSION_STATUS_SUCCESS,
+                payload: res.data.result,
+            });
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.FETCH_ADMISSION_STATUS_FAILED,
+                payload: err.data.message.friendlyMessage,
+            });
+        });
+};

@@ -25,9 +25,6 @@ const RegistrationEmailReceived = () => {
                                                 type="button"
                                                 variant="btn btn-primary mx-2 text-center mx-auto"
                                                 onClick={() => {
-                                                    sessionStorage.removeItem("authStatus");
-                                                    sessionStorage.removeItem('emailToken');
-                                                    sessionStorage.removeItem('candidateUserDetails');
                                                     history.push(candidateAuthLocation.signIn);
                                                 }}
                                             >

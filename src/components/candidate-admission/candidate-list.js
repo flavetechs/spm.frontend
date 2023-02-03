@@ -4,8 +4,9 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
 import { candidateAuthLocation, candidateLocations } from "../../router/candidate-path-location";
-import { deleteCandidateAdmission, deleteDialogModal, getCandidatesAdmissionList, logOutUserEmail, pushId, removeId, respondToDeleteDialog } from "../../store/actions/candidate-admission-actions";
+import { admissionOpenAndCloseModal, deleteCandidateAdmission, deleteDialogModal, getAdmissionStatus, getCandidatesAdmissionList, logOutUserEmail, pushId, removeId, respondToDeleteDialog } from "../../store/actions/candidate-admission-actions";
 import PaginationFilter from "../partials/components/pagination-filter";
+import { getUserDetails } from "../../utils/permissions";
 
 
 const CandidateList = () => {
@@ -13,18 +14,18 @@ const CandidateList = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [searchQuery, setSearchQuery] = useState("");
+    const [getUserDetail, setGetUserDetail] = useState({});
     //VARIABLE DECLARATIONS
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { admissionList, filterProps, selectedIds, deleteDialogResponse } = state.candidate;
+    const { admissionList, filterProps, selectedIds, deleteDialogResponse, admissionStatusDetail } = state.candidate;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
         getCandidatesAdmissionList(1)(dispatch);
+        getAdmissionStatus()(dispatch);
     }, [dispatch]);
-
-    var candidateUserDetails = JSON.parse(sessionStorage.getItem('candidateUserDetails'));
 
     const filteredCandidateList = admissionList.filter((candidate) => {
         if (searchQuery === "") {
@@ -65,6 +66,18 @@ const CandidateList = () => {
     }, [deleteDialogResponse, dispatch]);
     //DELETE HANDLER
 
+    React.useEffect(() => {
+        setGetUserDetail(getUserDetails())
+    }, []);
+
+    function handleAdmissionStatus() {
+        if (admissionStatusDetail?.admissionStatus === false) {
+            admissionOpenAndCloseModal()(dispatch);
+        } else {
+            history.push(candidateLocations.candidateRegistration);
+        }
+    }
+
     return (
         <>
             <div className="container">
@@ -76,7 +89,7 @@ const CandidateList = () => {
                                     <h4 className="card-title mb-3">Candidate List</h4>
                                 </div>
                                 <div className="d-flex justify-content-between">
-                                    <h4 className="card-title mb-3">Welcome {candidateUserDetails?.parentEmail}</h4>
+                                    <h4 className="card-title mb-3">Welcome {getUserDetail?.parentEmail}</h4>
                                     <div>
                                         <Link
                                             to="#"
@@ -150,9 +163,10 @@ const CandidateList = () => {
                                     </div>
                                     <div>
                                         <Link
-                                            to={candidateLocations.candidateRegistration}
+                                            to="#"
                                         >
                                             <button
+                                                onClick={handleAdmissionStatus}
                                                 type="button"
                                                 className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
                                             >
@@ -243,7 +257,6 @@ const CandidateList = () => {
                                                                         data-placement="top"
                                                                         title=""
                                                                         data-original-title="Edit"
-                                                                        // to="#"
                                                                         to={`${candidateLocations.candidateDetails}?admissionId=${student.admissionId}`}
                                                                     >
                                                                         <span className="btn-inner">
