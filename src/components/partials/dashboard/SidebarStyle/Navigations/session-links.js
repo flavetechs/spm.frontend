@@ -39,7 +39,7 @@ export function SessionLink(props) {
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> U </i>
+                                    <i className="sidenav-mini-icon"> S </i>
                                     <span className="item-name">Setup</span>
                                 </Link>
                             </li>
@@ -105,7 +105,7 @@ export function SessionLink(props) {
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> S </i>
+                                    <i className="sidenav-mini-icon"> C </i>
                                     <span className="item-name">Class</span>
                                 </Link>
                             </li>
@@ -126,7 +126,7 @@ export function SessionLink(props) {
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> U </i>
+                                    <i className="sidenav-mini-icon"> P </i>
                                     <span className="item-name">Promotion</span>
                                 </Link>
                             </li>
@@ -145,7 +145,7 @@ export function SessionLink(props) {
                                         </g>
                                     </svg>
                                 </i>
-                                <i className="sidenav-mini-icon"> U </i>
+                                <i className="sidenav-mini-icon"> A </i>
                                 <span className="item-name">Admission</span>
                             </Link>
                         </li>

@@ -99,6 +99,13 @@ export const showHideTimeOutModal = (value) => (dispatch) => {
     });
 }
 
+export const showHideLoginLayoutModal = (value) => (dispatch) => {
+    dispatch({
+        type: actions.SHOW_HIDE_LOGIN_LAYOUT_MODAL,
+        payload: value
+    });
+}
+
 export const respondModal = (message) => dispatch=> {
     dispatch({
         type: actions.RESPOND_MODAL,

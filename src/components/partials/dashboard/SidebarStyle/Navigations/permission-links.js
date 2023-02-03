@@ -37,7 +37,7 @@ export function PermissionLink(props) {
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> U </i>
+                                    <i className="sidenav-mini-icon"> R </i>
                                     <span className="item-name">Roles</span>
                                 </Link>
                             </li>

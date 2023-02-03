@@ -1,3 +1,4 @@
+
 const initstate={
     scheme: 'light',
     colorcustomizer: 'default',
@@ -9,6 +10,7 @@ const initstate={
     sidebarActiveStyle: 'roundedAllSide',
     navbarstyle : 'sticky',
     loginTemplate: 'default-login-template'
+    
 }
 
 // Action/Dispatch
@@ -180,7 +182,48 @@ export const SidebarActiveStyleAction = (value) => {
 
     }
 
-   
+    export const LoginTemplateAction = (value) => {
+        sessionStorage.setItem('loginTemplate-mode', value)
+        if (value === 'default-login-template') {
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-1')
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-2')
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-3')
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-4')
+            // document.getElementsByTagName('ASIDE')[0].classList.add('default-login-template')
+        }
+        else if (value === 'template-1'){
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('default-login-template')
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-2')
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-3')
+            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-4')
+            // document.getElementsByTagName('ASIDE')[0].classList.add('template-1')
+        }
+        else if (value === 'template-2'){
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-3')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-4')
+            // document.getElementsByTagName('LOGIN')[0].classList.add('template-2')
+        }
+        else if (value === 'template-3'){
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-2')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-4')
+            // document.getElementsByTagName('LOGIN')[0].classList.add('template-3')
+        }
+        else if (value === 'template-4'){
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-2')
+            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-3')
+            // document.getElementsByTagName('LOGIN')[0].classList.add('template-4')
+        }
+    
+     
+        return {type: 'LOGINTEMPLATEMODE', value}
+        }
+
 // action for navbarstyleaction 
 
 export const NavbarstyleAction = (value) => {
@@ -263,19 +306,27 @@ const Mode = (state = initstate,action) =>{
                 navbarstyle: action.value
                 
             })
+            case 'LOGINTEMPLATEMODE':
+                return Object.assign({}, state, {
+                    loginTemplate: action.value
+             })
+
         default:
             return state
     }
 }
 // Selectores
-export const getDarkMode = (state) => state.mode.scheme;
-export const getcustomizerMode = (state) => state.mode.colorcustomizer;
-export const getcustomizerinfoMode = (state) => state.mode.colorinfo;
-export const getcustomizerprimaryMode = (state) => state.mode.colorprimary;
-export const getDirMode = (state) => state.mode.schemeDir;
-export const getSidebarColorMode = (state) => state.mode.sidebarcolor;
-export const getSidebarTypeMode = (state) => state.mode.sidebarType;
-export const getSidebarActiveMode = (state) => state.mode.sidebarActiveStyle;
-export const getNavbarStyleMode = (state) => state.mode.navbarstyle;
+const storedLayout = localStorage.getItem("appSetting")
+const appSetting = JSON.parse(storedLayout)||"";
+export const getDarkMode = (state) => appSetting.scheme;
+export const getcustomizerMode = (state) => appSetting.colorcustomizer;
+export const getcustomizerinfoMode = (state) => appSetting.colorinfo;
+export const getcustomizerprimaryMode = (state) => appSetting.colorprimary;
+export const getDirMode = (state) => appSetting.schemeDir;
+export const getSidebarColorMode = (state) => appSetting.sidebarcolor;
+export const getSidebarTypeMode = (state) => appSetting.sidebarType;
+export const getSidebarActiveMode = (state) => appSetting.sidebarActiveStyle;
+export const getNavbarStyleMode = (state) => appSetting.navbarstyle;
+export const getLoginTemplateMode = (state) => appSetting.loginTemplate;
 
 export default Mode
