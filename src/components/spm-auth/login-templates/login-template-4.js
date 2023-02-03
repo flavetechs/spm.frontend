@@ -17,7 +17,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
         <div className="container4 mt-5">
           <div className="row d-flex justify-content-center">
             <div className="col-md-6">
-              <div className="card px-5 pt-5 pb-4" id="form1">
+              <div className="card4  px-5 pt-5 pb-4" id="form1">
                 <div className="form-data">
                   {message && <div className="text-danger mb-3">{message}</div>}
                   {((form.touched.userName && form.errors.userName) ||
@@ -34,7 +34,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                         form.setFieldValue("userName", e.target.value);
                       }}
                       type="text"
-                      className="form-control"
+                      className="form-control inputBackgd"
                       name="userName"
                       id="userName"
                     />
@@ -55,7 +55,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                       name="password"
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      className="form-control"
+                      className="form-control inputBackgd"
                     />
                     {showPassword ? (
                         <svg
@@ -97,7 +97,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                       <input
                         type="checkbox"
                         id="customCheck1"
-                        className="form-check-input"
+                        className="form-check-input inputBackgd"
                       />
                       <label htmlFor="customCheck1" className="check-label">
                         Remember Me{" "}

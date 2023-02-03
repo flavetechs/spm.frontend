@@ -259,6 +259,37 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
       };
+      case actions.UPDATE_APP_LAYOUT_SUCCESS:
+        return{
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload,
+        };
+
+        case actions.FETCH_APP_LAYOUT_SUCCESS:
+        localStorage.setItem('layout', JSON.stringify(payload));
+        return{
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          layout:payload,
+        };
+
+        case actions.PORTAL_SETTING_LOADING:
+        return {
+          ...state,
+          loading: true,
+          isSuccessful: false,
+          message: "",
+        };
+        case actions.PORTAL_SETTING_FAILED:
+          return {
+            ...state,
+            isSuccessful: false,
+            loading: false,
+            message: payload,
+          };
 
     default:
       return state;

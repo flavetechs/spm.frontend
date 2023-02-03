@@ -88,6 +88,12 @@ export const alertReducer = (state = _state, { type, payload }: any) => {
                 ...state,
                 showTimeOutModal: payload
             }
+        
+            case actions.SHOW_HIDE_LOGIN_LAYOUT_MODAL:
+            return {
+                ...state,
+                showLoginLayoutModal: payload
+            }
             case actions.RESPOND_MODAL:
             return {
                 ...state,

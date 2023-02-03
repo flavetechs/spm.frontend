@@ -1,13 +1,22 @@
 
-.card {
-  border: none;
-  
+.container4{
+  background-color: #f5f6fa;
+}
+.card4 {
+  box-shadow: 0 10px 30px 0 rgb(17 38 146 / 5%);
+    margin-bottom: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
 }
 .eyeIcon{
     cursor:pointer;
 }
+.inputBackgd{
+  background-color: #fff !important;
+}
 .forms-inputs {
   position: relative;
+  background-color: #fff;
 }
 .forms-inputs span {
   position: absolute;
@@ -20,11 +29,13 @@
 .forms-inputs input {
   height: 50px;
   border: 2px solid #eee;
+  background-color: #fff;
 }
 .forms-inputs input:focus {
   box-shadow: none;
   outline: none;
   border: 2px solid #000;
+  background-color: #fff;
 }
 .btn1 {
   height: 50px;

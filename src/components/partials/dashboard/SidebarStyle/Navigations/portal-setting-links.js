@@ -59,7 +59,7 @@ export function PortalSettingsLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> U </i>
+                                    <i className="sidenav-mini-icon"> Pe </i>
                                     <span className="item-name">Permission</span>
                                 </Link>
                             </li>
@@ -81,7 +81,7 @@ export function PortalSettingsLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> P </i>
+                                    <i className="sidenav-mini-icon"> G </i>
                                     <span className="item-name">Grade</span>
                                 </Link>
                             </li>
@@ -101,7 +101,7 @@ export function PortalSettingsLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> P </i>
+                                    <i className="sidenav-mini-icon"> R </i>
                                     <span className="item-name">Result Template</span>
                                 </Link>
                             </li>

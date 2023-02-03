@@ -16,6 +16,7 @@ import LoginTemplate1 from "./login-templates/login-template-1";
 import LoginTemplate2 from "./login-templates/login-template-2";
 import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
+import { getAppLayout } from "../../store/actions/portal-setting-action";
 
 
 const SignIn = () => {
@@ -23,8 +24,12 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.auth;
+    const { layout } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
+useEffect(() => {
+ //getAppLayout()(dispatch);
+}, [])
 
     useEffect(() => {
         if (userDetail) {
@@ -73,22 +78,36 @@ const SignIn = () => {
         }
     });
     
-    const baseUrl = window.location.origin;console.log('values', baseUrl);
+    // const baseUrl = window.location.origin;
+    // const [templateNo, setTemplateNo] = useState(-1)
+    // useEffect(() => {
+    //     layout.loginTemplate == 'default-login-template' ?
+    //     setTemplateNo(0):
+    //     layout.loginTemplate == 'template-1' ?
+    //     setTemplateNo(1):
+    //     layout.loginTemplate == 'template-2' ?
+    //     setTemplateNo(2):
+    //     layout.loginTemplate == 'template-3' ?
+    //     setTemplateNo(3):
+    //     layout.loginTemplate == 'template-4' &&
+    //     setTemplateNo(4)
+    // }, [])
+    // console.log("template",layout.loginTemplate);
+    const baseUrl = window.location.origin;
     const [templateNo, setTemplateNo] = useState(-1)
     useEffect(() => {
         baseUrl == 'http://localhost:3001' ?
         setTemplateNo(0):
-        baseUrl == 'http://localhost:3002' ?
-        setTemplateNo(1):
-        baseUrl == 'http://localhost:3003' ?
-        setTemplateNo(2):
         baseUrl == 'http://flavetech-001-site2.itempurl.com' ?
+        setTemplateNo(1):
+        baseUrl == 'http://localhost:3004' ?
+        setTemplateNo(2):
+        baseUrl == 'http://localhost:3003' ?
         setTemplateNo(3):
         baseUrl == 'http://localhost:3000' &&
         setTemplateNo(4)
     }, [])
-    
-console.log("values",values);
+
     return (
         <>
             <section className="login-content">

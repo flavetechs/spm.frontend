@@ -19,7 +19,7 @@ export function TemplateModal(props) {
       id="viewModal"
       centered
     >
-      <div>{props.children}</div>
+      <Modal.Body>{props.children}</Modal.Body>
     </Modal>
   );
 }
