@@ -241,11 +241,11 @@ export const createAdmissionSetting = (result) => (dispatch) => {
 }
 
 
-export const getAppLayout = () => (dispatch) => {
+export const getAppLayout = (url) => (dispatch) => {
     dispatch({
         type: actions.PORTAL_SETTING_LOADING,
     });
-    axiosInstance.get(`/portalsetting/api/v1/get/applayout-setting`)
+    axiosInstance.get(`/portalsetting/api/v1/get/applayout-setting?url=${url}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_APP_LAYOUT_SUCCESS,
