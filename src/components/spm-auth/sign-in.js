@@ -24,7 +24,7 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.auth;
-    const { layout: appSetting } = state.portal;
+    const { appSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
@@ -153,7 +153,7 @@ const SignIn = () => {
                 {appSetting.loginTemplate === "template-1" && templateOne}
                 {appSetting.loginTemplate === "template-2" && templateTwo}
                 {appSetting.loginTemplate === "template-3" && templateThree}
-                {appSetting.loginTemplate === "template-1" && templateFour}
+                {appSetting.loginTemplate === "template-4" && templateFour}
             </section>
         </>
     );

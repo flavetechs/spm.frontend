@@ -240,9 +240,10 @@ const SettingOffcanvas = (props ) => {
   const [imageDisplay, setImageDisplay] = useState("");
   const colorcustomizerMode = sessionStorage.getItem('color-customizer-mode');
  
+  const schoolUrl = window.location.origin;
   useEffect(() => {
-  getAppLayout()(dispatch)
- }, [])
+    getAppLayout(schoolUrl)(dispatch);
+}, [schoolUrl])
  
 
     return (

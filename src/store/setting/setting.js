@@ -316,17 +316,17 @@ const Mode = (state = initstate,action) =>{
     }
 }
 // Selectores
-const storedLayout = localStorage.getItem("layout")
-const layout = JSON.parse(storedLayout)||"";
-export const getDarkMode = (state) => layout.scheme;
-export const getcustomizerMode = (state) => layout.colorcustomizer;
-export const getcustomizerinfoMode = (state) => layout.colorinfo;
-export const getcustomizerprimaryMode = (state) => layout.colorprimary;
-export const getDirMode = (state) => layout.schemeDir;
-export const getSidebarColorMode = (state) => layout.sidebarcolor;
-export const getSidebarTypeMode = (state) => layout.sidebarType;
-export const getSidebarActiveMode = (state) => layout.sidebarActiveStyle;
-export const getNavbarStyleMode = (state) => layout.navbarstyle;
-export const getLoginTemplateMode = (state) => layout.loginTemplate;
+const storedLayout = localStorage.getItem("appSetting")
+const appSetting = JSON.parse(storedLayout)||"";
+export const getDarkMode = (state) => appSetting.scheme;
+export const getcustomizerMode = (state) => appSetting.colorcustomizer;
+export const getcustomizerinfoMode = (state) => appSetting.colorinfo;
+export const getcustomizerprimaryMode = (state) => appSetting.colorprimary;
+export const getDirMode = (state) => appSetting.schemeDir;
+export const getSidebarColorMode = (state) => appSetting.sidebarcolor;
+export const getSidebarTypeMode = (state) => appSetting.sidebarType;
+export const getSidebarActiveMode = (state) => appSetting.sidebarActiveStyle;
+export const getNavbarStyleMode = (state) => appSetting.navbarstyle;
+export const getLoginTemplateMode = (state) => appSetting.loginTemplate;
 
 export default Mode
