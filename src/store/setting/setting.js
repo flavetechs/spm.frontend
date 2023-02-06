@@ -1,11 +1,24 @@
 const layoutSetting = localStorage.getItem("appSetting")
-console.log('storedLayout', layoutSetting);
-const initstate = 'undefined';
-
+let initstate = 'undefined';
+console.log('layoutSetting', layoutSetting)
 if (layoutSetting === 'undefined') {
-    
+
+    initstate = {
+        scheme: 'light',
+        colorcustomizer: 'default',
+        colorinfo: '#4bc7d2',
+        colorprimary: '#3a57e8',
+        schemeDir: 'ltr',
+        sidebarcolor: 'white',
+        sidebarType: { mini: "", hover: "", boxed: "" },
+        sidebarActiveStyle: 'roundedAllSide',
+        navbarstyle: 'sticky',
+        loginTemplate: 'default-login-template'
+
+    }
+
 } else {
-    const appSetting = JSON.parse(storedLayout) || "";
+    const appSetting = JSON.parse(layoutSetting) || "";
     initstate = {
         scheme: appSetting.scheme,
         colorcustomizer: appSetting.colorcustomizer,
