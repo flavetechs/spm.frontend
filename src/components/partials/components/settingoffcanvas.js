@@ -501,44 +501,44 @@ const SettingOffcanvas = (props ) => {
                             <div className="grid-cols-2 mb-4 d-grid gap-x-3">
                                 
                                 <div className='d-flex'>
-                                <div className={`${props.loginTemplateMode === 'template-1'? 'active' : ''} btn btn-border mb-4 `} onClick={() => {props.LoginTemplateAction('template-1');showHideLoginLayoutModal(true)(dispatch);
+                                <div className={`${props.loginTemplateMode === 'template-1'? 'active' : ''} btn btn-border mb-4 `} onClick={() => {showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(template1);}} >
                                 <span className="ms-2 "> Template 1  </span>
                                 </div>  
-                                <input type="radio" name="template" id="template1" className='mx-2 mb-3' />
+                                <input type="radio" name="template" id="template1" className='mx-2 mb-3' onChange={() => {props.LoginTemplateAction('template-1');}}/>
                                 </div>
                                 
                                 <div className='d-flex'>
-                                <div className={`${props.loginTemplateMode === 'template-2'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-2');showHideLoginLayoutModal(true)(dispatch);
+                                <div className={`${props.loginTemplateMode === 'template-2'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(template2);}} >
                                     <span className="ms-2 "> Template 2 </span>
                                      </div>
-                                    <input type="radio" name="template" id="template2" className='mx-2 mb-3' />
+                                    <input type="radio" name="template" id="template2" className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('template-2')}} />
                                </div>
                                 
                                 <div className='d-flex'>
-                                <div className={`${props.loginTemplateMode === 'template-3'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-3');showHideLoginLayoutModal(true)(dispatch);
+                                <div className={`${props.loginTemplateMode === 'template-3'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(template3);}} >
                                     <span className="ms-2 "> Template 3 </span>
                                 </div>
-                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'/>
+                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('template-3')}}/>
                                 </div>
 
                                <div className='d-flex'>
-                                <div className={`${props.loginTemplateMode === 'template-4'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('template-4'); showHideLoginLayoutModal(true)(dispatch);
+                                <div className={`${props.loginTemplateMode === 'template-4'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => { showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(template4);}} >
                                     <span className="ms-2 "> Template 4 </span>
                                 </div>
-                                <input type="radio" name="template" id="template2"  className='mx-2 mb-3'/>
+                                <input type="radio" name="template" id="template2"  className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('template-4')}}/>
                                 </div>
 
                               <div  className='d-flex'>
-                                <div className={`${props.loginTemplateMode === 'default-login-template'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {props.LoginTemplateAction('default-login-template');showHideLoginLayoutModal(true)(dispatch);
+                                <div className={`${props.loginTemplateMode === 'default-login-template'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {showHideLoginLayoutModal(true)(dispatch);
                               setImageDisplay(defaultTemplate);}} >
                                     
                                     <span className="ms-2 "> Default  </span>
                                 </div>
-                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'/>
+                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('default-login-template');}}/>
                                </div>
 
                             </div>
