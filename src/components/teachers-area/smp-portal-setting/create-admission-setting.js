@@ -6,7 +6,7 @@ import { Formik, Field } from "formik";
 import { getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
 import { createAdmissionSetting, getAllAdmissionSetting } from "../../../store/actions/portal-setting-action";
 
-const AdmissionSetting = () => {
+const CreateAdmissionSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { admissionSettingResult } = state.portal;
@@ -36,10 +36,13 @@ const AdmissionSetting = () => {
 
     React.useEffect(() => {
         getAllClasses()(dispatch);
-        getAllAdmissionSetting(1)(dispatch);
         return () => {
             resetClassSetupState()(dispatch);
         }
+    }, [dispatch]);
+
+    React.useEffect(() => {
+        getAllAdmissionSetting(1)(dispatch);
     }, [dispatch]);
 
     const handleClassesArray = (event) => {
@@ -55,7 +58,7 @@ const AdmissionSetting = () => {
         setClassesIds(selectedClassessArray);
     };
 
-    let result =  admissionSettingResult?.classes?.map(element => {
+    let result = admissionSettingResult?.classes?.map(element => {
         return element.classId
     });
     React.useEffect(() => {
@@ -65,7 +68,7 @@ const AdmissionSetting = () => {
     }, [admissionSettingResult]);
 
     console.log("admissionSettingResult", admissionSettingResult);
-    console.log("itemList", itemList);
+    // console.log("itemList", itemList);
 
     return (
         <>
@@ -77,6 +80,7 @@ const AdmissionSetting = () => {
                     passedExamEmail: admissionSettingResult?.passedExamEmail ?? "",
                     failedExamEmail: admissionSettingResult?.failedExamEmail ?? "",
                     screeningEmail: admissionSettingResult?.screeningEmail ?? "",
+                    screeningEmail: admissionSettingResult?.admissionSettingName ?? "",
                 }}
 
                 onSubmit={(values) => {
@@ -110,7 +114,24 @@ const AdmissionSetting = () => {
                                     <div className="new-user-info">
                                         <Form>
                                             <div className="row ms-1">
-                                            <h6 className="">Available Admission list</h6>
+                                            <h6 className="">Update Admission Name</h6>
+                                                <div className="col-md-12 form-group mb-3">
+                                                    <label
+                                                        className="form-label"
+                                                        htmlFor="admissionSettingName"
+                                                    >
+                                                        Admission Name
+                                                    </label>
+                                                    <Field
+                                                        // disabled={disable}
+                                                        placeholder="Enter Admission Name"
+                                                        type="text"
+                                                        id="admissionSettingName"
+                                                        name="admissionSettingName"
+                                                        className="form-control"
+                                                    />
+                                                </div>
+                                                <h6 className="">Available Admission list</h6>
                                                 <div className="form-check mb-3 form-Check col-md-5 ms-3">
                                                     <Field
                                                         disabled={disable}
@@ -305,4 +326,4 @@ const AdmissionSetting = () => {
     );
 };
 
-export default AdmissionSetting;
+export default CreateAdmissionSetting;

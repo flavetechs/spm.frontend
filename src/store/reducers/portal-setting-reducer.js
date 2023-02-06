@@ -227,7 +227,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         ...state,
         loading: false,
         filterProps: payload,
-        admissionSettingResult: payload.data,
+        admissionSettingList: payload.data,
       };
     case actions.FETCH_ADMISSION_SETTING_FAILED:
       return {

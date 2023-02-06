@@ -132,6 +132,8 @@ export const resultManagement = {
 export const portalSetting = {
   active: 'smp-setting',
   setting: "/dashboard/smp-setting",
+  createAdmissionSetting: "/dashboard/smp-setting/create-addmission-setting",
+  updateAdmissionSetting: "/dashboard/smp-setting/update-addmission-setting",
   templateSetting: "/dashboard/smp-template-setting",
   theme: "/dashboard/smp-theme",
 };
