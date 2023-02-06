@@ -289,6 +289,7 @@ const SettingOffcanvas = (props ) => {
                     sidebarActiveStyle: props.sidebaractivestyleMode,
                     navbarstyle: props.navbarstylemode,
                     loginTemplate: props.loginTemplateMode,
+                    schoolUrl: schoolUrl
                   }
                   
             )(dispatch)}} placement={`${props.schemeDirMode==="rtl" ? 'start': 'end'}`}>
