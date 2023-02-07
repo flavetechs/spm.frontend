@@ -17,6 +17,7 @@ import LoginTemplate2 from "./login-templates/login-template-2";
 import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
+import PageNotFound from "./page-not-found";
 
 
 const SignIn = () => {
@@ -30,7 +31,7 @@ const SignIn = () => {
 
 
 
-    const schoolUrl = window.location.origin;
+    const schoolUrl = window.location.origi;
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
@@ -145,6 +146,10 @@ const SignIn = () => {
             errors={errors}
             touched={touched} />
 
+    const pageNotFound = 
+    <PageNotFound/>
+
+console.log("appDetting",appSetting);
     return (
         <>
             <section className="login-content">
@@ -154,6 +159,7 @@ const SignIn = () => {
                 {appSetting.loginTemplate === "template-2" && templateTwo}
                 {appSetting.loginTemplate === "template-3" && templateThree}
                 {appSetting.loginTemplate === "template-4" && templateFour}
+                {!appSetting.schoolUrl && pageNotFound}
             </section>
         </>
     );
