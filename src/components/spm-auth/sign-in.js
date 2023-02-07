@@ -31,7 +31,7 @@ const SignIn = () => {
 
 
 
-    const schoolUrl = window.location.origi;
+    const schoolUrl = window.location.origin;
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
