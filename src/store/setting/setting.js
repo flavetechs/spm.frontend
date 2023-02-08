@@ -1,6 +1,6 @@
 const layoutSetting = localStorage.getItem("appSetting")
 let initstate = 'undefined';
-console.log('layoutSetting', layoutSetting)
+
 if (layoutSetting === 'undefined') {
 
     initstate = {

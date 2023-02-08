@@ -121,7 +121,7 @@ const Sidebar = (props) => {
                 </div>
                 <div className="pt-0 sidebar-body data-scrollbar" data-scroll="1" id="my-scrollbar">
                     {/* sidebar-list class to be added after replace css */}
-                    <div className="sidebar-list navbar-collapse" id="sidebar">
+                    <div className="sidebar-list navbar-collapse" id="sidebar" >
                         <VerticalNav />
                     </div>
                 </div>

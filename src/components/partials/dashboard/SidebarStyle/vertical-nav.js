@@ -122,7 +122,7 @@ const VerticalNav = () => {
                         />
                     )}
 
-              {hasAccess2([
+                {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
                 ]) && (
@@ -132,7 +132,7 @@ const VerticalNav = () => {
                     )}
 
 
-             {hasAccess2([
+                {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
                 ]) && (
@@ -151,7 +151,7 @@ const VerticalNav = () => {
                         />
                     )}
 
-             {hasAccess2([
+                {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
                 ]) && (
@@ -167,56 +167,55 @@ const VerticalNav = () => {
                     NavPermissions.printResult,
                     NavPermissions.cummulativeMasterList
                 ]) && (
-                        
-                            <ResultLink
-                                minisidebar={minisidebar}
-                                CustomToggle={CustomToggle}
-                                setActiveMenu={setActiveMenu}
-                            />
-                        
+
+                        <ResultLink
+                            minisidebar={minisidebar}
+                            CustomToggle={CustomToggle}
+                            setActiveMenu={setActiveMenu}
+                        />
+
                     )}
 
                 {hasAccess2([NavPermissions.unusedPins, NavPermissions.usedPins]) && (
-                  
-                   <PinLink
+
+                    <PinLink
                         minisidebar={minisidebar}
                         CustomToggle={CustomToggle}
-                        setActiveMenu={setActiveMenu} 
-                      />  
-                    
+                        setActiveMenu={setActiveMenu}
+                    />
+
                 )}
 
-                 {hasAccess2([
+                {hasAccess2([
                     NavPermissions.studentList,
                     NavPermissions.enrolledStudentsList,
                     NavPermissions.unenrolledStudentsList
                 ]) && (
-              
+
                         <StudentLink
                             minisidebar={minisidebar}
                             CustomToggle={CustomToggle}
                             setActiveMenu={setActiveMenu}
                         />
-                          
+
                     )}
 
 
-                     {hasAccess(NavPermissions.staffList) && (
-                    
-                        <StaffLink
-                            minisidebar={minisidebar}
-                            CustomToggle={CustomToggle}
-                            setActiveMenu={setActiveMenu}
-                        />
-                  
+                {hasAccess(NavPermissions.staffList) && (
+                    <StaffLink
+                        minisidebar={minisidebar}
+                        CustomToggle={CustomToggle}
+                        setActiveMenu={setActiveMenu}
+                    />
+
                 )}
 
 
-                  {hasAccess(NavPermissions.staffList) && (
-                            <ParentsLink
-                                minisidebar={minisidebar}
-                            />
-                            )}
+                {hasAccess(NavPermissions.staffList) && (
+                    <ParentsLink
+                        minisidebar={minisidebar}
+                    />
+                )}
 
 
                 {hasAccess2([
@@ -244,9 +243,15 @@ const VerticalNav = () => {
                                 setActiveMenu={setActiveMenu}
                             />
 
-                                <ResetPasswordLink
+                            <ResetPasswordLink
                                 minisidebar={minisidebar}
                             />
+                             <li>
+                                <hr className="hr-horizontal" />
+                            </li>
+                            <li>
+                                <hr className="hr-horizontal" />
+                            </li>
                         </>
                     )}
 
