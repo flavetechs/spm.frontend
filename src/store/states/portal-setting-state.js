@@ -9,5 +9,6 @@ export const _state = {
     admissionSettingList: [],
     filterProps: {},
     singleAdmissionSettingsDetail: {},
+    submittedSuccessful: false,
   };
   

@@ -4,24 +4,47 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import { getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
-import { createAdmissionSetting } from "../../../store/actions/portal-setting-action";
-import { useHistory } from "react-router-dom";
-import { portalSetting } from "../../../router/spm-path-locations";
+import { createAdmissionSetting, getAllAdmissionSetting, getSingleAdmissionSetting, updateAdmissionSetting } from "../../../store/actions/portal-setting-action";
+import { useHistory, useLocation } from "react-router-dom";
 
-const CreateAdmissionSetting = () => {
+const AdmissionSettingsDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
+    const {  singleAdmissionSettingsDetail } = state.portal;
     const { itemList } = state.class;
-    const { submittedSuccessful } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATIONS
     const dispatch = useDispatch();
     const history = useHistory();
+    const locations = useLocation();
+    const [editButton, setEditButton] = useState(false);
+    const [saveButton, setSaveButton] = useState(false);
     const [classesIds, setClassesIds] = useState([]);
-    const [withRegistrationFee, setWithRegistrationFee] = useState(false);
-    const [admissionStatusValue, setAdmissionStatusValue] = useState(true);
+    const [disable, setDisable] = useState(true);
+    const [withRegistrationFee, setWithRegistrationFee] = useState(singleAdmissionSettingsDetail?.registrationFee || false);
+    const [admissionStatusValue, setAdmissionStatusValue] = useState(singleAdmissionSettingsDetail?.admissionStatus || false);
     //VARIABLE DECLARATIONS
+
+    const queryParams = new URLSearchParams(locations.search);
+    const admissionSettingId = queryParams.get("admissionSettingId") || "";
+
+    React.useEffect(() => {
+        if (admissionSettingId) {
+            getSingleAdmissionSetting(admissionSettingId)(dispatch);
+        }
+    }, [dispatch, admissionSettingId]);
+
+    React.useEffect(() => {
+        setSaveButton(true);
+        setEditButton(false);
+    }, [dispatch]);
+
+    React.useEffect(() => {
+        setWithRegistrationFee(singleAdmissionSettingsDetail?.registrationFee || false);
+        setAdmissionStatusValue(singleAdmissionSettingsDetail?.admissionStatus || false);
+    }, [singleAdmissionSettingsDetail]);
+
 
     React.useEffect(() => {
         getAllClasses()(dispatch);
@@ -43,11 +66,14 @@ const CreateAdmissionSetting = () => {
         setClassesIds(selectedClassessArray);
     };
 
-    if (submittedSuccessful) {
-        history.push(portalSetting.setting);
-      }
-
-    console.log("submittedSuccessful", submittedSuccessful);
+    let result = singleAdmissionSettingsDetail?.classes?.map(element => {
+        return element.classId
+    });
+    React.useEffect(() => {
+        if (singleAdmissionSettingsDetail?.classes) {
+            setClassesIds([...result]);
+        }
+    }, [singleAdmissionSettingsDetail]);
 
     return (
         <>
@@ -55,23 +81,28 @@ const CreateAdmissionSetting = () => {
                 <Formik
                     enableReinitialize={true}
                     initialValues={{
-                        admissionSettingName: "",
+                        admissionSettingName: singleAdmissionSettingsDetail?.admissionSettingName ?? "",
+                        admissionSettingsId: singleAdmissionSettingsDetail?.admissionSettingId ?? "",
                         classes: [],
-                        passedExamEmail: "",
-                        failedExamEmail: "",
-                        screeningEmail: "",
-                        screeningEmail: "",
+                        passedExamEmail: singleAdmissionSettingsDetail?.passedExamEmail ?? "",
+                        failedExamEmail: singleAdmissionSettingsDetail?.failedExamEmail ?? "",
+                        screeningEmail: singleAdmissionSettingsDetail?.screeningEmail ?? "",
+                      
                     }}
 
                     onSubmit={(values) => {
+                        values.admissionSettingName = values.admissionSettingName;
+                        values.admissionSettingsId = values.admissionSettingsId;
                         values.classes = classesIds;
                         values.admissionStatus = admissionStatusValue;
                         values.passedExamEmail = values.passedExamEmail;
                         values.failedExamEmail = values.failedExamEmail;
                         values.screeningEmail = values.screeningEmail;
-                        values.admissionSettingName = values.admissionSettingName;
                         values.registrationFee = withRegistrationFee;
-                        createAdmissionSetting(values)(dispatch);
+                        setSaveButton(!saveButton);
+                        setEditButton(!editButton);
+                        setDisable(true);
+                        updateAdmissionSetting(values)(dispatch);
                     }}
                 >
                     {({
@@ -100,6 +131,7 @@ const CreateAdmissionSetting = () => {
                                                             Admission Name
                                                         </label>
                                                         <Field
+                                                            disabled={disable}
                                                             placeholder="Enter Admission Name"
                                                             type="text"
                                                             id="admissionSettingName"
@@ -107,12 +139,13 @@ const CreateAdmissionSetting = () => {
                                                             className="form-control"
                                                         />
                                                     </div>
-                                                    <h6 className=""> Select classes for Admission</h6>
+                                                    <h6 className="">Classes available for Admission</h6>
                                                     {itemList.map((item, idx) => (
                                                         <div className="form-check mb-3 form-Check col-md-5 ms-3"
                                                             key={idx}
                                                         >
                                                             <Field
+                                                                disabled={disable}
                                                                 type="checkbox"
                                                                 className="form-check-input"
                                                                 name="classes"
@@ -131,11 +164,12 @@ const CreateAdmissionSetting = () => {
                                                     <h6 className="">Choose Open Or closed Admission</h6>
                                                     <div className="form-check mb-3 form-Check col-md-5 ms-3">
                                                         <Field
+                                                            disabled={disable}
                                                             type="radio"
                                                             id="admissionStatus"
                                                             className="form-check-input"
                                                             name="admissionStatus"
-                                                            checked={admissionStatusValue? true : false}
+                                                            checked={admissionStatusValue ? true : false}
                                                             onChange={() => {
                                                                 setAdmissionStatusValue(!admissionStatusValue);
                                                             }}
@@ -146,11 +180,12 @@ const CreateAdmissionSetting = () => {
                                                     </div>
                                                     <div className="form-check mb-3 form-Check col-md-5 ms-3">
                                                         <Field
+                                                            disabled={disable}
                                                             type="radio"
                                                             id="admissionStatus"
                                                             className="form-check-input"
                                                             name="admissionStatus"
-                                                            checked={!admissionStatusValue ? true : false }
+                                                            checked={admissionStatusValue ? false : true}
                                                             onChange={() => {
                                                                 setAdmissionStatusValue(!admissionStatusValue);
                                                             }}
@@ -162,6 +197,7 @@ const CreateAdmissionSetting = () => {
                                                     <h6 className="">Payment Option</h6>
                                                     <div className="form-check mb-3 form-Check col-md-5 ms-3">
                                                         <Field
+                                                            disabled={disable}
                                                             type="radio"
                                                             id="registrationFee"
                                                             className="form-check-input"
@@ -177,11 +213,12 @@ const CreateAdmissionSetting = () => {
                                                     </div>
                                                     <div className="form-check mb-3 form-Check col-md-5 ms-3">
                                                         <Field
+                                                            disabled={disable}
                                                             type="radio"
                                                             id="registrationFee"
                                                             className="form-check-input"
                                                             name="registrationFee"
-                                                            checked={!withRegistrationFee ? true : false}
+                                                            checked={withRegistrationFee ? false : true}
                                                             onChange={() => {
                                                                 setWithRegistrationFee(!withRegistrationFee);
                                                             }}
@@ -199,6 +236,7 @@ const CreateAdmissionSetting = () => {
                                                             Email Message for passed Student
                                                         </label>
                                                         <Field
+                                                            disabled={disable}
                                                             placeholder="Enter Email"
                                                             type="text"
                                                             id="passedExamEmail"
@@ -214,6 +252,7 @@ const CreateAdmissionSetting = () => {
                                                             Email Message for failed Student
                                                         </label>
                                                         <Field
+                                                            disabled={disable}
                                                             placeholder="Enter Email"
                                                             type="text"
                                                             id="failedExamEmail"
@@ -229,6 +268,7 @@ const CreateAdmissionSetting = () => {
                                                             Email Message for Physical Screening
                                                         </label>
                                                         <Field
+                                                            disabled={disable}
                                                             placeholder="Enter Email"
                                                             type="text"
                                                             id="screeningEmail"
@@ -250,13 +290,27 @@ const CreateAdmissionSetting = () => {
                                                     >
                                                         Back
                                                     </Button>
-                                                    <Button
-                                                        type="button"
-                                                        variant="btn btn-primary mx-2"
-                                                        onClick={handleSubmit}
-                                                    >
-                                                        Save Changes
-                                                    </Button>
+                                                    {saveButton ? (
+                                                        <Button
+                                                            type="button"
+                                                            variant="btn btn-primary mx-2"
+                                                            onClick={() => {
+                                                                setSaveButton(!saveButton)
+                                                                setEditButton(!editButton)
+                                                                setDisable(!disable);
+                                                            }}
+                                                        >
+                                                            CLICK TO EDIT
+                                                        </Button>
+                                                    ) : (
+                                                        <Button
+                                                            type="button"
+                                                            variant="btn btn-danger mx-2"
+                                                            onClick={handleSubmit}
+                                                        >
+                                                            Save Changes
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             </Form>
                                         </div>{" "}
@@ -272,4 +326,4 @@ const CreateAdmissionSetting = () => {
     );
 };
 
-export default CreateAdmissionSetting;
+export default AdmissionSettingsDetails;

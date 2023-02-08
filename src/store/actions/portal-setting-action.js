@@ -226,7 +226,6 @@ export const getSingleAdmissionSetting = (admissionSettingsId) => (dispatch) => 
         type: actions.FETCH_SINGLE_ADMISSION_SETTING_LOADING,
     });
 
-                    //smp/api/v1/admission-settings/get-single-settings?admissionSettingsId=07b1bf33-b96b-4ab4-df76-08db05e8300b
     axiosInstance.get(`/smp/api/v1/admission-settings/get-single-settings?admissionSettingsId=${admissionSettingsId}`)
         .then((res) => {
             dispatch({
@@ -254,10 +253,31 @@ export const createAdmissionSetting = (result) => (dispatch) => {
                 type: actions.CREATE_ADMISSION_SETTING_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAllAdmissionSetting(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_ADMISSION_SETTING_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const updateAdmissionSetting = (result) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_ADMISSION_SETTING_LOADING
+    });
+    axiosInstance.post('/smp/api/v1/admission-settings/update', result)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_ADMISSION_SETTING_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_ADMISSION_SETTING_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)

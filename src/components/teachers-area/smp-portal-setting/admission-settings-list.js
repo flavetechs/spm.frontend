@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
 import PaginationFilter from "../../partials/components/pagination-filter";
 import { getAllAdmissionSetting } from "../../../store/actions/portal-setting-action";
+import { portalSetting } from "../../../router/spm-path-locations";
 
 const AdmissionSettingsList = () => {
     //VARIABLE DECLARATIONS
@@ -27,25 +28,6 @@ const AdmissionSettingsList = () => {
         getAllAdmissionSetting(1)(dispatch);
     }, [dispatch]);
 
-    //   React.useEffect(() => {
-    //     if (dialogResponse === "continue") {
-    //       if (!promotion.toSessionClassId) {
-    //         showErrorToast("No class selected")(dispatch);
-    //       } else {
-    //         promoteStudent(promotion)(dispatch);
-    //         showHideDialog(false, null)(dispatch);
-    //         respondDialog("")(dispatch);
-    //         setPromotion(promIntialState)
-    //       }
-    //       return () => {
-    //         respondDialog("")(dispatch)
-    //         showHideDialog(false, null)(dispatch);
-    //       }
-    //     }
-    //   }, [dialogResponse, promotion.toSessionClassId, dispatch]);
-
-    console.log("admissionSettingResult", admissionSettingList);
-
     return (
         <>
             <div>
@@ -58,12 +40,8 @@ const AdmissionSettingsList = () => {
                                         <h4 className="card-title">Admission Settings</h4>
                                     </div>
                                     <div className="col col-md-6 d-md-flex justify-content-end">
-                                        {/* <h4 >
-                                            <Badge bg="light text-dark">New Admission</Badge>
-                                        </h4> */}
                                         <Link
-                                            // to={staffLocations.staffAdd}
-                                            to="#"
+                                            to={portalSetting.createAdmissionSetting}
                                             className="d-flex justify-content-end"
                                         >
                                             <button
@@ -155,8 +133,8 @@ const AdmissionSettingsList = () => {
                                                                     data-placement="top"
                                                                     title=""
                                                                     data-original-title="Details"
-                                                                    to="#"
-                                                                // to={`${staffLocations.staffDetails}?teacherAccountId=${item.teacherAccountId}`}
+                                                                    // to="#"
+                                                                    to={`${portalSetting.admissionSettingsDetails}?admissionSettingId=${item.admissionSettingId}`}
                                                                 >
                                                                     <span className="btn-inner">
                                                                         <svg

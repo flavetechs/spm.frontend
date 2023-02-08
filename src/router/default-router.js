@@ -103,6 +103,7 @@ import ParentsDetails from '../components/teachers-area/smp-parents/parents-deta
 import ResetPassword from '../components/spm-auth/reset-password';
 import CreateAdmissionSetting from '../components/teachers-area/smp-portal-setting/create-admission-setting';
 import UpdateAdmissionSetting from '../components/teachers-area/smp-portal-setting/update-admission-setting';
+import AdmissionSettingsDetails from '../components/teachers-area/smp-portal-setting/admission-settings-details';
 
 const DashboardRouter = () => {
 
@@ -222,7 +223,8 @@ const DashboardRouter = () => {
                         <Route path={portalSetting.setting} exact component={Setting} />
                         <Route path={portalSetting.theme} exact component={settingoffcanvas} />
                         <Route path={portalSetting.createAdmissionSetting} exact component={CreateAdmissionSetting} />
-                        <Route path={portalSetting.updateAdmissionSetting} exact component={UpdateAdmissionSetting} />
+                        {/* <Route path={portalSetting.updateAdmissionSetting} exact component={UpdateAdmissionSetting} /> */}
+                        <Route path={portalSetting.admissionSettingsDetails} exact component={AdmissionSettingsDetails} />
 
                         {/* notificationManagement */}
                         <Route path={notificationManagement.announcement} exact component={AnnouncementList} />
