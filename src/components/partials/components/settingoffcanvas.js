@@ -242,6 +242,18 @@ const SettingOffcanvas = (props ) => {
  
   const schoolUrl = window.location.origin;
   useEffect(() => {
+    localStorage.removeItem('appSetting');
+    sessionStorage.removeItem('color-customizer-mode')
+    sessionStorage.removeItem('colorcustominfo-mode',)
+    sessionStorage.removeItem('colorcustomprimary-mode')
+    sessionStorage.removeItem('color-mode')
+    sessionStorage.removeItem('rtl-mode')
+    sessionStorage.removeItem('sidebarcolor-mode')
+    sessionStorage.removeItem("sidebarminitype-mode")
+    sessionStorage.removeItem("sidebarhovertype-mode")
+    sessionStorage.removeItem("sidebarboxedtype-mode")
+    sessionStorage.removeItem('sidebarstyle-mode')
+    sessionStorage.removeItem('loginTemplate-mode')
     getAppLayout(schoolUrl)(dispatch);
 }, [schoolUrl])
  

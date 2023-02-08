@@ -251,6 +251,7 @@ export const getAppLayout = (url) => (dispatch) => {
                 type: actions.FETCH_APP_LAYOUT_SUCCESS,
                 payload: res.data.result,
             });
+            
         })
         .catch((err) => {
             dispatch({
@@ -270,6 +271,7 @@ export const updateAppLayout = (layout) => (dispatch) => {
                 type: actions.UPDATE_APP_LAYOUT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getAppLayout(layout.schoolUrl)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

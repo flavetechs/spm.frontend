@@ -28,6 +28,7 @@ export const authLocations = {
   forgottenPassword: "/smp/forgotten-password",
   PasswordReset: "/PasswordReset",
   passwordResetSuccessful: "/smp/password-reset-successful",
+  pageNotFound:"/page-not-found"
 };
 
 export const classLocations = {

@@ -13,9 +13,9 @@ if (layoutSetting === 'undefined') {
         sidebarType: { mini: "", hover: "", boxed: "" },
         sidebarActiveStyle: 'roundedAllSide',
         navbarstyle: 'sticky',
-        loginTemplate: 'default-login-template'
+loginTemplate: 'default-login-template' 
 
-    }
+    }       
 
 } else {
     const appSetting = JSON.parse(layoutSetting) || "";
