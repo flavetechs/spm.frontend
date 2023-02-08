@@ -1,39 +1,61 @@
+const layoutSetting = localStorage.getItem("appSetting")
+let initstate = 'undefined';
+console.log('layoutSetting', layoutSetting)
+if (layoutSetting === 'undefined') {
 
-const initstate={
-    scheme: 'light',
-    colorcustomizer: 'default',
-    colorinfo: '#4bc7d2',
-    colorprimary:'#3a57e8',
-    schemeDir: 'ltr',
-    sidebarcolor: 'white',
-    sidebarType: {mini:"", hover:"", boxed:""} ,
-    sidebarActiveStyle: 'roundedAllSide',
-    navbarstyle : 'sticky',
-    loginTemplate: 'default-login-template'
-    
+    initstate = {
+        scheme: 'light',
+        colorcustomizer: 'default',
+        colorinfo: '#4bc7d2',
+        colorprimary: '#3a57e8',
+        schemeDir: 'ltr',
+        sidebarcolor: 'white',
+        sidebarType: { mini: "", hover: "", boxed: "" },
+        sidebarActiveStyle: 'roundedAllSide',
+        navbarstyle: 'sticky',
+loginTemplate: 'default-login-template' 
+
+    }       
+
+} else {
+    const appSetting = JSON.parse(layoutSetting) || "";
+    initstate = {
+        scheme: appSetting.scheme,
+        colorcustomizer: appSetting.colorcustomizer,
+        colorinfo: appSetting.colorinfo,
+        colorprimary: appSetting.colorprimary,
+        schemeDir: appSetting.schemeDir,
+        sidebarcolor: appSetting.sidebarcolor,
+        sidebarType: appSetting.sidebarType,
+        sidebarActiveStyle: appSetting.sidebarActiveStyle,
+        navbarstyle: appSetting.navbarstyle,
+        loginTemplate: appSetting.loginTemplate
+
+    }
 }
+
 
 // Action/Dispatch
 // Action for schememode
 export const ModeAction = (value) => {
-     sessionStorage.setItem('color-mode', value)
+    sessionStorage.setItem('color-mode', value)
     if (value === 'dark') {
         document.body.classList.remove('auto')
         document.body.classList.remove('light')
         document.body.classList.add('dark')
     }
-    else if (value === 'light'){
+    else if (value === 'light') {
         document.body.classList.remove('dark')
         document.body.classList.remove('auto')
         document.body.classList.add('light')
     }
-     else {
+    else {
         document.body.classList.remove('dark')
         document.body.classList.remove('light')
         document.body.classList.add('auto')
     }
-    
-    return {type: 'DARKMODE', value}
+
+    return { type: 'DARKMODE', value }
 }
 
 // Action for Colorcustomizer
@@ -42,67 +64,62 @@ export const ColorCustomizerAction = (value, info, primary) => {
     sessionStorage.setItem('color-customizer-mode', value)
     sessionStorage.setItem('colorcustominfo-mode', info)
     sessionStorage.setItem('colorcustomprimary-mode', primary)
-    if( value === 'theme-color-blue')
-    {
+    if (value === 'theme-color-blue') {
         document.body.classList.add('theme-color-blue')
         document.body.classList.remove('theme-color-gray')
         document.body.classList.remove('theme-color-red')
         document.body.classList.remove('theme-color-yellow')
         document.body.classList.remove('theme-color-pink')
     }
-    else if(value === 'theme-color-gray')
-    {
+    else if (value === 'theme-color-gray') {
         document.body.classList.remove('theme-color-blue')
         document.body.classList.add('theme-color-gray')
         document.body.classList.remove('theme-color-red')
         document.body.classList.remove('theme-color-yellow')
         document.body.classList.remove('theme-color-pink')
     }
-    else if(value === 'theme-color-red')
-    {
+    else if (value === 'theme-color-red') {
         document.body.classList.add('theme-color-red')
         document.body.classList.remove('theme-color-gray')
         document.body.classList.remove('theme-color-blue')
         document.body.classList.remove('theme-color-yellow')
         document.body.classList.remove('theme-color-pink')
     }
-    else if(value === 'theme-color-yellow')
-    {
+    else if (value === 'theme-color-yellow') {
         document.body.classList.add('theme-color-yellow')
         document.body.classList.remove('theme-color-gray')
         document.body.classList.remove('theme-color-red')
         document.body.classList.remove('theme-color-blue')
         document.body.classList.remove('theme-color-pink')
     }
-    else if(value === 'theme-color-pink')
-    {
+    else if (value === 'theme-color-pink') {
         document.body.classList.add('theme-color-pink')
         document.body.classList.remove('theme-color-gray')
         document.body.classList.remove('theme-color-red')
         document.body.classList.remove('theme-color-yellow')
         document.body.classList.remove('theme-color-blue')
     }
-    else{
+    else {
         document.body.classList.remove('theme-color-pink')
         document.body.classList.remove('theme-color-gray')
         document.body.classList.remove('theme-color-red')
         document.body.classList.remove('theme-color-yellow')
         document.body.classList.remove('theme-color-blue')
     }
-    return {type: 'COLORCUSTOMIZER', value, info, primary }
+    return { type: 'COLORCUSTOMIZER', value, info, primary }
 }
 //Action for SchemeDirection
 export const SchemeDirAction = (value) => {
     sessionStorage.setItem('rtl-mode', value)
     if (value === 'rtl') {
-        document.body.parentElement.setAttribute('dir','rtl')
+        document.body.parentElement.setAttribute('dir', 'rtl')
     }
-    
-     else {
-        document.body.parentElement.setAttribute('dir','ltr')
-     }
-    
-    return {type: 'SCHEMEDIRMODE', value}
+
+    else {
+        document.body.parentElement.setAttribute('dir', 'ltr')
+    }
+
+    return { type: 'SCHEMEDIRMODE', value }
 }
 
 // action for sidebarcolor
@@ -114,39 +131,39 @@ export const SidebarColorAction = (value) => {
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-transparent')
         document.getElementsByTagName('ASIDE')[0].classList.add('sidebar-dark')
     }
-    else if (value === 'color'){
+    else if (value === 'color') {
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-dark')
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-white')
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-transparent')
         document.getElementsByTagName('ASIDE')[0].classList.add('sidebar-color')
     }
-    else if (value === 'transparent'){
+    else if (value === 'transparent') {
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-color')
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-white')
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-dark')
         document.getElementsByTagName('ASIDE')[0].classList.add('sidebar-transparent')
     }
-    else{
+    else {
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-dark')
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-color')
         document.getElementsByTagName('ASIDE')[0].classList.remove('sidebar-transparent')
         document.getElementsByTagName('ASIDE')[0].classList.add('sidebar-white')
     }
-    return {type: 'SIDEBARCOLORMODE', value}
-    }
+    return { type: 'SIDEBARCOLORMODE', value }
+}
 
 // Action for sidebartypeaction
 export const SidebarminiTypeAction = (value) => {
     sessionStorage.setItem("sidebarminitype-mode", value)
-    return {type: 'SIDEBARMINITYPEMODE', value}
+    return { type: 'SIDEBARMINITYPEMODE', value }
 }
 export const SidebarhoverTypeAction = (value) => {
     sessionStorage.setItem("sidebarhovertype-mode", value)
-    return {type: 'SIDEBARHOVERTYPEMODE', value}
+    return { type: 'SIDEBARHOVERTYPEMODE', value }
 }
 export const SidebarboxedTypeAction = (value) => {
     sessionStorage.setItem("sidebarboxedtype-mode", value)
-    return {type: 'SIDEBARBOXEDTYPEMODE', value}
+    return { type: 'SIDEBARBOXEDTYPEMODE', value }
 }
 // action for sidebaractivestyle
 
@@ -157,72 +174,72 @@ export const SidebarActiveStyleAction = (value) => {
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-rounded-all')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-pill')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-pill-all')
-            
+
     }
-    else if (value === 'roundedAllSide'){
+    else if (value === 'roundedAllSide') {
         document.getElementsByTagName('ASIDE')[0].classList.add('navs-rounded-all')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-rounded')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-pill')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-pill-all')
     }
-    else if (value === 'pill'){
+    else if (value === 'pill') {
         document.getElementsByTagName('ASIDE')[0].classList.add('navs-pill')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-rounded')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-rounded-all')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-pill-all')
     }
-    else{
+    else {
         document.getElementsByTagName('ASIDE')[0].classList.add('navs-pill-all')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-rounded')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-pill')
         document.getElementsByTagName('ASIDE')[0].classList.remove('navs-rounded-all')
 
     }
-    return {type: 'SIDEBARACTIVESTYLEMODE', value}
+    return { type: 'SIDEBARACTIVESTYLEMODE', value }
 
+}
+
+export const LoginTemplateAction = (value) => {
+    sessionStorage.setItem('loginTemplate-mode', value)
+    if (value === 'default-login-template') {
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-1')
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-2')
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-3')
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-4')
+        // document.getElementsByTagName('ASIDE')[0].classList.add('default-login-template')
+    }
+    else if (value === 'template-1') {
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('default-login-template')
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-2')
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-3')
+        // document.getElementsByTagName('ASIDE')[0].classList.remove('template-4')
+        // document.getElementsByTagName('ASIDE')[0].classList.add('template-1')
+    }
+    else if (value === 'template-2') {
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-3')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-4')
+        // document.getElementsByTagName('LOGIN')[0].classList.add('template-2')
+    }
+    else if (value === 'template-3') {
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-2')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-4')
+        // document.getElementsByTagName('LOGIN')[0].classList.add('template-3')
+    }
+    else if (value === 'template-4') {
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-2')
+        // document.getElementsByTagName('LOGIN')[0].classList.remove('template-3')
+        // document.getElementsByTagName('LOGIN')[0].classList.add('template-4')
     }
 
-    export const LoginTemplateAction = (value) => {
-        sessionStorage.setItem('loginTemplate-mode', value)
-        if (value === 'default-login-template') {
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-1')
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-2')
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-3')
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-4')
-            // document.getElementsByTagName('ASIDE')[0].classList.add('default-login-template')
-        }
-        else if (value === 'template-1'){
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('default-login-template')
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-2')
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-3')
-            // document.getElementsByTagName('ASIDE')[0].classList.remove('template-4')
-            // document.getElementsByTagName('ASIDE')[0].classList.add('template-1')
-        }
-        else if (value === 'template-2'){
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-3')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-4')
-            // document.getElementsByTagName('LOGIN')[0].classList.add('template-2')
-        }
-        else if (value === 'template-3'){
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-2')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-4')
-            // document.getElementsByTagName('LOGIN')[0].classList.add('template-3')
-        }
-        else if (value === 'template-4'){
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('default-login-template')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-1')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-2')
-            // document.getElementsByTagName('LOGIN')[0].classList.remove('template-3')
-            // document.getElementsByTagName('LOGIN')[0].classList.add('template-4')
-        }
-    
-     
-        return {type: 'LOGINTEMPLATEMODE', value}
-        }
+
+    return { type: 'LOGINTEMPLATEMODE', value }
+}
 
 // action for navbarstyleaction 
 
@@ -249,7 +266,7 @@ export const NavbarstyleAction = (value) => {
         document.getElementsByTagName('NAV')[0].classList.remove('nav-glass')
         document.getElementsByTagName('NAV')[0].classList.remove('navs-sticky')
     }
-    else{
+    else {
         document.getElementsByTagName('NAV')[0].classList.add('navs-sticky')
         document.getElementsByClassName('iq-navbar-header')[0].classList.remove('navs-bg-color')
         document.getElementsByTagName('NAV')[0].classList.remove('navs-transparent')
@@ -257,11 +274,11 @@ export const NavbarstyleAction = (value) => {
         document.getElementsByTagName('NAV')[0].classList.remove('navs-bg-color')
     }
 
-    return {type: 'NAVBARSTYLEMODE', value}
+    return { type: 'NAVBARSTYLEMODE', value }
 }
 
 // Mutations/Reducer
-const Mode = (state = initstate,action) =>{
+const Mode = (state = initstate, action) => {
     switch (action.type) {
         case 'DARKMODE':
             return Object.assign({}, state, {
@@ -283,50 +300,48 @@ const Mode = (state = initstate,action) =>{
             })
         case 'SIDEBARMINITYPEMODE':
             return Object.assign({}, state, {
-                sidebarType: {mini:action.value}
-               
+                sidebarType: { mini: action.value }
+
             })
         case 'SIDEBARHOVERTYPEMODE':
             return Object.assign({}, state, {
-                sidebarType: {hover:action.value}
-                
+                sidebarType: { hover: action.value }
+
             })
         case 'SIDEBARBOXEDTYPEMODE':
             return Object.assign({}, state, {
-                sidebarType: {boxed:action.value}
-                
+                sidebarType: { boxed: action.value }
+
             })
         case 'SIDEBARACTIVESTYLEMODE':
             return Object.assign({}, state, {
                 sidebarActiveStyle: action.value
-                
+
             })
         case 'NAVBARSTYLEMODE':
             return Object.assign({}, state, {
                 navbarstyle: action.value
-                
+
             })
-            case 'LOGINTEMPLATEMODE':
-                return Object.assign({}, state, {
-                    loginTemplate: action.value
-             })
+        case 'LOGINTEMPLATEMODE':
+            return Object.assign({}, state, {
+                loginTemplate: action.value
+            })
 
         default:
             return state
     }
 }
 // Selectores
-const storedLayout = localStorage.getItem("appSetting")
-const appSetting = JSON.parse(storedLayout)||"";
-export const getDarkMode = (state) => appSetting.scheme;
-export const getcustomizerMode = (state) => appSetting.colorcustomizer;
-export const getcustomizerinfoMode = (state) => appSetting.colorinfo;
-export const getcustomizerprimaryMode = (state) => appSetting.colorprimary;
-export const getDirMode = (state) => appSetting.schemeDir;
-export const getSidebarColorMode = (state) => appSetting.sidebarcolor;
-export const getSidebarTypeMode = (state) => appSetting.sidebarType;
-export const getSidebarActiveMode = (state) => appSetting.sidebarActiveStyle;
-export const getNavbarStyleMode = (state) => appSetting.navbarstyle;
-export const getLoginTemplateMode = (state) => appSetting.loginTemplate;
+export const getDarkMode = (state) => state.mode.scheme;
+export const getcustomizerMode = (state) => state.mode.colorcustomizer;
+export const getcustomizerinfoMode = (state) => state.mode.colorinfo;
+export const getcustomizerprimaryMode = (state) => state.mode.colorprimary;
+export const getDirMode = (state) => state.mode.schemeDir;
+export const getSidebarColorMode = (state) => state.mode.sidebarcolor;
+export const getSidebarTypeMode = (state) => state.mode.sidebarType;
+export const getSidebarActiveMode = (state) => state.mode.sidebarActiveStyle;
+export const getNavbarStyleMode = (state) => state.mode.navbarstyle;
+export const getLoginTemplateMode = (state) => state.mode.loginTemplate;
 
 export default Mode

@@ -98,7 +98,8 @@ const Index = (props) => {
     useEffect(async () => {
         await getAllDashboardCount().then(res => {
             setTimeout(() => {
-                setDashboardCount(JSON.parse(localStorage.getItem('dashboardCount')));
+                const dash = JSON.parse(localStorage.getItem('dashboardCount'));
+                dash && setDashboardCount(dash);
 
             }, 3000)
 
