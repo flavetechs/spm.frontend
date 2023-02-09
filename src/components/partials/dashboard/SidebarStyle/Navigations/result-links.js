@@ -94,7 +94,7 @@ export function ResultLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> M </i>
+                                    <i className="sidenav-mini-icon"> Pr </i>
                                     <span className="item-name">Print Result</span>
                                 </Link>
                             </li>
@@ -115,7 +115,7 @@ export function ResultLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> M </i>
+                                    <i className="sidenav-mini-icon"> C </i>
                                     <span className="item-name">Cumulative Result</span>
                                 </Link>
                             </li>

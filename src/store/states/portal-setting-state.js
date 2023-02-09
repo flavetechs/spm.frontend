@@ -10,5 +10,7 @@ export const _state = {
     filterProps: {},
     singleAdmissionSettingsDetail: {},
     submittedSuccessful: false,
+    admissionSettingResult: {},
+    appSetting:{},
   };
   

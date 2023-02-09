@@ -9,7 +9,7 @@ import { TemplateModal } from "./template-modal";
 const TemplateSetting = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const { dialogResponse } = state.alert;
+  const { dialogResponse,showModal } = state.alert;
   const { selectedTemplate } = state.portal;
   const [imageDisplay, setImageDisplay] = useState("");
   const [templateName, setTemplateName] = useState("");
@@ -27,46 +27,12 @@ const TemplateSetting = () => {
       isChecked: selectedTemplate === "template-two" ? true : false,
       templateName:"template-two",
     },
-    // {
-    //   image:
-    //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/2.png",
-    //   isChecked: selectedTemplate == "template-three" ? true : false,
-    //   templateName:"template-three",
-    // },
-    // {
-    //   image:
-    //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/1.png",
-    //   isChecked: selectedTemplate == "template-four" ? true : false,
-    //   templateName:"template-four",
-    // },
-    // {
-    //   image:
-    //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/6.png",
-    //   isChecked: selectedTemplate == "template-five" ? true : false,
-    //   templateName:"template-five",
-    // },
-    // {
-    //   image:
-    //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/5.png",
-    //   isChecked: selectedTemplate == "template-six" ? true : false,
-    //   templateName:"template-six",
-    // },
-    // {
-    //   image:
-    //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/4.png",
-    //   isChecked: selectedTemplate == "template-seven" ? true : false,
-    //   templateName:"template-seven",
-    // },
-    // {
-    //   image:
-    //     "https://templates.iqonic.design/hope-ui/pro/html/file-manager/assets/images/8.png",
-    //   isChecked: selectedTemplate == "template-eight" ? true : false,
-    //   templateName:"template-eight",
-    // },
+  
   ];
   useEffect(() => {
+    showHideModal(false)(dispatch);
     getResultSetting()(dispatch);
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (!templateName) {
@@ -87,6 +53,7 @@ const TemplateSetting = () => {
     };
   }, [dialogResponse, dispatch]);
 
+ 
   return (
     <>
       <div className="col-md-12 mx-auto">
@@ -97,7 +64,7 @@ const TemplateSetting = () => {
                 <h4>CHOOSE TEMPLATE</h4>
               </Card.Header>
               <TemplateModal>
-                <img src={imageDisplay} alt="display" />
+                <img  className="img-fluid" src={imageDisplay} alt="display" />
               </TemplateModal>
               <Card.Body>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">

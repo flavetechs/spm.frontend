@@ -283,3 +283,44 @@ export const updateAdmissionSetting = (result) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+export const getAppLayout = (url) => (dispatch) => {
+    dispatch({
+        type: actions.PORTAL_SETTING_LOADING,
+    });
+    axiosInstance.get(`/portalsetting/api/v1/get/applayout-setting?url=${url}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_APP_LAYOUT_SUCCESS,
+                payload: res.data.result,
+            });
+            
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.PORTAL_SETTING_FAILED,
+                payload: err.response.data.result,
+            });
+        });
+};
+
+export const updateAppLayout = (layout) => (dispatch) => {
+    dispatch({
+        type: actions.PORTAL_SETTING_LOADING
+    });
+    axiosInstance.post('/portalsetting/api/v1/update-applayout-setting', layout)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_APP_LAYOUT_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAppLayout(layout.schoolUrl)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.PORTAL_SETTING_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}

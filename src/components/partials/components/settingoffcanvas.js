@@ -29,10 +29,18 @@ import image23 from '../../../assets/images/settings/dark/12.png'
 import image24 from '../../../assets/images/settings/light/12.png'
 
 // store
-import {NavbarstyleAction, getDirMode, getcustomizerinfoMode, getcustomizerprimaryMode, ColorCustomizerAction, SchemeDirAction, getcustomizerMode, SidebarminiTypeAction, SidebarboxedTypeAction, SidebarhoverTypeAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode} from '../../../store/setting/setting'
-import {connect} from "react-redux"
+import {NavbarstyleAction,LoginTemplateAction, getDirMode, getcustomizerinfoMode, getcustomizerprimaryMode, ColorCustomizerAction, SchemeDirAction, getcustomizerMode, SidebarminiTypeAction, SidebarboxedTypeAction, SidebarhoverTypeAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode, getLoginTemplateMode} from '../../../store/setting/setting'
+import {connect, useDispatch, useSelector} from "react-redux"
 import { Link, useLocation } from 'react-router-dom'
-import { dashboardLocations } from '../../../router/spm-path-locations'
+import { getAppLayout, updateAppLayout } from '../../../store/actions/portal-setting-action'
+import { LoginTemplateModal } from '../../spm-auth/login-templates/login-template-modal'
+import {  showHideLoginLayoutModal } from '../../../store/actions/toaster-actions'
+import { template1 } from '../../../assets/images/loginTemplates/template-1'
+import { template2 } from '../../../assets/images/loginTemplates/template-2'
+import { template3 } from '../../../assets/images/loginTemplates/template-3.'
+import { template4 } from '../../../assets/images/loginTemplates/template-4'
+import { defaultTemplate } from '../../../assets/images/loginTemplates/default-template'
+
 
 const mapStateToProps = (state) => {
     return {
@@ -45,8 +53,10 @@ const mapStateToProps = (state) => {
         sidebarTypeMode: getSidebarTypeMode(state),
         sidebaractivestyleMode: getSidebarActiveMode(state),
         navbarstylemode: getNavbarStyleMode(state),
+        loginTemplateMode: getLoginTemplateMode(state),
     };
 }
+
 const mapDispatchToProps = dispatch => ({
     ...bindActionCreators(
         {
@@ -59,6 +69,7 @@ const mapDispatchToProps = dispatch => ({
             SidebarminiTypeAction,
             SidebarhoverTypeAction,
             SidebarboxedTypeAction,
+            LoginTemplateAction,
         },
         dispatch
     )
@@ -71,6 +82,7 @@ const SettingOffcanvas = (props ) => {
     const handleShow = () => setShow(true);
 
   const handleClose = () => setShow(false);
+  const dispatch = useDispatch();
  
  const sidebartypeActives = (type) => {
     if (type === 'sidebar-mini') {
@@ -107,6 +119,7 @@ const SettingOffcanvas = (props ) => {
 
 
   useEffect(() => {
+    
     //   darkmode
     const colorMode = sessionStorage.getItem('color-mode');
     if(colorMode===null){
@@ -130,7 +143,7 @@ const SettingOffcanvas = (props ) => {
     }
 
     
-    
+   
 
     // rtlmode
     const rtlMode = sessionStorage.getItem('rtl-mode');
@@ -150,7 +163,7 @@ const SettingOffcanvas = (props ) => {
         props.SidebarColorAction(sidebarcolorMode1);
     }
     var sidebartypeMode = sessionStorage.getItem("sidebarminitype-mode");
-    props.sidebarTypeMode.mini = sidebartypeMode
+    props.sidebarTypeMode.mini = sidebartypeMode || ""
     if(sidebartypeMode === 'sidebar-mini'){
         document.querySelector('.sidebar-default').classList.add("sidebar-mini")
         var elems3 = document.querySelectorAll('[data-value="sidebar-mini"]');
@@ -168,7 +181,7 @@ const SettingOffcanvas = (props ) => {
     }
     // boxed
     var sidebarboxtypeMode = sessionStorage.getItem("sidebarboxedtype-mode");
-    props.sidebarTypeMode.boxed = sidebarboxtypeMode
+    props.sidebarTypeMode.boxed = sidebarboxtypeMode || ""
     if(sidebarboxtypeMode === 'sidebar-boxed'){
         document.querySelector('.sidebar-default').classList.add("sidebar-boxed")
         var elems1 = document.querySelectorAll('[data-value="sidebar-boxed"]');
@@ -185,7 +198,7 @@ const SettingOffcanvas = (props ) => {
     }
     // hover
     var sidebarhovertypeMode = sessionStorage.getItem("sidebarhovertype-mode");
-    props.sidebarTypeMode.hover = sidebarhovertypeMode
+    props.sidebarTypeMode.hover = sidebarhovertypeMode || ""
     if(sidebarhovertypeMode === 'sidebar-hover'){
         var elems5 = document.querySelectorAll('[data-value="sidebar-hover"]');
         [].forEach.call(elems5, function(el) {
@@ -224,6 +237,26 @@ const SettingOffcanvas = (props ) => {
         props.NavbarstyleAction(navbarstyleMode1);
     }
   })
+  const [imageDisplay, setImageDisplay] = useState("");
+  const colorcustomizerMode = sessionStorage.getItem('color-customizer-mode');
+ 
+  const schoolUrl = window.location.origin;
+  useEffect(() => {
+    localStorage.removeItem('appSetting');
+    sessionStorage.removeItem('color-customizer-mode')
+    sessionStorage.removeItem('colorcustominfo-mode',)
+    sessionStorage.removeItem('colorcustomprimary-mode')
+    sessionStorage.removeItem('color-mode')
+    sessionStorage.removeItem('rtl-mode')
+    sessionStorage.removeItem('sidebarcolor-mode')
+    sessionStorage.removeItem("sidebarminitype-mode")
+    sessionStorage.removeItem("sidebarhovertype-mode")
+    sessionStorage.removeItem("sidebarboxedtype-mode")
+    sessionStorage.removeItem('sidebarstyle-mode')
+    sessionStorage.removeItem('loginTemplate-mode')
+    getAppLayout(schoolUrl)(dispatch);
+}, [schoolUrl])
+ 
 
     return (
         <>
@@ -233,7 +266,9 @@ const SettingOffcanvas = (props ) => {
                     <circle cx="12.1747" cy="11.8891" r="2.63616" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></circle>
                 </svg>
             </div> */}
-
+           <LoginTemplateModal>
+                <img className="img-fluid" src={imageDisplay} alt="display" />
+              </LoginTemplateModal> 
             <ul className="sub-nav">
                             <li className="nav-item "> 
                                 <Link className={`${show === true ? 'active': ''} nav-link`} onClick={()=>{handleShow();}} to="#" >
@@ -253,7 +288,23 @@ const SettingOffcanvas = (props ) => {
              {/* <div className="btn btn-warning " onClick={handleShow} > */}
             {/* </div> */}
 
-            <Offcanvas show={show} onHide={handleClose} placement={`${props.schemeDirMode==="rtl" ? 'start': 'end'}`}>
+            <Offcanvas show={show} onHide={()=>{handleClose();
+            updateAppLayout(
+                {
+                    scheme: props.darkMode,
+                    colorcustomizer: colorcustomizerMode,
+                    colorinfo: props.cololrinfomode,
+                    colorprimary: props.colorprimarymode,
+                    schemeDir: props.schemeDirMode,
+                    sidebarcolor: props.sidebarcolorMode,
+                    sidebarType: props.sidebarTypeMode,
+                    sidebarActiveStyle: props.sidebaractivestyleMode,
+                    navbarstyle: props.navbarstylemode,
+                    loginTemplate: props.loginTemplateMode,
+                    schoolUrl: schoolUrl
+                  }
+                  
+            )(dispatch)}} placement={`${props.schemeDirMode==="rtl" ? 'start': 'end'}`}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Settings</Offcanvas.Title>
                 </Offcanvas.Header>
@@ -457,6 +508,52 @@ const SettingOffcanvas = (props ) => {
                                     </i>
                                     <span className="ms-2 "> Default </span>
                                 </div>
+                            </div>
+                            <hr className="hr-horizontal"/>
+                            <h5 className="mt-4 mb-3">Login Template</h5>
+                            <div className="grid-cols-2 mb-4 d-grid gap-x-3">
+                                
+                                <div className='d-flex'>
+                                <div className={`${props.loginTemplateMode === 'template-1'? 'active' : ''} btn btn-border mb-4 `} onClick={() => {showHideLoginLayoutModal(true)(dispatch);
+                              setImageDisplay(template1);}} >
+                                <span className="ms-2 "> Template 1  </span>
+                                </div>  
+                                <input type="radio" name="template" id="template1" className='mx-2 mb-3' onChange={() => {props.LoginTemplateAction('template-1');}}/>
+                                </div>
+                                
+                                <div className='d-flex'>
+                                <div className={`${props.loginTemplateMode === 'template-2'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {showHideLoginLayoutModal(true)(dispatch);
+                              setImageDisplay(template2);}} >
+                                    <span className="ms-2 "> Template 2 </span>
+                                     </div>
+                                    <input type="radio" name="template" id="template2" className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('template-2')}} />
+                               </div>
+                                
+                                <div className='d-flex'>
+                                <div className={`${props.loginTemplateMode === 'template-3'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {showHideLoginLayoutModal(true)(dispatch);
+                              setImageDisplay(template3);}} >
+                                    <span className="ms-2 "> Template 3 </span>
+                                </div>
+                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('template-3')}}/>
+                                </div>
+
+                               <div className='d-flex'>
+                                <div className={`${props.loginTemplateMode === 'template-4'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => { showHideLoginLayoutModal(true)(dispatch);
+                              setImageDisplay(template4);}} >
+                                    <span className="ms-2 "> Template 4 </span>
+                                </div>
+                                <input type="radio" name="template" id="template2"  className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('template-4')}}/>
+                                </div>
+
+                              <div  className='d-flex'>
+                                <div className={`${props.loginTemplateMode === 'default-login-template'? 'active' : ''} btn btn-border mb-4 `}  onClick={() => {showHideLoginLayoutModal(true)(dispatch);
+                              setImageDisplay(defaultTemplate);}} >
+                                    
+                                    <span className="ms-2 "> Default  </span>
+                                </div>
+                                <input type="radio" name="template" id="template2" className='mx-2 mb-3'onChange={() => {props.LoginTemplateAction('default-login-template');}}/>
+                               </div>
+
                             </div>
                         </Col>
                     </Row>

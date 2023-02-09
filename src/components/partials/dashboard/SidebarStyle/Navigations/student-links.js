@@ -35,7 +35,7 @@ export function StudentLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> U </i>
+                                    <i className="sidenav-mini-icon"> A </i>
                                     <span className="item-name">All Students</span>
                                 </Link>
                             </li>
@@ -77,7 +77,7 @@ export function StudentLink(props){
                                             </g>
                                         </svg>
                                     </i>
-                                    <i className="sidenav-mini-icon"> U </i>
+                                    <i className="sidenav-mini-icon"> Un </i>
                                     <span className="item-name">Unenrolled Students</span>
                                 </Link>
                             </li>

@@ -1,9 +1,10 @@
 import axios from 'axios';
 const axiosInstance = axios.create({
-    baseURL: process.env.NODE_ENV === "development" ? 'http://flavetechs.com/smp/development/' : "http://flavetechs.com/smp/staging/",
-    //    baseURL: 'https://localhost:44373/',
+ // baseURL: process.env.NODE_ENV === "development" ? 'http://flavetechs.com/smp/development/' : "http://flavetechs.com/smp/staging/",
+//    baseURL: 'https://localhost:44373/',
     // baseURL: 'http://flavetechs.com/smp/development/',
-    //   baseURL: 'http://flavetechs.com/all/client/',
+     // baseURL: 'http://flavetechs.com/smp/staging/',
+      baseURL:'http://flavetechs.com/all/client/',
     headers: {
         Authorization: '',
     },

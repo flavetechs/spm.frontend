@@ -26,6 +26,11 @@ import ForgottenPassword from '../components/spm-auth/forgotten-password'
 import PasswordReset from '../components/spm-auth/PasswordReset'
 import ResetPassword from '../components/spm-auth/reset-password'
 import PasswordResetSuccessful from '../components/spm-auth/password-reset-successful'
+import LoginTemplate1 from '../components/spm-auth/login-templates/login-template-1'
+import LoginTemplate2 from '../components/spm-auth/login-templates/login-template-2'
+import LoginTemplate3 from '../components/spm-auth/login-templates/login-template-3'
+import LoginTemplate4 from '../components/spm-auth/login-templates/login-template-4'
+import PageNotFound from '../components/spm-auth/page-not-found'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -65,9 +70,11 @@ const IndexRouters = () => {
                         <Route exact path={candidateLocations.candidateAdmissionConfirmation} component={ConfirmUserEmail}></Route>
                         <Route exact path={candidateLocations.registrationEmailReceived} component={RegistrationEmailReceived}></Route>
                         <Route path={authLocations.login} component={SignIn}></Route>
+                        {/* <Route path={authLocations.login} component={LoginTemplate4}></Route> */}
                         <Route path={authLocations.forgottenPassword} component={ForgottenPassword}></Route>
                         <Route path={authLocations.PasswordReset} component={PasswordReset}></Route>
                         <Route path={authLocations.passwordResetSuccessful} component={PasswordResetSuccessful}></Route>
+                        <Route path={authLocations.pageNotFound} component={PageNotFound}></Route>
 
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
                         <Route path="/errors" component={Simple}></Route>
