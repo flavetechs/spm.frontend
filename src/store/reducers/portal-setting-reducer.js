@@ -221,14 +221,41 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
+        submittedSuccessful: false,
       };
     case actions.FETCH_ADMISSION_SETTING_SUCCESS:
       return {
         ...state,
         loading: false,
-        admissionSettingResult: payload,
+        filterProps: payload,
+        admissionSettingList: payload.data,
+        submittedSuccessful: false,
       };
     case actions.FETCH_ADMISSION_SETTING_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
+
+
+    case actions.FETCH_SINGLE_ADMISSION_SETTING_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_SINGLE_ADMISSION_SETTING_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        singleAdmissionSettingsDetail: payload,
+        isSuccessful: true,
+      };
+    case actions.FETCH_SINGLE_ADMISSION_SETTING_FAILED:
       return {
         ...state,
         loading: false,
@@ -244,6 +271,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         loading: true,
         isSuccessful: false,
         message: "",
+        submittedSuccessful: false,
       };
     case actions.CREATE_ADMISSION_SETTING_SUCCESS:
       return {
@@ -251,8 +279,32 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         isSuccessful: true,
         loading: false,
         message: payload,
+        submittedSuccessful: true,
       };
     case actions.CREATE_ADMISSION_SETTING_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+        submittedSuccessful: false,
+      };
+
+    case actions.UPDATE_ADMISSION_SETTING_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPDATE_ADMISSION_SETTING_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_ADMISSION_SETTING_FAILED:
       return {
         ...state,
         isSuccessful: false,

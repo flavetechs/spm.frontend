@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import AdmissionSetting from './admission-setting';
+import AdmissionSettingsList from './admission-settings-list';
 import NotificationSetting from './notification-setting';
 import ResultSetting from './result-setting';
 import SchoolSetting from './school-setting';
@@ -130,7 +130,7 @@ function Setting() {
                     {selectedSetting === "third" && <NotificationSetting />}
                   </Tab.Pane>
                   <Tab.Pane eventKey="fourth">
-                    {selectedSetting === "fourth" && <AdmissionSetting />}
+                    {selectedSetting === "fourth" && <AdmissionSettingsList />}
                   </Tab.Pane>
                 </Tab.Content>
               </Col>

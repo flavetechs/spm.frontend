@@ -6,6 +6,10 @@ export const _state = {
     resultSetting:[],
     selectedTemplate:"",
     notificationSettingResult: {},
+    admissionSettingList: [],
+    filterProps: {},
+    singleAdmissionSettingsDetail: {},
+    submittedSuccessful: false,
     admissionSettingResult: {},
     appSetting:{},
   };
