@@ -37,7 +37,6 @@ const ClassGroup = () => {
 
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
-  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
@@ -47,7 +46,7 @@ const ClassGroup = () => {
         deleteClassGroup(
           selectedIds,
           sessionClassIdQuery,
-          sessionClassSubjectIdQuery
+          sessionClassSubjectId
         )(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
@@ -72,8 +71,8 @@ const ClassGroup = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
-  }, [sessionClassIdQuery,sessionClassSubjectIdQuery,dispatch]);
+    sessionClassSubjectId && getAllClassGroup(sessionClassIdQuery, sessionClassSubjectId)(dispatch);
+  }, [sessionClassIdQuery,sessionClassSubjectId,dispatch]);
 
   React.useEffect(() => {
     getClassSubjects(sessionClassIdQuery)(dispatch);
@@ -118,7 +117,7 @@ const ClassGroup = () => {
               <Card.Body className="px-0 mt-n3">
                 <Formik
                   initialValues={{
-                    sessionClassSubjectId: sessionClassSubjectIdQuery ? sessionClassSubjectIdQuery : "",
+                    sessionClassSubjectId,
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {
