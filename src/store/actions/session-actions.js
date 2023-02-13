@@ -155,7 +155,7 @@ export const getActiveSession = () => (dispatch) => {
 
 export const switchTerm = (term) => (dispatch) => {
     if(term === undefined || term === null){
-        showErrorToast('Error occurred!! reload page if error persists')(dispatch);
+        showErrorToast('Ensure session term is availablle or reload page if error persists')(dispatch);
         return
     }
 

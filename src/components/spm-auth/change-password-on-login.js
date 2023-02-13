@@ -81,7 +81,8 @@ const FirstTimeLoginPassswordChange = () => {
                                             {
                                                 userId: userId,
                                                 oldPassword: values.oldPassword,
-                                                newPassword: values.newPassword
+                                                newPassword: values.newPassword,
+                                                schoolUrl: window.location.origin
                                             })(dispatch)
                                     }}
                                 >
