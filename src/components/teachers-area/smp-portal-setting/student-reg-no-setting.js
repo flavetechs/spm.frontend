@@ -3,6 +3,7 @@ import { Row, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
+import { getStudentRegNo, updateStudentRegNo } from "../../../store/actions/portal-setting-action";
 
 const StudentRegNoSetting = () => {
   //VARIABLE DECLARATIONS
@@ -14,32 +15,32 @@ const StudentRegNoSetting = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { schoolSetting } = state.portal;
-  const { countries, states } = state.student;
+  const { studRegNoSettings } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
   React.useEffect(() => {
+    getStudentRegNo()(dispatch)
     setSaveButton(true);
     setEditButton(false);
     setDisable(true);
   }, [dispatch]);
-
+console.log("StudRegNoSettings",studRegNoSettings);
   return (
     <>
       <Formik
         initialValues={{
-          studentRegNoPrefix: "",
-          studentRegNoSufix: "",
-          teacherRegNoPrefix: "",
+          studentRegNoPrefix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[0] || "",
+          studentRegNoSufix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1] ||"",
+          teacherRegNoPrefix:"",
           teacherRegNoSufix: "",
           regNoPosition: 0,
-          regNoSeperator: "",
+          regNoSeperator: studRegNoSettings?.regNoSeperator||"",
         }}
         enableReinitialize={true}
         onSubmit={(values) => {
           setSaveButton(!saveButton);
           setEditButton(!editButton);
           setDisable(true);
-          //  updateSchoolSetting(values, params)(dispatch);
+          updateStudentRegNo(values)(dispatch);
         }}
       >
         {({ handleSubmit, values, setFieldValue }) => (
@@ -67,8 +68,8 @@ const StudentRegNoSetting = () => {
                               disabled={disable}
                               placeholder="e.g MSSN"
                               type="text"
-                              id="prefix"
-                              name="prefix"
+                              id="studentRegNoPrefix"
+                              name="studentRegNoPrefix"
                               className="form-control"
                             />
                           </div>
@@ -83,8 +84,8 @@ const StudentRegNoSetting = () => {
                               disabled={disable}
                               placeholder="e.g ABC"
                               type="text"
-                              id="suffix"
-                              name="suffix"
+                              id="studentRegNoSufix"
+                              name="studentRegNoSufix"
                               className="form-control"
                             />
                           </div>
@@ -96,11 +97,11 @@ const StudentRegNoSetting = () => {
                             <Field
                               disabled={disable}
                               as="select"
-                              name="separator"
+                              name="regNoSeperator"
                               className="form-select"
-                              id="separator"
+                              id="regNoSeperator"
                               onChange={(e) => {
-                                setFieldValue("separator", e.target.value);
+                                setFieldValue("regNoSeperator", e.target.value);
                               }}
                             >
                               <option value="Select Separator">
@@ -120,7 +121,7 @@ const StudentRegNoSetting = () => {
                             Below is how student registration number for your
                             school will look like
                           </p>
-                          <div className=" border rounded p-3">{values.prefix ? values.prefix + "/0001/ABC" : values.suffix ? "MSSN/0001/" + values.suffix :values.prefix && values.suffix ? values.prefix + "/0001/" + values.suffix:"MSSN/0001/ABC" }</div>
+                          <div className=" border rounded p-3">{values.studentRegNoPrefix + values.regNoSeperator + "0001"+ values.regNoSeperator + values.studentRegNoSufix}</div>
                         </div>
                       </div>
 

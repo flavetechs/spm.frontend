@@ -2,13 +2,14 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/auth-action-types"
 import { getActiveSession } from "./session-actions";
 
-export const loginUser = ({ userName, password }) => (dispatch) => {
+export const loginUser = ({ userName, password, schoolUrl }) => (dispatch) => {
 
     dispatch({
         type: actions.LOGIN_USER_LOADING
     });
 
     const payload = {
+        schoolUrl,
         userName,
         password
     }
@@ -89,7 +90,7 @@ export const ResetPassword = ({ userId, password, resetToken }) => (dispatch) =>
         })
 }
 
-export const changeMyPassword = ({ userId, oldPassword, newPassword }) => (dispatch) => {
+export const changeMyPassword = ({ userId, oldPassword, newPassword, schoolUrl }) => (dispatch) => {
     dispatch({
         type: actions.LOGIN_USER_LOADING
     });
@@ -97,7 +98,8 @@ export const changeMyPassword = ({ userId, oldPassword, newPassword }) => (dispa
     const payload = {
         userId,
         oldPassword,
-        newPassword
+        newPassword,
+        schoolUrl
     }
 
     axiosInstance.post('user/api/v1/first-time/change-password', payload)

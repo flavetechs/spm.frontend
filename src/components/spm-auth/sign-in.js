@@ -32,7 +32,9 @@ const SignIn = () => {
 
 
     const schoolUrl = window.location.origin;
+    console.log('schoolUrl', schoolUrl);
     useEffect(() => {
+
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
 
@@ -75,7 +77,8 @@ const SignIn = () => {
     const { handleChange, handleSubmit, values, setFieldValue, handleBlur, errors, touched } = useFormik({
         initialValues: {
             userName: "",
-            password: ""
+            password: "",
+            schoolUrl: window.location.origin
         },
         enableReinitialize: true,
         validationSchema: validation,
