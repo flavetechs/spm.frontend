@@ -31,8 +31,8 @@ const SignIn = () => {
 
 
 
-    const schoolUrl = window.location.origin;
-    console.log('schoolUrl', schoolUrl);
+    //const schoolUrl = window.location.origin;
+    const schoolUrl = 'http://testuser4.flavetechs.com'
     useEffect(() => {
 
         getAppLayout(schoolUrl)(dispatch);
@@ -152,7 +152,7 @@ const SignIn = () => {
     const pageNotFound = 
     <PageNotFound/>
 
-console.log("appDetting",appSetting);
+
     return (
         <>
             <section className="login-content">

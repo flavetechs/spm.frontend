@@ -10,6 +10,7 @@ const StudentRegNoSetting = () => {
   const dispatch = useDispatch();
   const [editButton, setEditButton] = useState(false);
   const [saveButton, setSaveButton] = useState(false);
+  const [preview, setPreview] = useState("0001");
   const [disable, setDisable] = useState(true);
   //VARIABLE DECLARATIONS
 
@@ -23,16 +24,21 @@ const StudentRegNoSetting = () => {
     setEditButton(false);
     setDisable(true);
   }, [dispatch]);
+  
+  React.useEffect(() => {
+  setPreview(studRegNoSettings?.studentRegNoFormat.replace("%VALUE%","0001"))
+  }, [studRegNoSettings]);
+
 console.log("StudRegNoSettings",studRegNoSettings);
   return (
     <>
       <Formik
         initialValues={{
           studentRegNoPrefix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[0] || "",
-          studentRegNoSufix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1] ||"",
+          studentRegNoSufix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[2] ||"",
           teacherRegNoPrefix:"",
           teacherRegNoSufix: "",
-          regNoPosition: 0,
+          regNoPosition: studRegNoSettings?.regNoPosition||2,
           regNoSeperator: studRegNoSettings?.regNoSeperator||"",
         }}
         enableReinitialize={true}
@@ -73,6 +79,33 @@ console.log("StudRegNoSettings",studRegNoSettings);
                               className="form-control"
                             />
                           </div>
+
+
+                          <div className="col-md-12  form-group">
+                            <label className="form-label">
+                              <b>Separator:</b>
+                            </label>
+                            <Field
+                              disabled={disable}
+                              as="select"
+                              name="regNoSeperator"
+                              className="form-select"
+                              id="regNoSeperator"
+                              onChange={(e) => {
+                                setFieldValue("regNoSeperator", e.target.value);
+                              }}
+                            >
+                              <option value="">
+                                Select Separator
+                              </option>
+                              <option>/</option>
+                              <option>\</option>
+                              <option>-</option>
+                              <option>_</option>
+                              <option>.</option>
+                            </Field>
+                          </div>
+
                           <div className="col-md-12 form-group">
                             <label
                               className="form-label"
@@ -92,28 +125,32 @@ console.log("StudRegNoSettings",studRegNoSettings);
 
                           <div className="col-md-12  form-group">
                             <label className="form-label">
-                              <b>Separator:</b>
+                              <b>Position:</b>
                             </label>
                             <Field
                               disabled={disable}
                               as="select"
-                              name="regNoSeperator"
+                              name="regNoPosition"
                               className="form-select"
-                              id="regNoSeperator"
+                              id="regNoPosition"
                               onChange={(e) => {
-                                setFieldValue("regNoSeperator", e.target.value);
+                                setFieldValue("regNoPosition", e.target.value);
+                                e.target.value == 1 ?
+                                setPreview( "0001" + values.regNoSeperator + values.studentRegNoPrefix +  values.regNoSeperator + values.studentRegNoSufix)
+                               : e.target.value == 2 ? 
+                                setPreview(values.studentRegNoPrefix + values.regNoSeperator + "0001"+ values.regNoSeperator + values.studentRegNoSufix)
+                              : e.target.value == 3 ? 
+                              setPreview(values.studentRegNoPrefix +  values.regNoSeperator + values.studentRegNoSufix +  values.regNoSeperator +"0001")
+                              :setPreview("0001")
                               }}
                             >
-                              <option value="Select Separator">
-                                Select Separator
-                              </option>
-                              <option>/</option>
-                              <option>\</option>
-                              <option>-</option>
-                              <option>_</option>
-                              <option>.</option>
+                            
+                              <option selected={values.regNoPosition}>{1}</option>
+                              <option selected={values.regNoPosition}>{2}</option>
+                              <option selected={values.regNoPosition}>{3}</option>
                             </Field>
                           </div>
+
                         </div>
                         <div className="col-md-6">
                           <div className="fw-bold">Preview</div>
@@ -121,7 +158,7 @@ console.log("StudRegNoSettings",studRegNoSettings);
                             Below is how student registration number for your
                             school will look like
                           </p>
-                          <div className=" border rounded p-3">{values.studentRegNoPrefix + values.regNoSeperator + "0001"+ values.regNoSeperator + values.studentRegNoSufix}</div>
+                          <div className=" border rounded p-3">{preview}</div>
                         </div>
                       </div>
 
