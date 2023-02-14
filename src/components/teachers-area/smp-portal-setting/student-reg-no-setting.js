@@ -24,18 +24,46 @@ const StudentRegNoSetting = () => {
     setEditButton(false);
     setDisable(true);
   }, [dispatch]);
-  
+
   React.useEffect(() => {
-  setPreview(studRegNoSettings?.studentRegNoFormat.replace("%VALUE%","0001"))
+    studRegNoSettings && setPreview(studRegNoSettings?.studentRegNoFormat)
   }, [studRegNoSettings]);
 
-console.log("StudRegNoSettings",studRegNoSettings);
+  const handlePositionChange = (prefix,separator,suffix,position) => {
+if(position == 1) {
+ prefix && !suffix ? setPreview("0001" + separator + prefix) :
+ !prefix && suffix ? setPreview("0001" + separator + suffix) :
+ prefix && suffix ? setPreview("0001" + separator + prefix + separator + suffix) :
+ setPreview("0001") 
+} 
+if(position == 2) {
+  prefix && !suffix ? setPreview(prefix + separator + "0001") :
+  !prefix && suffix ? setPreview("0001" + separator + suffix) :
+  prefix && suffix ? setPreview(prefix + separator + "0001"+ separator + suffix) :
+  setPreview("0001") 
+ } 
+ if(position == 3) {
+  prefix && !suffix ? setPreview(prefix + separator + "0001") :
+  !prefix && suffix ? setPreview(suffix + separator  +"0001") :
+  prefix && suffix ? setPreview(prefix + separator +  suffix + separator  + "0001") :
+  setPreview("0001") 
+ } 
+  }
+
+const prefix =studRegNoSettings?.regNoPosition  == 1 ? studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1]:
+studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[0]
+
+
+const suffix = studRegNoSettings?.regNoPosition  == 3 ? studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1]:
+studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[2]
+
+console.log("studRegNoSettings",studRegNoSettings);
   return (
     <>
       <Formik
         initialValues={{
-          studentRegNoPrefix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[0] || "",
-          studentRegNoSufix: studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[2] ||"",
+          studentRegNoPrefix: prefix || "",
+          studentRegNoSufix:  suffix ||"",
           teacherRegNoPrefix:"",
           teacherRegNoSufix: "",
           regNoPosition: studRegNoSettings?.regNoPosition||2,
@@ -77,6 +105,10 @@ console.log("StudRegNoSettings",studRegNoSettings);
                               id="studentRegNoPrefix"
                               name="studentRegNoPrefix"
                               className="form-control"
+                              onChange={(e)=>{
+                                setFieldValue("studentRegNoPrefix",e.target.value)
+                             handlePositionChange(e.target.value,values.regNoSeperator,values.studentRegNoSufix,values.regNoPosition)
+                              }}
                             />
                           </div>
 
@@ -93,6 +125,7 @@ console.log("StudRegNoSettings",studRegNoSettings);
                               id="regNoSeperator"
                               onChange={(e) => {
                                 setFieldValue("regNoSeperator", e.target.value);
+                                handlePositionChange(values.studentRegNoPrefix,e.target.value,values.studentRegNoSufix,values.regNoPosition)
                               }}
                             >
                               <option value="">
@@ -120,6 +153,10 @@ console.log("StudRegNoSettings",studRegNoSettings);
                               id="studentRegNoSufix"
                               name="studentRegNoSufix"
                               className="form-control"
+                              onChange={(e) => {
+                                setFieldValue("studentRegNoSufix", e.target.value);
+                                handlePositionChange(values.studentRegNoPrefix,values.regNoSeperator,e.target.value,values.regNoPosition)
+                              }}
                             />
                           </div>
 
@@ -135,13 +172,8 @@ console.log("StudRegNoSettings",studRegNoSettings);
                               id="regNoPosition"
                               onChange={(e) => {
                                 setFieldValue("regNoPosition", e.target.value);
-                                e.target.value == 1 ?
-                                setPreview( "0001" + values.regNoSeperator + values.studentRegNoPrefix +  values.regNoSeperator + values.studentRegNoSufix)
-                               : e.target.value == 2 ? 
-                                setPreview(values.studentRegNoPrefix + values.regNoSeperator + "0001"+ values.regNoSeperator + values.studentRegNoSufix)
-                              : e.target.value == 3 ? 
-                              setPreview(values.studentRegNoPrefix +  values.regNoSeperator + values.studentRegNoSufix +  values.regNoSeperator +"0001")
-                              :setPreview("0001")
+                                handlePositionChange(values.studentRegNoPrefix,values.regNoSeperator,values.studentRegNoSufix,e.target.value)
+                              
                               }}
                             >
                             
@@ -158,7 +190,7 @@ console.log("StudRegNoSettings",studRegNoSettings);
                             Below is how student registration number for your
                             school will look like
                           </p>
-                          <div className=" border rounded p-3">{preview}</div>
+                          <div className=" border rounded p-3">{preview?.replace("%VALUE%","0001")}</div>
                         </div>
                       </div>
 

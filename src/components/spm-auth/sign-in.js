@@ -34,7 +34,6 @@ const SignIn = () => {
     //const schoolUrl = window.location.origin;
     const schoolUrl = 'http://testuser4.flavetechs.com'
     useEffect(() => {
-
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
 
