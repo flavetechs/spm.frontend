@@ -11,6 +11,7 @@ import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
 import { forgotPasswordFunc } from '../../store/actions/auth-actions';
+import SmpLoader from '../loader/smp-loader';
 
 const ForgottenPassword = () => {
 
@@ -35,6 +36,7 @@ const ForgottenPassword = () => {
     return (
         <>
             <section className="login-content">
+            <SmpLoader />
                 <Row className="m-0 align-items-center bg-white vh-100">
                     <Col md="6" className="p-0">
                         <Card className="card-transparent auth-card shadow-none d-flex justify-content-center mb-0">

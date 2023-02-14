@@ -116,7 +116,7 @@ const Header = (props) => {
                         <Nav as="ul" className="mb-2 ms-auto navbar-list mb-lg-0">
 
                             <PushedNotifications />
-                         
+
                             {/* <Dropdown as="li" className="nav-item">
                                 <Dropdown.Toggle as={CustomToggle} href="#" variant="nav-link" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <svg width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -207,8 +207,22 @@ const Header = (props) => {
                                     </div>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    {
+                                    {/* {
                                         userDetail?.userType === "Teacher"
+                                            ? (
+                                                <Dropdown.Item onClick={() => {
+                                                    history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
+                                                }}>
+                                                    <span>  Profile</span>
+                                                </Dropdown.Item>)
+                                            : <Dropdown.Item onClick={() => {
+                                                history.push(`${profileLocations.profile}?studentAccountId=${userDetail?.id}`)
+                                            }}>
+                                                <span> Profile</span>
+                                            </Dropdown.Item>
+                                    } */}
+                                    {
+                                        userDetail?.userType === "Teacher" || "Admin"
                                             ? (
                                                 <Dropdown.Item onClick={() => {
                                                     history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
