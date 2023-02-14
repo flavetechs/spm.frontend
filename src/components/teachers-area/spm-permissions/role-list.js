@@ -71,6 +71,8 @@ const RoleList = () => {
       return true;
     } else if (param === "TEACHER") {
       return true;
+    } else if (param === "PARENTS") {
+      return true;
     } else {
       return false;
     }

@@ -324,3 +324,45 @@ export const updateAppLayout = (layout) => (dispatch) => {
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
 }
+
+
+export const getStudentRegNo = () => (dispatch) => {
+    dispatch({
+        type: actions.PORTAL_SETTING_LOADING,
+    });
+    axiosInstance.get(`/portalsetting/api/v1/get/reg-no-setting`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_REG_NO_SUCCESS,
+                payload: res.data.result,
+            });
+            
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.PORTAL_SETTING_FAILED,
+                payload: err.response.data.result,
+            });
+        });
+};
+
+
+export const updateStudentRegNo = (payload) => (dispatch) => {
+    dispatch({
+        type: actions.PORTAL_SETTING_LOADING
+    });
+    axiosInstance.post('/portalsetting/api/v1/create-update/reg-no-setting', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_STUDENT_REG_NO_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.PORTAL_SETTING_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}

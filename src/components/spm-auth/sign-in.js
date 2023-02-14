@@ -152,7 +152,7 @@ const SignIn = () => {
     const pageNotFound = 
     <PageNotFound/>
 
-console.log("appDetting",appSetting);
+
     return (
         <>
             <section className="login-content">

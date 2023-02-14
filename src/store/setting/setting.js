@@ -1,6 +1,5 @@
 const layoutSetting = localStorage.getItem("appSetting")
 let initstate = 'undefined';
-console.log('layoutSetting', layoutSetting)
 if (layoutSetting === 'undefined') {
 
     initstate = {
@@ -13,7 +12,7 @@ if (layoutSetting === 'undefined') {
         sidebarType: { mini: "", hover: "", boxed: "" },
         sidebarActiveStyle: 'roundedAllSide',
         navbarstyle: 'sticky',
-loginTemplate: 'default-login-template' 
+      loginTemplate: 'default-login-template' 
 
     }       
 

@@ -12,5 +12,6 @@ export const _state = {
     submittedSuccessful: false,
     admissionSettingResult: {},
     appSetting:{},
+    studRegNoSettings:{},
   };
   
