@@ -31,7 +31,7 @@ const SignIn = () => {
 
 
 
-    const schoolUrl = window.location.origin;
+    const schoolUrl = 'http://testusersix.flavetechs.com'//window.location.origin;
     console.log('schoolUrl', schoolUrl);
     useEffect(() => {
 
@@ -78,7 +78,7 @@ const SignIn = () => {
         initialValues: {
             userName: "",
             password: "",
-            schoolUrl: window.location.origin
+            schoolUrl: schoolUrl
         },
         enableReinitialize: true,
         validationSchema: validation,
