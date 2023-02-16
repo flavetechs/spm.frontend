@@ -33,6 +33,8 @@ const ForgottenPassword = () => {
         }
     }, [forgotPasswordMessage]);
 
+    const schoolUrl = window.location.origin;
+
     return (
         <>
             <section className="login-content">
@@ -49,6 +51,7 @@ const ForgottenPassword = () => {
                                 <Formik
                                     initialValues={{
                                         email: '',
+                                        schoolUrl
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {

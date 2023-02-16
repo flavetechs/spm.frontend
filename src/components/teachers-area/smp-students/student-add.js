@@ -32,9 +32,12 @@ const StudentAdd = () => {
       .min(2, "Last Name Too Short!")
       .required("Last Name is required"),
     email: Yup.string().email("Invalid email format"),
-    parentOrGuardianName: Yup.string()
+    parentOrGuardianFirstName: Yup.string()
       .min(2, "Name Too Short!")
-      .required("Parent/Guardian name is required"),
+      .required("Parent/Guardian First name is required"),
+      parentOrGuardianLastName: Yup.string()
+      .min(2, "Name Too Short!")
+      .required("Parent/Guardian Last name is required"),
     parentOrGuardianRelationship: Yup.string().required(
       "Parent/Guardian relationship is required"
     ),
@@ -90,7 +93,8 @@ const StudentAdd = () => {
           email: "",
           homePhone: "",
           emergencyPhone: "",
-          parentOrGuardianName: "",
+          parentOrGuardianFirstName: "",
+          parentOrGuardianLastName: "",
           parentOrGuardianRelationship: "",
           parentOrGuardianPhone: "",
           parentOrGuardianEmail: "",
@@ -111,7 +115,8 @@ const StudentAdd = () => {
           values.firstName = values.firstName.toUpperCase();
           values.lastName = values.lastName.toUpperCase();
           values.middleName = values.middleName.toUpperCase();
-          values.parentOrGuardianName = values.parentOrGuardianName.toUpperCase();
+          values.parentOrGuardianFirstName = values.parentOrGuardianFirstName.toUpperCase();
+          values.parentOrGuardianLastName = values.parentOrGuardianLastName.toUpperCase();
           values.zipCode = values.zipCode.toString();
           values.photo = images;
           const params = new FormData();
@@ -123,7 +128,8 @@ const StudentAdd = () => {
           params.append("email", values.email);
           params.append("homePhone", values.homePhone);
           params.append("emergencyPhone", values.emergencyPhone);
-          params.append("parentOrGuardianName", values.parentOrGuardianName);
+          params.append("parentOrGuardianFirstName", values.parentOrGuardianFirstName);
+          params.append("parentOrGuardianLastName", values.parentOrGuardianLastName);
           params.append("parentOrGuardianRelationship", values.parentOrGuardianRelationship);
           params.append("parentOrGuardianPhone", values.parentOrGuardianPhone);
           params.append("parentOrGuardianEmail", values.parentOrGuardianEmail);
@@ -515,27 +521,50 @@ const StudentAdd = () => {
                       <h5 className="mb-3"><b>Parent/Guardian(s) Information</b></h5>
                       <div className="row">
                         <Row>
-                          <div className="col-md-12">
-                            {touched.parentOrGuardianName &&
-                              errors.parentOrGuardianName && (
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianFirstName &&
+                              errors.parentOrGuardianFirstName && (
                                 <div className="text-danger">
-                                  {errors.parentOrGuardianName}
+                                  {errors.parentOrGuardianFirstName}
+                                </div>
+                              )}
+                          </div>
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianLastName &&
+                              errors.parentOrGuardianLastName && (
+                                <div className="text-danger">
+                                  {errors.parentOrGuardianLastName}
                                 </div>
                               )}
                           </div>
                         </Row>
-                        <div className="col-md-12 form-group">
+                        <div className="col-md-6 form-group">
                           <label
                             className="form-label"
-                            htmlFor="parentOrGuardianName"
+                            htmlFor="parentOrGuardianFirstName"
                           >
-                            <b>Name:</b>
+                            <b>First Name:</b>
                           </label>
                           <Field
-                            placeholder="Full Name"
+                            placeholder="First Name"
                             type="text"
-                            name="parentOrGuardianName"
-                            id="parentOrGuardianName"
+                            name="parentOrGuardianFirstName"
+                            id="parentOrGuardianFirstName"
+                            className="form-control"
+                          />
+                        </div>
+                        <div className="col-md-6 form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="parentOrGuardianLastName"
+                          >
+                            <b>Last Name:</b>
+                          </label>
+                          <Field
+                            placeholder="Last Name"
+                            type="text"
+                            name="parentOrGuardianLastName"
+                            id="parentOrGuardianLastName"
                             className="form-control"
                           />
                         </div>
