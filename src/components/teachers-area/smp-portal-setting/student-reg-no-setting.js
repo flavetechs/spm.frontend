@@ -57,7 +57,7 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
 const suffix = studRegNoSettings?.regNoPosition  == 3 ? studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1]:
 studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[2]
 
-console.log("studRegNoSettings",studRegNoSettings);
+
   return (
     <>
       <Formik
@@ -177,9 +177,9 @@ console.log("studRegNoSettings",studRegNoSettings);
                               }}
                             >
                             
-                              <option selected={values.regNoPosition}>{1}</option>
-                              <option selected={values.regNoPosition}>{2}</option>
-                              <option selected={values.regNoPosition}>{3}</option>
+                              <option value={1} selected={values.regNoPosition}>Left</option>
+                              <option value={2} selected={values.regNoPosition}>Center</option>
+                              <option value={3} selected={values.regNoPosition}>Right</option>
                             </Field>
                           </div>
 

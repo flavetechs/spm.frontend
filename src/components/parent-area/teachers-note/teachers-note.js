@@ -95,7 +95,7 @@ const TeachersNote = () => {
                       className='btn btn-primary'
                       to={`${parentTeachersNoteLocations.parentTteachersNotesView}?studentId=${item.studentId}&classId=${item.classId}&ward=${item.fullnaName}`}
                     >
-                      View Student Note
+                      View Teacher's Note
                     </Link>
                   </Card.Body>
                 </Card>

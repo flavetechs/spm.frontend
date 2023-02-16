@@ -95,7 +95,7 @@ const Sidebar = (props) => {
 
     });
     var userDetail = getUserDetails();
-
+console.log("userDetail?.schoolAbbreviation",userDetail?.schoolAbbreviation);
     return (
         <>
             <aside className="sidebar sidebar-default navs-rounded-all {{ sidebarVariants }}">
