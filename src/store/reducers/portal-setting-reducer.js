@@ -328,6 +328,22 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
           appSetting:payload,
         };
 
+        case actions.UPDATE_STUDENT_REG_NO_SUCCESS:
+        return{
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload,
+        };
+
+        case actions.FETCH_STUDENT_REG_NO_SUCCESS:
+        return{
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          studRegNoSettings:payload,
+        };
+
         case actions.PORTAL_SETTING_LOADING:
         return {
           ...state,

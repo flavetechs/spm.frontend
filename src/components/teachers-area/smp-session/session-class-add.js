@@ -93,11 +93,12 @@ const SessionClassAdd = () => {
                     InSession: true,
                     examScore,
                     assessmentScore,
-                    passMark: 40,
+                    passMark,
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
+                    values.passMark = passMark;
                     values.sessionId = activeSession?.sessionId;
                     const score =
                       Number(values.examScore) + Number(values.assessmentScore);
@@ -279,7 +280,6 @@ const SessionClassAdd = () => {
                               type="number"
                               value={passMark}
                               onChange={(e) => {
-                                setFieldValue("passMark", e.target.value);
                                 setPassMark(Number(e.target.value))
                               }}
                               className="form-control p-sm-1 p-lg-2"
