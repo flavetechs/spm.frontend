@@ -81,7 +81,7 @@ const ScoreRecord = () => {
                             className="form-check-input "
                             id="included"
                             onChange={(e) => {
-                              includeClassToScoreRecord(homeAssessmentIdQuery)(dispatch);
+                              includeClassToScoreRecord(homeAssessmentIdQuery, e.target.checked)(dispatch);
                             }}
                           />
                         </td>
@@ -99,8 +99,8 @@ const ScoreRecord = () => {
                                 item.status === "submitted"
                                   ? "badge bg-success"
                                   : item.status === "uncompleted"
-                                  ? "badge bg-warning"
-                                  : "badge bg-danger"
+                                    ? "badge bg-warning"
+                                    : "badge bg-danger"
                               }
                             >
                               {item.status}
@@ -119,18 +119,19 @@ const ScoreRecord = () => {
                           </td>
                           <td className="text-center">{item.score}</td>
                           <td className="text-center">
-                           { item.status === "submitted" &&
-                            <input
-                              type="checkbox"
-                              name="included"
-                              className="form-check-input "
-                              id="included"
-                              defaultChecked={item.included|| false}
-                              onChange={(e) => {
-                                includeStudentToScoreRecord( item.homeAsessmentFeedbackId,homeAssessmentIdQuery)(dispatch);
-                              }}
-                            />
-}
+                            {item.status === "submitted" &&
+                              <input
+                                type="checkbox"
+                                name="included"
+                                className="form-check-input "
+                                id="included"
+                                defaultChecked={item.included || false}
+                                onChange={(e) => {
+                                  console.log('e.target.checked', e.target.checked);
+                                  includeStudentToScoreRecord(item.homeAsessmentFeedbackId, homeAssessmentIdQuery, e.target.checked)(dispatch);
+                                }}
+                              />
+                            }
                           </td>
 
                           <td className="text-center">
