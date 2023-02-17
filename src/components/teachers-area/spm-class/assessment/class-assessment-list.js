@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation  } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
+import { showHideDialog } from "../../../../store/actions/toaster-actions";
 export function ClassAssessmentList(props) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -10,6 +12,12 @@ export function ClassAssessmentList(props) {
     // const sessionClassIdQueryParam = queryParams.get("sessionClassId") || '';
     // const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || '';
     const typeQueryParam = queryParams.get("type") || '';
+
+useEffect(() => {
+  return () => {
+    showHideDialog(false, null)(dispatch);
+  }
+}, [])
 
     return (
         <>
@@ -121,7 +129,7 @@ export function ClassAssessmentList(props) {
                                                     props.item.classAssessmentId
                                                 );
 
-                                                props.showHideDialog(
+                                                showHideDialog(
                                                     true,
                                                     "Are you sure you want to delete this assessment"
                                                 )(dispatch);

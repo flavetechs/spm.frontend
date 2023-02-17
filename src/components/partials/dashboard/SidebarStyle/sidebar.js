@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import VerticalNav from '../SidebarStyle/vertical-nav'
 import Scrollbar from 'smooth-scrollbar'
@@ -11,9 +11,9 @@ import { bindActionCreators } from "redux"
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect } from "react-redux"
-import { getUserDetails } from '../../../../utils/permissions';
+import { connect, useDispatch } from "react-redux"
 import Icon from '../../components/Icon'
+import { getSchoolSetting } from '../../../../store/actions/portal-setting-action'
 
 const mapStateToProps = (state) => {
     return {
@@ -40,11 +40,16 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Sidebar = (props) => {
-
-
+const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
+ const dispatch = useDispatch();
+ useEffect(() => {
+    getSchoolSetting()(dispatch);
+    setSchoolAbbreviation(sessionStorage.getItem("schoolAbbreviation"));
+}, [])
 
     useEffect(
         () => {
+            
             // sidebarcolormode
             const sidebarcolorMode1 = sessionStorage.getItem('sidebarcolor-mode');
             if (sidebarcolorMode1 === null) {
@@ -94,8 +99,9 @@ const Sidebar = (props) => {
         }, 1000)
 
     });
-    var userDetail = getUserDetails();
-console.log("userDetail?.schoolAbbreviation",userDetail?.schoolAbbreviation);
+   
+    
+
     return (
         <>
             <aside className="sidebar sidebar-default navs-rounded-all {{ sidebarVariants }}">
@@ -108,7 +114,7 @@ console.log("userDetail?.schoolAbbreviation",userDetail?.schoolAbbreviation);
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg> */}
                         <Icon color={true} />
-                        <h4 className="logo-title"> {userDetail?.schoolAbbreviation ?? ''} </h4>
+                        <h4 className="logo-title"> {schoolAbbreviation ??''} </h4>
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >
                         <i className="icon">

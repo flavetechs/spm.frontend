@@ -34,7 +34,8 @@ export const getResultSetting = () => (dispatch) => {
             dispatch({
                 type: actions.FETCH_RESULT_SETTING_SUCCESS,
                 payload: res.data.result,
-            });
+            }); 
+
         })
         .catch((err) => {
             dispatch({
@@ -74,17 +75,18 @@ export const getNotificationSettingResult = (notificationSettingId) => (dispatch
 
 
 
-export const updateSchoolSetting = (updatedSchool, formData) => (dispatch) => {
+export const updateSchoolSetting = (formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_SCHOOL_SETTING_LOADING
     });
 
-    axiosInstance.post('/portalsetting/api/v1/create-update/school-setting', formData, updatedSchool)
+    axiosInstance.post('/portalsetting/api/v1/create-update/school-setting', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SCHOOL_SETTING_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            getSchoolSetting()(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import { Row, Col, Image } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Row, Col } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import Card from "../Card";
 import * as Yup from "yup";
 
 import { Formik, Form, Field } from "formik";
 // img
-import auth1 from "../../assets/images/auth/04.png";
-import Logo from "../partials/components/logo";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  authLocations,
-  dashboardLocations,
-} from "../../router/spm-path-locations";
 import { changeMyPassword } from "../../store/actions/auth-actions";
 
 const ResetPassword = () => {
@@ -60,8 +54,8 @@ const ResetPassword = () => {
       }),
   });
 
-  const schoolUrl = window.location.origin;
-  //const schoolUrl = 'http://testuser4.flavetechs.com'
+  //const schoolUrl = window.location.origin;
+  const schoolUrl = 'http://testuser4.flavetechs.com'
 
   return (
     <>
