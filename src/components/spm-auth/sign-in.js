@@ -33,7 +33,7 @@ const SignIn = () => {
 
   //  const schoolUrl = window.location.origin;
   const schoolUrl = 'http://testusersix.flavetechs.com'
-   //const schoolUrl = 'http://gracelandone.flavetechs.com'
+  // const schoolUrl = 'http://gracelandone.flavetechs.com'
 
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
