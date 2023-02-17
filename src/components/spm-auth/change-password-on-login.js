@@ -14,6 +14,8 @@ import { changeMyPassword } from '../../store/actions/auth-actions';
 
 const FirstTimeLoginPassswordChange = () => {
 
+    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testusersix.flavetechs.com' : window.location.origin;
+
     const locations = useLocation();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
@@ -23,6 +25,7 @@ const FirstTimeLoginPassswordChange = () => {
     var token = localStorage.getItem('token');
     var userDetail = localStorage.getItem('userDetail');
     const [userId, setId] = useState('');
+    
     React.useEffect(() => {
         const queryParams = new URLSearchParams(locations.search);
         const id = queryParams.get("id");
@@ -82,7 +85,7 @@ const FirstTimeLoginPassswordChange = () => {
                                                 userId: userId,
                                                 oldPassword: values.oldPassword,
                                                 newPassword: values.newPassword,
-                                                schoolUrl: window.location.origin
+                                                schoolUrl: schoolUrl
                                             })(dispatch)
                                     }}
                                 >

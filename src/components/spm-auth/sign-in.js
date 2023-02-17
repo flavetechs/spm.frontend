@@ -32,8 +32,10 @@ const SignIn = () => {
 
 
 
-    const schoolUrl = window.location.origin;//'http://testusersix.flavetechs.com'
+    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testusersix.flavetechs.com' : window.location.origin;
     console.log('schoolUrl', schoolUrl);
+    
+    
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
