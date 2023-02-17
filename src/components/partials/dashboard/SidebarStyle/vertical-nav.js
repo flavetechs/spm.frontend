@@ -199,8 +199,6 @@ const VerticalNav = () => {
                         />
                           
                     )}
-
-
                      {hasAccess(NavPermissions.staffList) && (
                     
                         <StaffLink
@@ -208,22 +206,12 @@ const VerticalNav = () => {
                             CustomToggle={CustomToggle}
                             setActiveMenu={setActiveMenu}
                         />
-                  
                 )}
-
-
                   {hasAccess(NavPermissions.staffList) && (
                             <ParentsLink
                                 minisidebar={minisidebar}
                             />
                             )}
-
-
-                {hasAccess2([
-                    NavPermissions.portalSetting,
-                    NavPermissions.templateSetting,
-                    NavPermissions.gradeSetting
-                ]) && (
                         <>
                             <li className="nav-item static-item">
                                 <Link
@@ -243,13 +231,10 @@ const VerticalNav = () => {
                                 CustomToggle={CustomToggle}
                                 setActiveMenu={setActiveMenu}
                             />
-
                                 <ResetPasswordLink
                                 minisidebar={minisidebar}
                             />
                         </>
-                    )}
-
             </Accordion>
         </>
     );

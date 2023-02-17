@@ -27,7 +27,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: true,
         message: "",
         isSuccessful: false,
-        submitSuccessful:false,
+        submitSuccessful: false,
       };
     case actions.FETCH_STUDENTS_SUCCESS:
       return {
@@ -57,7 +57,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         isSuccessful: true,
         loading: false,
         message: payload,
-        submitSuccessful:true,
+        submitSuccessful: true,
       };
     case actions.CREATE_STUDENT_FAILED:
       return {
@@ -65,7 +65,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
         loading: false,
         message: payload,
-        submitSuccessful:false,
+        submitSuccessful: false,
       };
 
     case actions.UPDATE_STUDENT_LOADING:
@@ -81,7 +81,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
-        submitSuccessful:true,
+        submitSuccessful: true,
       };
     case actions.UPDATE_STUDENT_FAILED:
       return {
@@ -89,7 +89,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: false,
-        submitSuccessful:false,
+        submitSuccessful: false,
       };
 
     case actions.DELETE_STUDENT_LOADING:
@@ -147,7 +147,7 @@ export const studentReducer = (state = _state, { type, payload }) => {
         loading: false,
         message: payload,
         isSuccessful: true,
-      submitSuccessful: true,
+        submitSuccessful: true,
       };
     case actions.UPDATE_STUDENT_PROFILE_FAILED:
       return {
@@ -236,6 +236,26 @@ export const studentReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
         loading: false,
         message: payload,
+      };
+
+    case actions.DOWNLOAD_STUDENT_TEMPLATE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+      };
+    case actions.DOWNLOAD_STUDENT_TEMPLATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        studentTemplateFile: payload,
+      };
+    case actions.DOWNLOAD_STUDENT_TEMPLATE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
       };
 
 
