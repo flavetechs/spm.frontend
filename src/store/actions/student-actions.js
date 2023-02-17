@@ -234,30 +234,31 @@ export const uploadStudentsListFile = (formData) => (dispatch) => {
 
 
 
-// export const downloadTemplate = () => (dispatch) => {
-//     dispatch({
-//       type: actions.DOWNLOAD_TEMPLATE_LOADING
-//     });
+export const downloadStudentTemplate = () => (dispatch) => {
+    dispatch({
+      type: actions.DOWNLOAD_STUDENT_TEMPLATE_LOADING
+    });
   
-//     axiosInstance.get('/student/api/v1/download/student-template', {
-//       responseType: 'blob'
-//     })
-//       .then((res) => {
-//         const url = window.URL.createObjectURL(new Blob([res.data]));
-//         const link = document.createElement('a');
-//         link.href = url;
-//         link.setAttribute('download', 'student-template.xlsx');
-//         document.body.appendChild(link);
-//         link.click();
-//         dispatch({
-//           type: actions.DOWNLOAD_TEMPLATE_SUCCESS
-//         });
-//       })
-//       .catch((error) => {
-//         dispatch({
-//           type: actions.DOWNLOAD_TEMPLATE_FAILED,
-//           payload: error.response.data.result
-//         });
-//       });
-//   };
+    axiosInstance.get('/student/api/v1/download/student-template', {
+      responseType: 'blob'
+    })
+      .then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data.result]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'student-template.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        dispatch({
+          type: actions.DOWNLOAD_STUDENT_TEMPLATE_SUCCESS,
+          payload: res.data.result
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: actions.DOWNLOAD_STUDENT_TEMPLATE_FAILED,
+          payload: error.response.data.result
+        });
+      });
+  };
 

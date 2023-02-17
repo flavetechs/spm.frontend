@@ -6,6 +6,7 @@ import {
   getAllStudents,
   deleteStudent,
   uploadStudentsListFile,
+  downloadStudentTemplate,
 } from "../../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
@@ -40,7 +41,7 @@ const StudentList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentList, filterProps } = state.student;
-  const { deleteDialogResponse, modalResponse, dialogResponse} = state.alert;
+  const { deleteDialogResponse, modalResponse, dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -52,7 +53,7 @@ const StudentList = () => {
     setObjectArray(ReturnFilteredList(studentList, searchQuery,
       ["firstName", "lastName", "registrationNumber", "sessionClass"]
     ));
-  }, [searchQuery, studentList]) 
+  }, [searchQuery, studentList])
 
   const setStateArraysAndIds = (checked) => {
     const result = CheckMultiple(checked, objectArray, "userAccountId");
@@ -118,7 +119,11 @@ const StudentList = () => {
       setStudentsExcelFile("");
     }
   };
-  
+
+  const handleStudentTemplateDownload = () => {
+    dispatch(downloadStudentTemplate());
+  };
+
   return (
     <>
       <div>
@@ -224,7 +229,7 @@ const StudentList = () => {
                       <button
                         type="button"
                         className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                      // onClick={handleSubmit}
+                        onClick={handleStudentTemplateDownload}
                       >
                         <i className="btn-inner">
                           <svg
@@ -421,11 +426,11 @@ const StudentList = () => {
                                   className="form-check-input"
                                   type="checkbox"
                                   checked={
-                                   student.isChecked
-                                     || false
+                                    student.isChecked
+                                    || false
                                   }
                                   onChange={(e) => {
-                                    const result =  CheckSingleItem(
+                                    const result = CheckSingleItem(
                                       e.target.checked,
                                       selectedIds,
                                       student.userAccountId,
@@ -697,7 +702,7 @@ const StudentList = () => {
                                     to="#"
                                     data-id={student.userAccountId}
                                     onClick={() => {
-                                      setSelectedIds([...new Set([...selectedIds,student.userAccountId])]);
+                                      setSelectedIds([...new Set([...selectedIds, student.userAccountId])]);
                                       showSingleDeleteDialog(true)(dispatch);
                                     }}
                                   >
