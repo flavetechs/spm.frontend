@@ -2241,12 +2241,13 @@ export const getScoreRecords = (homeAssessmentId) => (dispatch) => {
         });
 }
 
-export const includeClassToScoreRecord = (homeAssessmentId) => (dispatch) => {
+export const includeClassToScoreRecord = (homeAssessmentId, include) => (dispatch) => {
     dispatch({
         type: actions.INCLUDE_CLASS_SCORE_RECORD_LOADING
     });
     const payload = {
-        homeAssessmentId
+        homeAssessmentId,
+        include
     }
 
     axiosInstance.post('/homeassessment/api/v1/include-class/home-assessment/to-scoreentry', payload)
@@ -2266,12 +2267,13 @@ export const includeClassToScoreRecord = (homeAssessmentId) => (dispatch) => {
         });
 }
 
-export const includeStudentToScoreRecord = (homeAssessmentFeedBackId, homeAssessmentId) => (dispatch) => {
+export const includeStudentToScoreRecord = (homeAssessmentFeedBackId, homeAssessmentId, include) => (dispatch) => {
     dispatch({
         type: actions.INCLUDE_STUDENT_SCORE_RECORD_LOADING
     });
     const payload = {
-        homeAssessmentFeedBackId
+        homeAssessmentFeedBackId,
+        include
     }
 
     axiosInstance.post('/homeassessment/api/v1/include-student/home-assessment/to-scoreentry', payload)
