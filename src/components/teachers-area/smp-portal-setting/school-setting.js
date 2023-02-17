@@ -74,10 +74,7 @@ const SchoolSetting = () => {
           values.schoolName = values.schoolName.toUpperCase();
           values.schoolAddress = values.schoolAddress.toUpperCase();
           values.schoolAbbreviation = values.schoolAbbreviation.toUpperCase();
-          values.country = values.country;
-          values.state = values.state;
           values.filepath = images;
-          values.email = values.email;
           const params = new FormData();
           params.append("schoolSettingsId", values.schoolSettingsId);
           params.append("schoolName", values.schoolName);
@@ -94,7 +91,7 @@ const SchoolSetting = () => {
           setSaveButton(!saveButton);
           setEditButton(!editButton);
           setDisable(true);
-          updateSchoolSetting(values, params)(dispatch);
+          updateSchoolSetting(params)(dispatch);
         }}
       >
         {({ handleSubmit, values, setFieldValue }) => (

@@ -1541,7 +1541,7 @@ export const classReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
         message: payload,
         createSuccessful: false,
-        loading: false,
+          loading: false,
       };
 
     case actions.CREATE_CLASS_ASSESSMENT_LOADING:

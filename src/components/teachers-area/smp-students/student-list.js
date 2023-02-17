@@ -6,6 +6,7 @@ import {
   getAllStudents,
   deleteStudent,
   uploadStudentsListFile,
+  downloadStudentTemplate,
 } from "../../../store/actions/student-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { studentsLocations } from "../../../router/spm-path-locations";
@@ -40,7 +41,7 @@ const StudentList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { studentList, filterProps } = state.student;
-  const { deleteDialogResponse, modalResponse, dialogResponse} = state.alert;
+  const { deleteDialogResponse, modalResponse, dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
@@ -52,7 +53,7 @@ const StudentList = () => {
     setObjectArray(ReturnFilteredList(studentList, searchQuery,
       ["firstName", "lastName", "registrationNumber", "sessionClass"]
     ));
-  }, [searchQuery, studentList]) 
+  }, [searchQuery, studentList])
 
   const setStateArraysAndIds = (checked) => {
     const result = CheckMultiple(checked, objectArray, "userAccountId");
@@ -118,7 +119,11 @@ const StudentList = () => {
       setStudentsExcelFile("");
     }
   };
-  
+
+  const handleStudentTemplateDownload = () => {
+    downloadStudentTemplate()(dispatch);
+  };
+
   return (
     <>
       <div>
@@ -221,43 +226,54 @@ const StudentList = () => {
                         </i>
                         <span> Upload</span>
                       </button>{" "}
-                      <button
-                        type="button"
-                        className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                      // onClick={handleSubmit}
+
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id="button-tooltip-2">
+                            {" "}
+                            Download Student Template
+                          </Tooltip>
+                        }
                       >
-                        <i className="btn-inner">
-                          <svg
-                            width="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M12.1221 15.436L12.1221 3.39502"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </i>
-                        <span>Download</span>
-                      </button>
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                          onClick={handleStudentTemplateDownload}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12.1221 15.436L12.1221 3.39502"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </i>
+                          <span>Download</span>
+                        </button>
+                      </OverlayTrigger>
                     </div>
                   </div>
 
@@ -421,11 +437,11 @@ const StudentList = () => {
                                   className="form-check-input"
                                   type="checkbox"
                                   checked={
-                                   student.isChecked
-                                     || false
+                                    student.isChecked
+                                    || false
                                   }
                                   onChange={(e) => {
-                                    const result =  CheckSingleItem(
+                                    const result = CheckSingleItem(
                                       e.target.checked,
                                       selectedIds,
                                       student.userAccountId,
@@ -697,7 +713,7 @@ const StudentList = () => {
                                     to="#"
                                     data-id={student.userAccountId}
                                     onClick={() => {
-                                      setSelectedIds([...new Set([...selectedIds,student.userAccountId])]);
+                                      setSelectedIds([...new Set([...selectedIds, student.userAccountId])]);
                                       showSingleDeleteDialog(true)(dispatch);
                                     }}
                                   >

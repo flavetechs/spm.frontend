@@ -75,7 +75,7 @@ console.log(activeSession);
     }
     return () => {
       respondDialog("")(dispatch);
-      showHideDialog(false, null)(dispatch);
+      //showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [dialogResponse, dispatch, studentNoteId]);

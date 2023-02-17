@@ -29,9 +29,6 @@ const SignIn = () => {
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
-
-
-
     const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testusersix.flavetechs.com' : window.location.origin;
     console.log('schoolUrl', schoolUrl);
     
@@ -42,7 +39,7 @@ const SignIn = () => {
 
 
     useEffect(() => {
-        if (userDetail) {
+        if (userDetail) { 
             if (JSON.parse(userDetail).isFirstTimeLogin === false) {
                 if (JSON.parse(userDetail).userType === "Student") {
                     window.location.href = "/stds-dashboard";

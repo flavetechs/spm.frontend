@@ -1,11 +1,18 @@
+import { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import { closeHomeAssessment } from "../../../../store/actions/class-actions";
+import { showHideDialog } from "../../../../store/actions/toaster-actions";
 export function HomeAssessmentList(props) {
   const history = useHistory();
   const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      showHideDialog(false, null)(dispatch);
+    }
+  }, [])
 
   return (
     <>
@@ -204,7 +211,7 @@ export function HomeAssessmentList(props) {
                       onClick={() => {
                         props.setHomeAssessmentId(props.item.homeAssessmentId);
                         props.setShowMenuDropdown(false);
-                        props.showHideDialog(
+                        showHideDialog(
                           true,
                           "Are you sure you want to delete this assessment"
                         )(dispatch);

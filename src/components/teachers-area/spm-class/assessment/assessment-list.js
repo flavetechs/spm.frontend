@@ -102,7 +102,6 @@ const AssessmentList = () => {
     groupIdQueryParam,
     typeQueryParam,
   ]);
-
   useEffect(() => {
     if (dialogResponse === "continue") {
       typeQueryParam === "home-assessment"
@@ -123,12 +122,10 @@ const AssessmentList = () => {
     }
     return () => {
       respondDialog("")(dispatch);
-      showHideDialog(false, null)(dispatch);
       setShowMenuDropdown(false);
     };
   }, [
     dialogResponse,
-    dispatch,
     classAssessmentId,
     homeAssessmentId,
     typeQueryParam,
@@ -136,13 +133,12 @@ const AssessmentList = () => {
   ]);
 
   useEffect(() => {
-    createSuccessful &&
+    createSuccessful && newClassAssessment?.classAssessmentId &&
       history.push(
         `${classLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
       );
   }, [
     createSuccessful,
-    history,
     newClassAssessment?.classAssessmentId,
     sessionClassSubjectIdQueryParam,
     sessionClassIdQueryParam,
@@ -471,7 +467,6 @@ const AssessmentList = () => {
                               setIndexRow={setIndexRow}
                               showMenuDropdown={showMenuDropdown}
                               indexRow={indexRow}
-                              showHideDialog={showHideDialog}
                               setHomeAssessmentId={setHomeAssessmentId}
                               sessionClassIdQueryParam={
                                 sessionClassIdQueryParam
@@ -493,7 +488,6 @@ const AssessmentList = () => {
                               setIndexRow={setIndexRow}
                               showMenuDropdown={showMenuDropdown}
                               indexRow={indexRow}
-                              showHideDialog={showHideDialog}
                               setClassAssessmentId={setClassAssessmentId}
                               sessionClassIdQueryParam={
                                 sessionClassIdQueryParam
