@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import { Offcanvas, Row, Col, Tooltip, OverlayTrigger} from 'react-bootstrap'
 import {bindActionCreators} from "redux"
 
@@ -30,8 +30,8 @@ import image24 from '../../../assets/images/settings/light/12.png'
 
 // store
 import {NavbarstyleAction,LoginTemplateAction, getDirMode, getcustomizerinfoMode, getcustomizerprimaryMode, ColorCustomizerAction, SchemeDirAction, getcustomizerMode, SidebarminiTypeAction, SidebarboxedTypeAction, SidebarhoverTypeAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction,  SidebarColorAction, getSidebarColorMode, getSidebarTypeMode, getLoginTemplateMode} from '../../../store/setting/setting'
-import {connect, useDispatch, useSelector} from "react-redux"
-import { Link, useLocation } from 'react-router-dom'
+import {connect, useDispatch} from "react-redux"
+import { Link } from 'react-router-dom'
 import { getAppLayout, updateAppLayout } from '../../../store/actions/portal-setting-action'
 import { LoginTemplateModal } from '../../spm-auth/login-templates/login-template-modal'
 import {  showHideLoginLayoutModal } from '../../../store/actions/toaster-actions'
@@ -80,7 +80,6 @@ const mapDispatchToProps = dispatch => ({
 const SettingOffcanvas = (props ) => {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
-
   const handleClose = () => setShow(false);
   const dispatch = useDispatch();
  
@@ -257,6 +256,7 @@ const SettingOffcanvas = (props ) => {
     getAppLayout(schoolUrl)(dispatch);
 }, [schoolUrl])
  
+
 
     return (
         <>
