@@ -251,7 +251,6 @@ export const downloadStudentTemplate = () => (dispatch) => {
         link.click();
         dispatch({
           type: actions.DOWNLOAD_STUDENT_TEMPLATE_SUCCESS,
-          payload: res.data.result
         });
       })
       .catch((error) => {
