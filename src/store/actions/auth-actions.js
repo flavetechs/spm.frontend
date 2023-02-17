@@ -2,30 +2,27 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/auth-action-types"
 import { getActiveSession } from "./session-actions";
 
-export const loginUser = ({ userName, password, schoolUrl }) => (dispatch) => {
-
+export const loginUser = (values) => (dispatch) => {
     dispatch({
         type: actions.LOGIN_USER_LOADING
     });
+console.log("v",values);
+   
 
-    const payload = {
-        schoolUrl,
-        userName,
-        password
-    }
-
-    axiosInstance.post('user/api/v1/login', payload)
+    axiosInstance.post('user/api/v1/login', values)
         .then((res) => {
             dispatch({
                 type: actions.LOGIN_USER_SUCCESS,
                 payload: res.data.result
             });
+            
             getActiveSession()(dispatch);
         }).catch(err => {
             dispatch({
                 type: actions.LOGIN_USER_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
+    
         })
 }
 
@@ -38,7 +35,7 @@ export const loginOutUser = () => {
 
 
 
-export const generatePasswordResetLink = ({ resetOption, resetOptionValue, userType }) => (dispatch) => {
+export const generatePasswordResetLink = ({ resetOption, resetOptionValue, userType,schoolUrl }) => (dispatch) => {
 
     dispatch({
         type: actions.GENERATE_PASSWORD_RESET_LINK_LOADING
@@ -47,7 +44,8 @@ export const generatePasswordResetLink = ({ resetOption, resetOptionValue, userT
     const payload = {
         resetOption,
         resetOptionValue,
-        userType
+        userType,
+        schoolUrl
     }
 
     axiosInstance.post('/user/api/v1/generate/reset-link', payload)
@@ -137,16 +135,12 @@ export const loginCBT = () => (dispatch) => {
         })
 }
 
-export const forgotPasswordFunc = ({ email }) => (dispatch) => {
+export const forgotPasswordFunc = ( values ) => (dispatch) => {
     dispatch({
         type: actions.FORGOT_PASSWORD_LOADING
     });
 
-    const payload = {
-        email,
-    }
-
-    axiosInstance.post('/user/api/v1/forgot-password', payload)
+    axiosInstance.post('/user/api/v1/forgot-password',  values)
         .then((res) => {
             dispatch({
                 type: actions.FORGOT_PASSWORD_SUCCESS,

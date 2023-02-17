@@ -31,6 +31,7 @@ const SignIn = () => {
 
 
 
+
     const schoolUrl = window.location.origin;//'http://testusersix.flavetechs.com'
     console.log('schoolUrl', schoolUrl);
     useEffect(() => {
@@ -77,7 +78,7 @@ const SignIn = () => {
         initialValues: {
             userName: "",
             password: "",
-            schoolUrl: schoolUrl
+            schoolUrl
         },
         enableReinitialize: true,
         validationSchema: validation,
@@ -151,7 +152,6 @@ const SignIn = () => {
     const pageNotFound = 
     <PageNotFound/>
 
-
     return (
         <>
             <section className="login-content">
@@ -161,7 +161,8 @@ const SignIn = () => {
                 {appSetting.loginTemplate === "template-2" && templateTwo}
                 {appSetting.loginTemplate === "template-3" && templateThree}
                 {appSetting.loginTemplate === "template-4" && templateFour}
-                {!appSetting.schoolUrl && pageNotFound}
+                {appSetting.schoolUrl === undefined && <div className="bg-dark"></div>}
+                {appSetting.schoolUrl === null && pageNotFound}
             </section>
         </>
     );

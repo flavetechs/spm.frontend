@@ -39,9 +39,12 @@ const StudentEdit = () => {
       .min(2, "Last Name Too Short!")
       .required("Last Name is required"),
     email: Yup.string().email("Invalid email format"),
-    parentOrGuardianName: Yup.string()
+    parentOrGuardianFirstName: Yup.string()
       .min(2, "Name Too Short!")
-      .required("Parent/Guardian name is required"),
+      .required("Parent/Guardian First name is required"),
+      parentOrGuardianLastName: Yup.string()
+      .min(2, "Name Too Short!")
+      .required("Parent/Guardian Last name is required"),
     parentOrGuardianRelationship: Yup.string().required(
       "Parent/Guardian relationship is required"
     ),
@@ -109,7 +112,8 @@ console.log("s",submitSuccessful);
           email: selectedStudent?.userName || "",
           homePhone: selectedStudent?.homePhone || "",
           emergencyPhone: selectedStudent?.emergencyPhone || "",
-          parentOrGuardianName: selectedStudent?.parentOrGuardianName || "",
+          parentOrGuardianFirstName: selectedStudent?.parentOrGuardianFirstName || "",
+          parentOrGuardianLastName: selectedStudent?.parentOrGuardianLastName || "",
           parentOrGuardianRelationship: selectedStudent?.parentOrGuardianRelationship || "",
           parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone || "",
           parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail || "",
@@ -132,8 +136,8 @@ console.log("s",submitSuccessful);
           values.firstName = values.firstName.toUpperCase();
           values.lastName = values.lastName.toUpperCase();
           values.middleName = values.middleName.toUpperCase();
-          values.parentOrGuardianName =
-            values.parentOrGuardianName.toUpperCase();
+          values.parentOrGuardianFirstName = values.parentOrGuardianFirstName.toUpperCase();
+          values.parentOrGuardianLastName = values.parentOrGuardianLastName.toUpperCase();
           values.photo = images;
           const params = new FormData();
           params.append("userAccountId", values.userAccountId);
@@ -561,27 +565,51 @@ console.log("s",submitSuccessful);
                         <b>Parent/Guardian(s) Information</b>
                       </h5>
                       <div className="row">
-                        <Row>
-                          <div className="col-md-12">
-                            {touched.parentOrGuardianName &&
-                              errors.parentOrGuardianName && (
+                      <Row>
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianFirstName &&
+                              errors.parentOrGuardianFirstName && (
                                 <div className="text-danger">
-                                  {errors.parentOrGuardianName}
+                                  {errors.parentOrGuardianFirstName}
+                                </div>
+                              )}
+                          </div>
+                          <div className="col-md-6">
+                            {touched.parentOrGuardianLastName &&
+                              errors.parentOrGuardianLastName && (
+                                <div className="text-danger">
+                                  {errors.parentOrGuardianLastName}
                                 </div>
                               )}
                           </div>
                         </Row>
-                        <div className="col-md-12 form-group">
+                        <div className="col-md-6 form-group">
                           <label
                             className="form-label"
-                            htmlFor="parentOrGuardianName"
+                            htmlFor="parentOrGuardianFirstName"
                           >
-                            <b>Name:</b>
+                            <b>First Name:</b>
                           </label>
                           <Field
+                            placeholder="First Name"
                             type="text"
-                            name="parentOrGuardianName"
-                            id="parentOrGuardianName"
+                            name="parentOrGuardianFirstName"
+                            id="parentOrGuardianFirstName"
+                            className="form-control"
+                          />
+                        </div>
+                        <div className="col-md-6 form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="parentOrGuardianLastName"
+                          >
+                            <b>Last Name:</b>
+                          </label>
+                          <Field
+                            placeholder="Last Name"
+                            type="text"
+                            name="parentOrGuardianLastName"
+                            id="parentOrGuardianLastName"
                             className="form-control"
                           />
                         </div>
