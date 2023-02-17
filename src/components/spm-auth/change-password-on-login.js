@@ -82,7 +82,7 @@ const FirstTimeLoginPassswordChange = () => {
                                                 userId: userId,
                                                 oldPassword: values.oldPassword,
                                                 newPassword: values.newPassword,
-                                                schoolUrl: 'http://testusersix.flavetechs.com'//window.location.origin
+                                                schoolUrl: window.location.origin
                                             })(dispatch)
                                     }}
                                 >
