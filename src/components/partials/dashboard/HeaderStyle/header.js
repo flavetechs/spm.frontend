@@ -78,7 +78,7 @@ const Header = (props) => {
     }
 
     var userDetail = getUserDetails();
-
+console.log("userDetail?.userType",userDetail?.userType);
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">
@@ -222,14 +222,14 @@ const Header = (props) => {
                                             </Dropdown.Item>
                                     } */}
                                     {
-                                        userDetail?.userType === "Teacher" || "Admin"
+                                        userDetail?.userType === "Teacher"|| userDetail?.userType === "Admin"
                                             ? (
                                                 <Dropdown.Item onClick={() => {
                                                     history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
                                                 }}>
                                                     <span>  Profile</span>
                                                 </Dropdown.Item>)
-                                            : <Dropdown.Item onClick={() => {
+                                            :  userDetail?.userType === "Student" && <Dropdown.Item onClick={() => {
                                                 history.push(`${profileLocations.profile}?studentAccountId=${userDetail?.id}`)
                                             }}>
                                                 <span> Profile</span>
