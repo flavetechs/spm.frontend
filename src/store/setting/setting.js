@@ -14,7 +14,26 @@ if (layoutSetting === 'undefined') {
         navbarstyle: 'sticky',
       loginTemplate: 'default-login-template' 
 
-    }       
+    } 
+    }   
+       
+ const appSetting = JSON.parse(layoutSetting) || "";
+ if (appSetting.scheme === null) {
+       
+        initstate = {
+            scheme: 'light',
+            colorcustomizer: 'default',
+            colorinfo: '#4bc7d2',
+            colorprimary: '#3a57e8',
+            schemeDir: 'ltr',
+            sidebarcolor: 'white',
+            sidebarType: { mini: "", hover: "", boxed: "" },
+            sidebarActiveStyle: 'roundedAllSide',
+            navbarstyle: 'sticky',
+          loginTemplate: 'default-login-template' 
+    
+        } 
+
 
 } else {
     const appSetting = JSON.parse(layoutSetting) || "";

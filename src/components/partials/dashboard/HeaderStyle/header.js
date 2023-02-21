@@ -78,7 +78,6 @@ const Header = (props) => {
     }
 
     var userDetail = getUserDetails();
-console.log("userDetail?.userType",userDetail?.userType);
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">

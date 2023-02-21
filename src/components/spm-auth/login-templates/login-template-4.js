@@ -61,6 +61,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                         <svg
                           onClick={() => setShowPassword(false)}
                           className="mx-n5  eyeIcon"
+                          style={{cursor:'pointer'}}
                           width="20"
                           viewBox="0 0 24 24"
                           fill="none"
@@ -77,6 +78,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                         <svg
                           onClick={() => setShowPassword(true)}
                           className="mx-n5  eyeIcon"
+                          style={{cursor:'pointer'}}
                           width="20"
                           viewBox="0 0 24 24"
                           fill="none"
