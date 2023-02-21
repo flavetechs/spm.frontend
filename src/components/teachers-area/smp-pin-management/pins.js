@@ -34,7 +34,7 @@ const Pins = () => {
       const params = new FormData();
       params.append("excelFile", excelFile);
       upLoadPinFile(excelFile, params)(dispatch);
-      setExcelFile("");
+  
     }
   }
 
