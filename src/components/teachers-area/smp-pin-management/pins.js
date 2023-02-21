@@ -1,11 +1,21 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Form, Badge } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+  Form,
+  Badge,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../Card";
 
 import { useDispatch, useSelector } from "react-redux";
 import { pinManagement } from "../../../router/spm-path-locations";
-import { getAllUnusedPinList, upLoadPinFile } from "../../../store/actions/pin-management-actions";
+import {
+  getAllUnusedPinList,
+  upLoadPinFile,
+} from "../../../store/actions/pin-management-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
@@ -22,10 +32,15 @@ const Pins = () => {
   const { unUsedPinList, filterProps } = state.pin;
   // ACCESSING STATE FROM REDUX STORE
 
+  const ref = useRef();
+
+  const reset = () => {
+    ref.current.value = "";
+  };
 
   const handleFileSelect = (event) => {
-    setExcelFile(event.target.files[0])
-  }
+    setExcelFile(event.target.files[0]);
+  };
 
   const handleSubmit = () => {
     if (!excelFile) {
@@ -34,13 +49,12 @@ const Pins = () => {
       const params = new FormData();
       params.append("excelFile", excelFile);
       upLoadPinFile(excelFile, params)(dispatch);
-  
     }
-  }
+  };
 
   React.useEffect(() => {
-    getAllUnusedPinList(1)(dispatch)
-  }, [dispatch])
+    getAllUnusedPinList(1)(dispatch);
+  }, [dispatch]);
   return (
     <>
       <div>
@@ -59,6 +73,7 @@ const Pins = () => {
                       type="file"
                       id="file"
                       name="file"
+                      ref={ref}
                       className="form-control p-1"
                       accept=".xlsx, .xls, .csv"
                       onChange={handleFileSelect}
@@ -69,7 +84,10 @@ const Pins = () => {
                       <button
                         type="button"
                         className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                        onClick={handleSubmit}
+                        onClick={() => {
+                          handleSubmit();
+                          reset();
+                        }}
                       >
                         <i className="btn-inner">
                           <svg
@@ -136,9 +154,7 @@ const Pins = () => {
                             <b>{item.numberOfTimesUsed}</b>
                           </td>
                           <td>
-                            <Badge bg={"success"}>
-                              {item.pinStatus}
-                            </Badge>
+                            <Badge bg={"success"}>{item.pinStatus}</Badge>
                           </td>
                           <td>
                             <div className="flex align-items-center list-user-action">
@@ -201,7 +217,11 @@ const Pins = () => {
                 </div>
               </Card.Body>
               <Card.Footer>
-                <PaginationFilter filterProps={filterProps} action={getAllUnusedPinList} dispatch={dispatch} />
+                <PaginationFilter
+                  filterProps={filterProps}
+                  action={getAllUnusedPinList}
+                  dispatch={dispatch}
+                />
               </Card.Footer>
             </Card>
           </Col>
