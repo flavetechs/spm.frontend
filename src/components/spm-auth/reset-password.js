@@ -13,6 +13,7 @@ const ResetPassword = () => {
   const locations = useLocation();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { message, loginSuccessful } = state.auth;
   var token = localStorage.getItem("token");

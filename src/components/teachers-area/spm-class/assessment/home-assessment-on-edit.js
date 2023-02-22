@@ -31,12 +31,8 @@ const EditHomeAssessment = () => {
   const locations = useLocation();
   const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const {
-    createSuccessful,
-    groupList,
-   singleHomeAssessment,
-    assessmentScore,
-  } = state.class;
+  const { createSuccessful, groupList, singleHomeAssessment, assessmentScore } =
+    state.class;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQuery = queryParams.get("sessionClassId");
   const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId");
@@ -63,7 +59,7 @@ const EditHomeAssessment = () => {
         sessionClassIdQuery
       )(dispatch);
     }
-  }, [singleHomeAssessment,sessionClassIdQuery, dispatch]);
+  }, [singleHomeAssessment, sessionClassIdQuery, dispatch]);
 
   useEffect(() => {
     createSuccessful && history.goBack();
@@ -105,7 +101,8 @@ const EditHomeAssessment = () => {
                   initialValues={{
                     homeAssessmentId: homeAssessmentIdQuery,
                     title: singleHomeAssessment?.title || "",
-                    assessmentScore: singleHomeAssessment?.assessmentScore || "",
+                    assessmentScore:
+                      singleHomeAssessment?.assessmentScore || "",
                     sessionClassId: sessionClassIdQuery,
                     sessionClassSubjectId:
                       singleHomeAssessment?.sessionClassSubjectId || "",
@@ -115,8 +112,8 @@ const EditHomeAssessment = () => {
                       singleHomeAssessment?.status !== "saved",
                     timeDeadLine: singleHomeAssessment?.timeDeadLine || "",
                     dateDeadLine: singleHomeAssessment?.dateDeadLine || "",
-                    total:assessmentScore?.totalAssessment || "",
-                    used:assessmentScore?.used || "",
+                    total: assessmentScore?.totalAssessment || "",
+                    used: assessmentScore?.used || "",
                   }}
                   validationSchema={validation}
                   enableReinitialize={true}
@@ -131,7 +128,7 @@ const EditHomeAssessment = () => {
                       homeAssessmentIdQuery,
                       values.shouldSendToStudents
                     )(dispatch);
-                   updateHomeAssessment(values)(dispatch);
+                    updateHomeAssessment(values)(dispatch);
                   }}
                 >
                   {({
@@ -143,12 +140,12 @@ const EditHomeAssessment = () => {
                   }) => (
                     <Form className="mx-auto">
                       <Row className="d-flex justify-content-center">
-                      <Col md="11">
-                      <h5 className="mb-3">
-                        {singleHomeAssessment?.sessionClassName}-
-                        {singleHomeAssessment?.sessionClassSubjectName}
-                      </h5>
-                      </Col>
+                        <Col md="11">
+                          <h5 className="mb-3">
+                            {singleHomeAssessment?.sessionClassName}-
+                            {singleHomeAssessment?.sessionClassSubjectName}
+                          </h5>
+                        </Col>
                         <Col md="11">
                           {touched.title && errors.title && (
                             <div className="text-danger">{errors.title}</div>
@@ -164,10 +161,7 @@ const EditHomeAssessment = () => {
                             className="form-control border-secondary h6"
                             id="title"
                             onChange={(e) => {
-                              setFieldValue(
-                                "title",
-                                e.target.value
-                              );
+                              setFieldValue("title", e.target.value);
                             }}
                           />
                         </Col>
@@ -269,55 +263,54 @@ const EditHomeAssessment = () => {
                             style={{ height: "100px" }}
                           />
                         </Col>
-                        <Col md="11" className=" mt-5">
-                          {touched.dateDeadLine && errors.dateDeadLine && (
-                            <div className="text-danger">
-                              {errors.dateDeadLine}
-                            </div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="dateDeadLine">
-                            <b>Deadline Date:</b>
-                          </label>
-                          <Field
-                            type="date"
-                            name="dateDeadLine"
-                            className="form-control border-secondary h6"
-                            id="dateDeadLine"
-                            onChange={(e) => {
-                              setFieldValue(
-                                "dateDeadLine",
-                                e.target.value
-                              );
-                            }}
-                          />
-                        </Col>
 
-                        <Col md="11" className="">
-                          {touched.timeDeadLine && errors.timeDeadLine && (
-                            <div className="text-danger">
-                              {errors.timeDeadLine}
-                            </div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label" htmlFor="timeDeadLine">
-                            <b>Deadline Time:</b>
-                          </label>
-                          <Field
-                            type="time"
-                            name="timeDeadLine"
-                            className="form-control border-secondary h6"
-                            id="timeDeadLine"
-                            onChange={(e) => {
-                              setFieldValue(
-                                "timeDeadLine",
-                                e.target.value
-                              );
-                            }}
-                          />
-                        </Col>
+                        <Row className=" mt-5">
+                          <Col md="6" className="form-group h6 mx-4">
+                            {touched.dateDeadLine && errors.dateDeadLine && (
+                              <div className="text-danger">
+                                {errors.dateDeadLine}
+                              </div>
+                            )}
+                            <label
+                              className="form-label"
+                              htmlFor="dateDeadLine"
+                            >
+                              <b>Deadline Date:</b>
+                            </label>
+                            <Field
+                              type="date"
+                              name="dateDeadLine"
+                              className="form-control border-secondary h6"
+                              id="dateDeadLine"
+                              onChange={(e) => {
+                                setFieldValue("dateDeadLine", e.target.value);
+                              }}
+                            />
+                          </Col>
+
+                          <Col md="5" className="form-group h6 ">
+                            {touched.timeDeadLine && errors.timeDeadLine && (
+                              <div className="text-danger">
+                                {errors.timeDeadLine}
+                              </div>
+                            )}
+                            <label
+                              className="form-label"
+                              htmlFor="timeDeadLine"
+                            >
+                              <b>Deadline Time:</b>
+                            </label>
+                            <Field
+                              type="time"
+                              name="timeDeadLine"
+                              className="form-control border-secondary h6"
+                              id="timeDeadLine"
+                              onChange={(e) => {
+                                setFieldValue("timeDeadLine", e.target.value);
+                              }}
+                            />
+                          </Col>
+                        </Row>
 
                         <Col md="11" className="form-group ">
                           <Field
@@ -361,10 +354,7 @@ const EditHomeAssessment = () => {
                                 readOnly
                                 className="form-control h6 py-0 px-1"
                                 onChange={(e) => {
-                                  setFieldValue(
-                                    "total",
-                                    e.target.value
-                                  );
+                                  setFieldValue("total", e.target.value);
                                 }}
                               />
                             </Col>
@@ -378,10 +368,7 @@ const EditHomeAssessment = () => {
                                 readOnly
                                 className="form-control h6 py-0 px-1"
                                 onChange={(e) => {
-                                  setFieldValue(
-                                    "used",
-                                    e.target.value
-                                  );
+                                  setFieldValue("used", e.target.value);
                                 }}
                               />
                             </Col>
