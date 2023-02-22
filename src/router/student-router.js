@@ -4,7 +4,6 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
 import { announcementLocations, assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
 import OnlineClass from '../components/students-area/class/online-class';
-import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
 import StudentAssessmentList from '../components/students-area/assessment/assessment-list';
 import StudentAssessmentDetails from '../components/students-area/assessment/assessment-details';
@@ -21,6 +20,7 @@ import StudentAnnouncement from '../components/students-area/announcement/studen
 import StudentAnnouncementDetails from '../components/students-area/announcement/student-announcement-details';
 import Protected from '../components/spm-auth/protected';
 import PrintTimeTable from '../components/students-area/student-timetable/print-timetable';
+import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 
 
 

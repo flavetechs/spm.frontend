@@ -1,13 +1,26 @@
 import { Field, Formik } from "formik";
 import React, { useMemo, useRef, useState } from "react";
-import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { showErrorToast } from "../../../../store/actions/toaster-actions";
-import { createHomeAssessment, getAllClassGroup, getAssessmentScore, getClassSubjects } from "../../../../store/actions/class-actions";
+import {
+  createHomeAssessment,
+  getAllClassGroup,
+  getAssessmentScore,
+  getClassSubjects,
+} from "../../../../store/actions/class-actions";
 import { openFullscreen } from "../../../../utils/export-csv";
 import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 import { TextEditorToolBar } from "../../../../utils/tools";
@@ -18,24 +31,32 @@ const CreateHomeAssessment = () => {
   const locations = useLocation();
   // const elementRef = useRef(null);
   const state = useSelector((state) => state);
-  const { createSuccessful, groupList, assessmentScore, classSubjects } = state.class;
+  const { createSuccessful, groupList, assessmentScore, classSubjects } =
+    state.class;
   const { staffClasses } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQueryParam = queryParams.get("sessionClassId");
-  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId");
+  const sessionClassSubjectIdQueryParam = queryParams.get(
+    "sessionClassSubjectId"
+  );
   const sessionClassGroupIdQueryParam = queryParams.get("sessionClassGroupId");
 
   //HOOKS
   React.useEffect(() => {
-    getAllClassGroup(sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
-    getAssessmentScore(sessionClassSubjectIdQueryParam, sessionClassIdQueryParam)(dispatch);
+    getAllClassGroup(
+      sessionClassIdQueryParam,
+      sessionClassSubjectIdQueryParam
+    )(dispatch);
+    getAssessmentScore(
+      sessionClassSubjectIdQueryParam,
+      sessionClassIdQueryParam
+    )(dispatch);
     getClassSubjects(sessionClassIdQueryParam)(dispatch);
     getAllStaffClasses()(dispatch);
   }, [dispatch, sessionClassSubjectIdQueryParam, sessionClassIdQueryParam]);
 
   React.useEffect(() => {
-    createSuccessful &&
-      history.goBack();
+    createSuccessful && history.goBack();
   }, [createSuccessful, history]);
 
   const [content, setContent] = useState("");
@@ -48,7 +69,8 @@ const CreateHomeAssessment = () => {
   //VALIDATION
   const validation = Yup.object().shape({
     title: Yup.string().required("Subject is required"),
-    assessmentScore: Yup.number().required("Score is required")
+    assessmentScore: Yup.number()
+      .required("Score is required")
       .min(0, "Assessment score must not be below 0"),
     timeDeadLine: Yup.string().required("Please enter a deadline time"),
     dateDeadLine: Yup.string().required("Please enter a deadline date"),
@@ -67,7 +89,9 @@ const CreateHomeAssessment = () => {
                   initialValues={{
                     title: "",
                     content: "",
-                    assessmentScore: 0 || (assessmentScore?.totalAssessment - assessmentScore?.used),
+                    assessmentScore:
+                      0 ||
+                      assessmentScore?.totalAssessment - assessmentScore?.used,
                     sessionClassId: sessionClassIdQueryParam,
                     sessionClassSubjectId: sessionClassSubjectIdQueryParam,
                     sessionClassGroupId: sessionClassGroupIdQueryParam,
@@ -98,8 +122,15 @@ const CreateHomeAssessment = () => {
                   }) => (
                     <Form className="mx-auto">
                       <Row className="d-flex justify-content-center">
-                      <Col md="11">
-                      <h5 className="mb-3">{staffClasses?.find(i => i.sessionClassId === sessionClassIdQueryParam)?.sessionClass}</h5>
+                        <Col md="11">
+                          <h5 className="mb-3">
+                            {
+                              staffClasses?.find(
+                                (i) =>
+                                  i.sessionClassId === sessionClassIdQueryParam
+                              )?.sessionClass
+                            }
+                          </h5>
                         </Col>
                         <Col md="11">
                           {touched.title && errors.title && (
@@ -117,10 +148,7 @@ const CreateHomeAssessment = () => {
                             id="title"
                             placeholder="Enter assessment topic..."
                             onChange={(e) => {
-                              setFieldValue(
-                                "title",
-                                e.target.value
-                              );
+                              setFieldValue("title", e.target.value);
                             }}
                           />
                         </Col>
@@ -145,7 +173,7 @@ const CreateHomeAssessment = () => {
                             {classSubjects?.map((item, idx) => (
                               <option
                                 key={idx}
-                                value={item?.sessionClassSubjectId || ''}
+                                value={item?.sessionClassSubjectId || ""}
                               >
                                 {item.subjectName}
                               </option>
@@ -244,52 +272,47 @@ const CreateHomeAssessment = () => {
                           />
                         </Col>
 
-                        <Col md="11" className=" mt-5">
-                          {touched.dateDeadLine && errors.dateDeadLine && (
-                            <div className="text-danger">{errors.dateDeadLine}</div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label" >
-                            <b>Deadline Date:</b>
-                          </label>
-                          <Field
-                            type="date"
-                            name="dateDeadLine"
-                            className="form-control border-secondary h6"
-                            id="dateDeadLine"
-                            onChange={(e) => {
-                              setFieldValue(
-                                "dateDeadLine",
-                                e.target.value
-                              );
-                            }}
-                          />
-                        </Col>
+                        <Row className=" mt-5">
+                          <Col md="6" className="form-group h6 mx-4">
+                            {touched.dateDeadLine && errors.dateDeadLine && (
+                              <div className="text-danger">
+                                {errors.dateDeadLine}
+                              </div>
+                            )}
+                            <label className="form-label">
+                              <b>Deadline Date:</b>
+                            </label>
+                            <Field
+                              type="date"
+                              name="dateDeadLine"
+                              className="form-control border-secondary h6"
+                              id="dateDeadLine"
+                              onChange={(e) => {
+                                setFieldValue("dateDeadLine", e.target.value);
+                              }}
+                            />
+                          </Col>
 
-                        <Col md="11" className="">
-                          {touched.timeDeadLine && errors.timeDeadLine && (
-                            <div className="text-danger">{errors.timeDeadLine}</div>
-                          )}
-                        </Col>
-                        <Col md="11" className="form-group h6">
-                          <label className="form-label"  >
-                            <b>Deadline Time:</b>
-                          </label>
-                          <Field
-                            type="time"
-                            name="timeDeadLine"
-                            className="form-control border-secondary h6"
-                            id="timeDeadLine"
-                            onChange={(e) => {
-                              setFieldValue(
-                                "timeDeadLine",
-                                e.target.value
-                              );
-                            }}
-                          />
-                        </Col>
-
+                          <Col md="5" className="form-group h6">
+                            {touched.timeDeadLine && errors.timeDeadLine && (
+                              <div className="text-danger">
+                                {errors.timeDeadLine}
+                              </div>
+                            )}
+                            <label className="form-label">
+                              <b>Deadline Time:</b>
+                            </label>
+                            <Field
+                              type="time"
+                              name="timeDeadLine"
+                              className="form-control border-secondary h6"
+                              id="timeDeadLine"
+                              onChange={(e) => {
+                                setFieldValue("timeDeadLine", e.target.value);
+                              }}
+                            />
+                          </Col>
+                        </Row>
                         <Col md="11" className="form-group ">
                           <Field
                             type="checkbox"
@@ -297,7 +320,10 @@ const CreateHomeAssessment = () => {
                             className="form-check-input "
                             id="shouldSendToStudents"
                             onClick={(e) => {
-                              setFieldValue("shouldSendToStudents", e.target.value);
+                              setFieldValue(
+                                "shouldSendToStudents",
+                                e.target.value
+                              );
                             }}
                           />
                           <label className="form-label mx-1">
@@ -305,20 +331,17 @@ const CreateHomeAssessment = () => {
                           </label>
                         </Col>
 
-
-
                         <Col md="11">
-                          {
-                            errors.assessmentScore && (
-                              <div className="text-danger">
-                                {errors.assessmentScore}
-                              </div>
-                            )}
-                          {assessmentScoreMax > assessmentScore?.unused &&
+                          {errors.assessmentScore && (
+                            <div className="text-danger">
+                              {errors.assessmentScore}
+                            </div>
+                          )}
+                          {assessmentScoreMax > assessmentScore?.unused && (
                             <div className="text-danger">
                               {`Assessment score must not be above ${assessmentScore?.unused}`}
                             </div>
-                          }
+                          )}
                         </Col>
 
                         <Col md="11">
@@ -333,16 +356,16 @@ const CreateHomeAssessment = () => {
                                 readOnly
                                 className="form-control h6 py-0 px-1"
                                 onChange={(e) => {
-                                  setFieldValue(
-                                    "total",
-                                    e.target.value
-                                  );
+                                  setFieldValue("total", e.target.value);
                                 }}
                               />
                             </Col>
                             <Col md="2" className="form-group mx-2">
                               <label className="form-label">
-                                <h6>used out of {assessmentScore?.totalAssessment} marks</h6>
+                                <h6>
+                                  used out of {assessmentScore?.totalAssessment}{" "}
+                                  marks
+                                </h6>
                               </label>
                               <Field
                                 type="text"
@@ -350,10 +373,7 @@ const CreateHomeAssessment = () => {
                                 readOnly
                                 className="form-control h6 py-0 px-1"
                                 onChange={(e) => {
-                                  setFieldValue(
-                                    "used",
-                                    e.target.value
-                                  );
+                                  setFieldValue("used", e.target.value);
                                 }}
                               />
                             </Col>
@@ -366,7 +386,13 @@ const CreateHomeAssessment = () => {
                                 type="number"
                                 name="assessmentScore"
                                 className="form-control h6 py-0 px-1"
-                                onChange={(e) => { setAssessmentScoreMax(e.target.value); setFieldValue("assessmentScore", e.target.value) }}
+                                onChange={(e) => {
+                                  setAssessmentScoreMax(e.target.value);
+                                  setFieldValue(
+                                    "assessmentScore",
+                                    e.target.value
+                                  );
+                                }}
                               />
                             </Col>
                           </div>
@@ -378,7 +404,7 @@ const CreateHomeAssessment = () => {
                             className="btn-sm mt-4"
                             variant="btn btn-danger"
                             onClick={() => {
-                              history.goBack()
+                              history.goBack();
                             }}
                           >
                             Cancel

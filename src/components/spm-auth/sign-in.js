@@ -29,7 +29,7 @@ const SignIn = () => {
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testusersix.flavetechs.com' : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://gracelandthree.flavetechs.com' : window.location.origin;
     console.log('schoolUrl', schoolUrl);
     
     
