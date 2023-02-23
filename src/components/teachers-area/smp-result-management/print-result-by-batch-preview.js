@@ -50,7 +50,7 @@ const BatchPrintPreview = () => {
             >
               <svg
                 onClick={() => {
-                  history.goBack();
+                  history.push(resultManagement.printResult)
                   resetPublishPage()(dispatch);
                 }}
                 style={{ cursor: "pointer" }}
