@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SmpLoader from '../loader/smp-loader';
 import { userEmailLogin } from '../../store/actions/candidate-admission-actions';
+import { getAppLayout } from '../../store/actions/portal-setting-action';
 
 const RegistrationSignIn = () => {
     const dispatch = useDispatch();
@@ -21,13 +22,22 @@ const RegistrationSignIn = () => {
         } else if (parentGuardianFirstTimeLogin === true) {
             window.location.href = '/candidates/registration-email';
         }
-    }, [ token, parentGuardianFirstTimeLogin]);
+    }, [token, parentGuardianFirstTimeLogin]);
 
     const validation = Yup.object().shape({
         parentEmail: Yup.string()
             .email("Must be a valid email")
             .required('Email is required to login'),
     });
+
+
+    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testingschool2.flavetechs.com' : window.location.origin;
+    console.log('schoolUrl', schoolUrl);
+
+
+    useEffect(() => {
+        getAppLayout(schoolUrl)(dispatch);
+    }, [schoolUrl])
 
     return (
         <>
@@ -45,6 +55,7 @@ const RegistrationSignIn = () => {
                                         <Formik
                                             initialValues={{
                                                 parentEmail: '',
+                                                schoolUrl: schoolUrl,
                                             }}
                                             validationSchema={validation}
                                             onSubmit={values => {
