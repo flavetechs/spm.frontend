@@ -1,11 +1,16 @@
 import { Field, Formik } from "formik";
 import { useState, useEffect } from "react";
-import { Badge, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Badge,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import {
-  classLocations,
-} from "../../../../router/spm-path-locations";
+import { classLocations } from "../../../../router/spm-path-locations";
 import {
   getCBTClassAssessment,
   getClassSubjects,
@@ -35,22 +40,18 @@ const CBTAssessmentList = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const {
-    assessmentList,
-    classSubjects,
-    filterProps,
-  } = state.class;
+  const { assessmentList, classSubjects, filterProps } = state.class;
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
-  const { cbtToken,clientUrl } = state.auth;
+  const { cbtToken, clientUrl } = state.auth;
 
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
-  const sessionClassSubjectIdQueryParam = queryParams.get("sessionClassSubjectId") || "";
+  const sessionClassSubjectIdQueryParam =
+    queryParams.get("sessionClassSubjectId") || "";
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
-  
 
   useEffect(() => {
     getAllStaffClasses()(dispatch);
@@ -62,14 +63,16 @@ const CBTAssessmentList = () => {
       if (sessionClassIdQueryParam) {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
-      sessionClassIdQueryParam && getCBTClassAssessment(sessionClassIdQueryParam, 1)(dispatch);
-
+      sessionClassIdQueryParam &&
+        getCBTClassAssessment(sessionClassIdQueryParam, 1)(dispatch);
     };
 
     fetchAssessment();
-  }, [sessionClassIdQueryParam, sessionClassSubjectIdQueryParam, typeQueryParam]);
-
-
+  }, [
+    sessionClassIdQueryParam,
+    sessionClassSubjectIdQueryParam,
+    typeQueryParam,
+  ]);
 
   const filteredAssessmentList = assessmentList?.filter((item) => {
     if (searchQuery === "") {
@@ -83,7 +86,9 @@ const CBTAssessmentList = () => {
 
   useEffect(() => {
     if (dialogResponse === "continue") {
-      useAsExamScore ? includeAsExam(includeScorePayload)(dispatch) : includeAsAssessment(includeScorePayload)(dispatch)
+      useAsExamScore
+        ? includeAsExam(includeScorePayload)(dispatch)
+        : includeAsAssessment(includeScorePayload)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
     }
@@ -107,7 +112,6 @@ const CBTAssessmentList = () => {
               }}
               enableReinitialize={true}
               onSubmit={(values) => {
-
                 ///SOME CODE
               }}
             >
@@ -171,8 +175,9 @@ const CBTAssessmentList = () => {
                       <div className="text-body mx-2 mt-n1">
                         <a
                           type="button"
-                            href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExam`}
-                          target="_blank" rel="noopener noreferrer"
+                          href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExam`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="btn btn-primary btn-icon  mt-lg-0 mt-2 "
                         >
                           <i className="btn-inner">
@@ -215,8 +220,20 @@ const CBTAssessmentList = () => {
                                   onChange={(e) => {
                                     setFieldValue("type", e.target.value);
                                     e.target.value === "cbt"
-                                      ? history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
-                                      : history.push(`${classLocations.assessment}?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`);
+                                      ? history.push(
+                                          `${
+                                            classLocations.cbtAssessmentList
+                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${
+                                            e.target.value
+                                          }`
+                                        )
+                                      : history.push(
+                                          `${
+                                            classLocations.assessment
+                                          }?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${
+                                            e.target.value
+                                          }`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Type</option>
@@ -245,8 +262,20 @@ const CBTAssessmentList = () => {
                                     );
 
                                     e.target.value === "cbt"
-                                      ? history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${e.target.value}&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`)
-                                      : history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${e.target.value}&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`);
+                                      ? history.push(
+                                          `${
+                                            classLocations.cbtAssessmentList
+                                          }?sessionClassId=${
+                                            e.target.value
+                                          }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
+                                        )
+                                      : history.push(
+                                          `${
+                                            classLocations.cbtAssessmentList
+                                          }?sessionClassId=${
+                                            e.target.value
+                                          }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Class</option>
@@ -282,12 +311,20 @@ const CBTAssessmentList = () => {
                                       e.target.value
                                     );
                                     e.target.value === "cbt"
-                                      ? history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
+                                      ? history.push(
+                                          `${
+                                            classLocations.cbtAssessmentList
+                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${
+                                            e.target.value
+                                          }`
+                                        )
                                       : history.push(
-                                        `${classLocations.cbtAssessmentList
-                                        }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value
-                                        }&groupId=${""}&type=${typeQueryParam}`
-                                      );
+                                          `${
+                                            classLocations.cbtAssessmentList
+                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
+                                            e.target.value
+                                          }&groupId=${""}&type=${typeQueryParam}`
+                                        );
                                   }}
                                 >
                                   <option value="">Select Subject</option>
@@ -302,7 +339,6 @@ const CBTAssessmentList = () => {
                                 </Field>
                               </div>
                             </div>
-
                           </div>
                         </div>
                       </Card.Body>
@@ -315,213 +351,224 @@ const CBTAssessmentList = () => {
                           role="grid"
                           data-toggle="data-table"
                         >
-                          {
-                            sessionClassIdQueryParam && (
-                              <thead>
-                                <tr className="ligth">
-                                  <th>
-                                    <b>Examination Name</b>
-                                  </th>
-                                  <th>
-                                    <b>Examination ID</b>
-                                  </th>
-                                  <th>
-                                    <b>DATE CREATED</b>
-                                  </th>
-                                  <th>
-                                    <b>Status</b>
-                                  </th>
-                                  <th>
-                                    <b>Percentage Passed</b>
-                                  </th>
-                                  <th>
-                                    <b>Target</b>
-                                  </th>
-                                  <th min-width="100px">
-                                    <b>Action</b>
-                                  </th>
-                                </tr>
-                              </thead>
-                            )
-                          }
+                          {sessionClassIdQueryParam && (
+                            <thead>
+                              <tr className="ligth">
+                                <th>
+                                  <b>Examination Name</b>
+                                </th>
+                                <th>
+                                  <b>Examination ID</b>
+                                </th>
+                                <th>
+                                  <b>DATE CREATED</b>
+                                </th>
+                                <th>
+                                  <b>Status</b>
+                                </th>
+                                <th>
+                                  <b>Percentage Passed</b>
+                                </th>
+                                <th>
+                                  <b>Target</b>
+                                </th>
+                                <th min-width="100px">
+                                  <b>Action</b>
+                                </th>
+                              </tr>
+                            </thead>
+                          )}
 
                           <tbody>
-
-                            {
-                              filteredAssessmentList?.length === 0 && !sessionClassIdQueryParam ? (
-                                <div className="jumbotron jumbotron-fluid">
-                                  <div className="container d-flex justify-content-center mt-5 bg-white">
-                                    <h2 className="display-4">
-                                      Please select inputs above to view Assessment List
-                                    </h2>
-                                  </div>
+                            {filteredAssessmentList?.length === 0 &&
+                            !sessionClassIdQueryParam ? (
+                              <div className="jumbotron jumbotron-fluid">
+                                <div className="container d-flex justify-content-center mt-5 bg-white">
+                                  <h2 className="display-4">
+                                    Please select inputs above to view
+                                    Assessment List
+                                  </h2>
                                 </div>
-                              ) : (
-                                filteredAssessmentList?.map((item, idx) => {
-                                  return (
-
-                                    <tr key={idx}>
-
-                                      <td className="text-uppercase">
-                                        <b>{item.examName_Subject}</b>
-                                      </td>
-                                      <td className="text-uppercase">
-                                        <b>{item.candidateExaminationId}</b>
-                                      </td>
-                                      <td className="text-uppercase">
-                                        <b>{item.createdOn}</b>
-                                      </td>
-                                      <td className="fw-bold text-start text-uppercase">
-                                        <Badge
-                                          bg={
-                                            item.status == 2
-                                              ? "success"
-                                              : item.status == 0
-                                                ? "warning"
-                                                : item.status == 1
-                                                  ? "primary"
-                                                  : "danger"
+                              </div>
+                            ) : (
+                              filteredAssessmentList?.map((item, idx) => {
+                                return (
+                                  <tr key={idx}>
+                                    <td className="text-uppercase">
+                                      <b>{item.examName_Subject}</b>
+                                    </td>
+                                    <td className="text-uppercase">
+                                      <b>{item.candidateExaminationId}</b>
+                                    </td>
+                                    <td className="text-uppercase">
+                                      <b>{item.createdOn}</b>
+                                    </td>
+                                    <td className="fw-bold text-start text-uppercase">
+                                      <Badge
+                                        bg={
+                                          item.status == 2
+                                            ? "success"
+                                            : item.status == 0
+                                            ? "warning"
+                                            : item.status == 1
+                                            ? "primary"
+                                            : "danger"
+                                        }
+                                      >
+                                        {item.status == 0
+                                          ? "waiting"
+                                          : item.status == 1
+                                          ? "in progress"
+                                          : item.status == 2
+                                          ? "concluded"
+                                          : item.status == 3
+                                          ? "cancelled"
+                                          : ""}
+                                      </Badge>
+                                    </td>
+                                    <td>
+                                      <b>
+                                        {item.useAsExamScore === true &&
+                                          "Examination"}
+                                      </b>
+                                      <b>
+                                        {item.useAsAssessmentScore === true &&
+                                          "Assessment"}
+                                      </b>
+                                    </td>
+                                    <td>
+                                      <b>{item.percentage}</b>
+                                    </td>
+                                    <td>
+                                      <div className="flex align-items-center list-user-action">
+                                        <OverlayTrigger
+                                          placement="top"
+                                          overlay={
+                                            <Tooltip id="button-tooltip-2">
+                                              Details
+                                            </Tooltip>
                                           }
                                         >
-                                          {item.status == 0
-                                            ? "waiting"
-                                            : item.status == 1
-                                              ? "in progress"
-                                              : item.status == 2
-                                                ? "concluded"
-                                                : item.status == 3
-                                                  ? "cancelled"
-                                                  : ""}
-                                        </Badge>
-                                      </td>
-                                      <td>
-                                        <b>{item.useAsExamScore === true && 'Examination'}</b>
-                                        <b>{item.useAsAssessmentScore === true && 'Assessment'}</b>
-                                      </td>
-                                      <td>
-                                        <b>{item.percentage}</b>
-                                      </td>
-                                      <td>
-                                        <div className="flex align-items-center list-user-action">
-                                          <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                              <Tooltip id="button-tooltip-2">
-                                               Details
-                                              </Tooltip>
-                                            }
+                                          <a
+                                            className="btn btn-sm btn-icon btn-success"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title=""
+                                            data-original-title="Details"
+                                            href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=examDetails`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                           >
-                                            <a
-                                              className="btn btn-sm btn-icon btn-success"
-                                              data-toggle="tooltip"
-                                              data-placement="top"
-                                              title=""
-                                              data-original-title="Details"
-                                              href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=examDetails`}
-                                              target="_blank" rel="noopener noreferrer"
-                                            >
-                                              <span className="btn-inner">
-                                                <svg
-                                                  width="32"
-                                                  viewBox="0 0 24 24"
-                                                  fill="none"
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                  <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                  ></path>
-                                                  <path
-                                                    d="M11.9946 16V12"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                  ></path>
-                                                  <path
-                                                    d="M11.9896 8.2041H11.9996"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                  ></path>
-                                                </svg>
-                                              </span>
-                                            </a>
-                                          </OverlayTrigger>{" "}
-
-                                          <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip-2">
-                              {" "}
-                              Include
-                            </Tooltip>
-                          }
-                        >
-                          <div
-                            className="btn btn-sm btn-icon btn-primary"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title=""
-                            data-original-title="Add Question"
-                            onClick={() => {
-                              showHideDialog(true,`Are you sure you want to include this as an ${item.useAsExamScore ?"exam" :"assessment"}`)(dispatch);
-                              setIncludeScorePayload({
-                               sessionClassId: sessionClassIdQueryParam,
-                               subjectId: item.examName_SubjectId,                               
-                                studentRegNos: item.candidateIds,
-                                include:true,
-                                examId:item.examinationId
-                            })
-                            item.useAsExamScore ?  setUseAsExamScore(true) : setUseAsExamScore(false)
-                            }}
-                            
-                          >
-                            <span className="btn-inner ">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                width="32"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                ></path>
-                              </svg>
-                            </span>
-                          </div>
-                        </OverlayTrigger>{" "}
-
-                                        </div>
-                                      </td>
-                                    </tr>
-
-
-                                  )
-                                }
-                                )
-                              )}
-
-
-
+                                            <span className="btn-inner">
+                                              <svg
+                                                width="32"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                <path
+                                                  fillRule="evenodd"
+                                                  clipRule="evenodd"
+                                                  d="M16.334 2.75H7.665C4.644 2.75 2.75 4.889 2.75 7.916V16.084C2.75 19.111 4.635 21.25 7.665 21.25H16.333C19.364 21.25 21.25 19.111 21.25 16.084V7.916C21.25 4.889 19.364 2.75 16.334 2.75Z"
+                                                  stroke="currentColor"
+                                                  strokeWidth="1.5"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                ></path>
+                                                <path
+                                                  d="M11.9946 16V12"
+                                                  stroke="currentColor"
+                                                  strokeWidth="1.5"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                ></path>
+                                                <path
+                                                  d="M11.9896 8.2041H11.9996"
+                                                  stroke="currentColor"
+                                                  strokeWidth="2"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                ></path>
+                                              </svg>
+                                            </span>
+                                          </a>
+                                        </OverlayTrigger>{" "}
+                                        <OverlayTrigger
+                                          placement="top"
+                                          overlay={
+                                            <Tooltip id="button-tooltip-2">
+                                              {" "}
+                                              Include
+                                            </Tooltip>
+                                          }
+                                        >
+                                          <div
+                                            className="btn btn-sm btn-icon btn-primary"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title=""
+                                            data-original-title="Add Question"
+                                            onClick={() => {
+                                              showHideDialog(
+                                                true,
+                                                `Are you sure you want to include this as an ${
+                                                  item.useAsExamScore
+                                                    ? "exam"
+                                                    : "assessment"
+                                                }`
+                                              )(dispatch);
+                                              setIncludeScorePayload({
+                                                sessionClassId:
+                                                  sessionClassIdQueryParam,
+                                                subjectId:
+                                                  item.examName_SubjectId,
+                                                studentRegNos:
+                                                  item.candidateIds,
+                                                include: true,
+                                                examId: item.examinationId,
+                                              });
+                                              item.useAsExamScore
+                                                ? setUseAsExamScore(true)
+                                                : setUseAsExamScore(false);
+                                            }}
+                                          >
+                                            <span className="btn-inner ">
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-6 w-6"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                width="32"
+                                                stroke="currentColor"
+                                              >
+                                                <path
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  strokeWidth="2"
+                                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                ></path>
+                                              </svg>
+                                            </span>
+                                          </div>
+                                        </OverlayTrigger>{" "}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            )}
                           </tbody>
                         </table>
                       </div>
                     </Row>
                   </Card.Body>
                   <Card.Footer>
-                  <PaginationFilter1 filterProps={filterProps} action={getCBTClassAssessment} dispatch={dispatch} param1={sessionClassIdQueryParam}  />
+                    <PaginationFilter1
+                      filterProps={filterProps}
+                      action={getCBTClassAssessment}
+                      dispatch={dispatch}
+                      param1={sessionClassIdQueryParam}
+                    />
                   </Card.Footer>
                 </Card>
               )}
@@ -534,5 +581,3 @@ const CBTAssessmentList = () => {
 };
 
 export default CBTAssessmentList;
-
-
