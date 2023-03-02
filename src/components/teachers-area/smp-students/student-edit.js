@@ -138,6 +138,7 @@ console.log("s",submitSuccessful);
           values.middleName = values.middleName.toUpperCase();
           values.parentOrGuardianFirstName = values.parentOrGuardianFirstName.toUpperCase();
           values.parentOrGuardianLastName = values.parentOrGuardianLastName.toUpperCase();
+          values.email = values.email.toLowerCase();
           values.photo = images;
           const params = new FormData();
           params.append("userAccountId", values.userAccountId);
