@@ -18,6 +18,7 @@ import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
+import { TestUrls } from "../../utils/other";
 
 
 const SignIn = () => {
@@ -29,7 +30,7 @@ const SignIn = () => {
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testingschool2.flavetechs.com' : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
     console.log('schoolUrl', schoolUrl);
     
     

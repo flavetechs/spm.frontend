@@ -11,10 +11,11 @@ import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
 import { changeMyPassword } from '../../store/actions/auth-actions';
+import { TestUrls } from '../../utils/other';
 
 const FirstTimeLoginPassswordChange = () => {
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testusersix.flavetechs.com' : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
 
     const locations = useLocation();
     const dispatch = useDispatch();

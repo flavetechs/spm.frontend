@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import SmpLoader from '../loader/smp-loader';
 import { userEmailLogin } from '../../store/actions/candidate-admission-actions';
 import { getAppLayout } from '../../store/actions/portal-setting-action';
+import { TestUrls } from '../../utils/other';
 
 const RegistrationSignIn = () => {
     const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const RegistrationSignIn = () => {
     });
 
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? 'http://testingschool2.flavetechs.com' : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
     console.log('schoolUrl', schoolUrl);
 
 
