@@ -423,8 +423,20 @@ const ViewStudentsAssessment = () => {
                     setComment(e.target.value);
                   }}
                 ></textarea>
-                <div className="d-flex justify-content-end">
+                <div className="">
                   <div className="d-flex justify-content-between">
+                  <Col md="4" className="form-group h6 mt-3">
+                      <label className="form-label">
+                        <h6>Assessment Score</h6>
+                      </label>
+                      <input
+                        type="number"
+                        name="assessmentScore"
+                        className="form-control h6 py-0 px-1"
+                        value={singleHomeAssessment?.assessmentScore}
+                        readOnly
+                      />
+                    </Col>
                     <Col md="4" className="form-group h6 mt-3">
                       <label className="form-label">
                         <h6>Feedback Score</h6>
@@ -440,7 +452,7 @@ const ViewStudentsAssessment = () => {
                         }}
                       />
                     </Col>
-                    <div className="form-group h6 mt-4">
+                    {/* <div className="form-group h6 mt-4">
                       <input
                         type="checkbox"
                         name="include"
@@ -454,7 +466,7 @@ const ViewStudentsAssessment = () => {
                       <label className="form-label mx-1 mt-1">
                         <h6>Include to score entry</h6>
                       </label>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </Card.Body>

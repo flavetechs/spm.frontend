@@ -60,7 +60,7 @@ const StudentAssessmentDetails = () => {
 
   React.useEffect(() => {
     createSuccessful &&
-      history.push(`${assessmentLocations.assessment}?status=${3}`);
+      history.push(`${assessmentLocations.assessment}?status=${1}`);
     setFilesArray([]);
   }, [createSuccessful, history, studentSingleHomeAssessment?.status]);
 

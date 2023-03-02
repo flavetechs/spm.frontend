@@ -346,7 +346,7 @@ const CreateHomeAssessment = () => {
 
                         <Col md="11">
                           <div className="d-flex">
-                            <Col md="2" className="form-group">
+                            <Col md="4" className="form-group">
                               <label className="form-label">
                                 <h6>total</h6>
                               </label>
@@ -360,7 +360,7 @@ const CreateHomeAssessment = () => {
                                 }}
                               />
                             </Col>
-                            <Col md="2" className="form-group mx-2">
+                            <Col md="4" className="form-group mx-2">
                               <label className="form-label">
                                 <h6>
                                   used out of {assessmentScore?.totalAssessment}{" "}
@@ -378,7 +378,7 @@ const CreateHomeAssessment = () => {
                               />
                             </Col>
 
-                            <Col md="2" className="form-group">
+                            <Col md="4" className="form-group">
                               <label className="form-label">
                                 <h6>assessment mark</h6>
                               </label>
