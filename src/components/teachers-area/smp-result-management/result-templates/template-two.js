@@ -177,7 +177,7 @@ const ResultTemplateTwo = (props) => {
                           className="text-capitalize"
                           style={{ textTransform: "capitalize" }}
                         >
-                          {results?.total}/{results?.totalScores}
+                          {results?.total}
                         </span>
                       </div>
                       <div className="py-2">

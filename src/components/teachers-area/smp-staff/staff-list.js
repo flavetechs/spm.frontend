@@ -309,7 +309,7 @@ const StaffList = () => {
                           <b>Last Name</b>
                         </th>
                         <th>
-                          <b>MIddle Name</b>
+                          <b>Middle Name</b>
                         </th>
                         <th>
                           <b>Email</b>

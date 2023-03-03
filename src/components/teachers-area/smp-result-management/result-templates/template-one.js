@@ -226,7 +226,7 @@ const ResultTemplateOne = (props) => {
                             Total
                           </td>
                           <td className="fw-bold" style={{ color: "#2d2d2d",fontWeight:"600",border:"1px solid black" }}>
-                            {results?.total}/{results?.totalScores}
+                            {results?.total}
                           </td>
                         </tr>
                         <tr>
