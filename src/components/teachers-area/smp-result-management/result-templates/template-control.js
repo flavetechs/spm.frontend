@@ -5,6 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { resultManagement } from "../../../../router/spm-path-locations";
 
 import { getResultSetting } from "../../../../store/actions/portal-setting-action";
+import { resetPrintSuccessfulState } from "../../../../store/actions/results-actions";
 
 import { PrintCSV } from "../../../../utils/export-csv";
 import ResultTemplateOne from "./template-one";
@@ -44,6 +45,7 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
+                      resetPrintSuccessfulState()(dispatch);
                       history.push(
                         `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
                       );
@@ -90,7 +92,7 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.goBack();
+                      history.push(resultManagement.printResult);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -126,6 +128,7 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
+                      resetPrintSuccessfulState()(dispatch);
                       history.push(
                         `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
                       );
@@ -171,7 +174,7 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.goBack();
+                      history.push(resultManagement.printResult);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"

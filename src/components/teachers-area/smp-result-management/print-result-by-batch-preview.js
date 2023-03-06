@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   resetPublishPage,
 } from "../../../store/actions/publish-actions";
-import { getAllBatchPrintingResultPreview, getAllBatchPrintingResults } from "../../../store/actions/results-actions";
+import { getAllBatchPrintingResultPreview, getAllBatchPrintingResults} from "../../../store/actions/results-actions";
 
 const BatchPrintPreview = () => {
   //ACCESSING STATE FROM REDUX STORE
@@ -34,11 +34,12 @@ const BatchPrintPreview = () => {
 
   React.useEffect(() => {
     getAllBatchPrintingResultPreview(sessionClassId,sessionTermId)(dispatch);
-  }, [dispatch]);
+  }, []);
 
   React.useEffect(() => {
     printSuccessful==="successful" &&  history.push(`${resultManagement.resultTemplate}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}&batchPrinting=${batchResultPreview?.numberOfStudents}`);
   }, [printSuccessful,history,batchResultPreview]);
+
   console.log("print",printSuccessful);
   return (
     <>
@@ -52,6 +53,7 @@ const BatchPrintPreview = () => {
                 onClick={() => {
                   history.push(resultManagement.printResult)
                   resetPublishPage()(dispatch);
+                 
                 }}
                 style={{ cursor: "pointer" }}
                 className=" text-primary"
