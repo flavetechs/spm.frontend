@@ -55,13 +55,10 @@ const UsedPins = () => {
     } else if (item.studentName.toLowerCase().includes(filterQuery.toLowerCase())) {
       //returns filtered array
       return item;
-    } else if (item.pin.toLowerCase().includes(filterQuery.toLowerCase())) {
+    } else if (item.pin.toLowerCase().includes(filterQuery)) {
       //returns filtered array
       return item;
     } else if (item.registrationNumber.toLowerCase().includes(filterQuery.toLowerCase())) {
-      //returns filtered array
-      return item;
-    } else if (item.numberOfTimesUsed.toString().includes(filterQuery.toString())) {
       //returns filtered array
       return item;
     }
