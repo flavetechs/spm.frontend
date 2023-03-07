@@ -162,7 +162,7 @@ const SettingOffcanvas = (props ) => {
         props.SidebarColorAction(sidebarcolorMode1);
     }
     var sidebartypeMode = sessionStorage.getItem("sidebarminitype-mode");
-    props.sidebarTypeMode.mini = sidebartypeMode || ""
+    props.sidebarTypeMode.mini = sidebartypeMode? sidebartypeMode : ""
     if(sidebartypeMode === 'sidebar-mini'){
         document.querySelector('.sidebar-default').classList.add("sidebar-mini")
         var elems3 = document.querySelectorAll('[data-value="sidebar-mini"]');

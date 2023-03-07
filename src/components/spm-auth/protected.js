@@ -11,8 +11,8 @@ const Protected = (props) => {
   const token = localStorage.getItem('token');
   const history = useHistory();
   useEffect(() => {
-    const decodedToken = jwt(token);
-    axiosInstance.get(`/api/v1/base/is-authenticated/${decodedToken.smsClientId}`).then(res => setIsLoggedIn(res.data.result))
+    const decodedToken = token && jwt(token);
+   token && axiosInstance.get(`/api/v1/base/is-authenticated/${decodedToken.smsClientId}`).then(res => setIsLoggedIn(res.data.result))
     if(!isLoggedIn){
       localStorage.removeItem('token');
       localStorage.removeItem('permissions');

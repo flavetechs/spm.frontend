@@ -104,6 +104,8 @@ import ResetPassword from '../components/spm-auth/reset-password';
 import CreateAdmissionSetting from '../components/teachers-area/smp-portal-setting/create-admission-setting';
 import UpdateAdmissionSetting from '../components/teachers-area/smp-portal-setting/update-admission-setting';
 import AdmissionSettingsDetails from '../components/teachers-area/smp-portal-setting/admission-settings-details';
+import CumulativeTimeTable from '../components/teachers-area/spm-class/time-table/cumulative-timetable';
+import ExamTimeTable from '../components/teachers-area/spm-class/time-table/exam-timetable';
 
 const DashboardRouter = () => {
 
@@ -144,6 +146,8 @@ const DashboardRouter = () => {
                         <Route path={classLocations.studentNotes} exact component={StudentNotes} />
                         <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
                         <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
+                        <Route path={classLocations.examTimeTable} exact component={ExamTimeTable} />
+                        <Route path={classLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
                         <Route path={classLocations.printTimeTable} exact component={PrintTimeTable} />
                         <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
                         <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />

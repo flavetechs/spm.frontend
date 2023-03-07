@@ -157,6 +157,8 @@ const VerticalNav = () => {
                 ]) && (
                         <TimeTableLink
                             minisidebar={minisidebar}
+                            CustomToggle={CustomToggle}
+                            setActiveMenu={setActiveMenu}
                         />
                     )}
 

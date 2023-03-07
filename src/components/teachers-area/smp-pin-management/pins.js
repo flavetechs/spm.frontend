@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Row,
   Col,
@@ -19,12 +19,16 @@ import {
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
+import { ReturnFilteredList } from "../../../utils/tools";
+import { SearchInput } from "../../partials/components/search-input";
 
 const Pins = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const tableRef = useRef(null);
   const [excelFile, setExcelFile] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [objectArray, setObjectArray] = useState([]);
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -55,6 +59,13 @@ const Pins = () => {
   React.useEffect(() => {
     getAllUnusedPinList(1)(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    setObjectArray(ReturnFilteredList(unUsedPinList, searchQuery,
+      [ "pin", "pinStatus", "numberOfTimesUsed"]
+    ));
+  }, [searchQuery, unUsedPinList])
+
   return (
     <>
       <div>
@@ -66,9 +77,14 @@ const Pins = () => {
                   <h4 className="card-title mb-3">All Pins</h4>
                 </div>
               </Card.Header>
-              <Form>
-                <div className="d-flex d-xs-block justify-content-end">
-                  <div className="col-3">
+              <Form >
+                
+                <div className="d-md-flex  justify-content-between">
+                  <div className="col-md-3 mx-3">
+                <SearchInput setSearchQuery={setSearchQuery} />
+                </div>
+                <div className="d-md-flex d-xs-block">
+                  <div className="mt-2 mx-3 mt-md-0">
                     <input
                       type="file"
                       id="file"
@@ -79,7 +95,7 @@ const Pins = () => {
                       onChange={handleFileSelect}
                     />
                   </div>
-                  <div className="mx-3">
+                  <div className="mx-3 mt-2 mt-md-0">
                     {hasAccess(NavPermissions.uploadPins) && (
                       <button
                         type="button"
@@ -123,6 +139,7 @@ const Pins = () => {
                       </button>
                     )}
                   </div>
+                  </div>
                 </div>
               </Form>
               <Card.Body className="px-0">
@@ -144,7 +161,7 @@ const Pins = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {unUsedPinList.map((item, idx) => (
+                      {objectArray?.map((item, idx) => (
                         <tr key={idx} className="text-center">
                           <td className="">{idx + 1}</td>
                           <td>
