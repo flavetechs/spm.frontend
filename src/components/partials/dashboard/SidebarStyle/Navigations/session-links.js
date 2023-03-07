@@ -47,49 +47,7 @@ export function SessionLink(props) {
                     </Accordion.Collapse>
                 }
 
-                {/* {
-                    hasAccess(NavPermissions.classSetup) &&
-                    <Accordion.Collapse eventKey="sidebar-session" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === sessionLocations.classSetupList ? 'active' : ''} nav-link`} to={sessionLocations.classSetupList}
-                                    onClick={props.minisidebar}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> S </i>
-                                    <span className="item-name">Class Setup</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                } */}
-
-                {/* {
-                    hasAccess(NavPermissions.subjectSetup) &&
-                    <Accordion.Collapse eventKey="sidebar-session" >
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                                <Link className={`${location.pathname === sessionLocations.subjectSetupList ? 'active' : ''} nav-link`} to={sessionLocations.subjectSetupList}
-                                    onClick={props.minisidebar}>
-                                    <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                    <i className="sidenav-mini-icon"> S </i>
-                                    <span className="item-name">Subject Setup</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                } */}
+                
 
                 {
                     hasAccess(NavPermissions.sessionSessionClass) &&

@@ -357,45 +357,45 @@ const AssessmentList = () => {
                             </div>
                             <div>
                               <div className=" me-3 mx-2 mt-3 mt-lg-0 dropdown">
-                                <Field
-                                  as="select"
-                                  disabled={
-                                    typeQueryParam && sessionClassIdQueryParam
-                                      ? false
-                                      : true
-                                  }
-                                  name="sessionClassSubjectId"
-                                  className="form-select"
-                                  id="sessionClassSubjectId"
-                                  onChange={(e) => {
-                                    setFieldValue(
-                                      "sessionClassSubjectId",
-                                      e.target.value
-                                    );
-                                    setSelectedSessionClassSubjectId(
-                                      e.target.value
-                                    );
-                                    e.target.value === "cbt"
-                                      ? history.push(inprogress.unactivated)
-                                      : history.push(
-                                          `${
-                                            classLocations.assessment
-                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
-                                            e.target.value
-                                          }&groupId=${""}&type=${typeQueryParam}`
+                                    <Field
+                                      as="select"
+                                      disabled={
+                                        typeQueryParam && sessionClassIdQueryParam
+                                          ? false
+                                          : true
+                                      }
+                                      name="sessionClassSubjectId"
+                                      className="form-select"
+                                      id="sessionClassSubjectId"
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          "sessionClassSubjectId",
+                                          e.target.value
                                         );
-                                  }}
-                                >
-                                  <option value="">Select Subject</option>
-                                  {classSubjects?.map((item, idx) => (
-                                    <option
-                                      key={idx}
-                                      value={item.sessionClassSubjectId}
+                                        setSelectedSessionClassSubjectId(
+                                          e.target.value
+                                        );
+                                        e.target.value === "cbt"
+                                          ? history.push(inprogress.unactivated)
+                                          : history.push(
+                                              `${
+                                                classLocations.assessment
+                                              }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
+                                                e.target.value
+                                              }&groupId=${""}&type=${typeQueryParam}`
+                                            );
+                                      }}
                                     >
-                                      {item.subjectName}
-                                    </option>
-                                  ))}
-                                </Field>
+                                      <option value="">Select Subject</option>
+                                      {classSubjects?.map((item, idx) => (
+                                        <option
+                                          key={idx}
+                                          value={item.sessionClassSubjectId}
+                                        >
+                                          {item.subjectName}
+                                        </option>
+                                      ))}
+                                    </Field>
                               </div>
                             </div>
                             <div>

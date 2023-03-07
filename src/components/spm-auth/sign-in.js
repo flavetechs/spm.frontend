@@ -35,9 +35,9 @@ const SignIn = () => {
     
     
     useEffect(() => {
-        getAppLayout(schoolUrl)(dispatch);
+     getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
-
+console.log("token",token);
 
     useEffect(() => {
         if (userDetail) { 

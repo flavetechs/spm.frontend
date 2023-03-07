@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Row,
   Col,
@@ -19,12 +19,15 @@ import {
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
+import { ReturnFilteredList } from "../../../utils/tools";
+import { SearchInput } from "../../partials/components/search-input";
 
 const Pins = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const tableRef = useRef(null);
   const [excelFile, setExcelFile] = useState("");
+  const [filterQuery, setFilterQuery] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -55,6 +58,17 @@ const Pins = () => {
   React.useEffect(() => {
     getAllUnusedPinList(1)(dispatch);
   }, [dispatch]);
+
+  let filteredPinList = unUsedPinList.filter((item) => {
+    if (filterQuery === "") {
+      //if query is empty
+      return item;
+    } else if (item.pin.toLowerCase().includes(filterQuery)) {
+      //returns filtered array
+      return item;
+    } 
+  });
+
   return (
     <>
       <div>
@@ -67,61 +81,71 @@ const Pins = () => {
                 </div>
               </Card.Header>
               <Form>
-                <div className="d-flex d-xs-block justify-content-end">
-                  <div className="col-3">
-                    <input
-                      type="file"
-                      id="file"
-                      name="file"
-                      ref={ref}
-                      className="form-control p-1"
-                      accept=".xlsx, .xls, .csv"
-                      onChange={handleFileSelect}
+                <div className="d-md-flex  justify-content-between">
+                  <div className="col-md-3 mx-3">
+                    <Form.Control
+                      type="search"
+                      className="form-control text-lowercase me-1 d-inline d-inline"
+                      placeholder="Search..."
+                      onChange={(event) => setFilterQuery(event.target.value)}
                     />
                   </div>
-                  <div className="mx-3">
-                    {hasAccess(NavPermissions.uploadPins) && (
-                      <button
-                        type="button"
-                        className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                        onClick={() => {
-                          handleSubmit();
-                          reset();
-                        }}
-                      >
-                        <i className="btn-inner">
-                          <svg
-                            width="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                            <path
-                              d="M12.0215 2.19044V14.2314"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                            <path
-                              d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                        </i>
-                        <span> Upload</span>
-                      </button>
-                    )}
+                  <div className="d-md-flex d-xs-block">
+                    <div className="mt-2 mx-3 mt-md-0">
+                      <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        ref={ref}
+                        className="form-control p-1"
+                        accept=".xlsx, .xls, .csv"
+                        onChange={handleFileSelect}
+                      />
+                    </div>
+                    <div className="mx-3 mt-2 mt-md-0">
+                      {hasAccess(NavPermissions.uploadPins) && (
+                        <button
+                          type="button"
+                          className="text-center btn-primary btn-icon me-2  btn btn-primary"
+                          onClick={() => {
+                            handleSubmit();
+                            reset();
+                          }}
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              width="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M12.0215 2.19044V14.2314"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                              <path
+                                d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> Upload</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Form>
@@ -144,7 +168,7 @@ const Pins = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {unUsedPinList.map((item, idx) => (
+                      {filteredPinList?.map((item, idx) => (
                         <tr key={idx} className="text-center">
                           <td className="">{idx + 1}</td>
                           <td>
