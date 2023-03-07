@@ -400,7 +400,7 @@ const LessonNotes = () => {
                     </Card>
                     <Row className="">
                       {filteredLessonNotes?.map((item, idx) => (
-                        <Col md="6" lg="4" xxl="3" className="" key={idx}>
+                        <Col md="6" lg="4" xxl="6" className="" key={idx}>
                           <Card>
                             <Card.Body>
                               <div className="d-flex justify-content-between">

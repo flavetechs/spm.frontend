@@ -24,7 +24,7 @@ const ResultTemplateOne = (props) => {
   const locations = useLocation();
   const dispatch = useDispatch();
   const tableRef = useRef(null);
-  const results = studentResult ? studentResult : props.batchResult;
+  const results = props.batchResult ? props.batchResult : studentResult;
   // ACCESSING STATE FROM REDUX STORE
   useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
