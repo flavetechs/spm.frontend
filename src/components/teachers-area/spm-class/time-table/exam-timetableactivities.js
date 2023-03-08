@@ -1,24 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { respondToDeleteDialog, showErrorToast, showHideModal, showSingleDeleteDialog } from '../../../../store/actions/toaster-actions'
 import Card from '../../../Card'
 import './timetable.scss';
-import { NewTimeModal } from './new-time-modal'
-import { NewDayModal } from './new-day-modal'
-import { UpdateDayModal } from './update-day-modal'
-import { UpdateTimeModal } from './update-time-modal'
-import { PeriodActivityModal } from './period-activity-modal'
-import { deleteClassTimetabledays, deleteClassTimetableTime, pushId, removeId } from '../../../../store/actions/timetable-actions'
-import { PrintCSV } from '../../../../utils/export-csv'
+import { deleteExamClassTimetabledays, deleteExamClassTimetableTime, pushId, removeId } from '../../../../store/actions/timetable-actions'
 import { hasAccess, NavPermissions } from '../../../../utils/permissions'
 import { classLocations } from '../../../../router/spm-path-locations'
-import PrintTimeTable from './printTimetable'
 import { ExamSubjectModal } from './exam-subject-modal'
+import { NewExamDayModal } from './new-exam-day-modal'
+import { NewExamTimeModal } from './new-exam-time-modal'
+import { UpdateExamDayModal } from './update-exam-day-modal'
+import { UpdateExamTimeModal } from './update-exam-time-modal'
 
 
-const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
+const ExamTimeTableActivities = ({ selectedExamTimetable, selectedClassId,sessionClassId }) => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
@@ -36,28 +33,26 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
     const [currentDay, setCurrentDay] = useState("");
     const [timetableDayId, setTimetableDayId] = useState("");
     const [currentPeriod, setCurrentPeriod] = useState("");
-    const [timetableTimeId, setTimetableTimeId] = useState("");
-    const [showPrintTimetable, setShowPrintTimetable] = useState(true);
-    const [selectedTimetableAsProp, setSelectedTimetableAsProp] = useState(selectedTimetable);
+    const [timetableTimeId, setTimetableTimeId] = useState("");;
+    const [selectedTimetableAsProp, setSelectedTimetableAsProp] = useState(selectedExamTimetable);
 
     //VARIABLE DECLARATION
 
-    React.useEffect(() => {
-        setSelectedTimetableAsProp(selectedTimetable)
+    useEffect(() => {
+        setSelectedTimetableAsProp(selectedExamTimetable)
     }, []);
-    // console.log('selectedTimetable now', newSelectedTimetable);
 
     //DELETE HANDLER
-    React.useEffect(() => {
+    useEffect(() => {
         if (deleteDialogResponse === "continue") {
             if (selectedIds.length === 0) {
                 showErrorToast("No Item selected to be deleted")(dispatch);
             } else {
                 if (deleteIds === 'day') {
-                    deleteClassTimetabledays(selectedIds, selectedClassId)(dispatch);
+                    deleteExamClassTimetabledays(selectedIds, selectedClassId)(dispatch);
                     respondToDeleteDialog("")(dispatch);
                 } else if (deleteIds === 'time') {
-                    deleteClassTimetableTime(selectedIds, selectedClassId)(dispatch);
+                    deleteExamClassTimetableTime(selectedIds, selectedClassId)(dispatch);
                     respondToDeleteDialog("")(dispatch);
                 }
             }
@@ -80,7 +75,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                     <Card className='mt-0'>
                         <Card.Header className="d-flex justify-content-between flex-wrap">
                             <div className="header-title">
-                                <h4>{`${selectedTimetable?.className} Exam Timetable`}</h4>
+                                <h4>{`${selectedExamTimetable?.className} Exam Timetable`}</h4>
                             </div>
                             {hasAccess(NavPermissions.createTimeTable) && (
                                 <div className='d-flex justify-content-end'>
@@ -134,7 +129,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
 
                                     <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                                         onClick={() => {
-                                            history.push(classLocations.printTimeTable);
+                                            history.push(`${classLocations.printTimeTable}?selectedClassId=${selectedClassId}&type=examTimeTable`);
                                         }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">
@@ -148,19 +143,20 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
 
                         </Card.Header>
                         {modal === 'newDayModal' ?
-                            <NewDayModal
-                                selectedTimetable={selectedTimetable}
+                            <NewExamDayModal
+                                selectedTimetable={selectedExamTimetable}
                                 selectedClassId={selectedClassId}
                             /> : modal === 'newTimeModal' ?
-                                <NewTimeModal
-                                    selectedTimetable={selectedTimetable}
+                                <NewExamTimeModal
+                                    selectedTimetable={selectedExamTimetable}
                                     selectedClassId={selectedClassId}
                                 /> :
-                                modal === 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} selectedTimetable={selectedTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
-                                    modal === 'updateTimeModal' ? <UpdateTimeModal selectedTimetable={selectedTimetable} selectedClassId={selectedClassId} currentPeriod={currentPeriod} timetableTimeId={timetableTimeId}
+                                modal === 'updateDayModal' ? <UpdateExamDayModal selectedClassId={selectedClassId} selectedTimetable={selectedExamTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
+                                    modal === 'updateTimeModal' ? <UpdateExamTimeModal selectedTimetable={selectedExamTimetable} selectedClassId={selectedClassId} currentPeriod={currentPeriod} timetableTimeId={timetableTimeId}
                                     /> :
                                         modal === 'examSubjectModal' ? <ExamSubjectModal
                                             selectedActivityId={selectedActivityId}
+                                            sessionClassId={sessionClassId}
                                             selectedClassId={selectedClassId}
                                             periodActivity={periodActivity}
                                         />
@@ -173,7 +169,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            {selectedTimetable?.timetable?.days?.map((items, index) => (
+                                            {selectedExamTimetable?.timetable?.days?.map((items, index) => (
                                                 <th className="text-center" key={index} >{items.day}
                                                     <div style={{ float: "right" }}>
                                                         {hasAccess(NavPermissions.createTimeTable) && (
@@ -188,7 +184,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                                                         showHideModal(true)(dispatch);
                                                                         setModal('updateDayModal');
                                                                         setCurrentDay(items.day)
-                                                                        setTimetableDayId(items?.classTimeTableDayId)
+                                                                        setTimetableDayId(items?.examTimeTableDayId)
                                                                     }
                                                                     }
                                                                 >
@@ -211,9 +207,9 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                                             >
                                                                 <Link className="btn btn-sm btn-icon text-danger" data-bs-toggle="tooltip" title="Delete" to="#"
                                                                     data-original-title="Delete"
-                                                                    data-id={items.classTimeTableDayId}
+                                                                    data-id={items.examTimeTableDayId}
                                                                     onClick={() => {
-                                                                        dispatch(pushId(items.classTimeTableDayId));
+                                                                        dispatch(pushId(items.examTimeTableDayId));
                                                                         showSingleDeleteDialog(true)(dispatch);
                                                                         setDeleteIds('day');
                                                                     }
@@ -235,7 +231,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedTimetable?.timetable?.times?.map((item, index) => (
+                                        {selectedExamTimetable?.timetable?.times?.map((item, index) => (
                                             <tr key={index}>
                                                 <td >
                                                     {item.period}
@@ -252,7 +248,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                                                         showHideModal(true)(dispatch);
                                                                         setModal('updateTimeModal');
                                                                         setCurrentPeriod(item?.period);
-                                                                        setTimetableTimeId(item?.classTimeTableTimeId);
+                                                                        setTimetableTimeId(item?.examTimeTableTimeId);
                                                                     }
                                                                     }
                                                                 >
@@ -275,7 +271,7 @@ const ExamTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
                                                             >
                                                                 <Link className="btn btn-sm btn-icon text-danger" data-bs-toggle="tooltip" title="Delete User" to="#"
                                                                     onClick={() => {
-                                                                        dispatch(pushId(item.classTimeTableTimeId));
+                                                                        dispatch(pushId(item.examTimeTableTimeId));
                                                                         showSingleDeleteDialog(true)(dispatch);
                                                                         setDeleteIds('time');
                                                                     }

@@ -1,33 +1,31 @@
 import React, { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import "./timetable.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllActiveClasses } from "../../../../store/actions/class-actions";
 import {
-  getAllTimetable,
-  getTimetableActiveClass,
+  getAllExamTimetable,
+  getExamTimetableActiveClass,
 } from "../../../../store/actions/timetable-actions";
-import ClassTimeTableActivities from "./class-timetableactivities";
-import { PrintCSV } from "../../../../utils/export-csv";
 import ExamTimeTableActivities from "./exam-timetableactivities";
 
 function ExamTimeTable() {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const [selectedClassId, setSelectedClassId] = useState("");
+  const [sessionClassId, setSessionClassId] = useState("");
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { selectedTimetable, activeClasses } = state.timetable;
+  const { selectedExamTimetable, activeExamClasses } = state.timetable;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getTimetableActiveClass()(dispatch);
+    getExamTimetableActiveClass()(dispatch);
   }, ["123", dispatch]);
 
   return (
@@ -39,14 +37,15 @@ function ExamTimeTable() {
               <Col className="col-md-2 col-sm-3 mb-4 class-time-table-left-col">
                 <Nav variant="" className="flex-column portal-tab mt-4">
                   <Nav.Item className="border-3 class-time-table-nav-item">
-                    {activeClasses?.map((item, index) => (
+                    {activeExamClasses?.map((item, index) => (
                       <Nav.Link
                         eventKey={index + 1}
                         className="py-3"
                         key={index}
                         onClick={() => {
                           setSelectedClassId(item?.lookupId);
-                          getAllTimetable(item?.lookupId)(dispatch);
+                          setSessionClassId(item?.sessionClassId);
+                          getAllExamTimetable(item?.lookupId)(dispatch);
                         }}
                         style={{ cursor: "pointer" }}
                       >
@@ -95,7 +94,7 @@ function ExamTimeTable() {
                 </Nav>
               </Col>
               <Col className="col-md-9 col-sm-9">
-                {selectedTimetable === null ? (
+                {selectedExamTimetable === null ? (
                   <div className="jumbotron jumbotron-fluid d-flex justify-content-center mt-5">
                     <div className="container d-flex justify-content-center header-message">
                       <h6 className="display-6 d-flex justify-content-center mt-4">
@@ -105,8 +104,9 @@ function ExamTimeTable() {
                   </div>
                 ) : (
                   <ExamTimeTableActivities
-                    selectedTimetable={selectedTimetable}
+                    selectedExamTimetable={selectedExamTimetable}
                     selectedClassId={selectedClassId}
+                    sessionClassId={sessionClassId}
                   />
                 )}
               </Col>

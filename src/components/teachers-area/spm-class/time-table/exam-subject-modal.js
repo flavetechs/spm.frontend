@@ -5,39 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../../store/actions/toaster-actions";
-import { updateTimetableActivity } from "../../../../store/actions/timetable-actions";
+import { updateExamTimetableActivity } from "../../../../store/actions/timetable-actions";
 import {  getClassSubjects } from "../../../../store/actions/class-actions";
-import { Field } from "formik";
-import { getAllStaffClasses } from "../../../../store/actions/results-actions";
 
-export function ExamSubjectModal({ selectedActivityId, selectedClassId, periodActivity }) {
+export function ExamSubjectModal({ selectedActivityId,selectedClassId, sessionClassId, periodActivity }) {
 
     //VARIABLE DECLARATION
     const state = useSelector((state) => state);
     const {
-     createSuccessful,
       classSubjects,
     } = state.class;
     const dispatch = useDispatch();
     const [activity, setActivity] = useState('');
-    const [sessionClassSubjectId, setSessionClassSubjectId] = useState('');
+    const [activityId, setActivityId] = useState('');
     //VARIABLE DECLARATION
 
 
     React.useEffect(() => {
-        getClassSubjects(selectedClassId)(dispatch)
-    }, [selectedClassId]);
-
-    React.useEffect(() => {
-        getClassSubjects(selectedClassId)(dispatch)
-    }, [selectedClassId]);
-
-    React.useEffect(() => {
-        getClassSubjects(selectedClassId)(dispatch)
-    }, [selectedClassId]);
+        getClassSubjects(sessionClassId)(dispatch)
+    }, [sessionClassId]);
 
     React.useEffect(() => {
         setActivity(periodActivity);
+        setActivityId(selectedActivityId);
     }, [selectedActivityId]);
 
     return (
@@ -51,18 +41,21 @@ export function ExamSubjectModal({ selectedActivityId, selectedClassId, periodAc
                           <label className="form-label fw-bold">Subjects:</label>
                           <select
                                   as="select"
-                                  name="sessionClassSubjectId"
+                                  name="activityId"
                                   className="form-select"
-                                  id="sessionClassSubjectId"
+                                  id="activityId"
                                   onChange={(e) => {
-                                    setSessionClassSubjectId(
+                                    setActivityId(
                                       e.target.value
-                                    );}}
+                                    );
+                                   setActivity(e.target.selectedOptions[0].dataset.activity)
+                                }}
                                 >
                                   <option value="">Select Subject</option>
                                   {classSubjects?.map((item, idx) => (
                                     <option
                                       key={idx}
+                                      data-activity={item.subjectName}
                                       value={item.sessionClassSubjectId}
                                     >
                                       {item.subjectName}
@@ -88,7 +81,7 @@ export function ExamSubjectModal({ selectedActivityId, selectedClassId, periodAc
                             variant="primary"
                             className=""
                             onClick={() => {
-                                updateTimetableActivity(activity, selectedActivityId, selectedClassId)(dispatch);
+                                updateExamTimetableActivity(activity, selectedActivityId, selectedClassId)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
                         >

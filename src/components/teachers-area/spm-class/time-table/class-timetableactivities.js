@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
@@ -36,7 +36,6 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
     const [timetableDayId, setTimetableDayId] = useState("");
     const [currentPeriod, setCurrentPeriod] = useState("");
     const [timetableTimeId, setTimetableTimeId] = useState("");
-    const [showPrintTimetable, setShowPrintTimetable] = useState(true);
     const [selectedTimetableAsProp, setSelectedTimetableAsProp] = useState(selectedTimetable);
 
     //VARIABLE DECLARATION
@@ -47,7 +46,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
     // console.log('selectedTimetable now', newSelectedTimetable);
 
     //DELETE HANDLER
-    React.useEffect(() => {
+    useEffect(() => {
         if (deleteDialogResponse === "continue") {
             if (selectedIds.length === 0) {
                 showErrorToast("No Item selected to be deleted")(dispatch);
@@ -133,7 +132,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
 
                                     <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                                         onClick={() => {
-                                            history.push(classLocations.printTimeTable);
+                                            history.push(`${classLocations.printTimeTable}?selectedClassId=${selectedClassId}&type=classTimeTable`);
                                         }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">

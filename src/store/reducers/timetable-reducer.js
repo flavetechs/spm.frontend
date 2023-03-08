@@ -31,7 +31,22 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         ...state,
         selectedTimetable: payload,
       };
-
+      case actions.TIMETABLE_LOADING:
+        return {
+          ...state,
+          loading: true,
+          message: '',
+          isSuccessful: false
+        };
+      
+      case actions.TIMETABLE_FAILED:
+        return {
+          ...state,
+          loading: false,
+          isSuccessful: false,
+          message: payload
+        };
+  
 
     //TIMETABLE FETCH
     case actions.FETCH_TIMETABLE_LOADING:
@@ -286,6 +301,96 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         message: payload,
         isSuccessful: false,
       };
+
+      case actions.FETCH_EXAM_TIMETABLE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          selectedExamTimetable: payload,
+        };
+           
+      case actions.FETCH_EXAM_TIMETABLE_ACTIVE_CLASS_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          activeExamClasses: payload,
+        };
+      
+      case actions.CREATE_EXAM_TIMETABLE_DAYS_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload,
+          submitSuccessful: true,
+        };
+      
+      case actions.CREATE_EXAM_TIMETABLE_PERIOD_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload,
+          submitSuccessful: true,
+        };
+      
+      case actions.UPDATE_EXAM_TIMETABLE_ACTIVITY_SUCCESS:
+        return {
+          ...state,
+          isSuccessful: true,
+          loading: false,
+          message: payload
+        };
+     
+      case actions.DELETE_EXAM_TIMETABLE_DAYS_SUCCESS:
+        return {
+          ...state,
+          selectedIds: [],
+          message: payload,
+          isSuccessful: true,
+        };
+    
+      case actions.DELETE_EXAM_TIMETABLE_TIME_SUCCESS:
+        return {
+          ...state,
+          selectedIds: [],
+          message: payload,
+          isSuccessful: true,
+        };
+      
+      case actions.DELETE_EXAM_TIMETABLE_ACTIVITY_SUCCESS:
+        return {
+          ...state,
+          selectedIds: [],
+          message: payload,
+          isSuccessful: true,
+        };
+      
+        case actions.UPDATE_EXAM_TIMETABLE_DAYS_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          message: payload,
+          isSuccessful: true,
+          submitSuccessful: true,
+        };
+  
+      case actions.UPDATE_EXAM_TIMETABLE_TIME_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          message: payload,
+          isSuccessful: true,
+          submitSuccessful: true,
+        };
+
+      case actions.FETCH_STUDENT_EXAM_TIMETABLE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          studentselectedExamTimetable: payload,
+          isSuccessful: true,
+        };
 
 
     //TIMETABLE ACTION REDUCERS
