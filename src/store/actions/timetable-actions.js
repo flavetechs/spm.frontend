@@ -212,13 +212,13 @@ export const deleteClassTimetableActivity = (selectedIds, selectedClassId) => (d
 }
 
 
-export const updateTimetableDays = (day, classTimeTableId,classTimeTableDayId, selectedClassId) => (dispatch) => {
+export const updateTimetableDays = (day, examTimeTableId,classTimeTableDayId, selectedClassId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_TIMETABLE_DAYS_LOADING
     });
     const payload = {
         day,
-        classTimeTableId,
+        classTimeTableId: examTimeTableId,
         classTimeTableDayId,
     }
     axiosInstance.post('/smp/api/v1/timetable/update/class-timetable-day', payload)
@@ -277,6 +277,248 @@ export const getStudentTimeTable = () => (dispatch) => {
         });
 }
 
+export const getAllExamTimetable = (classId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    axiosInstance.get(`/smp/api/v1/exam-timetable/get/exam-time-table/${classId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_EXAM_TIMETABLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
+export const getExamTimetableActiveClass = () => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    axiosInstance.get('/smp/api/v1/exam-timetable/get/active-classes')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_EXAM_TIMETABLE_ACTIVE_CLASS_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+export const createExamTimetableDays = (day, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    axiosInstance.post('/smp/api/v1/exam-timetable/create/exam-timetable-day', day)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_EXAM_TIMETABLE_DAYS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllExamTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const createExamTimetableTime = (time, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });           
+    axiosInstance.post('/smp/api/v1/exam-timetable/create/exam-timetable-time', time)
+        .then((res) => {
+            dispatch({
+                type: actions.CREATE_EXAM_TIMETABLE_PERIOD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllExamTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const updateExamTimetableActivity = (activity, activityId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    const payload = {
+        activity,
+        activityId
+    }
+    axiosInstance.post('/smp/api/v1/exam-timetable/update/exam-timetable-time-activity', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_EXAM_TIMETABLE_ACTIVITY_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllExamTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteExamClassTimetabledays = (examTimeTableDayId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    const payload = {
+        item: examTimeTableDayId[0]
+    }
+
+    axiosInstance.post('/smp/api/v1/exam-timetable/delete/exam-timetable-day', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_EXAM_TIMETABLE_DAYS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllExamTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const deleteExamClassTimetableTime = (timeId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    const payload = {
+        item: timeId[0]
+    }
+    axiosInstance.post('/smp/api/v1/exam-timetable/delete/exam-timetable-time', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_EXAM_TIMETABLE_TIME_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllExamTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const deleteExamClassTimetableActivity = (selectedIds, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    const payload = {
+        item: selectedIds[0]
+    }
+
+    axiosInstance.post('/smp/api/v1/exam-timetable/delete/exam-timetable-activity', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.DELETE_EXAM_TIMETABLE_ACTIVITY_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllExamTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FALED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const updateExamTimetableDays = (day, examTimeTableId,examTimeTableDayId, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    const payload = {
+        day,
+        examTimeTableId,
+        examTimeTableDayId,
+    }
+    axiosInstance.post('/smp/api/v1/exam-timetable/update/exam-timetable-day', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_EXAM_TIMETABLE_DAYS_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            getAllExamTimetable(selectedClassId)(dispatch);
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+export const updateExamTimetableTime = (time, selectedClassId) => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    axiosInstance.post('/smp/api/v1/exam-timetable/update/exam-timetable-time', time)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_EXAM_TIMETABLE_TIME_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllExamTimetable(selectedClassId)(dispatch);
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+// export const getStudentExamTimeTable = () => (dispatch) => {
+//     dispatch({
+//         type: actions.TIMETABLE_LOADING
+//     });
+//     axiosInstance.get('/smp/studenttimetable/api/v1/get/by-student')
+//         .then((res) => {
+//             dispatch({
+//                 type: actions.FETCH_STUDENT_EXAM_TIMETABLE_SUCCESS,
+//                 payload: res.data.result
+//             });
+//         }).catch(err => {
+//             dispatch({
+//                 type: actions.TIMETABLE_FAILED,
+//                 payload: err.response.data.result
+//             })
+//         });
+// }
 
 //TIMETABLE ACTION HANDLERS
