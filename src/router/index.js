@@ -14,7 +14,6 @@ import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
 import parentDefault from '../layouts/dashboard/parent-default'
 import RegistrationSignIn from '../components/spm-auth/parent-guardian-registration'
-import candidateDefault from '../layouts/dashboard/candidate-default'
 import { candidateAuthLocation, candidateLocations } from './candidate-path-location'
 import CandidateList from '../components/candidate-admission/candidate-list'
 import CandidateRegistration from '../components/candidate-admission/candidate-registration'
@@ -24,17 +23,23 @@ import RegistrationEmailReceived from '../components/candidate-admission/registr
 import CandidateEdit from '../components/candidate-admission/candidate-edit'
 import ForgottenPassword from '../components/spm-auth/forgotten-password'
 import PasswordReset from '../components/spm-auth/PasswordReset'
-import ResetPassword from '../components/spm-auth/reset-password'
 import PasswordResetSuccessful from '../components/spm-auth/password-reset-successful'
-import LoginTemplate1 from '../components/spm-auth/login-templates/login-template-1'
-import LoginTemplate2 from '../components/spm-auth/login-templates/login-template-2'
-import LoginTemplate3 from '../components/spm-auth/login-templates/login-template-3'
-import LoginTemplate4 from '../components/spm-auth/login-templates/login-template-4'
 import PageNotFound from '../components/spm-auth/page-not-found'
+import { getAppLayout } from '../store/actions/portal-setting-action'
+import { useDispatch } from 'react-redux'
+import { TestUrls } from '../utils/other'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userDetail, setUserDetail] = useState(null);
+    
+    const dispatch = useDispatch();
+
+    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
+    React.useEffect(() => {
+      getAppLayout(schoolUrl)(dispatch);
+    }, [schoolUrl])
+
 
     React.useEffect(() => {
         setUserDetail(getUserDetails());
@@ -54,13 +59,7 @@ const IndexRouters = () => {
                         <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
                             component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
                         </Route>
-                        {/* <Route exact path="/"
-                            component={userDetail?.userType === 'Student' ? candidateDefault : userDetail?.userType === "Parent" ? parentDefault : Default}>
-                        </Route>
-
-                        <Route path={userDetail?.userType == 'Student' ? '/candidates' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
-                            component={userDetail?.userType == 'Student' ? candidateDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
-                        </Route> */}
+                        
 
                         <Route exact path={candidateAuthLocation.signIn} component={RegistrationSignIn}></Route>
                         <Route exact path={candidateLocations.candidateRegistration} component={CandidateRegistration}></Route>

@@ -50,8 +50,8 @@ const RegistrationSignIn = () => {
                             <Col md="6">
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
-                                        <h2 className="mb-2 text-center">Sign In  with your Email</h2>
-                                        <p className="text-center">Login to stay connected.</p>
+                                        <h4 className="mb-2 text-center">Please enter your email address in the field below</h4>
+                                        {/* <p className="text-center">Login to stay connected.</p> */}
 
                                         <Formik
                                             initialValues={{
@@ -73,8 +73,8 @@ const RegistrationSignIn = () => {
                                                         <Col lg="12">
                                                             <div className="form-group">
                                                                 {((touched.parentEmail && errors.parentEmail) || message) && <div className='text-danger'>{errors.parentEmail}</div>}
-                                                                <label htmlFor="parentEmail" className="form-label">User Email</label>
-                                                                <Field type="email" className="form-control" name="parentEmail" id="parentEmail" aria-describedby="parentEmail" required placeholder=" " />
+                                                                {/* <label htmlFor="parentEmail" className="form-label">User Email</label> */}
+                                                                <Field type="email" className="form-control border-1" name="parentEmail" id="parentEmail" aria-describedby="parentEmail" required placeholder="Enter email here...." />
                                                             </div>
                                                         </Col>
                                                     </Row>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
