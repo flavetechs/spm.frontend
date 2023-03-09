@@ -30,17 +30,21 @@ const ConfirmUserEmail = () => {
                             <Col md="6">
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
-                                        <h5 className="mb-2 text-center text-success">Email successfully confirmed. Please proceed to login</h5>
-                                        <p className="text-center">
-                                            <Link to={candidateAuthLocation.signIn} className="text-center mb-3"
+
+                                        <div class="alert alert-success" role="alert">
+                                            <h4 class="alert-heading">Well done!</h4>
+                                            <p>Aww yeah, you successfully confirmed your email.</p>
+                                            <p className='alert alert-success rounded-3'>Our school management system is designed specifically to manage students, parents and teachers</p>
+                                            <hr />
+                                            <p class="mb-0">Please  <Link to={candidateAuthLocation.signIn} className="text-center mb-3"
                                                 onClick={() => {
                                                     dispatch(logOutUserEmail());
                                                     history.push(candidateAuthLocation.signIn)
                                                 }}
                                             >
-                                                Log in Here
-                                            </Link>
-                                        </p>
+                                              click  here
+                                            </Link> to enroll your candidates</p>
+                                        </div>
 
                                     </Card.Body>
                                 </Card>

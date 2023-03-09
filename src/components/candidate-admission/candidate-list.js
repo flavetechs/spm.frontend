@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
@@ -89,7 +89,8 @@ const CandidateList = () => {
                                     <h4 className="card-title mb-3">Candidate List</h4>
                                 </div>
                                 <div className="d-flex justify-content-between">
-                                    <h4 className="card-title mb-3">Welcome {getUserDetail?.parentEmail}</h4>
+                                    <h3><span class="badge bg-primary">{getUserDetail?.parentEmail}</span></h3>
+
                                     <div>
                                         <Link
                                             to="#"

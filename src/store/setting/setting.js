@@ -17,7 +17,8 @@ if (layoutSetting === 'undefined') {
     } 
     }   
        
- const appSetting = JSON.parse(layoutSetting) || "";
+ try {
+    const appSetting = JSON.parse(layoutSetting) || "";
  if (appSetting.scheme === null) {
        
         initstate = {
@@ -51,6 +52,21 @@ if (layoutSetting === 'undefined') {
 
     }
 }
+ } catch (error) {
+    initstate = {
+        scheme: 'light',
+        colorcustomizer: 'default',
+        colorinfo: '#4bc7d2',
+        colorprimary: '#3a57e8',
+        schemeDir: 'ltr',
+        sidebarcolor: 'white',
+        sidebarType: { mini: "", hover: "", boxed: "" },
+        sidebarActiveStyle: 'roundedAllSide',
+        navbarstyle: 'sticky',
+      loginTemplate: 'default-login-template' 
+
+    } 
+ }
 
 
 // Action/Dispatch

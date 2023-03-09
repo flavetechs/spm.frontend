@@ -31,16 +31,12 @@ const SignIn = () => {
     var userDetail = localStorage.getItem("userDetail");
 
     const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
-    console.log('schoolUrl', schoolUrl);
-    
-    
     useEffect(() => {
-     getAppLayout(schoolUrl)(dispatch);
+        getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
-console.log("token",token);
 
     useEffect(() => {
-        if (userDetail) { 
+        if (userDetail) {
             if (JSON.parse(userDetail).isFirstTimeLogin === false) {
                 if (JSON.parse(userDetail).userType === "Student") {
                     window.location.href = "/stds-dashboard";
@@ -149,8 +145,8 @@ console.log("token",token);
             errors={errors}
             touched={touched} />
 
-    const pageNotFound = 
-    <PageNotFound/>
+    const pageNotFound =
+        <PageNotFound />
 
     return (
         <>

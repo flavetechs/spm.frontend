@@ -54,6 +54,8 @@ const CandidateRegistration = () => {
         getCountries()(dispatch);
     }, [dispatch]);
 
+    console.log('admissionClasses', admissionClasses);
+
     React.useEffect(() => {
         if (selectedCountry) {
             getStates(selectedCountry)(dispatch);
