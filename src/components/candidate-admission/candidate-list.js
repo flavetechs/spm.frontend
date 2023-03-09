@@ -84,19 +84,19 @@ const CandidateList = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
-                            <Card.Header className="d-flex justify-content-between border border-light" style={{ backgroundColor: "#F5F6FA" }}>
+                            <Card.Header className="d-md-flex justify-content-between border border-light" style={{ backgroundColor: "#F5F6FA" }}>
                                 <div className="header-title">
                                     <h4 className="card-title mb-3">Candidate List</h4>
                                 </div>
-                                <div className="d-flex justify-content-between">
-                                    <h4 className="card-title mb-3">Welcome {getUserDetail?.parentEmail}</h4>
+                                <div className="d-md-flex justify-content-between">
+                                    <h6 style={{fontSize:"12px", wordBreak: "break-all",whiteSpace: "pre-wrap"}} className="card-title my-2">{getUserDetail?.parentEmail}</h6>
                                     <div>
                                         <Link
                                             to="#"
                                         >
                                             <button
                                                 type="button"
-                                                className="text-center btn-icon mx-3  mt-3 mt-xl-0  btn d-flex border border-light"
+                                                className="text-center btn-icon mx-3 my-2 my-md-0 mt-3 mt-xl-0  btn d-flex border border-light"
                                                 onClick={() => {
                                                     dispatch(logOutUserEmail());
                                                     history.push(candidateAuthLocation.signIn)
