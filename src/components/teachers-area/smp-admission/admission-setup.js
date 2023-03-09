@@ -218,7 +218,7 @@ const AdmissionList = () => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                                Please select Class to Import Students CBT Result
+                               Result from CBT will be imported here
                               </Tooltip>
                             }
                           >
@@ -255,7 +255,7 @@ const AdmissionList = () => {
                               type="button"
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
-                                importAdmissionResult(selectedClassId)(dispatch);
+                                importAdmissionResult(selectedClassId,selectedExamStatus)(dispatch);
                               }
                               }
                             >
@@ -351,7 +351,7 @@ const AdmissionList = () => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                                Please select Class to Export Students for CBT Exam
+                              All candidates will be exported to CBT
                               </Tooltip>
                             }
                           >

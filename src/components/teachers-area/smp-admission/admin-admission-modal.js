@@ -41,7 +41,7 @@ export function AdminAdmissionModal({ selectedClassId }) {
                         </Form.Group>
                     </div>
                     <div>
-                        <p className="fw-bold">All the Candidates will be registered on CBT with the Category name you inputted for Exams</p>
+                        <p className="fw-bold">All Candidates will be registered on CBT with Exams as Category</p>
                         <p className="fw-light fst-italic">You can proceed to CBT and create Exams for Candidates</p>
                     </div>
 

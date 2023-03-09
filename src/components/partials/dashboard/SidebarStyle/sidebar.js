@@ -114,7 +114,7 @@ const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg> */}
                         <Icon color={true} />
-                        <h4 className="logo-title"> {schoolAbbreviation ??''} </h4>
+                        <h4 className="logo-title">{schoolAbbreviation ??''} </h4>
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >
                         <i className="icon">
