@@ -523,10 +523,6 @@ const AdmissionList = () => {
                                 disabled={selectedClassId ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                                onClick={() => {
-                                  showHideModal(true)(dispatch);
-                                  setSelectModal("export-modal");
-                                }}
                               >
                                 <i className="btn-inner">
                                   <svg
@@ -555,7 +551,7 @@ const AdmissionList = () => {
                             }
                           >
                             <a
-                              href={`${clientUrl}examiner-dashboard/add-non-sms-exam?candidateCategory=${adminAdmissionList[0]?.candidateCategory||null}&candidateCategoryName=${adminAdmissionList[0]?.candidateCategoryName||null}`}
+                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${adminAdmissionList[0]?.candidateCategory}&candidateCategoryName=${adminAdmissionList[0]?.candidateCategoryName}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="d-flex justify-content-end"
@@ -563,10 +559,6 @@ const AdmissionList = () => {
                               <button
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                                onClick={() => {
-                                  showHideModal(true)(dispatch);
-                                  setSelectModal("export-modal");
-                                }}
                               >
                                 <i className="btn-inner">
                                   <svg
