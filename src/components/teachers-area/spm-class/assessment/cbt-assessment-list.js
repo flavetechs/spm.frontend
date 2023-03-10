@@ -175,7 +175,7 @@ const CBTAssessmentList = () => {
                       <div className="text-body mx-2 mt-n1">
                         <a
                           type="button"
-                          href={`${'http://localhost:3001/'}login-option/login-from-smp?taxId=${cbtToken}&target=createExam&sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}`}
+                          href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExam&sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn btn-primary btn-icon  mt-lg-0 mt-2 "
