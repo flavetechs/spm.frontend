@@ -79,7 +79,7 @@ const ParentsDetails = () => {
             <Card.Body>
                 <Row className="">
               <Col md='5'>
-              <h5 className="mb-3">Details</h5>
+              <h5 className="mb-3 text-center">Details</h5>
                 <Table
                   size="sm"
                   responsive
@@ -113,14 +113,14 @@ const ParentsDetails = () => {
                 </Table>
               </Col>
 
-              <Col md="6" className="mx-5 ">
+              <Col md="5" className="mx-5 ">
                 <div>
            
-              <div style={{overflowX:'auto'}}>
+              <div style={{overflowX:'auto'}}> 
+                <h5 className="mb-3 text-center">Parent's Ward(s)</h5>
                 <div className="tree ">
                   <ul>
                     <li> 
-                    <h5 className="mb-4 mt-n4 text-center">Parent's Ward(s)</h5>
                       <div >{singleParent?.name}</div>
                       <ul>
                         {myWardList?.map((ward, idx) => (

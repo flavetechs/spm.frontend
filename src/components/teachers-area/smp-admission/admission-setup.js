@@ -164,11 +164,11 @@ const AdmissionList = () => {
                       </div>
                     </div>
                     <div>
-                      <div className="d-flex justify-content-between">
+                      <div className=" mx-2 d-md-flex justify-content-between">
                         <Field
                           as="select"
                           name="candidateClass"
-                          className="form-select me-2"
+                          className="form-select mt-3 mt-lg-0 "
                           id="terms"
                           onChange={(e) => {
                             setSelectedClassIdQuery(e.target.value);
@@ -191,7 +191,7 @@ const AdmissionList = () => {
                         <Field
                           as="select"
                           name="sessionClass"
-                          className="form-select me-3 mx-2 mt-3 mt-lg-0 dropdown"
+                          className="form-select mt-3 mt-lg-0 dropdown"
                           id="terms"
                           onChange={(e) => {
                             setSelectedExamStatus(e.target.value);
@@ -210,7 +210,7 @@ const AdmissionList = () => {
                         </Field>
                       </div>
                     </div>
-                    <div>
+                    <div className="mx-2">
                       <div className="d-flex justify-content-end">
 
                         {!selectedClassId ?
@@ -218,7 +218,7 @@ const AdmissionList = () => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                                Please select Class to Import Students CBT Result
+                               Result from CBT will be imported here
                               </Tooltip>
                             }
                           >
@@ -249,13 +249,13 @@ const AdmissionList = () => {
                           :
                           <Link
                             to="#"
-                            className="d-flex justify-content-end"
+                            className="d-md-flex justify-content-end"
                           >
                             <button
                               type="button"
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
-                                importAdmissionResult(selectedClassId)(dispatch);
+                                importAdmissionResult(selectedClassId,selectedExamStatus)(dispatch);
                               }
                               }
                             >
@@ -351,7 +351,7 @@ const AdmissionList = () => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                                Please select Class to Export Students for CBT Exam
+                              All candidates will be exported to CBT
                               </Tooltip>
                             }
                           >

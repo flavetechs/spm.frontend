@@ -69,7 +69,7 @@ const ParentAssessmentPreview = ({ selectedSessionClassSubjectId, studentIdQuery
               <div className="bg-light">
                 {myWardsHomeAssessment.length < 2 ? <h5>{wardNameQuery} ASSESSMENT </h5> : <h5>{wardNameQuery} ASSESSMENTS </h5>}
               </div>
-              <div className="d-flex">
+              <div className="d-md-flex">
                 <div className="h5 mt-2">Select Open or Closed: </div>
                 <div className=" mx-3 mt-3 mt-lg-0 dropdown">
                   <select

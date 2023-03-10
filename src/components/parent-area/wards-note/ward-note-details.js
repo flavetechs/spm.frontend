@@ -118,9 +118,9 @@ const WardsNoteDetails = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="mt-2 d-flex justify-content-end">{selectedWardsNote?.subjectName}</div>
-                  <div className="mt-2 d-flex justify-content-end">Submitted on: {selectedWardsNote?.dateSubmitted}</div>
-                  <div className="d-flex justify-content-start mt-2">
+                  <div className="mt-2 d-md-flex justify-content-end">{selectedWardsNote?.subjectName}</div>
+                  <div className="mt-2 d-md-flex justify-content-end">Submitted on: {selectedWardsNote?.dateSubmitted}</div>
+                  <div className="d-md-flex justify-content-start mt-2">
                     <div>
                       <button
                         type="button"

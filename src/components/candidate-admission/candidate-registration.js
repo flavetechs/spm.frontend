@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
@@ -9,6 +9,7 @@ import { createCandidateAdmission, getAdmissionClasses } from "../../store/actio
 import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
 import { candidateLocations } from "../../router/candidate-path-location";
 import { getUserDetails } from "../../utils/permissions";
+import { getSchoolSetting } from "../../store/actions/portal-setting-action";
 
 const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
@@ -47,6 +48,7 @@ const CandidateRegistration = () => {
     const state = useSelector((state) => state);
     const { admissionClasses, message, submitSuccessful } = state.candidate;
     const { countries, states, cities } = state.student;
+    const { schoolSetting } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
     React.useEffect(() => {
@@ -77,6 +79,11 @@ const CandidateRegistration = () => {
     React.useEffect(() => {
         setGetUserDetail(getUserDetails())
     }, []);
+
+
+ useEffect(() => {
+    getSchoolSetting()(dispatch);
+}, [])
 
     return (
         <>
@@ -146,10 +153,14 @@ const CandidateRegistration = () => {
                     <Row className="">
                         <div className="col-xl-9 col-lg-8 col-md-8 mx-auto">
                             <div className="card ">
-                                <div className="card-header d-flex justify-content-between d-flex justify-content-between border border-light p-3">
+                                <div className="card-header  border border-light p-3">
                                     {" "}
                                     <div className="header-title">
-                                        <h4 className="card-title"><b>Registration Form</b></h4>
+                                        <div className="d-flex justify-content-center" >
+                                            <div className=""><img style={{marginLeft:"35%"}}src={schoolSetting?.filepath} className=" img-fluid" height="80px"width="80px"alt="logo" />
+                                            <div className="fw-bold ">{schoolSetting?.schoolName}</div></div>
+                                       </div>
+                                        <h4 className="card-title mt-3"><b>Registration Form</b></h4>
                                     </div>{" "}
                                 </div>
                                 <Card.Body>
@@ -179,7 +190,7 @@ const CandidateRegistration = () => {
                                                         id="ClassId"
                                                     >
                                                         <option value="Select Class">Select Class</option>
-                                                        {admissionClasses.map((item, idx) => (
+                                                        {admissionClasses?.map((item, idx) => (
                                                             <option
                                                                 key={idx}
                                                                 name={values.ClassId}

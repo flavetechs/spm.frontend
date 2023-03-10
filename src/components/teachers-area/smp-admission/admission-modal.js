@@ -45,7 +45,7 @@ export function AdmissionModal(props) {
             <SmpModal title={"Class List"}>
                 <div>
                     <div className="mb-3">
-                        {staffClasses?.map((item, idx) => (
+                        {activeClasses?.map((item, idx) => (
                             <div key={idx}>
                                 <input
                                     type="checkbox"

@@ -35,7 +35,7 @@ const TeachersNoteDetails = () => {
                 style={{ overflow: fullScreen && "scroll" }}
               >
                 <Card.Body>
-                  <div className="d-flex justify-content-between mt-3 flex-wrap">
+                  <div className="d-md-flex justify-content-between mt-3 flex-wrap">
                     <div>
                       <OverlayTrigger
                         placement="top"
@@ -118,9 +118,9 @@ const TeachersNoteDetails = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="mt-2 d-flex justify-content-end">{selectedWardsClassNote?.subjectName}</div>
-                  <div className="mt-2 d-flex justify-content-end">Created on: {selectedWardsClassNote?.dateCreated}</div>
-                  <div className="d-flex justify-content-start mt-2">
+                  <div className="mt-2 d-md-flex justify-content-end">{selectedWardsClassNote?.subjectName}</div>
+                  <div className="mt-2 d-md-flex justify-content-end">Created on: {selectedWardsClassNote?.dateCreated}</div>
+                  <div className="d-md-flex justify-content-start mt-2">
                     <div>
                       <button
                         type="button"

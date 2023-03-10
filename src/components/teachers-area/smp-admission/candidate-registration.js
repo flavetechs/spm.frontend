@@ -281,7 +281,7 @@ const CandidateRegistration = () => {
                                                         id="sessionClassId"
                                                     >
                                                         <option value="Select Class">Select Class</option>
-                                                        {itemList.map((item, idx) => (
+                                                        {itemList?.map((item, idx) => (
                                                             <option
                                                                 key={idx}
                                                                 name={values.sessionClassId}
