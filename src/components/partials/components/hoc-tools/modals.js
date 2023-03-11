@@ -17,7 +17,7 @@ export function SmpModal(props) {
         >
             <Modal.Header closeButton >
                 <Modal.Title className="h5">
-                    {props.title}
+                <div dangerouslySetInnerHTML={{__html: props.title }}></div>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

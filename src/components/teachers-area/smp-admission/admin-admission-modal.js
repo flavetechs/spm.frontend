@@ -7,25 +7,31 @@ import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
 import { admissionExportToCBT } from "../../../store/actions/admin-admission-actions";
 
-export function AdminAdmissionModal({ selectedClassId }) {
+export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,adminAdmissionList}) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
-    const [categoryName, setCategoryName] = useState('');
+    const [categoryName, setCategoryName] = useState(adminAdmissionList[0]?.candidateCategoryName||"");
+    const [candidateCategory, setCandidateCategory] = useState(adminAdmissionList[0]?.candidateCategory||"");
     //VARIABLE DECLARATION
-
+     const admissionClass = adminAdmissionClasses.find(c=>c.classId === selectedClassId).className;
     const state = useSelector((state) => state);
     const { showModal } = state.alert;
 
+console.log("adminAdmissionList",adminAdmissionList);
     React.useEffect(() => {
         if (!showModal) {
-            setCategoryName("");
+            setCategoryName(adminAdmissionList[0]?.candidateCategoryName||"");
         }
     }, [showModal])
 
+
+
+
+
     return (
 
-        <SmpModal title={'Export Registered Candidates to CBT'}>
+        <SmpModal title={`Export <span style="color:red;">${admissionClass}</span> to CBT`}>
             <Form className="pt-3">
                 <div>
                     <div className="mb-3 ">
@@ -60,7 +66,7 @@ export function AdminAdmissionModal({ selectedClassId }) {
                             variant="primary"
                             className=""
                             onClick={() => {
-                                admissionExportToCBT(selectedClassId, categoryName)(dispatch);
+                                admissionExportToCBT(selectedClassId, categoryName,candidateCategory)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
                         >

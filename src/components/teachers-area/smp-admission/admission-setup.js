@@ -4,14 +4,21 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
 import PaginationFilter from "../../partials/components/pagination-filter";
-import { fetchAllAdminAdmissionList, getAdminAdmissionClasses, getAllSession2Classes, importAdmissionResult, pushId, removeId, returnList } from "../../../store/actions/admin-admission-actions";
+import {
+  fetchAllAdminAdmissionList,
+  getAdminAdmissionClasses,
+  getAllSession2Classes,
+  importAdmissionResult,
+  pushId,
+  removeId,
+  returnList,
+} from "../../../store/actions/admin-admission-actions";
 import { adminAdmissionLocations } from "../../../router/spm-path-locations";
 import { AdminAdmissionModal } from "./admin-admission-modal";
 import { showHideModal } from "../../../store/actions/toaster-actions";
 import { Field, Formik } from "formik";
 import { AdmissionEnrolModal } from "./admission-enroll-modal";
 import { loginCBT } from "../../../store/actions/auth-actions";
-
 
 const AdmissionList = () => {
   //VARIABLE DECLARATIONS
@@ -25,21 +32,42 @@ const AdmissionList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { cbtToken, clientUrl } = state.auth;
-  const { filterProps, adminAdmissionList, selectedIds, adminAdmissionClasses, session2Classes } = state.adminAdmission;
+  const {
+    filterProps,
+    adminAdmissionList,
+    selectedIds,
+    adminAdmissionClasses,
+    session2Classes,
+  } = state.adminAdmission;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     if (!selectedClassId && !selectedExamStatus) {
-      fetchAllAdminAdmissionList(1, selectedClassId, selectedExamStatus)(dispatch);
+      fetchAllAdminAdmissionList(
+        1,
+        selectedClassId,
+        selectedExamStatus
+      )(dispatch);
     } else if (selectedClassId) {
-      fetchAllAdminAdmissionList(1, selectedClassId, selectedExamStatus)(dispatch);
+      fetchAllAdminAdmissionList(
+        1,
+        selectedClassId,
+        selectedExamStatus
+      )(dispatch);
     } else if (selectedExamStatus) {
-      fetchAllAdminAdmissionList(1, selectedClassId, selectedExamStatus)(dispatch);
+      fetchAllAdminAdmissionList(
+        1,
+        selectedClassId,
+        selectedExamStatus
+      )(dispatch);
     } else if (selectedClassId && selectedExamStatus) {
-      fetchAllAdminAdmissionList(1, selectedClassId, selectedExamStatus)(dispatch);
+      fetchAllAdminAdmissionList(
+        1,
+        selectedClassId,
+        selectedExamStatus
+      )(dispatch);
     }
   }, [dispatch, selectedClassId, selectedExamStatus]);
-
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
@@ -47,18 +75,23 @@ const AdmissionList = () => {
     loginCBT()(dispatch);
   }, []);
 
-
   const filteredAdmissionList = adminAdmissionList?.filter((admission) => {
     if (searchQuery === "") {
       //if query is empty
       return admission;
-    } else if (admission.firstname.toLowerCase().includes(searchQuery.toLowerCase())) {
+    } else if (
+      admission.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
       //returns filtered array
       return admission;
-    } else if (admission.lastname.toLowerCase().includes(searchQuery.toLowerCase())) {
+    } else if (
+      admission.lastname.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
       //returns filtered array
       return admission;
-    } else if (admission.className.toLowerCase().includes(searchQuery.toLowerCase())) {
+    } else if (
+      admission.className.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
       //returns filtered array
       return admission;
     }
@@ -92,12 +125,11 @@ const AdmissionList = () => {
     { statusName: "Pending", statusNumber: 0 },
     { statusName: "Passed", statusNumber: 1 },
     { statusName: "Failed", statusNumber: 2 },
-  ]
+  ];
 
   const handleClick = (event) => {
     event.preventDefault();
-  }
-
+  };
 
   return (
     <>
@@ -105,64 +137,59 @@ const AdmissionList = () => {
         <Row>
           <Col sm="12">
             <Formik
-              initialValues={{
-
-              }}
+              initialValues={{}}
               enableReinitialize={true}
-              onSubmit={() => {
-
-              }}
+              onSubmit={() => {}}
             >
               {() => (
                 <Card>
-                  <Card.Header className="d-flex justify-content-between">
+                  <Card.Header className="">
                     <div className="header-title">
                       <h4 className="card-title mb-3">
                         <b>Registered Admission List</b>
                       </h4>
                     </div>
                   </Card.Header>
-                  <div className="d-md-flex justify-content-between">
+                  <div className="input-group d-md-flex justify-content-end mb-2 px-3 ">
+                    <span
+                      className="input-group-text border-0"
+                      id="search-input"
+                    >
+                      <svg
+                        width="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="11.7669"
+                          cy="11.7666"
+                          r="8.98856"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></circle>
+                        <path
+                          d="M18.0186 18.4851L21.5426 22"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </span>
                     <div>
-                      <div className="input-group">
-                        <span
-                          className="input-group-text border-0"
-                          id="search-input"
-                        >
-                          <svg
-                            width="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle
-                              cx="11.7669"
-                              cy="11.7666"
-                              r="8.98856"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></circle>
-                            <path
-                              d="M18.0186 18.4851L21.5426 22"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                        </span>
-                        <div>
-                          <input
-                            type="search"
-                            className="form-control text-lowercase"
-                            placeholder="Search..."
-                            onChange={(event) => setSearchQuery(event.target.value)}
-                          />
-                        </div>
-                      </div>
+                      <input
+                        type="search"
+                        className="form-control text-lowercase"
+                        placeholder="Search..."
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                      />
                     </div>
+                  </div>
+
+                  <div className="d-md-flex justify-content-between">
                     <div>
                       <div className=" mx-2 d-md-flex justify-content-between">
                         <Field
@@ -173,21 +200,14 @@ const AdmissionList = () => {
                           onChange={(e) => {
                             setSelectedClassIdQuery(e.target.value);
                           }}
-
                         >
                           <option value="">Select Class</option>
-                          {
-                            adminAdmissionClasses?.map((c, id) => (
-                              <option
-                                key={id}
-                                value={c.classId}
-                              >
-                                {c.className}
-                              </option>
-                            ))
-                          }
-                        </Field>
-                        {" "}
+                          {adminAdmissionClasses?.map((c, id) => (
+                            <option key={id} value={c.classId}>
+                              {c.className}
+                            </option>
+                          ))}
+                        </Field>{" "}
                         <Field
                           as="select"
                           name="sessionClass"
@@ -199,94 +219,137 @@ const AdmissionList = () => {
                         >
                           <option value="">Select Status</option>
                           {examStatusItem?.map((item, id) => (
-                            <option
-                              key={id}
-                              value={item.statusNumber}
-                            >
+                            <option key={id} value={item.statusNumber}>
                               {item.statusName}
                             </option>
-                          ))
-                          }
+                          ))}
                         </Field>
                       </div>
                     </div>
                     <div className="mx-2">
                       <div className="d-flex justify-content-end">
-
-                        {!selectedClassId ?
+                        {!selectedClassId ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                               Result from CBT will be imported here
+                                Select a Class <br />
+                                Note:Result from CBT will be imported here
                               </Tooltip>
                             }
                           >
-                            <Link
-                              to="#"
-                              className="d-flex justify-content-end"
-                            >
+                            <Link to="#" className="d-flex justify-content-end">
                               <button
                                 disabled={selectedClassId ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
                                 <i className="btn-inner">
-                                  <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                      strokeLinejoin="round" />
-                                    <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" strokeWidth="1.5"
-                                      strokeLinecap="round" strokeLinejoin="round" />
+                                  <svg
+                                    width="25"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M12.1221 15.436L12.1221 3.39502"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
                                     <path
                                       d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
-                                      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
                                   </svg>{" "}
                                 </i>
                                 <span>Import</span>
                               </button>
                             </Link>
                           </OverlayTrigger>
-                          :
-                          <Link
-                            to="#"
-                            className="d-md-flex justify-content-end"
-                          >
-                            <button
-                              type="button"
-                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                              onClick={() => {
-                                importAdmissionResult(selectedClassId,selectedExamStatus)(dispatch);
-                              }
-                              }
-                            >
-                              <i className="btn-inner">
-                                <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M12.1221 15.436L12.1221 3.39502" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                    strokeLinejoin="round" />
-                                  <path d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083" stroke="currentColor" strokeWidth="1.5"
-                                    strokeLinecap="round" strokeLinejoin="round" />
-                                  <path
-                                    d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
-                                    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>{" "}
-                              </i>
-                              <span>Import</span>
-                            </button>
-                          </Link>
-                        }
-                        {selectedIds.length < 1 || selectedExamStatus === "" || selectedClassId === "" ?
+                        ) : (
                           <OverlayTrigger
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                                Please select class, Exam Status, and check Student(s) to be enrolled
+                                Result for CBT from selected class will be
+                                imported here
                               </Tooltip>
                             }
                           >
                             <Link
                               to="#"
-                              className="d-flex justify-content-end"
+                              className="d-md-flex justify-content-end"
                             >
+                              <button
+                                type="button"
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                                onClick={() => {
+                                  importAdmissionResult(
+                                    selectedClassId,
+                                    selectedExamStatus
+                                  )(dispatch);
+                                }}
+                              >
+                                <i className="btn-inner">
+                                  <svg
+                                    width="25"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M12.1221 15.436L12.1221 3.39502"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M15.0381 12.5083L12.1221 15.4363L9.20609 12.5083"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M16.7551 8.12793H17.6881C19.7231 8.12793 21.3721 9.77693 21.3721 11.8129V16.6969C21.3721 18.7269 19.7271 20.3719 17.6971 20.3719L6.55707 20.3719C4.52207 20.3719 2.87207 18.7219 2.87207 16.6869V11.8019C2.87207 9.77293 4.51807 8.12793 6.54707 8.12793L7.48907 8.12793"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>{" "}
+                                </i>
+                                <span>Import</span>
+                              </button>
+                            </Link>
+                          </OverlayTrigger>
+                        )}
+                        {selectedIds.length < 1 ||
+                        selectedExamStatus === "" ||
+                        selectedClassId === "" ? (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                Please select class, Exam Status, and check
+                                Student(s) to be enrolled
+                              </Tooltip>
+                            }
+                          >
+                            <Link to="#" className="d-flex justify-content-end">
                               <button
                                 type="button"
                                 disabled={true}
@@ -312,19 +375,15 @@ const AdmissionList = () => {
                               </button>
                             </Link>
                           </OverlayTrigger>
-                          :
-                          <Link
-                            to="#"
-                            className="d-flex justify-content-end"
-                          >
+                        ) : (
+                          <Link to="#" className="d-flex justify-content-end">
                             <button
                               type="button"
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
                                 showHideModal(true)(dispatch);
                                 setSelectModal("enroll-modal");
-                              }
-                              }
+                              }}
                             >
                               <i className="btn-inner">
                                 <svg
@@ -345,77 +404,194 @@ const AdmissionList = () => {
                               <span>Enroll Student</span>
                             </button>
                           </Link>
-                        }
-                        {!selectedClassId ?
+                        )}
+                        {!selectedClassId ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip-2">
-                              All candidates will be exported to CBT
+                                Select a Class <br />
+                                Note:All candidates will be exported to CBT
                               </Tooltip>
                             }
                           >
-                            <Link
-                              to="#"
-                              className="d-flex justify-content-end"
-                            >
+                            <Link to="#" className="d-flex justify-content-end">
                               <button
                                 disabled={selectedClassId ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
                                 <i className="btn-inner">
-                                  <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <svg
+                                    width="25"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
                                     <path
                                       d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                                      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M12.0215 2.19044V14.2314" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                      strokeLinejoin="round" />
-                                    <path d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                      strokeLinejoin="round" />
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M12.0215 2.19044V14.2314"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
                                   </svg>{" "}
                                 </i>
                                 <span>Export</span>
                               </button>
                             </Link>
                           </OverlayTrigger>
-
-                          :
-                          <Link
-                            to="#"
-                            className="d-flex justify-content-end"
+                        ) : (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                All candidates will be exported to CBT
+                              </Tooltip>
+                            }
                           >
-                            <button
-                              type="button"
-                              className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                              onClick={() => {
-                                showHideModal(true)(dispatch);
-                                setSelectModal("export-modal");
-                              }
-                              }
+                            <Link to="#" className="d-flex justify-content-end">
+                              <button
+                                type="button"
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                                onClick={() => {
+                                  showHideModal(true)(dispatch);
+                                  setSelectModal("export-modal");
+                                }}
+                              >
+                                <i className="btn-inner">
+                                  <svg
+                                    width="25"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M12.0215 2.19044V14.2314"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>{" "}
+                                </i>
+                                <span>Export</span>
+                              </button>
+                            </Link>
+                          </OverlayTrigger>
+                        )}
+                        {!selectedClassId ? (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                Select Class <br />
+                                Note:Create External Exams on CBT
+                              </Tooltip>
+                            }
+                          >
+                            <Link to="#" className="d-flex justify-content-end">
+                              <button
+                                disabled={selectedClassId ? false : true}
+                                type="button"
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              >
+                                <i className="btn-inner">
+                                  <svg
+                                    width="23"
+                                    height="23"
+                                    className="mx-1"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                  >
+                                    <path d="M14 4h-13v18h20v-11h1v12h-22v-20h14v1zm10 5h-1v-6.293l-11.646 11.647-.708-.708 11.647-11.646h-6.293v-1h8v8z" />
+                                  </svg>
+                                </i>
+                                <span>Create Exam CBT</span>
+                              </button>
+                            </Link>
+                          </OverlayTrigger>
+                        ) : (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip-2">
+                                Create External Exams on CBT
+                              </Tooltip>
+                            }
+                          >
+                            <a
+                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${adminAdmissionList[0]?.candidateCategory}&candidateCategoryName=${adminAdmissionList[0]?.candidateCategoryName}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="d-flex justify-content-end"
                             >
-                              <i className="btn-inner">
-                                <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path
-                                    d="M7.38948 8.98403H6.45648C4.42148 8.98403 2.77148 10.634 2.77148 12.669V17.544C2.77148 19.578 4.42148 21.228 6.45648 21.228H17.5865C19.6215 21.228 21.2715 19.578 21.2715 17.544V12.659C21.2715 10.63 19.6265 8.98403 17.5975 8.98403L16.6545 8.98403"
-                                    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                  <path d="M12.0215 2.19044V14.2314" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                    strokeLinejoin="round" />
-                                  <path d="M9.10645 5.1189L12.0214 2.1909L14.9374 5.1189" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                    strokeLinejoin="round" />
-                                </svg>{" "}
-                              </i>
-                              <span>Export</span>
-                            </button>
-                          </Link>
-                        }
+                              <button
+                                type="button"
+                                className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
+                              >
+                                <i className="btn-inner">
+                                  <svg
+                                    height="23"
+                                    className="mx-1"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                  >
+                                    <path d="M14 4h-13v18h20v-11h1v12h-22v-20h14v1zm10 5h-1v-6.293l-11.646 11.647-.708-.708 11.647-11.646h-6.293v-1h8v8z" />
+                                  </svg>
+                                </i>
+                                <span>Create Exam CBT</span>
+                              </button>
+                            </a>
+                          </OverlayTrigger>
+                        )}
                       </div>
                     </div>
                   </div>
-                  {selectModal == "export-modal" ?
-                    <AdminAdmissionModal selectedClassId={selectedClassId} /> :
-                    <AdmissionEnrolModal selectedIds={selectedIds} session2Classes={session2Classes} />
-                  }
+                  {selectModal == "export-modal" ? (
+                    <AdminAdmissionModal
+                      selectedClassId={selectedClassId}
+                      adminAdmissionClasses={adminAdmissionClasses}
+                      adminAdmissionList={adminAdmissionList}
+                    />
+                  ) : (
+                    <AdmissionEnrolModal
+                      selectedIds={selectedIds}
+                      session2Classes={session2Classes}
+                    />
+                  )}
                   <Card.Body className="px-0">
                     <div className="table-responsive">
                       <table
@@ -432,14 +608,14 @@ const AdmissionList = () => {
                                 className="form-check-input"
                                 name="gg"
                                 onChange={(e) => {
-                                  checkAllItems(e.target.checked, adminAdmissionList);
+                                  checkAllItems(
+                                    e.target.checked,
+                                    adminAdmissionList
+                                  );
                                 }}
-
                               />
                             </th>
-                            <th>
-                              S/No.
-                            </th>
+                            <th>S/No.</th>
                             <th>
                               <b>Full Name</b>
                             </th>
@@ -465,7 +641,11 @@ const AdmissionList = () => {
                                   type="checkbox"
                                   className="form-check-input"
                                   name="gg"
-                                  checked={selectedIds.find(i => i === item.admissionId) || false}
+                                  checked={
+                                    selectedIds.find(
+                                      (i) => i === item.admissionId
+                                    ) || false
+                                  }
                                   onChange={(e) => {
                                     checkSingleItem(
                                       e.target.checked,
@@ -473,29 +653,47 @@ const AdmissionList = () => {
                                       adminAdmissionList
                                     );
                                   }}
-
                                 />
                               </td>
-                              <td className="text-dark">
-                                {
-                                  idx + 1
-                                }
-                              </td>
+                              <td className="text-dark">{idx + 1}</td>
                               <td className="text-uppercase">
-                                <b>{item.firstname} {item.middlename} {item.lastname}</b>
-                              </td>
-                              <td className="text-uppercase">
-                                <b>{item.examStatus === 0 ? <span className="badge bg-warning">Pending</span> :
-                                  item.examStatus === 1 ? <span className="badge bg-primary">Passed</span> :
-                                    <span className="badge bg-danger">Failed</span>
-                                }
+                                <b>
+                                  {item.firstname} {item.middlename}{" "}
+                                  {item.lastname}
                                 </b>
                               </td>
                               <td className="text-uppercase">
-                                <b>{item.candidateAdmissionStatus === 0 ? <span className="badge bg-warning">Pending</span> :
-                                  item.candidateAdmissionStatus === 1 ? <span className="badge bg-success">Approved</span> :
-                                    <span className="badge bg-danger">Rejected</span>
-                                }
+                                <b>
+                                  {item.examStatus === 0 ? (
+                                    <span className="badge bg-warning">
+                                      Pending
+                                    </span>
+                                  ) : item.examStatus === 1 ? (
+                                    <span className="badge bg-primary">
+                                      Passed
+                                    </span>
+                                  ) : (
+                                    <span className="badge bg-danger">
+                                      Failed
+                                    </span>
+                                  )}
+                                </b>
+                              </td>
+                              <td className="text-uppercase">
+                                <b>
+                                  {item.candidateAdmissionStatus === 0 ? (
+                                    <span className="badge bg-warning">
+                                      Pending
+                                    </span>
+                                  ) : item.candidateAdmissionStatus === 1 ? (
+                                    <span className="badge bg-success">
+                                      Approved
+                                    </span>
+                                  ) : (
+                                    <span className="badge bg-danger">
+                                      Rejected
+                                    </span>
+                                  )}
                                 </b>
                               </td>
                               <td>
@@ -553,13 +751,13 @@ const AdmissionList = () => {
                                       </span>
                                     </Link>
                                   </OverlayTrigger>{" "}
-
-                                  {item.examinationId === "" ?
+                                  {item.examinationId === "" ? (
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
                                         <Tooltip id="button-tooltip-2">
-                                          No Exam for candidate please import from CBT
+                                          No Exam for candidate please import
+                                          from CBT
                                         </Tooltip>
                                       }
                                     >
@@ -570,23 +768,26 @@ const AdmissionList = () => {
                                         title=""
                                         data-original-title="Details"
                                         href={`${clientUrl}examiner-dashboard/view-result-sms?examinationId=${item.examinationId}`}
-                                        target="_blank" rel="noopener noreferrer"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         onClick={handleClick}
                                       >
                                         <span className="btn-inner">
-                                          <svg xmlns="http://www.w3.org/2000/svg"
-                                            width="20" height="16" fill="currentColor"
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="16"
+                                            fill="currentColor"
                                             className="bi bi-info-circle"
-                                            viewBox="0 0 16 16">
+                                            viewBox="0 0 16 16"
+                                          >
                                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                                           </svg>
                                         </span>
                                       </a>
                                     </OverlayTrigger>
-
-                                    :
-
+                                  ) : (
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
@@ -601,23 +802,30 @@ const AdmissionList = () => {
                                         data-placement="top"
                                         title=""
                                         data-original-title="Details"
-                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId}&taxId=${cbtToken}&target=resultDetails&candidateEmail=${item.email}&candidateId=${""}`}
-                                        target="_blank" rel="noopener noreferrer"
+                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${
+                                          item.examinationId
+                                        }&taxId=${cbtToken}&target=resultDetails&candidateEmail=${
+                                          item.email
+                                        }&candidateId=${""}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                       >
                                         <span className="btn-inner">
-                                          <svg xmlns="http://www.w3.org/2000/svg"
-                                            width="20" height="16" fill="currentColor"
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="16"
+                                            fill="currentColor"
                                             className="bi bi-info-circle"
-                                            viewBox="0 0 16 16">
+                                            viewBox="0 0 16 16"
+                                          >
                                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                                           </svg>
                                         </span>
                                       </a>
                                     </OverlayTrigger>
-
-                                  }
-
+                                  )}
                                 </div>
                               </td>
                             </tr>
@@ -627,7 +835,11 @@ const AdmissionList = () => {
                     </div>
                   </Card.Body>
                   <Card.Footer>
-                    <PaginationFilter filterProps={filterProps} action={fetchAllAdminAdmissionList} dispatch={dispatch} />
+                    <PaginationFilter
+                      filterProps={filterProps}
+                      action={fetchAllAdminAdmissionList}
+                      dispatch={dispatch}
+                    />
                   </Card.Footer>
                 </Card>
               )}
