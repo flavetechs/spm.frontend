@@ -58,14 +58,15 @@ export const fetchSingleAdminAdmissionDetail = (admissionId) => (dispatch) => {
         });
 }
 
-export const admissionExportToCBT = (selectedClassId, categoryName) => (dispatch) => {
+export const admissionExportToCBT = (selectedClassId, categoryName,candidateCategory) => (dispatch) => {
     dispatch({
         type: actions.ADMISSION_EXPORT_TO_CBT_LOADING
     });
 
     const payload = {
         classId: selectedClassId,
-        categoryName
+        categoryName,
+        candidateCategory,
     }
     axiosInstance.post('/smp/api/v1/admission/admission/export-to-cbt', payload)
         .then((res) => {
