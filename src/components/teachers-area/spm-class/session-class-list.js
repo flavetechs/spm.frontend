@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   classLocations,
   sessionLocations,
+  studentsLocations,
 } from "../../../router/spm-path-locations";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
 
@@ -135,7 +136,7 @@ const SessionClassList2 = () => {
                                 overlay={
                                   <Tooltip id="button-tooltip-2">
                                     {" "}
-                                   Class Details
+                                    Class Details
                                   </Tooltip>
                                 }
                               >
@@ -191,12 +192,41 @@ const SessionClassList2 = () => {
                                 }
                               >
                                 <Link
-                                  className="btn btn-sm btn-icon btn-primary"
+                                  className="btn btn-sm btn-icon btn-warning"
                                   data-toggle="tooltip"
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
                                   to={`${classLocations.classGroup}?sessionClassId=${item.sessionClassId}`}
+                                >
+                                  <span className="btn-inner">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="20"
+                                      viewBox="0 0 24 24"
+                                      fill="currentColor"
+                                    >
+                                      <path d="M22 6v16h-16v-16h16zm2-2h-20v20h20v-20zm-24-4v20h2v-18h18v-2h-20zm14 11h-6v-1h6v1zm0 1h-6v1h6v-1zm0 2h-6v1h6v-1zm0 2h-6v1h6v-1zm1-4l2.5 3 2.5-3h-5z" />
+                                    </svg>
+                                  </span>
+                                </Link>
+                              </OverlayTrigger>{" "}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    Students
+                                  </Tooltip>
+                                }
+                              >
+                                <Link
+                                  className="btn btn-sm btn-icon btn-primary"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Details"
+                                  to={`${studentsLocations.studentList}`}
                                 >
                                   <span className="btn-inner">
                                     <svg

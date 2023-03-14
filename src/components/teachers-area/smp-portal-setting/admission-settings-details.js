@@ -3,7 +3,7 @@ import { Row, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
-import { getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
+import { getAllActiveClasses, getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
 import { createAdmissionSetting, getAllAdmissionSetting, getSingleAdmissionSetting, updateAdmissionSetting } from "../../../store/actions/portal-setting-action";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const AdmissionSettingsDetails = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const {  singleAdmissionSettingsDetail } = state.portal;
-    const { itemList } = state.class;
+    const {  activeClasses } = state.class;
     // ACCESSING STATE FROM REDUX STORE
 
     //VARIABLE DECLARATIONS
@@ -47,7 +47,7 @@ const AdmissionSettingsDetails = () => {
 
 
     React.useEffect(() => {
-        getAllClasses()(dispatch);
+        getAllActiveClasses()(dispatch);
         return () => {
             resetClassSetupState()(dispatch);
         }
@@ -140,7 +140,7 @@ const AdmissionSettingsDetails = () => {
                                                         />
                                                     </div>
                                                     <h6 className="">Classes available for Admission</h6>
-                                                    {itemList.map((item, idx) => (
+                                                    {activeClasses.map((item, idx) => (
                                                         <div className="form-check mb-3 form-Check col-md-5 ms-3"
                                                             key={idx}
                                                         >

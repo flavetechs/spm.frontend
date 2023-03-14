@@ -499,10 +499,11 @@ const CBTAssessmentList = () => {
                                             onClick={() => {
                                               showHideDialog(
                                                 true,
-                                                `Are you sure you want to include this as an ${item.useAsExamScore
-                                                  ? "exam"
-                                                  : "assessment"
-                                                }`
+                                                `Are you sure you want to include ${item.candidateCategory_Class} ${
+                                                  item.examName_Subject} ${item.useAsExamScore
+                                                    ? "exam"
+                                                    : "assessment"
+                                                } score into score entry`
                                               )(dispatch);
                                               setIncludeScorePayload({sessionClassId: sessionClassIdQueryParam, subjectId: item.examName_SubjectId, 
                                                 studentRegNos: item.candidateIds,
