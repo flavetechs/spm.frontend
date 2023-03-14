@@ -3,7 +3,7 @@ import { Row, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
-import { getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
+import { getAllActiveClasses, getAllClasses, resetClassSetupState } from "../../../store/actions/class-actions";
 import { createAdmissionSetting } from "../../../store/actions/portal-setting-action";
 import { useHistory } from "react-router-dom";
 import { portalSetting } from "../../../router/spm-path-locations";
@@ -11,7 +11,7 @@ import { portalSetting } from "../../../router/spm-path-locations";
 const CreateAdmissionSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { itemList } = state.class;
+    const { activeClasses } = state.class;
     const { submittedSuccessful } = state.portal;
     // ACCESSING STATE FROM REDUX STORE
 
@@ -24,7 +24,7 @@ const CreateAdmissionSetting = () => {
     //VARIABLE DECLARATIONS
 
     React.useEffect(() => {
-        getAllClasses()(dispatch);
+        getAllActiveClasses()(dispatch);
         return () => {
             resetClassSetupState()(dispatch);
         }
@@ -108,7 +108,7 @@ const CreateAdmissionSetting = () => {
                                                         />
                                                     </div>
                                                     <h6 className=""> Select classes for Admission</h6>
-                                                    {itemList.map((item, idx) => (
+                                                    {activeClasses.map((item, idx) => (
                                                         <div className="form-check mb-3 form-Check col-md-5 ms-3"
                                                             key={idx}
                                                         >
@@ -159,83 +159,7 @@ const CreateAdmissionSetting = () => {
                                                             Closed{" "}
                                                         </label>
                                                     </div>
-                                                    <h6 className="">Payment Option</h6>
-                                                    <div className="form-check mb-3 form-Check col-md-5 ms-3">
-                                                        <Field
-                                                            type="radio"
-                                                            id="registrationFee"
-                                                            className="form-check-input"
-                                                            name="registrationFee"
-                                                            checked={withRegistrationFee ? true : false}
-                                                            onChange={() => {
-                                                                setWithRegistrationFee(!withRegistrationFee);
-                                                            }}
-                                                        />
-                                                        <label htmlFor="registrationFee" className="check-label">
-                                                            Paid{" "}
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check mb-3 form-Check col-md-5 ms-3">
-                                                        <Field
-                                                            type="radio"
-                                                            id="registrationFee"
-                                                            className="form-check-input"
-                                                            name="registrationFee"
-                                                            checked={!withRegistrationFee ? true : false}
-                                                            onChange={() => {
-                                                                setWithRegistrationFee(!withRegistrationFee);
-                                                            }}
-                                                        />
-                                                        <label htmlFor="registrationFee" className="check-label">
-                                                            Free{" "}
-                                                        </label>
-                                                    </div>
-                                                    <h6 className=" ">Email Messages format</h6>
-                                                    <div className="col-md-12 form-group mb-3 ms-0">
-                                                        <label
-                                                            className="form-label ms-0 ps-0"
-                                                            htmlFor="schoolAbbreviation"
-                                                        >
-                                                            Email Message for passed Student
-                                                        </label>
-                                                        <Field
-                                                            placeholder="Enter Email"
-                                                            type="text"
-                                                            id="passedExamEmail"
-                                                            name="passedExamEmail"
-                                                            className="form-control ms-0"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-12 form-group mb-3">
-                                                        <label
-                                                            className="form-label"
-                                                            htmlFor="schoolAbbreviation"
-                                                        >
-                                                            Email Message for failed Student
-                                                        </label>
-                                                        <Field
-                                                            placeholder="Enter Email"
-                                                            type="text"
-                                                            id="failedExamEmail"
-                                                            name="failedExamEmail"
-                                                            className="form-control"
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-12 form-group mb-3">
-                                                        <label
-                                                            className="form-label"
-                                                            htmlFor="schoolAbbreviation"
-                                                        >
-                                                            Email Message for Physical Screening
-                                                        </label>
-                                                        <Field
-                                                            placeholder="Enter Email"
-                                                            type="text"
-                                                            id="screeningEmail"
-                                                            name="screeningEmail"
-                                                            className="form-control"
-                                                        />
-                                                    </div>
+                                                 
 
                                                 </div>
                                                 <div className="row">
