@@ -221,19 +221,15 @@ const CBTAssessmentList = () => {
                                     setFieldValue("type", e.target.value);
                                     e.target.value === "cbt"
                                       ? history.push(
-                                          `${
-                                            classLocations.cbtAssessmentList
-                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${
-                                            e.target.value
-                                          }`
-                                        )
+                                        `${classLocations.cbtAssessmentList
+                                        }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value
+                                        }`
+                                      )
                                       : history.push(
-                                          `${
-                                            classLocations.assessment
-                                          }?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${
-                                            e.target.value
-                                          }`
-                                        );
+                                        `${classLocations.assessment
+                                        }?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value
+                                        }`
+                                      );
                                   }}
                                 >
                                   <option value="">Select Type</option>
@@ -263,19 +259,15 @@ const CBTAssessmentList = () => {
 
                                     e.target.value === "cbt"
                                       ? history.push(
-                                          `${
-                                            classLocations.cbtAssessmentList
-                                          }?sessionClassId=${
-                                            e.target.value
-                                          }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
-                                        )
+                                        `${classLocations.cbtAssessmentList
+                                        }?sessionClassId=${e.target.value
+                                        }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
+                                      )
                                       : history.push(
-                                          `${
-                                            classLocations.cbtAssessmentList
-                                          }?sessionClassId=${
-                                            e.target.value
-                                          }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
-                                        );
+                                        `${classLocations.cbtAssessmentList
+                                        }?sessionClassId=${e.target.value
+                                        }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
+                                      );
                                   }}
                                 >
                                   <option value="">Select Class</option>
@@ -312,19 +304,15 @@ const CBTAssessmentList = () => {
                                     );
                                     e.target.value === "cbt"
                                       ? history.push(
-                                          `${
-                                            classLocations.cbtAssessmentList
-                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${
-                                            e.target.value
-                                          }`
-                                        )
+                                        `${classLocations.cbtAssessmentList
+                                        }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value
+                                        }`
+                                      )
                                       : history.push(
-                                          `${
-                                            classLocations.cbtAssessmentList
-                                          }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
-                                            e.target.value
-                                          }&groupId=${""}&type=${typeQueryParam}`
-                                        );
+                                        `${classLocations.cbtAssessmentList
+                                        }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value
+                                        }&groupId=${""}&type=${typeQueryParam}`
+                                      );
                                   }}
                                 >
                                   <option value="">Select Subject</option>
@@ -381,7 +369,7 @@ const CBTAssessmentList = () => {
 
                           <tbody>
                             {filteredAssessmentList?.length === 0 &&
-                            !sessionClassIdQueryParam ? (
+                              !sessionClassIdQueryParam ? (
                               <div className="jumbotron jumbotron-fluid">
                                 <div className="container d-flex justify-content-center mt-5 bg-white">
                                   <h2 className="display-4">
@@ -409,21 +397,21 @@ const CBTAssessmentList = () => {
                                           item.status == 2
                                             ? "success"
                                             : item.status == 0
-                                            ? "warning"
-                                            : item.status == 1
-                                            ? "primary"
-                                            : "danger"
+                                              ? "warning"
+                                              : item.status == 1
+                                                ? "primary"
+                                                : "danger"
                                         }
                                       >
                                         {item.status == 0
                                           ? "waiting"
                                           : item.status == 1
-                                          ? "in progress"
-                                          : item.status == 2
-                                          ? "concluded"
-                                          : item.status == 3
-                                          ? "cancelled"
-                                          : ""}
+                                            ? "in progress"
+                                            : item.status == 2
+                                              ? "concluded"
+                                              : item.status == 3
+                                                ? "cancelled"
+                                                : ""}
                                       </Badge>
                                     </td>
                                     <td>
@@ -517,13 +505,8 @@ const CBTAssessmentList = () => {
                                                     : "assessment"
                                                 } score into score entry`
                                               )(dispatch);
-                                              setIncludeScorePayload({
-                                                sessionClassId:
-                                                  sessionClassIdQueryParam,
-                                                subjectId:
-                                                  item.examName_SubjectId,
-                                                studentRegNos:
-                                                  item.candidateIds,
+                                              setIncludeScorePayload({sessionClassId: sessionClassIdQueryParam, subjectId: item.examName_SubjectId, 
+                                                studentRegNos: item.candidateIds,
                                                 include: true,
                                                 examId: item.examinationId,
                                               });
