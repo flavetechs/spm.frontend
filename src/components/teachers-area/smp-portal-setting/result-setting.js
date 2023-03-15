@@ -91,7 +91,7 @@ const ResultSetting = () => {
                     setFieldValue,
                 }) => (
 
-                    <Row className="mt-0">
+                    <Row className="mt-0"id="resultSetting">
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">

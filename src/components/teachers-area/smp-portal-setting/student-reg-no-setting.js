@@ -78,7 +78,7 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
         }}
       >
         {({ handleSubmit, values, setFieldValue }) => (
-          <Row className="">
+          <Row className=""id="studregnoSetting">
             <Card.Body>
               <div>
                 <div className="">

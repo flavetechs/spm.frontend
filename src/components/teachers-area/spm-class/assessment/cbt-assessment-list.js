@@ -44,7 +44,6 @@ const CBTAssessmentList = () => {
   const { staffClasses } = state.results;
   const { dialogResponse } = state.alert;
   const { cbtToken, clientUrl } = state.auth;
-
   // ACCESSING STATE FROM REDUX STORE
   const queryParams = new URLSearchParams(locations.search);
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";

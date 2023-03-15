@@ -95,7 +95,7 @@ const SchoolSetting = () => {
         }}
       >
         {({ handleSubmit, values, setFieldValue }) => (
-          <Row className="">
+          <Row className="" id="schoolSetting">
             <Card.Body>
               <div className="col-xl-9 col-lg-8">
                 <div className="">
