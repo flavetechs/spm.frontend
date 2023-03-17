@@ -168,7 +168,7 @@ const NotificationSetting = () => {
 
     return (
         <>
-            <Row className="">
+            <Row className="" id="notificationSetting">
                 <div className=''>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                         <Row className='mt gx-1'>

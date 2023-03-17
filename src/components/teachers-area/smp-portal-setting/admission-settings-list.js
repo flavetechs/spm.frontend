@@ -31,7 +31,7 @@ const AdmissionSettingsList = () => {
     return (
         <>
             <div>
-                <Row>
+                <Row id="admissionSetting">
                     <Col sm="12">
                         <Card>
                             <Card.Header className="d-md-flex justify-content-between">

@@ -55,12 +55,22 @@ export function NewExamDayModal({ selectedTimetable, selectedClassId }) {
                     <div className="mb-3">
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Week Day</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Enter Week Day"
+                            <select
+                                  as="select"
+                                  name="weekday"
+                                  className="form-select"
+                                  id="weekday"
                                 onChange={(e) => setExamNewDay({ day: e.target.value, examTimeTableId: selectedTimetable?.examTimeTableId })}
-                            />
+                            >
+                                  <option value="">Select Week Day</option>
+                                 <option value="Sunday">Sunday</option>
+                                 <option value="Monday">Monday</option>
+                                 <option value="Tuesday">Tuesday</option>
+                                 <option value="Wednesday">Wednesday</option>
+                                 <option value="Thursday">Thursday</option>
+                                 <option value="Friday">Friday</option>
+                                 <option value="Saturday">Saturday</option>
+                                </select>
                         </Form.Group>
                     </div>
                     <div className="d-flex justify-content-end mt-5">

@@ -25,7 +25,9 @@
     color: rgb(250, 248, 248);
 }
 
-
+@page {
+    size: landscape;
+}
 // table, td, th {  
 //     border: 5px solid rgb(12, 12, 12);
 //     text-align: left;

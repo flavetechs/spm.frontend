@@ -5,10 +5,12 @@ import Card from "../../../Card";
 import { PrintCSV } from "../../../../utils/export-csv";
 import { useHistory, useLocation } from "react-router-dom";
 import { getAllExamTimetable, getAllTimetable } from "../../../../store/actions/timetable-actions";
+import "./timetable.scss"
 
 const PrintTimeTable = () => {
   const locations = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory()
   const queryParams = new URLSearchParams(locations.search);
   const selectedClassId = queryParams.get("selectedClassId");
   const timeTableType = queryParams.get("type");
@@ -23,6 +25,9 @@ timeTableType === "classTimeTable" && selectedTimetable
 
   useEffect(() => {
     PrintCSV("printExamTable");
+    setTimeout(() => {
+     history.goBack()
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -38,7 +43,8 @@ timeTableType === "classTimeTable" && selectedTimetable
         <Card className="mt-0">
           <Card.Header className="d-flex justify-content-between flex-wrap">
             <div className="header-title">
-              <h4>{`${timeTable?.className} Class Timetable`}</h4>
+              <h4>{`${timeTableType === "examTimeTable" ?timeTable?.className + ' Exam Timetable' :
+            timeTable?.className + ' Class Timetable' }`}</h4>
             </div>
           </Card.Header>
           <Card.Body>

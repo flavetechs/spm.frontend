@@ -37,7 +37,7 @@ export function TimeTableLink(props){
                                         </svg>
                                     </i>
                            <i className="sidenav-mini-icon">  </i>
-                           <span className="item-name">Class</span>
+                           <span className="item-name">Class Activities</span>
                        </Link>
                             </li>
                         </ul>
@@ -59,34 +59,14 @@ export function TimeTableLink(props){
                                         </svg>
                                     </i>
                            <i className="sidenav-mini-icon">  </i>
-                           <span className="item-name">Exam</span>
+                           <span className="item-name">Exam Activites</span>
                        </Link>
                             </li>
                         </ul>
                     </Accordion.Collapse>
                 }
 
-{
-                    hasAccess(NavPermissions.sessionSetup) &&
-                    <Accordion.Collapse eventKey="sidebar-timetable">
-                        <ul className="sub-nav">
-                            <li className="nav-item">
-                            <Link className={`${location.pathname === classLocations.cumulativeTimeTable ? 'active' : ''} nav-link`} to={classLocations.cumulativeTimeTable}
-                       onClick={ props.minisidebar}>
-                            <i className="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                                            <g>
-                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                                            </g>
-                                        </svg>
-                                    </i>
-                           <i className="sidenav-mini-icon">  </i>
-                           <span className="item-name">Cumulative</span>
-                       </Link>
-                            </li>
-                        </ul>
-                    </Accordion.Collapse>
-                }
+
 
             </Accordion.Item>
         </>

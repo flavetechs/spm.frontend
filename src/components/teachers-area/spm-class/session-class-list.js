@@ -226,7 +226,7 @@ const SessionClassList2 = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to={`${studentsLocations.studentList}`}
+                                  to={`${classLocations.classStudents}?sessionClassId=${item.sessionClassId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg

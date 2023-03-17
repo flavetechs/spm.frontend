@@ -126,6 +126,7 @@ export const loginCBT = () => (dispatch) => {
                 type: actions.CBT_LOGIN_SUCCESS,
                 payload: res.data.result
             });
+      
             getActiveSession()(dispatch);
         }).catch(err => {
             dispatch({

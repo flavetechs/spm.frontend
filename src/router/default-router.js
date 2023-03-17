@@ -106,6 +106,7 @@ import UpdateAdmissionSetting from '../components/teachers-area/smp-portal-setti
 import AdmissionSettingsDetails from '../components/teachers-area/smp-portal-setting/admission-settings-details';
 import CumulativeTimeTable from '../components/teachers-area/spm-class/time-table/cumulative-timetable';
 import ExamTimeTable from '../components/teachers-area/spm-class/time-table/exam-timetable';
+import StudentListByClass from '../components/teachers-area/spm-class/students-by-session-class';
 
 const DashboardRouter = () => {
 
@@ -153,7 +154,7 @@ const DashboardRouter = () => {
                         <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
                         <Route path={classLocations.cbtAssessmentList} exact component={CBTAssessmentList} />
 
-
+                        <Route path={classLocations.classStudents} exact component={StudentListByClass} />
                         <Route path={classLocations.classGroup} exact component={ClassGroup} />
                         <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
                         <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
