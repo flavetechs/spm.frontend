@@ -57,13 +57,23 @@ export function UpdateDayModal({ selectedTimetable, selectedClassId, currentDay,
                         <div className="text-danger">{validation}</div>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Week Day</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                defaultValue={currentDay}
-                                placeholder="Update Week Day"
+                            <select
+                                  as="select"
+                                  name="weekday"
+                                  className="form-select"
+                                  id="weekday"
+                                 value={currentDay}
                                 onChange={(e) => setNewDay(e.target.value)}
-                            />
+                            >
+                                  <option value="">Select Week Day</option>
+                                 <option value="Sunday">Sunday</option>
+                                 <option value="Monday">Monday</option>
+                                 <option value="Tuesday">Tuesday</option>
+                                 <option value="Wednesday">Wednesday</option>
+                                 <option value="Thursday">Thursday</option>
+                                 <option value="Friday">Friday</option>
+                                 <option value="Saturday">Saturday</option>
+                                </select>
                         </Form.Group>
                     </div>
                     <div className="d-flex justify-content-end mt-5">

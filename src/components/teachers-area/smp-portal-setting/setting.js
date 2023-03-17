@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
+import { useLocation } from "react-router-dom";
 import AdmissionSettingsList from "./admission-settings-list";
 import NotificationSetting from "./notification-setting";
 import ResultSetting from "./result-setting";
@@ -12,13 +13,20 @@ import "./setting.scss";
 import StudentRegNoSetting from "./student-reg-no-setting";
 
 function Setting() {
+  const locations = useLocation();
+  const queryParams = new URLSearchParams(locations.search);
+  const settingsKey = queryParams.get("settingsKey") || "second";
   const [selectedSetting, setSelectedSetting] = useState("first");
+  
+useEffect(() => {
+settingsKey && setSelectedSetting(settingsKey);
+}, [settingsKey])
 
   return (
     <>
       <Card>
         <Card.Body className="">
-          <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+          <Tab.Container id="left-tabs-example" defaultActiveKey={selectedSetting}>
             <Row className="mt-5 gx-1">
               <Col sm={3} className="col-md-3">
                 <Nav variant="" className="flex-column portal-tab">
@@ -28,6 +36,7 @@ function Setting() {
                       href="#"
                       onClick={() => {
                         setSelectedSetting("first");
+                        
                       }}
                     >
                       <Row className="">
