@@ -246,7 +246,7 @@ export const downloadStudentTemplate = () => (dispatch) => {
         const url = window.URL.createObjectURL(new Blob([res.data.result]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'student-template.xlsx');
+        link.setAttribute('download', 'student-template.xls');
         document.body.appendChild(link);
         link.click();
         dispatch({

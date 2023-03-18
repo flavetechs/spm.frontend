@@ -4,7 +4,8 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { portalSetting } from "../../../router/spm-path-locations";
 import AdmissionSettingsList from "./admission-settings-list";
 import NotificationSetting from "./notification-setting";
 import ResultSetting from "./result-setting";
@@ -14,8 +15,9 @@ import StudentRegNoSetting from "./student-reg-no-setting";
 
 function Setting() {
   const locations = useLocation();
+  const history = useHistory();
   const queryParams = new URLSearchParams(locations.search);
-  const settingsKey = queryParams.get("settingsKey") || "second";
+  const settingsKey = queryParams.get("settingsKey") || "first";
   const [selectedSetting, setSelectedSetting] = useState("first");
   
 useEffect(() => {
@@ -26,17 +28,17 @@ settingsKey && setSelectedSetting(settingsKey);
     <>
       <Card>
         <Card.Body className="">
-          <Tab.Container id="left-tabs-example" defaultActiveKey={selectedSetting}>
+          <Tab.Container id="left-tabs-example" defaultActiveKey={settingsKey}>
             <Row className="mt-5 gx-1">
               <Col sm={3} className="col-md-3">
                 <Nav variant="" className="flex-column portal-tab">
                   <Nav.Item className="">
                     <Nav.Link
                       eventKey="first"
-                      href="#"
+                      //href="#"
                       onClick={() => {
                         setSelectedSetting("first");
-                        
+                        history.push(`${portalSetting.setting}?settingsKey=first`)
                       }}
                     >
                       <Row className="">
@@ -66,9 +68,10 @@ settingsKey && setSelectedSetting(settingsKey);
                   <Nav.Item className=" text-wrap">
                     <Nav.Link
                       eventKey="second"
-                      href="#"
+                      //href="#"
                       onClick={() => {
                         setSelectedSetting("second");
+                        history.push(`${portalSetting.setting}?settingsKey=second`)
                       }}
                     >
                       <Row className="">
@@ -121,9 +124,10 @@ settingsKey && setSelectedSetting(settingsKey);
                   <Nav.Item className="">
                     <Nav.Link
                       eventKey="third"
-                      href="#"
+                      //href="#"
                       onClick={() => {
                         setSelectedSetting("third");
+                        history.push(`${portalSetting.setting}?settingsKey=third`)
                       }}
                     >
                       <Row className="">
@@ -162,9 +166,10 @@ settingsKey && setSelectedSetting(settingsKey);
                   <Nav.Item className="">
                     <Nav.Link
                       eventKey="fourth"
-                      href="#"
+                      //href="#"
                       onClick={() => {
                         setSelectedSetting("fourth");
+                        history.push(`${portalSetting.setting}?settingsKey=fourth`)
                       }}
                     >
                       <Row className="">
@@ -219,9 +224,10 @@ settingsKey && setSelectedSetting(settingsKey);
                   <Nav.Item className="">
                     <Nav.Link
                       eventKey="fifth"
-                      href="#"
+                      //href="#"
                       onClick={() => {
                         setSelectedSetting("fifth");
+                        history.push(`${portalSetting.setting}?settingsKey=fifth`)
                       }}
                     >
                       <Row className="">
