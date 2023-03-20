@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import {
 } from "../../store/actions/candidate-admission-actions";
 import PaginationFilter from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
+import { getSchoolSetting } from "../../store/actions/portal-setting-action";
 
 const CandidateList = () => {
   //VARIABLE DECLARATIONS
@@ -45,6 +46,7 @@ const CandidateList = () => {
     getAdmissionStatus()(dispatch);
   }, [dispatch]);
 
+ 
   const filteredCandidateList = admissionList.filter((candidate) => {
     if (searchQuery === "") {
       //if query is empty

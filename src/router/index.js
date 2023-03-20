@@ -13,7 +13,7 @@ import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
 import parentDefault from '../layouts/dashboard/parent-default'
-import RegistrationSignIn from '../components/spm-auth/parent-guardian-registration'
+import RegistrationSignUp from '../components/spm-auth/parent-guardian-registration'
 import { candidateAuthLocation, candidateLocations } from './candidate-path-location'
 import CandidateList from '../components/candidate-admission/candidate-list'
 import CandidateRegistration from '../components/candidate-admission/candidate-registration'
@@ -28,6 +28,7 @@ import PageNotFound from '../components/spm-auth/page-not-found'
 import { getAppLayout } from '../store/actions/portal-setting-action'
 import { useDispatch } from 'react-redux'
 import { TestUrls } from '../utils/other'
+import RegistrationSignIn from '../components/spm-auth/parent-guardian-login'
 
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -61,6 +62,7 @@ const IndexRouters = () => {
                         </Route>
                         
 
+                        <Route exact path={candidateAuthLocation.signUp} component={RegistrationSignUp}></Route>
                         <Route exact path={candidateAuthLocation.signIn} component={RegistrationSignIn}></Route>
                         <Route exact path={candidateLocations.candidateRegistration} component={CandidateRegistration}></Route>
                         <Route exact path={candidateLocations.candidateEdit} component={CandidateEdit}></Route>
