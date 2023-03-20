@@ -72,9 +72,9 @@ const RegistrationSignIn = () => {
                                                 touched,
                                                 errors }) => (
                                                 <Form >
-                                                    <Row>
+                                                    <Row className='d-flex justify-content-center'>
                                                         {message && <div className='text-danger'>{message}</div>}
-                                                        <Col lg="12">
+                                                        <Col lg="9">
                                                         <label >Email</label>
                                                             <div className="form-group">
                                                                 {((touched.parentEmail && errors.parentEmail) || message) && <div className='text-danger'>{errors.parentEmail}</div>}
@@ -82,7 +82,7 @@ const RegistrationSignIn = () => {
                                                                 <Field type="email" className="form-control border-1" name="parentEmail" id="parentEmail" aria-describedby="parentEmail" required placeholder="Enter email here...." />
                                                             </div>
                                                         </Col>
-                                                        <Col lg="12">
+                                                        <Col lg="9">
                                                             <label >Password</label>
                                                             <div className="form-group">
                                                                 {((touched.password && errors.password) || message) && <div className='text-danger'>{errors.password}</div>}

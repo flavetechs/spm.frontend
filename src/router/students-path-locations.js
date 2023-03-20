@@ -29,7 +29,8 @@ export const dashboardLocations = {
   };
 
   export const timeTableLocations = {
-    timeTable: "/stds-dashboard/student-time-table",
+    classTimeTable: "/stds-dashboard/student-class-time-table",
+    examTimeTable: "/stds-dashboard/student-exam-time-table",
     printTimeTable: "/stds-dashboard/print-time-table",
   };
 

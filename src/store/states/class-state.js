@@ -23,6 +23,7 @@ export const _state = {
   sendApprovalSuccessful:false,
 
   lessonNotes: [],
+  downloadedNote:"",
   lessonNoteContent:{},
   unapprovedLessonNotes:[],
   singleLessonNotes:null,

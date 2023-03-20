@@ -983,6 +983,25 @@ export const getAllLessonNotes = (classId, subjectId, status, termId, pageNumber
         });
 }
 
+export const downloadLessonNote = (classNoteId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_LESSON_NOTES_LOADING,
+    });
+
+    axiosInstance.get(`/classnotes/api/v1/download/${classNoteId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.DOWNLOAD_LESSON_NOTE_SUCCESS,
+                payload: res.data.result
+            });
+            
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_LESSON_NOTES_FAILED,
+                payload: err.response?.data?.result
+            })
+        });
+}
 
 export const getSingleLessonNotes = (teacherClassNoteId) => (dispatch) => {
     dispatch({
@@ -1762,11 +1781,11 @@ export const getAllClassAssessment = (sessionClassId, sessionClassSubjectId, pag
         });
 }
 
-export const getCBTClassAssessment = (sessionClassId, pageNumber) => (dispatch) => {
+export const getCBTClassAssessment = (pageNumber,sessionClassId, subjectId, ) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CBT_ASSESSMENT_LOADING,
     });
-    axiosInstance.get(`/cbtassessment/api/v1/get/assessments?PageNumber=${pageNumber}&PageSize=${20}&sessionClassId=${sessionClassId}`)
+    axiosInstance.get(`/cbtassessment/api/v1/get/assessments?PageNumber=${pageNumber}&PageSize=${20}&sessionClassId=${sessionClassId}&subjectId=${subjectId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CBT_ASSESSMENT_SUCCESS,

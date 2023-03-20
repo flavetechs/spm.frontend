@@ -6,6 +6,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { classLocations } from "../../../../router/spm-path-locations";
 import {
   deleteLessonNotes,
+  downloadLessonNote,
   getAllLessonNotes,
 } from "../../../../store/actions/class-actions";
 import {
@@ -19,11 +20,19 @@ import {
   showHideDialog,
   showHideModal,
 } from "../../../../store/actions/toaster-actions";
-import { getUserDetails, hasAccess, NavPermissions } from "../../../../utils/permissions";
+import {
+  getUserDetails,
+  hasAccess,
+  NavPermissions,
+} from "../../../../utils/permissions";
 import { NoteShareModal } from "./note-share-modal";
 import { NoteSendModal } from "./note-send-modal";
-import { getActiveSession, getAllSession } from "../../../../store/actions/session-actions";
+import {
+  getActiveSession,
+  getAllSession,
+} from "../../../../store/actions/session-actions";
 import { PaginationFilter4 } from "../../../partials/components/pagination-filter";
+import { saveAsFile } from "../../../../utils/downloaded-files";
 
 const LessonNotes = () => {
   //VARIABLE DECLARATIONS
@@ -42,7 +51,7 @@ const LessonNotes = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const state = useSelector((state) => state);
-  const { lessonNotes, filterProps } = state.class;
+  const { lessonNotes, filterProps,downloadedNote } = state.class;
   const { staffClasses, staffClassSubjects } = state.results;
   const { dialogResponse, modalResponse } = state.alert;
   const { activeSession, sessionList } = state.session;
@@ -55,7 +64,6 @@ const LessonNotes = () => {
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
   const approvalStatusQueryParam = queryParams.get("approvalStatus") || "-1";
 
-
   React.useEffect(() => {
     getAllStaffClasses()(dispatch);
     getActiveSession()(dispatch);
@@ -67,23 +75,47 @@ const LessonNotes = () => {
       // console.log('queryParams', queryParams);
     }
     const fetchNotes = () => {
-      classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
+      classIdQueryParam &&
+        sessionClassIdQueryParam &&
+        getStaffClassSubjectByClassLookup(
+          classIdQueryParam,
+          sessionClassIdQueryParam
+        )(dispatch);
 
-      getAllLessonNotes(classIdQueryParam, subjectIdQueryParam, approvalStatusQueryParam, termIdQueryParam, 1)(dispatch);
-
+      getAllLessonNotes(
+        classIdQueryParam,
+        subjectIdQueryParam,
+        approvalStatusQueryParam,
+        termIdQueryParam,
+        1
+      )(dispatch);
     };
     fetchNotes();
-  }, [approvalStatusQueryParam, subjectIdQueryParam, termIdQueryParam,classIdQueryParam, dispatch]);
+  }, [
+    approvalStatusQueryParam,
+    subjectIdQueryParam,
+    termIdQueryParam,
+    classIdQueryParam,
+    dispatch,
+  ]);
 
-   useEffect(() => {
-    if (!termIdQueryParam && activeSession){
-      history.push(`${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`)
+  useEffect(() => {
+    if (!termIdQueryParam && activeSession) {
+      history.push(
+        `${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`
+      );
     }
   }, [activeSession, dispatch]);
 
   React.useEffect(() => {
     if (dialogResponse === "continue") {
-      deleteLessonNotes(teacherClassNoteId, subjectIdQueryParam, classIdQueryParam, approvalStatusQueryParam, termIdQueryParam)(dispatch);
+      deleteLessonNotes(
+        teacherClassNoteId,
+        subjectIdQueryParam,
+        classIdQueryParam,
+        approvalStatusQueryParam,
+        termIdQueryParam
+      )(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setShowMenuDropdown(false);
@@ -104,26 +136,26 @@ const LessonNotes = () => {
     };
   }, [modalResponse, dispatch]);
 
+  const filteredLessonNotes = lessonNotes?.filter((item) => {
+    if (searchQuery === "") {
+      //if query is empty
+      return item;
+    } else if (
+      item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return item;
+    } else if (
+      item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      //returns filtered array
+      return item;
+    }
+  });
 
-
-  const filteredLessonNotes = lessonNotes
-
-    ?.filter((item) => {
-      if (searchQuery === "") {
-        //if query is empty
-        return item;
-      } else if (
-        item.noteTitle.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        //returns filtered array
-        return item;
-      } else if (
-        item.dateCreated.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        //returns filtered array
-        return item;
-      }
-    });
+  useEffect(() => {
+    downloadedNote && saveAsFile("lesson-note.pdf", downloadedNote)
+ }, [downloadedNote]);
 
   return (
     <>
@@ -179,20 +211,22 @@ const LessonNotes = () => {
                   </div>
                 </div>
               </Card.Header>
-              {
-                shouldShareModal && (classNoteId && (<NoteShareModal
+              {shouldShareModal && classNoteId && (
+                <NoteShareModal
                   classNoteId={classNoteId}
                   setClassNoteId={setClassNoteId}
                   shouldShareModal={shouldShareModal}
-                  setNoteShareModal={setNoteShareModal} />))
-              }
-              {
-                shouldSendModal && (teacherClassNoteId && <NoteSendModal
+                  setNoteShareModal={setNoteShareModal}
+                />
+              )}
+              {shouldSendModal && teacherClassNoteId && (
+                <NoteSendModal
                   setTeacherClassNoteId={setTeacherClassNoteId}
                   teacherClassNoteId={teacherClassNoteId}
                   setNoteSendModal={setNoteSendModal}
-                  shouldSendModal={shouldSendModal} />)
-              }
+                  shouldSendModal={shouldSendModal}
+                />
+              )}
               <Formik
                 initialValues={{
                   terms: termIdQueryParam,
@@ -221,12 +255,11 @@ const LessonNotes = () => {
                           <div className="d-xl-flex align-items-center flex-wrap">
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {touched.terms &&
-                                  errors.terms && (
-                                    <div className="text-danger">
-                                      {errors.terms}
-                                    </div>
-                                  )}
+                                {touched.terms && errors.terms && (
+                                  <div className="text-danger">
+                                    {errors.terms}
+                                  </div>
+                                )}
                               </div>
                               <Field
                                 as="select"
@@ -235,7 +268,10 @@ const LessonNotes = () => {
                                 id="terms"
                                 onChange={(e) => {
                                   setFieldValue("terms", e.target.value);
-                                  history.push(`${classLocations.lessonNotes}?termId=${e.target.value}&classId=${""}&sessionClassId=${""}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
+                                  history.push(
+                                    `${classLocations.lessonNotes}?termId=${
+                                      e.target.value
+                                    }&classId=${""}&sessionClassId=${""}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                 }}
                               >
@@ -251,7 +287,9 @@ const LessonNotes = () => {
                                       key={id}
                                       name={values.terms}
                                       value={term.sessionTermId.toLowerCase()}
-                                      selected={term.sessionTermId === values.terms}
+                                      selected={
+                                        term.sessionTermId === values.terms
+                                      }
                                     >
                                       {term.termName}
                                     </option>
@@ -260,28 +298,35 @@ const LessonNotes = () => {
                             </div>
                             <div className=" me-3 mt-3 mt-xl-0 dropdown">
                               <div>
-                                {touched.classId &&
-                                  errors.classId && (
-                                    <div className="text-danger">
-                                      {errors.classId}
-                                    </div>
-                                  )}
+                                {touched.classId && errors.classId && (
+                                  <div className="text-danger">
+                                    {errors.classId}
+                                  </div>
+                                )}
                               </div>
                               <Field
                                 as="select"
                                 name="classId"
                                 className="form-select"
-                                disabled={
-                                  termIdQueryParam ? false : true
-                                }
+                                disabled={termIdQueryParam ? false : true}
                                 id="classId"
                                 onChange={(e) => {
                                   setFieldValue("classId", e.target.value);
-                                  const sessionClassId = staffClasses?.find(x => x.classId === e.target.value)?.sessionClassId;
+                                  const sessionClassId = staffClasses?.find(
+                                    (x) => x.classId === e.target.value
+                                  )?.sessionClassId;
                                   if (e.target.value) {
-                                    setFieldValue("sessionClassId", sessionClassId);
+                                    setFieldValue(
+                                      "sessionClassId",
+                                      sessionClassId
+                                    );
                                   }
-                                  history.push(`${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${e.target.value}&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
+                                  history.push(
+                                    `${
+                                      classLocations.lessonNotes
+                                    }?termId=${termIdQueryParam}&classId=${
+                                      e.target.value
+                                    }&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                   // }
                                 }}
@@ -305,9 +350,7 @@ const LessonNotes = () => {
                               <Field
                                 as="select"
                                 name="subjectId"
-                                disabled={
-                                  classIdQueryParam ? false : true
-                                }
+                                disabled={classIdQueryParam ? false : true}
                                 className="form-select"
                                 id="subjectId"
                                 onChange={(e) => {
@@ -341,7 +384,6 @@ const LessonNotes = () => {
                                   history.push(
                                     `${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${subjectIdQueryParam}&approvalStatus=${e.target.value}`
                                   );
-
                                 }}
                               >
                                 <option value="">Select Status</option>
@@ -351,11 +393,9 @@ const LessonNotes = () => {
                                   <option value="1">Approved</option>
                                   <option value="2">Saved</option>
                                   <option value="3">In progress</option>
-                                  {
-                                    hasAccess(NavPermissions.reviewLessonNote) && (
-                                      <option value="-2">Unreviewed</option>
-                                    )
-                                  }
+                                  {hasAccess(
+                                    NavPermissions.reviewLessonNote
+                                  ) && <option value="-2">Unreviewed</option>}
                                 </>
                                 {/* ):""} */}
                               </Field>
@@ -368,7 +408,9 @@ const LessonNotes = () => {
                                   return;
                                 }
                                 if (!subjectIdQueryParam) {
-                                  showErrorToast("Subject is required")(dispatch);
+                                  showErrorToast("Subject is required")(
+                                    dispatch
+                                  );
                                   return;
                                 } else {
                                   handleSubmit();
@@ -509,84 +551,84 @@ const LessonNotes = () => {
 
                                       {item.author ===
                                         userDetail?.userAccountId && (
-                                          <div
-                                            onClick={() => {
-                                              history.push(
-                                                `${classLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
-                                              );
-                                              setShowMenuDropdown(false);
-                                            }}
-                                            className="dropdown-item"
-                                            role="button"
-                                            draggable="false"
+                                        <div
+                                          onClick={() => {
+                                            history.push(
+                                              `${classLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                            );
+                                            setShowMenuDropdown(false);
+                                          }}
+                                          className="dropdown-item"
+                                          role="button"
+                                          draggable="false"
+                                        >
+                                          <svg
+                                            width="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="me-2"
                                           >
-                                            <svg
-                                              width="20"
-                                              viewBox="0 0 24 24"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              className="me-2"
-                                            >
-                                              <path
-                                                d="M13.7476 20.4428H21.0002"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                              <path
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                              <path
-                                                d="M11.021 6.00098L16.4732 10.1881"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                            </svg>
-                                            edit
-                                          </div>
-                                        )}
+                                            <path
+                                              d="M13.7476 20.4428H21.0002"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                            <path
+                                              fillRule="evenodd"
+                                              clipRule="evenodd"
+                                              d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                            <path
+                                              d="M11.021 6.00098L16.4732 10.1881"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                          </svg>
+                                          edit
+                                        </div>
+                                      )}
 
                                       {item.author ==
                                         userDetail?.userAccountId && (
-                                          <div
-                                            onClick={() => {
-                                              showHideModal(true)(dispatch);
-                                              setShowMenuDropdown(false);
-                                              setNoteSendModal(false);
-                                              setNoteShareModal(true);
-                                              setClassNoteId(item.classNoteId);
-                                            }}
-                                            className="dropdown-item"
-                                            role="button"
-                                            draggable="true"
+                                        <div
+                                          onClick={() => {
+                                            showHideModal(true)(dispatch);
+                                            setShowMenuDropdown(false);
+                                            setNoteSendModal(false);
+                                            setNoteShareModal(true);
+                                            setClassNoteId(item.classNoteId);
+                                          }}
+                                          className="dropdown-item"
+                                          role="button"
+                                          draggable="true"
+                                        >
+                                          <svg
+                                            className="icon-32 me-2"
+                                            width="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
                                           >
-                                            <svg
-                                              className="icon-32 me-2"
-                                              width="20"
-                                              viewBox="0 0 24 24"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                              ></path>
-                                            </svg>
-                                            share
-                                          </div>
-                                        )}
+                                            <path
+                                              d="M15.8325 8.17463L10.109 13.9592L3.59944 9.88767C2.66675 9.30414 2.86077 7.88744 3.91572 7.57893L19.3712 3.05277C20.3373 2.76963 21.2326 3.67283 20.9456 4.642L16.3731 20.0868C16.0598 21.1432 14.6512 21.332 14.0732 20.3953L10.106 13.9602"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                            ></path>
+                                          </svg>
+                                          share
+                                        </div>
+                                      )}
 
                                       <div
                                         onClick={() => {
@@ -594,7 +636,9 @@ const LessonNotes = () => {
                                           setShowMenuDropdown(false);
                                           setNoteSendModal(true);
                                           setNoteShareModal(false);
-                                          setTeacherClassNoteId(item.teacherClassNoteId);
+                                          setTeacherClassNoteId(
+                                            item.teacherClassNoteId
+                                          );
                                         }}
                                         className="dropdown-item"
                                         role="button"
@@ -630,6 +674,63 @@ const LessonNotes = () => {
                                           ></path>
                                         </svg>
                                         send
+                                      </div>
+
+                                      <div
+                                        onClick={() => {
+                                          setShowMenuDropdown(false);
+                                          downloadLessonNote(item.classNoteId)(dispatch);
+                                          getAllLessonNotes(
+                                            classIdQueryParam,
+                                            subjectIdQueryParam,
+                                            approvalStatusQueryParam,
+                                            termIdQueryParam,
+                                            1
+                                          )(dispatch);
+                                        }}
+                                        className="dropdown-item"
+                                        role="button"
+                                        draggable="false"
+                                      >
+                                        <svg
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="20"
+                                          viewBox="0 0 24 24"
+                                          className="me-2"
+                                        >
+                                          <path
+                                            fillRule="evenodd"
+                                            clipRule="evenodd"
+                                            d="M14.7369 2.76175H8.08489C6.00489 2.75375 4.30089 4.41075 4.25089 6.49075V17.2277C4.20589 19.3297 5.87389 21.0697 7.97489 21.1147C8.01189 21.1147 8.04889 21.1157 8.08489 21.1147H16.0729C18.1629 21.0407 19.8149 19.3187 19.8029 17.2277V8.03775L14.7369 2.76175Z"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          ></path>
+                                          <path
+                                            d="M14.4751 2.75V5.659C14.4751 7.079 15.6241 8.23 17.0441 8.234H19.7981"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                          <path
+                                            d="M11.6421 15.9497V9.90869"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                          <path
+                                            d="M9.29639 13.5942L11.6414 15.9492L13.9864 13.5942"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                          ></path>
+                                        </svg>
+                                        download
                                       </div>
 
                                       <div
@@ -713,7 +814,15 @@ const LessonNotes = () => {
                 )}
               </Formik>
               <Card.Footer>
-                <PaginationFilter4 filterProps={filterProps} action={getAllLessonNotes} dispatch={dispatch} param1={classIdQueryParam} param2={subjectIdQueryParam} param3={approvalStatusQueryParam} param4={termIdQueryParam} />
+                <PaginationFilter4
+                  filterProps={filterProps}
+                  action={getAllLessonNotes}
+                  dispatch={dispatch}
+                  param1={classIdQueryParam}
+                  param2={subjectIdQueryParam}
+                  param3={approvalStatusQueryParam}
+                  param4={termIdQueryParam}
+                />
               </Card.Footer>
             </Card>
           </Col>

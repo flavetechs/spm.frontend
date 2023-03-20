@@ -13,7 +13,7 @@ import StudentNotes from '../components/students-area/student-notes/student-note
 import CreateStudentNote from '../components/students-area/student-notes/student-note-on-create';
 import EditStudentNote from '../components/students-area/student-notes/student-note-on-edit';
 import StudentNoteDetails from '../components/students-area/student-notes/student-note-details';
-import StudentTimeTable from '../components/students-area/student-timetable/student-timetable';
+import StudentClassTimeTable from '../components/students-area/student-timetable/student-class-timetable';
 import PrintStudentResult from '../components/students-area/Printing/student-print-result';
 import StudentTemplateControl from '../components/students-area/Printing/result-templates/student-template-control';
 import StudentAnnouncement from '../components/students-area/announcement/student-announcement-list';
@@ -21,6 +21,7 @@ import StudentAnnouncementDetails from '../components/students-area/announcement
 import Protected from '../components/spm-auth/protected';
 import PrintTimeTable from '../components/students-area/student-timetable/print-timetable';
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
+import StudentExamTimeTable from '../components/students-area/student-timetable/student-exam-timetable';
 
 
 
@@ -59,7 +60,8 @@ const StudentDashboardRouter = () => {
 
                     {/* timeTable */}
                     {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
-                    <Route path={timeTableLocations.timeTable} exact component={StudentTimeTable} />
+                    <Route path={timeTableLocations.classTimeTable} exact component={StudentClassTimeTable} />
+                    <Route path={timeTableLocations.examTimeTable} exact component={StudentExamTimeTable} />
                     <Route path={timeTableLocations.printTimeTable} exact component={PrintTimeTable} />
 
                     {/* printResult */}

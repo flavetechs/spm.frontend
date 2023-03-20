@@ -6,7 +6,8 @@ import { OnlineClassLink } from "./Navigations/student-navigations/online-class-
 import { AssessmentLink } from "./Navigations/student-navigations/students-assessment-link";
 import { ClassNoteLink  } from "./Navigations/student-navigations/class-notes-link";
 import { AnnouncementLink } from "./Navigations/student-navigations/announcement-link";
-import { TimeTableLink } from "./Navigations/student-navigations/students-time-table-link";
+import { ClassTimeTableLink } from "./Navigations/student-navigations/students-class-time-table-link";
+import { ExamTimeTableLink } from "./Navigations/student-navigations/students-exam-time-table-link";
 import { PrintResultLink } from "./Navigations/student-navigations/print-result-link";
 import { StudentDashboardLink } from "./Navigations/student-navigations/dashboard-link";
 import { StudentNoteLink } from "./Navigations/student-navigations/my-notes-link";
@@ -47,7 +48,9 @@ const StudentsVerticalNav = () => {
 
         <AnnouncementLink minisidebar={minisidebar} />
 
-        <TimeTableLink minisidebar={minisidebar} />
+        <ClassTimeTableLink minisidebar={minisidebar} />
+
+        <ExamTimeTableLink minisidebar={minisidebar} />
 
         <PrintResultLink minisidebar={minisidebar} />
 
