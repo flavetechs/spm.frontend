@@ -25,7 +25,7 @@ const RegistrationEmailReceived = () => {
                                                 type="button"
                                                 variant="btn btn-primary mx-2 text-center mx-auto"
                                                 onClick={() => {
-                                                    history.push(candidateAuthLocation.signIn);
+                                                    history.push(candidateAuthLocation.signUp);
                                                 }}
                                             >
                                                 Go Back

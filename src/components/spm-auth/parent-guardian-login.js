@@ -11,22 +11,56 @@ import SmpLoader from '../loader/smp-loader';
 import { userEmailLogin } from '../../store/actions/candidate-admission-actions';
 import { getAppLayout } from '../../store/actions/portal-setting-action';
 import { TestUrls } from '../../utils/other';
+import { loginUser } from '../../store/actions/auth-actions';
+import { candidateAuthLocation } from '../../router/candidate-path-location';
+import { useHistory } from 'react-router-dom';
 
 const RegistrationSignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    const { message, parentGuardianFirstTimeLogin, token } = state.candidate;
+    let history = useHistory();
+    // const { message, parentGuardianFirstTimeLogin, token } = state.candidate;
+
+    // useEffect(() => {
+    //     if (token && parentGuardianFirstTimeLogin === false) {
+    //         window.location.href = '/candidates';
+    //     } else if (parentGuardianFirstTimeLogin === true) {
+    //         window.location.href = '/candidates/registration-email';
+    //     }
+    // }, [token, parentGuardianFirstTimeLogin]);
+    const { message } = state.auth;
+    const { appSetting } = state.portal;
+    var token = localStorage.getItem("token");
+    var userDetail = localStorage.getItem("userDetail");
+
+
 
     useEffect(() => {
-        if (token && parentGuardianFirstTimeLogin === false) {
-            window.location.href = '/candidates';
-        } else if (parentGuardianFirstTimeLogin === true) {
-            window.location.href = '/candidates/registration-email';
-        }
-    }, [token, parentGuardianFirstTimeLogin]);
+        if (token) {
+            window.location.href = "/candidates";
+        //     if (JSON.parse(userDetail).isFirstTimeLogin === false) {
+        //         if (JSON.parse(userDetail).userType === "Student") {
+        //             window.location.href = "/stds-dashboard";
+        //         } else if (JSON.parse(userDetail).userType === "Parent") {
+        //             window.location.href = "/candidates";
+        //         } else {
+        //             window.location.href = "/dashboard";
+        //         }
+        //     } else {
+        //         localStorage.removeItem("token");
+        //         localStorage.removeItem("userDetail");
+        //         localStorage.removeItem("permissions");
+        //         history.push(
+        //             candidateAuthLocation.signUp +
+        //             "?id=" +
+        //             JSON.parse(userDetail).userAccountId
+        //         );
+        //     }
+         }
+    }, [token, history]);
 
     const validation = Yup.object().shape({
-        parentEmail: Yup.string()
+        userName: Yup.string()
             .email("Must be a valid email")
             .required('Email is required to login'),
             password: Yup.string()
@@ -54,17 +88,18 @@ const RegistrationSignIn = () => {
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
                                         <h4 className="mb-2 text-center">Login</h4>
-                                        {/* <p className="text-center">Login to stay connected.</p> */}
+                                        {/* <p className="text-center">{message}</p> */}
 
                                         <Formik
                                             initialValues={{
-                                                parentEmail: '',
+                                                userName: '',
                                                 password: '',
                                                 schoolUrl: schoolUrl,
                                             }}
                                             validationSchema={validation}
                                             onSubmit={values => {
-                                                userEmailLogin(values)(dispatch)
+                                                loginUser(values)(dispatch)
+                                              
                                             }}
                                         >
                                             {({
@@ -73,20 +108,20 @@ const RegistrationSignIn = () => {
                                                 errors }) => (
                                                 <Form >
                                                     <Row className='d-flex justify-content-center'>
-                                                        {message && <div className='text-danger'>{message}</div>}
+                                                        {message && <div className='text-danger text-center'>{message}</div>}
                                                         <Col lg="9">
                                                         <label >Email</label>
                                                             <div className="form-group">
-                                                                {((touched.parentEmail && errors.parentEmail) || message) && <div className='text-danger'>{errors.parentEmail}</div>}
-                                                                {/* <label htmlFor="parentEmail" className="form-label">User Email</label> */}
-                                                                <Field type="email" className="form-control border-1" name="parentEmail" id="parentEmail" aria-describedby="parentEmail" required placeholder="Enter email here...." />
+                                                                {((touched.userName && errors.userName) || message) && <div className='text-danger'>{errors.userName}</div>}
+                                                                {/* <label htmlFor="userName" className="form-label">User Email</label> */}
+                                                                <Field type="email" className="form-control border-1" name="userName" id="userName" aria-describedby="userName" required placeholder="Enter email here...." />
                                                             </div>
                                                         </Col>
                                                         <Col lg="9">
                                                             <label >Password</label>
                                                             <div className="form-group">
                                                                 {((touched.password && errors.password) || message) && <div className='text-danger'>{errors.password}</div>}
-                                                                {/* <label htmlFor="parentEmail" className="form-label">User Email</label> */}
+                                                                {/* <label htmlFor="userName" className="form-label">User Email</label> */}
                                                                 <Field type="password" className="form-control border-1" name="password" id="password" aria-describedby="password" required placeholder="Enter password here...." />
                                                             </div>
                                                         </Col>

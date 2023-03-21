@@ -7,37 +7,35 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import SmpLoader from "../loader/smp-loader";
-import { userEmailLogin } from "../../store/actions/candidate-admission-actions";
+import { userEmailLogin, userRegistration } from "../../store/actions/candidate-admission-actions";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import { TestUrls } from "../../utils/other";
 import { studentparentGuarndianRelationship } from "../../utils/tools";
+import { useHistory } from "react-router-dom";
 
 const RegistrationSignUp = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const state = useSelector((state) => state);
-  const { message, parentGuardianFirstTimeLogin, token } = state.candidate;
+  const { message } = state.candidate;
 
-  useEffect(() => {
-    if (token && parentGuardianFirstTimeLogin === false) {
-      window.location.href = "/candidates";
-    } else if (parentGuardianFirstTimeLogin === true) {
-      window.location.href = "/candidates/registration-email";
-    }
-  }, [token, parentGuardianFirstTimeLogin]);
 
   const validation = Yup.object().shape({
-    parentEmail: Yup.string()
+    email: Yup.string()
       .email("Must be a valid email")
       .required("Email is required to login"),
-      ParentName: Yup.string()
+      firstname: Yup.string()
       .min(2, "Name Too Short!")
-      .required("Parent/Guardian Name is required"),
-  ParentRelationship: Yup.string().required(
-      "Parent/Guardian relationship is required"
+      .required("First Name is required"),
+      lastname: Yup.string()
+      .min(2, "Name Too Short!")
+      .required("Last Name is required"),
+       relationship: Yup.string().required(
+      " Relationship is required"
   ),
-  ParentPhoneNumber: Yup.string()
+      phoneNumber: Yup.string()
       .min(2, "Number Too Short!")
-      .required("Parent/Guardian phone number is required"),
+      .required("Phone number is required"),
   });
 
   const schoolUrl =
@@ -67,15 +65,17 @@ const RegistrationSignUp = () => {
 
                     <Formik
                       initialValues={{
-                        parentEmail: "",
-                        ParentName: "",
-                        ParentRelationship: "",
-                        ParentPhoneNumber: "", 
+                        email: "",
+                        firstname: "",
+                        lastname: "",
+                        relationship: "",
+                        phoneNumber: "", 
                         schoolUrl: schoolUrl,
                       }}
                       validationSchema={validation}
                       onSubmit={(values) => {
-                        userEmailLogin(values)(dispatch);
+                        values.phoneNumber = values.phoneNumber.toString()
+                        userRegistration(values,history)(dispatch);
                       }}
                     >
                       {({ handleSubmit, touched, errors,setFieldValue }) => (
@@ -86,16 +86,16 @@ const RegistrationSignUp = () => {
                             )}
                             <Row>
                               <div className="col-md-6">
-                                {touched.ParentName && errors.ParentName && (
+                                {touched.firstname && errors.firstname && (
                                   <div className="text-danger">
-                                    {errors.ParentName}
+                                    {errors.firstname}
                                   </div>
                                 )}
                               </div>
                               <div className="col-md-6">
-                                {touched.ParentEmail && errors.ParentEmail && (
+                                {touched.lastname && errors.lastname && (
                                   <div className="text-danger">
-                                    {errors.ParentEmail}
+                                    {errors.lastname}
                                   </div>
                                 )}
                               </div>
@@ -103,68 +103,82 @@ const RegistrationSignUp = () => {
                             <div className="col-md-6 form-group">
                               <label
                                 className="form-label"
-                                htmlFor="ParentName"
+                                htmlFor="firstname"
                               >
-                                <b>Name:</b>
+                                <b> First Name:</b>
                               </label>
                               <Field
-                                placeholder="Full Name"
+                                placeholder="First Name"
                                 type="text"
-                                name="ParentName"
-                                id="ParentName"
+                                name="firstname"
+                                id="firstname"
                                 className="form-control"
                               />
                             </div>
                             <div className="col-md-6 form-group">
                               <label
                                 className="form-label"
-                                htmlFor="ParentEmail"
+                                htmlFor="lastname"
                               >
-                                <b>Parent Email:</b>
+                                <b> First Name:</b>
+                              </label>
+                              <Field
+                                placeholder="Last Name"
+                                type="text"
+                                name="lastname"
+                                id="lastname"
+                                className="form-control"
+                              />
+                            </div>
+                            
+                           
+                            <Row>
+                            <div className="col-md-6">
+                                {touched.email && errors.email && (
+                                  <div className="text-danger">
+                                    {errors.email}
+                                  </div>
+                                )}
+                              </div>
+                              <div className="col-md-6">
+                                {touched.relationship &&
+                                  errors.relationship && (
+                                    <div className="text-danger">
+                                      {errors.relationship}
+                                    </div>
+                                  )}
+                           </div>
+                            </Row>
+                             <div className="col-md-6 form-group">
+                              <label
+                                className="form-label"
+                                htmlFor="email"
+                              >
+                                <b>Email:</b>
                               </label>
                               <Field
                                 type="email"
                                 className="form-control border-1"
-                                name="parentEmail"
-                                id="parentEmail"
-                                aria-describedby="parentEmail"
-                                required
-                                placeholder="Enter email here...."
+                                name="email"
+                                id="email"
+                                placeholder="Email"
                               />
                             </div>
-                            <Row>
-                              <div className="col-md-6">
-                                {touched.ParentRelationship &&
-                                  errors.ParentRelationship && (
-                                    <div className="text-danger">
-                                      {errors.ParentRelationship}
-                                    </div>
-                                  )}
-                              </div>
-                              <div className="col-md-6">
-                                {touched.ParentPhoneNumber &&
-                                  errors.ParentPhoneNumber && (
-                                    <div className="text-danger">
-                                      {errors.ParentPhoneNumber}
-                                    </div>
-                                  )}
-                              </div>
-                            </Row>
                             <div className="col-md-6 form-group">
                               <label
                                 className="form-label"
-                                htmlFor="ParentRelationship"
+                                htmlFor="relationship"
                               >
                                 <b>Relationship:</b>
                               </label>
                               <Field
                                 as="select"
-                                name="ParentRelationship"
+                                name="relationship"
                                 className="form-select"
-                                id="ParentRelationship"
+                                id="relationship"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "ParentRelationship",
+                                    "relationship",
                                     e.target.value
                                   );
                                 }}
@@ -179,18 +193,29 @@ const RegistrationSignUp = () => {
                                 )}
                               </Field>
                             </div>
+                            <Row>
+                          
+                              <div className="col-md-6">
+                                {touched.phoneNumber &&
+                                  errors.phoneNumber && (
+                                    <div className="text-danger">
+                                      {errors.phoneNumber}
+                                    </div>
+                                  )}
+                              </div>
+                            </Row>
                             <div className="col-md-6 form-group">
                               <label
                                 className="form-label"
-                                htmlFor="ParentPhoneNumber"
+                                htmlFor="phoneNumber"
                               >
                                 <b>Phone Number:</b>
                               </label>
                               <Field
                                 placeholder="Phone Number"
                                 type="number"
-                                name="ParentPhoneNumber"
-                                id="ParentPhoneNumber"
+                                name="phoneNumber"
+                                id="phoneNumber"
                                 className="form-control"
                               />
                             </div>
