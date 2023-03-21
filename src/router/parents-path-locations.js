@@ -32,8 +32,10 @@ export const printResultLocations = {
 };
 
 export const parentTimeTableLocations = {
-    parentTimeTable: "/parent-dashboard/parent-timetable",
-    parentTimetableActivities: "/parent-dashboard/parent-timetable-activities",
+    parentClassTimeTable: "/parent-dashboard/parent-class-timetable",
+    parentExamTimeTable: "/parent-dashboard/parent-exam-timetable",
+    parentClassTimetableActivities: "/parent-dashboard/parent-class-timetable-activities",
+    parentExamTimetableActivities: "/parent-dashboard/parent-exam-timetable-activities",
     printTimeTable: "/parent-dashboard/print-timetable",
 };
 

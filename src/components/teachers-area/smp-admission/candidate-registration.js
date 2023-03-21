@@ -62,15 +62,7 @@ const CandidateRegistration = () => {
         // getAllSessionClasses(activeSession?.sessionId)(dispatch);
     }, [activeSession, dispatch]);
 
-    if (isSuccessful) {
-        // history.push(studentsLocations.studentList);
-    }
-
-    //   const ImageDisplay = (event) => {
-    //     if (event.target.files[0]) {
-    //       setImages(URL.createObjectURL(event.target.files[0]));
-    //     }
-    //   };
+   
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
@@ -652,7 +644,7 @@ const CandidateRegistration = () => {
 
 
                                                 >
-                                                    Register
+                                                    Registers
                                                 </Button>
                                             </div>
                                         </Form>

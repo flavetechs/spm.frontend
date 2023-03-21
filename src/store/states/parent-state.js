@@ -16,6 +16,7 @@ export const _state = {
     selectedWardDetails: {},
     myWardsAnnouncementList: [],
     myWardsSingleAnnouncement: {},
+    myWardsExamTimetable:{},
     parents:[],
     singleParent:{},
   };

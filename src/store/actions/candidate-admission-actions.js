@@ -28,8 +28,8 @@ export const userEmailLogin = (userEmail) => (dispatch) => {
                 type: actions.LOGIN_CANDIDATE_SUCCESS,
                 payload: res.data.result,
             });
+        
         }).catch(err => {
-            console.log("err", err);
             dispatch({
                 type: actions.LOGIN_CANDIDATE_FAILED,
                 payload: err.response.data.message.friendlyMessage

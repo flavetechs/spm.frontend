@@ -10,6 +10,7 @@ import { getCities, getCountries, getStates } from "../../store/actions/student-
 import { candidateLocations } from "../../router/candidate-path-location";
 import { getUserDetails } from "../../utils/permissions";
 import { getSchoolSetting } from "../../store/actions/portal-setting-action";
+import { studentparentGuarndianRelationship } from "../../utils/tools";
 
 const CandidateRegistration = () => {
     //VARIABLE DECLARATIONS
@@ -70,8 +71,7 @@ const CandidateRegistration = () => {
         }
     }, [dispatch, selectedState]);
 
-    const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
-
+  
     React.useEffect(() => {
         submitSuccessful && history.push(candidateLocations.candidateList);
     }, [submitSuccessful, history]);

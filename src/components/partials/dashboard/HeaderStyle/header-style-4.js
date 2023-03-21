@@ -35,7 +35,8 @@ const HeaderStyle4 = () => {
         { name: "Ward's Note", link: wardsNoteLocations.wardsNote },
         { name: "Assessment", link: parentAssessmentLocations.parentAssessment},
         { name: "Print Result", link: printResultLocations.printResult },
-        { name: "Timetable", link: parentTimeTableLocations.parentTimeTable },
+        { name: "Class Timetable", link: parentTimeTableLocations.parentClassTimeTable },
+        { name: "Exam Timetable", link: parentTimeTableLocations.parentExamTimeTable },
         { name: "Announcement", link: announcementLocations.announcement },
     ]
 
@@ -139,9 +140,15 @@ const HeaderStyle4 = () => {
                     </Link>
                     <Link
                         className='header-styles'
-                        to={parentTimeTableLocations.parentTimeTable}
+                        to={parentTimeTableLocations.parentClassTimeTable}
                     >
-                        Timetable
+                        Class Timetable
+                    </Link>
+                    <Link
+                        className='header-styles'
+                        to={parentTimeTableLocations.parentExamTimeTable}
+                    >
+                       Exam Timetable
                     </Link>
                     <Link
                         className='header-styles'

@@ -46,6 +46,27 @@ export function PrintCSV(elementId) {
   return true;
 }
 
+export function printLandscape(elementId) {
+  // Get the element to be printed
+  var element = document.getElementById(elementId);
+  // Create a new window for printing
+  var printWindow = window.open("", "PRINT", "height=1000,width=1300");
+  // Set the print window to landscape orientation
+  printWindow.document.body.style.transform = 'rotate(90deg)';
+  printWindow.document.body.style.webkitTransform = 'rotate(90deg)';
+  printWindow.document.body.style.msTransform = 'rotate(90deg)';
+  printWindow.document.body.style.MozTransform = 'rotate(90deg)';
+  printWindow.document.body.style.OTransform = 'rotate(90deg)';
+  // Write the element content to the print window
+  printWindow.document.write(element.innerHTML);
+  // Print the window
+  printWindow.print();
+  // Close the print window
+  printWindow.close();
+}
+
+
+
 export const openFullscreen = (id) => {
   var elementId = document.getElementById(id);
   if (elementId.requestFullscreen) {

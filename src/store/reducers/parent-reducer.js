@@ -143,6 +143,14 @@ export const parentReducer = (state = _state, { type, payload }) => {
         isSuccessful: true,
       };
 
+      case actions.FETCH_MY_WARDS_EXAM_TIMETABLE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          myWardsExamTimetable: payload,
+          isSuccessful: true,
+        };
+
     case actions.FETCH_MY_WARDS_CLASS_TIMETABLE_FAILED:
       return {
         ...state,

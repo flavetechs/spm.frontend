@@ -3,12 +3,12 @@ import { Row, Col, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { PrintCSV } from "../../../utils/export-csv";
-import { getStudentTimeTable } from "../../../store/actions/timetable-actions";
+import { getStudentClassTimeTable } from "../../../store/actions/timetable-actions";
 import { timeTableLocations } from "../../../router/students-path-locations";
 import { useHistory } from "react-router-dom";
 
 
-const StudentTimeTable = () => {
+const StudentClassTimeTable = () => {
 
   //VARIABLE DECLARATIONS
   let history = useHistory();
@@ -21,7 +21,7 @@ const StudentTimeTable = () => {
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
-    getStudentTimeTable()(dispatch);
+    getStudentClassTimeTable()(dispatch);
   }, [dispatch]);
 
   return (
@@ -48,7 +48,7 @@ const StudentTimeTable = () => {
                   </Button> */}
                   <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                     onClick={() => {
-                      history.push(timeTableLocations.printTimeTable);
+                      history.push(`${timeTableLocations.printTimeTable}?timetableType=classTimeTable`);
                     }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">
@@ -106,4 +106,4 @@ const StudentTimeTable = () => {
   );
 };
 
-export default StudentTimeTable;
+export default StudentClassTimeTable;

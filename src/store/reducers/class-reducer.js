@@ -994,6 +994,14 @@ export const classReducer = (state = _state, { type, payload }) => {
     }
 
 
+    case actions.DOWNLOAD_LESSON_NOTE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        downloadedNote: payload,
+      };
+    }
+
     case actions.FETCH_UNAPPROVED_LESSON_NOTES_LOADING: {
       return {
         ...state,

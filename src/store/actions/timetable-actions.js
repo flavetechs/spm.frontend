@@ -259,7 +259,7 @@ export const updateTimetableTime = (time, selectedClassId) => (dispatch) => {
         });
 }
 
-export const getStudentTimeTable = () => (dispatch) => {
+export const getStudentClassTimeTable = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_STUDENT_TIMETABLE_LOADING
     });
@@ -276,6 +276,7 @@ export const getStudentTimeTable = () => (dispatch) => {
             })
         });
 }
+
 
 export const getAllExamTimetable = (classId) => (dispatch) => {
     dispatch({
@@ -503,22 +504,22 @@ export const updateExamTimetableTime = (time, selectedClassId) => (dispatch) => 
         });
 }
 
-// export const getStudentExamTimeTable = () => (dispatch) => {
-//     dispatch({
-//         type: actions.TIMETABLE_LOADING
-//     });
-//     axiosInstance.get('/smp/studenttimetable/api/v1/get/by-student')
-//         .then((res) => {
-//             dispatch({
-//                 type: actions.FETCH_STUDENT_EXAM_TIMETABLE_SUCCESS,
-//                 payload: res.data.result
-//             });
-//         }).catch(err => {
-//             dispatch({
-//                 type: actions.TIMETABLE_FAILED,
-//                 payload: err.response.data.result
-//             })
-//         });
-// }
+export const getStudentExamTimeTable = () => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    axiosInstance.get('/smp/api/v1/exam-timetable/get/by-student')
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_STUDENT_EXAM_TIMETABLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
 
 //TIMETABLE ACTION HANDLERS
