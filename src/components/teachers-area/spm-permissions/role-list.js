@@ -79,7 +79,6 @@ const RoleList = () => {
   };
 
  
-console.log("showCheckBox",showCheckBoxes,selectedIds);
   return (
     <>
       <div>

@@ -138,9 +138,6 @@ export const setExamScore =
         .then((res) => {
           entries.isSaving = false;
           entries.isOffered = true;
-          // console.log("hi", res.data.result)
-          //entries.grade = res.data.result.grade;
-          //entries.remark = res.data.result.remark;
           publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
           dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,

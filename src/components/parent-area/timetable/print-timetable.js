@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getMyWardsClassTimetable, getMyWardsExamTimetable } from '../../../store/actions/parent-actions';
 import { PrintCSV } from '../../../utils/export-csv';
 import Card from '../../Card';
@@ -12,6 +12,7 @@ const PrintTimeTable = () => {
     // VARIABLE DECLARATION
     const dispatch = useDispatch();
     const locations = useLocation();
+    const history = useHistory();
     // VARIABLE DECLARATION
 
     // ACCESSING STATE FROM REDUX STORE
@@ -37,6 +38,9 @@ const PrintTimeTable = () => {
 
     React.useEffect(() => {
         PrintCSV("print-student-table");
+        setTimeout(() => {
+            history.goBack()
+           }, 500);
     }, []);
 
     return (
@@ -56,14 +60,14 @@ const PrintTimeTable = () => {
                                 <thead>
                                     <tr>
                                         <th className='table-th' style={{ padding: 15, backgroundColor: "rgb(74, 72, 72)", color: "white", textAlign: "left", }}></th>
-                                        {myWardsClassTimetable?.timetable?.days?.map((items, index) => (
+                                        {timeTable?.timetable?.days?.map((items, index) => (
                                             <th className="table-th" key={index} style={{ padding: 15, backgroundColor: "rgb(74, 72, 72)", color: "white", textAlign: "left", }}>{items.day}
                                             </th>
                                         ))}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {myWardsClassTimetable?.timetable?.times?.map((item, index) => (
+                                    {timeTable?.timetable?.times?.map((item, index) => (
                                         <tr key={index}>
                                             <td className='table-td' style={{ padding: 15, border: "1px solid rgb(90, 89, 89)", textAlign: "left", }}>
                                                 {item.period}

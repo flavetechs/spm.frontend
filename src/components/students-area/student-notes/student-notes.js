@@ -65,7 +65,6 @@ const StudentNotes = () => {
       );
     }
   }, [activeSession])
-console.log(activeSession);
    useEffect(() => {
     if (dialogResponse === "continue") {
       deleteStudentNotes(studentNoteId, subjectIdQuery, statusQuery,termIdQuery)(dispatch);

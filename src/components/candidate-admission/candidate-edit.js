@@ -26,15 +26,6 @@ const CandidateEdit = () => {
             .min(2, "Last Name Too Short!")
             .required("Last Name is required"),
         Email: Yup.string().email("Invalid email format"),
-        ParentName: Yup.string()
-            .min(2, "Name Too Short!")
-            .required("Parent/Guardian Name is required"),
-        ParentRelationship: Yup.string().required(
-            "Parent/Guardian relationship is required"
-        ),
-        ParentPhoneNumber: Yup.string()
-            .min(2, "Number Too Short!")
-            .required("Parent/Guardian phone number is required"),
         ClassId: Yup.string().required("Class name is required"),
     });
     //VALIDATIONS SCHEMA
@@ -54,6 +45,12 @@ const CandidateEdit = () => {
         getSingleAdmissionDetail(admissionIdQuery)(dispatch);
         setFiles(singleAdmissionDetail?.credentials || "");
     }, [dispatch, locations.search]);
+
+
+    React.useEffect(() => {
+        setSelectedCountry(singleAdmissionDetail?.countryOfOrigin)
+        setSelectedState(singleAdmissionDetail?.stateOfOrigin)
+    }, [singleAdmissionDetail]);
 
     React.useEffect(() => {
         getAdmissionClasses()(dispatch);
@@ -94,9 +91,6 @@ const CandidateEdit = () => {
                     StateOfOrigin: singleAdmissionDetail.stateOfOrigin || "",
                     LGAOfOrigin: singleAdmissionDetail.lgaOfOrigin || "",
                     Credentials: singleAdmissionDetail.credentials || "",
-                    ParentName: singleAdmissionDetail.parentName || "",
-                    ParentRelationship: singleAdmissionDetail.parentRelationship || "",
-                    ParentPhoneNumber: singleAdmissionDetail.parentPhoneNumber || "",
                     ClassId: singleAdmissionDetail.classId || "",
                 }}
                 validationSchema={validation}
@@ -111,9 +105,6 @@ const CandidateEdit = () => {
                     values.CountryOfOrigin = values.CountryOfOrigin;
                     values.StateOfOrigin = values.StateOfOrigin;
                     values.LGAOfOrigin = values.LGAOfOrigin;
-                    values.ParentName = values.ParentName;
-                    values.ParentRelationship = values.ParentRelationship;
-                    values.ParentPhoneNumber = values.ParentPhoneNumber;
                     values.ClassId = values.ClassId;
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
@@ -128,9 +119,6 @@ const CandidateEdit = () => {
                     params.append("LGAOfOrigin", values.LGAOfOrigin);
                     params.append("Credentials", values.Credentials);
                     params.append("Photo", values.Photo);
-                    params.append("ParentName", values.ParentName);
-                    params.append("ParentRelationship", values.ParentRelationship);
-                    params.append("ParentPhoneNumber", values.ParentPhoneNumber);
                     params.append("ClassId", values.ClassId);
                     updateCandidateAdmission(params)(dispatch);
                 }}
@@ -321,7 +309,7 @@ const CandidateEdit = () => {
                                                         name="StateOfOrigin"
                                                         className="form-select"
                                                         id="StateOfOrigin"
-                                                        disabled={!selectedCountry ? true : false}
+                                                        disabled={!values.CountryOfOrigin ? true : false}
                                                         onChange={(e) => {
                                                             setFieldValue("StateOfOrigin", e.target.value)
                                                             setSelectedState(e.target.value)
@@ -347,7 +335,7 @@ const CandidateEdit = () => {
                                                         name="LGAOfOrigin"
                                                         className="form-select"
                                                         id="LGAOfOrigin"
-                                                        disabled={!selectedState ? true : false}
+                                                        disabled={!values.StateOfOrigin ? true : false}
                                                         onChange={(e) => {
                                                             setFieldValue("LGAOfOrigin", e.target.value)
                                                         }}
@@ -421,12 +409,13 @@ const CandidateEdit = () => {
                                                                 width="250"
                                                                 height="250"
                                                                 alt="credential"
+                                                                className="img-fluid"
                                                             />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <hr />
+                                            {/* <hr />
                                             <h5 className="mb-3"><b>For Parent/Guardian(s) use:</b></h5>
                                             <div className="row">
                                                 <Row>
@@ -509,7 +498,7 @@ const CandidateEdit = () => {
                                                         className="form-control"
                                                     />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className="d-flex justify-content-end">
                                                 <Button
                                                     type="button"

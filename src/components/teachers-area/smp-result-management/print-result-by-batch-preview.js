@@ -40,7 +40,6 @@ const BatchPrintPreview = () => {
     printSuccessful==="successful" &&  history.push(`${resultManagement.resultTemplate}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}&batchPrinting=${batchResultPreview?.numberOfStudents}`);
   }, [printSuccessful,history,batchResultPreview]);
 
-  console.log("print",printSuccessful);
   return (
     <>
      <Row className="mt-5">

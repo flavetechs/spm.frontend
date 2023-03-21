@@ -47,7 +47,6 @@ const CreateAdmissionSetting = () => {
         history.push(portalSetting.setting);
       }
 
-    console.log("submittedSuccessful", submittedSuccessful);
 
     return (
         <>
