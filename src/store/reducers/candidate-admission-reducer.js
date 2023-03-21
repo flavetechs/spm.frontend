@@ -4,7 +4,7 @@ import { _state } from '../states/candidate-admission-state';
 
 export const candidateAdmissionReducer = (state = _state, { type, payload }) => {
     switch (type) {
-        case actions.LOGIN_CANDIDATE_LOADING:
+        case actions.REGISTER_CANDIDATE_LOADING:
             return {
                 ...state,
                 loading: true,
@@ -15,58 +15,47 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
 
             }
 
-        case actions.LOGIN_CANDIDATE_SUCCESS: {
-        //     // localStorage.removeItem('token');
-        //     // localStorage.removeItem('userDetail');
-        //     debugger
-        //     if (payload?.auth !== null) {
-        //         localStorage.setItem('token', payload.auth?.token);
-        //         localStorage.setItem('userDetail', JSON.stringify(payload.userDetails));
+        case actions.REGISTER_CANDIDATE_SUCCESS: {
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('userDetail');
+  
+                localStorage.setItem('token', payload.auth?.token);
+                localStorage.setItem('userDetail', JSON.stringify(payload.userDetails));
 
-        //         return {
-        //             ...state,
-        //             loading: false,
-        //             token: payload?.auth?.token,
-        //             expires: payload?.auth.expires,
-        //             message: '',
-        //             isSuccessful: true,
-        //             parentGuardianFirstTimeLogin: false,
-        //         }
-        //     } else {
-        //         return {
-        //             ...state,
-        //             loading: false,
-        //             token: '',
-        //             expires: '',
-        //             parentGuardianFirstTimeLogin: true,
-        //             message: 'Successfully registered. Kindly check your email, a confirmation mail has been sent to you.',
-        //             isSuccessful: true,
-        //         }
-        //     }
-        // }
-        localStorage.removeItem('token');
-        localStorage.removeItem('permissions');
-        localStorage.removeItem('userDetail');
-        //const decodedToken = jwtDecode<any>(payload.auth?.token);
-        localStorage.setItem('token', payload.auth.token);
-        localStorage.setItem('permissions',[]);
-        localStorage.setItem('userDetail', JSON.stringify(payload.userDetails));
-
-
-
-        return {
-            ...state,
-            loading: false,
-            token: payload.auth.token,
-            refreshToken: payload.auth.refreshToken,
-            message: '',
-            isSuccessful: true,
-            loginSuccessful:true,
-            parentGuardianFirstTimeLogin: false,
+                return {
+                    ...state,
+                    loading: false,
+                    token: '',
+                    expires: '',
+                    parentGuardianFirstTimeLogin: true,
+                    message: payload.message.friendlymessage,
+                    isSuccessful: true,
+                }
+            
         }
-    }
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('permissions');
+        // localStorage.removeItem('userDetail');
+        // //const decodedToken = jwtDecode<any>(payload.auth?.token);
+        // localStorage.setItem('token', payload.auth.token);
+        // localStorage.setItem('permissions',[]);
+        // localStorage.setItem('userDetail', JSON.stringify(payload.userDetails));
 
-        case actions.LOGIN_CANDIDATE_FAILED:
+
+
+    //     return {
+    //         ...state,
+    //         loading: false,
+    //         token: payload.auth.token,
+    //         refreshToken: payload.auth.refreshToken,
+    //         message: '',
+    //         isSuccessful: true,
+    //         loginSuccessful:true,
+    //         parentGuardianFirstTimeLogin: false,
+    //     }
+    // }
+
+        case actions.REGISTER_CANDIDATE_FAILED:
             return {
                 ...state,
                 loading: false,
