@@ -136,7 +136,7 @@ const CandidateRegistration = () => {
                     params.append("ParentRelationship", values.ParentRelationship);
                     params.append("ParentPhoneNumber", values.ParentPhoneNumber);
                     params.append("ClassId", values.ClassId);
-                    createCandidateAdmission(params)(dispatch);
+                    createCandidateAdmission(params, history)(dispatch);
                 }}
                 enableReinitialize={true}
             >
