@@ -277,23 +277,6 @@ export const getStudentClassTimeTable = () => (dispatch) => {
         });
 }
 
-export const getStudentExamTimeTableByParent = () => (dispatch) => {
-    dispatch({
-        type: actions.FETCH_STUDENT_TIMETABLE_LOADING
-    });
-    axiosInstance.get('/smp/api/v1/exam-timetable/get/by-parent')
-        .then((res) => {
-            dispatch({
-                type: actions.FETCH_STUDENT_EXAM_TIMETABLE_BY_PARENT_SUCCESS,
-                payload: res.data.result
-            });
-        }).catch(err => {
-            dispatch({
-                type: actions.FETCH_STUDENT_TIMETABLE_FAILED,
-                payload: err.response.data.result
-            })
-        });
-}
 
 export const getAllExamTimetable = (classId) => (dispatch) => {
     dispatch({

@@ -2,7 +2,7 @@ import React from 'react'
 import { Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
-import { getMyWardsClassTimetable } from '../../../store/actions/parent-actions';
+import { getMyWardsClassTimetable, getMyWardsExamTimetable } from '../../../store/actions/parent-actions';
 import { PrintCSV } from '../../../utils/export-csv';
 import Card from '../../Card';
 
@@ -16,15 +16,21 @@ const PrintTimeTable = () => {
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { myWardsClassTimetable } = state.parent;
+    const { myWardsClassTimetable, myWardsExamTimetable} = state.parent;
     // ACCESSING STATE FROM REDUX STORE
 
     const queryParams = new URLSearchParams(locations.search);
     const classLkIdQuery = queryParams.get("classLkId") || "";
     const wardNameQuery = queryParams.get("ward") || "";
+    const timeTableType = queryParams.get("timetableType");
+    const timeTable =   timeTableType === "examTimeTable" ? myWardsExamTimetable : 
+    timeTableType === "classTimeTable" && myWardsClassTimetable
 
     React.useEffect(() => {
         if (classLkIdQuery) {
+            timeTableType === "examTimeTable" ?
+            getMyWardsExamTimetable(classLkIdQuery)(dispatch):
+            timeTableType === "classTimeTable" &&
             getMyWardsClassTimetable(classLkIdQuery)(dispatch);
         }
     }, [dispatch, classLkIdQuery]);
@@ -40,7 +46,8 @@ const PrintTimeTable = () => {
                 <Card className='mt-0'>
                     <Card.Header className="d-flex justify-content-between flex-wrap">
                         <div className="header-title">
-                            <h4>{`${myWardsClassTimetable?.className} Class Timetable`}</h4>
+                            <h4>{`${timeTableType === "examTimeTable" ?timeTable?.className + ' Exam Timetable' :
+            timeTable?.className + ' Class Timetable' }`}</h4>
                         </div>
                     </Card.Header>
                     <Card.Body>
