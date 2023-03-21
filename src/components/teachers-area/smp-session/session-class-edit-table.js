@@ -140,7 +140,6 @@ const SessionClassTableEdit = () => {
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-//console.log("classSubjects",classSubjects);
 
   return (
     <>

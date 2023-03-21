@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(async (response: any) => response, (erro
 axiosInstance.interceptors.request.use(
     async (config: any) => {
         const sessionToken = await localStorage.getItem('token');
-     console.log("sessionToken",sessionToken);
+
      
         if (sessionToken) {
             config.headers.Authorization = 'Bearer ' + sessionToken

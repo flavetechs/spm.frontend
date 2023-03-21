@@ -38,7 +38,10 @@ const FirstTimeLoginPassswordChange = () => {
         if (userDetail) {
             if (JSON.parse(userDetail).userType === 'Student') {
                 window.location.href = '/stds-dashboard';
-            } else {
+            }else if (JSON.parse(userDetail).userType === 'Parent') {
+                window.location.href = '/parent-dashboard';
+            }
+            else {
                 window.location.href = '/dashboard';
             }
 

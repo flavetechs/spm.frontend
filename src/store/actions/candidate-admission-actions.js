@@ -50,13 +50,13 @@ export const userRegistration = (values,history) => (dispatch) => {
                 payload: res.data.result,
             });
             history.push(candidateLocations.registrationEmailReceived)
-        console.log("reg",res.data.result);
+      
         }).catch(err => {
             dispatch({
                 type: actions.REGISTER_CANDIDATE_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
-            console.log("reg",err.response.data.message.friendlyMessage);
+           
         })
 }
 

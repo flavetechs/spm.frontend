@@ -21,6 +21,7 @@ import {
 import PaginationFilter from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
 import { getSchoolSetting } from "../../store/actions/portal-setting-action";
+import { loginOutUser } from "../../store/actions/auth-actions";
 
 const CandidateList = () => {
   //VARIABLE DECLARATIONS
@@ -133,7 +134,7 @@ const CandidateList = () => {
                         type="button"
                         className="text-center btn-icon mx-3 my-2 my-md-0 mt-3 mt-xl-0  btn d-flex border border-light"
                         onClick={() => {
-                          dispatch(logOutUserEmail());
+                          dispatch(loginOutUser());
                           history.push(candidateAuthLocation.signIn);
                         }}
                       >

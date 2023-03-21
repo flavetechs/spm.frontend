@@ -36,7 +36,6 @@ const ParentsDetails = () => {
     getParentsWard(20, 1, parentId)(dispatch);
   }, [parentId]);
 
-  console.log("single", singleParent);
   return (
     <>
       <Card>

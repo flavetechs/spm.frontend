@@ -6,7 +6,7 @@ export const loginUser = (values) => (dispatch) => {
     dispatch({
         type: actions.LOGIN_USER_LOADING
     });
-console.log("values",values);
+
    
 
     axiosInstance.post('user/api/v1/login', values)
@@ -15,7 +15,7 @@ console.log("values",values);
                 type: actions.LOGIN_USER_SUCCESS,
                 payload: res.data.result
             });
-            console.log("res",res.data.result);
+      
             getActiveSession()(dispatch);
         }).catch(err => {
             dispatch({

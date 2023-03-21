@@ -43,7 +43,7 @@ const ParentClassTimeTable = () => {
                 <Card style={{ width: '16rem' }}>
                   {item.profileUrl ?
                     <Card.Img variant="top" src={item.profileUrl}
-                      style={{ width: "16rem", height: "16rem" }}
+                      style={{ width: "16rem", height: "16rem", objectFit: "contain", }}
                       alt="Student Photo"
                     />
                     :

@@ -94,6 +94,7 @@ const CandidateDetails = () => {
                                                         width="250"
                                                         height="250"
                                                         alt="credential"
+                                                        className="img-fluid"
                                                     />
                                                 </div>
                                             </div>

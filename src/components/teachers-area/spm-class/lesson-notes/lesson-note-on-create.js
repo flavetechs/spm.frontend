@@ -33,6 +33,13 @@ const CreateLessonNote = () => {
   const classIdQueryParam = queryParams.get("classId") || "";
   const sessionClassIdQueryParam = queryParams.get("sessionClassId") || "";
 
+
+  const ref = useRef();
+
+  const reset = () => {
+    ref.current.value = "";
+  };
+
   useEffect(() => {
     getAllStaffClasses()(dispatch);
     classIdQueryParam && sessionClassIdQueryParam && getStaffClassSubjectByClassLookup(classIdQueryParam, sessionClassIdQueryParam)(dispatch);
@@ -54,6 +61,7 @@ const CreateLessonNote = () => {
       const params = new FormData();
       params.append("file", fileContent);
      getLessonNoteContent(params)(dispatch);
+     reset()
      } else if(dialogResponse === "cancel"){
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
@@ -66,6 +74,7 @@ const CreateLessonNote = () => {
 
   const [content, setContent] = useState('');
   const textEditorModules = useMemo(() => ({ toolbar: TextEditorToolBar }), []);
+
 
   return (
     <>
@@ -134,18 +143,20 @@ const CreateLessonNote = () => {
                         </Col>
                         <Col md="11" className="form-group h6">
                           <label className="form-label" >
-                            <b>Upload note(text,word,excel):</b>
+                            <b>Upload note(text,word):</b>
                           </label>
                           <div className="d-md-flex">
                             <Col sm="11" md="6">
-                          <Field
+                          <input
                             type="file"
                             name="noteFile"
-                            accept="application/msword, application/vnd.ms-excel,
-                                text/plain,application/pdf,.docx"
+                            accept="application/msword, ,
+                                text/plain,.docx"
                             className="form-control border-secondary "
                             id="noteFile"
-                            onChange={(event) => { setFileContent(event.target.files[0]) }}
+                            ref={ref}
+                            onChange={(event) => { setFieldValue("noteFile",event.target.files[0]);
+                            setFileContent(event.target.files[0]) }}
                           />
                           </Col>
                           <div className="btn btn-success mx-2  mt-3 mt-md-0" onClick={()=>{
@@ -155,6 +166,7 @@ const CreateLessonNote = () => {
                              const params = new FormData();
                             params.append("file", fileContent);
                            getLessonNoteContent(params)(dispatch);
+                           reset()
                           }
                            else{
                            fileContent && showHideDialog(true, "Note that uploading a lesson note will overwrite current content in the editor, do you want to continue?")(dispatch);
@@ -230,6 +242,7 @@ const CreateLessonNote = () => {
                             className="btn-sm mt-4"
                             variant="btn btn-danger"
                             onClick={() => {
+                              reset();
                               history.goBack();
                               resetLessonNoteContentState()(dispatch);
                             }}

@@ -42,7 +42,6 @@ const CumulativeTimeTable = ( ) => {
     React.useEffect(() => {
         getAllTimetable("4541217c-a2dc-4f11-2284-08db130af196")(dispatch)
     }, []);
-    // console.log('selectedTimetable now', newSelectedTimetable);
     const [selectedClassId, setSelectedClassId] = useState("");
     //VARIABLE DECLARATIONS
 

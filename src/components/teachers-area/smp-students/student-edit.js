@@ -97,7 +97,7 @@ const StudentEdit = () => {
   };
 
   const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
-console.log("s",submitSuccessful);
+
   return (
     <>
       <Formik
