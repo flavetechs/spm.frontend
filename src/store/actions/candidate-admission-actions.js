@@ -2,6 +2,7 @@ import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/candidate-admission-action-types";
 import { showErrorToast, showSuccessToast } from "./toaster-actions";
 import swal from 'sweetalert';
+import { candidateLocations } from "../../router/candidate-path-location";
 
 export const pushId = (itemId) => {
     return {
@@ -16,24 +17,46 @@ export const removeId = (itemId) => {
     }
 }
 
-export const userEmailLogin = (userEmail) => (dispatch) => {
+// export const userEmailLogin = (userEmail) => (dispatch) => {
+
+//     dispatch({
+//         type: actions.LOGIN_CANDIDATE_LOADING
+//     });
+
+//     axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
+//         .then((res) => {
+//             dispatch({
+//                 type: actions.LOGIN_CANDIDATE_SUCCESS,
+//                 payload: res.data.result,
+//             });
+        
+//         }).catch(err => {
+//             dispatch({
+//                 type: actions.LOGIN_CANDIDATE_FAILED,
+//                 payload: err.response.data.message.friendlyMessage
+//             })
+//         })
+// }
+export const userRegistration = (values,history) => (dispatch) => {
 
     dispatch({
-        type: actions.LOGIN_CANDIDATE_LOADING
+        type: actions.REGISTER_CANDIDATE_LOADING
     });
 
-    axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
+    axiosInstance.post('/smp/api/v1/candidate-admission/register-parent', values)
         .then((res) => {
             dispatch({
-                type: actions.LOGIN_CANDIDATE_SUCCESS,
+                type: actions.REGISTER_CANDIDATE_SUCCESS,
                 payload: res.data.result,
             });
-        
+            history.push(candidateLocations.registrationEmailReceived)
+        console.log("reg",res.data.result);
         }).catch(err => {
             dispatch({
-                type: actions.LOGIN_CANDIDATE_FAILED,
+                type: actions.REGISTER_CANDIDATE_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
+            console.log("reg",err.response.data.message.friendlyMessage);
         })
 }
 
