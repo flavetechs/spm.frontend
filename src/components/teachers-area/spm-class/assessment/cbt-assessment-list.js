@@ -22,7 +22,7 @@ import {
   respondDialog,
   showHideDialog,
 } from "../../../../store/actions/toaster-actions";
-import { PaginationFilter1 } from "../../../partials/components/pagination-filter";
+import { PaginationFilter1, PaginationFilter2 } from "../../../partials/components/pagination-filter";
 import { loginCBT } from "../../../../store/actions/auth-actions";
 
 const CBTAssessmentList = () => {
@@ -51,6 +51,7 @@ const CBTAssessmentList = () => {
     queryParams.get("sessionClassSubjectId") || "";
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
+       
 
   useEffect(() => {
     getAllStaffClasses()(dispatch);
@@ -63,7 +64,10 @@ const CBTAssessmentList = () => {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
       sessionClassIdQueryParam &&
-        getCBTClassAssessment(sessionClassIdQueryParam, 1)(dispatch);
+        getCBTClassAssessment(1,sessionClassIdQueryParam)(dispatch);
+
+       sessionClassSubjectIdQueryParam &&
+        getCBTClassAssessment(1,sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
     };
 
     fetchAssessment();
@@ -545,11 +549,12 @@ const CBTAssessmentList = () => {
                     </Row>
                   </Card.Body>
                   <Card.Footer>
-                    <PaginationFilter1
+                    <PaginationFilter2
                       filterProps={filterProps}
                       action={getCBTClassAssessment}
                       dispatch={dispatch}
                       param1={sessionClassIdQueryParam}
+                      param2={sessionClassSubjectIdQueryParam}
                     />
                   </Card.Footer>
                 </Card>

@@ -13,8 +13,9 @@ import ParentTemplateControl from '../components/parent-area/print-result/result
 import TeachersNote from '../components/parent-area/teachers-note/teachers-note';
 import TeachersNoteView from '../components/parent-area/teachers-note/teachers-note-view';
 import TeachersNoteDetails from '../components/parent-area/teachers-note/teachers-notes-details';
-import ParentTimeTable from '../components/parent-area/timetable/parent-timetable';
-import ParentTimeTableActivities from '../components/parent-area/timetable/parent-timetable-activities';
+import ParentClassTimeTable from '../components/parent-area/timetable/parent-class-timetable';
+import ParentExamTimeTable from '../components/parent-area/timetable/parent-exam-timetable';
+import ParentClassTimeTableActivities from '../components/parent-area/timetable/parent-class-timetable-activities';
 import PrintTimeTable from '../components/parent-area/timetable/print-timetable';
 import WardsNote from '../components/parent-area/wards-note/ward-note';
 import WardsNoteDetails from '../components/parent-area/wards-note/ward-note-details';
@@ -22,6 +23,7 @@ import WardsNoteView from '../components/parent-area/wards-note/wards-note-view'
 import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
 import {parentAssessmentLocations,  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations } from './parents-path-locations';
+import ParentExamTimeTableActivities from '../components/parent-area/timetable/parent-exam-timetable-activities';
 
 
 const ParentDashboardRouter = () => {
@@ -36,8 +38,10 @@ const ParentDashboardRouter = () => {
                         <Route path={dashboardLocations.dashboard} exact component={parentIndex} />
 
                         {/* timetable */}
-                        <Route path={parentTimeTableLocations.parentTimeTable} exact component={ParentTimeTable} />
-                        <Route path={parentTimeTableLocations.parentTimetableActivities} exact component={ParentTimeTableActivities} />
+                        <Route path={parentTimeTableLocations.parentClassTimeTable} exact component={ParentClassTimeTable} />
+                        <Route path={parentTimeTableLocations.parentExamTimeTable} exact component={ParentExamTimeTable} />
+                        <Route path={parentTimeTableLocations.parentClassTimetableActivities} exact component={ParentClassTimeTableActivities} />
+                        <Route path={parentTimeTableLocations.parentExamTimetableActivities} exact component={ParentExamTimeTableActivities} />
                         <Route path={parentTimeTableLocations.printTimeTable} exact component={PrintTimeTable} />
 
                         {/* mywards */}

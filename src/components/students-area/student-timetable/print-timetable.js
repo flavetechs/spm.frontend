@@ -1,7 +1,8 @@
 import React from 'react'
 import { Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStudentTimeTable } from '../../../store/actions/timetable-actions';
+import { useLocation } from 'react-router-dom';
+import { getStudentClassTimeTable, getStudentExamTimeTable } from '../../../store/actions/timetable-actions';
 import { PrintCSV } from '../../../utils/export-csv';
 import Card from '../../Card';
 
@@ -10,15 +11,24 @@ const PrintTimeTable = () => {
 
     // VARIABLE DECLARATION
     const dispatch = useDispatch();
+    const locations = useLocation();
+    const queryParams = new URLSearchParams(locations.search);
+    const timeTableType = queryParams.get("timetableType");
     // VARIABLE DECLARATION
 
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
-    const { studentselectedTimetable, selectedTimetable } = state.timetable;
+    const { studentselectedTimetable, studentselectedExamTimetable  } = state.timetable;
     // ACCESSING STATE FROM REDUX STORE
 
+    const timeTable =   timeTableType === "examTimeTable" ? studentselectedExamTimetable : 
+      timeTableType === "classTimeTable" && studentselectedTimetable
+
     React.useEffect(() => {
-        getStudentTimeTable()(dispatch);
+        timeTableType === "examTimeTable" ?
+        getStudentExamTimeTable()(dispatch):
+        timeTableType === "classTimeTable" &&
+        getStudentClassTimeTable()(dispatch);
     }, [dispatch]);
 
     React.useEffect(() => {
@@ -32,7 +42,8 @@ const PrintTimeTable = () => {
                 <Card className='mt-0'>
                     <Card.Header className="d-flex justify-content-between flex-wrap">
                         <div className="header-title">
-                            <h4>{`${studentselectedTimetable?.className} Class Timetable`}</h4>
+                            <h4>{`${timeTableType === "examTimeTable" ?timeTable?.className + ' Exam Timetable' :
+            timeTable?.className + ' Class Timetable' }`}</h4>
                         </div>
                     </Card.Header>
                     <Card.Body>

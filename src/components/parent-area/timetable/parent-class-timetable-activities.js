@@ -7,7 +7,7 @@ import { getMyWardsClassTimetable } from "../../../store/actions/parent-actions"
 import Card from "../../Card";
 
 
-const ParentTimeTableActivities = () => {
+const ParentClassTimeTableActivities = () => {
 
   //VARIABLE DECLARATIONS
   let history = useHistory();
@@ -71,7 +71,7 @@ const ParentTimeTableActivities = () => {
                   <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                     onClick={() => {
                       history.push(
-                        `${parentTimeTableLocations.printTimeTable}?classLkId=${classLkIdQuery}&`
+                        `${parentTimeTableLocations.printTimeTable}?classLkId=${classLkIdQuery}&timetableType=classTimeTable`
                       );
                     }}
                   >
@@ -130,4 +130,4 @@ const ParentTimeTableActivities = () => {
   );
 };
 
-export default ParentTimeTableActivities;
+export default ParentClassTimeTableActivities;

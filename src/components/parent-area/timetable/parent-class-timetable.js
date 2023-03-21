@@ -11,7 +11,7 @@ import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 
-const ParentTimeTable = () => {
+const ParentClassTimeTable = () => {
 
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ const ParentTimeTable = () => {
                     <Card.Title>{item.class}</Card.Title>
                     <Link
                       className='btn btn-primary'
-                      to={`${parentTimeTableLocations.parentTimetableActivities}?classLkId=${item.classLkId}`}
+                      to={`${parentTimeTableLocations.parentClassTimetableActivities}?classLkId=${item.classLkId}`}
                     >
                       View Timetable
                     </Link>
@@ -108,4 +108,4 @@ const ParentTimeTable = () => {
   )
 }
 
-export default ParentTimeTable;
+export default ParentClassTimeTable;

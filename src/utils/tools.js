@@ -54,6 +54,8 @@ export const ReturnFilteredList = (arrayofObjects = [], searchQuery = "", column
     });
 }
 
+export const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
+
 export const CheckSingleItem = (isChecked,  prevSelectedId, selectedId, objectArray = [], column = "") => {
     let selectedIds = [];
     objectArray.forEach((item) => {

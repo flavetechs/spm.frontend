@@ -132,6 +132,25 @@ export const getSingleWardDetails = (StudentAccountId ) => (dispatch) => {
         });
 }
 
+export const getMyWardsExamTimetable = (classlkpId) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_LOADING,
+    });
+    axiosInstance.get(`/smp/api/v1/exam-timetable/get/by-parent?classlkpId=${classlkpId}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_EXAM_TIMETABLE_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
+
 export const getMyWardsHomeAssessment = (pageNumber, sessionClassSubjectId, studentContactId, status ) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_LOADING,
