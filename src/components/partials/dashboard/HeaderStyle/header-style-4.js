@@ -88,7 +88,7 @@ const HeaderStyle4 = () => {
                 </Container>
             </Navbar>
             <div className="nav-scroller bg-body shadow-sm">
-                <nav className="nav nav-underline" aria-label="Secondary navigation">
+                <Nav className="nav nav-underline" aria-label="Secondary navigation">
                     <Link
                         className='header-styles'
                         to={dashboardLocations.dashboard}
@@ -108,7 +108,7 @@ const HeaderStyle4 = () => {
                     <Nav.Link href="#">Link</Nav.Link>
                     <Nav.Link href="#">Link</Nav.Link> */}
                     <Link
-                        className='header-styles'
+                        className='header-styles '
                         to={myWardsLocations.myWards}
                     >
                         My  Ward(s)
@@ -138,18 +138,20 @@ const HeaderStyle4 = () => {
                     >
                         Print Result
                     </Link>
-                    <Link
-                        className='header-styles'
-                        to={parentTimeTableLocations.parentClassTimeTable}
-                    >
-                        Class Timetable
-                    </Link>
-                    <Link
-                        className='header-styles'
-                        to={parentTimeTableLocations.parentExamTimeTable}
-                    >
-                       Exam Timetable
-                    </Link>
+                    
+                    <NavDropdown title="Timetable"  id="sec-nav-dropdown">
+                                <Dropdown.Item onClick={() => {
+                                    history.push(parentTimeTableLocations.parentClassTimeTable)
+                                }}>
+                                    Class Timetable</Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item onClick={() => {
+                                    history.push(parentTimeTableLocations.parentExamTimeTable)
+                                }}>
+                                    Exam Timetable
+                                    </Dropdown.Item>
+                            </NavDropdown>
+                      
                     <Link
                         className='header-styles'
                         to={announcementLocations.announcement}
@@ -166,7 +168,7 @@ const HeaderStyle4 = () => {
                             <span className="badge bg-light text-dark rounded-pill align-text-bottom">7</span>
                         </Link>
                     ))} */}
-                </nav>
+                </Nav>
             </div>
         </>
     )

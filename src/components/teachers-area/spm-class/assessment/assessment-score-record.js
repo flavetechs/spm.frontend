@@ -127,7 +127,6 @@ const ScoreRecord = () => {
                                 id="included"
                                 defaultChecked={item.included || false}
                                 onChange={(e) => {
-                                  console.log('e.target.checked', e.target.checked);
                                   includeStudentToScoreRecord(item.homeAsessmentFeedbackId, homeAssessmentIdQuery, e.target.checked)(dispatch);
                                 }}
                               />

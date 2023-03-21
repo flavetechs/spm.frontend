@@ -51,6 +51,12 @@ const EditLessonNote = () => {
     resetLessonNoteContentState()(dispatch);
   }, [createSuccessful, history]);
 
+  const ref = useRef();
+
+  const reset = () => {
+    ref.current.value = "";
+  };
+
   useEffect(() => {
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getAllStaffClasses()(dispatch);
@@ -72,6 +78,7 @@ const EditLessonNote = () => {
       const params = new FormData();
       params.append("file", fileContent);
      getLessonNoteContent(params)(dispatch);
+     reset();
      } else if(dialogResponse === "cancel"){
         showHideDialog(false, null)(dispatch);
         respondDialog("")(dispatch);
@@ -153,18 +160,20 @@ const EditLessonNote = () => {
                         </Col>
                         <Col md="11" className="form-group text-secondary">
                           <label className="form-label">
-                            <b>Upload note(text,word,excel):</b>
+                            <b>Upload note(text,word):</b>
                           </label>
                           <div className="d-md-flex">
                             <Col sm="11" md="6">
-                              <Field
+                              <input
                                 type="file"
                                 name="noteFile"
-                                accept="application/msword, application/vnd.ms-excel,
-                                text/plain,application/pdf,.doc,.docx"
+                                accept="application/msword
+                                text/plain,.doc,.docx"
                                 className="form-control border-secondary"
                                 id="noteFile"
+                                ref={ref}
                                 onChange={(event) => {
+                                  setFieldValue("noteFile",event.target.files[0])
                                   setFileContent(event.target.files[0]);
                                 }}
                               />
@@ -176,6 +185,7 @@ const EditLessonNote = () => {
                               const params = new FormData();
                              params.append("file", fileContent);
                             getLessonNoteContent(params)(dispatch);
+                            setFileContent("")
                            }
                             else{
                             fileContent && showHideDialog(true, "Note that uploading a lesson note will overwrite current content in the editor, do you want to continue?")(dispatch);
@@ -259,6 +269,7 @@ const EditLessonNote = () => {
                             className="btn-sm mt-5"
                             variant="btn btn-danger"
                             onClick={() => {
+                              reset();
                               history.goBack();
                               resetLessonNoteContentState()(dispatch)
                             }}

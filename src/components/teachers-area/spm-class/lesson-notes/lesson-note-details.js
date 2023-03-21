@@ -349,10 +349,7 @@ const LessonNoteDetails = () => {
                               comment
                             )(dispatch);
                             setComment(""); 
-                          //   roomConnection.invoke("AddComment", { message: "some messages here to go with us", room: "flave", user });
-                          //   roomConnection.on("CommentArea", (user, message) => {
-                          //     console.log("Message received", message);
-                          // });
+                      
                           }}
                         >
                           <svg

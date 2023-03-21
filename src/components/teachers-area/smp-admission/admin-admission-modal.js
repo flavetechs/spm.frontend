@@ -18,7 +18,6 @@ export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,admi
     const state = useSelector((state) => state);
     const { showModal } = state.alert;
 
-console.log("adminAdmissionList",adminAdmissionList);
     React.useEffect(() => {
         if (!showModal) {
             setCategoryName(adminAdmissionList[0]?.candidateCategoryName||"");

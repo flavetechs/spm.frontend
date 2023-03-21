@@ -70,9 +70,10 @@ const LessonNotes = () => {
     getAllSession(1)(dispatch);
   }, [dispatch]);
 
+  
   React.useEffect(() => {
     if (queryParams == {}) {
-      // console.log('queryParams', queryParams);
+   
     }
     const fetchNotes = () => {
       classIdQueryParam &&

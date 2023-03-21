@@ -67,8 +67,7 @@ const UpdateAdmissionSetting = () => {
         }
     }, [admissionSettingResult]);
 
-    console.log("admissionSettingResult", admissionSettingResult);
-    // console.log("itemList", itemList);
+    
 
     return (
         <>

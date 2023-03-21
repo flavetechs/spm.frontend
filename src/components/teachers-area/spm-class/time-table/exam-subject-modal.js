@@ -30,7 +30,6 @@ export function ExamSubjectModal({ selectedActivityId,selectedClassId, sessionCl
         setActivityId(selectedActivityId);
     }, [selectedActivityId]);
     
-console.log("ans",classSubjects.find(c=>c.subjectName == periodActivity));
     return (
 
         <SmpModal title={'Update Exam Subject'}>
@@ -58,7 +57,7 @@ console.log("ans",classSubjects.find(c=>c.subjectName == periodActivity));
                                       key={idx}
                                       data-activity={item.subjectName}
                                       value={item.sessionClassSubjectId}
-                                      selected={classSubjects.find(c=>c.subjectName == periodActivity)}
+                                      //selected={classSubjects.find(c=>c.subjectName == periodActivity)}
                                     >
                                       {item.subjectName}
                                     </option>

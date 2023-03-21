@@ -58,7 +58,6 @@ const PasswordReset = () => {
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
-                                        console.log("values", values)
                                         resetForgotPasswordFunc(values)(dispatch);
                                     }}
                                 >

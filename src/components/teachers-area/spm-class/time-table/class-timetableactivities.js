@@ -43,7 +43,6 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
     React.useEffect(() => {
         setSelectedTimetableAsProp(selectedTimetable)
     }, []);
-    // console.log('selectedTimetable now', newSelectedTimetable);
 
     //DELETE HANDLER
     useEffect(() => {
