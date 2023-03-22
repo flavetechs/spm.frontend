@@ -22,6 +22,7 @@ import PaginationFilter from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
 import { getSchoolSetting } from "../../store/actions/portal-setting-action";
 import { loginOutUser } from "../../store/actions/auth-actions";
+import SmpLoader from "../loader/smp-loader";
 
 const CandidateList = () => {
   //VARIABLE DECLARATIONS
@@ -106,6 +107,7 @@ const CandidateList = () => {
 
   return (
     <>
+      <SmpLoader />
       <div className="container">
         <Row>
           <Col sm="12">

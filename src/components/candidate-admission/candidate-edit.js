@@ -7,6 +7,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import { getAdmissionClasses, getSingleAdmissionDetail, updateCandidateAdmission } from "../../store/actions/candidate-admission-actions";
 import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
+import SmpLoader from "../loader/smp-loader";
 
 const CandidateEdit = () => {
     //VARIABLE DECLARATIONS
@@ -77,6 +78,7 @@ const CandidateEdit = () => {
 
     return (
         <>
+          <SmpLoader />
             <Formik
                 enableReinitialize={true}
                 initialValues={{
@@ -106,6 +108,7 @@ const CandidateEdit = () => {
                     values.StateOfOrigin = values.StateOfOrigin;
                     values.LGAOfOrigin = values.LGAOfOrigin;
                     values.ClassId = values.ClassId;
+                    values.Photo= !values.Photo ? singleAdmissionDetail?.photo : values.Photo
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
                     params.append("Firstname", values.Firstname);

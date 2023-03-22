@@ -45,16 +45,16 @@ export const userRegistration = (values,history) => (dispatch) => {
 
     axiosInstance.post('/smp/api/v1/candidate-admission/register-parent', values)
         .then((res) => {
+             history.push(candidateLocations.registrationEmailReceived)
             dispatch({
                 type: actions.REGISTER_CANDIDATE_SUCCESS,
-                payload: res.data.result,
+                payload: res?.data.result,
             });
-            history.push(candidateLocations.registrationEmailReceived)
-      
+           
         }).catch(err => {
             dispatch({
                 type: actions.REGISTER_CANDIDATE_FAILED,
-                payload: err.response.data.message.friendlyMessage
+                payload: err?.response?.data.message.friendlyMessage
             })
            
         })

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { getSingleAdmissionDetail } from "../../store/actions/candidate-admission-actions";
 import Card from "../Card";
+import SmpLoader from "../loader/smp-loader";
 
 const CandidateDetails = () => {
     //VARIABLE DECLARATIONS
@@ -26,6 +27,7 @@ const CandidateDetails = () => {
 
     return (
         <>
+          <SmpLoader />
             <Row>
                 <div className="col-xl-9 col-lg-8 mx-auto">
                     <div className="card ">
