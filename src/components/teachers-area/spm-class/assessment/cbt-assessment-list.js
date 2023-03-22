@@ -64,7 +64,7 @@ const CBTAssessmentList = () => {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
       sessionClassIdQueryParam &&
-        getCBTClassAssessment(1,sessionClassIdQueryParam)(dispatch);
+        getCBTClassAssessment(1,sessionClassIdQueryParam,"")(dispatch);
 
        sessionClassSubjectIdQueryParam &&
         getCBTClassAssessment(1,sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);

@@ -12,6 +12,7 @@ import { getAppLayout } from "../../store/actions/portal-setting-action";
 import { TestUrls } from "../../utils/other";
 import { studentparentGuarndianRelationship } from "../../utils/tools";
 import { useHistory } from "react-router-dom";
+import { candidateAuthLocation } from "../../router/candidate-path-location";
 
 const RegistrationSignUp = () => {
   const dispatch = useDispatch();
@@ -219,7 +220,9 @@ const RegistrationSignUp = () => {
                                 className="form-control"
                               />
                             </div>
+                            <div className="text-center mb-3">Already have an account?<a href={candidateAuthLocation.signIn}> Sign in</a> </div>
                           </Row>
+                         
                           <div className="d-flex justify-content-center">
                             <button
                               onSubmit={() => {
@@ -231,6 +234,7 @@ const RegistrationSignUp = () => {
                             >
                               Sign Up
                             </button>
+                           
                           </div>
                         </Form>
                       )}
