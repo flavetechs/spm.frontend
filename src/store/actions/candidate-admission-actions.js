@@ -157,14 +157,14 @@ export const createCandidateAdmission = (values) => (dispatch) => {
                 type: actions.CREATE_CANDIDATE_ADMISSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            successModal(res.data.message.friendlyMessage)
             getCandidatesAdmissionList(1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_CANDIDATE_ADMISSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
-            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+            errorModal(err.response.data.message.friendlyMessage)
         });
 }
 
@@ -178,14 +178,14 @@ export const updateCandidateAdmission = (values) => (dispatch) => {
                 type: actions.UPDATE_CANDIDATE_ADMISSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+            successModal(res.data.message.friendlyMessage)
             getCandidatesAdmissionList(1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_CANDIDATE_ADMISSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
-            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+            errorModal(err.response.data.message.friendlyMessage)
         });
 }
 
