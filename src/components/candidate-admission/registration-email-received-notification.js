@@ -18,7 +18,7 @@ const RegistrationEmailReceived = () => {
                             <Col md="6">
                                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                     <Card.Body>
-                                        <h5 className="mb-2 text-center">Email Successfully registered. <br/> A confirmation email and login password has been sent to your email</h5>
+                                        <h5 className="mb-2 text-center">Successfully registered. <br/> A confirmation mail and login password has been sent to your email</h5>
                                         {/* <p className='text-center'>Thank you for choosing our services</p> */}
                                         <div className='text-center'>
                                             <Button

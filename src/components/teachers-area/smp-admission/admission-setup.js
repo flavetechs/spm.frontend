@@ -551,7 +551,7 @@ const AdmissionList = () => {
                             }
                           >
                             <a
-                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${adminAdmissionList[0]?.candidateCategory}&candidateCategoryName=${adminAdmissionList[0]?.candidateCategoryName}`}
+                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${adminAdmissionList[1]?.candidateCategory}&candidateCategoryName=${adminAdmissionList[1]?.candidateCategoryName}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="d-flex justify-content-end"
