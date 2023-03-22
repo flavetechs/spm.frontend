@@ -108,6 +108,7 @@ const CandidateEdit = () => {
                     values.StateOfOrigin = values.StateOfOrigin;
                     values.LGAOfOrigin = values.LGAOfOrigin;
                     values.ClassId = values.ClassId;
+                    values.Credentials= !values.Credentials ? singleAdmissionDetail?.credentials : values.Credentials
                     values.Photo= !values.Photo ? singleAdmissionDetail?.photo : values.Photo
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
