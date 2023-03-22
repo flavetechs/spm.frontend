@@ -42,7 +42,6 @@ const RegistrationSignUp = () => {
     process.env.NODE_ENV === "development"
       ? TestUrls.Development()
       : window.location.origin;
-  console.log("schoolUrl", schoolUrl);
 
   useEffect(() => {
     getAppLayout(schoolUrl)(dispatch);
