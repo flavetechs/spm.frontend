@@ -22,7 +22,10 @@ const LoginTemplate2 = ({ message, auth1, ...form }) => {
               </span>
               <span className="login100-form-title p-b-48 d-flex justify-content-center">
                 <div style={{ width: "50%" }}>
-                  <Logo color={true} />
+                <div className="text-center">
+                    <img src={form.schoolLogo} alt='school logo'height="80px"/>
+                  <h6 >{form.schoolName}</h6>
+                  </div>
                 </div>
               </span>
               {message && <div className="text-danger">{message}</div>}

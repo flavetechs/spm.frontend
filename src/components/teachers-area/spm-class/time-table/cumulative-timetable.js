@@ -1,195 +1,165 @@
-import React, { useState } from 'react'
-import { Row, Col, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
-import { respondToDeleteDialog, showErrorToast, showHideModal, showSingleDeleteDialog } from '../../../../store/actions/toaster-actions'
-import Card from '../../../Card'
-import './timetable.scss';
-import { NewTimeModal } from './new-time-modal'
-import { NewDayModal } from './new-day-modal'
-import { UpdateDayModal } from './update-day-modal'
-import { UpdateTimeModal } from './update-time-modal'
-import { PeriodActivityModal } from './period-activity-modal'
-import { deleteClassTimetabledays, deleteClassTimetableTime, getAllTimetable, getTimetableActiveClass, pushId, removeId } from '../../../../store/actions/timetable-actions'
-import PrintTimeTable from './printTimetable'
-import { ExamSubjectModal } from './exam-subject-modal'
-import { Field } from 'formik'
+import React, { useState } from "react";
+import { Row, Col, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Card from "../../../Card";
+import "./timetable.scss";
+import {
+  getCumulativeExamTimetable,
+  getTimetableActiveClass,
+} from "../../../../store/actions/timetable-actions";
+import { classLocations } from "../../../../router/spm-path-locations";
 
+const CumulativeTimeTable = () => {
+  // ACCESSING STATE FROM REDUX STORE
+  const state = useSelector((state) => state);
+  const { cumulativeExamTimetable, activeClasses } = state.timetable;
+  const { classSubjects } = state.class;
+  // ACCESSING STATE FROM REDUX STORE
 
-const CumulativeTimeTable = ( ) => {
+  //VARIABLE DECLARATION
+  const dispatch = useDispatch();
+  let history = useHistory();
 
-    // ACCESSING STATE FROM REDUX STORE
-    const state = useSelector((state) => state);
-    const { selectedIds,selectedTimetable, activeClasses  } = state.timetable;
-    const { deleteDialogResponse } = state.alert;
-    const { classSubjects} = state.class;
-    // ACCESSING STATE FROM REDUX STORE
+  //VARIABLE DECLARATION
 
-    //VARIABLE DECLARATION
-    const dispatch = useDispatch();
-    let history = useHistory();
-    const [selectedActivityId, setSelectedActivityId] = useState("");
-    const [deleteIds, setDeleteIds] = useState('');
-    const [modal, setModal] = useState('');
-    const [periodActivity, setPeriodActivity] = useState("");
-    const [currentDay, setCurrentDay] = useState("");
-    const [timetableDayId, setTimetableDayId] = useState("");
-    const [currentPeriod, setCurrentPeriod] = useState("");
-    const [timetableTimeId, setTimetableTimeId] = useState("");
+  React.useEffect(() => {
+    getCumulativeExamTimetable()(dispatch);
+  }, []);
+  const [selectedClassId, setSelectedClassId] = useState("");
+  //VARIABLE DECLARATIONS
 
-    //VARIABLE DECLARATION
+  console.log("cumulativeExamTimetable", cumulativeExamTimetable);
 
-    React.useEffect(() => {
-        getAllTimetable("4541217c-a2dc-4f11-2284-08db130af196")(dispatch)
-    }, []);
-    const [selectedClassId, setSelectedClassId] = useState("");
-    //VARIABLE DECLARATIONS
+  React.useEffect(() => {
+    getTimetableActiveClass()(dispatch);
+  }, ["123", dispatch]);
+  const filteredCumulativeExamTimetable = cumulativeExamTimetable
+    ?.map((item) => item.timetable.days)
+    .flat()
+    .filter(
+      (item, index, self) => index === self.findIndex((t) => t.day.toLowerCase() === item.day.toLowerCase() )
+    );
 
-    
+  return (
+    <>
+      <Row id="cumulative-exam-timetable">
+        <Col sm="12">
+          <Card className="mt-0">
+            <Card.Header className="d-flex justify-content-between flex-wrap">
+              <div className="header-title">
+                <h4>{`Cumulative Exam Timetable`}</h4>
+              </div>
+            </Card.Header>
+            <div className="mx-3 mt-2">
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id="button-tooltip-2"> back</Tooltip>}
+              >
+                <svg
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                  style={{ cursor: "pointer" }}
+                  className=" text-primary"
+                  width="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M13.165 11.9934L13.1634 11.6393C13.1513 10.2348 13.0666 8.98174 12.9206 8.18763C12.9206 8.17331 12.7613 7.38572 12.6599 7.12355C12.5006 6.74463 12.2126 6.42299 11.8515 6.2192C11.5624 6.0738 11.2592 6 10.9417 6C10.6922 6.01157 10.2806 6.13714 9.98692 6.24242L9.74283 6.33596C8.12612 6.97815 5.03561 9.07656 3.85199 10.3598L3.76473 10.4495L3.37527 10.8698C3.12982 11.1915 3 11.5847 3 12.0077C3 12.3866 3.11563 12.7656 3.3469 13.0718C3.41614 13.171 3.52766 13.2983 3.62693 13.4058L4.006 13.8026C5.31046 15.1243 8.13485 16.9782 9.59883 17.5924C9.59883 17.6057 10.5086 17.9857 10.9417 18H10.9995C11.6639 18 12.2846 17.6211 12.6021 17.0086C12.6888 16.8412 12.772 16.5132 12.8352 16.2252L12.949 15.6813C13.0788 14.8067 13.165 13.465 13.165 11.9934ZM19.4967 13.5183C20.3269 13.5183 21 12.8387 21 12.0004C21 11.1622 20.3269 10.4825 19.4967 10.4825L15.7975 10.8097C15.1463 10.8097 14.6183 11.3417 14.6183 12.0004C14.6183 12.6581 15.1463 13.1912 15.7975 13.1912L19.4967 13.5183Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </OverlayTrigger>
+            </div>
+            <Card.Body>
+              <duv className="d-flex justify-content-between">
+                <div className="form-group h6 mb-4">
+                  <select
+                    as="select"
+                    name="sessionClassSubjectId"
+                    className="form-select"
+                    id="sessionClassSubjectId"
+                    //   onChange={(e) => {
+                    //     setSessionClassSubjectId(
+                    //       e.target.value
+                    //     );}}
+                  >
+                    <option value="">Select Subject</option>
+                    {classSubjects?.map((item, idx) => (
+                      <option key={idx} value={item.sessionClassSubjectId}>
+                        {item.subjectName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="">
+                <Button
+                  className="text-center btn-primary btn-icon  mb-md-0 mb-3 ms-0 ms-lg-5"
+                  onClick={() => {
+                    history.push(
+                      `${classLocations.printTimeTable}?type=cumulativeTimeTable`
+                    );
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    fill="currentColor"
+                    className="bi bi-printer"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                  </svg>{" "}
+                  {""}
+                  <span>Print</span>
+                </Button>
+                </div>
+            </duv>
+              <div className="table-responsive">
+                <table
+                  id="role-list-table"
+                  className="table striped='column' table-bordered border-3"
+                >
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      {filteredCumulativeExamTimetable?.map((item, idx) => (
+                        <th>{item.day}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+               
+                    {cumulativeExamTimetable?.map((items, index) =>
+                      items?.timetable.times?.map((item, idx) => (
+                        <tr>
+                          <td> {item.period}</td>
+                          {item?.periodActivities?.map((activity, i) => (
+                            <td>{activity.activity}</td>
+                          ))}
+                        </tr>
+                      ))
+                    )}
+                    {/* <td className="text-center" key={index}>
+                          {items.className}
+                        </td> */}
 
-
-    React.useEffect(() => {
-        getTimetableActiveClass()(dispatch);
-    }, ['123', dispatch]);
-
-    //DELETE HANDLER
-    React.useEffect(() => {
-        if (deleteDialogResponse === "continue") {
-            if (selectedIds.length === 0) {
-                showErrorToast("No Item selected to be deleted")(dispatch);
-            } else {
-                if (deleteIds === 'day') {
-                    deleteClassTimetabledays(selectedIds, selectedClassId)(dispatch);
-                    respondToDeleteDialog("")(dispatch);
-                } else if (deleteIds === 'time') {
-                    deleteClassTimetableTime(selectedIds, selectedClassId)(dispatch);
-                    respondToDeleteDialog("")(dispatch);
-                }
-            }
-        } else {
-            selectedIds.forEach((id) => {
-                dispatch(removeId(id));
-            });
-        }
-        return () => {
-            respondToDeleteDialog("")(dispatch);
-        };
-    }, [deleteDialogResponse, dispatch]);
-    //DELETE HANDLER
-
-
-    return (
-        <>
-            <Row id="class-timetable">
-                <Col sm="12">
-                    <Card className='mt-0'>
-                        <Card.Header className="d-flex justify-content-between flex-wrap">
-                            <div className="header-title">
-                                <h4>{`${selectedTimetable?.className} Exam Timetable`}</h4>
-                            </div>
-                            
-
-                        </Card.Header>
-                        {modal === 'newDayModal' ?
-                            <NewDayModal
-                                selectedTimetable={selectedTimetable}
-                                selectedClassId={selectedClassId}
-                            /> : modal === 'newTimeModal' ?
-                                <NewTimeModal
-                                    selectedTimetable={selectedTimetable}
-                                    selectedClassId={selectedClassId}
-                                /> :
-                                modal === 'updateDayModal' ? <UpdateDayModal selectedClassId={selectedClassId} selectedTimetable={selectedTimetable} currentDay={currentDay} timetableDayId={timetableDayId} /> :
-                                    modal === 'updateTimeModal' ? <UpdateTimeModal selectedTimetable={selectedTimetable} selectedClassId={selectedClassId} currentPeriod={currentPeriod} timetableTimeId={timetableTimeId}
-                                    /> :
-                                        modal === 'examSubjectModal' ? <ExamSubjectModal
-                                            selectedActivityId={selectedActivityId}
-                                            selectedClassId={selectedClassId}
-                                            periodActivity={periodActivity}
-                                        />
-                                            :
-                                            ' '
-                        }
-                        <Card.Body>
-                        <Col md="4" className="form-group h6 mb-4">
-                          <select
-                                  as="select"
-                                  name="sessionClassSubjectId"
-                                  className="form-select"
-                                  id="sessionClassSubjectId"
-                                //   onChange={(e) => {
-                                //     setSessionClassSubjectId(
-                                //       e.target.value
-                                //     );}}
-                                >
-                                  <option value="">Select Subject</option>
-                                  {classSubjects?.map((item, idx) => (
-                                    <option
-                                      key={idx}
-                                      value={item.sessionClassSubjectId}
-                                    >
-                                      {item.subjectName}
-                                    </option>
-                                  ))}
-                                </select>
-                        </Col>
-                            <div className="table-responsive">
-                                <table    id="role-list-table" className="table striped='column' table-bordered border-3">
-                                    <thead>
-                                        <tr>
-                                            <th>Day</th>
-                                            <th>Class</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       
-                                    {selectedTimetable?.timetable?.days?.map((items, index) => (
-                                            <tr> <td className="text-center" key={index} >{items.day}</td> 
-                                             {activeClasses?.map((item, index) => (
-                                                <tr>
-                                             <td  className='py-3'  
-                                              onClick={() => {
-                                                setSelectedClassId(item?.lookupId);
-                                                getAllTimetable(item?.lookupId)(dispatch);
-                                            }}key={index}>{item.name}  
-                                      </td></tr>
-                                          ))}   
-                                            </tr>
-                                            ))}
-                                            
-                                      
-                                        {/* {selectedTimetable?.timetable?.times?.map((item, index) => (
-                                           <>
-                                                <td key={index}>
-                                                    {item.period}
-                                                   
-                                                </td>
-                                                
-                                                    {item?.periodActivities?.map((activityItem, idx) => {
-                                                        return <td
-                                                            key={idx}
-                                                        >
-                                                            {activityItem.activity}
-                                                        </td>
-                                                    })}
-                                            </>
-                                      
-                                       ))}  */}
-                                      
-                                    </tbody>
-                                </table>
-                            </div>
-                        </Card.Body>
-                        {/* <Card.Footer>
-                            <PrintTimeTable
-                                selectedTimetableAsProp={selectedTimetableAsProp}
-                            />
-                        </Card.Footer> */}
-                    </Card>
-
-                </Col>
-            </Row>
-        </>
-    )
-}
+                   
+                  </tbody>
+                </table>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
+  );
+};
 export default CumulativeTimeTable;

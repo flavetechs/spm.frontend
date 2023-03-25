@@ -9,8 +9,11 @@
     color: #2B7AE2;
 }
 
-#sec-nav-dropdown{
-    font-size: 17px;
-    font-weight: 400;
-    color: inherit;
+
+.dropdown-main{
+    z-index: 999;
+}
+
+.dropdown-toggle-menu .dropdown-menu[data-bs-popper] {
+    margin-top: 3.5rem !important;
 }

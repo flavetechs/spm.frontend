@@ -7,7 +7,7 @@ import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
 import { enrollMultipleCandidates, enrollSingleCandidate, getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
-export function AdmissionEnrolModal({ selectedIds, session2Classes }) {
+export function AdmissionEnrolModal({ selectedIds, session2Classes, selectedClassId,selectedExamStatus }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
@@ -64,14 +64,14 @@ export function AdmissionEnrolModal({ selectedIds, session2Classes }) {
                             className=""
                             onClick={() => {
                                 if (selectedIds.length === 1) {
-                                    enrollSingleCandidate(selectedIds, selectedSessionClassId)(dispatch);
+                                    enrollSingleCandidate(selectedIds, selectedSessionClassId,selectedClassId,selectedExamStatus)(dispatch);
                                 } else if(selectedIds.length > 1) {
-                                    enrollMultipleCandidates(selectedIds, selectedSessionClassId)(dispatch);
+                                    enrollMultipleCandidates(selectedIds, selectedSessionClassId,selectedClassId,selectedExamStatus)(dispatch);
                                 }
                                 showHideModal(false)(dispatch);
                             }}
                         >
-                            Save
+                            Enroll
                         </Button>
                     </div>
                 </div>

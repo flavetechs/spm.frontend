@@ -70,7 +70,7 @@ const ExamTimeTableActivities = ({ selectedExamTimetable, selectedClassId,sessio
 
     return (
         <>
-            <Row id="class-timetable">
+            <Row id="exam-timetable">
                 <Col sm="12">
                     <Card className='mt-0'>
                         <Card.Header className="d-flex justify-content-between flex-wrap">
@@ -183,8 +183,8 @@ const ExamTimeTableActivities = ({ selectedExamTimetable, selectedClassId,sessio
                                                                     onClick={() => {
                                                                         showHideModal(true)(dispatch);
                                                                         setModal('updateDayModal');
-                                                                        setCurrentDay(items.day)
-                                                                        setTimetableDayId(items?.examTimeTableDayId)
+                                                                        setCurrentDay(items.day);
+                                                                        setTimetableDayId(items?.examTimeTableDayId);
                                                                     }
                                                                     }
                                                                 >
