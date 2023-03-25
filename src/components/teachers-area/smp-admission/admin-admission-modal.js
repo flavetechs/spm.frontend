@@ -5,18 +5,25 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
-import { admissionExportToCBT } from "../../../store/actions/admin-admission-actions";
+import { admissionExportToCBT, fetchAllAdminAdmissionList } from "../../../store/actions/admin-admission-actions";
 
-export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,adminAdmissionList}) {
+export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,adminAdmissionList,selectedExamStatus}) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
-    const [categoryName, setCategoryName] = useState(adminAdmissionList[0]?.candidateCategoryName||"");
-    const [candidateCategory, setCandidateCategory] = useState(adminAdmissionList[0]?.candidateCategory||"");
+    const [categoryName, setCategoryName] = useState("");
+    const [candidateCategory, setCandidateCategory] = useState("");
     //VARIABLE DECLARATION
      const admissionClass = adminAdmissionClasses.find(c=>c.classId === selectedClassId).className;
     const state = useSelector((state) => state);
     const { showModal } = state.alert;
+
+    React.useEffect(() => {
+        if (adminAdmissionList) {
+            setCategoryName(adminAdmissionList[0]?.candidateCategoryName||"");
+            setCandidateCategory(adminAdmissionList[0]?.candidateCategory||"")
+        }
+    }, [adminAdmissionList])
 
     React.useEffect(() => {
         if (!showModal) {
@@ -65,11 +72,11 @@ export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,admi
                             variant="primary"
                             className=""
                             onClick={() => {
-                                admissionExportToCBT(selectedClassId, categoryName,candidateCategory)(dispatch);
+                                admissionExportToCBT(selectedClassId, categoryName,candidateCategory,selectedExamStatus)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
                         >
-                            Save
+                            Export
                         </Button>
                     </div>
                 </div>

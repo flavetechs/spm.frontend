@@ -322,6 +322,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
 
         case actions.FETCH_APP_LAYOUT_SUCCESS:
         localStorage.setItem('appSetting', JSON.stringify(payload));
+        localStorage.setItem('schoolLogo', payload.schoolLogo);
         return{
           ...state,
           isSuccessful: true,

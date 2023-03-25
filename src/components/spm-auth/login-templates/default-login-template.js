@@ -11,19 +11,23 @@ import Card from "../../Card";
 export default function DefaultLoginTemplate({ message, auth1, ...form }) {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <Row className="m-0 align-items-center bg-white vh-100">
+    <Row className="m-0 align-items-center bg-white vh-100" >
       <Col md="6">
         <Row className="justify-content-center">
           <Col md="10">
             <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
               <Card.Body>
-                <Link
+                {/* <Link
                   to={dashboardLocations.dashboard}
-                  className="navbar-brand d-flex align-items-center mb-3"
-                >
-                  <Logo color={true} />
-                  {/* <h4 className="logo-title ms-3">FLAVTECH</h4> */}
-                </Link>
+                  className="navbar-brand d-flex align-items-center mb-3" 
+                >*/}
+                  {/* <Logo color={true} /> */}
+                  <div className="text-center mb-3">
+                    <img src={form.schoolLogo} alt='school logo'height="120px"/>
+                  <h4 >{form.schoolName}</h4>
+                  </div>
+                  {/* <h4 className="logo-title ms-3">FLAVTECH</h4> 
+                </Link>*/}
                 <h2 className="mb-2 text-center">Sign In</h2>
                 <p className="text-center">Login to stay connected.</p>
 

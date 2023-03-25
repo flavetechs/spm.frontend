@@ -296,6 +296,25 @@ export const getAllExamTimetable = (classId) => (dispatch) => {
         });
 }
 
+export const getCumulativeExamTimetable = () => (dispatch) => {
+    dispatch({
+        type: actions.TIMETABLE_LOADING
+    });
+    axiosInstance.get(`/smp/api/v1/exam-timetable/get-all/exam-time-table`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_CUMULATIVE_EXAM_TIMETABLE_SUCCESS,
+                payload: res.data.result
+            });
+            
+        }).catch(err => {
+            dispatch({
+                type: actions.TIMETABLE_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+
 export const getExamTimetableActiveClass = () => (dispatch) => {
     dispatch({
         type: actions.TIMETABLE_LOADING

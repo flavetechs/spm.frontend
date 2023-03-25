@@ -15,6 +15,10 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
       <SmpLoader />
       <Row className="m-0 align-items-center container4 vh-100">
         <div className="container4 mt-5">
+        <div className="text-center mb-3">
+                    <img src={form.schoolLogo} alt='school logo'height="80px"/>
+                  <h6 >{form.schoolName}</h6>
+                  </div>
           <div className="row d-flex justify-content-center">
             <div className="col-md-6">
               <div className="card4  px-5 pt-5 pb-4" id="form1">

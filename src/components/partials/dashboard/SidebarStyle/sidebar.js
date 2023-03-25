@@ -11,9 +11,10 @@ import { bindActionCreators } from "redux"
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch } from "react-redux"
+import { connect, useDispatch, useSelector } from "react-redux"
 import Icon from '../../components/Icon'
-import { getSchoolSetting } from '../../../../store/actions/portal-setting-action'
+import { getAppLayout, getSchoolSetting } from '../../../../store/actions/portal-setting-action'
+import { TestUrls } from '../../../../utils/other'
 
 const mapStateToProps = (state) => {
     return {
@@ -42,8 +43,8 @@ const mapDispatchToProps = dispatch => ({
 const Sidebar = (props) => {
 const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
  const dispatch = useDispatch();
+ const schoolLogo= localStorage.getItem('schoolLogo');
  useEffect(() => {
-    getSchoolSetting()(dispatch);
     setSchoolAbbreviation(sessionStorage.getItem("schoolAbbreviation"));
 }, [])
 
@@ -113,8 +114,11 @@ const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
                             <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg> */}
-                        <Icon color={true} />
-                        <h4 className="logo-title">{schoolAbbreviation ??''} </h4>
+                        {/* <Icon color={true} /> */}
+                        <div className="text-center d-flex align-items-center">
+                    <img src={schoolLogo} alt='school logo'height="40px"/>
+                        <h4 className="logo-title">{schoolAbbreviation ??''} </h4> 
+                     </div>   
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >
                         <i className="icon">
