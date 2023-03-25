@@ -11,4 +11,5 @@ export const _state = {
     activeExamClasses: [],
     selectedExamTimetable: null,
     studentselectedExamTimetable: null,
+    cumulativeExamTimetable:null,
 }

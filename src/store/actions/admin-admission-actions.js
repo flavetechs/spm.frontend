@@ -58,7 +58,7 @@ export const fetchSingleAdminAdmissionDetail = (admissionId) => (dispatch) => {
         });
 }
 
-export const admissionExportToCBT = (selectedClassId, categoryName,candidateCategory) => (dispatch) => {
+export const admissionExportToCBT = (selectedClassId, categoryName,candidateCategory,selectedExamStatus) => (dispatch) => {
     dispatch({
         type: actions.ADMISSION_EXPORT_TO_CBT_LOADING
     });
@@ -74,6 +74,11 @@ export const admissionExportToCBT = (selectedClassId, categoryName,candidateCate
                 type: actions.ADMISSION_EXPORT_TO_CBT_SUCCEESS,
                 payload: res.data.message.friendlyMessage
             });
+            fetchAllAdminAdmissionList(
+                1,
+                selectedClassId,
+                selectedExamStatus
+              )(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -102,7 +107,7 @@ export const getAdminAdmissionClasses = () => (dispatch) => {
         });
 }
 
-export const enrollSingleCandidate = (selectedIds, selectedSessionClassId) => (dispatch) => {
+export const enrollSingleCandidate = (selectedIds, selectedSessionClassId,selectedClassId,examStatus) => (dispatch) => {
     dispatch({
         type: actions.ENROLL_SINGLE_CANDIDATE_LOADING
     });
@@ -117,6 +122,7 @@ export const enrollSingleCandidate = (selectedIds, selectedSessionClassId) => (d
                 type: actions.ENROLL_SINGLE_CANDIDATE_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            fetchAllAdminAdmissionList(1, selectedClassId, examStatus)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -127,7 +133,7 @@ export const enrollSingleCandidate = (selectedIds, selectedSessionClassId) => (d
         });
 }
 
-export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId) => (dispatch) => {
+export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId,selectedClassId,examStatus) => (dispatch) => {
     dispatch({
         type: actions.ENROLL_MULTIPLE_CANDIDATE_LOADING
     });
@@ -142,6 +148,7 @@ export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId) =>
                 type: actions.ENROLL_MULTIPLE_CANDIDATE_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+            fetchAllAdminAdmissionList(1, selectedClassId, examStatus)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

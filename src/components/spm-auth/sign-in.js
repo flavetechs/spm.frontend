@@ -95,7 +95,9 @@ const SignIn = () => {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} />
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo} />
 
     const templateOne =
         <LoginTemplate1
@@ -107,7 +109,9 @@ const SignIn = () => {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} />
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo} />
 
     const templateTwo =
         <LoginTemplate2
@@ -119,7 +123,9 @@ const SignIn = () => {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} />
+            touched={touched} 
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}/>
 
     const templateThree =
         <LoginTemplate3
@@ -131,7 +137,9 @@ const SignIn = () => {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} />
+            touched={touched} 
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}/>
 
     const templateFour =
         <LoginTemplate4
@@ -143,7 +151,9 @@ const SignIn = () => {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} />
+            touched={touched} 
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}/>
 
     const pageNotFound =
         <PageNotFound />

@@ -130,7 +130,6 @@ const AdmissionList = () => {
   const handleClick = (event) => {
     event.preventDefault();
   };
-
   return (
     <>
       <div>
@@ -585,11 +584,14 @@ const AdmissionList = () => {
                       selectedClassId={selectedClassId}
                       adminAdmissionClasses={adminAdmissionClasses}
                       adminAdmissionList={adminAdmissionList}
+                      selectedExamStatus={selectedExamStatus}
                     />
                   ) : (
                     <AdmissionEnrolModal
                       selectedIds={selectedIds}
                       session2Classes={session2Classes}
+                      selectedClassId={selectedClassId}
+                      selectedExamStatus={selectedExamStatus}
                     />
                   )}
                   <Card.Body className="px-0">

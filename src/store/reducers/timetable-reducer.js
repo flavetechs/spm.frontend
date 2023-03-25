@@ -302,6 +302,13 @@ export const timetableReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+      case actions.FETCH_CUMULATIVE_EXAM_TIMETABLE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          cumulativeExamTimetable: payload,
+        };
+
       case actions.FETCH_EXAM_TIMETABLE_SUCCESS:
         return {
           ...state,

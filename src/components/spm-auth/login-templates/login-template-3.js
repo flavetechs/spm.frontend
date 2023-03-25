@@ -17,9 +17,10 @@ const LoginTemplate3 = ({ message, auth1, ...form }) => {
         <div className="">
           <div className="row justify-content-center">
             <div className="col-md-6 text-center mb-3 d-flex justify-content-center">
-              <div style={{ width: "15%" }}>
-                <Logo color={true} />
-              </div>
+            <div className="text-center">
+                    <img src={form.schoolLogo} alt='school logo'height="100px"/>
+                  <h6 >{form.schoolName}</h6>
+                  </div>
             </div>
           </div>
           <div className="row justify-content-center">

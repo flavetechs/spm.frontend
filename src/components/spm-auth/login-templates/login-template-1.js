@@ -15,9 +15,12 @@ const LoginTemplate1 = ({ message, auth1, ...form }) => {
       <div className="col-lg-3 col-md-2"></div>
       <div className="col-lg-6 col-md-8 login-box">
         <div className="p-3 login-key d-flex justify-content-center">
-          <div style={{ width: "10%" }}>
-            <Logo color={true} />
-          </div>
+        
+          <div className="text-center">
+                    <img src={form.schoolLogo} alt='school logo'height="100px"/>
+                  <h6 >{form.schoolName}</h6>
+                  </div>
+       
         </div>
         <div className="col-lg-12 login-title ">Sign In</div>
         <div className="col-lg-12 login-form">
