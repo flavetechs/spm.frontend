@@ -17,8 +17,9 @@ const HeaderStyle4 = () => {
     //VARIABLE DECLARATIONS
     let history = useHistory();
     const dispatch = useDispatch();
+    const appSetting = JSON.parse(localStorage.getItem('appSetting'));
     //VARIABLE DECLARATIONS
-
+    
     // ACCESSING STATE FROM REDUX STORE
     const state = useSelector((state) => state);
     const { myWardList, filterProps } = state.parent;
@@ -42,21 +43,13 @@ const HeaderStyle4 = () => {
 
     return (
         <>
-            <Navbar bg='dark' expand="lg" variant="dark" className="fixed-top iq-navbar" aria-label="Main navigation">
-                <Container fluid>
-                    <Link to="/dashboard" className="navbar-brand d-flex align-items-center">
-                        {/* <Logo color={true} /> */}
-                        {/* <h4 className="logo-title text-light ms-3 mb-0"> {userDetail?.schoolAbbreviation ?? ''}</h4> */}
-                    </Link>
-                    <Navbar.Toggle className="p-0 border-0" aria-controls="navbarSideCollapse" >
-                        <span className="navbar-toggler-icon">
-                            <span className="navbar-toggler-bar bar1 mt-2"></span>
-                            <span className="navbar-toggler-bar bar2"></span>
-                            <span className="navbar-toggler-bar bar3"></span>
-                        </span>
-                    </Navbar.Toggle>
-                    <Navbar.Collapse className="offcanvas-collapse" >
-                        <Nav as="ul" className=" me-auto mb-2 mb-lg-0">
+           
+                <Navbar bg="dark" expand="lg" variant="dark" className="fixed-top" aria-label="Main navigation" >
+      <Container fluid>
+        <Navbar.Brand></Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav justify-content-between me-0">
+          <Nav as="ul" className=" me-auto mb-2 mb-lg-0">
                             <Nav.Item as="li">
                                 <Nav.Link active aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
                             </Nav.Item>
@@ -67,41 +60,29 @@ const HeaderStyle4 = () => {
                                 <Nav.Link href="#">Switch account</Nav.Link>
                             </Nav.Item>
                             <NavDropdown title="Profile" id="basic-nav-dropdown dropdown-main dropdown-toggle-menu ">
-                            {/* <NavDropdown.Item href="#action/3.1"className='mt-5'></NavDropdown.Item>
-                                <Dropdown.Divider /> */}
-                                <NavDropdown.Item href="#action/3.1"className='mt-5'>Profile</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.1"className=''>Profile</NavDropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={() => {
                                     dispatch(loginOutUser());
                                     history.push(authLocations.login)
                                 }}>Logout</Dropdown.Item>
                             </NavDropdown>
-                            {/* <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Something else here</NavDropdown.Item>
-                            </NavDropdown> */}
+                           
                         </Nav>
                         <form className="d-flex">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-primary" type="submit">Search</button>
                         </form>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-            
-          
-                {/* <Nav className="nav nav-underline" aria-label="Secondary navigation"> */}
-          <Navbar expand="lg"   className="iq-navbar"   aria-label="Secondary navigation">
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  
+
+
+          <Navbar expand="lg"  variant={appSetting.scheme === 'dark' ? 'dark' : 'light'} aria-label="Secondary navigation">
                 <Container fluid>
-                    <Navbar.Toggle className="p-0 border-0" aria-controls="navbarSideCollapse" >
-                        <span className="navbar-toggler-icon">
-                            <span className="navbar-toggler-bar bar1 mt-2"></span>
-                            <span className="navbar-toggler-bar bar2"></span>
-                            <span className="navbar-toggler-bar bar3"></span>
-                        </span>
-                    </Navbar.Toggle>
-                    <Navbar.Collapse className="offcanvas-collapse" >
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav justify-content-between me-0">
                         <Nav as="ul" className=" me-auto mb-2 mb-lg-0">
                             <Nav.Item as="li">
                                 <Nav.Link active aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
