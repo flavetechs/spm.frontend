@@ -79,7 +79,7 @@ const HeaderStyle4 = () => {
   
 
 
-          <Navbar expand="lg"  variant={appSetting.scheme === 'dark' ? 'dark' : 'light'} aria-label="Secondary navigation">
+          <Navbar expand="lg"  variant={appSetting?.scheme === 'dark' ? 'dark' : 'light'} aria-label="Secondary navigation">
                 <Container fluid>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav justify-content-between me-0">
@@ -113,6 +113,12 @@ const HeaderStyle4 = () => {
                                     history.push(parentTimeTableLocations.parentExamTimeTable)
                                 }}>
                                     Exam Timetable
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item onClick={() => {
+                                    history.push(parentTimeTableLocations.cumulativeTimeTable)
+                                }}>
+                                    Cumulative Exam Timetable
                                     </Dropdown.Item>
                             </NavDropdown>
                             <Nav.Item as="li">

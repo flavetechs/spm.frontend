@@ -24,6 +24,7 @@ import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
 import {parentAssessmentLocations,  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations } from './parents-path-locations';
 import ParentExamTimeTableActivities from '../components/parent-area/timetable/parent-exam-timetable-activities';
+import CumulativeTimeTable from '../components/parent-area/timetable/parent-cumulative-timetable';
 
 
 const ParentDashboardRouter = () => {
@@ -43,6 +44,7 @@ const ParentDashboardRouter = () => {
                         <Route path={parentTimeTableLocations.parentClassTimetableActivities} exact component={ParentClassTimeTableActivities} />
                         <Route path={parentTimeTableLocations.parentExamTimetableActivities} exact component={ParentExamTimeTableActivities} />
                         <Route path={parentTimeTableLocations.printTimeTable} exact component={PrintTimeTable} />
+                        <Route path={parentTimeTableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
 
                         {/* mywards */}
                         <Route path={myWardsLocations.myWards} exact component={WardList} />

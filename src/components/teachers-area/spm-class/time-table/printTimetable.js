@@ -31,8 +31,6 @@ const PrintTimeTable = () => {
       ? selectedTimetable
       : timeTableType === "cumulativeTimeTable" && cumulativeExamTimetable;
 
-  console.log("timeTableType", timeTableType);
-  console.log("cumulativeExamTimetable", cumulativeExamTimetable);
   useEffect(() => {
     PrintCSV("printExamTable");
     setTimeout(() => {
@@ -74,59 +72,75 @@ const PrintTimeTable = () => {
           <Card.Body>
             <div style={{ width: "100%", overflowX: "auto" }}>
               {timeTableType === "cumulativeTimeTable" ? (
-                <table
-                  id="role-list-table"
-                  className="table striped='column' table-bordered border-3"
-                >
-                  <thead>
-                    <tr>
-                      <th>Class</th>
-                      <th>Time</th>
-                      {filteredCumulativeExamTimetable?.map((item, idx) => (
-                        <th>{item.day}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cumulativeExamTimetable?.map((items, index) =>
-                      items?.timetable.times?.map((item, idx) => (
+                cumulativeExamTimetable?.map((item) => (
+                  <div>
+                    <h4 className="mx-2">{item.className}</h4>
+                    <table
+                      id="role-list-table"
+                      className="table striped='column' table-bordered border-3"
+                      style={{
+                        border: "1px solid rgb(90, 89, 89)",
+                        borderCollapse: "collapse",
+                        width: "100%",
+                        textAlign: "left",
+                      }}
+                    >
+                      <thead>
                         <tr>
-                          {" "}
-                          <td> {item.period}</td>
-                          {item?.periodActivities?.map((activity, i) => (
-                            <td>{activity.activity}</td>
+                          <th
+                            style={{
+                              padding: 15,
+                              backgroundColor: "rgb(74, 72, 72)",
+                              color: "white",
+                              textAlign: "left",
+                            }}
+                          >
+                            Time
+                          </th>
+                          {item.timetable.days.map((item, idx) => (
+                            <th
+                              style={{
+                                padding: 15,
+                                backgroundColor: "rgb(74, 72, 72)",
+                                color: "white",
+                                textAlign: "left",
+                              }}
+                            >
+                              {item.day}
+                            </th>
                           ))}
                         </tr>
-                      ))
-                    )}
-                    {/* <td className="text-center" key={index}>
-         {items.className}
-       </td> */}
-
-                    {/* <td> */}
-
-                    {/* </td> */}
-                    {/* <td> */}
-                    {/* {items?.timetable.times?.map((item, idx) => (
-       
-        <tr>   {item?.periodActivities?.map((activity, i) => (
-            
-      <>{activity.activity}</>
-    
-        ))} 
-        </tr>
-         ))} */}
-                    {/* </td> */}
-
-                    {/* {items?.timetable.times?.map((item, idx) => ( 
-       <><td>{item.period}</td> 
-       
-       {item?.periodActivities?.map((activity, i) => (
-        <td>{activity.activity}</td>
-         ))} </> ))}       
-         */}
-                  </tbody>
-                </table>
+                      </thead>
+                      <tbody>
+                        {item?.timetable.times?.map((item, idx) => (
+                          <tr>
+                            <td
+                              style={{
+                                padding: 15,
+                                border: "1px solid rgb(90, 89, 89)",
+                                textAlign: "left",
+                              }}
+                            >
+                              {" "}
+                              {item.period}
+                            </td>
+                            {item?.periodActivities?.map((activity, i) => (
+                              <td
+                                style={{
+                                  padding: 15,
+                                  border: "1px solid rgb(90, 89, 89)",
+                                  textAlign: "left",
+                                }}
+                              >
+                                {activity.activity}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))
               ) : (
                 <table
                   style={{
@@ -182,7 +196,6 @@ const PrintTimeTable = () => {
                               style={{
                                 padding: 15,
                                 border: "1px solid rgb(90, 89, 89)",
-                                textAlign: "left",
                                 textAlign: "left",
                               }}
                               className="table-td"
