@@ -32,6 +32,7 @@ export const dashboardLocations = {
     classTimeTable: "/stds-dashboard/student-class-time-table",
     examTimeTable: "/stds-dashboard/student-exam-time-table",
     printTimeTable: "/stds-dashboard/print-time-table",
+    cumulativeTimeTable: "/stds-dashboard/cumulative-time-table",
   };
 
   export const printResultLocations = {

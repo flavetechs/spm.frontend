@@ -96,9 +96,9 @@ const CandidateList = () => {
   React.useEffect(() => {
     setGetUserDetail(getUserDetails());
   }, []);
-
+  
   function handleAdmissionStatus() {
-    if (admissionStatusDetail?.admissionStatus === false) {
+    if (!admissionStatusDetail) {
       admissionOpenAndCloseModal()(dispatch);
     } else {
       history.push(candidateLocations.candidateRegistration);

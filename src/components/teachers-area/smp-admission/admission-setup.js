@@ -19,6 +19,7 @@ import { showHideModal } from "../../../store/actions/toaster-actions";
 import { Field, Formik } from "formik";
 import { AdmissionEnrolModal } from "./admission-enroll-modal";
 import { loginCBT } from "../../../store/actions/auth-actions";
+import { errorModal } from "../../../store/actions/candidate-admission-actions";
 
 const AdmissionList = () => {
   //VARIABLE DECLARATIONS
@@ -130,7 +131,8 @@ const AdmissionList = () => {
   const handleClick = (event) => {
     event.preventDefault();
   };
-  return (
+
+ return (
     <>
       <div>
         <Row>
@@ -380,6 +382,9 @@ const AdmissionList = () => {
                               type="button"
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
+                                selectedIds.find(ids=>(adminAdmissionList?.find(a=>a.candidateAdmissionStatus === 1)?.admissionId === ids))  ?
+                                errorModal("Approved candidates cannot be enrolled again")
+                                :
                                 showHideModal(true)(dispatch);
                                 setSelectModal("enroll-modal");
                               }}

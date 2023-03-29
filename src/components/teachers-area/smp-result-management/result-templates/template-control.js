@@ -15,9 +15,8 @@ const TemplateControl = () => {
   const dispatch = useDispatch();
   const locations = useLocation();
   const history = useHistory();
- // const [elementId, setElementId] = useState("")
   const state = useSelector((state) => state);
-
+  const { studentResult } = state.results;
   const { selectedTemplate } = state.portal;
   const { dialogResponse } = state.alert;
 
@@ -26,6 +25,7 @@ const TemplateControl = () => {
   const batchPrinting = queryParams.get("batchPrinting");
    const sessionClassId = queryParams.get("sessionClassId");
   const sessionTermId = queryParams.get("sessionTermId");
+  const results = batchResult ? batchResult : studentResult;
 
   useEffect(() => {
     getResultSetting()(dispatch);
@@ -92,7 +92,7 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.push(resultManagement.printResult);
+                      results?.isPrint ? history.push(resultManagement.printResult) : history.push(resultManagement.publishResult)
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -174,7 +174,7 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.push(resultManagement.printResult);
+                      results?.isPrint ? history.push(resultManagement.printResult) : history.push(resultManagement.publishResult)
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"

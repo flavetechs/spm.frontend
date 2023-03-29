@@ -22,6 +22,7 @@ import Protected from '../components/spm-auth/protected';
 import PrintTimeTable from '../components/students-area/student-timetable/print-timetable';
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentExamTimeTable from '../components/students-area/student-timetable/student-exam-timetable';
+import CumulativeTimeTable from '../components/students-area/student-timetable/cumulative-timetable';
 
 
 
@@ -63,6 +64,7 @@ const StudentDashboardRouter = () => {
                     <Route path={timeTableLocations.classTimeTable} exact component={StudentClassTimeTable} />
                     <Route path={timeTableLocations.examTimeTable} exact component={StudentExamTimeTable} />
                     <Route path={timeTableLocations.printTimeTable} exact component={PrintTimeTable} />
+                    <Route path={timeTableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
 
                     {/* printResult */}
                     <Route path={printResultLocations.printResult} exact component={PrintStudentResult} />

@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-import { Row, Col, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, Button, OverlayTrigger, Tooltip, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Card from "../../../Card";
-import "./timetable.scss";
-import {
-  getCumulativeExamTimetable,
-  getTimetableActiveClass,
-} from "../../../../store/actions/timetable-actions";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { timeTableLocations } from "../../../router/students-path-locations";
+import { getCumulativeExamTimetable, getTimetableActiveClass } from "../../../store/actions/timetable-actions";
 
 const CumulativeTimeTable = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { cumulativeExamTimetable, activeClasses } = state.timetable;
+  const { cumulativeExamTimetable } = state.timetable;
   const { classSubjects } = state.class;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -95,7 +90,7 @@ const CumulativeTimeTable = () => {
                     className="text-center btn-primary btn-icon  mb-md-0 mb-3 ms-0 ms-lg-5"
                     onClick={() => {
                       history.push(
-                        `${classLocations.printTimeTable}?type=cumulativeTimeTable`
+                        `${timeTableLocations.printTimeTable}?timetableType=cumulativeTimeTable`
                       );
                     }}
                   >

@@ -11,6 +11,7 @@ import { ExamTimeTableLink } from "./Navigations/student-navigations/students-ex
 import { PrintResultLink } from "./Navigations/student-navigations/print-result-link";
 import { StudentDashboardLink } from "./Navigations/student-navigations/dashboard-link";
 import { StudentNoteLink } from "./Navigations/student-navigations/my-notes-link";
+import { CumulativeTimeTableLink } from "./Navigations/student-navigations/students-cumulative-time-table-link";
 
 
 const minisidebar = () => {
@@ -51,6 +52,8 @@ const StudentsVerticalNav = () => {
         <ClassTimeTableLink minisidebar={minisidebar} />
 
         <ExamTimeTableLink minisidebar={minisidebar} />
+
+        <CumulativeTimeTableLink minisidebar={minisidebar} />
 
         <PrintResultLink minisidebar={minisidebar} />
 
