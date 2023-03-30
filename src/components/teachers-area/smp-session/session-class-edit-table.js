@@ -108,7 +108,7 @@ const SessionClassTableEdit = () => {
       true
     )(dispatch);
   };
-
+  
   const getAssessmentScores = (subjectId,subject) => {
     buildSessionClassSubjectArray(
       initialValues.subjectExamScore,
@@ -124,7 +124,7 @@ const SessionClassTableEdit = () => {
 
   const getSubjectTeacherId = (subjectId,subject, subjectTeacherId,subjectTeacher) => {
     buildSessionClassSubjectArray(
-      "",
+       "",
       "",
       subjectId,
       subject,
@@ -220,7 +220,7 @@ const SessionClassTableEdit = () => {
                                   }
                                   onChange={(e) => {
                                     getSubjectId(e, subject.lookupId, subject.name);
-                                    setFieldValue("subjectId",subject.lookupId);
+                                  setFieldValue("subjectId",subject.lookupId);
                                     if(!e.target.checked){
                                       setFieldValue(
                                         `${subject.lookupId}_subjectExamScore`,
@@ -257,6 +257,7 @@ const SessionClassTableEdit = () => {
                                         "subjectExamScore",
                                         Number(e.target.value)
                                       );
+                                      e.target.value && setFieldValue("subjectId",subject.lookupId);
                                       getExamScores(subject.lookupId,subject.name);
                                       getAssessmentScores(subject.lookupId,subject.name);
                                       setFieldValue(
@@ -295,6 +296,7 @@ const SessionClassTableEdit = () => {
                                         "subjectAssessmentScore",
                                         Number(e.target.value)
                                       );
+                                      e.target.value && setFieldValue("subjectId",subject.lookupId);
                                       setFieldValue(
                                         `${subject.lookupId}_subjectAssessmentScore`,
                                         Number(e.target.value)
@@ -314,7 +316,7 @@ const SessionClassTableEdit = () => {
                                   className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
-                                    values.subjectId ?
+                                    values.subjectId && values.subjectId == subject.lookupId ?
                                       getSubjectTeacherId(
                                         subject.lookupId,
                                         subject.name,
