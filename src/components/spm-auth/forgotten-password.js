@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
 import { forgotPasswordFunc } from '../../store/actions/auth-actions';
 import SmpLoader from '../loader/smp-loader';
+import { TestUrls } from '../../utils/other';
 
 const ForgottenPassword = () => {
 
@@ -33,7 +34,7 @@ const ForgottenPassword = () => {
         }
     }, [forgotPasswordMessage]);
 
-    const schoolUrl = window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
 
     return (
         <>

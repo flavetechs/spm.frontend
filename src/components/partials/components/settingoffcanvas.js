@@ -40,6 +40,7 @@ import { template2 } from '../../../assets/images/loginTemplates/template-2'
 import { template3 } from '../../../assets/images/loginTemplates/template-3.'
 import { template4 } from '../../../assets/images/loginTemplates/template-4'
 import { defaultTemplate } from '../../../assets/images/loginTemplates/default-template'
+import { TestUrls } from '../../../utils/other'
 
 
 const mapStateToProps = (state) => {
@@ -239,7 +240,7 @@ const SettingOffcanvas = (props ) => {
   const [imageDisplay, setImageDisplay] = useState("");
   const colorcustomizerMode = sessionStorage.getItem('color-customizer-mode');
  
-  const schoolUrl = window.location.origin;
+  const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin
   useEffect(() => {
     localStorage.removeItem('appSetting');
     sessionStorage.removeItem('color-customizer-mode')
