@@ -5,6 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { resultManagement } from "../../../../router/spm-path-locations";
 
 import { getResultSetting } from "../../../../store/actions/portal-setting-action";
+import { setSessionClassIdAndTermId } from "../../../../store/actions/publish-actions";
 import { resetPrintSuccessfulState } from "../../../../store/actions/results-actions";
 
 import { PrintCSV } from "../../../../utils/export-csv";
@@ -25,6 +26,8 @@ const TemplateControl = () => {
   const batchPrinting = queryParams.get("batchPrinting");
    const sessionClassId = queryParams.get("sessionClassId");
   const sessionTermId = queryParams.get("sessionTermId");
+  const termId = queryParams.get("termId");
+  const sessionId = queryParams.get("sessionId");
   const results = batchResult ? batchResult : studentResult;
 
   useEffect(() => {
@@ -47,7 +50,7 @@ const TemplateControl = () => {
                     onClick={() => {
                       resetPrintSuccessfulState()(dispatch);
                       history.push(
-                        `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
+                        `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`
                       );
                     }}
                     style={{ cursor: "pointer" }}
@@ -92,7 +95,8 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      results?.isPrint ? history.push(resultManagement.printResult) : history.push(resultManagement.publishResult)
+                      results?.isPrint ? history.push(resultManagement.printResult) : 
+                      history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -174,7 +178,8 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      results?.isPrint ? history.push(resultManagement.printResult) : history.push(resultManagement.publishResult)
+                      results?.isPrint ? history.push(resultManagement.printResult) : 
+                       history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}&sessionId=${sessionId}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"

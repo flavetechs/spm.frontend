@@ -45,6 +45,7 @@ const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
  const dispatch = useDispatch();
  const schoolLogo= localStorage.getItem('schoolLogo');
  useEffect(() => {
+    getSchoolSetting()(dispatch);
     setSchoolAbbreviation(sessionStorage.getItem("schoolAbbreviation"));
 }, [])
 

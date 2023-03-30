@@ -81,7 +81,7 @@ const PublishResultTable = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.goBack();
+                      history.push(resultManagement.publishResult);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -232,7 +232,7 @@ const PublishResultTable = () => {
                               list.studentContactId
                             )(dispatch);
                           }}
-                          to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}`}
+                          to={`${resultManagement.resultTemplate}?studentContactId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}&sessionId=${sessionIdQueryParam}`}
                         >
                           <span className="btn-inner">
                             <svg
