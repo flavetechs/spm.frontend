@@ -16,7 +16,7 @@ import LoginTemplate1 from "./login-templates/login-template-1";
 import LoginTemplate2 from "./login-templates/login-template-2";
 import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
-import { getAppLayout } from "../../store/actions/portal-setting-action";
+import { getAppLayout, getSchoolSetting } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { TestUrls } from "../../utils/other";
 
@@ -33,7 +33,17 @@ const SignIn = () => {
     const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
+        getSchoolSetting()(dispatch);
     }, [schoolUrl])
+
+const layoutSetting = localStorage.getItem("appSetting")
+const appSetting2 = JSON.parse(layoutSetting) || "";
+
+    useEffect(() => {
+if (!appSetting2.scheme) {
+    getAppLayout(schoolUrl)(dispatch)
+}
+}, [schoolUrl,appSetting2])
 
     useEffect(() => {
         if (userDetail) {

@@ -92,7 +92,7 @@ const PublishResult = () => {
                   enableReinitialize={true}
                   onSubmit={(values) => {
                     history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
-                    // history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}`);
+
                   }}
                 >
                   {({
@@ -238,30 +238,7 @@ const PublishResult = () => {
                     </Form>
                   )}
                 </Formik>
-                {/* // ) : null}
-                // {showPublishResultTable && (
-                //   <div>
-                //     {!isPreviewMode ? (
-                //       <PublishResultTable
-                //         validation={validation}
-                //         idsObj={idsObj}
-                //         isEditMode={isEditMode}
-                //         setEditMode={setEditMode}
-                //         setIndexRow={setIndexRow}
-                //         setPreviewMode={setPreviewMode}
-                //         indexRow={indexRow}
-                //         isPreviewMode={isPreviewMode}
-                //         idsForPreview={idsForPreview}
-                //         selectedSession={selectedSession}
-                //       />
-                //     ) : (
-                //       <Preview
-                //         setPreviewMode={setPreviewMode}
-                //         isPreviewMode={isPreviewMode}
-                //       />
-                //     )}
-                //   </div>
-                // )} */}
+              
               </Card.Body>
             </Card>
           </Col>

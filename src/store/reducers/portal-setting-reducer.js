@@ -12,6 +12,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         schoolSetting: {},
       };
     case actions.FETCH_SCHOOL_SETTING_SUCCESS:
+      localStorage.removeItem("schoolAbbreviation")
       sessionStorage.setItem("schoolAbbreviation",payload.schoolAbbreviation)
       return {
         ...state,
@@ -321,6 +322,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         };
 
         case actions.FETCH_APP_LAYOUT_SUCCESS:
+        localStorage.removeItem("appSetting")
         localStorage.setItem('appSetting', JSON.stringify(payload));
         localStorage.setItem('schoolLogo', payload.schoolLogo);
         return{

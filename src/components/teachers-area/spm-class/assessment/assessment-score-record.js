@@ -8,14 +8,17 @@ import {
   includeClassToScoreRecord,
   includeStudentToScoreRecord,
 } from "../../../../store/actions/class-actions";
+import { respondDialog, showHideDialog } from "../../../../store/actions/toaster-actions";
 
 const ScoreRecord = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(false)
   const state = useSelector((state) => state);
   const { scoreRecordList } = state.class;
+  const { dialogResponse } = state.alert;
   //VARIABLE DECLARATIONS
   const queryParams = new URLSearchParams(location.search);
   const homeAssessmentIdQuery = queryParams.get("homeAssessmentId");
@@ -24,6 +27,23 @@ const ScoreRecord = () => {
     homeAssessmentIdQuery && getScoreRecords(homeAssessmentIdQuery)(dispatch);
   }, [homeAssessmentIdQuery]);
 
+
+  useEffect(() => {
+    if (dialogResponse === "continue") {
+      includeClassToScoreRecord(homeAssessmentIdQuery, isChecked)(dispatch);
+      showHideDialog(false, null)(dispatch);
+      respondDialog("")(dispatch);
+      setIsChecked(false)
+    }else if(dialogResponse === "cancel"){
+      setIsChecked(false)
+    }
+    return () => {
+      respondDialog("")(dispatch);
+      showHideDialog(false, null)(dispatch);
+      setIsChecked(false)
+    };
+  }, [dialogResponse, dispatch]);
+console.log("dialogResponse",dialogResponse);
   return (
     <>
       <div>
@@ -80,8 +100,13 @@ const ScoreRecord = () => {
                             type="checkbox"
                             className="form-check-input "
                             id="included"
+                            checked={isChecked}
                             onChange={(e) => {
-                              includeClassToScoreRecord(homeAssessmentIdQuery, e.target.checked)(dispatch);
+                              showHideDialog(
+                                true,
+                                "Are you sure you want to include this class to score entry"
+                              )(dispatch);
+                            setIsChecked(e.target.checked)
                             }}
                           />
                         </td>
@@ -118,7 +143,7 @@ const ScoreRecord = () => {
                             </div>
                           </td>
                           <td className="text-center">{item.score}</td>
-                          <td className="text-center">
+                          {/* <td className="text-center">
                             {item.status === "submitted" &&
                               <input
                                 type="checkbox"
@@ -131,7 +156,7 @@ const ScoreRecord = () => {
                                 }}
                               />
                             }
-                          </td>
+                          </td> */}
 
                           <td className="text-center">
                             {item?.status === "submitted" && (

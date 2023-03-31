@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
         colorprimarymode: getcustomizerprimaryMode(state),
         schemeDirMode: getDirMode(state),
         sidebarcolorMode: getSidebarColorMode(state),
-        sidebarTypeMode: getSidebarTypeMode(state),
+        sidebarTypeMode: getSidebarTypeMode(state)|| {},
         sidebaractivestyleMode: getSidebarActiveMode(state),
         navbarstylemode: getNavbarStyleMode(state),
         loginTemplateMode: getLoginTemplateMode(state),
@@ -256,7 +256,7 @@ const SettingOffcanvas = (props ) => {
     sessionStorage.removeItem('loginTemplate-mode')
     getAppLayout(schoolUrl)(dispatch);
 }, [schoolUrl])
- 
+
 
 
     return (

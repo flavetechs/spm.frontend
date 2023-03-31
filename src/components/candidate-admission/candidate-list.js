@@ -20,7 +20,6 @@ import {
 } from "../../store/actions/candidate-admission-actions";
 import PaginationFilter from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
-import { getSchoolSetting } from "../../store/actions/portal-setting-action";
 import { loginOutUser } from "../../store/actions/auth-actions";
 import SmpLoader from "../loader/smp-loader";
 
@@ -96,7 +95,6 @@ const CandidateList = () => {
   React.useEffect(() => {
     setGetUserDetail(getUserDetails());
   }, []);
-  
   function handleAdmissionStatus() {
     if (!admissionStatusDetail) {
       admissionOpenAndCloseModal()(dispatch);
@@ -119,16 +117,15 @@ const CandidateList = () => {
                 <div className="header-title">
                   <h4 className="card-title mb-3">Candidate List</h4>
                 </div>
-                <div className="d-md-flex justify-content-between">
+                <div className="d-md-flex  justify-content-between">
                   <h6
                     style={{
-                      fontSize: "12px",
                       wordBreak: "break-all",
                       whiteSpace: "pre-wrap",
                     }}
-                    className="card-title my-2"
+                    className="card-title fw-bold my-2"
                   >
-                    {getUserDetail?.parentEmail}
+                    {getUserDetail?.userName}
                   </h6>
                   <div>
                     <Link to="#">

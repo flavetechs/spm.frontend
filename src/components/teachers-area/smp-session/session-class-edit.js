@@ -103,6 +103,7 @@ const SessionClassEdit = () => {
     }
   }, [submitSuccessful]);
 
+
   return (
     <>
       <div className="col-md-10 mx-auto">
