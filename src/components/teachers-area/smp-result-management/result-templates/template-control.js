@@ -179,7 +179,7 @@ const TemplateControl = () => {
                   <svg
                     onClick={() => {
                       results?.isPrint ? history.push(resultManagement.printResult) : 
-                       history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}&sessionId=${sessionId}`);
+                       history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"

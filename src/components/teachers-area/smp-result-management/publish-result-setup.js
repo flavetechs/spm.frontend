@@ -76,7 +76,7 @@ const PublishResult = () => {
                       history.push(`${resultManagement.publishedClassList}`)
                     }}
                   >
-                    Published CLasses
+                    Published Classes
                   </Button>
                 </div>
               </Card.Header>
