@@ -29,7 +29,6 @@ export function ExamSubjectModal({ selectedActivityId,selectedClassId, sessionCl
         setActivity(periodActivity);
         setActivityId(selectedActivityId);
     }, [selectedActivityId]);
-    
     return (
 
         <SmpModal title={'Update Exam Subject'}>
@@ -44,20 +43,20 @@ export function ExamSubjectModal({ selectedActivityId,selectedClassId, sessionCl
                                   name="activityId"
                                   className="form-select"
                                   id="activityId"
+                                  value={activity}
                                   onChange={(e) => {
-                                    setActivityId(
+                                    setActivity(
                                       e.target.value
                                     );
-                                   setActivity(e.target.selectedOptions[0].dataset.activity)
+                                   setActivityId(e.target.selectedOptions[0].dataset.activity)
                                 }}
                                 >
                                   <option value="">Select Subject</option>
                                   {classSubjects?.map((item, idx) => (
                                     <option
                                       key={idx}
-                                      data-activity={item.subjectName}
-                                      value={item.sessionClassSubjectId}
-                                      //selected={classSubjects.find(c=>c.subjectName == periodActivity)}
+                                      data-activity={item.sessionClassSubjectId}
+                                      value={item.subjectName}
                                     >
                                       {item.subjectName}
                                     </option>

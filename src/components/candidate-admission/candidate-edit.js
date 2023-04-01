@@ -311,7 +311,7 @@ const CandidateEdit = () => {
                                                 </Row>
                                                 <div className="col-md-12 form-group">
                                                     <label className="form-label" htmlFor="Email">
-                                                        <b>Email Address:</b>
+                                                        <b>Candidate Email Address:</b>
                                                     </label>
                                                     <Field
                                                         placeholder="Email Address"

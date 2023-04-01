@@ -113,7 +113,7 @@ const CandidateDetails = () => {
                                             <p><span><b>Mobile Number:</b></span> <span className="h6">{singleAdmissionDetail?.phoneNumber}</span></p>
                                         </div>
                                         <div className="col-md-6 form-group">
-                                            <p><span><b>Email Address:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.email}</span></p>
+                                            <p><span><b>Candidate Email Address:</b></span> <span className="h6 text-capitalize">{singleAdmissionDetail?.email}</span></p>
                                         </div>
                                         <div className="col-md-6  form-group">
                                             <p> <span><b>Date Of Birth:</b></span> <span className="h6">{singleAdmissionDetail?.dateOfBirth}</span></p>

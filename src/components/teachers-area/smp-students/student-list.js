@@ -86,9 +86,9 @@ const StudentList = () => {
   //DELETE HANDLER
 
 
-  const filteredStudentList = ReturnFilteredList(studentList, searchQuery,
-    ["firstName", "lastName", "registrationNumber", "sessionClass"]
-  );
+  // const filteredStudentList = ReturnFilteredList(studentList, searchQuery,
+  //   ["firstName", "lastName", "registrationNumber", "sessionClass"]
+  // );
 
   React.useEffect(() => {
     if (modalResponse === "continue") {

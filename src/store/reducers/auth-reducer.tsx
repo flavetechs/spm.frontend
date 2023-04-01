@@ -56,6 +56,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 message: '',
                 token: '',
                 refreshToken: '',
+                loggedOut:true,
             }
         }
 

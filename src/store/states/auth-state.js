@@ -10,4 +10,5 @@ export const _state = {
     userDetail: null,
     changedForgotPasswordSuccessful: false,
     loginSuccessful:false,
+    loggedOut:false,
 }

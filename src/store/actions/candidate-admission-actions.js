@@ -90,11 +90,11 @@ export const logOutUserEmail = () => {
     }
 }
 
-export const getCandidatesAdmissionList = (PageNumber) => (dispatch) => {
+export const getCandidatesAdmissionList = (admissionSettingsId,pageSize,PageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSIONS_LIST_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/candidate-admission/get-all-admission?PageNumber=${PageNumber}`)
+    axiosInstance.get(`/smp/api/v1/candidate-admission/get-all-admission?PageNumber=${PageNumber}&pageSize=${pageSize}&admissionSettingsId=${admissionSettingsId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADMISSIONS_LIST_SUCCESS,

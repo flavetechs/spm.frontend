@@ -22,11 +22,11 @@ export const returnList = (items) => (dispatch) => {
     })
 }
 
-export const fetchAllAdminAdmissionList = (pageNumber, classId, examStatus) => (dispatch) => {
+export const fetchAllAdminAdmissionList = (admissionSettingsId, classId, examStatus,pageSize,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ALL_ADMISSION_LIST_LOADING
     });
-    axiosInstance.get(`/smp/api/v1/admission/get-all-admission?PageNumber=${pageNumber}&classId=${classId}&examStatus=${examStatus}`)
+    axiosInstance.get(`/smp/api/v1/admission/get-all-admission?PageNumber=${pageNumber}&pageSize=${pageSize}&classId=${classId}&examStatus=${examStatus}&admissionSettingsId=${admissionSettingsId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ALL_ADMISSION_LIST_SUCCESS,
