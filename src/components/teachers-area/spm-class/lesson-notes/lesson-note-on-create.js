@@ -218,12 +218,12 @@ const CreateLessonNote = () => {
                             id="note-editor"
                             ref={elementRef}
                             className="bg-white"
-                            style={{ height: '300px' }}
+                            style={{ height: '300px',maxHeight:'300px' }}
                           />
                         </Col>
 
-
-                        <Col md="11" className="form-group h6 mt-5">
+                        <div className="mt-5">
+                        <Col md="11" className="form-group h6 mt-5 mx-4">
                           <Field
                             type="checkbox"
                             name="shouldSendForApproval"
@@ -234,6 +234,7 @@ const CreateLessonNote = () => {
                             <b>Submit for review</b>
                           </label>
                         </Col>
+                        </div>
 
 
                         <div className="d-flex justify-content-end">

@@ -10,7 +10,7 @@ import SmpLoader from "../loader/smp-loader";
 import { userEmailLogin } from "../../store/actions/candidate-admission-actions";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import { TestUrls } from "../../utils/other";
-import { loginUser } from "../../store/actions/auth-actions";
+import { loginOutUser, loginUser } from "../../store/actions/auth-actions";
 import { candidateAuthLocation } from "../../router/candidate-path-location";
 import { useHistory } from "react-router-dom";
 
@@ -18,25 +18,24 @@ const RegistrationSignIn = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   let history = useHistory();
-  // const { message, parentGuardianFirstTimeLogin, token } = state.candidate;
-
-  // useEffect(() => {
-  //     if (token && parentGuardianFirstTimeLogin === false) {
-  //         window.location.href = '/candidates';
-  //     } else if (parentGuardianFirstTimeLogin === true) {
-  //         window.location.href = '/candidates/registration-email';
-  //     }
-  // }, [token, parentGuardianFirstTimeLogin]);
-  const { message } = state.auth;
+  
+  const { message ,loggedOut} = state.auth;
   const { appSetting } = state.portal;
   var token = localStorage.getItem("token");
   var userDetail = localStorage.getItem("userDetail");
   const [showPassword, setShowPassword] = useState(false);
 
+
   useEffect(() => {
+    dispatch(loginOutUser());
+  }, []);
+  
+  useEffect(() => {
+   if(loggedOut)  {
     if (token) {
       window.location.href = "/candidates";
-    }
+    }  
+   }
   }, [token, history]);
 
   const validation = Yup.object().shape({
@@ -52,7 +51,8 @@ const RegistrationSignIn = () => {
     process.env.NODE_ENV === "development"
       ? TestUrls.Development()
       : window.location.origin;
-  console.log("schoolUrl", schoolUrl);
+    console.log("schoolUrl", schoolUrl);
+
 
   useEffect(() => {
     getAppLayout(schoolUrl)(dispatch);

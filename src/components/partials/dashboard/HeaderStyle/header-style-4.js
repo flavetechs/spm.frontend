@@ -44,7 +44,7 @@ const HeaderStyle4 = () => {
     return (
         <>
            
-                <Navbar bg="dark" expand="lg" variant="dark" className="fixed-top" aria-label="Main navigation" >
+                <Navbar bg="dark" expand="lg" variant="dark" className="fixed-top d-none d-md-block" aria-label="Main navigation" >
       <Container fluid>
         <Navbar.Brand></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -59,14 +59,7 @@ const HeaderStyle4 = () => {
                             <Nav.Item as="li">
                                 <Nav.Link href="#">Switch account</Nav.Link>
                             </Nav.Item>
-                            <NavDropdown title="Profile" id="basic-nav-dropdown dropdown-main dropdown-toggle-menu ">
-                                <NavDropdown.Item href="#action/3.1"className=''>Profile</NavDropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item onClick={() => {
-                                    dispatch(loginOutUser());
-                                    history.push(authLocations.login)
-                                }}>Logout</Dropdown.Item>
-                            </NavDropdown>
+                            
                            
                         </Nav>
                         <form className="d-flex">
@@ -84,9 +77,7 @@ const HeaderStyle4 = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav justify-content-between me-0">
                         <Nav as="ul" className=" me-auto mb-2 mb-lg-0">
-                            <Nav.Item as="li">
-                                <Nav.Link active aria-current="page" href={dashboardLocations.dashboard}>Dashboard</Nav.Link>
-                            </Nav.Item>
+                           
                             <Nav.Item as="li">
                                 <Nav.Link href={myWardsLocations.myWards}>My  Ward(s)  <span className="badge bg-light text-dark rounded-pill align-text-bottom">{myWardList.length}</span>
                    </Nav.Link>
@@ -124,7 +115,14 @@ const HeaderStyle4 = () => {
                             <Nav.Item as="li">
                                 <Nav.Link href={announcementLocations.announcement}>Announcement</Nav.Link>
                             </Nav.Item>
-                            
+                            <NavDropdown title="Profile" id="basic-nav-dropdown dropdown-main dropdown-toggle-menu ">
+                                <NavDropdown.Item href="#action/3.1"className=''>Profile</NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item onClick={() => {
+                                    dispatch(loginOutUser());
+                                    history.push(authLocations.login)
+                                }}>Logout</Dropdown.Item>
+                            </NavDropdown>
                         </Nav>
                        
                     </Navbar.Collapse>

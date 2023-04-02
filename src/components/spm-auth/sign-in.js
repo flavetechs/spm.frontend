@@ -26,14 +26,13 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.auth;
-    const { appSetting } = state.portal;
+    const { appSetting,schoolSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
     const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
-        getSchoolSetting()(dispatch);
     }, [schoolUrl])
 
 const layoutSetting = localStorage.getItem("appSetting")
@@ -54,6 +53,7 @@ if (!appSetting2.scheme) {
                     window.location.href = "/parent-dashboard";
                 } else {
                     window.location.href = "/dashboard";
+                    getSchoolSetting()(dispatch);
                 }
             } else {
                 localStorage.removeItem("token");

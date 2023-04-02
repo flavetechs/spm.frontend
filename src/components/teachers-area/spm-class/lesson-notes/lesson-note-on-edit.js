@@ -236,17 +236,17 @@ const EditLessonNote = () => {
                             value={content}
                             onChange={setContent}
                             modules={textEditorModules}
-                            style={{ height: "300px" }}
+                            style={{ height: "300px",maxHeight:'300px'}}
                             id="note-editor"
                             ref={elementRef}
                             className="bg-white"
                           />
                         </Col>
-
+                        <div className="mt-5">
                         {singleLessonNotes?.approvalStatus === 2 && (
                           <Col
                             md="11"
-                            className="form-group text-secondary mt-5"
+                            className="form-group text-secondary mt-5 mx-4"
                           >
                             <Field
                               type="checkbox"
@@ -262,7 +262,7 @@ const EditLessonNote = () => {
                             </label>
                           </Col>
                         )}
-
+                      </div>
                         <div className="d-flex justify-content-end">
                           <Button
                             type="button"

@@ -247,11 +247,11 @@ const EditHomeAssessment = () => {
                             modules={textEditorModules}
                             ref={elementRef}
                             id="assessment-editor"
-                            style={{ height: "300px" }}
+                            style={{ height: "300px" ,maxHeight:'300px'}}
                           />
                         </Col>
 
-                        <Col md="11" className="form-group h6 mt-5">
+                        <Col md="11" className="form-group h6" style={{marginTop:'85px'}}>
                           <label className="form-label" htmlFor="comment">
                             <b>Comment:</b>
                           </label>
@@ -260,12 +260,12 @@ const EditHomeAssessment = () => {
                             value={comment}
                             onChange={setComment}
                             modules={textEditorModules}
-                            style={{ height: "100px" }}
+                            style={{ height: "100px",maxHeight:'100px' }}
                           />
                         </Col>
 
-                        <Row className=" mt-5">
-                          <Col md="6" className="form-group h6 mx-4">
+                        <Row className=" " style={{marginTop:'85px'}}>
+                          <Col md="6" className="form-group h6 mx-0 mx-md-4">
                             {touched.dateDeadLine && errors.dateDeadLine && (
                               <div className="text-danger">
                                 {errors.dateDeadLine}

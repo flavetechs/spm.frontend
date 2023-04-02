@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
-import PaginationFilter from "../../partials/components/pagination-filter";
+import PaginationFilter, { PaginationFilter4 } from "../../partials/components/pagination-filter";
 import {
   fetchAllAdminAdmissionList,
   getAdminAdmissionClasses,
@@ -20,14 +20,24 @@ import { Field, Formik } from "formik";
 import { AdmissionEnrolModal } from "./admission-enroll-modal";
 import { loginCBT } from "../../../store/actions/auth-actions";
 import { errorModal } from "../../../store/actions/candidate-admission-actions";
+import { getAllAdmissionSetting } from "../../../store/actions/portal-setting-action";
+import { ReturnFilteredList } from "../../../utils/tools";
+import { SearchInput } from "../../partials/components/search-input";
 
 const AdmissionList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
+  const history = useHistory();
+  const locations = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [objectArray, setObjectArray] = useState([]);
   const [selectModal, setSelectModal] = useState("");
-  const [selectedClassId, setSelectedClassIdQuery] = useState("");
-  const [selectedExamStatus, setSelectedExamStatus] = useState("");
+  // const [admissionClassQuery, setSelectedClassIdQuery] = useState("");
+  // const [examStatusQuery, setSelectedExamStatus] = useState("");
+  const queryParams = new URLSearchParams(locations.search);
+  const admissionClassQuery = queryParams.get("admissionClass")||"";
+  const examStatusQuery = queryParams.get("examStatus")||"";
+  const admissionSettingsIdQuery = queryParams.get("admissionSettingId") || "";
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -40,63 +50,64 @@ const AdmissionList = () => {
     adminAdmissionClasses,
     session2Classes,
   } = state.adminAdmission;
+  const { admissionSettingList } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
 
+  // React.useEffect(() => {
+  //   if (!admissionClassQuery && !examStatusQuery) {
+  //     fetchAllAdminAdmissionList(
+  //       1,
+  //       admissionClassQuery,
+  //       examStatusQuery
+  //     )(dispatch);
+  //   } else if (admissionClassQuery) {
+  //     fetchAllAdminAdmissionList(
+  //       1,
+  //       admissionClassQuery,
+  //       examStatusQuery
+  //     )(dispatch);
+  //   } else if (examStatusQuery) {
+  //     fetchAllAdminAdmissionList(
+  //       1,
+  //       admissionClassQuery,
+  //       examStatusQuery
+  //     )(dispatch);
+  //   } else if (admissionClassQuery && examStatusQuery) {
+  //     fetchAllAdminAdmissionList(
+  //       1,
+  //       admissionClassQuery,
+  //       examStatusQuery
+  //     )(dispatch);
+  //   }
+  // }, [dispatch, admissionClassQuery, examStatusQuery]);
+
   React.useEffect(() => {
-    if (!selectedClassId && !selectedExamStatus) {
       fetchAllAdminAdmissionList(
-        1,
-        selectedClassId,
-        selectedExamStatus
+        admissionSettingsIdQuery,
+        admissionClassQuery,
+        examStatusQuery,
+        10,
+        1
       )(dispatch);
-    } else if (selectedClassId) {
-      fetchAllAdminAdmissionList(
-        1,
-        selectedClassId,
-        selectedExamStatus
-      )(dispatch);
-    } else if (selectedExamStatus) {
-      fetchAllAdminAdmissionList(
-        1,
-        selectedClassId,
-        selectedExamStatus
-      )(dispatch);
-    } else if (selectedClassId && selectedExamStatus) {
-      fetchAllAdminAdmissionList(
-        1,
-        selectedClassId,
-        selectedExamStatus
-      )(dispatch);
-    }
-  }, [dispatch, selectedClassId, selectedExamStatus]);
+  }, [admissionClassQuery, examStatusQuery,admissionSettingsIdQuery]);
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
     getAllSession2Classes()(dispatch);
+    getAllAdmissionSetting(1)(dispatch);
     loginCBT()(dispatch);
   }, []);
 
-  const filteredAdmissionList = adminAdmissionList?.filter((admission) => {
-    if (searchQuery === "") {
-      //if query is empty
-      return admission;
-    } else if (
-      admission.firstname.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return admission;
-    } else if (
-      admission.lastname.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return admission;
-    } else if (
-      admission.className.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return admission;
-    }
-  });
+  useEffect(() => {
+    setObjectArray(
+      ReturnFilteredList(adminAdmissionList, searchQuery, [
+        "firstname",
+        "lastname",
+        "middlename",
+        "className",
+      ])
+    );
+  }, [searchQuery, adminAdmissionList]);
 
   const checkSingleItem = (isChecked, admissionId, adminAdmissionList) => {
     adminAdmissionList.forEach((item) => {
@@ -132,13 +143,16 @@ const AdmissionList = () => {
     event.preventDefault();
   };
 
- return (
+  return (
     <>
       <div>
         <Row>
           <Col sm="12">
             <Formik
-              initialValues={{}}
+              initialValues={{
+                candidateClass: admissionClassQuery,
+                exaamStatus: examStatusQuery,
+              }}
               enableReinitialize={true}
               onSubmit={() => {}}
             >
@@ -181,12 +195,7 @@ const AdmissionList = () => {
                       </svg>
                     </span>
                     <div>
-                      <input
-                        type="search"
-                        className="form-control text-lowercase"
-                        placeholder="Search..."
-                        onChange={(event) => setSearchQuery(event.target.value)}
-                      />
+                      <SearchInput setSearchQuery={setSearchQuery} />
                     </div>
                   </div>
 
@@ -199,7 +208,9 @@ const AdmissionList = () => {
                           className="form-select mt-3 mt-lg-0 "
                           id="terms"
                           onChange={(e) => {
-                            setSelectedClassIdQuery(e.target.value);
+                            history.push(
+                              `${adminAdmissionLocations.adminAdmissionList}?admissionClass=${e.target.value}&examStatus=${examStatusQuery}&admissionSettingId=${admissionSettingsIdQuery}`
+                            );
                           }}
                         >
                           <option value="">Select Class</option>
@@ -211,11 +222,14 @@ const AdmissionList = () => {
                         </Field>{" "}
                         <Field
                           as="select"
-                          name="sessionClass"
+                          name="examStatus"
                           className="form-select mt-3 mt-lg-0 dropdown"
                           id="terms"
+                          value={examStatusQuery}
                           onChange={(e) => {
-                            setSelectedExamStatus(e.target.value);
+                            history.push(
+                              `${adminAdmissionLocations.adminAdmissionList}?admissionClass=${admissionClassQuery}&examStatus=${e.target.value}&admissionSettingId=${admissionSettingsIdQuery}`
+                            );
                           }}
                         >
                           <option value="">Select Status</option>
@@ -224,12 +238,31 @@ const AdmissionList = () => {
                               {item.statusName}
                             </option>
                           ))}
-                        </Field>
+                        </Field>{" "}
+                        <Field
+                          as="select"
+                          name="admissionSettingId"
+                          className="form-select mt-3 mt-lg-0"
+                          id="admissionSettingId"
+                          value={admissionSettingsIdQuery}
+                          onChange={(e) => {
+                            history.push(
+                              `${adminAdmissionLocations.adminAdmissionList}?admissionClass=${admissionClassQuery}&examStatus=${examStatusQuery}&admissionSettingId=${e.target.value}`
+                            );
+                          }}
+                        >
+                          <option value="">Select Admission</option>
+                          {admissionSettingList?.map((item, idx) => (
+                            <option key={idx} value={item.admissionSettingId}>
+                              {item.admissionSettingName}
+                            </option>
+                          ))}
+                        </Field>{" "}
                       </div>
                     </div>
                     <div className="mx-2">
                       <div className="d-flex justify-content-end">
-                        {!selectedClassId ? (
+                        {!admissionClassQuery ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -241,7 +274,7 @@ const AdmissionList = () => {
                           >
                             <Link to="#" className="d-flex justify-content-end">
                               <button
-                                disabled={selectedClassId ? false : true}
+                                disabled={admissionClassQuery ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
@@ -298,8 +331,8 @@ const AdmissionList = () => {
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                                 onClick={() => {
                                   importAdmissionResult(
-                                    selectedClassId,
-                                    selectedExamStatus
+                                    admissionClassQuery,
+                                    examStatusQuery
                                   )(dispatch);
                                 }}
                               >
@@ -339,8 +372,8 @@ const AdmissionList = () => {
                           </OverlayTrigger>
                         )}
                         {selectedIds.length < 1 ||
-                        selectedExamStatus === "" ||
-                        selectedClassId === "" ? (
+                        examStatusQuery === "" ||
+                        admissionClassQuery === "" ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -382,10 +415,16 @@ const AdmissionList = () => {
                               type="button"
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               onClick={() => {
-                                selectedIds.find(ids=>(adminAdmissionList?.find(a=>a.candidateAdmissionStatus === 1)?.admissionId === ids))  ?
-                                errorModal("Approved candidates cannot be enrolled again")
-                                :
-                                showHideModal(true)(dispatch);
+                                selectedIds.find(
+                                  (ids) =>
+                                    adminAdmissionList?.find(
+                                      (a) => a.candidateAdmissionStatus === 1
+                                    )?.admissionId === ids
+                                )
+                                  ? errorModal(
+                                      "Approved candidates cannot be enrolled again"
+                                    )
+                                  : showHideModal(true)(dispatch);
                                 setSelectModal("enroll-modal");
                               }}
                             >
@@ -409,7 +448,7 @@ const AdmissionList = () => {
                             </button>
                           </Link>
                         )}
-                        {!selectedClassId ? (
+                        {!admissionClassQuery ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -421,7 +460,7 @@ const AdmissionList = () => {
                           >
                             <Link to="#" className="d-flex justify-content-end">
                               <button
-                                disabled={selectedClassId ? false : true}
+                                disabled={admissionClassQuery ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
@@ -512,7 +551,7 @@ const AdmissionList = () => {
                             </Link>
                           </OverlayTrigger>
                         )}
-                        {!selectedClassId ? (
+                        {!admissionClassQuery ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -524,7 +563,7 @@ const AdmissionList = () => {
                           >
                             <Link to="#" className="d-flex justify-content-end">
                               <button
-                                disabled={selectedClassId ? false : true}
+                                disabled={admissionClassQuery ? false : true}
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                               >
@@ -555,7 +594,15 @@ const AdmissionList = () => {
                             }
                           >
                             <a
-                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${adminAdmissionList[adminAdmissionList.length -1]?.candidateCategory}&candidateCategoryName=${adminAdmissionList[adminAdmissionList.length -1]?.candidateCategoryName}`}
+                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${
+                                adminAdmissionList[
+                                  adminAdmissionList.length - 1
+                                ]?.candidateCategory
+                              }&candidateCategoryName=${
+                                adminAdmissionList[
+                                  adminAdmissionList.length - 1
+                                ]?.candidateCategoryName
+                              }`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="d-flex justify-content-end"
@@ -586,17 +633,17 @@ const AdmissionList = () => {
                   </div>
                   {selectModal == "export-modal" ? (
                     <AdminAdmissionModal
-                      selectedClassId={selectedClassId}
+                      admissionClassQuery={admissionClassQuery}
                       adminAdmissionClasses={adminAdmissionClasses}
                       adminAdmissionList={adminAdmissionList}
-                      selectedExamStatus={selectedExamStatus}
+                      examStatusQuery={examStatusQuery}
                     />
                   ) : (
                     <AdmissionEnrolModal
                       selectedIds={selectedIds}
                       session2Classes={session2Classes}
-                      selectedClassId={selectedClassId}
-                      selectedExamStatus={selectedExamStatus}
+                      admissionClassQuery={admissionClassQuery}
+                      examStatusQuery={examStatusQuery}
                     />
                   )}
                   <Card.Body className="px-0">
@@ -641,7 +688,7 @@ const AdmissionList = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredAdmissionList?.map((item, idx) => (
+                          {objectArray?.map((item, idx) => (
                             <tr key={idx}>
                               <td className="text-dark">
                                 <input
@@ -842,8 +889,12 @@ const AdmissionList = () => {
                     </div>
                   </Card.Body>
                   <Card.Footer>
-                    <PaginationFilter
+                    <PaginationFilter4
                       filterProps={filterProps}
+                      param1={admissionSettingsIdQuery}
+                      param2={admissionClassQuery}
+                      param3={examStatusQuery}
+                      param4={10}
                       action={fetchAllAdminAdmissionList}
                       dispatch={dispatch}
                     />

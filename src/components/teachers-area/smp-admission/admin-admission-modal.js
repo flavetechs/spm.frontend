@@ -14,7 +14,7 @@ export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,admi
     const [categoryName, setCategoryName] = useState("");
     const [candidateCategory, setCandidateCategory] = useState("");
     //VARIABLE DECLARATION
-     const admissionClass = adminAdmissionClasses.find(c=>c.classId === selectedClassId).className;
+     const admissionClass = adminAdmissionClasses?.find(c=>c.classId === selectedClassId)?.className;
     const state = useSelector((state) => state);
     const { showModal } = state.alert;
 

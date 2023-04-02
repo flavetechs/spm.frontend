@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
 import {
@@ -13,62 +13,56 @@ import {
   deleteDialogModal,
   getAdmissionStatus,
   getCandidatesAdmissionList,
-  logOutUserEmail,
   pushId,
   removeId,
   respondToDeleteDialog,
 } from "../../store/actions/candidate-admission-actions";
-import PaginationFilter from "../partials/components/pagination-filter";
+import { PaginationFilter2 } from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
 import { loginOutUser } from "../../store/actions/auth-actions";
 import SmpLoader from "../loader/smp-loader";
+import { getAllAdmissionSetting } from "../../store/actions/portal-setting-action";
+import { ReturnFilteredList } from "../../utils/tools";
+import { SearchInput } from "../partials/components/search-input";
 
 const CandidateList = () => {
   //VARIABLE DECLARATIONS
   const dispatch = useDispatch();
   const history = useHistory();
+  const locations = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [objectArray, setObjectArray] = useState([]);
   const [getUserDetail, setGetUserDetail] = useState({});
+  const queryParams = new URLSearchParams(locations.search);
+  const admissionSettingsId = queryParams.get("admissionSettingId")||'';
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const {
-    admissionList,
-    filterProps,
-    selectedIds,
-    deleteDialogResponse,
-    admissionStatusDetail,
-  } = state.candidate;
+  const { admissionList, filterProps, selectedIds, deleteDialogResponse } =
+    state.candidate;
+  const { admissionSettingList } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
 
-  React.useEffect(() => {
-    getCandidatesAdmissionList(1)(dispatch);
+  useEffect(() => {
     getAdmissionStatus()(dispatch);
-  }, [dispatch]);
+    getAllAdmissionSetting(1)(dispatch);
+  }, []);
 
- 
-  const filteredCandidateList = admissionList.filter((candidate) => {
-    if (searchQuery === "") {
-      //if query is empty
-      return candidate;
-    } else if (
-      candidate.firstname.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return candidate;
-    } else if (
-      candidate.lastname.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return candidate;
-    } else if (
-      candidate.className.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      //returns filtered array
-      return candidate;
-    }
-  });
+  useEffect(() => {
+    getCandidatesAdmissionList(admissionSettingsId, 10, 1)(dispatch);
+  }, [admissionSettingsId]);
+
+  useEffect(() => {
+    setObjectArray(
+      ReturnFilteredList(admissionList, searchQuery, [
+        "firstname",
+        "lastname",
+        "middlename",
+        "className",
+      ])
+    );
+  }, [searchQuery, admissionList]);
 
   //DELETE HANDLER
   React.useEffect(() => {
@@ -96,7 +90,10 @@ const CandidateList = () => {
     setGetUserDetail(getUserDetails());
   }, []);
   function handleAdmissionStatus() {
-    if (!admissionStatusDetail) {
+    const currentAdmissionStatus = admissionSettingList?.find(
+      (a) => a.admissionSettingId === admissionSettingsId
+    )?.admissionStatus;
+    if (!currentAdmissionStatus) {
       admissionOpenAndCloseModal()(dispatch);
     } else {
       history.push(candidateLocations.candidateRegistration);
@@ -185,12 +182,7 @@ const CandidateList = () => {
                       </svg>
                     </span>
                     <div>
-                      <input
-                        type="search"
-                        className="form-control text-lowercase"
-                        placeholder="Search..."
-                        onChange={(event) => setSearchQuery(event.target.value)}
-                      />
+                      <SearchInput setSearchQuery={setSearchQuery} />
                     </div>
                   </div>
                 </div>
@@ -202,35 +194,95 @@ const CandidateList = () => {
                     {}
                   </div>
                   <div>
-                    <Link to="#">
-                      <button
-                        onClick={handleAdmissionStatus}
-                        type="button"
-                        className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
-                      >
-                        <i className="btn-inner">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                   
+                      {!admissionSettingsId ? (
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip-2">
+                              {" "}
+                              Select Admission to register
+                            </Tooltip>
+                          }
+                        > 
+                        <Link to="#">
+                          <button
+                            disabled={!admissionSettingsId ? true : false}
+                            type="button"
+                            className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                            ></path>
-                          </svg>
-                        </i>
-                        <span> Register</span>
-                      </button>
-                    </Link>
+                            <i className="btn-inner">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                ></path>
+                              </svg>
+                            </i>
+                            <span> Register</span>
+                          </button>
+                          </Link>
+                        </OverlayTrigger>
+                      ) : (
+                        <button
+                          onClick={handleAdmissionStatus}
+                          type="button"
+                          className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
+                        >
+                          <i className="btn-inner">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                              ></path>
+                            </svg>
+                          </i>
+                          <span> Register</span>
+                        </button>
+                      )}
+                    
                   </div>
                 </div>
               </div>
               <Card.Body className="px-0">
+                <div className="form-group h6 col-md-4 mb-4 mx-4">
+                  <select
+                    as="select"
+                    name="admissionSettingId"
+                    className="form-select"
+                    id="admissionSettingId"
+                    value={admissionSettingsId}
+                    onChange={(e) => {
+                      history.push(
+                        `${candidateLocations.candidateList}?admissionSettingId=${e.target.value}`
+                      );
+                    }}
+                  >
+                    <option value="">Select Admission</option>
+                    {admissionSettingList?.map((item, idx) => (
+                      <option key={idx} value={item.admissionSettingId}>
+                        {item.admissionSettingName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 {admissionList.length < 1 ? (
                   <div className="jumbotron jumbotron-fluid">
                     <div className="container d-flex justify-content-center mt-5 bg-light">
@@ -257,7 +309,7 @@ const CandidateList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredCandidateList.map((student, idx) => (
+                        {objectArray.map((student, idx) => (
                           <tr key={idx}>
                             <td className="">
                               <b>{idx + 1}</b>
@@ -456,9 +508,11 @@ const CandidateList = () => {
                 )}
               </Card.Body>
               <Card.Footer>
-                <PaginationFilter
+                <PaginationFilter2
                   filterProps={filterProps}
                   action={getCandidatesAdmissionList}
+                  param2={10}
+                  param1={admissionSettingsId}
                   dispatch={dispatch}
                 />
               </Card.Footer>
