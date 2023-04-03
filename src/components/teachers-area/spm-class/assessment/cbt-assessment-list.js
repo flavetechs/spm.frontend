@@ -51,7 +51,7 @@ const CBTAssessmentList = () => {
     queryParams.get("sessionClassSubjectId") || "";
   const groupIdQueryParam = queryParams.get("groupId") || "";
   const typeQueryParam = queryParams.get("type") || "";
-       
+
 
   useEffect(() => {
     getAllStaffClasses()(dispatch);
@@ -64,10 +64,10 @@ const CBTAssessmentList = () => {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
       sessionClassIdQueryParam &&
-        getCBTClassAssessment(1,sessionClassIdQueryParam,"")(dispatch);
+        getCBTClassAssessment(1, sessionClassIdQueryParam, "")(dispatch);
 
-       sessionClassSubjectIdQueryParam &&
-        getCBTClassAssessment(1,sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
+      sessionClassSubjectIdQueryParam &&
+        getCBTClassAssessment(1, sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
     };
 
     fetchAssessment();
@@ -342,7 +342,7 @@ const CBTAssessmentList = () => {
                           role="grid"
                           data-toggle="data-table"
                         >
-                          {sessionClassIdQueryParam && (
+                          {sessionClassIdQueryParam ? (
                             <thead>
                               <tr className="ligth">
                                 <th>
@@ -368,19 +368,24 @@ const CBTAssessmentList = () => {
                                 </th>
                               </tr>
                             </thead>
+                          ) : (
+                            <thead>
+                              <tr className="ligth">
+                                <th colSpan={7}>
+                                </th>
+
+                              </tr>
+                            </thead>
                           )}
 
                           <tbody>
-                            {filteredAssessmentList?.length === 0 &&
-                              !sessionClassIdQueryParam ? (
-                              <div className="jumbotron jumbotron-fluid">
-                                <div className="container d-flex justify-content-center mt-5 bg-white">
-                                  <h2 className="display-4">
-                                    Please select inputs above to view
-                                    Assessment List
-                                  </h2>
-                                </div>
-                              </div>
+                            {filteredAssessmentList?.length === 0 && !sessionClassIdQueryParam ? (
+                              <tr>
+                                <td colSpan={7}>
+                                  <p className="display-6">Please select inputs above to view
+                                    Assessment List</p>
+                                </td>
+                              </tr>
                             ) : (
                               filteredAssessmentList?.map((item, idx) => {
                                 return (
@@ -502,13 +507,13 @@ const CBTAssessmentList = () => {
                                             onClick={() => {
                                               showHideDialog(
                                                 true,
-                                                `Are you sure you want to include ${item.candidateCategory_Class} ${
-                                                  item.examName_Subject} ${item.useAsExamScore
-                                                    ? "exam"
-                                                    : "assessment"
+                                                `Are you sure you want to include ${item.candidateCategory_Class} ${item.examName_Subject} ${item.useAsExamScore
+                                                  ? "exam"
+                                                  : "assessment"
                                                 } score into score entry`
                                               )(dispatch);
-                                              setIncludeScorePayload({sessionClassId: sessionClassIdQueryParam, subjectId: item.examName_SubjectId, 
+                                              setIncludeScorePayload({
+                                                sessionClassId: sessionClassIdQueryParam, subjectId: item.examName_SubjectId,
                                                 studentRegNos: item.candidateIds,
                                                 include: true,
                                                 examId: item.examinationId,

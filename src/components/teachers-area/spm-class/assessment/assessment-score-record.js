@@ -27,6 +27,9 @@ const ScoreRecord = () => {
     homeAssessmentIdQuery && getScoreRecords(homeAssessmentIdQuery)(dispatch);
   }, [homeAssessmentIdQuery]);
 
+  useEffect(() => {
+    scoreRecordList && setIsChecked(scoreRecordList.find(c => c.included === true) ? true : false);
+  }, [scoreRecordList]);
 
   useEffect(() => {
     if (dialogResponse === "continue") {
@@ -34,7 +37,7 @@ const ScoreRecord = () => {
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
       setIsChecked(false)
-    }else if(dialogResponse === "cancel"){
+    } else if (dialogResponse === "cancel") {
       setIsChecked(false)
     }
     return () => {
@@ -43,7 +46,7 @@ const ScoreRecord = () => {
       setIsChecked(false)
     };
   }, [dialogResponse, dispatch]);
-console.log("dialogResponse",dialogResponse);
+
   return (
     <>
       <div>
@@ -102,11 +105,10 @@ console.log("dialogResponse",dialogResponse);
                             id="included"
                             checked={isChecked}
                             onChange={(e) => {
-                              showHideDialog(
-                                true,
-                                "Are you sure you want to include this class to score entry"
-                              )(dispatch);
-                            setIsChecked(e.target.checked)
+                              let msg = "";
+                              msg = isChecked == false ? "Are you sure you want to include this class to score entry" : "Are you sure you want to exclude this class to score entry"
+                              showHideDialog(true, msg)(dispatch);
+                             setIsChecked(e.target.checked)
                             }}
                           />
                         </td>
