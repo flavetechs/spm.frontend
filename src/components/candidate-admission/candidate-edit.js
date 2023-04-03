@@ -11,6 +11,12 @@ import SmpLoader from "../loader/smp-loader";
 import { candidateAuthLocation } from "../../router/candidate-path-location";
 import { loginOutUser } from "../../store/actions/auth-actions";
 import { getUserDetails } from "../../utils/permissions";
+import avatars1 from "../../assets/images/avatars/01.png";
+import avatars2 from "../../assets/images/avatars/avtar_2.png";
+import avatars3 from "../../assets/images/avatars/avtar_2.png";
+import avatars4 from "../../assets/images/avatars/avtar_3.png";
+import avatars5 from "../../assets/images/avatars/avtar_4.png";
+import avatars6 from "../../assets/images/avatars/avtar_5.png";
 
 const CandidateEdit = () => {
     //VARIABLE DECLARATIONS
@@ -20,6 +26,7 @@ const CandidateEdit = () => {
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedState, setSelectedState] = useState("");
     const [getUserDetail, setGetUserDetail] = useState({});
+    const [images, setImages] = useState(null);
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -83,6 +90,17 @@ const CandidateEdit = () => {
     React.useEffect(() => {
         submitSuccessful && history.goBack()
     }, [submitSuccessful, history]);
+
+    const ImageDisplay = (event) => {
+        if (event.target.files[0]) {
+          setImages(URL.createObjectURL(event.target.files[0]));
+        }
+      };
+      
+
+      React.useEffect(() => {
+        setImages(singleAdmissionDetail?.photo);
+      }, [singleAdmissionDetail]);
 
     return (
         <>
@@ -409,8 +427,98 @@ const CandidateEdit = () => {
                                                         ))}
                                                     </Field>
                                                 </div>
+                                              
+
                                                 <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="dd">
+                                                <div className="col-md-6">
+                        <div className="header-title mt-3">
+                              <p className="card-title fw-bold">Choose Photo</p>
+                            </div>
+                            <div className="profile-img-edit position-relative">
+                              <div>
+                                <img
+                                  src={avatars1}
+                                  alt="User-Profile"
+                                  className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                />
+                                <img
+                                  src={avatars2}
+                                  alt="User-Profile"
+                                  className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                />
+                                <img
+                                  src={avatars3}
+                                  alt="User-Profile"
+                                  className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                />
+                                <img
+                                  src={avatars5}
+                                  alt="User-Profile"
+                                  className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                />
+                                <img
+                                  src={avatars6}
+                                  alt="User-Profile"
+                                  className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                />
+                                <img
+                                  src={avatars4}
+                                  alt="User-Profile"
+                                  className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                />{" "}
+                              </div>
+                              <div className="upload-icone bg-primary">
+                                <label htmlFor="Photo">
+                                  <svg
+                                    className="upload-button"
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <path
+                                      fill="#ffffff"
+                                      d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                                    ></path>
+                                  </svg>
+                                  <input
+                              type="file"
+                              id="Photo"
+                              name="Photo"
+                              accept="image/jpeg,image/jpg,image/png"
+                              className="file-upload form-control"
+                              onChange={(event) => {
+                                setFieldValue("Photo", event.target.files[0]);
+                                ImageDisplay(event);
+                              }}
+                            />
+                                </label>
+                              </div>
+                            </div>
+                            <div className="img-extension mt-3">
+                              <div className="d-inline-block align-items-center">
+                                <span>Only</span> <span>.jpg</span>{" "}
+                                <span>.png</span> <span>.jpeg</span>
+                                <span> allowed</span>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                            {images ? (
+                              <img
+                                className=" img-fluid mt-4"
+                                id="displayImg"
+                                src={images}
+                                alt="School Logo"
+                                height="250px"
+                                width="250px"
+                              />
+                            ) : null}
+                          </div>
+                        </div>
+                                                </div>
+
+                                               <div className="col-md-6 form-group">
+                                                    <label className="form-label mt-3" htmlFor="dd">
                                                         <b>Choose File (optional):</b>
                                                     </label>
                                                     <div className="">
@@ -425,138 +533,23 @@ const CandidateEdit = () => {
                                                             }}
                                                         />
                                                     </div>
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="Photo">
-                                                        <b>Choose Photo (optional):</b>
-                                                    </label>
-                                                    <div className="">
-                                                        <input
-                                                            type="file"
-                                                            id="Photo"
-                                                            name="Photo"
-                                                            className="form-control"
-                                                            accept="image/*"
-                                                            onChange={(event) => {
-                                                                setFieldValue("Photo", event.target.files[0])
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-6 form-group">
+                                                    <div className="col-md-6 form-group">
                                                     <label className="form-label" htmlFor="dd">
                                                         <b>Credential:</b>
                                                     </label>
                                                     <div className="">
                                                         <div className="">
-                                                            <object data={singleAdmissionDetail?.credentials}
+                                                            <object data={ singleAdmissionDetail?.credentials  }
                                                                 width="250"
                                                                 height="250">
                                                             </object>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="dd">
-                                                        <b>Photo:</b>
-                                                    </label>
-                                                    <div className="">
-                                                        <div className="">
-                                                            <img
-                                                                src={singleAdmissionDetail?.photo}
-                                                                width="250"
-                                                                height="250"
-                                                                alt="credential"
-                                                                className="img-fluid"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div>  
+                                                
                                             </div>
-                                            {/* <hr />
-                                            <h5 className="mb-3"><b>For Parent/Guardian(s) use:</b></h5>
-                                            <div className="row">
-                                                <Row>
-                                                    <div className="col-md-12">
-                                                        {touched.ParentName &&
-                                                            errors.ParentName && (
-                                                                <div className="text-danger">
-                                                                    {errors.ParentName}
-                                                                </div>
-                                                            )}
-                                                    </div>
-                                                </Row>
-                                                <div className="col-md-12 form-group">
-                                                    <label
-                                                        className="form-label"
-                                                        htmlFor="ParentName"
-                                                    >
-                                                        <b>Name:</b>
-                                                    </label>
-                                                    <Field
-                                                        placeholder="Full Name"
-                                                        type="text"
-                                                        name="ParentName"
-                                                        id="ParentName"
-                                                        className="form-control"
-                                                    />
-                                                </div>
-                                                <Row>
-                                                    <div className="col-md-6">
-                                                        {touched.ParentRelationship &&
-                                                            errors.ParentRelationship && (
-                                                                <div className="text-danger">
-                                                                    {errors.ParentRelationship}
-                                                                </div>
-                                                            )}
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        {touched.ParentPhoneNumber &&
-                                                            errors.ParentPhoneNumber && (
-                                                                <div className="text-danger">
-                                                                    {errors.ParentPhoneNumber}
-                                                                </div>
-                                                            )}
-                                                    </div>
-                                                </Row>
-                                                <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="ParentRelationship">
-                                                        <b>Relationship:</b>
-                                                    </label>
-                                                    <Field
-                                                        as="select"
-                                                        name="ParentRelationship"
-                                                        className="form-select"
-                                                        id="ParentRelationship"
-                                                        onChange={(e) => { setFieldValue("ParentRelationship", e.target.value) }}
-                                                    >
-                                                        <option value="">Select Relationship</option>
-                                                        {studentparentGuarndianRelationship?.map((relationship, idx) => (
-                                                            <option
-                                                                key={idx}
-                                                                value={relationship}
-                                                            >
-                                                                {relationship}
-                                                            </option>
-                                                        ))}
-                                                    </Field>
-                                                </div>
-                                                <div className="col-md-6 form-group">
-                                                    <label
-                                                        className="form-label"
-                                                        htmlFor="ParentPhoneNumber"
-                                                    >
-                                                        <b>Phone Number:</b>
-                                                    </label>
-                                                    <Field
-                                                        placeholder="Phone Number"
-                                                        type="number"
-                                                        name="ParentPhoneNumber"
-                                                        id="ParentPhoneNumber"
-                                                        className="form-control"
-                                                    />
-                                                </div>
-                                            </div> */}
+                                           
                                             <div className="d-flex justify-content-end">
                                                 <Button
                                                     type="button"
@@ -572,7 +565,7 @@ const CandidateEdit = () => {
                                                     variant="btn btn-primary"
                                                     onClick={handleSubmit}
                                                 >
-                                                    Register
+                                                    Update
                                                 </Button>
                                             </div>
                                         </Form>

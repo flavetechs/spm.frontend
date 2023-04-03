@@ -51,7 +51,6 @@ const StaffDetails = () => {
   const { isSuccessful, message, selectedItem } = state.staff;
   // ACCESSING STATE FROM REDUX STORE
 
-  
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const teacherAccountId = queryParams.get("teacherAccountId");
@@ -192,10 +191,13 @@ const StaffDetails = () => {
               <Col xl="9" lg="8">
                 <Card>
                   <Card.Header className="d-flex justify-content-between">
-                    <div className="header-title">
-                      <h4 className="card-title">
+                    <div className="header-title d-md-flex items-center">
+                      <h4 className="card-title ">
                         <b>Staff Information</b>
                       </h4>
+                        <i className="text-danger mx-2">
+                          Click the edit button to edit page
+                        </i>
                     </div>
                   </Card.Header>
                   <Card.Body>
@@ -329,9 +331,7 @@ const StaffDetails = () => {
                               id="countryId"
                               disabled={true}
                               value={selectedItem?.countryId}
-
                             />
-
                           </div>
 
                           <div className="col-md-6 form-group">

@@ -101,10 +101,13 @@ const SchoolSetting = () => {
                 <div className="">
                   <div className=" d-flex justify-content-between d-flex justify-content-between mb-4">
                     {" "}
-                    <div className="header-title">
+                    <div className="header-title d-md-flex align-items-center">
                       <h4 className="">
-                        <b>School Settings</b>
+                        <b>School Settings </b>
                       </h4>
+                      {disable &&
+                      <i className="text-danger mx-2">Click the edit button to edit page</i>
+                      }
                     </div>{" "}
                   </div>{" "}
                   <div className="new-user-info">
