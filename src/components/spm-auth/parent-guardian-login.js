@@ -68,7 +68,7 @@ const RegistrationSignIn = () => {
               <Col md="6">
                 <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                   <Card.Body>
-                    <h4 className="mb-2 text-center">Login</h4>
+                    <h4 className="mb-2 text-center">Sign in</h4>
                     {/* <p className="text-center">{message}</p> */}
 
                     <Formik

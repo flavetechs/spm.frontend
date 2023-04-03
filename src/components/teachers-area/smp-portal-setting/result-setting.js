@@ -95,10 +95,13 @@ const ResultSetting = () => {
                         <Card.Body>
                             <div className="col-xl-9 col-lg-8">
                                 <div className="">
-                                    <div className=" d-flex justify-content-between d-flex justify-content-between mb-3">
+                                    <div className=" justify-content-between d-flex justify-content-between mb-3">
                                         {" "}
-                                        <div className="header-title">
+                                        <div className="header-title  d-md-flex align-items-center">
                                             <h4 className=""><b>Result Setting</b></h4>
+                                            {disable &&
+                                            <i className="text-danger mx-2">Click the edit button to edit page</i>
+                                            }
                                         </div>{" "}
                                     </div>
                                     {" "}
