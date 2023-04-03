@@ -142,7 +142,7 @@ const AdmissionList = () => {
   const handleClick = (event) => {
     event.preventDefault();
   };
-
+console.log("admissionClassQuery1",admissionClassQuery);
   return (
     <>
       <div>
@@ -272,7 +272,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end">
                               <button
                                 disabled={admissionClassQuery ? false : true}
                                 type="button"
@@ -310,7 +310,7 @@ const AdmissionList = () => {
                                 </i>
                                 <span>Import</span>
                               </button>
-                            </Link>
+                            </div>
                           </OverlayTrigger>
                         ) : (
                           <OverlayTrigger
@@ -322,8 +322,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <Link
-                              to="#"
+                            <div
                               className="d-md-flex justify-content-end"
                             >
                               <button
@@ -368,7 +367,7 @@ const AdmissionList = () => {
                                 </i>
                                 <span>Import</span>
                               </button>
-                            </Link>
+                            </div>
                           </OverlayTrigger>
                         )}
                         {selectedIds.length < 1 ||
@@ -383,7 +382,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end">
                               <button
                                 type="button"
                                 disabled={true}
@@ -407,10 +406,10 @@ const AdmissionList = () => {
                                 </i>
                                 <span>Enroll Student</span>
                               </button>
-                            </Link>
+                            </div>
                           </OverlayTrigger>
                         ) : (
-                          <Link to="#" className="d-flex justify-content-end">
+                          <div className="d-flex justify-content-end">
                             <button
                               type="button"
                               className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
@@ -446,7 +445,7 @@ const AdmissionList = () => {
                               </i>
                               <span>Enroll Student</span>
                             </button>
-                          </Link>
+                          </div>
                         )}
                         {!admissionClassQuery ? (
                           <OverlayTrigger
@@ -458,7 +457,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="d-flex justify-content-end">
+                            <div  className="d-flex justify-content-end">
                               <button
                                 disabled={admissionClassQuery ? false : true}
                                 type="button"
@@ -496,7 +495,7 @@ const AdmissionList = () => {
                                 </i>
                                 <span>Export</span>
                               </button>
-                            </Link>
+                            </div>
                           </OverlayTrigger>
                         ) : (
                           <OverlayTrigger
@@ -507,7 +506,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end">
                               <button
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
@@ -548,7 +547,7 @@ const AdmissionList = () => {
                                 </i>
                                 <span>Export</span>
                               </button>
-                            </Link>
+                            </div>
                           </OverlayTrigger>
                         )}
                         {!admissionClassQuery ? (
@@ -561,7 +560,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="d-flex justify-content-end">
+                            <div  className="d-flex justify-content-end">
                               <button
                                 disabled={admissionClassQuery ? false : true}
                                 type="button"
@@ -582,7 +581,7 @@ const AdmissionList = () => {
                                 </i>
                                 <span>Create Exam CBT</span>
                               </button>
-                            </Link>
+                            </div>
                           </OverlayTrigger>
                         ) : (
                           <OverlayTrigger

@@ -7,14 +7,14 @@ import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
 import { admissionExportToCBT, fetchAllAdminAdmissionList } from "../../../store/actions/admin-admission-actions";
 
-export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,adminAdmissionList,examStatusQuery}) {
+export function AdminAdmissionModal({ admissionClassQuery,adminAdmissionClasses,adminAdmissionList,examStatusQuery}) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
     const [categoryName, setCategoryName] = useState("");
     const [candidateCategory, setCandidateCategory] = useState("");
     //VARIABLE DECLARATION
-     const admissionClass = adminAdmissionClasses?.find(c=>c.classId === selectedClassId)?.className;
+     const admissionClass = adminAdmissionClasses?.find(c=>c.classId === admissionClassQuery)?.className;
     const state = useSelector((state) => state);
     const { showModal } = state.alert;
 
@@ -72,7 +72,7 @@ export function AdminAdmissionModal({ selectedClassId,adminAdmissionClasses,admi
                             variant="primary"
                             className=""
                             onClick={() => {
-                                admissionExportToCBT(selectedClassId, categoryName,candidateCategory,examStatusQuery)(dispatch);
+                                admissionExportToCBT(admissionClassQuery, categoryName,candidateCategory,examStatusQuery)(dispatch);
                                 showHideModal(false)(dispatch);
                             }}
                         >

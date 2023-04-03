@@ -20,7 +20,6 @@ import {
 } from "../../router/candidate-path-location";
 import { getUserDetails } from "../../utils/permissions";
 import { getSchoolSetting } from "../../store/actions/portal-setting-action";
-import { studentparentGuarndianRelationship } from "../../utils/tools";
 import SmpLoader from "../loader/smp-loader";
 import { loginOutUser } from "../../store/actions/auth-actions";
 
