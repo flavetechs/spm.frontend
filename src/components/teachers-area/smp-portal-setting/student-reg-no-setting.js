@@ -3,7 +3,10 @@ import { Row, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
-import { getStudentRegNo, updateStudentRegNo } from "../../../store/actions/portal-setting-action";
+import {
+  getStudentRegNo,
+  updateStudentRegNo,
+} from "../../../store/actions/portal-setting-action";
 
 const StudentRegNoSetting = () => {
   //VARIABLE DECLARATIONS
@@ -19,55 +22,74 @@ const StudentRegNoSetting = () => {
   const { studRegNoSettings } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
   React.useEffect(() => {
-    getStudentRegNo()(dispatch)
+    getStudentRegNo()(dispatch);
     setSaveButton(true);
     setEditButton(false);
     setDisable(true);
   }, [dispatch]);
 
   React.useEffect(() => {
-    studRegNoSettings && setPreview(studRegNoSettings?.studentRegNoFormat)
+    studRegNoSettings && setPreview(studRegNoSettings?.studentRegNoFormat);
   }, [studRegNoSettings]);
 
-  const handlePositionChange = (prefix,separator,suffix,position) => {
-if(position == 1) {
- prefix && !suffix ? setPreview("0001" + separator + prefix) :
- !prefix && suffix ? setPreview("0001" + separator + suffix) :
- prefix && suffix ? setPreview("0001" + separator + prefix + separator + suffix) :
- setPreview("0001") 
-} 
-if(position == 2) {
-  prefix && !suffix ? setPreview(prefix + separator + "0001") :
-  !prefix && suffix ? setPreview("0001" + separator + suffix) :
-  prefix && suffix ? setPreview(prefix + separator + "0001"+ separator + suffix) :
-  setPreview("0001") 
- } 
- if(position == 3) {
-  prefix && !suffix ? setPreview(prefix + separator + "0001") :
-  !prefix && suffix ? setPreview(suffix + separator  +"0001") :
-  prefix && suffix ? setPreview(prefix + separator +  suffix + separator  + "0001") :
-  setPreview("0001") 
- } 
-  }
+  const handlePositionChange = (prefix, separator, suffix, position) => {
+    if (position == 1) {
+      prefix && !suffix
+        ? setPreview("0001" + separator + prefix)
+        : !prefix && suffix
+        ? setPreview("0001" + separator + suffix)
+        : prefix && suffix
+        ? setPreview("0001" + separator + prefix + separator + suffix)
+        : setPreview("0001");
+    }
+    if (position == 2) {
+      prefix && !suffix
+        ? setPreview(prefix + separator + "0001")
+        : !prefix && suffix
+        ? setPreview("0001" + separator + suffix)
+        : prefix && suffix
+        ? setPreview(prefix + separator + "0001" + separator + suffix)
+        : setPreview("0001");
+    }
+    if (position == 3) {
+      prefix && !suffix
+        ? setPreview(prefix + separator + "0001")
+        : !prefix && suffix
+        ? setPreview(suffix + separator + "0001")
+        : prefix && suffix
+        ? setPreview(prefix + separator + suffix + separator + "0001")
+        : setPreview("0001");
+    }
+  };
 
-const prefix =studRegNoSettings?.regNoPosition  == 1 ? studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1]:
-studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[0]
+  const prefix =
+    studRegNoSettings?.regNoPosition == 1
+      ? studRegNoSettings?.studentRegNoFormat?.split(
+          studRegNoSettings?.regNoSeperator
+        )[1]
+      : studRegNoSettings?.studentRegNoFormat?.split(
+          studRegNoSettings?.regNoSeperator
+        )[0];
 
-
-const suffix = studRegNoSettings?.regNoPosition  == 3 ? studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[1]:
-studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[2]
-
+  const suffix =
+    studRegNoSettings?.regNoPosition == 3
+      ? studRegNoSettings?.studentRegNoFormat?.split(
+          studRegNoSettings?.regNoSeperator
+        )[1]
+      : studRegNoSettings?.studentRegNoFormat?.split(
+          studRegNoSettings?.regNoSeperator
+        )[2];
 
   return (
     <>
       <Formik
         initialValues={{
           studentRegNoPrefix: prefix || "",
-          studentRegNoSufix:  suffix ||"",
-          teacherRegNoPrefix:"",
+          studentRegNoSufix: suffix || "",
+          teacherRegNoPrefix: "",
           teacherRegNoSufix: "",
-          regNoPosition: studRegNoSettings?.regNoPosition||2,
-          regNoSeperator: studRegNoSettings?.regNoSeperator||"",
+          regNoPosition: studRegNoSettings?.regNoPosition || 2,
+          regNoSeperator: studRegNoSettings?.regNoSeperator || "",
         }}
         enableReinitialize={true}
         onSubmit={(values) => {
@@ -78,16 +100,21 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
         }}
       >
         {({ handleSubmit, values, setFieldValue }) => (
-          <Row className=""id="studregnoSetting">
+          <Row className="" id="studregnoSetting">
             <Card.Body>
               <div>
                 <div className="">
                   <div className=" d-flex justify-content-between d-flex justify-content-between mb-4">
                     {" "}
-                    <div className="header-title">
+                    <div className="header-title d-md-flex align-items-center">
                       <h4 className="">
                         <b>Student Registration Number Setup</b>
                       </h4>
+                      {disable && (
+                        <i className="text-danger mx-2">
+                          Click the edit button to edit page
+                        </i>
+                      )}
                     </div>{" "}
                   </div>{" "}
                   <div className="new-user-info">
@@ -105,13 +132,20 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
                               id="studentRegNoPrefix"
                               name="studentRegNoPrefix"
                               className="form-control"
-                              onChange={(e)=>{
-                                setFieldValue("studentRegNoPrefix",e.target.value)
-                             handlePositionChange(e.target.value,values.regNoSeperator,values.studentRegNoSufix,values.regNoPosition)
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "studentRegNoPrefix",
+                                  e.target.value
+                                );
+                                handlePositionChange(
+                                  e.target.value,
+                                  values.regNoSeperator,
+                                  values.studentRegNoSufix,
+                                  values.regNoPosition
+                                );
                               }}
                             />
                           </div>
-
 
                           <div className="col-md-12  form-group">
                             <label className="form-label">
@@ -125,12 +159,15 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
                               id="regNoSeperator"
                               onChange={(e) => {
                                 setFieldValue("regNoSeperator", e.target.value);
-                                handlePositionChange(values.studentRegNoPrefix,e.target.value,values.studentRegNoSufix,values.regNoPosition)
+                                handlePositionChange(
+                                  values.studentRegNoPrefix,
+                                  e.target.value,
+                                  values.studentRegNoSufix,
+                                  values.regNoPosition
+                                );
                               }}
                             >
-                              <option value="">
-                                Select Separator
-                              </option>
+                              <option value="">Select Separator</option>
                               <option>/</option>
                               <option>\</option>
                               <option>-</option>
@@ -154,8 +191,16 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
                               name="studentRegNoSufix"
                               className="form-control"
                               onChange={(e) => {
-                                setFieldValue("studentRegNoSufix", e.target.value);
-                                handlePositionChange(values.studentRegNoPrefix,values.regNoSeperator,e.target.value,values.regNoPosition)
+                                setFieldValue(
+                                  "studentRegNoSufix",
+                                  e.target.value
+                                );
+                                handlePositionChange(
+                                  values.studentRegNoPrefix,
+                                  values.regNoSeperator,
+                                  e.target.value,
+                                  values.regNoPosition
+                                );
                               }}
                             />
                           </div>
@@ -172,17 +217,25 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
                               id="regNoPosition"
                               onChange={(e) => {
                                 setFieldValue("regNoPosition", e.target.value);
-                                handlePositionChange(values.studentRegNoPrefix,values.regNoSeperator,values.studentRegNoSufix,e.target.value)
-                              
+                                handlePositionChange(
+                                  values.studentRegNoPrefix,
+                                  values.regNoSeperator,
+                                  values.studentRegNoSufix,
+                                  e.target.value
+                                );
                               }}
                             >
-                            
-                              <option value={1} selected={values.regNoPosition}>Left</option>
-                              <option value={2} selected={values.regNoPosition}>Center</option>
-                              <option value={3} selected={values.regNoPosition}>Right</option>
+                              <option value={1} selected={values.regNoPosition}>
+                                Left
+                              </option>
+                              <option value={2} selected={values.regNoPosition}>
+                                Center
+                              </option>
+                              <option value={3} selected={values.regNoPosition}>
+                                Right
+                              </option>
                             </Field>
                           </div>
-
                         </div>
                         <div className="col-md-6">
                           <div className="fw-bold">Preview</div>
@@ -190,7 +243,9 @@ studRegNoSettings?.studentRegNoFormat?.split(studRegNoSettings?.regNoSeperator)[
                             Below is how student registration number for your
                             school will look like
                           </p>
-                          <div className=" border rounded p-3">{preview?.replace("%VALUE%","0001")}</div>
+                          <div className=" border rounded p-3">
+                            {preview?.replace("%VALUE%", "0001")}
+                          </div>
                         </div>
                       </div>
 
