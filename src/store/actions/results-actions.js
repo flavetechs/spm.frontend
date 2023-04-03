@@ -95,7 +95,7 @@ export const getStaffClassSubjectByClassLookup = (classId, sessionClassId) => (d
                 type: actions.FETCH_STAFF_CLASS_SUBJECTS_FAILED,
                 payload: err.response.data.result
             })
-    });
+        });
 }
 
 
@@ -119,11 +119,11 @@ export const getAllClassScore = (sessionClassId, subjectId, pageNumber) => (disp
         });
 }
 
-export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry,termId) => (dispatch) => {
+export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry, termId) => (dispatch) => {
     if (!examsScore) {
         examsScore = 0;
     }
-
+    console.log('scoreEntry', scoreEntry);
     examsScore = Math.round(examsScore);
 
     if (examsScore > scoreEntry.examsScore) {
@@ -143,7 +143,13 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry,termI
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId,termId })
+        axiosInstance.post(`/api/v1/result/update/exam-score`, {
+            studentContactId: entry.studentContactId,
+            score: examsScore,
+            subjectId: scoreEntry.subjectId,
+            sessionClassId: scoreEntry.sessionClassId,
+            termId
+        })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -158,7 +164,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry,termI
     }
 }
 
-export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry,termId) => (dispatch) => {
+export const setAssessmentScoreEntry = (studentContactId, assessmentScore, scoreEntry, termId) => (dispatch) => {
 
     if (!assessmentScore) {
         assessmentScore = 0;
@@ -183,7 +189,12 @@ export const setAssessmentScoreEntry = (studentContactId, assessmentScore, score
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/assessment-score`, { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: scoreEntry.subjectId, classScoreEntryId: scoreEntry.classScoreEntryId, termId })
+        axiosInstance.post(`/api/v1/result/update/assessment-score`, { 
+            studentContactId: entry.studentContactId, 
+            score: assessmentScore, 
+            subjectId: scoreEntry.subjectId, 
+            sessionClassId: scoreEntry.sessionClassId,
+            termId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -246,8 +257,8 @@ export const getAllPreviousClassScore = (sessionClassId, subjectId, sessionTermI
 }
 
 
-export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previousScoreEntry,  sessionTermId) => (dispatch) => {
- if (!examsScore) {
+export const setPreviousExamScoreEntry = (studentContactId, examsScore, previousScoreEntry, sessionTermId) => (dispatch) => {
+    if (!examsScore) {
         examsScore = 0;
     }
 
@@ -270,7 +281,12 @@ export const setPreviousExamScoreEntry = (studentContactId, examsScore,  previou
             payload: previousScoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { studentContactId: entry.studentContactId, score: examsScore, subjectId: previousScoreEntry.subjectId, classScoreEntryId: previousScoreEntry.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { 
+            studentContactId: entry.studentContactId, 
+            score: examsScore, 
+            subjectId: previousScoreEntry.subjectId, 
+            sessionClassId: previousScoreEntry.sessionClassId,
+            sessionTermId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -310,8 +326,12 @@ export const setPreviousAssessmentScoreEntry = (studentContactId, assessmentScor
             payload: previousScoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`, 
-        { studentContactId: entry.studentContactId, score: assessmentScore, subjectId: previousScoreEntry.subjectId, classScoreEntryId: previousScoreEntry.classScoreEntryId,  sessionTermId })
+        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`,
+            { studentContactId: entry.studentContactId, 
+                score: assessmentScore, 
+                subjectId: previousScoreEntry.subjectId, 
+                sessionClassId: previousScoreEntry.sessionClassId,
+                sessionTermId })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -346,7 +366,7 @@ export const getAllPreviousClassScoreEntryPreview = (sessionClassId, subjectId, 
         });
 }
 
-export const  getAllMasterList = (sessionClassId, termId) => (dispatch) => {
+export const getAllMasterList = (sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MASTER_LIST_LOADING,
         payload: sessionClassId
@@ -366,7 +386,7 @@ export const  getAllMasterList = (sessionClassId, termId) => (dispatch) => {
         });
 }
 
-export const  getAllCumulativeMasterList = (sessionClassId, termId) => (dispatch) => {
+export const getAllCumulativeMasterList = (sessionClassId, termId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_CUMULATIVE_MASTER_LIST_LOADING,
         payload: sessionClassId
@@ -391,17 +411,17 @@ export const getAllBatchPrintingResultPreview = (sessionClassid, termId) => (dis
         type: actions.FETCH_BATCH_RESULT_PREVIEW_LOADING,
         payload: sessionClassid
     });
-const payload = {
-    sessionClassid,
-    termId
-}
-    axiosInstance.post(`/api/v1/result/get/students/for-batch-printing`,payload)
+    const payload = {
+        sessionClassid,
+        termId
+    }
+    axiosInstance.post(`/api/v1/result/get/students/for-batch-printing`, payload)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_BATCH_RESULT_PREVIEW_SUCCESS,
                 payload: res.data.result
             });
-        
+
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_BATCH_RESULT_PREVIEW_FAILED,
@@ -410,30 +430,30 @@ const payload = {
         });
 }
 
-export const getAllBatchPrintingResults = (sessionClassid, termId,students) => (dispatch) => {
+export const getAllBatchPrintingResults = (sessionClassid, termId, students) => (dispatch) => {
     dispatch({
         type: actions.FETCH_BATCH_RESULT_LOADING,
         payload: sessionClassid
     });
-const payload = {
-    sessionClassid,
-    termId,
-    students
-}
-    axiosInstance.post(`/api/v1/result/batch-print/students-results`,payload)
+    const payload = {
+        sessionClassid,
+        termId,
+        students
+    }
+    axiosInstance.post(`/api/v1/result/batch-print/students-results`, payload)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_BATCH_RESULT_SUCCESS,
                 payload: res.data.result
             });
-        
+
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_BATCH_RESULT_FAILED,
                 payload: err.response.data.result
             })
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
-            getAllBatchPrintingResultPreview(sessionClassid,termId)(dispatch);
+            getAllBatchPrintingResultPreview(sessionClassid, termId)(dispatch);
         });
 }
 
@@ -461,14 +481,14 @@ export const getAllStudentResult = (sessionClassId, termId, studentContactId) =>
 export const getSinglePrintResult = (pin, termId, registrationNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_PRINT_RESULT_LOADING,
-       
+
     });
-const payload = {
-    pin,
-    registractionNumber: registrationNumber,
-    termId,
-  
-}
+    const payload = {
+        pin,
+        registractionNumber: registrationNumber,
+        termId,
+
+    }
     axiosInstance.post('/api/v1/result/print/result', payload)
         .then((res) => {
             dispatch({
@@ -483,29 +503,29 @@ const payload = {
             })
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
         });
-    }
+}
 export const resetListEntryOnExit = () => (dispatch) => {
-  dispatch({
+    dispatch({
         type: actions.RESET_MASTER_LIST,
         payload: null
     });
 }
 
 export const resetScoreEntryOnExit = () => (dispatch) => {
- dispatch({
+    dispatch({
         type: actions.RESET_SCORE_ENTRY,
         payload: null
     });
 }
 export const resetPreviousScoreEntryOnExit = () => (dispatch) => {
-   dispatch({
+    dispatch({
         type: actions.RESET_PREVIOUS_SCORE_ENTRY,
         payload: null
     });
 }
 
 export const resetCumulativeListEntryOnExit = () => (dispatch) => {
-   dispatch({
+    dispatch({
         type: actions.RESET_CUMULATIVE_MASTER_LIST,
         payload: null
     });
@@ -513,33 +533,33 @@ export const resetCumulativeListEntryOnExit = () => (dispatch) => {
 
 export const resetPrintSuccessfulState = () => (dispatch) => {
     dispatch({
-         type: actions.RESET_PRINT_SUCCESSFUL_STATE,
-         payload: "loading"
-     });
- }
+        type: actions.RESET_PRINT_SUCCESSFUL_STATE,
+        payload: "loading"
+    });
+}
 
 // TemplateSetting action
 export const setTemplateSettingState = (templateName) => (dispatch) => {
     dispatch({
-         type: actions.SET_TEMPLATE_SETTING_STATE_LOADING, 
-     });
-     const payload = {
+        type: actions.SET_TEMPLATE_SETTING_STATE_LOADING,
+    });
+    const payload = {
         selectedTemplate: templateName
-      }
-     axiosInstance.post('/portalsetting/api/v1/update/result-setting-template', payload)
-     .then((res) => {
-         dispatch({
-             type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,
-             payload: res.data.message.friendlyMessage
-         });
-         //getResultSetting()(dispatch);
-        
-         showSuccessToast(res.data.message.friendlyMessage)(dispatch)
-     }).catch((err) => {
-         dispatch({
-             type: actions.SET_TEMPLATE_SETTING_STATE_FAILED,
-             payload: err.response.data.message.friendlyMessage
-         });
-         showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
-     });
     }
+    axiosInstance.post('/portalsetting/api/v1/update/result-setting-template', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            //getResultSetting()(dispatch);
+
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SET_TEMPLATE_SETTING_STATE_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}

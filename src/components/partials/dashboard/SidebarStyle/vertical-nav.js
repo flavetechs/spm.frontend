@@ -178,7 +178,7 @@ const VerticalNav = () => {
                         
                     )}
 
-                {hasAccess2([NavPermissions.unusedPins, NavPermissions.usedPins]) && (
+                {/* {hasAccess2([NavPermissions.unusedPins, NavPermissions.usedPins]) && (
                   
                    <PinLink
                         minisidebar={minisidebar}
@@ -186,7 +186,7 @@ const VerticalNav = () => {
                         setActiveMenu={setActiveMenu} 
                       />  
                     
-                )}
+                )} */}
 
                  {hasAccess2([
                     NavPermissions.studentList,
