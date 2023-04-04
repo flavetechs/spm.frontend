@@ -6,7 +6,6 @@ import { classLocations } from "../../../../router/spm-path-locations";
 import {
   getScoreRecords,
   includeClassToScoreRecord,
-  includeStudentToScoreRecord,
 } from "../../../../store/actions/class-actions";
 import { respondDialog, showHideDialog } from "../../../../store/actions/toaster-actions";
 
@@ -79,7 +78,7 @@ const ScoreRecord = () => {
                 </OverlayTrigger>
               </div>
               <Card.Header>
-                <h4 className="mb-3">Score Record</h4>
+                <h4 className="mb-3">Score Record For {scoreRecordList[0]?.subjectName +" "+ scoreRecordList[0]?.className}</h4>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive">
@@ -145,20 +144,7 @@ const ScoreRecord = () => {
                             </div>
                           </td>
                           <td className="text-center">{item.score}</td>
-                          {/* <td className="text-center">
-                            {item.status === "submitted" &&
-                              <input
-                                type="checkbox"
-                                name="included"
-                                className="form-check-input "
-                                id="included"
-                                defaultChecked={item.included || false}
-                                onChange={(e) => {
-                                  includeStudentToScoreRecord(item.homeAsessmentFeedbackId, homeAssessmentIdQuery, e.target.checked)(dispatch);
-                                }}
-                              />
-                            }
-                          </td> */}
+                         
 
                           <td className="text-center">
                             {item?.status === "submitted" && (

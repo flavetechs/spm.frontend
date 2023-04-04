@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, NavDropdown, Dropdown } from 'react-bootstrap'
 // logo
 import Logo from '../../components/logo'
 import { getUserDetails } from '../../../../utils/permissions'
-import { announcementLocations, parentAssessmentLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations } from '../../../../router/parents-path-locations'
+import { announcementLocations, parentAssessmentLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations, parentProfileLocations } from '../../../../router/parents-path-locations'
 import { Link, useHistory } from 'react-router-dom'
 import './header-style-4.scss'
 import { getMyWardsList } from '../../../../store/actions/parent-actions'
@@ -116,7 +116,7 @@ const HeaderStyle4 = () => {
                                 <Nav.Link href={announcementLocations.announcement}>Announcement</Nav.Link>
                             </Nav.Item>
                             <NavDropdown title="Profile" id="basic-nav-dropdown dropdown-main dropdown-toggle-menu ">
-                                <NavDropdown.Item href="#action/3.1"className=''>Profile</NavDropdown.Item>
+                                <NavDropdown.Item href={parentProfileLocations.profile} className=''>Profile</NavDropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={() => {
                                     dispatch(loginOutUser());

@@ -12,8 +12,6 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         schoolSetting: {},
       };
     case actions.FETCH_SCHOOL_SETTING_SUCCESS:
-      sessionStorage.removeItem("schoolAbbreviation")
-      sessionStorage.setItem("schoolAbbreviation",payload.schoolAbbreviation)
       return {
         ...state,
         loading: false,

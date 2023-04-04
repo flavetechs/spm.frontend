@@ -605,12 +605,11 @@ const StudentAssessmentDetails = () => {
                             modules={textEditorModules}
                             id="note-editor"
                             ref={elementRef}
-                            className="bg-white"
-                            style={{ height: "300px" }}
+                            className="bg-white mb-5"
+                            style={{ height: "300px",maxHeight:"300px" }}
                           />
                         </Col>
-
-                        <Col md="11" className="form-group text-dark mt-5">
+                        <Col md="11" className="form-group text-dark mt-5 mt-md-0">
                           <Field
                             type="checkbox"
                             name="shouldSubmit"
@@ -621,6 +620,7 @@ const StudentAssessmentDetails = () => {
                             <b>Submit Assessment</b>
                           </label>
                         </Col>
+                       
 
                         <div className="d-flex justify-content-end">
                           <Button

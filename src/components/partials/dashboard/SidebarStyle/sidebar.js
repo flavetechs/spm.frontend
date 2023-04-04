@@ -41,13 +41,9 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Sidebar = (props) => {
-const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
  const dispatch = useDispatch();
  const schoolLogo= localStorage.getItem('schoolLogo');
- useEffect(() => {
-    getSchoolSetting()(dispatch)
-    setSchoolAbbreviation(sessionStorage.getItem("schoolAbbreviation"));
-}, [])
+const appSetting = JSON.parse(localStorage.getItem(("appSetting")))
 
     useEffect(
         () => {
@@ -118,7 +114,7 @@ const [schoolAbbreviation, setSchoolAbbreviation] = useState('');
                         {/* <Icon color={true} /> */}
                         <div className="text-center d-flex align-items-center">
                     <img src={schoolLogo} alt='school logo'height="40px"/>
-                        <h4 className="logo-title">{schoolAbbreviation ??''} </h4> 
+                        <h4 className="logo-title">{appSetting?.abrv} </h4> 
                      </div>   
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >

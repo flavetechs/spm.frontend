@@ -113,19 +113,19 @@ const MakeAnnouncement = () => {
                             value={content}
                             onChange={setContent}
                             modules={textEditorModules}
-                            style={{ height: '300px' }}
-                            className="h6"
+                            style={{ height: '300px',maxHeight:"300px" }}
+                            className="h6 mb-5"
                           />
                         </Col>
 
-                        <Col md="11" className="mt-5">
+                        <Col md="11" className="mt-5 mt-md-0">
                           {touched.assignedTo && errors.assignedTo && (
                             <div className="text-danger">
                               {errors.assignedTo}
                             </div>
                           )}
                         </Col>
-                        <Col md="11" className="form-group text-dark">
+                        <Col md="11" className="form-group text-dark mt-5 mt-md-0">
                           <label className="form-label h6" >
                             <b>Send To:</b>
                           </label>

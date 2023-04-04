@@ -142,7 +142,6 @@ const AdmissionList = () => {
   const handleClick = (event) => {
     event.preventDefault();
   };
-console.log("admissionClassQuery1",admissionClassQuery);
   return (
     <>
       <div>
