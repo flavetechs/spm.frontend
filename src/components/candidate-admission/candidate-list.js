@@ -34,7 +34,7 @@ const CandidateList = () => {
   const [objectArray, setObjectArray] = useState([]);
   const [getUserDetail, setGetUserDetail] = useState({});
   const queryParams = new URLSearchParams(locations.search);
-  const admissionSettingsId = queryParams.get("admissionSettingId")||'';
+  const admissionSettingsId = queryParams.get("admissionId")||'';
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -270,7 +270,7 @@ const CandidateList = () => {
                     value={admissionSettingsId}
                     onChange={(e) => {
                       history.push(
-                        `${candidateLocations.candidateList}?admissionSettingId=${e.target.value}`
+                        `${candidateLocations.candidateList}?admissionId=${e.target.value}`
                       );
                     }}
                   >

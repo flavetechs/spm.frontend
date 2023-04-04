@@ -63,10 +63,6 @@ const CBTAssessmentList = () => {
       if (sessionClassIdQueryParam) {
         getClassSubjects(sessionClassIdQueryParam)(dispatch);
       }
-      sessionClassIdQueryParam &&
-        getCBTClassAssessment(1, sessionClassIdQueryParam, "")(dispatch);
-
-      sessionClassSubjectIdQueryParam &&
         getCBTClassAssessment(1, sessionClassIdQueryParam, sessionClassSubjectIdQueryParam)(dispatch);
     };
 
@@ -346,11 +342,13 @@ const CBTAssessmentList = () => {
                                 <th>
                                   <b>Status</b>
                                 </th>
-                                <th>
-                                  <b>Percentage Passed</b>
+                               <th>
+                                   
+                                  <b>Target</b> 
                                 </th>
+                               
                                 <th>
-                                  <b>Target</b>
+                                  <b>Included to Score Entry</b>
                                 </th>
                                 <th min-width="100px">
                                   <b>Action</b>
@@ -421,8 +419,9 @@ const CBTAssessmentList = () => {
                                           "Assessment"}
                                       </b>
                                     </td>
+                                   
                                     <td>
-                                      <b>{item.percentage}</b>
+                                   {/* <b><Badge bg={item.useAsExamScore ? "success" :"danger"}>{item.useAsExamScore.toString()}</Badge></b>  */}
                                     </td>
                                     <td>
                                       <div className="flex align-items-center list-user-action">
