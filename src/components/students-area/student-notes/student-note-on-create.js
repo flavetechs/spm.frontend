@@ -260,12 +260,12 @@ const CreateStudentNote = () => {
                             modules={textEditorModules}
                             id="note-editor"
                             ref={elementRef}
-                            className="bg-white"
-                            style={{ height: "300px" }}
+                            className="bg-white mb-5"
+                            style={{ height: "300px",maxHeight:"300px"}}
                           />
                         </Col>
 
-                        <Col md="11" className="form-group h6 mt-5">
+                        <Col md="11" className="form-group h6 mt-5 mt-md-0">
                           <Field
                             type="checkbox"
                             name="submitForReview"

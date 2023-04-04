@@ -249,15 +249,15 @@ const EditStudentNote = () => {
                             value={content}
                             onChange={setContent}
                             modules={textEditorModules}
-                            style={{ height: "300px" }}
+                            style={{ height: "300px",maxHeight:"300px" }}
                             id="note-editor"
                             ref={elementRef}
-                            className="bg-white"
+                            className="bg-white mb-5"
                           />
                         </Col>
 
                        {singleStudentNotes?.approvalStatus === 2 && (
-                          <Col md="11" className="form-group h6 mt-5">
+                          <Col md="11" className="form-group h6 mt-5 mt-md-0">
                             <Field
                               type="checkbox"
                               name="submitForReview"

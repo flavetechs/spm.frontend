@@ -239,14 +239,14 @@ const EditLessonNote = () => {
                             style={{ height: "300px",maxHeight:'300px'}}
                             id="note-editor"
                             ref={elementRef}
-                            className="bg-white"
+                            className="bg-white mb-5"
                           />
                         </Col>
-                        <div className="mt-5">
+                        <div className="mt-5 mt-md-0">
                         {singleLessonNotes?.approvalStatus === 2 && (
                           <Col
                             md="11"
-                            className="form-group text-secondary mt-5 mx-4"
+                            className="form-group text-secondary mt-5 mt-md-0 mx-4"
                           >
                             <Field
                               type="checkbox"

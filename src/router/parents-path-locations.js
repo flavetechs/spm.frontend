@@ -44,3 +44,7 @@ export const announcementLocations = {
     announcement: "/parent-dashboard/announcement",
     parentannouncementDetails: "/parent-dashboard/parent-announcement-details",
 };
+
+export const parentProfileLocations = {
+    profile: "/parent-dashboard/profile",
+};
