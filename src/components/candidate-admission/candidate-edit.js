@@ -27,6 +27,7 @@ const CandidateEdit = () => {
     const [selectedState, setSelectedState] = useState("");
     const [getUserDetail, setGetUserDetail] = useState({});
     const [images, setImages] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -99,9 +100,46 @@ const CandidateEdit = () => {
       
       React.useEffect(() => {
         setImages(singleAdmissionDetail?.photo);
-        
-      }, [singleAdmissionDetail]);
+       }, [singleAdmissionDetail]);
 
+
+      React.useEffect(() => {
+        let url = singleAdmissionDetail?.photo
+const toDataURL = url => fetch(url)
+      .then(response => response.blob())
+      .then(blob => new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result)
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+     }))
+
+
+// ***Here is code for converting "Base64" to javascript "File Object".***
+
+  function dataURLtoFile(dataurl, filename) {
+     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+     while(n--){
+     u8arr[n] = bstr.charCodeAt(n);
+     }
+   return new File([u8arr], filename, {type:mime});
+  }
+
+
+// *** Calling both function ***
+
+  toDataURL(url)
+  .then(dataUrl => {
+  
+     var fileData = dataURLtoFile(dataUrl, "imageName.jpg");
+     console.log("Here is JavaScript File Object",fileData);
+     let fileArr = [];
+     fileArr.push(fileData)
+     setImageFile(fileArr)
+   })
+      }, [singleAdmissionDetail]);
+   console.log('images', images)
     return (
         <>
           <SmpLoader />
@@ -135,7 +173,7 @@ const CandidateEdit = () => {
                     values.LGAOfOrigin = values.LGAOfOrigin;
                     values.ClassId = values.ClassId;
                     values.Credentials= !values.Credentials ? singleAdmissionDetail?.credentials : values.Credentials
-                    values.Photo= !values.Photo ? singleAdmissionDetail?.photo : values.Photo
+                    values.Photo= !values.Photo ? imageFile : values.Photo
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
                     params.append("Firstname", values.Firstname);
