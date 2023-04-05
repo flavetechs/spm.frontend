@@ -323,6 +323,7 @@ export const portalSettingReducer = (state = _state, { type, payload }) => {
         localStorage.removeItem("appSetting")
         localStorage.setItem('appSetting', JSON.stringify(payload));
         localStorage.setItem('schoolLogo', payload.schoolLogo);
+        localStorage.setItem('schoolAbrev', payload.abrv);
         return{
           ...state,
           isSuccessful: true,

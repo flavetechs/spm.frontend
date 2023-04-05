@@ -166,6 +166,7 @@ const RegistrationSignIn = () => {
                               </div>
                               </div>
                             </Col>
+                            <div className="text-center mb-3">Don't have an account?<a href={candidateAuthLocation.signUp}> Sign up</a> </div>
                           </Row>
                           <div className="d-flex justify-content-center">
                             <button

@@ -28,8 +28,7 @@ export default function DefaultLoginTemplate({ message, auth1, ...form }) {
                   </div>
                   {/* <h4 className="logo-title ms-3">FLAVTECH</h4> 
                 </Link>*/}
-                <h2 className="mb-2 text-center">Sign In</h2>
-                <p className="text-center">Login to stay connected.</p>
+                <p className="text-center">Sign in to stay connected.</p>
 
                 <Form>
                   <Row>

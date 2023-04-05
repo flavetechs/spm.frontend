@@ -3,7 +3,7 @@ import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import {
   createCandidateAdmission,
@@ -33,10 +33,13 @@ const CandidateRegistration = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
+  const locations = useLocation();
   const [getUserDetail, setGetUserDetail] = useState({});
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [images, setImages] = useState(null);
+  const queryParams = new URLSearchParams(locations.search);
+  const admissionSettingsId = queryParams.get("admissionId")
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -139,7 +142,7 @@ const CandidateRegistration = () => {
           params.append("Credentials", values.Credentials);
           params.append("Photo", values.Photo);
           params.append("ClassId", values.ClassId);
-          createCandidateAdmission(params)(dispatch);
+          createCandidateAdmission(params,admissionSettingsId)(dispatch);
         }}
         enableReinitialize={true}
       >

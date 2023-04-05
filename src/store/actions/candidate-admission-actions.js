@@ -147,7 +147,7 @@ export const getAdmissionClasses = () => (dispatch) => {
         });
 };
 
-export const createCandidateAdmission = (values) => (dispatch) => {
+export const createCandidateAdmission = (values,admissionSettingsId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CANDIDATE_ADMISSION_LOADING
     });
@@ -158,7 +158,7 @@ export const createCandidateAdmission = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             successModal(res.data.message.friendlyMessage)
-            getCandidatesAdmissionList(1)(dispatch)
+            getCandidatesAdmissionList(admissionSettingsId,10,1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_CANDIDATE_ADMISSION_FAILED,
@@ -168,7 +168,7 @@ export const createCandidateAdmission = (values) => (dispatch) => {
         });
 }
 
-export const updateCandidateAdmission = (values) => (dispatch) => {
+export const updateCandidateAdmission = (values,admissionSettingsId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CANDIDATE_ADMISSION_LOADING
     });
@@ -179,7 +179,7 @@ export const updateCandidateAdmission = (values) => (dispatch) => {
                 payload: res.data.message.friendlyMessage
             });
             successModal(res.data.message.friendlyMessage)
-            getCandidatesAdmissionList(1)(dispatch)
+            getCandidatesAdmissionList(admissionSettingsId,10,1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_CANDIDATE_ADMISSION_FAILED,
@@ -189,7 +189,7 @@ export const updateCandidateAdmission = (values) => (dispatch) => {
         });
 }
 
-export const deleteCandidateAdmission = (item) => (dispatch) => {
+export const deleteCandidateAdmission = (item,admissionSettingsId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CANDIDATE_ADMISSION_LOADING
     });
@@ -202,7 +202,7 @@ export const deleteCandidateAdmission = (item) => (dispatch) => {
                 type: actions.DELETE_CANDIDATE_ADMISSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getCandidatesAdmissionList(1)(dispatch)
+            getCandidatesAdmissionList(admissionSettingsId,10,1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

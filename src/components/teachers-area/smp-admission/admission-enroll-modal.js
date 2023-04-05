@@ -7,7 +7,7 @@ import { SmpModal } from "../../partials/components/hoc-tools/modals";
 import { respondModal, showHideModal } from "../../../store/actions/toaster-actions";
 import { enrollMultipleCandidates, enrollSingleCandidate, getSessionClasses2 } from "../../../store/actions/admin-admission-actions";
 
-export function AdmissionEnrolModal({ selectedIds, session2Classes,  admissionClassQuery, examStatusQuery }) {
+export function AdmissionEnrolModal({ selectedIds, session2Classes,  admissionClassQuery, examStatusQuery,admissionSettingsIdQuery }) {
 
     //VARIABLE DECLARATION
     const dispatch = useDispatch();
@@ -64,9 +64,9 @@ export function AdmissionEnrolModal({ selectedIds, session2Classes,  admissionCl
                             className=""
                             onClick={() => {
                                 if (selectedIds.length === 1) {
-                                    enrollSingleCandidate(selectedIds, selectedSessionClassId,admissionClassQuery,examStatusQuery)(dispatch);
+                                    enrollSingleCandidate(selectedIds, selectedSessionClassId,admissionClassQuery,examStatusQuery,admissionSettingsIdQuery)(dispatch);
                                 } else if(selectedIds.length > 1) {
-                                    enrollMultipleCandidates(selectedIds, selectedSessionClassId,admissionClassQuery,examStatusQuery)(dispatch);
+                                    enrollMultipleCandidates(selectedIds, selectedSessionClassId,admissionClassQuery,examStatusQuery,admissionSettingsIdQuery)(dispatch);
                                 }
                                 showHideModal(false)(dispatch);
                             }}

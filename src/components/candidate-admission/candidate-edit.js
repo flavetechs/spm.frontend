@@ -97,7 +97,6 @@ const CandidateEdit = () => {
         }
       };
       
-
       React.useEffect(() => {
         setImages(singleAdmissionDetail?.photo);
       }, [singleAdmissionDetail]);
@@ -150,7 +149,7 @@ const CandidateEdit = () => {
                     params.append("Credentials", values.Credentials);
                     params.append("Photo", values.Photo);
                     params.append("ClassId", values.ClassId);
-                    updateCandidateAdmission(params)(dispatch);
+                    updateCandidateAdmission(params,admissionIdQuery)(dispatch);
                 }}
             >
                 {({

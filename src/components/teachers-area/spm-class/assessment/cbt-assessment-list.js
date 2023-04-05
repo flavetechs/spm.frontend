@@ -359,7 +359,7 @@ const CBTAssessmentList = () => {
                                 </th>
                                
                                 <th>
-                                  <b>Included to Score Entry</b>
+                                  <b>Included</b>
                                 </th>
                                 <th min-width="100px">
                                   <b>Action</b>
