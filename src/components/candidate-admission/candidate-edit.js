@@ -99,6 +99,7 @@ const CandidateEdit = () => {
       
       React.useEffect(() => {
         setImages(singleAdmissionDetail?.photo);
+        
       }, [singleAdmissionDetail]);
 
     return (

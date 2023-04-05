@@ -22,7 +22,7 @@ import { PaginationFilter2 } from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
 import { loginOutUser } from "../../store/actions/auth-actions";
 import SmpLoader from "../loader/smp-loader";
-import { getAllAdmissionSetting } from "../../store/actions/portal-setting-action";
+import { getAllAdmissionSetting, getAllAdmissionSettingByParent } from "../../store/actions/portal-setting-action";
 import { ReturnFilteredList } from "../../utils/tools";
 import { SearchInput } from "../partials/components/search-input";
 
@@ -49,7 +49,7 @@ const CandidateList = () => {
  
   useEffect(() => {
     getAdmissionStatus()(dispatch);
-    getAllAdmissionSetting(1)(dispatch);
+    getAllAdmissionSettingByParent(10,1)(dispatch);
   }, []);
 
   useEffect(() => {

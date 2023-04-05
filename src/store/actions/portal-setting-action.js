@@ -203,6 +203,26 @@ export const createNotificationSetting = (notification) => (dispatch) => {
 }
 
 
+export const getAllAdmissionSettingByParent = (pageSize,pageNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_ADMISSION_SETTING_LOADING,
+    });
+
+    axiosInstance.get(`/smp/api/v1/admission-settings/get-all-settings/from-admission?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_ADMISSION_SETTING_SUCCESS,
+                payload: res.data.result,
+            });
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.FETCH_ADMISSION_SETTING_FAILED,
+                payload: err.response.data.result,
+            });
+        });
+};
+
 export const getAllAdmissionSetting = (PageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_SETTING_LOADING,
