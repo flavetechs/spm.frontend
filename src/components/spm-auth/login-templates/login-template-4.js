@@ -1,11 +1,8 @@
-import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { authLocations } from "../../../router/spm-path-locations";
-import { loginUser } from "../../../store/actions/auth-actions";
 import SmpLoader from "../../loader/smp-loader";
-import Logo from "../../partials/components/logo";
 import "./login-template-4.css";
 
 const LoginTemplate4 = ({ message, auth1, ...form }) => {
@@ -122,7 +119,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                         form.handleSubmit();
                       }}
                     >
-                      Login
+                      Sign in
                     </button>{" "}
                   </div>
                 </div>

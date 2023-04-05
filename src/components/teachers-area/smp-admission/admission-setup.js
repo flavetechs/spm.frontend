@@ -53,33 +53,6 @@ const AdmissionList = () => {
   const { admissionSettingList } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
 
-  // React.useEffect(() => {
-  //   if (!admissionClassQuery && !examStatusQuery) {
-  //     fetchAllAdminAdmissionList(
-  //       1,
-  //       admissionClassQuery,
-  //       examStatusQuery
-  //     )(dispatch);
-  //   } else if (admissionClassQuery) {
-  //     fetchAllAdminAdmissionList(
-  //       1,
-  //       admissionClassQuery,
-  //       examStatusQuery
-  //     )(dispatch);
-  //   } else if (examStatusQuery) {
-  //     fetchAllAdminAdmissionList(
-  //       1,
-  //       admissionClassQuery,
-  //       examStatusQuery
-  //     )(dispatch);
-  //   } else if (admissionClassQuery && examStatusQuery) {
-  //     fetchAllAdminAdmissionList(
-  //       1,
-  //       admissionClassQuery,
-  //       examStatusQuery
-  //     )(dispatch);
-  //   }
-  // }, [dispatch, admissionClassQuery, examStatusQuery]);
 
   React.useEffect(() => {
       fetchAllAdminAdmissionList(
@@ -330,7 +303,8 @@ const AdmissionList = () => {
                                 onClick={() => {
                                   importAdmissionResult(
                                     admissionClassQuery,
-                                    examStatusQuery
+                                    examStatusQuery,
+                                    admissionSettingsIdQuery
                                   )(dispatch);
                                 }}
                               >
@@ -635,6 +609,7 @@ const AdmissionList = () => {
                       adminAdmissionClasses={adminAdmissionClasses}
                       adminAdmissionList={adminAdmissionList}
                       examStatusQuery={examStatusQuery}
+                      admissionSettingsIdQuery={admissionSettingsIdQuery}
                     />
                   ) : (
                     <AdmissionEnrolModal
@@ -642,6 +617,7 @@ const AdmissionList = () => {
                       session2Classes={session2Classes}
                       admissionClassQuery={admissionClassQuery}
                       examStatusQuery={examStatusQuery}
+                      admissionSettingsIdQuery={admissionSettingsIdQuery}
                     />
                   )}
                   <Card.Body className="px-0">
@@ -739,7 +715,7 @@ const AdmissionList = () => {
                                     </span>
                                   ) : item.candidateAdmissionStatus === 1 ? (
                                     <span className="badge bg-success">
-                                      Approved
+                                      Enrolled
                                     </span>
                                   ) : (
                                     <span className="badge bg-danger">

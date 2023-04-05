@@ -1,11 +1,7 @@
-import { Field, Formik } from "formik";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { authLocations } from "../../../router/spm-path-locations";
-import { loginUser } from "../../../store/actions/auth-actions";
-import SmpLoader from "../../loader/smp-loader";
-import Logo from "../../partials/components/logo";
 import "./login-template-1.css";
 
 const LoginTemplate1 = ({ message, auth1, ...form }) => {
@@ -160,7 +156,7 @@ const LoginTemplate1 = ({ message, auth1, ...form }) => {
                 }}
                     className="btn btn-outline-primary"
                   >
-                    LOGIN
+                    SIGN IN
                   </button>
                 </div>
               </div>

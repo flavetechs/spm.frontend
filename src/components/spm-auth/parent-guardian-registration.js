@@ -219,7 +219,7 @@ const RegistrationSignUp = () => {
                                 className="form-control"
                               />
                             </div>
-                            <div className="text-center mb-3">Already have an account?<a href={candidateAuthLocation.signIn}> Sign in</a> </div>
+                            <div className="text-center mb-3">Already have an account?<a href={candidateAuthLocation.signIn}> Login</a> </div>
                           </Row>
                          
                           <div className="d-flex justify-content-center">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import VerticalNav from '../SidebarStyle/vertical-nav'
 import Scrollbar from 'smooth-scrollbar'
@@ -11,10 +11,7 @@ import { bindActionCreators } from "redux"
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch, useSelector } from "react-redux"
-import Icon from '../../components/Icon'
-import { getAppLayout, getSchoolSetting } from '../../../../store/actions/portal-setting-action'
-import { TestUrls } from '../../../../utils/other'
+import { connect, useDispatch } from "react-redux"
 
 const mapStateToProps = (state) => {
     return {
@@ -43,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
 const Sidebar = (props) => {
  const dispatch = useDispatch();
  const schoolLogo= localStorage.getItem('schoolLogo');
-const appSetting = JSON.parse(localStorage.getItem(("appSetting")))
+const schoolAbrev = localStorage.getItem(("schoolAbrev"))
 
     useEffect(
         () => {
@@ -114,7 +111,7 @@ const appSetting = JSON.parse(localStorage.getItem(("appSetting")))
                         {/* <Icon color={true} /> */}
                         <div className="text-center d-flex align-items-center">
                     <img src={schoolLogo} alt='school logo'height="40px"/>
-                        <h4 className="logo-title">{appSetting?.abrv} </h4> 
+                        <h4 className="logo-title">{schoolAbrev} </h4> 
                      </div>   
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >

@@ -11,6 +11,7 @@ import {
   admissionOpenAndCloseModal,
   deleteCandidateAdmission,
   deleteDialogModal,
+  errorModal,
   getAdmissionStatus,
   getCandidatesAdmissionList,
   pushId,
@@ -34,7 +35,6 @@ const CandidateList = () => {
   const [objectArray, setObjectArray] = useState([]);
   const [getUserDetail, setGetUserDetail] = useState({});
   const queryParams = new URLSearchParams(locations.search);
-  const admissionSettingsId = queryParams.get("admissionId")||'';
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -43,7 +43,10 @@ const CandidateList = () => {
     state.candidate;
   const { admissionSettingList } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
-
+  const openAdmissionId = admissionSettingList?.find(
+    (a) => a.admissionStatus === true)?.admissionSettingId;
+  const admissionSettingsId = queryParams.get("admissionId")||openAdmissionId;
+ 
   useEffect(() => {
     getAdmissionStatus()(dispatch);
     getAllAdmissionSetting(1)(dispatch);
@@ -70,7 +73,7 @@ const CandidateList = () => {
       if (selectedIds.length === 0) {
         return;
       } else {
-        deleteCandidateAdmission(selectedIds)(dispatch);
+        deleteCandidateAdmission(selectedIds,admissionSettingsId)(dispatch);
         return selectedIds.forEach((id) => {
           dispatch(removeId(id));
         });
@@ -94,9 +97,13 @@ const CandidateList = () => {
       (a) => a.admissionSettingId === admissionSettingsId
     )?.admissionStatus;
     if (!currentAdmissionStatus) {
-      admissionOpenAndCloseModal()(dispatch);
-    } else {
-      history.push(candidateLocations.candidateRegistration);
+     if(admissionSettingsId ==="select-admission"){
+        errorModal("No admission Selected")
+      }
+      else  admissionOpenAndCloseModal()(dispatch);
+    } 
+    else {
+      history.push(`${candidateLocations.candidateRegistration}?admissionId=${admissionSettingsId}`);
     }
   }
 
@@ -274,7 +281,7 @@ const CandidateList = () => {
                       );
                     }}
                   >
-                    <option value="">Select Admission</option>
+                    <option value="select-admission">Select Admission</option>
                     {admissionSettingList?.map((item, idx) => (
                       <option key={idx} value={item.admissionSettingId}>
                         {item.admissionSettingName}
