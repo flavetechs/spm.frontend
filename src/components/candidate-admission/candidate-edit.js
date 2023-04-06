@@ -27,6 +27,7 @@ const CandidateEdit = () => {
     const [selectedState, setSelectedState] = useState("");
     const [getUserDetail, setGetUserDetail] = useState({});
     const [images, setImages] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     //VARIABLE DECLARATIONS
 
     //VALIDATIONS SCHEMA
@@ -99,8 +100,23 @@ const CandidateEdit = () => {
       
       React.useEffect(() => {
         setImages(singleAdmissionDetail?.photo);
-      }, [singleAdmissionDetail]);
+       }, [singleAdmissionDetail]);
 
+
+      React.useEffect(() => {
+        let url = singleAdmissionDetail?.photo
+       const fileName = 'candidate-photo.jpg'
+
+  fetch(images)
+  .then(async response => {
+    const blob = await response.blob()
+    const file = new File([blob], fileName, {    type: "image/jpeg", })
+    // access file here
+
+     setImageFile(file)
+   })
+      }, [images]);
+  // console.log('images', imageFile)
     return (
         <>
           <SmpLoader />
@@ -134,7 +150,7 @@ const CandidateEdit = () => {
                     values.LGAOfOrigin = values.LGAOfOrigin;
                     values.ClassId = values.ClassId;
                     values.Credentials= !values.Credentials ? singleAdmissionDetail?.credentials : values.Credentials
-                    values.Photo= !values.Photo ? singleAdmissionDetail?.photo : values.Photo
+                    values.Photo= !values.Photo ? imageFile : values.Photo
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
                     params.append("Firstname", values.Firstname);

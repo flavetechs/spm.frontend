@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import {
   Card,
   Col,
+  Container,
   OverlayTrigger,
   Row,
   Table,
@@ -9,12 +10,11 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { studentsLocations } from "../../../router/spm-path-locations";
 import {
   getParentsWard,
   getSingleParents,
 } from "../../../store/actions/parent-actions";
-import "./family-tree.css";
+
 
 const ParentsProfile = () => {
   //VARIABLE DECLARATIONS
@@ -35,7 +35,7 @@ const ParentsProfile = () => {
   }, [parentId]);
 
   return (
-    <>
+    <Container>
       <Row>
         <Col>
           <Card>
@@ -77,16 +77,7 @@ const ParentsProfile = () => {
               {" "}
               <div className="new-user-info">
                 <div className="row">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <img
-                      src={singleParent?.photo}
-                      alt="profilePhoto"
-                      className="d-block justify-content-center mb-3"
-                      width="220px"
-                      height="220px"
-                      style={{ borderRadius: "50%" }}
-                    />
-                  </div>
+                 
                   <div className="col-md-6 form-group">
                     <p className="">
                       <span>
@@ -215,29 +206,15 @@ const ParentsProfile = () => {
             </Card.Header>
 
             <Card.Body>
-              <div
-                className="d-flex justify-content-center"
-                style={{ overflowX: "auto" }}
-              >
-                <div className="tree ">
-                  <ul>
-                    <li>
-                      <div>{singleParent?.name}</div>
+              <div>
                       <ul>
                         {myWardList?.map((ward, idx) => (
-                          <li>
-                            <a
-                            //href={`${studentsLocations.studentDetails}?studentAccountId=${ward.studentId}`}
-                            >
+                          <li key={idx} className="h6 text-capitalize lh-lg">
                               {ward.fullName}
-                            </a>
                           </li>
                         ))}
                       </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                 </div>
             </Card.Body>
           </Card>
         </Col>
@@ -247,7 +224,7 @@ const ParentsProfile = () => {
           <Col md="12"></Col>
         </Row>
       </Card>
-    </>
+    </Container>
   );
 };
 
