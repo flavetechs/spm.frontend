@@ -109,10 +109,10 @@ const schoolAbrev = localStorage.getItem(("schoolAbrev"))
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg> */}
                         {/* <Icon color={true} /> */}
-                        <div className="text-center d-flex align-items-center">
-                    <img src={schoolLogo} alt='school logo'height="40px"/>
-                        <h4 className="logo-title">{schoolAbrev} </h4> 
-                     </div>   
+                            <div className="text-center d-flex align-items-center">
+                        <img src={schoolLogo} alt='school logo'height="40px"/>
+                            <h4 className="logo-title">{schoolAbrev} </h4> 
+                        </div>   
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >
                         <i className="icon">

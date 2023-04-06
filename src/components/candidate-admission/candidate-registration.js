@@ -7,6 +7,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import {
   createCandidateAdmission,
+  errorModal,
   getAdmissionClasses,
 } from "../../store/actions/candidate-admission-actions";
 import {
@@ -39,7 +40,7 @@ const CandidateRegistration = () => {
   const [selectedState, setSelectedState] = useState("");
   const [images, setImages] = useState(null);
   const queryParams = new URLSearchParams(locations.search);
-  const admissionSettingsId = queryParams.get("admissionId")
+  const admissionSettingsId = queryParams.get("admissionId");
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -142,7 +143,7 @@ const CandidateRegistration = () => {
           params.append("Credentials", values.Credentials);
           params.append("Photo", values.Photo);
           params.append("ClassId", values.ClassId);
-          createCandidateAdmission(params,admissionSettingsId)(dispatch);
+          createCandidateAdmission(params, admissionSettingsId)(dispatch);
         }}
         enableReinitialize={true}
       >
@@ -465,78 +466,81 @@ const CandidateRegistration = () => {
                           </div>
                         </Row>
                         <div className="col-md-6">
-                        <div className="header-title mt-3">
-                              <p className="card-title fw-bold">Choose Photo</p>
+                          <div className="header-title mt-3">
+                            <p className="card-title fw-bold">Choose Photo</p>
+                          </div>
+                          <div className="profile-img-edit position-relative">
+                            <div>
+                              <img
+                                src={avatars1}
+                                alt="User-Profile"
+                                className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                              />
+                              <img
+                                src={avatars2}
+                                alt="User-Profile"
+                                className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                              />
+                              <img
+                                src={avatars3}
+                                alt="User-Profile"
+                                className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                              />
+                              <img
+                                src={avatars5}
+                                alt="User-Profile"
+                                className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                              />
+                              <img
+                                src={avatars6}
+                                alt="User-Profile"
+                                className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                              />
+                              <img
+                                src={avatars4}
+                                alt="User-Profile"
+                                className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                              />{" "}
                             </div>
-                            <div className="profile-img-edit position-relative">
-                              <div>
-                                <img
-                                  src={avatars1}
-                                  alt="User-Profile"
-                                  className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                            <div className="upload-icone bg-primary">
+                              <label htmlFor="Photo">
+                                <svg
+                                  className="upload-button"
+                                  width="14"
+                                  height="14"
+                                  viewBox="0 0 24 24"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <path
+                                    fill="#ffffff"
+                                    d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                                  ></path>
+                                </svg>
+                                <input
+                                  type="file"
+                                  id="Photo"
+                                  name="Photo"
+                                  accept="image/jpeg,image/jpg,image/png"
+                                  className="file-upload form-control"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "Photo",
+                                      event.target.files[0]
+                                    );
+                                    ImageDisplay(event);
+                                  }}
                                 />
-                                <img
-                                  src={avatars2}
-                                  alt="User-Profile"
-                                  className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars3}
-                                  alt="User-Profile"
-                                  className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars5}
-                                  alt="User-Profile"
-                                  className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars6}
-                                  alt="User-Profile"
-                                  className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars4}
-                                  alt="User-Profile"
-                                  className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />{" "}
-                              </div>
-                              <div className="upload-icone bg-primary">
-                                <label htmlFor="Photo">
-                                  <svg
-                                    className="upload-button"
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    <path
-                                      fill="#ffffff"
-                                      d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
-                                    ></path>
-                                  </svg>
-                                  <input
-                              type="file"
-                              id="Photo"
-                              name="Photo"
-                              accept="image/jpeg,image/jpg,image/png"
-                              className="file-upload form-control"
-                              onChange={(event) => {
-                                setFieldValue("Photo", event.target.files[0]);
-                                ImageDisplay(event);
-                              }}
-                            />
-                                </label>
-                              </div>
+                              </label>
                             </div>
-                            <div className="img-extension mt-3">
-                              <div className="d-inline-block align-items-center">
-                                <span>Only</span> <span>.jpg</span>{" "}
-                                <span>.png</span> <span>.jpeg</span>
-                                <span> allowed</span>
-                              </div>
+                          </div>
+                          <div className="img-extension mt-3">
+                            <div className="d-inline-block align-items-center">
+                              <span>Only</span> <span>.jpg</span>{" "}
+                              <span>.png</span> <span>.jpeg</span>
+                              <span> allowed</span>
                             </div>
-                            <div className="col-md-6">
+                          </div>
+                          <div className="col-md-6">
                             {images ? (
                               <img
                                 className=" img-fluid mt-4"
@@ -549,7 +553,7 @@ const CandidateRegistration = () => {
                             ) : null}
                           </div>
                         </div>
-                        
+
                         <div className="col-md-6 form-group">
                           <label className="form-label" htmlFor="Credentials">
                             <b>Choose File (optional):</b>
@@ -566,6 +570,14 @@ const CandidateRegistration = () => {
                                   "Credentials",
                                   event.target.files[0]
                                 );
+                                var maxSize = 200 * 200; //200kb
+                                if (event.target.files[0].size > maxSize) {
+                                  errorModal(
+                                    "File size exceeds 200kb. Please choose a smaller file."
+                                  );
+                                  event.target.value = ""; 
+                                  setImages(null) // Reset the file input
+                                }
                               }}
                             />
                           </div>

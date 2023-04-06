@@ -28,7 +28,7 @@ import { getUserDetails } from '../../utils/permissions'
 import StudentDashboardRouter from '../../router/student-router'
 import StudentSideBar from '../../components/partials/dashboard/SidebarStyle/student-side-bar'
 import CandidateSideBar from '../../components/partials/dashboard/SidebarStyle/candidate-side-bar'
-import CandidateDashboardRouter from '../../router/candidate-router'
+import AdmissionDashboardRouter from '../../router/admission-router'
 
 const mapStateToProps = (state) => {
     return {
@@ -114,7 +114,7 @@ const CandidateDefault = (props) => {
                     <SuccessToast />
                     <SingleDeleteDialog />
                     <ErrorToast />
-                    <CandidateDashboardRouter />
+                    <AdmissionDashboardRouter />
                     {/* <StudentDashboardRouter /> */}
                 </div>
                 <Footer />

@@ -41,7 +41,7 @@ const PrintResult = () => {
       sessionId: Yup.string().required("Session is required"),
       printOption: Yup.string().required("Print Option is required"),
       studentRegNo: Yup.string().required("Registration Number is required"),
-      ePin: Yup.string().required("E-pin is required"),
+      // ePin: Yup.string().required("E-pin is required"),
     });
   } else if (batchPrint) {
     validation = Yup.object().shape({
@@ -109,7 +109,7 @@ const PrintResult = () => {
                   sessionClassId: sessionClassIdQueryParam,
                   printOption: printOptionQueryParam,
                   studentRegNo: "",
-                  ePin: "",
+                  // ePin: "",
                 }}
                 validationSchema={validation}
                 enableReinitialize={true}
@@ -259,12 +259,12 @@ const PrintResult = () => {
                               placeholder="Enter student reg no..."
                             />
                           </Col>
-                          <Col md="11">
+                          {/* <Col md="11">
                             {touched.ePin && errors.ePin && (
                               <div className="text-danger">{errors.ePin}</div>
                             )}
-                          </Col>
-                          <Col md="11" className="form-group h6">
+                          </Col> */}
+                          {/* <Col md="11" className="form-group h6">
                             <label className="form-label">
                               <b>E-pin:</b>
                             </label>
@@ -276,7 +276,7 @@ const PrintResult = () => {
                               id="ePin"
                               placeholder="Enter e-pin..."
                             />
-                          </Col>
+                          </Col> */}
                         </Row>
                       )}
                       {batchPrint && (
