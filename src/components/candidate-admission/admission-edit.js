@@ -557,6 +557,10 @@ const CandidateEdit = () => {
                                           "File size exceeds 200kb. Please choose a smaller file."
                                         );
                                         event.target.value = "";
+                                        setFieldValue(
+                                            "Photo",
+                                            ""
+                                          );
                                         setImages(null); // Reset the file input
                                       }
                                     }}
