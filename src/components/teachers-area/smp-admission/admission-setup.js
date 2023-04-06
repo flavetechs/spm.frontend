@@ -3,7 +3,9 @@ import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card";
-import PaginationFilter, { PaginationFilter4 } from "../../partials/components/pagination-filter";
+import PaginationFilter, {
+  PaginationFilter4,
+} from "../../partials/components/pagination-filter";
 import {
   fetchAllAdminAdmissionList,
   getAdminAdmissionClasses,
@@ -32,12 +34,9 @@ const AdmissionList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [objectArray, setObjectArray] = useState([]);
   const [selectModal, setSelectModal] = useState("");
-  // const [admissionClassQuery, setSelectedClassIdQuery] = useState("");
-  // const [examStatusQuery, setSelectedExamStatus] = useState("");
   const queryParams = new URLSearchParams(locations.search);
-  const admissionClassQuery = queryParams.get("admissionClass")||"";
-  const examStatusQuery = queryParams.get("examStatus")||"";
-  const admissionSettingsIdQuery = queryParams.get("admissionSettingId") || "";
+  const admissionClassQuery = queryParams.get("admissionClass") || "";
+  const examStatusQuery = queryParams.get("examStatus") || "";
   //VARIABLE DECLARATIONS
 
   // ACCESSING STATE FROM REDUX STORE
@@ -52,17 +51,21 @@ const AdmissionList = () => {
   } = state.adminAdmission;
   const { admissionSettingList } = state.portal;
   // ACCESSING STATE FROM REDUX STORE
-
+  const openAdmissionId = admissionSettingList?.find(
+    (a) => a.admissionStatus === true
+  )?.admissionSettingId;
+  const admissionSettingsIdQuery =
+    queryParams.get("admissionSettingId") || openAdmissionId;
 
   React.useEffect(() => {
-      fetchAllAdminAdmissionList(
-        admissionSettingsIdQuery,
-        admissionClassQuery,
-        examStatusQuery,
-        10,
-        1
-      )(dispatch);
-  }, [admissionClassQuery, examStatusQuery,admissionSettingsIdQuery]);
+    fetchAllAdminAdmissionList(
+      admissionSettingsIdQuery,
+      admissionClassQuery,
+      examStatusQuery,
+      10,
+      1
+    )(dispatch);
+  }, [admissionClassQuery, examStatusQuery, admissionSettingsIdQuery]);
 
   React.useEffect(() => {
     getAdminAdmissionClasses()(dispatch);
@@ -176,6 +179,25 @@ const AdmissionList = () => {
                       <div className=" mx-2 d-md-flex justify-content-between">
                         <Field
                           as="select"
+                          name="admissionSettingId"
+                          className="form-select mt-3 mt-lg-0"
+                          id="admissionSettingId"
+                          value={admissionSettingsIdQuery}
+                          onChange={(e) => {
+                            history.push(
+                              `${adminAdmissionLocations.adminAdmissionList}?admissionClass=${admissionClassQuery}&examStatus=${examStatusQuery}&admissionSettingId=${e.target.value}`
+                            );
+                          }}
+                        >
+                          <option value="">Select Admission</option>
+                          {admissionSettingList?.map((item, idx) => (
+                            <option key={idx} value={item.admissionSettingId}>
+                              {item.admissionSettingName}
+                            </option>
+                          ))}
+                        </Field>{" "}
+                        <Field
+                          as="select"
                           name="candidateClass"
                           className="form-select mt-3 mt-lg-0 "
                           id="terms"
@@ -208,25 +230,6 @@ const AdmissionList = () => {
                           {examStatusItem?.map((item, id) => (
                             <option key={id} value={item.statusNumber}>
                               {item.statusName}
-                            </option>
-                          ))}
-                        </Field>{" "}
-                        <Field
-                          as="select"
-                          name="admissionSettingId"
-                          className="form-select mt-3 mt-lg-0"
-                          id="admissionSettingId"
-                          value={admissionSettingsIdQuery}
-                          onChange={(e) => {
-                            history.push(
-                              `${adminAdmissionLocations.adminAdmissionList}?admissionClass=${admissionClassQuery}&examStatus=${examStatusQuery}&admissionSettingId=${e.target.value}`
-                            );
-                          }}
-                        >
-                          <option value="">Select Admission</option>
-                          {admissionSettingList?.map((item, idx) => (
-                            <option key={idx} value={item.admissionSettingId}>
-                              {item.admissionSettingName}
                             </option>
                           ))}
                         </Field>{" "}
@@ -294,9 +297,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <div
-                              className="d-md-flex justify-content-end"
-                            >
+                            <div className="d-md-flex justify-content-end">
                               <button
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
@@ -430,7 +431,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <div  className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end">
                               <button
                                 disabled={admissionClassQuery ? false : true}
                                 type="button"
@@ -533,7 +534,7 @@ const AdmissionList = () => {
                               </Tooltip>
                             }
                           >
-                            <div  className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end">
                               <button
                                 disabled={admissionClassQuery ? false : true}
                                 type="button"

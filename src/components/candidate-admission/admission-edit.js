@@ -5,7 +5,7 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
-import { getAdmissionClasses, getSingleAdmissionDetail, updateCandidateAdmission } from "../../store/actions/candidate-admission-actions";
+import { errorModal, getAdmissionClasses, getSingleAdmissionDetail, updateCandidateAdmission } from "../../store/actions/candidate-admission-actions";
 import { getCities, getCountries, getStates } from "../../store/actions/student-actions";
 import SmpLoader from "../loader/smp-loader";
 import { candidateAuthLocation } from "../../router/candidate-path-location";
@@ -107,16 +107,39 @@ const CandidateEdit = () => {
         let url = singleAdmissionDetail?.photo
        const fileName = 'candidate-photo.jpg'
 
-  fetch(images)
-  .then(async response => {
-    const blob = await response.blob()
-    const file = new File([blob], fileName, {    type: "image/jpeg", })
+//   fetch(images)
+//   .then(async response => {
+//     const blob = await response.blob()
+//     const file = new File([blob], fileName, {    type: "image/jpeg", })
     // access file here
-
-     setImageFile(file)
-   })
+    fetch(url)
+    .then(response => response.blob()) // Fetch the image as a Blob
+    .then(blob => {
+      // Create an object file (Blob) from the fetched image data
+      // You can customize the MIME type based on the type of the image file
+      const objectFile = new Blob([blob], { type: 'application/octet-stream' });
+    setImageFile(objectFile)
+      // Create a download link for the object file
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(objectFile);
+      downloadLink.download = 'image.object'; // Set the desired filename for the object file
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+  
+      // Trigger a click event on the download link to initiate the download
+      downloadLink.click();
+  
+      // Clean up by revoking the object URL and removing the download link
+      URL.revokeObjectURL(downloadLink.href);
+      document.body.removeChild(downloadLink);
+    })
+    .catch(error => console.error('Error fetching image:', error));
+ 
+  
+   
+   
       }, [images]);
-  // console.log('images', imageFile)
+      
     return (
         <>
           <SmpLoader />
@@ -545,6 +568,14 @@ const CandidateEdit = () => {
                                                             accept="image/*, application/pdf,"
                                                             onChange={(event) => {
                                                                 setFieldValue("Credentials", event.target.files[0])
+                                                                var maxSize = 200 * 200; //200kb
+                                                                if (event.target.files[0].size > maxSize) {
+                                                                  errorModal(
+                                                                    "File size exceeds 200kb. Please choose a smaller file."
+                                                                  );
+                                                                  event.target.value = ""; 
+                                                                  setImages(null) // Reset the file input
+                                                                }
                                                             }}
                                                         />
                                                     </div>

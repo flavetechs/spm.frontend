@@ -68,6 +68,7 @@ const PublishResultTable = () => {
     return item?.sessionTermId === sessionTermId;
   });
 
+
   return (
     <>
       <Row className="pt-3">

@@ -140,7 +140,7 @@ const SessionClassTableEdit = () => {
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-
+console.log("classSubjects",classSubjects);
   return (
     <>
       <div className="col-md-10 mx-auto">

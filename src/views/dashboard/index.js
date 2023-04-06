@@ -415,7 +415,7 @@ const Index = (props) => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                {hasAccess(NavPermissions.unusedPins) && (
+                                {/* {hasAccess(NavPermissions.unusedPins) && (
                                     <SwiperSlide className=" card card-slide" >
                                         <div className="card-body">
                                             <div className="progress-widget">
@@ -430,7 +430,7 @@ const Index = (props) => {
                                             </div>
                                         </div>
                                     </SwiperSlide>
-                                )}
+                                )} */}
                                 <div className="swiper-button swiper-button-next"></div>
                                 <div className="swiper-button swiper-button-prev"></div>
                             </Swiper>
