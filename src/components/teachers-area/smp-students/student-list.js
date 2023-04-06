@@ -124,10 +124,7 @@ const StudentList = () => {
   useEffect(() => {
     studentTemplateFile && saveAsFile('student-template.xlsx', studentTemplateFile)
  }, [studentTemplateFile]);
-  // const handleStudentTemplateDownload = () => {
-  //   downloadStudentTemplate()(dispatch);
-  // };
-console.log("studentTemplateFile",studentTemplateFile);
+
   return (
     <>
       <div>

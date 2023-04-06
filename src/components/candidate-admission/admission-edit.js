@@ -31,12 +31,11 @@ const CandidateEdit = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
   const dispatch = useDispatch();
-  const [file, setFiles] = useState("");
+  const [credentials, setCredentials] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [getUserDetail, setGetUserDetail] = useState({});
   const [images, setImages] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
   //VARIABLE DECLARATIONS
 
   //VALIDATIONS SCHEMA
@@ -66,7 +65,7 @@ const CandidateEdit = () => {
   React.useEffect(() => {
     if (!admissionIdQuery) return;
     getSingleAdmissionDetail(admissionIdQuery)(dispatch);
-    setFiles(singleAdmissionDetail?.credentials || "");
+    setCredentials(singleAdmissionDetail?.credentials || "");
   }, [dispatch, locations.search]);
 
   React.useEffect(() => {
@@ -120,40 +119,7 @@ const CandidateEdit = () => {
     setImages(singleAdmissionDetail?.photo);
   }, [singleAdmissionDetail]);
 
-  React.useEffect(() => {
-    let url = singleAdmissionDetail?.photo;
-    const fileName = "candidate-photo.jpg";
-
-    //   fetch(images)
-    //   .then(async response => {
-    //     const blob = await response.blob()
-    //     const file = new File([blob], fileName, {    type: "image/jpeg", })
-    // access file here
-    fetch(url)
-      .then((response) => response.blob()) // Fetch the image as a Blob
-      .then((blob) => {
-        // Create an object file (Blob) from the fetched image data
-        // You can customize the MIME type based on the type of the image file
-        const objectFile = new Blob([blob], {
-          type: "application/octet-stream",
-        });
-        setImageFile(objectFile);
-        // Create a download link for the object file
-        //   const downloadLink = document.createElement('a');
-        //   downloadLink.href = URL.createObjectURL(objectFile);
-        //   downloadLink.download = 'image.object'; // Set the desired filename for the object file
-        //   downloadLink.style.display = 'none';
-        //   document.body.appendChild(downloadLink);
-
-        //   // Trigger a click event on the download link to initiate the download
-        //   downloadLink.click();
-
-        //   // Clean up by revoking the object URL and removing the download link
-        //   URL.revokeObjectURL(downloadLink.href);
-        //   document.body.removeChild(downloadLink);
-      })
-      .catch((error) => console.error("Error fetching image:", error));
-  }, [images]);
+ 
 
   return (
     <>
@@ -171,7 +137,6 @@ const CandidateEdit = () => {
           CountryOfOrigin: singleAdmissionDetail.countryOfOrigin || "",
           StateOfOrigin: singleAdmissionDetail.stateOfOrigin || "",
           LGAOfOrigin: singleAdmissionDetail.lgaOfOrigin || "",
-          Credentials: singleAdmissionDetail.credentials || "",
           ClassId: singleAdmissionDetail.classId || "",
         }}
         validationSchema={validation}
@@ -187,10 +152,8 @@ const CandidateEdit = () => {
           values.StateOfOrigin = values.StateOfOrigin;
           values.LGAOfOrigin = values.LGAOfOrigin;
           values.ClassId = values.ClassId;
-          values.Credentials = !values.Credentials
-            ? singleAdmissionDetail?.credentials
-            : values.Credentials;
-          values.Photo = !values.Photo ? imageFile : values.Photo;
+          values.CredentialPath = credentials
+          values.ProfilePhotoPath = images;
           const params = new FormData();
           params.append("AdmissionId", values.AdmissionId);
           params.append("Firstname", values.Firstname);
@@ -204,6 +167,8 @@ const CandidateEdit = () => {
           params.append("LGAOfOrigin", values.LGAOfOrigin);
           params.append("Credentials", values.Credentials);
           params.append("Photo", values.Photo);
+          params.append("ProfilePhotoPath", values.ProfilePhotoPath);
+          params.append("CredentialPath", values.CredentialPath);
           params.append("ClassId", values.ClassId);
           updateCandidateAdmission(params, admissionIdQuery)(dispatch);
         }}

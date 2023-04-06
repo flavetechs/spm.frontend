@@ -39,22 +39,22 @@ const StudentEdit = () => {
       .min(2, "Last Name Too Short!")
       .required("Last Name is required"),
     email: Yup.string().email("Invalid email format"),
-    parentOrGuardianFirstName: Yup.string()
-      .min(2, "Name Too Short!")
-      .required("Parent/Guardian First name is required"),
-      parentOrGuardianLastName: Yup.string()
-      .min(2, "Name Too Short!")
-      .required("Parent/Guardian Last name is required"),
-    parentOrGuardianRelationship: Yup.string().required(
-      "Parent/Guardian relationship is required"
-    ),
-    parentOrGuardianPhone: Yup.string()
-      .min(2, "Number Too Short!")
-      .required("Parent/Guardian phone number is required"),
-    // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
-    parentOrGuardianEmail: Yup.string()
-      .required("Please Enter Email")
-      .email("Must be a valid email"),
+    // parentOrGuardianFirstName: Yup.string()
+    //   .min(2, "Name Too Short!")
+    //   .required("Parent/Guardian First name is required"),
+    //   parentOrGuardianLastName: Yup.string()
+    //   .min(2, "Name Too Short!")
+    //   .required("Parent/Guardian Last name is required"),
+    // parentOrGuardianRelationship: Yup.string().required(
+    //   "Parent/Guardian relationship is required"
+    // ),
+    // parentOrGuardianPhone: Yup.string()
+    //   .min(2, "Number Too Short!")
+    //   .required("Parent/Guardian phone number is required"),
+    // // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    // parentOrGuardianEmail: Yup.string()
+    //   .required("Please Enter Email")
+    //   .email("Must be a valid email"),
     sessionClassId: Yup.string().required("Class name is required"),
   });
   //VALIDATIONS SCHEMA
@@ -561,7 +561,7 @@ const StudentEdit = () => {
                           />
                         </div>
                       </div>
-                      <hr />
+                      {/* <hr />
                       <h5 className="mb-3">
                         <b>Parent/Guardian(s) Information</b>
                       </h5>
@@ -692,7 +692,7 @@ const StudentEdit = () => {
                             className="form-control text-lowercase"
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="d-flex justify-content-end">
                         <Button
                           type="button"
