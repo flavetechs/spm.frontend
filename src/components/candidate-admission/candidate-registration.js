@@ -528,6 +528,14 @@ const CandidateRegistration = () => {
                                       event.target.files[0]
                                     );
                                     ImageDisplay(event);
+                                    var maxSize = 200 * 200; //200kb
+                                    if (event.target.files[0].size > maxSize) {
+                                      errorModal(
+                                        "File size exceeds 200kb. Please choose a smaller file."
+                                      );
+                                      event.target.value = ""; 
+                                      setImages(null) // Reset the file input
+                                    }
                                   }}
                                 />
                               </label>
@@ -570,14 +578,7 @@ const CandidateRegistration = () => {
                                   "Credentials",
                                   event.target.files[0]
                                 );
-                                var maxSize = 200 * 200; //200kb
-                                if (event.target.files[0].size > maxSize) {
-                                  errorModal(
-                                    "File size exceeds 200kb. Please choose a smaller file."
-                                  );
-                                  event.target.value = ""; 
-                                  setImages(null) // Reset the file input
-                                }
+                               
                               }}
                             />
                           </div>
