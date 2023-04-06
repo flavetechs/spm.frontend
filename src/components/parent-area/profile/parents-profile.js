@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import {
+  Badge,
   Card,
   Col,
   Container,
@@ -14,7 +15,6 @@ import {
   getParentsWard,
   getSingleParents,
 } from "../../../store/actions/parent-actions";
-
 
 const ParentsProfile = () => {
   //VARIABLE DECLARATIONS
@@ -34,6 +34,7 @@ const ParentsProfile = () => {
     getParentsWard(20, 1, parentId)(dispatch);
   }, [parentId]);
 
+  console.log("my ward list",myWardList);
   return (
     <Container>
       <Row>
@@ -77,7 +78,6 @@ const ParentsProfile = () => {
               {" "}
               <div className="new-user-info">
                 <div className="row">
-                 
                   <div className="col-md-6 form-group">
                     <p className="">
                       <span>
@@ -207,14 +207,28 @@ const ParentsProfile = () => {
 
             <Card.Body>
               <div>
-                      <ul>
-                        {myWardList?.map((ward, idx) => (
-                          <li key={idx} className="h6 text-capitalize lh-lg">
-                              {ward.fullName}
-                          </li>
-                        ))}
-                      </ul>
-                 </div>
+                <Table size="sm" responsive bordered className="">
+                  <thead>
+                    <tr >
+                    <th className="h6">Name</th>
+                    <th className="h6">Registration Number</th>
+                    <th className="h6">Class</th>
+                    <th className="h6">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {myWardList?.map((ward, idx) => (
+                      <tr className="" key={idx}>
+                        <td className="px-3 fw-bold h6 text-capitalize">{ward.fullName}</td>
+                        <td className="px-3 fw-bold h6">{ward.registrationNumber}</td>
+                        <td className="px-3 fw-bold h6">{ward.class}</td>
+                        <td className="px-3 fw-bold h6"><Badge bg={"success"}>{ward.enrollmentStatus}</Badge></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+               
+              </div>
             </Card.Body>
           </Card>
         </Col>

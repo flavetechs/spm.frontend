@@ -84,14 +84,14 @@ const BatchPrintPreview = () => {
                 <th className="h6">Class</th>
                 <th className="fw-bold text-capitalize h6">{batchResultPreview?.class}</th>
               </tr>
-              <tr>
+              {/* <tr>
                 <th className="h6">No of pins to be used</th>
                 <th className="fw-bold text-capitalize h6">{batchResultPreview?.numberOfPins}</th>
-              </tr>
-              <tr>
+              </tr> */}
+              {/* <tr>
                 <th className="h6">Pin status</th>
                 <th><div className={`fw-bold h6 text-uppercase ${batchResultPreview?.pinStatus !== "sufficient" ? "badge bg-danger" :"badge bg-success" }`}>{batchResultPreview?.pinStatus}</div></th>
-              </tr>
+              </tr> */}
               <tr>
                 <th className="h6">No of students</th>
                 <th className="fw-bold text-capitalize h6">{batchResultPreview?.numberOfStudents}</th>

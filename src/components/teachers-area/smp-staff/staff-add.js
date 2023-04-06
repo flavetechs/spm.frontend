@@ -17,6 +17,7 @@ import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { staffLocations } from "../../../router/spm-path-locations";
 import { createStaffAccount } from "../../../store/actions/staff-actions";
 import { getCities, getCountries, getStates } from "../../../store/actions/student-actions";
+import { errorModal } from "../../../store/actions/candidate-admission-actions";
 
 const StaffAdd = () => {
   //VARIABLE DECLARATIONS
@@ -177,6 +178,14 @@ const StaffAdd = () => {
                                     event.currentTarget.files[0]
                                   );
                                   ImageDisplay(event);
+                                  // var maxSize = 200 * 200; //200kb
+                                  // if (event.target.files[0].size > maxSize) {
+                                  //   errorModal(
+                                  //     "File size exceeds 200kb. Please choose a smaller file."
+                                  //   );
+                                  //   event.target.value = "";
+                                  //   setImages(null) // Reset the file input
+                                  // }
                                 }}
                               />
                             </label>
