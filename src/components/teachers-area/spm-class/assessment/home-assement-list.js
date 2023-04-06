@@ -172,7 +172,7 @@ export function HomeAssessmentList(props) {
                           width="20"
                           clipRule="evenodd"
                           fillRule="evenodd"
-                          strokelinejoin="round"
+                          strokeLinejoin="round"
                           strokeMiterlimit="2"
                           fill="currentColor"
                           viewBox="0 0 24 24"

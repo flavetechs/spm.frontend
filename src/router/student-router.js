@@ -31,51 +31,51 @@ const StudentDashboardRouter = () => {
 
     return (
         <Protected>
-        <TransitionGroup>
-            <CSSTransition classNames="fadein" timeout={300}>
-                <Switch>
-                    {/* dashboard */}
-                    <Route exact path="/" component={studentIndex}></Route>
-                    <Route path={dashboardLocations.dashboard} exact component={studentIndex} />
+            <TransitionGroup>
+                <CSSTransition classNames="fadein" timeout={300}>
+                    <Switch>
+                        {/* dashboard */}
+                        <Route exact path="/" component={studentIndex}></Route>
+                        <Route path={dashboardLocations.dashboard} exact component={studentIndex} />
 
-                    {/* onlineClass */}
-                    <Route path={onlineClassLocations.onlineClass} exact component={OnlineClass} />
+                        {/* onlineClass */}
+                        <Route path={onlineClassLocations.onlineClass} exact component={OnlineClass} />
 
-                    {/* assessment */}
-                    <Route path={assessmentLocations.assessment} exact component={StudentAssessmentList} /> 
-                    <Route path={assessmentLocations.assessmentDetails} exact component={StudentAssessmentDetails} />
-                    {/* classNote */}
-                    <Route path={classNoteLocations.classNotes} exact component={ClassNotes} />
-                    <Route path={classNoteLocations.classNotesDetails} exact component={ClassNoteDetails} />
+                        {/* assessment */}
+                        <Route path={assessmentLocations.assessment} exact component={StudentAssessmentList} />
+                        <Route path={assessmentLocations.assessmentDetails} exact component={StudentAssessmentDetails} />
+                        {/* classNote */}
+                        <Route path={classNoteLocations.classNotes} exact component={ClassNotes} />
+                        <Route path={classNoteLocations.classNotesDetails} exact component={ClassNoteDetails} />
 
-                    {/* studentNote */}
-                    <Route path={studentNoteLocations.studentNotes} exact component={StudentNotes} />
-                    <Route path={studentNoteLocations.createStudentNotes} exact component={CreateStudentNote} />
-                    <Route path={studentNoteLocations.editStudentNotes} exact component={EditStudentNote} />
-                    <Route path={studentNoteLocations.studentNotesDetails} exact component={StudentNoteDetails} />
+                        {/* studentNote */}
+                        <Route path={studentNoteLocations.studentNotes} exact component={StudentNotes} />
+                        <Route path={studentNoteLocations.createStudentNotes} exact component={CreateStudentNote} />
+                        <Route path={studentNoteLocations.editStudentNotes} exact component={EditStudentNote} />
+                        <Route path={studentNoteLocations.studentNotesDetails} exact component={StudentNoteDetails} />
 
-                    {/* announcement */}
-                    {/* <Route path={announcementLocations.announcement} exact component={studentIndex} /> */}
-                    <Route path={announcementLocations.announcement} exact component={StudentAnnouncement} />
-                    <Route path={announcementLocations.studentAnnouncementDetails} exact component={StudentAnnouncementDetails} />
+                        {/* announcement */}
+                        {/* <Route path={announcementLocations.announcement} exact component={studentIndex} /> */}
+                        <Route path={announcementLocations.announcement} exact component={StudentAnnouncement} />
+                        <Route path={announcementLocations.studentAnnouncementDetails} exact component={StudentAnnouncementDetails} />
 
-                    {/* timeTable */}
-                    {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
-                    <Route path={timeTableLocations.classTimeTable} exact component={StudentClassTimeTable} />
-                    <Route path={timeTableLocations.examTimeTable} exact component={StudentExamTimeTable} />
-                    <Route path={timeTableLocations.printTimeTable} exact component={PrintTimeTable} />
-                    <Route path={timeTableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
+                        {/* timeTable */}
+                        {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
+                        <Route path={timeTableLocations.classTimeTable} exact component={StudentClassTimeTable} />
+                        <Route path={timeTableLocations.examTimeTable} exact component={StudentExamTimeTable} />
+                        <Route path={timeTableLocations.printTimeTable} exact component={PrintTimeTable} />
+                        <Route path={timeTableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
 
-                    {/* printResult */}
-                    <Route path={printResultLocations.printResult} exact component={PrintStudentResult} />
-                    <Route path={printResultLocations.resultTemplate} exact component={StudentTemplateControl} />
-                    {/* profile */}
-                    <Route path={profileLocations.profile} exact component={StudentProfilePage} />
-                    <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />
+                        {/* printResult */}
+                        <Route path={printResultLocations.printResult} exact component={PrintStudentResult} />
+                        <Route path={printResultLocations.resultTemplate} exact component={StudentTemplateControl} />
+                        {/* profile */}
+                        <Route path={profileLocations.profile} exact component={StudentProfilePage} />
+                        <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />
 
-                </Switch>
-            </CSSTransition>
-        </TransitionGroup>
+                    </Switch>
+                </CSSTransition>
+            </TransitionGroup>
         </Protected>
     )
 }

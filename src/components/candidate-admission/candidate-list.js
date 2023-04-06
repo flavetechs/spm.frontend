@@ -3,10 +3,7 @@ import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
-import {
-  candidateAuthLocation,
-  candidateLocations,
-} from "../../router/candidate-path-location";
+import { candidateAuthLocation,  candidateLocations} from "../../router/candidate-path-location";
 import {
   admissionOpenAndCloseModal,
   deleteCandidateAdmission,
@@ -22,7 +19,7 @@ import { PaginationFilter2 } from "../partials/components/pagination-filter";
 import { getUserDetails } from "../../utils/permissions";
 import { loginOutUser } from "../../store/actions/auth-actions";
 import SmpLoader from "../loader/smp-loader";
-import { getAllAdmissionSetting, getAllAdmissionSettingByParent } from "../../store/actions/portal-setting-action";
+import { getAllAdmissionSettingFromAdmission } from "../../store/actions/portal-setting-action";
 import { ReturnFilteredList } from "../../utils/tools";
 import { SearchInput } from "../partials/components/search-input";
 
@@ -45,15 +42,15 @@ const CandidateList = () => {
   // ACCESSING STATE FROM REDUX STORE
   const openAdmissionId = admissionSettingList?.find(
     (a) => a.admissionStatus === true)?.admissionSettingId;
-  const admissionSettingsId = queryParams.get("admissionId")||openAdmissionId;
- 
+  const admissionSettingsId = queryParams.get("admissionId") || openAdmissionId;
+
   useEffect(() => {
     getAdmissionStatus()(dispatch);
-    getAllAdmissionSettingByParent(10,1)(dispatch);
+    getAllAdmissionSettingFromAdmission(10, 1)(dispatch);
   }, []);
 
   useEffect(() => {
-    getCandidatesAdmissionList(admissionSettingsId, 10, 1)(dispatch);
+    admissionSettingsId && getCandidatesAdmissionList(admissionSettingsId, 10, 1)(dispatch);
   }, [admissionSettingsId]);
 
   useEffect(() => {
@@ -73,7 +70,7 @@ const CandidateList = () => {
       if (selectedIds.length === 0) {
         return;
       } else {
-        deleteCandidateAdmission(selectedIds,admissionSettingsId)(dispatch);
+        deleteCandidateAdmission(selectedIds, admissionSettingsId)(dispatch);
         return selectedIds.forEach((id) => {
           dispatch(removeId(id));
         });
@@ -97,11 +94,11 @@ const CandidateList = () => {
       (a) => a.admissionSettingId === admissionSettingsId
     )?.admissionStatus;
     if (!currentAdmissionStatus) {
-     if(admissionSettingsId ==="select-admission"){
+      if (admissionSettingsId === "select-admission") {
         errorModal("No admission Selected")
       }
-      else  admissionOpenAndCloseModal()(dispatch);
-    } 
+      else admissionOpenAndCloseModal()(dispatch);
+    }
     else {
       history.push(`${candidateLocations.candidateRegistration}?admissionId=${admissionSettingsId}`);
     }
@@ -195,23 +192,23 @@ const CandidateList = () => {
                 </div>
                 <div className="d-xl-flex justify-content-end px-2">
                   <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-6 mt-2 mt-xl-0">
-                    {}
+                    { }
                   </div>
                   <div className=" mx-sm-3 mx-xl-1 col-sm-11 col-xl-6 mt-2 mt-xl-0">
-                    {}
+                    { }
                   </div>
                   <div>
-                   
-                      {!admissionSettingsId ? (
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip-2">
-                              {" "}
-                              Select Admission to register
-                            </Tooltip>
-                          }
-                        > 
+
+                    {!admissionSettingsId ? (
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id="button-tooltip-2">
+                            {" "}
+                            Select Admission to register
+                          </Tooltip>
+                        }
+                      >
                         <Link to="#">
                           <button
                             disabled={!admissionSettingsId ? true : false}
@@ -236,34 +233,34 @@ const CandidateList = () => {
                             </i>
                             <span> Register</span>
                           </button>
-                          </Link>
-                        </OverlayTrigger>
-                      ) : (
-                        <button
-                          onClick={handleAdmissionStatus}
-                          type="button"
-                          className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
-                        >
-                          <i className="btn-inner">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                              ></path>
-                            </svg>
-                          </i>
-                          <span> Register</span>
-                        </button>
-                      )}
-                    
+                        </Link>
+                      </OverlayTrigger>
+                    ) : (
+                      <button
+                        onClick={handleAdmissionStatus}
+                        type="button"
+                        className="text-center btn-primary btn-icon mx-3  mt-3 mt-xl-0  btn btn-primary d-flex"
+                      >
+                        <i className="btn-inner">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            ></path>
+                          </svg>
+                        </i>
+                        <span> Register</span>
+                      </button>
+                    )}
+
                   </div>
                 </div>
               </div>
