@@ -23,6 +23,7 @@ import {
 import { getCities, getCountries, getStates } from "../../../store/actions/student-actions";
 import { errorModal } from "../../../store/actions/candidate-admission-actions";
 import AvatarImage from "../../../assets/avatar-image";
+import { ImageValidation } from "../../../utils/file-size-validation";
 
 const StaffEdit = () => {
   //VARIABLE DECLARATIONS
@@ -170,14 +171,7 @@ const StaffEdit = () => {
                                     event.currentTarget.files[0]
                                   );
                                   ImageDisplay(event);
-                                //   var maxSize = 200 * 200; //200kb
-                                // if (event.target.files[0].size > maxSize) {
-                                //   errorModal(
-                                //     "File size exceeds 200kb. Please choose a smaller file."
-                                //   );
-                                //   event.target.value = "";
-                                //   setImages(null); // Reset the file input
-                                // }
+                                  ImageValidation(event,setFieldValue,"profileImage",setImages)
                                 }}
                               />
                             </label>

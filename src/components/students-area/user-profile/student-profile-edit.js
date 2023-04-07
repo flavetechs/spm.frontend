@@ -15,6 +15,7 @@ import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getAllActiveSubjects } from "../../../store/actions/class-actions";
 import { profileLocations } from "../../../router/students-path-locations";
 import AvatarImage from "../../../assets/avatar-image";
+import { ImageValidation } from "../../../utils/file-size-validation";
 
 const StudentProfileEdit = () => {
     //VARIABLE DECLARATIONS
@@ -25,7 +26,7 @@ const StudentProfileEdit = () => {
     const locations = useLocation();
     const state = useSelector((state) => state);
     const refInput = useRef(null)
-    const [image, setImage] = useState("");
+    const [image, setImages] = useState("");
     //VARIABLE DECLARATION
 
     // ACCESSING STATE FROM REDUX STORE
@@ -46,7 +47,7 @@ const StudentProfileEdit = () => {
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
-            setImage(URL.createObjectURL(event.target.files[0]));
+            setImages(URL.createObjectURL(event.target.files[0]));
         }
     };
     //HANDLING ENTER KEY FUNCTION
@@ -81,7 +82,7 @@ const StudentProfileEdit = () => {
         setSubjectIds(selectedUserArray);
     };
     React.useEffect(() => {
-        setImage(selectedStudent?.photo);
+        setImages(selectedStudent?.photo);
         if (selectedStudent?.hobbies) {
             setTags([...selectedStudent?.hobbies]);
         }
@@ -169,6 +170,7 @@ const StudentProfileEdit = () => {
                                                                 onChange={(event) => {
                                                                     setFieldValue("File", event.target.files[0])
                                                                     ImageDisplay(event);
+                                                                    ImageValidation(event,setFieldValue,"File",setImages)
                                                                 }}
                                                             />
                                                         </label>

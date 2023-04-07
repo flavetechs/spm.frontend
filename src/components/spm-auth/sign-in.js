@@ -53,7 +53,6 @@ const SignIn = () => {
                     window.location.href = "/parent-dashboard";
                 } else {
                     window.location.href = "/dashboard";
-                    getSchoolSetting()(dispatch);
                 }
             } else {
                 localStorage.removeItem("token");

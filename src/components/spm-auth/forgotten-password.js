@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Image } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import Card from '../Card';
@@ -13,6 +13,7 @@ import { authLocations } from '../../router/spm-path-locations';
 import { forgotPasswordFunc } from '../../store/actions/auth-actions';
 import SmpLoader from '../loader/smp-loader';
 import { TestUrls } from '../../utils/other';
+import { getAppLayout } from '../../store/actions/portal-setting-action';
 
 const ForgottenPassword = () => {
 
@@ -22,7 +23,8 @@ const ForgottenPassword = () => {
     const history = useHistory();
     const state = useSelector((state) => state);
     const { message } = state.auth;
-
+    const { appSetting } = state.portal;
+    
     const validation = Yup.object().shape({
         email: Yup.string().required("User Email is Required")
             .email("Must be a valid email"),
@@ -35,7 +37,10 @@ const ForgottenPassword = () => {
     }, [forgotPasswordMessage]);
 
     const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
-
+    useEffect(() => {
+        getAppLayout(schoolUrl)(dispatch);
+      }, [schoolUrl]);
+    
     return (
         <>
             <section className="login-content">
@@ -44,10 +49,14 @@ const ForgottenPassword = () => {
                     <Col md="6" className="p-0">
                         <Card className="card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
                             <Card.Body>
-                                <Logo color={true} />
-                                <br />
-                                <br />
-                                <br />
+                            <div className="text-center mb-3">
+                  <img
+                    src={appSetting?.schoolLogo}
+                    alt="school logo"
+                    height="120px"
+                  />
+                  <h4>{appSetting?.schoolName}</h4>
+                </div>
                                 <p>Enter your current email to recover forgotten password</p>
                                 <Formik
                                     initialValues={{

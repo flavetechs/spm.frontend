@@ -23,6 +23,7 @@ import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import AvatarImage from "../../../assets/avatar-image";
+import { ImageValidation } from "../../../utils/file-size-validation";
 const StudentEdit = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -113,8 +114,8 @@ const StudentEdit = () => {
           email: selectedStudent?.userName || "",
           homePhone: selectedStudent?.homePhone || "",
           emergencyPhone: selectedStudent?.emergencyPhone || "",
-          parentOrGuardianFirstName: selectedStudent?.parentOrGuardianFirstName || "",
-          parentOrGuardianLastName: selectedStudent?.parentOrGuardianLastName || "",
+          parentOrGuardianFirstName: selectedStudent?.parentOrGuardianName?.split(" ")[0] || "",
+          parentOrGuardianLastName: selectedStudent?.parentOrGuardianName?.split(" ")[1] || "",
           parentOrGuardianRelationship: selectedStudent?.parentOrGuardianRelationship || "",
           parentOrGuardianPhone: selectedStudent?.parentOrGuardianPhone || "",
           parentOrGuardianEmail: selectedStudent?.parentOrGuardianEmail || "",
@@ -152,7 +153,8 @@ const StudentEdit = () => {
           params.append("email", values.email);
           params.append("homePhone", values.homePhone);
           params.append("emergencyPhone", values.emergencyPhone);
-          params.append("parentOrGuardianName", values.parentOrGuardianName);
+          params.append("ParentOrGuardianFirstName", values.parentOrGuardianFirstName);
+          params.append("ParentOrGuardianLastName", values.parentOrGuardianLastName);
           params.append(
             "parentOrGuardianRelationship",
             values.parentOrGuardianRelationship
@@ -225,6 +227,7 @@ const StudentEdit = () => {
                                   event.target.files[0]
                                 );
                                 ImageDisplay(event);
+                                ImageValidation(event,setFieldValue,"profileImage",setImages)
                               }}
                             />
                           </label>

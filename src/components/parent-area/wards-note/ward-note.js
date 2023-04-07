@@ -11,6 +11,7 @@ import avatars3 from "../../../assets/images/avatars/avtar_2.png";
 import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
+import AvatarImage2 from '../../../assets/avatar-image-2';
 
 const WardsNote = () => {
 
@@ -48,44 +49,7 @@ const WardsNote = () => {
                       alt="Student Photo"
                     />
                     :
-                    <div>
-                      <img
-                        style={{ width: "16rem", height: "16rem" }}
-                        src={avatars1}
-                        alt="User-Profile"
-                        className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        style={{ width: "16rem", height: "16rem" }}
-                        src={avatars2}
-                        alt="User-Profile"
-                        className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        style={{ width: "16rem", height: "16rem" }}
-                        src={avatars3}
-                        alt="User-Profile"
-                        className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        style={{ width: "16rem", height: "16rem" }}
-                        src={avatars5}
-                        alt="User-Profile"
-                        className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        style={{ width: "16rem", height: "16rem" }}
-                        src={avatars6}
-                        alt="User-Profile"
-                        className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        style={{ width: "16rem", height: "16rem" }}
-                        src={avatars4}
-                        alt="User-Profile"
-                        className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />{" "}
-                    </div>
+                    <AvatarImage2 />
                   }
                   <Card.Body >
                     <Card.Title className='bg-light'>{item.fullnaName}</Card.Title>
