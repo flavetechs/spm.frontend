@@ -58,6 +58,7 @@ const PasswordReset = () => {
     getAppLayout(schoolUrl)(dispatch);
   }, [schoolUrl]);
 
+
   return (
     <>
       <section className="login-content">
@@ -84,7 +85,7 @@ const PasswordReset = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
-                    resetForgotPasswordFunc(values)(dispatch);
+                    resetForgotPasswordFunc(values,history)(dispatch);
                   }}
                 >
                   {({
@@ -220,13 +221,7 @@ const PasswordReset = () => {
                           </div>
                         </Col>
                         <Col lg="12" className="d-flex justify-content-between">
-                          <div className="form-check mb-3 form-Check">
-                            <Field
-                              type="checkbox"
-                              id="customCheck1"
-                              className="form-check-input"
-                            />
-                          </div>
+                         
                           <Link to={authLocations.forgottenPassword}>
                             Return to Forgot Password?
                           </Link>

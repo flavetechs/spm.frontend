@@ -1,4 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
+import { authLocations } from "../../router/spm-path-locations";
 import { actions } from "../action-types/auth-action-types"
 import { getActiveSession } from "./session-actions";
 
@@ -155,7 +156,7 @@ export const forgotPasswordFunc = ( values ) => (dispatch) => {
         })
 }
 
-export const resetForgotPasswordFunc = ({ userId, password, resetToken }) => (dispatch) => {
+export const resetForgotPasswordFunc = ({ userId, password, resetToken },history) => (dispatch) => {
     dispatch({
         type: actions.RESET_FORGOT_PASSWORD_LOADING
     });
@@ -168,6 +169,8 @@ export const resetForgotPasswordFunc = ({ userId, password, resetToken }) => (di
 
     axiosInstance.post('/user/api/v1/reset-password', payload)
         .then((res) => {
+        dispatch(loginOutUser());
+         history.push(authLocations.login);
             dispatch({
                 type: actions.RESET_FORGOT_PASSWORD_SUCCESS,
                 payload: res.data.message.friendlyMessage
