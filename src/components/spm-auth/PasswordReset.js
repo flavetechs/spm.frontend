@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
 import {  resetForgotPasswordFunc } from '../../store/actions/auth-actions';
 import SmpLoader from '../loader/smp-loader';
+import { TestUrls } from '../../utils/other';
 
 const PasswordReset = () => {
 
@@ -36,6 +37,7 @@ const PasswordReset = () => {
         }
     }, [changedForgotPasswordSuccessful])
 
+    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
     return (
         <>
             <section className="login-content">
@@ -55,6 +57,7 @@ const PasswordReset = () => {
                                         userId: userIdQuery || "",
                                         password: '',
                                         resetToken: resetTokenQuery || "",
+                                        schoolUrl: schoolUrl
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
