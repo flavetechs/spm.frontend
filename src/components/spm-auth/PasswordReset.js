@@ -82,6 +82,7 @@ const PasswordReset = () => {
                     password: "",
                     confirmNewPassword: "",
                     resetToken: resetTokenQuery || "",
+                    schoolUrl
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
