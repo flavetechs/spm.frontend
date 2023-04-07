@@ -21,6 +21,7 @@ import {
 } from "../../../store/actions/staff-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import { getCities, getStates } from "../../../store/actions/student-actions";
+import AvatarImage from "../../../assets/avatar-image";
 
 const StaffDetails = () => {
   //VARIABLE DECLARATIONS
@@ -103,38 +104,7 @@ const StaffDetails = () => {
                     <Form className="">
                       <div className="form-group">
                         <div className="profile-img-edit position-relative">
-                          <div>
-                            <img
-                              src={avatars1}
-                              alt="User-Profile"
-                              className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars2}
-                              alt="User-Profile"
-                              className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars3}
-                              alt="User-Profile"
-                              className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars5}
-                              alt="User-Profile"
-                              className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars6}
-                              alt="User-Profile"
-                              className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />
-                            <img
-                              src={avatars4}
-                              alt="User-Profile"
-                              className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                            />{" "}
-                          </div>
+                        <AvatarImage />
                           <div className="upload-icone bg-primary">
                             <label htmlFor="photo">
                               <svg

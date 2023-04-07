@@ -138,106 +138,7 @@ const CandidateRegistration = () => {
                     setFieldValue,
                 }) => (
                     <Row>
-                        {/* <Col>
-              <Card>
-                <div className="card-header d-flex justify-content-between d-flex justify-content-between">
-                  <div className="header-title">
-                    <h4 className="card-title"><b>Registraton Form</b></h4>
-                  </div>
-                </div>
-                <div className="card-body ">
-                  <Form className="">
-                    <div className="form-group">
-                      <div className="profile-img-edit position-relative">
-                        <div>
-                          <img
-                            src={avatars1}
-                            alt="User-Profile"
-                            className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars2}
-                            alt="User-Profile"
-                            className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars3}
-                            alt="User-Profile"
-                            className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars5}
-                            alt="User-Profile"
-                            className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars6}
-                            alt="User-Profile"
-                            className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars4}
-                            alt="User-Profile"
-                            className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />{" "}
-                        </div>
-                        <div className="upload-icone bg-primary">
-                          <label htmlFor="profileImage">
-                            <svg
-                              className="upload-button"
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              style={{ cursor: "pointer" }}
-                            >
-                              <path
-                                fill="#ffffff"
-                                d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
-                              ></path>
-                            </svg>
-                            <input
-                              type="file"
-                              id="profileImage"
-                              style={{ display: "none" }}
-                              name="profileImage"
-                              accept="image/jpeg,image/jpg,image/png"
-                              className="file-upload form-control"
-                              data-original-title="upload photos"
-                              onChange={(event) => {
-                                setFieldValue("profileImage", event.target.files[0])
-                                ImageDisplay(event);
-                              }}
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <div className="img-extension mt-3">
-                        <div className="d-inline-block align-items-center">
-                          <span>Only</span>{" "}
-                          <a href="/hope-ui/react/build/dashboard/app/user-add">
-                            .jpg
-                          </a>{" "}
-                          <a href="/hope-ui/react/build/dashboard/app/user-add">
-                            .png
-                          </a>{" "}
-                          <a href="/hope-ui/react/build/dashboard/app/user-add">
-                            .jpeg
-                          </a>
-                          <span> allowed</span>
-                        </div>
-                      </div>
-                      {images ?
-                        <img
-                          className=" img-fluid mt-4"
-                          id="displayImg"
-                          src={images}
-                          alt="profile"
-                        /> : null}
-                    </div>
-                  </Form>
-                </div>
-              </Card>
-            </Col> */}
+                 
                         <div className="col-xl-9 col-lg-8 mx-auto">
                             <div className="card ">
                                 <div className="card-header d-flex justify-content-between d-flex justify-content-between">
@@ -348,33 +249,7 @@ const CandidateRegistration = () => {
                                                         className="form-control"
                                                     />
                                                 </div>
-                                                {/* <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="homePhone">
-                            <b>Home Phone Number:</b>
-                          </label>
-                          <Field
-                            placeholder="Home Phone Number"
-                            type="number"
-                            name="homePhone"
-                            id="homePhone"
-                            className="form-control"
-                          />
-                        </div> */}
-                                                {/* <div className="col-md-6 form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="emergencyPhone"
-                          >
-                            <b>Emergency Phone Number:</b>
-                          </label>
-                          <Field
-                            placeholder="Emergency Phone Number"
-                            type="number"
-                            name="emergencyPhone"
-                            id="emergencyPhone"
-                            className="form-control"
-                          />
-                        </div> */}
+                                                
                                                 <Row>
                                                     <div className="col-md-6">
                                                         {touched.email && errors.email && (
@@ -490,13 +365,7 @@ const CandidateRegistration = () => {
                                                     <label className="form-label" htmlFor="zipCode">
                                                         <b>Choose File (optional):</b>
                                                     </label>
-                                                    {/* <Field
-                                                        placeholder="Zip Code"
-                                                        type="number"
-                                                        id="zipCode"
-                                                        name="zipCode"
-                                                        className="form-control"
-                                                    /> */}
+                                                 
 
                                                     <div className="">
                                                         <input
@@ -505,8 +374,7 @@ const CandidateRegistration = () => {
                                                             name="file"
                                                             className="form-control"
                                                             accept=".xlsx, .xls, .csv"
-                                                        // onChange={event => setStudentsExcelFile(event.target.files[0])}
-                                                        // ref={fileInputRef}
+                                                        
                                                         />
                                                     </div>
                                                 </div>
@@ -633,10 +501,7 @@ const CandidateRegistration = () => {
                                                 <Button
                                                     type="button"
                                                     variant="btn btn-primary"
-                                                    //   onClick={handleSubmit}
-                                                    // onClick={
-                                                    //     history.push(admissionLocations.admissionRegistrationInformation)
-                                                    // }
+                                                  
 
                                                     onClick={() => {
                                                         // history.push(admissionLocations.admissionRegistrationInformation);
