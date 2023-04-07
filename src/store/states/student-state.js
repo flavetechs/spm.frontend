@@ -10,5 +10,5 @@ export const _state = {
     states:[],
     cities:[],
     filterProps: {},
-    studentTemplateFile: [],
+    studentTemplateFile: "",
   };

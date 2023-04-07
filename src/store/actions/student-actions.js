@@ -239,19 +239,22 @@ export const downloadStudentTemplate = () => (dispatch) => {
       type: actions.DOWNLOAD_STUDENT_TEMPLATE_LOADING
     });
   
-    axiosInstance.get('/student/api/v1/download/student-template', {
-      responseType: 'blob'
-    })
+    axiosInstance.get('/student/api/v1/download/student-template')
+    //   responseType: 'blob'
+    
       .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data.result]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'student-template.xls');
-        document.body.appendChild(link);
-        link.click();
+        // const url = window.URL.createObjectURL(new Blob([res.data.result]));
+        // const link = document.createElement('a');
+        // link.href = url;
+        // link.setAttribute('download', 'student-template.xls');
+        // document.body.appendChild(link);
+        // link.click();
+
         dispatch({
           type: actions.DOWNLOAD_STUDENT_TEMPLATE_SUCCESS,
+          payload: res.data.result
         });
+        console.log("res",res);
       })
       .catch((error) => {
         dispatch({

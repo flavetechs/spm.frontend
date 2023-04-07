@@ -25,6 +25,7 @@ import { hasAccess, NavPermissions } from "../../../utils/permissions";
 import PaginationFilter from "../../partials/components/pagination-filter";
 import { CheckMultiple, CheckSingleItem, ReturnFilteredList } from "../../../utils/tools";
 import { SearchInput } from "../../partials/components/search-input";
+import { saveAsFile } from "../../../utils/downloaded-files";
 
 const StudentList = () => {
   //VARIABLE DECLARATIONS
@@ -40,7 +41,7 @@ const StudentList = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { studentList, filterProps } = state.student;
+  const { studentList, filterProps,studentTemplateFile } = state.student;
   const { deleteDialogResponse, modalResponse, dialogResponse } = state.alert;
   // ACCESSING STATE FROM REDUX STORE
 
@@ -120,9 +121,9 @@ const StudentList = () => {
     }
   };
 
-  const handleStudentTemplateDownload = () => {
-    downloadStudentTemplate()(dispatch);
-  };
+  useEffect(() => {
+    studentTemplateFile && saveAsFile('student-template.xlsx', studentTemplateFile)
+ }, [studentTemplateFile]);
 
   return (
     <>
@@ -239,7 +240,7 @@ const StudentList = () => {
                         <button
                           type="button"
                           className="text-center btn-primary btn-icon me-2  btn btn-primary"
-                          onClick={handleStudentTemplateDownload}
+                          onClick={()=>downloadStudentTemplate()(dispatch)}
                         >
                           <i className="btn-inner">
                             <svg
