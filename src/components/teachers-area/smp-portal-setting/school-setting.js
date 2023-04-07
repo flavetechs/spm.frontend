@@ -19,6 +19,7 @@ import {
   getStates,
 } from "../../../store/actions/student-actions";
 import AvatarImage from "../../../assets/avatar-image";
+import { ImageValidation } from "../../../utils/file-size-validation";
 
 const SchoolSetting = () => {
   //VARIABLE DECLARATIONS
@@ -335,6 +336,7 @@ const SchoolSetting = () => {
                                         event.currentTarget.files[0]
                                       );
                                       ImageDisplay(event);
+                                      ImageValidation(event,setFieldValue,"photo",setImages)
                                     }}
                                   />
                                 </label>

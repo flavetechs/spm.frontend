@@ -30,6 +30,7 @@ import avatars4 from "../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../assets/images/avatars/avtar_5.png";
 import AvatarImage from "../../assets/avatar-image";
+import { ImageValidation } from "../../utils/file-size-validation";
 
 const CandidateRegistration = () => {
   //VARIABLE DECLARATIONS
@@ -498,18 +499,7 @@ const CandidateRegistration = () => {
                                       event.target.files[0]
                                     );
                                     ImageDisplay(event);
-                                    var maxSize = 200 * 200; //200kb
-                                    if (event.target.files[0].size > maxSize) {
-                                      errorModal(
-                                        "File size exceeds 200kb. Please choose a smaller file."
-                                      );
-                                      event.target.value = ""; 
-                                      setFieldValue(
-                                        "Photo",
-                                        ""
-                                      );
-                                      setImages(null) // Reset the file input
-                                    }
+                                    ImageValidation(event,setFieldValue,"Photo",setImages)
                                   }}
                                 />
                               </label>
