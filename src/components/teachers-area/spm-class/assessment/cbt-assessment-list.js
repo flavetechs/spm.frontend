@@ -85,9 +85,7 @@ const CBTAssessmentList = () => {
 
   useEffect(() => {
     if (dialogResponse === "continue") {
-      useAsExamScore
-        ? includeAsExam(includeScorePayload)(dispatch)
-        : includeAsAssessment(includeScorePayload)(dispatch);
+      useAsExamScore ? includeAsExam(includeScorePayload)(dispatch)  : includeAsAssessment(includeScorePayload)(dispatch);
       showHideDialog(false, null)(dispatch);
       respondDialog("")(dispatch);
     }
@@ -218,17 +216,8 @@ const CBTAssessmentList = () => {
                                   id="type"
                                   onChange={(e) => {
                                     setFieldValue("type", e.target.value);
-                                    e.target.value === "cbt"
-                                      ? history.push(
-                                        `${classLocations.cbtAssessmentList
-                                        }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value
-                                        }`
-                                      )
-                                      : history.push(
-                                        `${classLocations.assessment
-                                        }?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value
-                                        }`
-                                      );
+                                    e.target.value === "cbt" ? history.push( `${classLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
+                                      : history.push(`${classLocations.assessment}?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`);
                                   }}
                                 >
                                   <option value="">Select Type</option>
