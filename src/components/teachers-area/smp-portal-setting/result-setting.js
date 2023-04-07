@@ -12,6 +12,7 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getResultSetting, updateResultSetting } from "../../../store/actions/portal-setting-action";
 import AvatarImage from "../../../assets/avatar-image";
+import { ImageValidation } from "../../../utils/file-size-validation";
 
 const ResultSetting = () => {
     // ACCESSING STATE FROM REDUX STORE
@@ -241,6 +242,7 @@ const ResultSetting = () => {
                                                                                 event.currentTarget.files[0]
                                                                             );
                                                                             ImageDisplay(event);
+                                                                            ImageValidation(event,setFieldValue,"principalStamp",setImages)
                                                                         }}
                                                                     />
                                                                 </label>

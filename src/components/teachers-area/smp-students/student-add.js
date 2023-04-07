@@ -17,6 +17,7 @@ import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import "./student-add.scss"
 import AvatarImage from "../../../assets/avatar-image";
+import { ImageValidation } from "../../../utils/file-size-validation";
 const StudentAdd = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -194,6 +195,7 @@ const StudentAdd = () => {
                               onChange={(event) => {
                                 setFieldValue("profileImage", event.target.files[0])
                                 ImageDisplay(event);
+                                ImageValidation(event,setFieldValue,"profileImage",setImages)
                               }}
                             />
                           </label>
