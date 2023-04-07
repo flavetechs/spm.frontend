@@ -60,20 +60,7 @@ const SessionClassEdit = () => {
   const sessionClassId = queryParams.get("sessionClassId");
   //VARIABLE DECLARATIONS
 
-  // const setCurrentSubjectScores2 = (
-  //   subjectExamScore,
-  //   subjectAssessmentScore
-  // ) => {
-  //   classSubjects.map((subject, idx) => {
-  //     initialValues[`${subject.subjectId}_subjectExamScore`] = subjectExamScore;
-  //     initialValues[`${subject.subjectId}_subjectAssessmentScore`] =
-  //       subjectAssessmentScore;
-  //     updateClassSubjects(
-  //       subjectExamScore,
-  //       subjectAssessmentScore,
-  //       classSubjects
-  //     )(dispatch);
-  //   });
+
 
   React.useEffect(() => {
     getActiveSession()(dispatch);
@@ -123,7 +110,7 @@ const SessionClassEdit = () => {
                     passMark: selectedItem?.passMark,
                   }}
                   validationSchema={validation}
-                   enableReinitialize={true}
+                  enableReinitialize={true}
                   onSubmit={(values) => {
                     values.sessionId = selectedItem?.sessionId;
                     values.classSubjects = classSubjects;
@@ -150,12 +137,6 @@ const SessionClassEdit = () => {
                     isValid,
                   }) => (
                     <Form>
-                      <Row>
-                       
-                      </Row>
-                      <Row>
-                       
-                      </Row>
                       <Field
                         type="text"
                         className="form-control"
@@ -207,10 +188,7 @@ const SessionClassEdit = () => {
                                 <option
                                   key={idx}
                                   value={classLookup.lookupId}
-                                  selected={
-                                    selectedItem?.classId ===
-                                    classLookup.lookupId
-                                  }
+                                  selected={selectedItem?.classId === classLookup.lookupId}
                                 >
                                   {classLookup.name}
                                 </option>
@@ -229,7 +207,7 @@ const SessionClassEdit = () => {
                           )}
 
                           <div className="form-group">
-                            <label  className="form-label">
+                            <label className="form-label">
                               {" "}
                               Exam Score
                             </label>
@@ -239,12 +217,8 @@ const SessionClassEdit = () => {
                               onChange={(e) => {
                                 setExamScore(e.target.value);
                                 setAssessmentScore(100 - e.target.value);
-                                setFieldValue("examScore",  Number(e.target.value));
-                                setFieldValue(
-                                  "assessmentScore",
-                                  Number(100 - e.target.value)
-                                );
-                            
+                                setFieldValue("examScore", Number(e.target.value));
+                                setFieldValue("assessmentScore",  Number(100 - e.target.value));
                               }}
                               className="form-control p-sm-1 p-lg-2"
                               name="examScore"
@@ -284,10 +258,10 @@ const SessionClassEdit = () => {
                                 );
                                 setFieldValue(
                                   "examScore",
-                                 Number(100 - e.target.value)
+                                  Number(100 - e.target.value)
                                 );
-                               
-                              
+
+
                               }}
                               className="form-control p-sm-1 p-lg-2"
                               name="assessmentScore"
@@ -310,7 +284,7 @@ const SessionClassEdit = () => {
                             </label>
 
                             <Field
-                             name="passMark"
+                              name="passMark"
                               id="passMark"
                               type="number"
                               value={passMark}
@@ -319,10 +293,10 @@ const SessionClassEdit = () => {
                                 setPassMark(Number(e.target.value))
                               }}
                               className="form-control p-sm-1 p-lg-2"
-                             
+
                               aria-describedby="passMark"
                               required
-                              
+
                             />
                           </div>
                         </Col>
@@ -359,7 +333,7 @@ const SessionClassEdit = () => {
                                 <option
                                   selected={
                                     selectedItem?.formTeacherId ===
-                                    teacher.teacherAccountId
+                                      teacher.teacherAccountId
                                       ? true
                                       : false
                                   }

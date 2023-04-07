@@ -26,7 +26,7 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.auth;
-    const { appSetting,schoolSetting } = state.portal;
+    const { appSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
@@ -35,14 +35,14 @@ const SignIn = () => {
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
 
-const layoutSetting = localStorage.getItem("appSetting")
-const appSetting2 = JSON.parse(layoutSetting) || "";
+    const layoutSetting = localStorage.getItem("appSetting")
+    const appSetting2 = JSON.parse(layoutSetting) || "";
 
     useEffect(() => {
-if (!appSetting2.scheme) {
-    getAppLayout(schoolUrl)(dispatch)
-}
-}, [schoolUrl,appSetting2])
+        if (!appSetting2.scheme) {
+            getAppLayout(schoolUrl)(dispatch)
+        }
+    }, [schoolUrl, appSetting2])
 
     useEffect(() => {
         if (userDetail) {
@@ -133,9 +133,9 @@ if (!appSetting2.scheme) {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} 
+            touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo}/>
+            schoolLogo={appSetting?.schoolLogo} />
 
     const templateThree =
         <LoginTemplate3
@@ -147,9 +147,9 @@ if (!appSetting2.scheme) {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} 
+            touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo}/>
+            schoolLogo={appSetting?.schoolLogo} />
 
     const templateFour =
         <LoginTemplate4
@@ -161,9 +161,9 @@ if (!appSetting2.scheme) {
             setFieldValue={setFieldValue}
             handleBlur={handleBlur}
             errors={errors}
-            touched={touched} 
+            touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo}/>
+            schoolLogo={appSetting?.schoolLogo} />
 
     const pageNotFound =
         <PageNotFound />

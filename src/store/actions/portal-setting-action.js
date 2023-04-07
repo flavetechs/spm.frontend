@@ -203,7 +203,7 @@ export const createNotificationSetting = (notification) => (dispatch) => {
 }
 
 
-export const getAllAdmissionSettingByParent = (pageSize,pageNumber) => (dispatch) => {
+export const getAllAdmissionSettingFromAdmission = (pageSize,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_SETTING_LOADING,
     });
