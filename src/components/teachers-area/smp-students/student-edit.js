@@ -22,6 +22,7 @@ import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
+import AvatarImage from "../../../assets/avatar-image";
 const StudentEdit = () => {
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -39,22 +40,22 @@ const StudentEdit = () => {
       .min(2, "Last Name Too Short!")
       .required("Last Name is required"),
     email: Yup.string().email("Invalid email format"),
-    // parentOrGuardianFirstName: Yup.string()
-    //   .min(2, "Name Too Short!")
-    //   .required("Parent/Guardian First name is required"),
-    //   parentOrGuardianLastName: Yup.string()
-    //   .min(2, "Name Too Short!")
-    //   .required("Parent/Guardian Last name is required"),
-    // parentOrGuardianRelationship: Yup.string().required(
-    //   "Parent/Guardian relationship is required"
-    // ),
-    // parentOrGuardianPhone: Yup.string()
-    //   .min(2, "Number Too Short!")
-    //   .required("Parent/Guardian phone number is required"),
-    // // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
-    // parentOrGuardianEmail: Yup.string()
-    //   .required("Please Enter Email")
-    //   .email("Must be a valid email"),
+    parentOrGuardianFirstName: Yup.string()
+      .min(2, "Name Too Short!")
+      .required("Parent/Guardian First name is required"),
+      parentOrGuardianLastName: Yup.string()
+      .min(2, "Name Too Short!")
+      .required("Parent/Guardian Last name is required"),
+    parentOrGuardianRelationship: Yup.string().required(
+      "Parent/Guardian relationship is required"
+    ),
+    parentOrGuardianPhone: Yup.string()
+      .min(2, "Number Too Short!")
+      .required("Parent/Guardian phone number is required"),
+    // parentOrGuardianEmail: Yup.string().email("Invalid email format"),
+    parentOrGuardianEmail: Yup.string()
+      .required("Please Enter Email")
+      .email("Must be a valid email"),
     sessionClassId: Yup.string().required("Class name is required"),
   });
   //VALIDATIONS SCHEMA
@@ -194,38 +195,7 @@ const StudentEdit = () => {
                   <Form className="">
                     <div className="form-group">
                       <div className="profile-img-edit position-relative">
-                        <div>
-                          <img
-                            src={avatars1}
-                            alt="User-Profile"
-                            className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars2}
-                            alt="User-Profile"
-                            className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars3}
-                            alt="User-Profile"
-                            className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars5}
-                            alt="User-Profile"
-                            className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars6}
-                            alt="User-Profile"
-                            className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />
-                          <img
-                            src={avatars4}
-                            alt="User-Profile"
-                            className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                          />{" "}
-                        </div>
+                      <AvatarImage />
 
                         <div className="upload-icone bg-primary">
                           <label htmlFor="profileImage">
@@ -561,7 +531,7 @@ const StudentEdit = () => {
                           />
                         </div>
                       </div>
-                      {/* <hr />
+                      <hr />
                       <h5 className="mb-3">
                         <b>Parent/Guardian(s) Information</b>
                       </h5>
@@ -692,7 +662,7 @@ const StudentEdit = () => {
                             className="form-control text-lowercase"
                           />
                         </div>
-                      </div> */}
+                      </div>
                       <div className="d-flex justify-content-end">
                         <Button
                           type="button"

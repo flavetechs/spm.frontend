@@ -104,7 +104,6 @@ const StaffList = () => {
     });
     returnList(stafflists)(dispatch);
   };
-
   return (
     <>
       <div>
@@ -426,10 +425,10 @@ const StaffList = () => {
                                     title=""
                                     data-original-title="Delete"
                                     to="#"
-                                    data-id={item.teacherUserAccountId}
+                                    data-id={item.teacherAccountId}
                                     onClick={() => {
                                       dispatch(
-                                        pushId(item.teacherUserAccountId)
+                                        pushId(item.teacherAccountId)
                                       );
                                       showSingleDeleteDialog(true)(dispatch);
                                     }}
