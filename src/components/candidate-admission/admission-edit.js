@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field } from "formik";
@@ -84,7 +84,7 @@ const CandidateEdit = () => {
 
     React.useEffect(() => {
         setGetUserDetail(getUserDetails());
-      }, []);
+    }, []);
 
     const studentparentGuarndianRelationship = ['father', 'mother', 'sister', 'brother', 'uncle', 'aunt', 'grandparent', 'other']
 
@@ -94,55 +94,26 @@ const CandidateEdit = () => {
 
     const ImageDisplay = (event) => {
         if (event.target.files[0]) {
-          setImages(URL.createObjectURL(event.target.files[0]));
+            setImages(URL.createObjectURL(event.target.files[0]));
         }
-      };
-      
-      React.useEffect(() => {
+    };
+
+    React.useEffect(() => {
         setImages(singleAdmissionDetail?.photo);
-       }, [singleAdmissionDetail]);
+    }, [singleAdmissionDetail]);
+
+    useEffect(() => {
+        singleAdmissionDetail?.photo && fetch(singleAdmissionDetail?.photo)
+            .then(response => response.blob())
+            .then(blob => console.log('file', new File([blob], 'file.png')))
+            .catch(error => console.error(error));
+    }, [singleAdmissionDetail?.photo]);
 
 
-      React.useEffect(() => {
-        let url = singleAdmissionDetail?.photo
-       const fileName = 'candidate-photo.jpg'
 
-//   fetch(images)
-//   .then(async response => {
-//     const blob = await response.blob()
-//     const file = new File([blob], fileName, {    type: "image/jpeg", })
-    // access file here
-    fetch(url)
-    .then(response => response.blob()) // Fetch the image as a Blob
-    .then(blob => {
-      // Create an object file (Blob) from the fetched image data
-      // You can customize the MIME type based on the type of the image file
-      const objectFile = new Blob([blob], { type: 'application/octet-stream' });
-    setImageFile(objectFile)
-      // Create a download link for the object file
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(objectFile);
-      downloadLink.download = 'image.object'; // Set the desired filename for the object file
-      downloadLink.style.display = 'none';
-      document.body.appendChild(downloadLink);
-  
-      // Trigger a click event on the download link to initiate the download
-      downloadLink.click();
-  
-      // Clean up by revoking the object URL and removing the download link
-      URL.revokeObjectURL(downloadLink.href);
-      document.body.removeChild(downloadLink);
-    })
-    .catch(error => console.error('Error fetching image:', error));
- 
-  
-   
-   
-      }, [images]);
-      
     return (
         <>
-          <SmpLoader />
+            <SmpLoader />
             <Formik
                 enableReinitialize={true}
                 initialValues={{
@@ -172,8 +143,8 @@ const CandidateEdit = () => {
                     values.StateOfOrigin = values.StateOfOrigin;
                     values.LGAOfOrigin = values.LGAOfOrigin;
                     values.ClassId = values.ClassId;
-                    values.Credentials= !values.Credentials ? singleAdmissionDetail?.credentials : values.Credentials
-                    values.Photo= !values.Photo ? imageFile : values.Photo
+                    values.Credentials = !values.Credentials ? singleAdmissionDetail?.credentials : values.Credentials
+                    values.Photo = !values.Photo ? imageFile : values.Photo
                     const params = new FormData();
                     params.append("AdmissionId", values.AdmissionId);
                     params.append("Firstname", values.Firstname);
@@ -188,7 +159,7 @@ const CandidateEdit = () => {
                     params.append("Credentials", values.Credentials);
                     params.append("Photo", values.Photo);
                     params.append("ClassId", values.ClassId);
-                    updateCandidateAdmission(params,admissionIdQuery)(dispatch);
+                    updateCandidateAdmission(params, admissionIdQuery)(dispatch);
                 }}
             >
                 {({
@@ -204,52 +175,52 @@ const CandidateEdit = () => {
                     <Row className="">
                         <div className="col-xl-9 col-lg-8 col-md-8 mx-auto">
                             <div className="card ">
-                            <Card.Header
-                className="d-md-flex justify-content-between border border-light mb-5"
-                style={{ backgroundColor: "#F5F6FA" }}
-              >
-                <div className="header-title">
-                  <h4 className="card-title mb-3">Candidate List</h4>
-                </div>
-                <div className="d-md-flex  justify-content-between">
-                  <h6
-                    style={{
-                      wordBreak: "break-all",
-                      whiteSpace: "pre-wrap",
-                    }}
-                    className="card-title fw-bold my-2"
-                  >
-                    {getUserDetail?.userName}
-                  </h6>
-                  <div>
-                    <Link to="#">
-                      <button
-                        type="button"
-                        className="text-center btn-icon mx-3 my-2 my-md-0 mt-3 mt-xl-0  btn d-flex border border-light"
-                        onClick={() => {
-                          dispatch(loginOutUser());
-                          history.push(candidateAuthLocation.signIn);
-                        }}
-                      >
-                        <i className="btn-inner">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-power"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M7.5 1v7h1V1h-1z" />
-                            <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
-                          </svg>
-                        </i>
-                        <span> Log Out</span>
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </Card.Header>
+                                <Card.Header
+                                    className="d-md-flex justify-content-between border border-light mb-5"
+                                    style={{ backgroundColor: "#F5F6FA" }}
+                                >
+                                    <div className="header-title">
+                                        <h4 className="card-title mb-3">Candidate List</h4>
+                                    </div>
+                                    <div className="d-md-flex  justify-content-between">
+                                        <h6
+                                            style={{
+                                                wordBreak: "break-all",
+                                                whiteSpace: "pre-wrap",
+                                            }}
+                                            className="card-title fw-bold my-2"
+                                        >
+                                            {getUserDetail?.userName}
+                                        </h6>
+                                        <div>
+                                            <Link to="#">
+                                                <button
+                                                    type="button"
+                                                    className="text-center btn-icon mx-3 my-2 my-md-0 mt-3 mt-xl-0  btn d-flex border border-light"
+                                                    onClick={() => {
+                                                        dispatch(loginOutUser());
+                                                        history.push(candidateAuthLocation.signIn);
+                                                    }}
+                                                >
+                                                    <i className="btn-inner">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="18"
+                                                            height="16"
+                                                            fill="currentColor"
+                                                            className="bi bi-power"
+                                                            viewBox="0 0 16 16"
+                                                        >
+                                                            <path d="M7.5 1v7h1V1h-1z" />
+                                                            <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
+                                                        </svg>
+                                                    </i>
+                                                    <span> Log Out</span>
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </Card.Header>
                                 <div className=" d-flex justify-content-between  justify-content-between border-bottom border-light p-3">
                                     {" "}
                                     <div className="header-title">
@@ -465,97 +436,97 @@ const CandidateEdit = () => {
                                                         ))}
                                                     </Field>
                                                 </div>
-                                              
+
 
                                                 <div className="col-md-6 form-group">
-                                                <div className="col-md-6">
-                        <div className="header-title mt-3">
-                              <p className="card-title fw-bold">Choose Photo</p>
-                            </div>
-                            <div className="profile-img-edit position-relative">
-                              <div>
-                                <img
-                                  src={avatars1}
-                                  alt="User-Profile"
-                                  className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars2}
-                                  alt="User-Profile"
-                                  className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars3}
-                                  alt="User-Profile"
-                                  className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars5}
-                                  alt="User-Profile"
-                                  className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars6}
-                                  alt="User-Profile"
-                                  className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />
-                                <img
-                                  src={avatars4}
-                                  alt="User-Profile"
-                                  className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                                />{" "}
-                              </div>
-                              <div className="upload-icone bg-primary">
-                                <label htmlFor="Photo">
-                                  <svg
-                                    className="upload-button"
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    <path
-                                      fill="#ffffff"
-                                      d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
-                                    ></path>
-                                  </svg>
-                                  <input
-                              type="file"
-                              id="Photo"
-                              name="Photo"
-                              accept="image/jpeg,image/jpg,image/png"
-                              className="file-upload form-control"
-                              onChange={(event) => {
-                                setFieldValue("Photo", event.target.files[0]);
-                                ImageDisplay(event);
-                              }}
-                            />
-                                </label>
-                              </div>
-                            </div>
-                            <div className="img-extension mt-3">
-                              <div className="d-inline-block align-items-center">
-                                <span>Only</span> <span>.jpg</span>{" "}
-                                <span>.png</span> <span>.jpeg</span>
-                                <span> allowed</span>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                            {images ? (
-                              <img
-                                className=" img-fluid mt-4"
-                                id="displayImg"
-                                src={images}
-                                alt="School Logo"
-                                height="250px"
-                                width="250px"
-                              />
-                            ) : null}
-                          </div>
-                        </div>
+                                                    <div className="col-md-6">
+                                                        <div className="header-title mt-3">
+                                                            <p className="card-title fw-bold">Choose Photo</p>
+                                                        </div>
+                                                        <div className="profile-img-edit position-relative">
+                                                            <div>
+                                                                <img
+                                                                    src={avatars1}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars2}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars3}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars5}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars6}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />
+                                                                <img
+                                                                    src={avatars4}
+                                                                    alt="User-Profile"
+                                                                    className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
+                                                                />{" "}
+                                                            </div>
+                                                            <div className="upload-icone bg-primary">
+                                                                <label htmlFor="Photo">
+                                                                    <svg
+                                                                        className="upload-button"
+                                                                        width="14"
+                                                                        height="14"
+                                                                        viewBox="0 0 24 24"
+                                                                        style={{ cursor: "pointer" }}
+                                                                    >
+                                                                        <path
+                                                                            fill="#ffffff"
+                                                                            d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    <input
+                                                                        type="file"
+                                                                        id="Photo"
+                                                                        name="Photo"
+                                                                        accept="image/jpeg,image/jpg,image/png"
+                                                                        className="file-upload form-control"
+                                                                        onChange={(event) => {
+                                                                            setFieldValue("Photo", event.target.files[0]);
+                                                                            ImageDisplay(event);
+                                                                        }}
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="img-extension mt-3">
+                                                            <div className="d-inline-block align-items-center">
+                                                                <span>Only</span> <span>.jpg</span>{" "}
+                                                                <span>.png</span> <span>.jpeg</span>
+                                                                <span> allowed</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            {images ? (
+                                                                <img
+                                                                    className=" img-fluid mt-4"
+                                                                    id="displayImg"
+                                                                    src={images}
+                                                                    alt="School Logo"
+                                                                    height="250px"
+                                                                    width="250px"
+                                                                />
+                                                            ) : null}
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                               <div className="col-md-6 form-group">
+                                                <div className="col-md-6 form-group">
                                                     <label className="form-label mt-3" htmlFor="dd">
                                                         <b>Choose File (optional):</b>
                                                     </label>
@@ -570,32 +541,32 @@ const CandidateEdit = () => {
                                                                 setFieldValue("Credentials", event.target.files[0])
                                                                 var maxSize = 200 * 200; //200kb
                                                                 if (event.target.files[0].size > maxSize) {
-                                                                  errorModal(
-                                                                    "File size exceeds 200kb. Please choose a smaller file."
-                                                                  );
-                                                                  event.target.value = ""; 
-                                                                  setImages(null) // Reset the file input
+                                                                    errorModal(
+                                                                        "File size exceeds 200kb. Please choose a smaller file."
+                                                                    );
+                                                                    event.target.value = "";
+                                                                    setImages(null) // Reset the file input
                                                                 }
                                                             }}
                                                         />
                                                     </div>
                                                     <div className="col-md-6 form-group">
-                                                    <label className="form-label" htmlFor="dd">
-                                                        <b>Credential:</b>
-                                                    </label>
-                                                    <div className="">
+                                                        <label className="form-label" htmlFor="dd">
+                                                            <b>Credential:</b>
+                                                        </label>
                                                         <div className="">
-                                                            <object data={ singleAdmissionDetail?.credentials  }
-                                                                width="250"
-                                                                height="250">
-                                                            </object>
+                                                            <div className="">
+                                                                <object data={singleAdmissionDetail?.credentials}
+                                                                    width="250"
+                                                                    height="250">
+                                                                </object>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                </div>  
-                                                
+
                                             </div>
-                                           
+
                                             <div className="d-flex justify-content-end">
                                                 <Button
                                                     type="button"
