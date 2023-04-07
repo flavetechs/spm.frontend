@@ -11,6 +11,7 @@ import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getSingleWardDetails } from "../../../store/actions/parent-actions";
+import AvatarImage from "../../../assets/avatar-image";
 
 
 const WardsDetails = () => {
@@ -48,38 +49,7 @@ const WardsDetails = () => {
               <Form className="">
                 <div className="form-group">
                   {!selectedWardDetails?.photo ? (
-                    <div>
-                      <img
-                        src={avatars1}
-                        alt="User-Profile"
-                        className="theme-color-default-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars2}
-                        alt="User-Profile"
-                        className="theme-color-purple-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars3}
-                        alt="User-Profile"
-                        className="theme-color-blue-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars5}
-                        alt="User-Profile"
-                        className="theme-color-green-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars6}
-                        alt="User-Profile"
-                        className="theme-color-yellow-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                      <img
-                        src={avatars4}
-                        alt="User-Profile"
-                        className="theme-color-pink-img img-fluid avatar avatar-100 avatar-rounded-100"
-                      />
-                    </div>
+                   <AvatarImage />
                   ) : (
                     <img className="img-fluid mt-4" src={selectedWardDetails?.photo} alt="profile" />
                   )}
