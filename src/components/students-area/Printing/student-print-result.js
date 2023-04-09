@@ -28,7 +28,6 @@ const PrintStudentResult = () => {
     sessionTermId: "",
     sessionClassId: "",
     studentRegNo: "",
-    ePin: "",
   });
   // ACCESSING STATE FROM REDUX STORE
 
@@ -38,7 +37,6 @@ const PrintStudentResult = () => {
       sessionTermId: Yup.string().required("Term is required"),
       sessionId: Yup.string().required("Session is required"),
       studentRegNo: Yup.string().required("Registration Number is required"),
-      ePin: Yup.string().required("E-pin is required"),
     });
 
   //VALIDATION SCHEMA
@@ -80,7 +78,6 @@ const PrintStudentResult = () => {
                 enableReinitialize={true}
                 onSubmit={(values) => {
                     getSinglePrintResult(
-                      values.ePin,
                       values.sessionTermId,
                       values.studentRegNo
                     )(dispatch);
@@ -185,7 +182,7 @@ const PrintStudentResult = () => {
                               placeholder="Enter student reg no..."
                             />
                           </Col>
-                          <Col md="11">
+                          {/* <Col md="11">
                             {touched.ePin && errors.ePin && (
                               <div className="text-danger">{errors.ePin}</div>
                             )}
@@ -202,7 +199,7 @@ const PrintStudentResult = () => {
                               id="ePin"
                               placeholder="Enter e-pin..."
                             />
-                          </Col>
+                          </Col> */}
                       
                      
                       <div className="d-flex justify-content-end">

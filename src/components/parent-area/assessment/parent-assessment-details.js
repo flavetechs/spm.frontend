@@ -471,7 +471,7 @@ const ParentAssessmentDetails = () => {
                                           fill="currentColor"
                                         ></path>
                                       </svg>
-                                      <p className=" mb-0 text-dark">
+                                      <p className=" mb-0 h6">
                                         {file.split("/")[4]}
                                       </p>
                                     </div>
