@@ -140,7 +140,7 @@ const SessionClassTableEdit = () => {
    history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
-console.log("classSubjects",classSubjects);
+//console.log("classSubjects",classSubjects);
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -153,11 +153,7 @@ console.log("classSubjects",classSubjects);
                   initialValues={initialValues}
                   onSubmit={(values) => {
                     values.sessionClassId = sessionClassId;
-                    // const score = Number(values.examScore) + Number(values.assessmentScore);
-                    // if (score !== 100) {
-                    //   showErrorToast("Examination and assessment must equal 100")(dispatch);
-                    //   return;
-                    // }
+                    
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
                         classSubjects[i].assessment = assessment;
@@ -257,7 +253,6 @@ console.log("classSubjects",classSubjects);
                                         "subjectExamScore",
                                         Number(e.target.value)
                                       );
-                                      e.target.value && setFieldValue("subjectId",subject.lookupId);
                                       getExamScores(subject.lookupId,subject.name);
                                       getAssessmentScores(subject.lookupId,subject.name);
                                       setFieldValue(
@@ -296,7 +291,6 @@ console.log("classSubjects",classSubjects);
                                         "subjectAssessmentScore",
                                         Number(e.target.value)
                                       );
-                                      e.target.value && setFieldValue("subjectId",subject.lookupId);
                                       setFieldValue(
                                         `${subject.lookupId}_subjectAssessmentScore`,
                                         Number(e.target.value)
@@ -316,7 +310,8 @@ console.log("classSubjects",classSubjects);
                                   className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
-                                    values.subjectId && values.subjectId == subject.lookupId ?
+                                    const currentSubjectId =  classSubjects.find(c=>c.subjectId === subject.lookupId)?.subjectId
+                                    currentSubjectId === subject.lookupId ?
                                       getSubjectTeacherId(
                                         subject.lookupId,
                                         subject.name,

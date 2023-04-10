@@ -67,8 +67,8 @@ const StaffEdit = () => {
 
   React.useEffect(() => {
     setImages(selectedItem?.photo);
-    getStates(selectedItem?.countryId)(dispatch);
-    getCities(selectedItem?.stateId)(dispatch);
+    getStates(selectedItem?.country)(dispatch);
+    getCities(selectedItem?.state)(dispatch);
   }, [selectedItem]);
 
   if (isSuccessful || !selectedItem) {
@@ -80,7 +80,6 @@ const StaffEdit = () => {
       setImages(URL.createObjectURL(event.target.files[0]));
     }
   };
-
   return (
     <>
       <div>
@@ -93,9 +92,9 @@ const StaffEdit = () => {
             email: selectedItem?.email || "",
             phone: selectedItem?.phone || "",
             photo: selectedItem?.photo || "",
-            cityId: selectedItem?.cityId || "",
-            stateId: selectedItem?.stateId || "",
-            countryId: selectedItem?.countryId || "",
+            city: selectedItem?.city || "",
+            state: selectedItem?.state || "",
+            country: selectedItem?.country || "",
             teacherUserAccountId: selectedItem?.teacherUserAccountId,
             dob: selectedItem?.dob || "",
           }}
@@ -113,6 +112,9 @@ const StaffEdit = () => {
             params.append("phone", values.phone);
             params.append("dob", values.dob);
             params.append("email", values.email);
+            params.append("city", values.city);
+            params.append("state", values.state);
+            params.append("country", values.country);
             params.append("photo", values.photo);
             params.append("profileImage", values.profileImage);
             updateStaffAccount(values, params)(dispatch);
@@ -318,22 +320,22 @@ const StaffEdit = () => {
                             />
                           </Form.Group>
                           <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="countryId">
+                          <label className="form-label" htmlFor="country">
                             <b>Country:</b>
                           </label>
                           <Field
                             as="select"
-                            name="countryId"
+                            name="country"
                             className="form-select text-uppercase"
-                            id="countryId"
-                            onChange={(e)=>{setFieldValue("countryId",e.target.value); getStates(e.target.value)(dispatch);}}
+                            id="country"
+                            onChange={(e)=>{setFieldValue("country",e.target.value); getStates(e.target.value)(dispatch);}}
                           >
                             <option value="">Select Country</option>
                             {countries?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
-                                selected={selectedItem?.countryId === item.value}
+                                selected={selectedItem?.country === item.value}
                               >
                                 {item.name}
                               </option>
@@ -343,22 +345,22 @@ const StaffEdit = () => {
                         </div>
                        
                         <div className="col-md-6 form-group">
-                          <label className="form-label" htmlFor="stateId">
+                          <label className="form-label" htmlFor="state">
                             <b>State:</b>
                           </label>
                           <Field
                             as="select"
-                            name="stateId"
+                            name="state"
                             className="form-select text-uppercase"
-                            id="stateId"
-                            onChange={(e)=>{setFieldValue("stateId",e.target.value); getCities(e.target.value)(dispatch)}}
+                            id="state"
+                            onChange={(e)=>{setFieldValue("state",e.target.value); getCities(e.target.value)(dispatch)}}
                           >
                             <option value="">Select State</option>
                            {states?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
-                                selected={selectedItem?.stateId === item.value}
+                                selected={selectedItem?.state === item.value}
                               >
                                 {item.name}
                               </option>
@@ -366,21 +368,21 @@ const StaffEdit = () => {
                           </Field>
                         </div>
                         <div className="col-md-6  form-group">
-                          <label className="form-label" htmlFor="cityId">
+                          <label className="form-label" htmlFor="city">
                             <b>City:</b>
                           </label>
                           <Field
                             as="select"
-                            name="cityId"
+                            name="city"
                             className="form-select text-uppercase"
-                            id="cityId"
+                            id="city"
                           >
                             <option value="">Select City</option>
                            {cities?.map((item, idx) => (
                               <option
                                 key={idx}
                                 value={item.value}
-                                selected={selectedItem?.cityId === item.value}
+                                selected={selectedItem?.city === item.value}
                               >
                                 {item.name}
                               </option>
