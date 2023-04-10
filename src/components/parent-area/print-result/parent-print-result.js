@@ -25,7 +25,6 @@ const PrintParentResult = () => {
     sessionTermId: "",
     sessionClassId: "",
     studentRegNo: "",
-    ePin: "",
   });
   // ACCESSING STATE FROM REDUX STORE
 
@@ -35,7 +34,7 @@ const PrintParentResult = () => {
       sessionTermId: Yup.string().required("Term is required"),
       sessionId: Yup.string().required("Session is required"),
       studentRegNo: Yup.string().required("Registration Number is required"),
-      ePin: Yup.string().required("E-pin is required"),
+     
     });
 
   //VALIDATION SCHEMA
@@ -77,7 +76,6 @@ const PrintParentResult = () => {
                 enableReinitialize={true}
                 onSubmit={(values) => {
                     getSinglePrintResult(
-                      values.ePin,
                       values.sessionTermId,
                       values.studentRegNo
                     )(dispatch);
@@ -182,24 +180,7 @@ const PrintParentResult = () => {
                               placeholder="Enter student reg no..."
                             />
                           </Col>
-                          <Col md="11">
-                            {touched.ePin && errors.ePin && (
-                              <div className="text-danger">{errors.ePin}</div>
-                            )}
-                          </Col>
-                          <Col md="11" className="form-group h6">
-                            <label className="form-label">
-                              <b>E-pin:</b>
-                            </label>
-                            <Field
-                              type="text"
-                              name="ePin"
-                              className="form-control"
-                              autoComplete="off"
-                              id="ePin"
-                              placeholder="Enter e-pin..."
-                            />
-                          </Col>
+                       
                       
                      
                       <div className="d-flex justify-content-end">
