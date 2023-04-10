@@ -75,7 +75,7 @@ const WardsList = () => {
                         className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
                       >
                         <span>Total Wards</span>{" "}
-                        <span className="badge bg-light text-dark rounded-pill align-text-bottom">{filterProps.totalRecords}</span>
+                        <span className="badge bg-white text-dark rounded-pill align-text-bottom">{filterProps.totalRecords}</span>
                       </button>
                     </Link>
                   </div>

@@ -539,7 +539,7 @@ const StudentAssessmentDetails = () => {
                                               fill="currentColor"
                                             ></path>
                                           </svg>
-                                          <p className=" mb-0 text-dark"style={{wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}>
+                                          <p className=" mb-0 h6"style={{wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}>
                                             {file.split("/")[4]}
                                           </p>
                                         </div>
