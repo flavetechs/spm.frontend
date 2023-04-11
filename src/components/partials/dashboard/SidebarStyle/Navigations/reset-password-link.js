@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { authLocations, classLocations } from '../../../../../router/spm-path-locations'
+import { authLocations } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function ResetPasswordLink(props){
     var location = useLocation()

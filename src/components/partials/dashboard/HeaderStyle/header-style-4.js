@@ -20,6 +20,7 @@ import { getMyWardsList } from "../../../../store/actions/parent-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { loginOutUser } from "../../../../store/actions/auth-actions";
 import { authLocations } from "../../../../router/spm-path-locations";
+import SmpLoader from "../../../loader/smp-loader";
 
 const HeaderStyle4 = () => {
   var userDetail = getUserDetails();
@@ -40,30 +41,12 @@ const HeaderStyle4 = () => {
   React.useEffect(() => {
     getMyWardsList(1)(dispatch);
   }, [dispatch]);
-
-  let parentNavLinks = [
-    { name: "Dashboard", link: dashboardLocations.dashboard },
-    { name: "My Wards", link: myWardsLocations.myWards },
-    {
-      name: "Teacher's Note",
-      link: parentTeachersNoteLocations.parentTeachersNote,
-    },
-    { name: "Ward's Note", link: wardsNoteLocations.wardsNote },
-    { name: "Assessment", link: parentAssessmentLocations.parentAssessment },
-    { name: "Print Result", link: printResultLocations.printResult },
-    {
-      name: "Class Timetable",
-      link: parentTimeTableLocations.parentClassTimeTable,
-    },
-    {
-      name: "Exam Timetable",
-      link: parentTimeTableLocations.parentExamTimeTable,
-    },
-    { name: "Announcement", link: announcementLocations.announcement },
-  ];
+  var userDetail = localStorage.getItem('userDetail')
+  
 
   return (
     <>
+     <SmpLoader />
       <div className="mt-n5 mx-3 mb-2 text-center d-flex d-block d-md-none  justify-content-end align-items-center">
         <img src={schoolLogo} alt="school logo" height="40px" />
         <h4 className="logo-title mx-2 h6">{schoolAbrev} </h4>
@@ -196,7 +179,7 @@ const HeaderStyle4 = () => {
                 </NavDropdown.Item>
                 <Dropdown.Divider />
                 <NavDropdown.Item
-                  href={parentAccountLocations.resetPassword}
+                  href={`${parentAccountLocations.resetPassword}?id=${JSON.parse(userDetail).userAccountId}`}
                   className=""
                 >
                   Reset Password

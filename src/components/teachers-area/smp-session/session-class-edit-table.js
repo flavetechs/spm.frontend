@@ -279,8 +279,6 @@ const SessionClassTableEdit = () => {
                                     defaultValue={classSubjects.find((sub) => sub.subjectId === subject.lookupId).assessment}
                                     id={`${subject.lookupId}_subjectAssessmentScore`}
                                     aria-describedby={`${subject.lookupId}_subjectAssessmentScore`}
-                                    required
-                                    placeholder=" "
                                     onChange={(e) => {
                                       setCurrentSubjectScores1(
                                         Number(100 - e.target.value),
@@ -291,6 +289,8 @@ const SessionClassTableEdit = () => {
                                         "subjectAssessmentScore",
                                         Number(e.target.value)
                                       );
+                                      getExamScores(subject.lookupId,subject.name);
+                                      getAssessmentScores(subject.lookupId,subject.name);
                                       setFieldValue(
                                         `${subject.lookupId}_subjectAssessmentScore`,
                                         Number(e.target.value)

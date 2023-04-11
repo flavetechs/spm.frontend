@@ -94,7 +94,7 @@ const CBTAssessmentList = () => {
       showHideDialog(false, null)(dispatch);
     };
   }, [dialogResponse, dispatch]);
-
+console.log("clientUrl",clientUrl);
   return (
     <>
       <div>

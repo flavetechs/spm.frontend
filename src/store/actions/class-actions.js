@@ -2141,7 +2141,7 @@ export const updateStudentClassAssessment = (sessionClassSubjectId, classAssessm
         });
 }
 
-export const submitHomeAssessmentFeedback = (homeAssessmentFeedBackId, score, comment, include, homeAssessmentId, sessionClassId) => (dispatch) => {
+export const submitHomeAssessmentFeedback = (homeAssessmentFeedBackId, score, comment,  homeAssessmentId, sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.SUBMIT_ASSESSMENT_LOADING
     });
@@ -2149,7 +2149,6 @@ export const submitHomeAssessmentFeedback = (homeAssessmentFeedBackId, score, co
         homeAssessmentFeedBackId,
         score,
         comment,
-        include
     }
     axiosInstance.post('/homeassessment/api/v1/score/assessment-feedback', payload)
         .then((res) => {
