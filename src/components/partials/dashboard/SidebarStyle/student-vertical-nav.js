@@ -54,8 +54,6 @@ const StudentsVerticalNav = () => {
 
         <ExamTimeTableLink minisidebar={minisidebar} />
 
-        <CumulativeTimeTableLink minisidebar={minisidebar} />
-
         <PrintResultLink minisidebar={minisidebar} />
 
         <ResetPasswordLink minisidebar={minisidebar}/>

@@ -1,11 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
 import { resetPasswordLocations } from '../../../../../../router/students-path-locations'
 export function ResetPasswordLink(props){
-    var location = useLocation()
+    var location = useLocation();
+    var userDetail = localStorage.getItem('userDetail');
+
     return(
         <>
          <li className="nav-item">
-                    <Link className={`${location.pathname === resetPasswordLocations.resetPassword ? 'active' : ''} nav-link `} aria-current="page" to={resetPasswordLocations.resetPassword} onClick={props.minisidebar}>
+                    <Link className={`${location.pathname === resetPasswordLocations.resetPassword ? 'active' : ''} nav-link `} aria-current="page" to={`${resetPasswordLocations.resetPassword}?id=${JSON.parse(userDetail).userAccountId}`} onClick={props.minisidebar}>
                         <i className="icon">
                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path fillRule="evenodd" clipRule="evenodd" d="M7.7688 8.71387H16.2312C18.5886 8.71387 20.5 10.5831 20.5 12.8885V17.8254C20.5 20.1308 18.5886 22 16.2312 22H7.7688C5.41136 22 3.5 20.1308 3.5 17.8254V12.8885C3.5 10.5831 5.41136 8.71387 7.7688 8.71387ZM11.9949 17.3295C12.4928 17.3295 12.8891 16.9419 12.8891 16.455V14.2489C12.8891 13.772 12.4928 13.3844 11.9949 13.3844C11.5072 13.3844 11.1109 13.772 11.1109 14.2489V16.455C11.1109 16.9419 11.5072 17.3295 11.9949 17.3295Z" fill="currentColor"></path>

@@ -33,6 +33,8 @@ const ResetPassword = () => {
     if (loginSuccessful) {
       if (JSON.parse(userDetail).userType === "Student") {
         window.location.href = "/stds-dashboard";
+      } else if (JSON.parse(userDetail).userType === "Parent"){
+        window.location.href = "/parent-dashboard";
       } else {
         window.location.href = "/dashboard";
       }

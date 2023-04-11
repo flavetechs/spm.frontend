@@ -20,7 +20,6 @@ const ViewStudentsAssessment = () => {
   const scrollToStudentList = () => studentListRef.current.scrollIntoView();
   const [fullScreen, setFullScreen] = useState(false);
   const [comment, setComment] = useState("");
-  const [include, setInclude] = useState(false);
   const [score, setScore] = useState("");
   const state = useSelector((state) => state);
   const { singleHomeAssessment, studentSingleHomeAssessment } = state.class;
@@ -49,9 +48,8 @@ const ViewStudentsAssessment = () => {
   ]);
 
   useEffect(() => {
-    setScore(studentSingleHomeAssessment?.score);
-    setInclude(studentSingleHomeAssessment?.included);
-    setComment(studentSingleHomeAssessment?.comment);
+    setScore(studentSingleHomeAssessment?.score || "");
+    setComment(studentSingleHomeAssessment?.comment ||"");
   }, [studentSingleHomeAssessment]);
   return (
     <>
@@ -231,7 +229,7 @@ const ViewStudentsAssessment = () => {
                 <Row>
                   <Col md="4">
                     {studentSingleHomeAssessment?.files.map((file) => (
-                      <div className="card iq-file-manager">
+                      <div className="card bg-light iq-file-manager">
                         <div className="card-body card-thumbnail shadow">
                           <span
                             href="#"
@@ -362,7 +360,7 @@ const ViewStudentsAssessment = () => {
                                 >
                                   <path d="M23 24v-20h-8v2h6v16h-18v-16h6v-2h-8v20h22zm-12-13h-4l5 6 5-6h-4v-11h-2v11z" />
                                 </svg>
-                                Download
+                               <span className="text-dark"> Download</span>
                               </span>
                             </div>
                             <div className="d-flex align-items-center mb-2 text-primary gap-2">
@@ -399,7 +397,7 @@ const ViewStudentsAssessment = () => {
                 <Card className="shadow-none bg-light border border-secondary my-3 p-4">
                   <div
                     style={{ minHeight: "25vh" }}
-                    className="h6 font-italic"
+                    className="text-dark font-italic"
                     dangerouslySetInnerHTML={{
                       __html: singleHomeAssessment?.content,
                     }}
@@ -407,7 +405,7 @@ const ViewStudentsAssessment = () => {
                 </Card>
 
                 <hr />
-                <div className="h5 text-secondary fw-bold mb-2"> Comment</div>
+                <div className="h5 fw-bold mb-2"> Comment</div>
                 {/* <div
                   dangerouslySetInnerHTML={{
                     __html: singleHomeAssessment?.comment,
@@ -494,7 +492,6 @@ const ViewStudentsAssessment = () => {
                         homeAssessmentFeedBackIdQuery,
                         score,
                         comment,
-                        include,
                         homeAssessmentIdQuery,
                         sessionClassIdQuery
                       )(dispatch);
