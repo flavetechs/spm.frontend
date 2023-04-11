@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { announcementLocations, assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
+import { announcementLocations, assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, resetPasswordLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
 import OnlineClass from '../components/students-area/class/online-class';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
 import StudentAssessmentList from '../components/students-area/assessment/assessment-list';
@@ -23,6 +23,7 @@ import PrintTimeTable from '../components/students-area/student-timetable/print-
 import StudentProfilePage from '../components/students-area/user-profile/student-profile-page';
 import StudentExamTimeTable from '../components/students-area/student-timetable/student-exam-timetable';
 import CumulativeTimeTable from '../components/students-area/student-timetable/cumulative-timetable';
+import ResetPassword from '../components/spm-auth/reset-password';
 
 
 
@@ -72,7 +73,9 @@ const StudentDashboardRouter = () => {
                         {/* profile */}
                         <Route path={profileLocations.profile} exact component={StudentProfilePage} />
                         <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />
-
+                      {/* resetPassword */}
+                        <Route path={resetPasswordLocations.resetPassword} exact component={ResetPassword} />
+                        
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>

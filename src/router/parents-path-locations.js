@@ -45,6 +45,7 @@ export const announcementLocations = {
     parentannouncementDetails: "/parent-dashboard/parent-announcement-details",
 };
 
-export const parentProfileLocations = {
+export const parentAccountLocations = {
     profile: "/parent-dashboard/profile",
+    resetPassword: "/parent-dashboard/reset-password",
 };

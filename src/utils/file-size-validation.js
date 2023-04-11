@@ -1,7 +1,6 @@
 import { errorModal } from "../store/actions/candidate-admission-actions";
 
 export function ImageValidation(event,setFieldValue,imageParam,setImages) {
-  console.log("size",event.target.files[0].size);
     var maxSize =  204800 //200kb
     if (
       event.target.files[0].size > maxSize

@@ -12,7 +12,7 @@ import {
   parentTimeTableLocations,
   printResultLocations,
   wardsNoteLocations,
-  parentProfileLocations,
+  parentAccountLocations,
 } from "../../../../router/parents-path-locations";
 import { Link, useHistory } from "react-router-dom";
 import "./header-style-4.scss";
@@ -185,14 +185,21 @@ const HeaderStyle4 = () => {
                 </Nav.Link>
               </Nav.Item>
               <NavDropdown
-                title="Profile"
+                title="Account"
                 id="basic-nav-dropdown dropdown-main dropdown-toggle-menu "
               >
                 <NavDropdown.Item
-                  href={parentProfileLocations.profile}
+                  href={parentAccountLocations.profile}
                   className=""
                 >
                   Profile
+                </NavDropdown.Item>
+                <Dropdown.Divider />
+                <NavDropdown.Item
+                  href={parentAccountLocations.resetPassword}
+                  className=""
+                >
+                  Reset Password
                 </NavDropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item

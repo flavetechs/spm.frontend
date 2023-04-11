@@ -28,7 +28,6 @@ const ClassGroup = () => {
   const locations = useLocation();
   const [showDeleteButton, setDeleteButton] = useState(true);
   const [showCheckBoxes, setShowCheckBoxes] = useState(false);
-  const [sessionClassSubjectId, setSessionClassSubjectId] = useState("");
   const state = useSelector((state) => state);
   const { groupList, selectedIds, classSubjects } = state.class;
   const { staffClasses } = state.results;
@@ -36,7 +35,8 @@ const ClassGroup = () => {
   // ACCESSING STATE FROM REDUX STORE
 
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassIdQuery = queryParams.get("sessionClassId");
+  const sessionClassIdQuery = queryParams.get("sessionClassId")||"";
+  const sessionClassSubjectIdQuery = queryParams.get("sessionClassSubjectId")||"";
   //DELETE HANDLER
   React.useEffect(() => {
     if (deleteDialogResponse === "continue") {
@@ -46,7 +46,7 @@ const ClassGroup = () => {
         deleteClassGroup(
           selectedIds,
           sessionClassIdQuery,
-          sessionClassSubjectId
+          sessionClassSubjectIdQuery
         )(dispatch);
         setDeleteButton(!showDeleteButton);
         setShowCheckBoxes(false);
@@ -71,12 +71,12 @@ const ClassGroup = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    sessionClassSubjectId && getAllClassGroup(sessionClassIdQuery, sessionClassSubjectId)(dispatch);
-  }, [sessionClassIdQuery,sessionClassSubjectId,dispatch]);
+     getAllClassGroup(sessionClassIdQuery, sessionClassSubjectIdQuery)(dispatch);
+  }, [sessionClassIdQuery,sessionClassSubjectIdQuery]);
 
   React.useEffect(() => {
     getClassSubjects(sessionClassIdQuery)(dispatch);
-  }, [sessionClassIdQuery,dispatch]);
+  }, [sessionClassIdQuery]);
 
   const checkSingleItem = (isChecked, groupId, groupList) => {
     groupList?.forEach((item) => {
@@ -117,7 +117,7 @@ const ClassGroup = () => {
               <Card.Body className="px-0 mt-n3">
                 <Formik
                   initialValues={{
-                    sessionClassSubjectId,
+                   sessionClassSubjectId :sessionClassSubjectIdQuery,
                   }}
                   enableReinitialize={true}
                   onSubmit={(values) => {
@@ -175,15 +175,18 @@ const ClassGroup = () => {
                               className="form-select"
                               id="sessionClassSubjectId"
                               onChange={(e) => {
-                                setSessionClassSubjectId(e.target.value);
                                 setFieldValue(
                                   "sessionClassSubjectId",
                                   e.target.value
                                 );
-                                e.target.value != "" &&
+                                e.target.value == "" ?
+                                history.push(
+                                  `${classLocations.classGroup}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${''}`
+                                  )
+                                :
                                   history.push(
                                     `${classLocations.classGroup}?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${e.target.value}`
-                                  );
+                                  )
                               }}
                             >
                               <option value="">Select Subject</option>

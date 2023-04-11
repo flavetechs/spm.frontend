@@ -12,6 +12,7 @@ import { PrintResultLink } from "./Navigations/student-navigations/print-result-
 import { StudentDashboardLink } from "./Navigations/student-navigations/dashboard-link";
 import { StudentNoteLink } from "./Navigations/student-navigations/my-notes-link";
 import { CumulativeTimeTableLink } from "./Navigations/student-navigations/students-cumulative-time-table-link";
+import { ResetPasswordLink } from "./Navigations/student-navigations/reset-password-link";
 
 
 const minisidebar = () => {
@@ -56,6 +57,8 @@ const StudentsVerticalNav = () => {
         <CumulativeTimeTableLink minisidebar={minisidebar} />
 
         <PrintResultLink minisidebar={minisidebar} />
+
+        <ResetPasswordLink minisidebar={minisidebar}/>
 
       </Accordion>
     </>

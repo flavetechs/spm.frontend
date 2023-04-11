@@ -182,7 +182,7 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 return {
                     ...state,
                     loading: false,
-                    message: payload,
+                    //message: payload,
                     isSuccessful: true,
                     changedForgotPasswordSuccessful: true,
                 }
