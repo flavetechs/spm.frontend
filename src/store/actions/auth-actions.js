@@ -2,6 +2,7 @@ import axiosInstance from "../../axios/axiosInstance";
 import { authLocations } from "../../router/spm-path-locations";
 import { actions } from "../action-types/auth-action-types"
 import { getActiveSession } from "./session-actions";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const loginUser = (values) => (dispatch) => {
     dispatch({
@@ -102,6 +103,7 @@ export const changeMyPassword = ({ userId, oldPassword, newPassword, schoolUrl }
     }
 
     axiosInstance.post('user/api/v1/first-time/change-password', payload)
+    
         .then((res) => {
             dispatch({
                 type: actions.LOGIN_USER_SUCCESS,
@@ -177,6 +179,7 @@ export const resetForgotPasswordFunc = ({ userId, password, resetToken, schoolUr
                 type: actions.RESET_FORGOT_PASSWORD_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
+        showSuccessToast(res.data.message.friendlyMessage)(dispatch);
         }).catch(err => {
             dispatch({
                 type: actions.RESET_FORGOT_PASSWORD_FAILED,

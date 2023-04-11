@@ -133,7 +133,7 @@ const SessionClassTableAdd = () => {
     history.push(`${sessionLocations.sessionClassList}`);
   }, [createSuccessful]);
 
- 
+  //console.log("classSubjects",classSubjects);
   return (
     <>
       <div className="col-md-10 mx-auto">
@@ -145,14 +145,7 @@ const SessionClassTableAdd = () => {
                   initialValues={initialValues}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    // const score =
-                    //   Number(examScore) + Number(assessmentScore);
-                    // if (score !== 100) {
-                    //   showErrorToast(
-                    //     "Examination and assessment must equal 100"
-                    //   )(dispatch);
-                    //   return;
-                    // }
+                    
 
                     for (let i = 0; i < classSubjects.length; i++) {
                       if (!classSubjects[i].assessment)
@@ -310,7 +303,8 @@ const SessionClassTableAdd = () => {
                                   className="form-select text-capitalize"
                                   id="subjectTeacherId"
                                   onChange={(e) => {
-                                    values.subjectId ?
+                                    const currentSubjectId =  classSubjects.find(c=>c.subjectId === subject.lookupId)?.subjectId
+                                    currentSubjectId === subject.lookupId  ?
                                       getSubjectTeacherId(
                                         subject.lookupId,
                                         subject.name,

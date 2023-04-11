@@ -22,10 +22,11 @@ import WardsNoteDetails from '../components/parent-area/wards-note/ward-note-det
 import WardsNoteView from '../components/parent-area/wards-note/wards-note-view';
 import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
-import {parentAssessmentLocations,  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations, parentProfileLocations } from './parents-path-locations';
+import {parentAssessmentLocations,  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations, parentAccountLocations } from './parents-path-locations';
 import ParentExamTimeTableActivities from '../components/parent-area/timetable/parent-exam-timetable-activities';
 import CumulativeTimeTable from '../components/parent-area/timetable/parent-cumulative-timetable';
 import ParentsProfile from '../components/parent-area/profile/parents-profile';
+import ResetPassword from '../components/spm-auth/reset-password';
 
 
 const ParentDashboardRouter = () => {
@@ -74,8 +75,9 @@ const ParentDashboardRouter = () => {
                         <Route path={parentAssessmentLocations.parentAssessmentView} exact component={ParentAssessmentView} />
                         <Route path={parentAssessmentLocations.parentAssessmentDetails} exact component={ParentAssessmentDetails} />
 
-                         {/* Profile */}
-                        <Route path={parentProfileLocations.profile} exact component={ParentsProfile} />
+                         {/* Account */}
+                        <Route path={parentAccountLocations.profile} exact component={ParentsProfile} />
+                        <Route path={parentAccountLocations.resetPassword} exact component={ResetPassword} />
 
                     </Switch>
                 </CSSTransition>

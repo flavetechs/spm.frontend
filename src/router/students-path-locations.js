@@ -44,3 +44,6 @@ export const dashboardLocations = {
     profile: "/stds-dashboard/student-profile",
     profileEdit: "/stds-dashboard/smp-user/edit-student-profile",
   };
+  export const resetPasswordLocations = {
+    resetPassword:"/stds-dashboard/reset-password",
+  }

@@ -20,7 +20,8 @@ const EditClassGroup = () => {
   const { classStudents, singleGroupList, createSuccessful } = state.class;
   const [studentContactIdArray, setStudentContactIdArray] = useState([]);
   const queryParams = new URLSearchParams(locations.search);
-  const sessionClassId = queryParams.get("sessionClassId");
+  const sessionClassId = queryParams.get("sessionClassId");    
+  const groupId = queryParams.get("groupId");
   // const sessionClassSubjectId = queryParams.get("sessionClassSubjectId");
 
   const [groupName, setGroupName] = useState("");
@@ -37,12 +38,12 @@ const EditClassGroup = () => {
   }, [singleGroupList]);
 
   React.useEffect(() => {
-    const groupId = queryParams.get("groupId");
+
     if (sessionClassId) {
       getAllClassStudents(sessionClassId)(dispatch);
       getSingleClassGroup(groupId, sessionClassId)(dispatch);
     }
-  }, [dispatch]);
+  }, [sessionClassId,groupId]);
   const handleStudentContactIds = (event) => {
     const checkBoxValue = event.target.checked;
     const studentContactId = event.target.id;
@@ -60,7 +61,6 @@ const EditClassGroup = () => {
     }
     setStudentContactIdArray(selectedStudentContactIds);
   };
-
   return (
     <>
       <div>
@@ -82,7 +82,7 @@ const EditClassGroup = () => {
                       type="text"
                       className="w-100 form-control"
                       name="groupName"
-                      defaultValue={singleGroupList?.groupName}
+                      value={groupName}
                       onBlur={() => setValidation(true)}
                       onChange={(e) => setGroupName(e.target.value)}
                     />
@@ -207,6 +207,7 @@ const EditClassGroup = () => {
                             singleGroupList?.sessionClassSubjectId,
                             studentContactIdArray
                           )(dispatch);
+                          setValidation(true)
                       }}
                       type="button"
                       className="btn btn-primary mx-2"

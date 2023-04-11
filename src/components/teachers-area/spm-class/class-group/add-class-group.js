@@ -187,6 +187,7 @@ const AddClassGroup = () => {
                             sessionClassSubjectId,
                             studentContactIdArray
                           )(dispatch);
+                          setValidation(true)
                       }}
                       type="button"
                       className="btn btn-primary mx-2"

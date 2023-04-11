@@ -324,7 +324,7 @@ const StaffList = () => {
                     <tbody>
                       {filteredStaffList.map((item, idx) => (
                         <tr key={idx}>
-                          <td className="text-dark">
+                          <td className="h6">
                             {showCheckBoxes ? (
                               <input
                                 className="form-check-input"

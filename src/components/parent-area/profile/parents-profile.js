@@ -31,10 +31,8 @@ const ParentsProfile = () => {
   useEffect(() => {
     if (!parentId) return;
     getSingleParents(parentId)(dispatch);
-    getParentsWard(20, 1, parentId)(dispatch);
   }, [parentId]);
 
-  console.log("my ward list",myWardList);
   return (
     <Container>
       <Row>
@@ -213,16 +211,14 @@ const ParentsProfile = () => {
                     <th className="h6">Name</th>
                     <th className="h6">Registration Number</th>
                     <th className="h6">Class</th>
-                    <th className="h6">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {myWardList?.map((ward, idx) => (
                       <tr className="" key={idx}>
-                        <td className="px-3 fw-bold h6 text-capitalize">{ward.fullName}</td>
+                        <td className="px-3 fw-bold h6 text-capitalize">{ward.fullnaName}</td>
                         <td className="px-3 fw-bold h6">{ward.registrationNumber}</td>
                         <td className="px-3 fw-bold h6">{ward.class}</td>
-                        <td className="px-3 fw-bold h6"><Badge bg={"success"}>{ward.enrollmentStatus}</Badge></td>
                       </tr>
                     ))}
                   </tbody>
