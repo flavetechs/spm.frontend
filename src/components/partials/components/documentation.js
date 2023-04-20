@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux"
 // store
 import { NavbarstyleAction, LoginTemplateAction, getDirMode, getcustomizerinfoMode, getcustomizerprimaryMode, ColorCustomizerAction, SchemeDirAction, getcustomizerMode, SidebarminiTypeAction, SidebarboxedTypeAction, SidebarhoverTypeAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode, getLoginTemplateMode } from '../../../store/setting/setting'
 import { connect } from "react-redux"
-import { dashboardLocations } from '../../../router/spm-path-locations'
+import { documentationRoutes } from '../../../utils/documentation-canvas-route'
 
 
 const mapStateToProps = (state) => {
@@ -57,28 +57,25 @@ const DocumentationOffcanvas = (props) => {
 
 
     useEffect(() => {
-        if (pathname == dashboardLocations.dashboard) {
-            // setUrl('http://fws.flavetechs.com/dashboard/preview-documentation?fetaure=12')
-            setUrl('http://fws.flavetechs.com/dashboard/preview-documentation?docId=12')
-        }
-    }, [documentationUrl])
+        documentationRoutes(pathname,setUrl)
+    }, [documentationUrl,pathname])
 
     return (
         <>
-            <div className="btn btn-fixed-end btn-warning btn-icon btn-setting" onClick={handleShow} >
-                <img src='../' />
+            <div className="btn btn-fixed-end btn-light btn-icon btn-setting" onClick={handleShow} >
+                <img className="img-fluid" width="50px" height="50px" src='http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png' />
 
             </div>
             <Offcanvas show={show} onHide={() => {
                 handleClose();
-            }} placement={`${props.schemeDirMode === "rtl" ? 'start' : 'end'}`}>
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Title</Offcanvas.Title>
+            }} placement={'end'}>
+                <Offcanvas.Header className='mb-n4' style={{marginRight:'20px'}} closeButton>
+                    <div></div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Row>
 
-                        <iframe src={documentationUrl}></iframe>
+                        <iframe style={{height:"100vh"}} src={documentationUrl}></iframe>
 
                     </Row>
                 </Offcanvas.Body>
