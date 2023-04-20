@@ -39,7 +39,7 @@ export const getAllUnenrolledStudents = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNENROLLED_STUDENTS_LOADING
     });
-    axiosInstance.get(`/errollment/api/v1/getall/unenrolled?PageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/errollment/api/v1/getall/unenrolled?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNENROLLED_STUDENTS_SUCCESS,
@@ -56,7 +56,7 @@ export const enrollStudent = (values) => (dispatch) => {
     dispatch({
         type: actions.ENROLL_STUDENT_LOADING
     });
-    axiosInstance.post('/errollment/api/v1/enroll/students', values)
+    axiosInstance.post('/smp/server/errollment/api/v1/enroll/students', values)
         .then((res) => {
             dispatch({
                 type: actions.ENROLL_STUDENT_SUCCESS,
@@ -81,7 +81,7 @@ export const  getAllEnrolledStudents = (sessionClassId,pageNumber) => (dispatch)
         type: actions.FETCH_ENROLLED_STUDENTS_LOADING
     });
 
-    axiosInstance.get(`/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
@@ -102,7 +102,7 @@ export const unEnrollStudent = (studentContactId, sessionClassId) => (dispatch) 
     const payload = {
         studentContactIds: studentContactId
     }
-    axiosInstance.post('/errollment/api/v1/unenroll/students', payload)
+    axiosInstance.post('/smp/server/errollment/api/v1/unenroll/students', payload)
         .then((res) => {
             dispatch({
                 type: actions.UNENROLL_STUDENTS_SUCCESS,

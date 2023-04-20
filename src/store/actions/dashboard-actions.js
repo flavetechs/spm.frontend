@@ -1,7 +1,7 @@
 import axiosInstance from "../../axios/axiosInstance";
 
 export async function getAllDashboardCount() {
-   await axiosInstance.get(`/dashboard/api/v1/get/dashboard-count`)
+   await axiosInstance.get(`/smp/server/dashboard/api/v1/get/dashboard-count`)
       .then(async (res) => {
          localStorage.setItem('dashboardCount', JSON.stringify(res?.data?.result));
          
@@ -13,7 +13,7 @@ export async function getAllDashboardCount() {
 };
 
 export const getAllStudentDashboardCount = async () => {
-   axiosInstance.get(`/dashboard/api/v1/get-student/dashboard-count`)
+   axiosInstance.get(`/smp/server/dashboard/api/v1/get-student/dashboard-count`)
       .then(async (res) => {
          localStorage.setItem('studentDashboardData', JSON.stringify(res?.data?.result));
          return res?.data?.result;
@@ -25,7 +25,7 @@ export const getAllStudentDashboardCount = async () => {
 };
 
 export const getAllParentDashboardCount = async () => {
-   axiosInstance.get(`/smp/maywards/api/v1/get/dashboard-count`)
+   axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/dashboard-count`)
       .then(async (res) => {
          localStorage.setItem('parentDashboardData', JSON.stringify(res?.data?.result));
          return res?.data?.result;

@@ -36,7 +36,7 @@ export const createAnnouncement = (values) => (dispatch) => {
 
     });
 
-    axiosInstance.post('/announcements/api/v1/create/announcement', values)
+    axiosInstance.post('/smp/server/announcements/api/v1/create/announcement', values)
         .then(async (res) => {
             dispatch({
                 type: actions.CREATE_ANNOUNCEMENT_SUCCESS,
@@ -61,7 +61,7 @@ export const getAllAnnouncement = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ANNOUNCEMENT_LOADING
     });
-    axiosInstance.get(`/announcements/api/v1/get/announcements?PageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/announcements/api/v1/get/announcements?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ANNOUNCEMENT_SUCCESS,
@@ -85,7 +85,7 @@ export const updateSeenAnnouncement = (announcementsId) => (dispatch) => {
         announcementsId
     }
 
-    axiosInstance.post('/announcements/api/v1/update/seen-announcement', payload)
+    axiosInstance.post('/smp/server/announcements/api/v1/update/seen-announcement', payload)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_SEEN_ANNOUNCEMENT_SUCCESS,
@@ -109,7 +109,7 @@ export const deleteAnnouncement = (announcement) => (dispatch) => {
         item: announcement[0]
     }
 
-    axiosInstance.post('/announcements/api/v1/delete/announcements', payload)
+    axiosInstance.post('/smp/server/announcements/api/v1/delete/announcements', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_ANNOUNCEMENT_SUCCESS,
@@ -131,7 +131,7 @@ export const updateAnnouncement = (values) => (dispatch) => {
         type: actions.UPDATE_ANNOUNCEMENT_LOADING
     });
 
-    axiosInstance.post('/announcements/api/v1/update/announcement', values)
+    axiosInstance.post('/smp/server/announcements/api/v1/update/announcement', values)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_ANNOUNCEMENT_SUCCESS,
@@ -158,7 +158,7 @@ export const getSinglePushedNotificationDetail = (notififcationId) => (dispatch)
     dispatch({
         type: actions.FETCH_PUSHED_NOTIFICATION_DETAILS_LOADING
     });
-    axiosInstance.get(`/notification/api/v1/get-single-notifications?notififcationId=${notififcationId}`)
+    axiosInstance.get(`/smp/server/notification/api/v1/get-single-notifications?notififcationId=${notififcationId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PUSHED_NOTIFICATION_DETAILS_SUCCESS,

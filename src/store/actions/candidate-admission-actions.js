@@ -23,7 +23,7 @@ export const removeId = (itemId) => {
 //         type: actions.LOGIN_CANDIDATE_LOADING
 //     });
 
-//     axiosInstance.post('/smp/api/v1/candidate-admission/login', userEmail)
+//     axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/login', userEmail)
 //         .then((res) => {
 //             dispatch({
 //                 type: actions.LOGIN_CANDIDATE_SUCCESS,
@@ -43,7 +43,7 @@ export const userRegistration = (values,history) => (dispatch) => {
         type: actions.REGISTER_CANDIDATE_LOADING
     });
 
-    axiosInstance.post('/smp/api/v1/candidate-admission/register-parent', values)
+    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/register-parent', values)
         .then((res) => {
              history.push(candidateLocations.registrationEmailReceived)
             dispatch({
@@ -70,7 +70,7 @@ export const confirmUserEmail = (admissionNotificationId) => (dispatch) => {
         admissionNotificationId
     }
 
-    axiosInstance.post('/smp/api/v1/candidate-admission/confirm-email', payload)
+    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/confirm-email', payload)
         .then((res) => {
             dispatch({
                 type: actions.CONFIRM_USER_EMAIL_SUCCESS,
@@ -94,7 +94,7 @@ export const getCandidatesAdmissionList = (admissionSettingsId,pageSize,PageNumb
     dispatch({
         type: actions.FETCH_ADMISSIONS_LIST_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/candidate-admission/get-all-admission?PageNumber=${PageNumber}&pageSize=${pageSize}&admissionSettingsId=${admissionSettingsId}`)
+    axiosInstance.get(`/smp/server/smp/api/v1/candidate-admission/get-all-admission?PageNumber=${PageNumber}&pageSize=${pageSize}&admissionSettingsId=${admissionSettingsId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADMISSIONS_LIST_SUCCESS,
@@ -113,7 +113,7 @@ export const getSingleAdmissionDetail = (admissionId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_ADMISSION_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/candidate-admission/get-single-admission/${admissionId}`)
+    axiosInstance.get(`/smp/server/smp/api/v1/candidate-admission/get-single-admission/${admissionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_ADMISSION_SUCCESS,
@@ -132,7 +132,7 @@ export const getAdmissionClasses = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_CLASSES_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/candidate-admission/get-admission-classes`)
+    axiosInstance.get(`/smp/server/smp/api/v1/candidate-admission/get-admission-classes`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADMISSION_CLASSES_SUCCESS,
@@ -151,7 +151,7 @@ export const createCandidateAdmission = (values,admissionSettingsId) => (dispatc
     dispatch({
         type: actions.CREATE_CANDIDATE_ADMISSION_LOADING
     });
-    axiosInstance.post('/smp/api/v1/candidate-admission/create', values)
+    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/create', values)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_CANDIDATE_ADMISSION_SUCCESS,
@@ -172,7 +172,7 @@ export const updateCandidateAdmission = (values,admissionSettingsId) => (dispatc
     dispatch({
         type: actions.UPDATE_CANDIDATE_ADMISSION_LOADING
     });
-    axiosInstance.post('/smp/api/v1/candidate-admission/update', values)
+    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/update', values)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_CANDIDATE_ADMISSION_SUCCESS,
@@ -196,7 +196,7 @@ export const deleteCandidateAdmission = (item,admissionSettingsId) => (dispatch)
     const payload = {
         item: item[0]
     }
-    axiosInstance.post(`/smp/api/v1/candidate-admission/delete-admission`, payload)
+    axiosInstance.post(`/smp/server/smp/api/v1/candidate-admission/delete-admission`, payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_CANDIDATE_ADMISSION_SUCCESS,
@@ -254,7 +254,7 @@ export const admissionOpenAndCloseModal= () =>(dispatch) => {swal({
     dispatch({
         type: actions.FETCH_ADMISSION_STATUS_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/candidate-admission/get-settings`)
+    axiosInstance.get(`/smp/server/smp/api/v1/candidate-admission/get-settings`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADMISSION_STATUS_SUCCESS,

@@ -26,7 +26,7 @@ export const fetchAllAdminAdmissionList = (admissionSettingsId, classId, examSta
     dispatch({
         type: actions.FETCH_ALL_ADMISSION_LIST_LOADING
     });
-    axiosInstance.get(`/smp/api/v1/admission/get-all-admission?PageNumber=${pageNumber}&pageSize=${pageSize}&classId=${classId}&examStatus=${examStatus}&admissionSettingsId=${admissionSettingsId}`)
+    axiosInstance.get(`/smp/server/smp/api/v1/admission/get-all-admission?PageNumber=${pageNumber}&pageSize=${pageSize}&classId=${classId}&examStatus=${examStatus}&admissionSettingsId=${admissionSettingsId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ALL_ADMISSION_LIST_SUCCESS,
@@ -44,7 +44,7 @@ export const fetchSingleAdminAdmissionDetail = (admissionId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_ADMISSION_DETAIL_LOADING
     });
-    axiosInstance.get(`/smp/api/v1/admission/get-admission/${admissionId}`)
+    axiosInstance.get(`/smp/server/smp/api/v1/admission/get-admission/${admissionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_ADMISSION_DETAIL_SUCCESS,
@@ -68,7 +68,7 @@ export const admissionExportToCBT = (selectedClassId, categoryName,candidateCate
         categoryName,
         candidateCategory,
     }
-    axiosInstance.post('/smp/api/v1/admission/admission/export-to-cbt', payload)
+    axiosInstance.post('/smp/server/smp/api/v1/admission/admission/export-to-cbt', payload)
         .then((res) => {
             dispatch({
                 type: actions.ADMISSION_EXPORT_TO_CBT_SUCCEESS,
@@ -95,7 +95,7 @@ export const getAdminAdmissionClasses = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_LOADING
     });
-    axiosInstance.get(`/smp/api/v1/admission/get-admission-classes`)
+    axiosInstance.get(`/smp/server/smp/api/v1/admission/get-admission-classes`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ALL_ADMIN_ADMISSION_CLASSES_SUCCESS,
@@ -118,7 +118,7 @@ export const enrollSingleCandidate = (selectedIds, selectedSessionClassId,select
         admissionId: selectedIds[0],
         sessionClassId: selectedSessionClassId
     }
-    axiosInstance.post('/smp/api/v1/admission/enroll-candidate', payload)
+    axiosInstance.post('/smp/server/smp/api/v1/admission/enroll-candidate', payload)
         .then((res) => {
             dispatch({
                 type: actions.ENROLL_SINGLE_CANDIDATE_SUCCESS,
@@ -144,7 +144,7 @@ export const enrollMultipleCandidates = (selectedIds, selectedSessionClassId,sel
         admissionIds: selectedIds,
         sessionClassId: selectedSessionClassId
     }
-    axiosInstance.post('/smp/api/v1/admission/enroll-candidates', payload)
+    axiosInstance.post('/smp/server/smp/api/v1/admission/enroll-candidates', payload)
         .then((res) => {
             dispatch({
                 type: actions.ENROLL_MULTIPLE_CANDIDATE_SUCCESS,
@@ -165,7 +165,7 @@ export const importAdmissionResult = (classId,  examStatus,admissionSettingsIdQu
     dispatch({
         type: actions.IMPORT_ADMISSION_RESULT_LOADING
     });
-    axiosInstance.get(`/smp/api/v1/admission/import-result?classId=${classId}`)
+    axiosInstance.get(`/smp/server/smp/api/v1/admission/import-result?classId=${classId}`)
         .then((res) => {
             dispatch({
                 type: actions.IMPORT_ADMISSION_RESULT_SUCCESS,
@@ -187,7 +187,7 @@ export const importAdmissionResult = (classId,  examStatus,admissionSettingsIdQu
 //         type: actions.FETCH_SESSION_CLASSES2_LOADING
 //     });
 
-//     axiosInstance.get('/class/api/v1/get-all/session-classes2')
+//     axiosInstance.get(`/smp/server/class/api/v1/get-all/session-classes2')
 //         .then((res) => {
 //             dispatch({
 //                 type: actions.FETCH_SESSION_CLASSES2_SUCCESS,
@@ -206,7 +206,7 @@ export const getAllSession2Classes = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_ALL_SESSION_2_CLASSES_LOADING
     });
-    axiosInstance.get("/class/api/v1/get-all/session-classes2")
+    axiosInstance.get("/smp/server/class/api/v1/get-all/session-classes2")
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ALL_SESSION_2_CLASSES_SUCCESS,

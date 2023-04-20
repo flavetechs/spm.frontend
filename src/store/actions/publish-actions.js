@@ -12,7 +12,7 @@ export const getAllSchoolSessions = () => (dispatch) => {
   });
 
   axiosInstance
-    .get("/session/api/v1/getall")
+    .get("/smp/server/session/api/v1/getall")
     .then((res) => {
       dispatch({
         type: actions.FETCH_SESSIONS_SUCCESS,
@@ -80,7 +80,7 @@ export const getAllResultList = (sessionClassId, termId, pageNumber) => (dispatc
     type: actions.FETCH_RESULT_LIST_LOADING,
 
   }); 
-  axiosInstance.get(`/api/v1/result/get/result-list?sessionClassid=${sessionClassId}&termId=${termId}&pageNumber=${pageNumber}`)
+  axiosInstance.get(`/smp/server/api/v1/result/get/result-list?sessionClassid=${sessionClassId}&termId=${termId}&pageNumber=${pageNumber}`)
     .then((res) => {
       dispatch({
         type: actions.FETCH_RESULT_LIST_SUCCESS,
@@ -215,7 +215,7 @@ export const fetchSingleStudentResultEntries = (sessionClassId, termId, studentC
     type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING,
     payload: sessionClassId,
   });
-  axiosInstance.get(`/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
+  axiosInstance.get(`/smp/server/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
     .then((res) => {
       dispatch({
         type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS,
@@ -253,7 +253,7 @@ export const updatePublishedResult = (sessionClassId, sessionTermId, publish) =>
   dispatch({
     type: actions.UPDATE_PUBLISH_RESULT_LOADING
   });
-  axiosInstance.post(`/api/v1/result/update/publish-result`, { sessionClassId, sessionTermId, publish })
+  axiosInstance.post(`/smp/server/api/v1/result/update/publish-result`, { sessionClassId, sessionTermId, publish })
     .then((res) => {
       dispatch({
         type: actions.UPDATE_PUBLISH_RESULT_SUCCESS,
@@ -274,7 +274,7 @@ export const getPublishedList = () => (dispatch) => {
   dispatch({
     type: actions.FETCH_PUBLISH_LIST_LOADING
   });
-  axiosInstance.get('/api/v1/result/get/publish-list')
+  axiosInstance.get('/smp/server/api/v1/result/get/publish-list')
     .then((res) => {
       dispatch({
         type: actions.FETCH_PUBLISH_LIST_SUCCESS,

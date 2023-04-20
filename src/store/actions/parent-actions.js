@@ -6,7 +6,7 @@ export const getMyWardsList = (pageNumber) => (dispatch) => {
         type: actions.FETCH_MY_WARDS_LIST_LOADING
     });
     ////smp/maywards/api/v1/get/maywards?pageNumber=1
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards?pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/maywards?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_LIST_SUCCESS,
@@ -24,7 +24,7 @@ export const getAllMyWardsClassNotes = (pageNumber, studentId, subjectId) => (di
     dispatch({
         type: actions.FETCH_MY_WARDS_CLASS_NOTE_LOADING,
     });
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-class-notes?pageNumber=${pageNumber}&studentId=${studentId}&subjectId=${subjectId}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/maywards-class-notes?pageNumber=${pageNumber}&studentId=${studentId}&subjectId=${subjectId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_CLASS_NOTE_SUCCESS,
@@ -42,7 +42,7 @@ export const getAllMyWardsNotes = (pageNumber, classId, subjectId, studentContac
     dispatch({
         type: actions.FETCH_MY_WARDS_NOTE_LOADING,
     });
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-notes?pageNumber=${pageNumber}&classId=${classId}&subjectId=${subjectId}&studentContactId=${studentContactId}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/maywards-notes?pageNumber=${pageNumber}&classId=${classId}&subjectId=${subjectId}&studentContactId=${studentContactId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_NOTE_SUCCESS,
@@ -61,7 +61,7 @@ export const getSingleWardsNote = (studentNoteId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_WARDS_NOTE_LOADING,
     });
-    axiosInstance.get(`/smp/maywards/api/v1/get-single/maywards-notes?studentNoteId=${studentNoteId}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get-single/maywards-notes?studentNoteId=${studentNoteId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_WARDS_NOTE_SUCCESS,
@@ -80,7 +80,7 @@ export const getSingleWardsClassNote = (teacherClassNoteId) => (dispatch) => {
         type: actions.FETCH_SINGLE_WARDS_CLASS_NOTE_LOADING,
     });
 
-    axiosInstance.get(`/smp/maywards/api/v1/get-single/maywards-class-notes?teacherClassNoteId=${teacherClassNoteId}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get-single/maywards-class-notes?teacherClassNoteId=${teacherClassNoteId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_WARDS_CLASS_NOTE_SUCCESS,
@@ -99,7 +99,7 @@ export const getMyWardsClassTimetable = (classlkpId) => (dispatch) => {
         type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_LOADING,
     });
                      ///smp/maywards/api/v1/get-maywards/class-timetable?classlkpId=d564177c-df46-4e52-6993-08da3fdc57d7
-    axiosInstance.get(`/smp/maywards/api/v1/get-maywards/class-timetable?classlkpId=${classlkpId}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get-maywards/class-timetable?classlkpId=${classlkpId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_SUCCESS,
@@ -136,7 +136,7 @@ export const getMyWardsExamTimetable = (classlkpId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MY_WARDS_CLASS_TIMETABLE_LOADING,
     });
-    axiosInstance.get(`/smp/api/v1/exam-timetable/get/by-parent?classlkpId=${classlkpId}`)
+    axiosInstance.get(`/smp/server/smp/api/v1/exam-timetable/get/by-parent?classlkpId=${classlkpId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_EXAM_TIMETABLE_SUCCESS,
@@ -156,7 +156,7 @@ export const getMyWardsHomeAssessment = (pageNumber, sessionClassSubjectId, stud
         type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_LOADING,
     });
                     ///smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=1&sessionClassSubjectId=8ae6a190-64dd-469c-a295-08daa5d8c70f&studentContactId=3ee845d8-7506-4e3a-9cef-c5a29e54d83f&status=1
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=${pageNumber}&sessionClassSubjectId=${sessionClassSubjectId}&studentContactId=${studentContactId}&status=${status}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/maywards-home-assessments?pageNumber=${pageNumber}&sessionClassSubjectId=${sessionClassSubjectId}&studentContactId=${studentContactId}&status=${status}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_HOME_ASSESSMENT_SUCCESS,
@@ -176,7 +176,7 @@ export const getMyWardsAnnouncement = (PageNumber) => (dispatch) => {
         type: actions.FETCH_MY_WARDS_ANNOUNCEMENT_LOADING,
     });
 
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-announcements?PageNumber=${PageNumber}`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/maywards-announcements?PageNumber=${PageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_ANNOUNCEMENT_SUCCESS,
@@ -194,7 +194,7 @@ export const getMyWardsSingleAnnouncement = (announcementId ) => (dispatch) => {
     dispatch({
         type: actions.FETCH_MY_WARDS_SINGLE_ANNOUNCEMENT_LOADING,
     });
-    axiosInstance.get(`/smp/maywards/api/v1/get/maywards-announcement-details/${announcementId }`)
+    axiosInstance.get(`/smp/server/smp/maywards/api/v1/get/maywards-announcement-details/${announcementId }`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MY_WARDS_SINGLE_ANNOUNCEMENT_SUCCESS,
@@ -216,7 +216,7 @@ export const updateMyWardsSeenAnnouncement = (announcementsId) => (dispatch) => 
         announcementsId
     }
 
-    axiosInstance.post('/smp/maywards/api/v1/get/maywards/update/seen-announcement', payload)
+    axiosInstance.post('/smp/server/smp/maywards/api/v1/get/maywards/update/seen-announcement', payload)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_MY_WARDS_SEEN_ANNOUNCEMENT_SUCCESS,
@@ -235,7 +235,7 @@ export const getAllParents = (pageSize,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_PARENTS_LOADING
     });
-    axiosInstance.get(`/parent/api/v1/get-all/parents?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    axiosInstance.get(`/smp/server/parent/api/v1/get-all/parents?pageNumber=${pageNumber}&pageSize=${pageSize}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PARENTS_SUCCESS,
@@ -253,7 +253,7 @@ export const getSingleParents = (parentId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_PARENT_LOADING,
     });
-    axiosInstance.get(`/parent/api/v1/get/parent/${parentId}`)
+    axiosInstance.get(`/smp/server/parent/api/v1/get/parent/${parentId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_PARENT_SUCCESS,
@@ -271,7 +271,7 @@ export const getParentsWard = (pageSize,pageNumber,parentId) => (dispatch) => {
     dispatch({
         type: actions.FETCH_PARENTS_WARD_LIST_LOADING
     });
-    axiosInstance.get(`/parent/api/v1/get/parent-wards?pageNumber=${pageNumber}&pageSize=${pageSize}&parentId=${parentId}`)
+    axiosInstance.get(`/smp/server/parent/api/v1/get/parent-wards?pageNumber=${pageNumber}&pageSize=${pageSize}&parentId=${parentId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PARENTS_WARD_LIST_SUCCESS,

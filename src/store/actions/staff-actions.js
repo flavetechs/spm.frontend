@@ -37,7 +37,7 @@ export const fetchSingleStaff = (teacherAccountId) => dispatch => {
     dispatch({
         type: actions.FETCH_SINGLE_STAFF_LOADING,
     });
-    axiosInstance.get(`/tercher/api/v1/get-single/${teacherAccountId}`)
+    axiosInstance.get(`/smp/server/tercher/api/v1/get-single/${teacherAccountId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_STAFF_SUCCESS,
@@ -58,7 +58,7 @@ export const getAllStaffAccount = (pageNumber) => (dispatch) => {
         type: actions.FETCH_STAFFACCOUNT_LOADING
     });
 
-    axiosInstance.get(`/tercher/api/v1/getall/teachers?pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/tercher/api/v1/getall/teachers?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFFACCOUNT_SUCCESS,
@@ -76,7 +76,7 @@ export const createStaffAccount = (staff, formData) => (dispatch) => {
     dispatch({
         type: actions.CREATE_STAFFACCOUNT_LOADING
     });
-    axiosInstance.post('/create/teacher', formData, staff)
+    axiosInstance.post('/smp/server/create/teacher', formData, staff)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_STAFFACCOUNT_SUCCESS,
@@ -101,7 +101,7 @@ export const deleteStaffAccount = (teacherUserAccountId) => (dispatch) => {
         items: teacherUserAccountId
     }
 
-    axiosInstance.post('/tercher/api/v1/delete/teacher', payload)
+    axiosInstance.post('/smp/server/tercher/api/v1/delete/teacher', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_STAFFACCOUNT_SUCCESS,
@@ -123,7 +123,7 @@ export const updateStaffAccount = (teacherAccountId, formData) => (dispatch) => 
         type: actions.UPDATE_STAFFACCOUNT_LOADING
     });
 
-    axiosInstance.post('/update/teacher', formData, teacherAccountId)
+    axiosInstance.post('/smp/server/update/teacher', formData, teacherAccountId)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_STAFFACCOUNT_SUCCESS,
@@ -143,7 +143,7 @@ export const fetchSingleTeacherClassesAndSubjects = (teacherAccountId) => dispat
     dispatch({
         type: actions.FETCH_SINGLE_TEACHER_CLASSES_AND_SUBJECTS_LOADING,
     });
-    axiosInstance.get(`/tercher/api/v1/get-teacher/classes-subject?teacherAccountId=${teacherAccountId}`)
+    axiosInstance.get(`/smp/server/tercher/api/v1/get-teacher/classes-subject?teacherAccountId=${teacherAccountId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_TEACHER_CLASSES_AND_SUBJECTS_SUCCESS,
@@ -161,7 +161,7 @@ export const updateTeacherProfile = (formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_TEACHER_PROFILE_LOADING
     });
-    axiosInstance.post('/update/teacher-profile/by-teacher', formData)
+    axiosInstance.post('/smp/server/update/teacher-profile/by-teacher', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_TEACHER_PROFILE_SUCCESS,

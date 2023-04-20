@@ -69,6 +69,7 @@ const mapStateToProps = (state) => {
         sidebarTypeMode: getSidebarTypeMode(state),
         sidebaractivestyleMode: getSidebarActiveMode(state),
         navbarstylemode: getNavbarStyleMode(state),
+        feature: 'session'
     };
 }
 const mapDispatchToProps = dispatch => (
@@ -90,6 +91,8 @@ const mapDispatchToProps = dispatch => (
 
 const Index = (props) => {
     var userDetail = getUserDetails();
+
+    console.log('props', props.feature);
 
     const location = useLocation();
 

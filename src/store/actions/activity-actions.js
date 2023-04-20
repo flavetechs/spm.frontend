@@ -7,7 +7,7 @@ export const getAllActivities = () => dispatch => {
         type: actions.FETCH_APP_ACTIVITIES_LOADING
     });
 
-    axiosInstance.get(`/role/api/v1/getall-activities`)
+    axiosInstance.get(`/smp/server/role/api/v1/getall-activities`)
         .then((res) => {
     
             dispatch({
@@ -28,7 +28,7 @@ export const getAppActivityParent = () => dispatch => {
         type: actions.FETCH_APP_ACTIVITY_PARENT_LOADING
     });
 
-    axiosInstance.get(`/role/api/v1/getall-activity-parent`)
+    axiosInstance.get(`/smp/server/role/api/v1/getall-activity-parent`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_APP_ACTIVITY_PARENT_SUCCESS,

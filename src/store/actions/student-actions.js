@@ -28,7 +28,7 @@ export const getAllStudents = (pageNumber) => (dispatch) => {
         type: actions.FETCH_STUDENTS_LOADING
     });
 
-    axiosInstance.get(`/student/api/v1/getall/students?pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/student/api/v1/getall/students?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENTS_SUCCESS,
@@ -46,7 +46,7 @@ export const createStudent = (formData) => (dispatch) => {
     dispatch({
         type: actions.CREATE_STUDENT_LOADING
     });
-    axiosInstance.post('/student/api/v1/create/student', formData)
+    axiosInstance.post('/smp/server/student/api/v1/create/student', formData)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_STUDENT_SUCCESS,
@@ -68,7 +68,7 @@ export const updateStudent = (formData) => (dispatch) => {
         type: actions.UPDATE_STUDENT_LOADING
     });
 
-    axiosInstance.post('/student/api/v1/update/student', formData)
+    axiosInstance.post('/smp/server/student/api/v1/update/student', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_STUDENT_SUCCESS,
@@ -92,7 +92,7 @@ export const deleteStudent = (studentId) => (dispatch) => {
     const payload = {
         items: studentId
     }
-    axiosInstance.post('/student/api/v1/delete/student', payload)
+    axiosInstance.post('/smp/server/student/api/v1/delete/student', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_STUDENT_SUCCESS,
@@ -114,7 +114,7 @@ export const fetchSingleStudent = (studentAccountId) => dispatch => {
         type: actions.FETCH_SINGLE_STUDENT_LOADING,
         payload: studentAccountId
     });
-    axiosInstance.get(`/student/api/v1/get-single/${studentAccountId}`)
+    axiosInstance.get(`/smp/server/student/api/v1/get-single/${studentAccountId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_STUDENT_SUCCESS,
@@ -134,7 +134,7 @@ export const getCountries = () => (dispatch) => {
         type: actions.FETCH_COUNTRY_LOADING,
     });
 
-    axiosInstance.get(`/get-countries`)
+    axiosInstance.get(`/smp/server/get-countries`)
         .then(response => {
             dispatch({
                 type: actions.FETCH_COUNTRY_SUCCESS,
@@ -153,7 +153,7 @@ export const getStates = (state) => (dispatch) => {
         type: actions.FETCH_STATE_LOADING,
     });
 
-    axiosInstance.get(`/get-states?state=${state}`)
+    axiosInstance.get(`/smp/server/get-states?state=${state}`)
         .then(response => {
             dispatch({
                 type: actions.FETCH_STATE_SUCCESS,
@@ -174,7 +174,7 @@ export const getCities = (city) => (dispatch) => {
         type: actions.FETCH_CITY_LOADING,
     });
 
-    axiosInstance.get(`/get-cities?city=${city}`)
+    axiosInstance.get(`/smp/server/get-cities?city=${city}`)
         .then(response => {
             dispatch({
                 type: actions.FETCH_CITY_SUCCESS,
@@ -193,7 +193,7 @@ export const updateStudentProfile = (formData) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_STUDENT_PROFILE_LOADING
     });
-    axiosInstance.post('/student/api/v1/update/by-student', formData)
+    axiosInstance.post('/smp/server/student/api/v1/update/by-student', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_STUDENT_PROFILE_SUCCESS,
@@ -215,7 +215,7 @@ export const uploadStudentsListFile = (formData) => (dispatch) => {
         type: actions.UPLOAD_STUDENTS_LIST_FILE_LOADING
     });
 
-    axiosInstance.post('/student/api/v1/upload/students', formData)
+    axiosInstance.post('/smp/server/student/api/v1/upload/students', formData)
         .then((res) => {
             dispatch({
                 type: actions.UPLOAD_STUDENTS_LIST_FILE_SUCCESS,
@@ -239,7 +239,7 @@ export const downloadStudentTemplate = () => (dispatch) => {
       type: actions.DOWNLOAD_STUDENT_TEMPLATE_LOADING
     });
   
-    axiosInstance.get('/student/api/v1/download/student-template')
+    axiosInstance.get('/smp/server/student/api/v1/download/student-template')
 
     
       .then((res) => {

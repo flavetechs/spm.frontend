@@ -28,7 +28,7 @@ export const fetchSingleSession = (sessionId) => dispatch => {
     dispatch({
         type: actions.FETCH_SINGLE_SESSION_LOADING,
     });
-    axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
+    axiosInstance.get(`/smp/server/session/api/v1/getall-single-session${sessionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_SUCCESS,
@@ -50,7 +50,7 @@ export const getAllSession = (pageNumber) => (dispatch) => {
         type: actions.FETCH_SESSION_LOADING
     });
 
-    axiosInstance.get(`session/api/v1/getall?pageNumber=${pageNumber}`)
+    axiosInstance.get(`smp/server/session/api/v1/getall?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
@@ -68,7 +68,7 @@ export const createSession = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_SESSION_LOADING
     });
-    axiosInstance.post('/session/api/v1/create', form)
+    axiosInstance.post('/smp/server/session/api/v1/create', form)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_SESSION_SUCCESS,
@@ -92,7 +92,7 @@ export const deleteSession = (session) => (dispatch) => {
         item: session[0]
     }
 
-    axiosInstance.post('/session/api/v1/delete', payload)
+    axiosInstance.post('/smp/server/session/api/v1/delete', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SESSION_SUCCESS,
@@ -137,7 +137,7 @@ export const getActiveSession = () => (dispatch) => {
         type: actions.FETCH_ACTIVE_SESSION_LOADING
     });
 
-    axiosInstance.get('/session/api/v1/get-active')
+    axiosInstance.get('/smp/server/session/api/v1/get-active')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_SUCCESS,
@@ -163,7 +163,7 @@ export const switchTerm = (term) => (dispatch) => {
         type: actions.SWITCH_TERM_LOADING
     });
 
-    axiosInstance.post('/session/api/v1/activate-term', { sessionTermId: term.sessionTermId })
+    axiosInstance.post('/smp/server/session/api/v1/activate-term', { sessionTermId: term.sessionTermId })
         .then((res) => {
             dispatch({
                 type: actions.SWITCH_TERM_SUCCESS,
@@ -191,7 +191,7 @@ export const activateSession = (sessionid) => (dispatch) => {
         sessionId: sessionid
     }
 
-    axiosInstance.post('/session/api/v1/switch-session', payload)
+    axiosInstance.post('/smp/server/session/api/v1/switch-session', payload)
         .then((res) => {
             dispatch({
                 type: actions.SWITCH_SESSION_SUCCESS,

@@ -30,7 +30,7 @@ export const fetchPassedStudentList = (studentIds) => dispatch => {
     dispatch({
         type: actions.FETCH_PASSED_STUDENT_LOADING,
     });
-    axiosInstance.post(`/promotion/api/v1/get/passed-students`, { studentIds: studentIds })
+    axiosInstance.post(`/smp/server/promotion/api/v1/get/passed-students`, { studentIds: studentIds })
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PASSED_STUDENT_SUCCESS,
@@ -47,7 +47,7 @@ export const fetchFailedStudentList = (studentIds) => dispatch => {
     dispatch({
         type: actions.FETCH_FAILED_STUDENT_LOADING,
     });
-    axiosInstance.post(`/promotion/api/v1/get/failed-students`, { studentIds: studentIds })
+    axiosInstance.post(`/smp/server/promotion/api/v1/get/failed-students`, { studentIds: studentIds })
         .then((res) => {
             dispatch({
                 type: actions.FETCH_FAILED_STUDENT_SUCCESS,
@@ -68,8 +68,8 @@ export const getAllPromotionList = () => (dispatch) => {
         type: actions.FETCH_PROMOTION_LOADING
     });
 
-    let promotionUrl = axiosInstance.get('/promotion/api/v1/get/previous/session-classes')
-    let resultSettingUrl = axiosInstance.get('/portalsetting/api/v1/get/result-settings')
+    let promotionUrl = axiosInstance.get('/smp/server/promotion/api/v1/get/previous/session-classes')
+    let resultSettingUrl = axiosInstance.get('/smp/server/portalsetting/api/v1/get/result-settings')
 
     Promise.all([promotionUrl, resultSettingUrl]).then((responses) => {
         const responseOne = responses[0]
@@ -99,7 +99,7 @@ export const promoteStudent = (promotion) => (dispatch) => {
         passedStudents: promotion.passedStudents,
         failedStudents: promotion.failedStudents
     }
-    axiosInstance.post('/promotion/api/v1/promote/class', payload)
+    axiosInstance.post('/smp/server/promotion/api/v1/promote/class', payload)
         .then((res) => {
             dispatch({
                 type: actions.PROMOTE_STUDENT_SUCCESS,

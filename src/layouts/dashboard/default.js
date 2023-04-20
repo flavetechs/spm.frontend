@@ -12,7 +12,7 @@ import Footer from '../../components/partials/dashboard/FooterStyle/footer'
 //default 
 import DashboardRouter from '../../router/default-router'
 
-import SettingOffcanvas from '../../components/partials/components/settingoffcanvas'
+import DocumentationOffcanvas from '../../components/partials/components/documentation'
 import Loader from '../../components/Loader'
 import { useHistory } from 'react-router-dom';
 
@@ -114,7 +114,7 @@ const Default = (props) => {
                 </div>
                 <Footer />
             </main>
-            {/* <SettingOffcanvas /> */}
+            <DocumentationOffcanvas />
         </>
     )
 

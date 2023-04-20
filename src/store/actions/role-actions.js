@@ -7,7 +7,7 @@ export const getAllRoles = () => (dispatch) => {
         type: actions.ROLES_LOADING
     });
 
-    axiosInstance.get('role/api/v1/getall')
+    axiosInstance.get('/smp/server/role/api/v1/getall')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ROLES_SUCCESS,
@@ -25,7 +25,7 @@ export const getAllParentActivity = () => (dispatch) => {
         type: actions.FETCH_PARENT_ROLE_LOADING
     });
 
-    axiosInstance.get('/role/api/v1/getall-activity-parent')
+    axiosInstance.get('/smp/server/role/api/v1/getall-activity-parent')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PARENT_ROLE_SUCCESS,
@@ -49,7 +49,7 @@ export const createUpdateRole = ({ roleId, name }) => (dispatch) => {
         name
     }
 
-    const url = roleId !== '' ? '/role/api/v1/update' : '/role/api/v1/create'
+    const url = roleId !== '' ? '/smp/server/role/api/v1/update' : '/smp/server/role/api/v1/create'
 
     axiosInstance.post(url, payload)
         .then((res) => {
@@ -95,7 +95,7 @@ export const deleteItems = (roleIds) => (dispatch) => {
         items: roleIds
     }
 
-    axiosInstance.post('/role/api/v1/delete', payload)
+    axiosInstance.post('/smp/server/role/api/v1/delete', payload)
         .then((res) => {
             getAllRoles()(dispatch);
             dispatch({
@@ -125,7 +125,7 @@ export const fetchSingleRole = (roleId) => dispatch => {
         type: actions.FETCH_SINGLE_ROLE_LOADING
     });
 
-    axiosInstance.get(`/role/api/v1/get/${roleId}?roldeId=${roleId}`)
+    axiosInstance.get(`/smp/server/role/api/v1/get/${roleId}?roldeId=${roleId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_ROLE_SUCCESS,
@@ -205,7 +205,7 @@ export const updateModifiedRole = (role) => dispatch => {
     dispatch({
         type: actions.UPDATE_ROLE_LOADING
     });
-    axiosInstance.post('/role/api/v1/update', role)
+    axiosInstance.post('/smp/server/role/api/v1/update', role)
         .then((res) => {
             dispatch({
                 type: actions.UPDATE_ROLE_SUCCESS,
@@ -225,7 +225,7 @@ export const createNewRole = (role) => dispatch => {
     dispatch({
         type: actions.CREATE_ROLE_LOADING
     });
-    axiosInstance.post('/role/api/v1/create', role)
+    axiosInstance.post('/smp/server/role/api/v1/create', role)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_ROLE_SUCCESS,
@@ -255,7 +255,7 @@ export const resetRoleState = () => (dispatch) => {
         type: actions.FETCH_NON_ADDED_USERS_LOADING
     });
 
-    axiosInstance.get(`/role/api/v1/get/not-added-users/${roleId}?roldeId=${roleId}`)
+    axiosInstance.get(`/smp/server/role/api/v1/get/not-added-users/${roleId}?roldeId=${roleId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_NON_ADDED_USERS_SUCCESS,
@@ -275,7 +275,7 @@ export const getAllAddedUsers = (roleId) => dispatch => {
         type: actions.FETCH_ADDED_USERS_LOADING
     });
 
-    axiosInstance.get(`/role/api/v1/get-role-users?roleId=${roleId}`)
+    axiosInstance.get(`/smp/server/role/api/v1/get-role-users?roleId=${roleId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ADDED_USERS_SUCCESS,
@@ -299,7 +299,7 @@ export const addUserToRoles = (roleId,userIds) => dispatch => {
         roleId
       }
 
-    axiosInstance.post(`/role/api/v1/assign/user-to-role`, payload)
+    axiosInstance.post(`/smp/server/role/api/v1/assign/user-to-role`, payload)
         .then((res) => {
             dispatch({
                 type: actions.ADD_USER_TO_ROLE_SUCCESS,
@@ -321,7 +321,7 @@ export const removeUserFromRoles = (roleId,userId) => dispatch => {
         type: actions.REMOVE_USER_FROM_ROLE_LOADING
     });
 
-    axiosInstance.post(`/role/api/v1/remove-user/from-role?UserId=${userId}&RoleId=${roleId}`,)
+    axiosInstance.post(`/smp/server/role/api/v1/remove-user/from-role?UserId=${userId}&RoleId=${roleId}`,)
         .then((res) => {
             dispatch({
                 type: actions.REMOVE_USER_FROM_ROLE_SUCCESS,
@@ -379,7 +379,7 @@ export const removeUserFromRoles = (roleId,userId) => dispatch => {
 //     }
 //     console.log('id', id);
 //     console.log('id', payload);
-//     axiosInstance.post('/role/api/v1/delete', payload)
+//     axiosInstance.post('/smp/server/role/api/v1/delete', payload)
 //         .then((res) => {
 //             dispatch({
 //                 type: actions.DELETE_ROLES_LOADING,

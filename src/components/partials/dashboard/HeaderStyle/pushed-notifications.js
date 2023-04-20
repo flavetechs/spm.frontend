@@ -34,7 +34,7 @@ const PushedNotifications = () => {
     useEffect(() => {
 
         function fetchNotifications() {
-            axiosInstance.get(`notification/api/v1/get-notifications?pageNumber=1`)
+            axiosInstance.get(`smp/server/notification/api/v1/get-notifications?pageNumber=1`)
                 .then((res) => {
 //                    setNotifications([...res.data.result.data])
 

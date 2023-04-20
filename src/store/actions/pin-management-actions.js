@@ -7,7 +7,7 @@ export const getAllUnusedPinList = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNUSED_PIN_LOADING,
     });    
-    axiosInstance.get(`/pin/api/v1/get/unused-pins?PageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/pin/api/v1/get/unused-pins?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNUSED_PIN_SUCCESS,
@@ -26,7 +26,7 @@ export const getAllUsedPinList = (sessionId, termId, pageNumber) => (dispatch) =
     dispatch({
         type: actions.FETCH_USED_PIN_LOADING,
     });          
-    axiosInstance.get(`/pin/api/v1/get/used-pins?sessionId=${sessionId}&termId=${termId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/pin/api/v1/get/used-pins?sessionId=${sessionId}&termId=${termId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_USED_PIN_SUCCESS,
@@ -45,7 +45,7 @@ export const fetchSingleUnusedPin = (unusedPin) => dispatch => {
     dispatch({
         type: actions.FETCH_SINGLE_UNUSED_PIN_LOADING,
     });     
-        axiosInstance.get(`/pin/api/v1/get-unused/pin-details?pin=${unusedPin}`)
+        axiosInstance.get(`/smp/server/pin/api/v1/get-unused/pin-details?pin=${unusedPin}`)
             .then((res) => {
                 dispatch({
                     type: actions.FETCH_SINGLE_UNUSED_PIN_SUCCESS,
@@ -62,7 +62,7 @@ export const fetchSingleUsedPin = (usedPin) => dispatch => {
     dispatch({
         type: actions.FETCH_SINGLE_USED_PIN_LOADING,
     });   
-        axiosInstance.get(`/pin/api/v1/get-used/pin-details?pin=${usedPin}`)
+        axiosInstance.get(`/smp/server/pin/api/v1/get-used/pin-details?pin=${usedPin}`)
             .then((res) => {
                 dispatch({
                     type: actions.FETCH_SINGLE_USED_PIN_SUCCESS,
@@ -82,7 +82,7 @@ export const upLoadPinFile = (upLoadFile, formData) => (dispatch) => {
         type: actions.UPLOAD_PIN_FILE_LOADING
     });
                 
-    axiosInstance.post('/pin/api/v1/upload/pin',  formData, upLoadFile)
+    axiosInstance.post('/smp/server/pin/api/v1/upload/pin',  formData, upLoadFile)
         .then((res) => {
             dispatch({
                 type: actions.UPLOAD_PIN_FILE_SUCCESS,

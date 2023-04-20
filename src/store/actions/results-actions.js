@@ -8,7 +8,7 @@ export const getAllStaffClasses = () => (dispatch) => {
         type: actions.FETCH_STAFF_CLASSES_LOADING
     });
 
-    axiosInstance.get("/api/v1/result/get/staff-classes")
+    axiosInstance.get("/smp/server/api/v1/result/get/staff-classes")
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASSES_SUCCESS,
@@ -27,7 +27,7 @@ export const getAllFormTeacherClasses = (sessionId) => (dispatch) => {
         type: actions.FETCH_STAFF_CLASSES_LOADING
     });
 
-    axiosInstance.get(`/api/v1/result/get/formteacher-classes/${sessionId}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/formteacher-classes/${sessionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASSES_SUCCESS,
@@ -46,7 +46,7 @@ export const getAllSharedOnStaffClasses = (teacherClassNoteId) => (dispatch) => 
         type: actions.FETCH_STAFF_CLASSES_LOADING
     });
 
-    axiosInstance.get(`/classnotes/api/v1/get-note/shared-class?teacherClassNoteId=${teacherClassNoteId}`)
+    axiosInstance.get(`/smp/server/classnotes/api/v1/get-note/shared-class?teacherClassNoteId=${teacherClassNoteId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASSES_SUCCESS,
@@ -66,7 +66,7 @@ export const getStaffClassSubjects = (sessionClassId) => (dispatch) => {
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/staff-class-subjects/${sessionClassId}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/staff-class-subjects/${sessionClassId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASS_SUBJECTS_SUCCESS,
@@ -84,7 +84,7 @@ export const getStaffClassSubjectByClassLookup = (classId, sessionClassId) => (d
         type: actions.FETCH_STAFF_CLASS_SUBJECTS_LOADING,
     });
 
-    axiosInstance.get(`/api/v1/result/get/staff-class-subjects/by-classlookup/${classId}/${sessionClassId}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/staff-class-subjects/by-classlookup/${classId}/${sessionClassId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STAFF_CLASS_SUBJECTS_SUCCESS,
@@ -105,7 +105,7 @@ export const getAllClassScore = (sessionClassId, subjectId, pageNumber) => (disp
         type: actions.FETCH_CLASS_SCORE_ENTRIES_LOADING,
         payload: sessionClassId
     });
-    axiosInstance.get(`/api/v1/result/get/class-score-entries/${sessionClassId}?subjectId=${subjectId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/class-score-entries/${sessionClassId}?subjectId=${subjectId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CLASS_SCORE_ENTRIES_SUCCESS,
@@ -143,7 +143,7 @@ export const setExamScoreEntry = (studentContactId, examsScore, scoreEntry, term
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/exam-score`, {
+        axiosInstance.post(`/smp/server/api/v1/result/update/exam-score`, {
             studentContactId: entry.studentContactId,
             score: examsScore,
             subjectId: scoreEntry.subjectId,
@@ -189,12 +189,13 @@ export const setAssessmentScoreEntry = (studentContactId, assessmentScore, score
             payload: scoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/assessment-score`, { 
-            studentContactId: entry.studentContactId, 
-            score: assessmentScore, 
-            subjectId: scoreEntry.subjectId, 
+        axiosInstance.post(`/smp/server/api/v1/result/update/assessment-score`, {
+            studentContactId: entry.studentContactId,
+            score: assessmentScore,
+            subjectId: scoreEntry.subjectId,
             sessionClassId: scoreEntry.sessionClassId,
-            termId })
+            termId
+        })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -214,7 +215,7 @@ export const getAllClassScoreEntryPreview = (sessionClassId, subjectId, pageNumb
         type: actions.FETCH_CLASS_SCORE_ENTRY_PREVIEW_LOADING,
         payload: sessionClassId
     });
-    axiosInstance.get(`/api/v1/result/get/preview-class/score-entries?sessionClassId=${sessionClassId}&subjectId=${subjectId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/preview-class/score-entries?sessionClassId=${sessionClassId}&subjectId=${subjectId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CLASS_SCORE_ENTRY_PREVIEW_SUCCESS,
@@ -242,7 +243,7 @@ export const getAllPreviousClassScore = (sessionClassId, subjectId, sessionTermI
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/previous-terms/class-score-entries/${sessionClassId}?subjectId=${subjectId}&sessionTermId=${sessionTermId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/previous-terms/class-score-entries/${sessionClassId}?subjectId=${subjectId}&sessionTermId=${sessionTermId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_SUCCESS,
@@ -281,12 +282,13 @@ export const setPreviousExamScoreEntry = (studentContactId, examsScore, previous
             payload: previousScoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/exam-score`, { 
-            studentContactId: entry.studentContactId, 
-            score: examsScore, 
-            subjectId: previousScoreEntry.subjectId, 
+        axiosInstance.post(`/smp/server/api/v1/result/update/previous-terms/exam-score`, {
+            studentContactId: entry.studentContactId,
+            score: examsScore,
+            subjectId: previousScoreEntry.subjectId,
             sessionClassId: previousScoreEntry.sessionClassId,
-            sessionTermId })
+            sessionTermId
+        })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -326,12 +328,14 @@ export const setPreviousAssessmentScoreEntry = (studentContactId, assessmentScor
             payload: previousScoreEntry
         });
 
-        axiosInstance.post(`/api/v1/result/update/previous-terms/assessment-score`,
-            { studentContactId: entry.studentContactId, 
-                score: assessmentScore, 
-                subjectId: previousScoreEntry.subjectId, 
+        axiosInstance.post(`/smp/server/api/v1/result/update/previous-terms/assessment-score`,
+            {
+                studentContactId: entry.studentContactId,
+                score: assessmentScore,
+                subjectId: previousScoreEntry.subjectId,
                 sessionClassId: previousScoreEntry.sessionClassId,
-                sessionTermId })
+                sessionTermId
+            })
             .then((res) => {
                 entry.isSaved = res.data.result.isSaved;
                 entry.isOffered = res.data.result.isOffered;
@@ -351,7 +355,7 @@ export const getAllPreviousClassScoreEntryPreview = (sessionClassId, subjectId, 
         type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_LOADING,
         payload: sessionClassId
     });
-    axiosInstance.get(`/api/v1/result/get/previous-terms/preview-class/score-entries?sessionClassId=${sessionClassId}&subjectId=${subjectId}&sessionTermId=${sessionTermId}&pageNumber=${pageNumber}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/previous-terms/preview-class/score-entries?sessionClassId=${sessionClassId}&subjectId=${subjectId}&sessionTermId=${sessionTermId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRY_PREVIEW_SUCCESS,
@@ -372,7 +376,7 @@ export const getAllMasterList = (sessionClassId, termId) => (dispatch) => {
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_MASTER_LIST_SUCCESS,
@@ -392,7 +396,7 @@ export const getAllCumulativeMasterList = (sessionClassId, termId) => (dispatch)
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/cumulative-master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/cumulative-master-list?sessionClassid=${sessionClassId}&termId=${termId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_CUMULATIVE_MASTER_LIST_SUCCESS,
@@ -415,7 +419,7 @@ export const getAllBatchPrintingResultPreview = (sessionClassid, termId) => (dis
         sessionClassid,
         termId
     }
-    axiosInstance.post(`/api/v1/result/get/students/for-batch-printing`, payload)
+    axiosInstance.post(`/smp/server/api/v1/result/get/students/for-batch-printing`, payload)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_BATCH_RESULT_PREVIEW_SUCCESS,
@@ -440,7 +444,7 @@ export const getAllBatchPrintingResults = (sessionClassid, termId, students) => 
         termId,
         students
     }
-    axiosInstance.post(`/api/v1/result/batch-print/students-results`, payload)
+    axiosInstance.post(`/smp/server/api/v1/result/batch-print/students-results`, payload)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_BATCH_RESULT_SUCCESS,
@@ -463,7 +467,7 @@ export const getAllStudentResult = (sessionClassId, termId, studentContactId) =>
         payload: sessionClassId
     });
 
-    axiosInstance.get(`/api/v1/result/get/student-result?sessionClassId=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
+    axiosInstance.get(`/smp/server/api/v1/result/get/student-result?sessionClassId=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_STUDENT_RESULT_SUCCESS,
@@ -489,7 +493,7 @@ export const getSinglePrintResult = (pin, termId, registrationNumber) => (dispat
         termId,
 
     }
-    axiosInstance.post('/api/v1/result/print/result', payload)
+    axiosInstance.post('/smp/server/api/v1/result/print/result', payload)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_PRINT_RESULT_SUCCESS,
@@ -546,7 +550,7 @@ export const setTemplateSettingState = (templateName) => (dispatch) => {
     const payload = {
         selectedTemplate: templateName
     }
-    axiosInstance.post('/portalsetting/api/v1/update/result-setting-template', payload)
+    axiosInstance.post('/smp/server/portalsetting/api/v1/update/result-setting-template', payload)
         .then((res) => {
             dispatch({
                 type: actions.SET_TEMPLATE_SETTING_STATE_SUCCESS,

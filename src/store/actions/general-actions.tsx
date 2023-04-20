@@ -16,7 +16,7 @@ export const getGeneralActiveSession = () => (dispatch: any) => {
         type: actions.FETCH_ACTIVE_SESSION_LOADING
     });
 
-    axiosInstance.get('/session/api/v1/get-active')
+    axiosInstance.get('/smp/server/session/api/v1/get-active')
         .then((res) => {
             
             dispatch({
