@@ -50,15 +50,16 @@ const DocumentationOffcanvas = (props) => {
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const { pathname } = window.location
-    console.log('pathname', pathname);
 
     const [documentationUrl, setUrl] = useState('')
 
 
 
     useEffect(() => {
-        documentationRoutes(pathname,setUrl)
-    }, [documentationUrl,pathname])
+        documentationRoutes(pathname, setUrl)
+    }, [pathname])
+
+    console.log('documentationUrl', documentationUrl);
 
     return (
         <>
@@ -69,13 +70,13 @@ const DocumentationOffcanvas = (props) => {
             <Offcanvas show={show} onHide={() => {
                 handleClose();
             }} placement={'end'}>
-                <Offcanvas.Header className='mb-n4' style={{marginRight:'20px'}} closeButton>
+                <Offcanvas.Header className='mb-n4' style={{ marginRight: '20px' }} closeButton>
                     <div></div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Row>
 
-                        <iframe style={{height:"100vh"}} src={documentationUrl}></iframe>
+                        <iframe style={{ height: "100vh" }} src={documentationUrl}></iframe>
 
                     </Row>
                 </Offcanvas.Body>
