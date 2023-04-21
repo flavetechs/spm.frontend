@@ -113,6 +113,35 @@ const VerticalNav = () => {
                         />
                     )}
 
+
+
+                {hasAccess2([
+                    NavPermissions.studentList,
+                    NavPermissions.enrolledStudentsList,
+                    NavPermissions.unenrolledStudentsList
+                ]) && (
+
+                        <StudentLink
+                            minisidebar={minisidebar}
+                            CustomToggle={CustomToggle}
+                            setActiveMenu={setActiveMenu}
+                        />
+
+                    )}
+                {hasAccess(NavPermissions.staffList) && (
+
+                    <StaffLink
+                        minisidebar={minisidebar}
+                        CustomToggle={CustomToggle}
+                        setActiveMenu={setActiveMenu}
+                    />
+                )}
+                {hasAccess(NavPermissions.staffList) && (
+                    <ParentsLink
+                        minisidebar={minisidebar}
+                    />
+                )}
+
                 {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
@@ -122,7 +151,7 @@ const VerticalNav = () => {
                         />
                     )}
 
-              {hasAccess2([
+                {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
                 ]) && (
@@ -132,7 +161,7 @@ const VerticalNav = () => {
                     )}
 
 
-             {hasAccess2([
+                {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
                 ]) && (
@@ -151,7 +180,7 @@ const VerticalNav = () => {
                         />
                     )}
 
-             {hasAccess2([
+                {hasAccess2([
                     NavPermissions.sessionClass,
                     NavPermissions.classAttendance
                 ]) && (
@@ -169,13 +198,13 @@ const VerticalNav = () => {
                     NavPermissions.printResult,
                     NavPermissions.cummulativeMasterList
                 ]) && (
-                        
-                            <ResultLink
-                                minisidebar={minisidebar}
-                                CustomToggle={CustomToggle}
-                                setActiveMenu={setActiveMenu}
-                            />
-                        
+
+                        <ResultLink
+                            minisidebar={minisidebar}
+                            CustomToggle={CustomToggle}
+                            setActiveMenu={setActiveMenu}
+                        />
+
                     )}
 
                 {/* {hasAccess2([NavPermissions.unusedPins, NavPermissions.usedPins]) && (
@@ -188,55 +217,30 @@ const VerticalNav = () => {
                     
                 )} */}
 
-                 {hasAccess2([
-                    NavPermissions.studentList,
-                    NavPermissions.enrolledStudentsList,
-                    NavPermissions.unenrolledStudentsList
-                ]) && (
-              
-                        <StudentLink
-                            minisidebar={minisidebar}
-                            CustomToggle={CustomToggle}
-                            setActiveMenu={setActiveMenu}
-                        />
-                          
-                    )}
-                     {hasAccess(NavPermissions.staffList) && (
-                    
-                        <StaffLink
-                            minisidebar={minisidebar}
-                            CustomToggle={CustomToggle}
-                            setActiveMenu={setActiveMenu}
-                        />
-                )}
-                  {hasAccess(NavPermissions.staffList) && (
-                            <ParentsLink
-                                minisidebar={minisidebar}
-                            />
-                            )}
-                        <>
-                            <li className="nav-item static-item">
-                                <Link
-                                    className="nav-link static-item disabled"
-                                    to="#"
-                                    tabIndex="-1"
-                                >
-                                    <span className="default-icon">settings</span>
-                                    <span className="mini-icon">-</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <hr className="hr-horizontal" />
-                            </li>
-                            <PortalSettingsLink
-                                minisidebar={minisidebar}
-                                CustomToggle={CustomToggle}
-                                setActiveMenu={setActiveMenu}
-                            />
-                                <ResetPasswordLink
-                                minisidebar={minisidebar}
-                            />
-                        </>
+
+                <>
+                    <li className="nav-item static-item">
+                        <Link
+                            className="nav-link static-item disabled"
+                            to="#"
+                            tabIndex="-1"
+                        >
+                            <span className="default-icon">settings</span>
+                            <span className="mini-icon">-</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <hr className="hr-horizontal" />
+                    </li>
+                    <PortalSettingsLink
+                        minisidebar={minisidebar}
+                        CustomToggle={CustomToggle}
+                        setActiveMenu={setActiveMenu}
+                    />
+                    <ResetPasswordLink
+                        minisidebar={minisidebar}
+                    />
+                </>
             </Accordion>
         </>
     );
