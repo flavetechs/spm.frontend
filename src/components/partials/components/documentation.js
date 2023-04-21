@@ -64,14 +64,10 @@ const DocumentationOffcanvas = (props) => {
 
     return (
         <>
-        {viewIcon ?
             <div className="btn btn-fixed-end btn-light btn-icon btn-setting" onClick={handleShow} >
                 <img className="img-fluid" width="50px" height="50px" src='http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png' />
 
             </div>
-            :
-            <Index handleShow={handleShow} setViewIcon={setViewIcon}/>
-            }
             <Offcanvas show={show} onHide={() => {
                 handleClose();
             }} placement={'end'}>
