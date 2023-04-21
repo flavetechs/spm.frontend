@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux"
 import { NavbarstyleAction, LoginTemplateAction, getDirMode, getcustomizerinfoMode, getcustomizerprimaryMode, ColorCustomizerAction, SchemeDirAction, getcustomizerMode, SidebarminiTypeAction, SidebarboxedTypeAction, SidebarhoverTypeAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode, getLoginTemplateMode } from '../../../store/setting/setting'
 import { connect } from "react-redux"
 import { documentationRoutes } from '../../../utils/documentation-canvas-route'
+import Index from '../../../views/dashboard'
 
 
 const mapStateToProps = (state) => {
@@ -49,8 +50,8 @@ const DocumentationOffcanvas = (props) => {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    const { pathname } = window.location
-
+    const { pathname } = window.location;
+    const [viewIcon, setViewIcon] = useState(true)
     const [documentationUrl, setUrl] = useState('')
 
 
@@ -63,10 +64,14 @@ const DocumentationOffcanvas = (props) => {
 
     return (
         <>
+        {viewIcon ?
             <div className="btn btn-fixed-end btn-light btn-icon btn-setting" onClick={handleShow} >
                 <img className="img-fluid" width="50px" height="50px" src='http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png' />
 
             </div>
+            :
+            <Index handleShow={handleShow} setViewIcon={setViewIcon}/>
+            }
             <Offcanvas show={show} onHide={() => {
                 handleClose();
             }} placement={'end'}>

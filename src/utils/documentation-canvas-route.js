@@ -10,90 +10,90 @@ export const documentationRoutes = (pathname, setUrl) => {
       setUrl(url + ProductModuleFeatures.session_Setup)
       break;
     case sessionLocations.sessionClassList:
-      setUrl(url + '2')
+      setUrl(url + ProductModuleFeatures.session_classSetup)
       break;
     case sessionLocations.promotionSetup:
-      setUrl(url + '3')
+      setUrl(url + ProductModuleFeatures.session_promotion)
       break;
     case adminAdmissionLocations.adminAdmissionList:
-      setUrl(url + '4')
+      setUrl(url + ProductModuleFeatures.session_admission)
       break;
     case classLocations.sessionClassList2:
-      setUrl(url + '5')
+      setUrl(url + ProductModuleFeatures.session_class)
       break;
     case classLocations.classAttendanceBoard:
-      setUrl(url + '6')
+      setUrl(url + ProductModuleFeatures.session_attendance)
       break;
     case classLocations.assessment:
-      setUrl(url + '7')
+      setUrl(url + ProductModuleFeatures.session_assessment)
       break;
     case classLocations.lessonNotes:
-      setUrl(url + '8')
+      setUrl(url + ProductModuleFeatures.session_lessonNote)
       break;
     case classLocations.classTimeTable:
-      setUrl(url + '9')
+      setUrl(url + ProductModuleFeatures.session_timetable)
       break;
     case resultManagement.scoreEntry:
-      setUrl(url + '10')
+      setUrl(url + ProductModuleFeatures.result_scoreEntry)
       break;
     case resultManagement.publishResult:
-      setUrl(url + '11')
+      setUrl(url + ProductModuleFeatures.result_publishResult)
       break;
     case resultManagement.printResult:
-      setUrl(url + '12')
+      setUrl(url + ProductModuleFeatures.result_printResult)
       break;
     case resultManagement.masterList:
-      setUrl(url + '13')
+      setUrl(url + ProductModuleFeatures.result_masterlist)
       break;
     case resultManagement.cumulativeMasterList:
-      setUrl(url + '14')
+      setUrl(url + ProductModuleFeatures.result_cumulativeMasterlist)
       break;
     case studentsLocations.studentList:
-      setUrl(url + '15')
+      setUrl(url + ProductModuleFeatures.studentList)
       break;
     case studentsLocations.enrolledStudents:
-      setUrl(url + '15')
+      setUrl(url + ProductModuleFeatures.enrolledStudents)
       break;
     case studentsLocations.unenrolledStudents:
-      setUrl(url + '17')
+      setUrl(url + ProductModuleFeatures.unenrolledStudents)
       break;
     case staffLocations.staffList:
-      setUrl(url + '18')
+      setUrl(url + ProductModuleFeatures.staff)
       break;
     case parentsLocations.parentsList:
-      setUrl(url + '19')
+      setUrl(url + ProductModuleFeatures.parent)
       break;
     case portalSetting.setting:
-      setUrl(url + '20')
+      setUrl(url + ProductModuleFeatures.settings_portal_schoolSetting)
       break;
     case portalSetting.setting + '?settingsKey=second':
-      setUrl(url + '21')
+      setUrl(url + ProductModuleFeatures.settings_portal_resultSetting)
       break;
     case portalSetting.setting + '?settingsKey=third':
-      setUrl(url + '22')
+      setUrl(url + ProductModuleFeatures.settings_portal_notification)
       break;
     case portalSetting.setting + '?settingsKey=fourth':
-      setUrl(url + '23')
+      setUrl(url + ProductModuleFeatures.settings_portal_admission)
       break;
     case portalSetting.setting + '?settingsKey=fifth':
-      setUrl(url + '24')
+      setUrl(url + ProductModuleFeatures.settings_portal_studentRegSetup)
       break;
     case permissionLocations.roleList:
-      setUrl(url + '25')
+      setUrl(url + ProductModuleFeatures.settings_permission)
       break;
     case gradeSetting.setting:
-      setUrl(url + '26')
+      setUrl(url + ProductModuleFeatures.setting_grade)
       break;
     case resultManagement.resultTemplate:
-      setUrl(url + '27')
+      setUrl(url + ProductModuleFeatures.settings_resultTemplate)
       break;
     case portalSetting.theme:
-      setUrl(url + '28')
+      setUrl(url + ProductModuleFeatures.settings_theme)
       break;
 
 
     default:
-      setUrl(url + '1')
+     setUrl(url)
   }
 }
 
