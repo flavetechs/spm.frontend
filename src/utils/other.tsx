@@ -12,6 +12,6 @@ export class ServiceURLs{
 
 export class ServiceURLs2{
     static SmpDocumentation(): string{
-        return 'http://localhost:3001/docs/smp?feature=';
+        return 'http://fws.flavetechs.com/docs/smp?feature=';
     }
 }
