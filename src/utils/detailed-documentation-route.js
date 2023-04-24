@@ -1,18 +1,18 @@
-import { adminAdmissionLocations, classLocations, gradeSetting, parentsLocations, permissionLocations, portalSetting, resultManagement, sessionLocations, staffLocations, studentsLocations } from "../router/spm-path-locations"
+import { adminAdmissionLocations, classLocations, gradeSetting, parentsLocations, permissionLocations, portalSetting, promotionLocations, resultManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
 
 export const detailedDocumentationRoutes = (pathname, setPath) => {
 
 
-  const url = 'http://fws.flavetechs.com/fws/detailed-documentation?feature='
+  const url = 'http://fws.flavetechs.com/docs/smp?feature='
   switch (pathname) {
     case sessionLocations.sessionList:
       setPath(url + ProductModuleFeatures.session_Setup)
       break;
-    case sessionLocations.sessionClassList:
+    case sessionClassSetupLocations.sessionClassList:
       setPath(url + ProductModuleFeatures.session_classSetup)
       break;
-    case sessionLocations.promotionSetup:
+    case promotionLocations.promotionSetup:
       setPath(url + ProductModuleFeatures.session_promotion)
       break;
     case adminAdmissionLocations.adminAdmissionList:

@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations, parentsLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations, parentsLocations, sessionClassSetupLocations, promotionLocations } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -168,15 +168,17 @@ const DashboardRouter = () => {
                         <Route path={sessionLocations.subjectSetupList} exact component={SubjectSetupList} />
                         <Route path={sessionLocations.editSubjectSetup} exact component={SubjectSetupEdit} />
                         <Route path={sessionLocations.addSubjectSetup} exact component={SubjectSetupAdd} />
-                        <Route path={sessionLocations.sessionClassList} exact component={SessionClassList} />
-                        <Route path={sessionLocations.sessionClassEdit} exact component={SessionClassEdit} />
-                        <Route path={sessionLocations.sessionClassAdd} exact component={SessionClassAdd} />
-                        <Route path={sessionLocations.sessionClassTableEdit} exact component={SessionClassTableEdit} />
-                        <Route path={sessionLocations.sessionClassTableAdd} exact component={SessionClassTableAdd} />
-                        <Route path={sessionLocations.sessionClassDetail} exact component={SessionClassDetails} />
-                        <Route path={sessionLocations.promotionSetup} exact component={PromotionSetup} />
-                        <Route path={sessionLocations.promotionPassedList} exact component={PromotionPassedList} />
-                        <Route path={sessionLocations.promotionFailedList} exact component={PromotionFailedList} />
+                        {/*sessionClassSetup*/}
+                        <Route path={sessionClassSetupLocations.sessionClassList} exact component={SessionClassList} />
+                        <Route path={sessionClassSetupLocations.sessionClassEdit} exact component={SessionClassEdit} />
+                        <Route path={sessionClassSetupLocations.sessionClassAdd} exact component={SessionClassAdd} />
+                        <Route path={sessionClassSetupLocations.sessionClassTableEdit} exact component={SessionClassTableEdit} />
+                        <Route path={sessionClassSetupLocations.sessionClassTableAdd} exact component={SessionClassTableAdd} />
+                        <Route path={sessionClassSetupLocations.sessionClassDetail} exact component={SessionClassDetails} />
+                        {/* promotion */}
+                        <Route path={promotionLocations.promotionSetup} exact component={PromotionSetup} />
+                        <Route path={promotionLocations.promotionPassedList} exact component={PromotionPassedList} />
+                        <Route path={promotionLocations.promotionFailedList} exact component={PromotionFailedList} />
 
                         {/* students */}
                         <Route path={studentsLocations.studentList} exact component={StudentList} />

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { adminAdmissionLocations, sessionLocations } from '../../../../../router/spm-path-locations'
+import { adminAdmissionLocations, promotionLocations, sessionClassSetupLocations, sessionLocations } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function SessionLink(props) {
     var location = useLocation()
@@ -54,7 +54,7 @@ export function SessionLink(props) {
                     <Accordion.Collapse eventKey="sidebar-session" >
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === sessionLocations.sessionClassList ? 'active' : ''} nav-link`} to={sessionLocations.sessionClassList}
+                                <Link className={`${location.pathname === sessionClassSetupLocations.sessionClassList ? 'active' : ''} nav-link`} to={sessionClassSetupLocations.sessionClassList}
                                     onClick={props.minisidebar}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
@@ -75,7 +75,7 @@ export function SessionLink(props) {
                     <Accordion.Collapse eventKey="sidebar-session">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === sessionLocations.promotionSetup ? 'active' : ''} nav-link`} to={sessionLocations.promotionSetup}
+                                <Link className={`${location.pathname === promotionLocations.promotionSetup ? 'active' : ''} nav-link`} to={promotionLocations.promotionSetup}
                                     onClick={props.minisidebar}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">

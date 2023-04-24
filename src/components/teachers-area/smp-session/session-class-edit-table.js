@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { sessionClassSetupLocations } from "../../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 
@@ -137,7 +137,7 @@ const SessionClassTableEdit = () => {
   //HANDLER FUNCTIONS
   React.useEffect(() => {
    createSuccessful &&
-   history.push(`${sessionLocations.sessionClassList}`);
+   history.push(`${sessionClassSetupLocations.sessionClassList}`);
   }, [createSuccessful]);
 
 //console.log("classSubjects",classSubjects);
@@ -354,7 +354,7 @@ const SessionClassTableEdit = () => {
                           type="button"
                           variant="btn btn-danger mx-2"
                           onClick={() => {
-                            history.push(sessionLocations.sessionClassList);
+                            history.push(sessionClassSetupLocations.sessionClassList);
                           }}
                         >
                           Cancel

@@ -6,6 +6,7 @@ import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import {
   classLocations,
+  sessionClassSetupLocations,
   sessionLocations,
   studentsLocations,
 } from "../../../router/spm-path-locations";
@@ -146,7 +147,7 @@ const SessionClassList2 = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to={`${sessionLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
+                                  to={`${sessionClassSetupLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg

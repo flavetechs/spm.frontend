@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { detailedDocumentationRoutes } from '../utils/detailed-documentation-route';
 import { Col } from 'react-bootstrap';
-import { adminAdmissionLocations, classLocations, portalSetting, resultManagement, sessionLocations } from '../router/spm-path-locations';
+import { adminAdmissionLocations, classLocations, portalSetting, promotionLocations, resultManagement, sessionClassSetupLocations, sessionLocations } from '../router/spm-path-locations';
 
 const HowTo = () => {
     const [path, setPath] = useState("");
@@ -24,14 +24,14 @@ const HowTo = () => {
             </div>
             <div className="mb-2 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4"  onClick={()=>{ detailedDocumentationRoutes(sessionLocations.promotionSetup,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4"  onClick={()=>{ detailedDocumentationRoutes(promotionLocations.promotionSetup,setPath);}} style={{cursor:'pointer'}}>
                      <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer"> Promotion</a>
                     <span className="mb-0">guide to promoting students at session end</span>
-                </div>
+                </div>  
             </div>
             <div className="mb-2 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(sessionLocations.sessionClassList,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(sessionClassSetupLocations.sessionClassList,setPath);}} style={{cursor:'pointer'}}>
                      <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Class Setup</a>
                     <span className="mb-0">adding classes to school</span>
                 </div>

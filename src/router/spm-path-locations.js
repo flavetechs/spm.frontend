@@ -3,7 +3,7 @@ export const currentTabRoute = (route) => {
 }
 
 export const permissionLocations = {
-  active: 'smp-permissions',
+  active: '/dashboard/smp-permissions',
   roleList: "/dashboard/smp-permissions/role-list",
   roleEdit: "/dashboard/smp-permissions/role-edit",
   roleAdd: "/dashboard/smp-permissions/role-add",
@@ -20,19 +20,20 @@ export const inprogress = {
 };
 
 export const authLocations = {
-  login: "/smp/sign-in",
-  firstTimeLogin: "/smp/change-password-on-login",
+  active:"/smp/auth",
+  login: "/smp/auth/sign-in",
+  firstTimeLogin: "/smp/auth/change-password-on-login",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
   resetPassword:"/dashboard/reset-password",
-  forgottenPassword: "/smp/forgotten-password",
-  PasswordReset: "/PasswordReset",
-  passwordResetSuccessful: "/smp/password-reset-successful",
-  pageNotFound:"/page-not-found"
+  forgottenPassword: "/smp/auth/forgotten-password",
+  PasswordReset: "/smp/auth/PasswordReset",
+  passwordResetSuccessful: "/smp/auth/password-reset-successful",
+  pageNotFound:"/smp/auth/page-not-found"
 };
 
 export const classLocations = {
-  active: 'smp-class',
+  active: '/dashboard/smp-class',
   sessionClassList2: "/dashboard/smp-class/session-class",
   updateClassAttendance: "/dashboard/smp-class/update-class-attendance",
   createClassAttendance: "/dashboard/smp-class/create-class-attendance",
@@ -65,7 +66,7 @@ export const classLocations = {
 };
 
 export const sessionLocations = {
-  active: 'smp-session',
+  active: '/dashboard/smp-session',
   sessionList: "/dashboard/smp-session/setup",
   sessionEdit: "/dashboard/smp-session/edit-session",
   sessionDetails: "/dashboard/smp-session/details-setup",
@@ -76,19 +77,25 @@ export const sessionLocations = {
   subjectSetupList: "/dashboard/smp-session/subject-setup",
   editSubjectSetup: "/dashboard/smp-session/edit-subject",
   addSubjectSetup: "/dashboard/smp-session/add-subject",
-  sessionClassList: "/dashboard/smp-session/session-class",
-  sessionClassEdit: "/dashboard/smp-session/edit-session-class",
-  sessionClassTableEdit: "/dashboard/smp-session/edit-session-class-table",
-  sessionClassAdd: "/dashboard/smp-session/add-session-class",
-  sessionClassTableAdd: "/dashboard/smp-session/add-session-class-table",
+}
+export const sessionClassSetupLocations = {
+  active:"/dashboard/smp-session-class-setup",
+  sessionClassList: "/dashboard/smp-session-class-setup/session-class",
+  sessionClassEdit: "/dashboard/smp-session-class-setup/edit-session-class",
+  sessionClassTableEdit: "/dashboard/smp-session-class-setup/edit-session-class-table",
+  sessionClassAdd: "/dashboard/smp-session-class-setup/add-session-class",
+  sessionClassTableAdd: "/dashboard/smp-session-class-setup/add-session-class-table",
   sessionClassDetail: "/dashboard/smp-session/class-detail",
-  promotionSetup: "/dashboard/smp-session/promotion-setup",
-  promotionPassedList: "/dashboard/smp-session/promotion-passed-list-setup",
-  promotionFailedList: "/dashboard/smp-session/promotion-failed-list-setup",
+}
+export const promotionLocations = {
+  active:"/dashboard/smp-promotion",
+  promotionSetup: "/dashboard/smp-promotion/promotion-setup",
+  promotionPassedList: "/dashboard/smp-promotion/promotion-passed-list-setup",
+  promotionFailedList: "/dashboard/smp-promotion/promotion-failed-list-setup",
 };
 
 export const staffLocations = {
-  active: 'smp-staff',
+  active: '/dashboard/smp-staff',
   staffList: '/dashboard/smp-staff/staff-list',
   staffAdd: '/dashboard/smp-staff/add-setup',
   staffEdit: '/dashboard/smp-staff/edit-setup',
@@ -96,7 +103,7 @@ export const staffLocations = {
 }
 
 export const studentsLocations = {
-  active: 'smp-student',
+  active: '/dashboard/smp-student',
   studentList: "/dashboard/smp-student/student-list",
   studentAdd: "/dashboard/smp-student/add-student",
   studentEdit: "/dashboard/smp-student/edit-student",
@@ -106,17 +113,18 @@ export const studentsLocations = {
 };
 
 export const parentsLocations = {
+  active:'/dashboard/smp-parents',
   parentsList: '/dashboard/smp-parents/parents-list',
   parentsDetails: '/dashboard/smp-parents/parents-details',
 }
 
 export const gradeSetting = {
-  active: 'smp-permigradessions',
+  active: '/dashboard/smp-grade',
   setting: "/dashboard/smp-grade/setting"
 }
 
 export const resultManagement = {
-  active: 'smp-result',
+  active: '/dashboard/smp-result',
   adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
   adminScoreEntryTable: "/dashboard/smp-result/admin-score-entry-table",
   scoreEntry: "/dashboard/smp-result/score-entry",
@@ -134,7 +142,7 @@ export const resultManagement = {
 }
 
 export const portalSetting = {
-  active: 'smp-setting',
+  active: '/dashboard/smp-setting',
   setting: "/dashboard/smp-setting",
   createAdmissionSetting: "/dashboard/smp-setting/create-addmission-setting",
   updateAdmissionSetting: "/dashboard/smp-setting/update-addmission-setting",
@@ -144,7 +152,7 @@ export const portalSetting = {
 };
 
 export const pinManagement = {
-  active: 'smp-pin',
+  active: '/dashboard/smp-pin',
   pins: "/dashboard/smp-pin/pins",
   usedPins: "/dashboard/smp-pin/used-pins",
   pinDetails: "/dashboard/smp-pin/pin-details",
@@ -152,6 +160,7 @@ export const pinManagement = {
 }
 
 export const notificationManagement = {
+  active:'/dashboard/smp-notification',
   announcement: "/dashboard/smp-notification/announcement",
   makeAnnouncement: "/dashboard/smp-notification/make-announcement",
   announcementDetails: "/dashboard/smp-notification/announcement-details",
@@ -163,11 +172,13 @@ export const pushedNotificationManagement = {
 }
 
 export const adminAdmissionLocations = {
+  active:'/dashboard/smp-admission',
   adminAdmissionList: "/dashboard/smp-admission/admission-setup",
   adminAdmissionDetail: "/dashboard/smp-session/admission-detail",
   viewCandidateAnswers: "/dashboard/smp-session/view-candidate-answers",
 };
 export const admissionLocations = {
+  active:'/dashboard/smp-admission',
   admissionRegistration: "/dashboard/smp-admission/admission-registration",
   admissionRegistrationInformation: "/dashboard/smp-admission/admission-registration-information",
   admissionBoard: "/dashboard/smp-admission/admission-board",

@@ -8,7 +8,7 @@ import {
   pushSessionClassId,
 } from "../../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
 import {
   respondToDeleteDialog,
   showErrorToast,
@@ -161,7 +161,7 @@ const SessionClassList = () => {
                 )}
                 {hasAccess(NavPermissions.createSessionClass) && (
                   <Link
-                    to={sessionLocations.sessionClassAdd}
+                    to={sessionClassSetupLocations.sessionClassAdd}
                     className="d-flex justify-content-end"
                   >
                     <button
@@ -248,7 +248,7 @@ const SessionClassList = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="Details"
-                                  to={`${sessionLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
+                                  to={`${sessionClassSetupLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
                                 >
                                   <span className="btn-inner">
                                     <svg
@@ -300,7 +300,7 @@ const SessionClassList = () => {
                                     data-placement="top"
                                     title=""
                                     data-original-title="Edit"
-                                    to={`${sessionLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
+                                    to={`${sessionClassSetupLocations.sessionClassEdit}?sessionClassId=${item.sessionClassId}`}
                                   >
                                     <span className="btn-inner">
                                       <svg

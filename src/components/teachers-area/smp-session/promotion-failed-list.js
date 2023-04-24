@@ -3,7 +3,7 @@ import { Row, Col, Tooltip, OverlayTrigger, Button, Badge } from "react-bootstra
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations, studentsLocations } from "../../../router/spm-path-locations";
+import { promotionLocations, sessionLocations, studentsLocations } from "../../../router/spm-path-locations";
 import { fetchFailedStudentList } from "../../../store/actions/promotion-actions";
 
 
@@ -127,7 +127,7 @@ const PromotionFailedList = () => {
                     className="btn-sm mt-4 me-4"
                     variant="btn btn-danger"
                     onClick={() => {
-                      history.push(sessionLocations.promotionSetup)
+                      history.push(promotionLocations.promotionSetup)
                     }}
                   >
                     Cancel

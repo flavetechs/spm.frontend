@@ -3,7 +3,7 @@ import { Row, Col,Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap
 import { Link, useLocation } from 'react-router-dom'
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { classLocations, sessionLocations } from "../../../router/spm-path-locations";
+import { classLocations, sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
 
 import { useHistory } from "react-router-dom";
 import { fetchSingleSession } from "../../../store/actions/session-actions";
@@ -140,7 +140,7 @@ const SessionDetails = () => {
                                                                         data-placement="top"
                                                                         title=""
                                                                         data-original-title="Details"
-                                                                        to={`${sessionLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
+                                                                        to={`${sessionClassSetupLocations.sessionClassDetail}?sessionClassId=${item.sessionClassId}`}
                                                                     >
                                                                         <span className="btn-inner">
                                                                             <svg
