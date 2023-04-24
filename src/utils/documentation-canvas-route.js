@@ -1,12 +1,13 @@
 import { adminAdmissionLocations, classLocations, gradeSetting, parentsLocations, permissionLocations, portalSetting, resultManagement, sessionLocations, staffLocations, studentsLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
+import { ServiceURLs } from "./other";
 
 export const documentationRoutes = (pathname, setUrl) => {
 
 
-  const url = 'http://fws.flavetechs.com/fws/documentation?feature='
+  const url = ServiceURLs.SmpDocumentation();
   switch (pathname) {
-    case sessionLocations.sessionList:
+    case sessionLocations.active:
       setUrl(url + ProductModuleFeatures.session_Setup)
       break;
     case sessionLocations.sessionClassList:

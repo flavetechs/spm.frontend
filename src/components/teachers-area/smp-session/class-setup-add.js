@@ -120,7 +120,7 @@ const ClassSetupAdd = () => {
                             aria-describedby="gradeLevelId"
                           >
                             <option value="">Select Grade Level</option>
-                            {prevGradesList.map((list, id) => (
+                            {prevGradesList?.map((list, id) => (
                               <option key={id} value={list.gradeGroupId}>
                                 {list.gradeGroupName}
                               </option>

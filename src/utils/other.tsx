@@ -3,3 +3,9 @@ export class TestUrls{
         return 'http://flave.flavetechs.com'
     }
 }
+
+export class ServiceURLs{
+    static SmpDocumentation(): string{
+        return 'http://fws.flavetechs.com/fws/documentation?feature=';
+    }
+}
