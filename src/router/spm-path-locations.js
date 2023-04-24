@@ -20,6 +20,7 @@ export const inprogress = {
 };
 
 export const authLocations = {
+  active:'smp/auth/',
   login: "/smp/sign-in",
   firstTimeLogin: "/smp/change-password-on-login",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
@@ -32,7 +33,7 @@ export const authLocations = {
 };
 
 export const classLocations = {
-  active: 'smp-class',
+  active: '/dashboard/smp-class/',
   sessionClassList2: "/dashboard/smp-class/session-class",
   updateClassAttendance: "/dashboard/smp-class/update-class-attendance",
   createClassAttendance: "/dashboard/smp-class/create-class-attendance",
@@ -65,7 +66,7 @@ export const classLocations = {
 };
 
 export const sessionLocations = {
-  active: 'smp-session',
+  active: '/dashboard/smp-session',
   sessionList: "/dashboard/smp-session/setup",
   sessionEdit: "/dashboard/smp-session/edit-session",
   sessionDetails: "/dashboard/smp-session/details-setup",
