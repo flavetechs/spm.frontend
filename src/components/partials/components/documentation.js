@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux"
 import { NavbarstyleAction, LoginTemplateAction, getDirMode, getcustomizerinfoMode, getcustomizerprimaryMode, ColorCustomizerAction, SchemeDirAction, getcustomizerMode, SidebarminiTypeAction, SidebarboxedTypeAction, SidebarhoverTypeAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode, getLoginTemplateMode } from '../../../store/setting/setting'
 import { connect } from "react-redux"
 import { documentationRoutes } from '../../../utils/documentation-canvas-route'
+import Index from '../../../views/dashboard'
 
 
 const mapStateToProps = (state) => {
@@ -49,8 +50,8 @@ const DocumentationOffcanvas = (props) => {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    const { pathname } = window.location
-
+    const { pathname } = window.location;
+    const [viewIcon, setViewIcon] = useState(true)
     const [documentationUrl, setUrl] = useState('')
 
 
