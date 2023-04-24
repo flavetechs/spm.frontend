@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation  } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { assessmentLocations, classLocations } from "../../../../router/spm-path-locations";
 import { showHideDialog } from "../../../../store/actions/toaster-actions";
 export function ClassAssessmentList(props) {
     const history = useHistory();
@@ -80,7 +80,7 @@ useEffect(() => {
                                         <div
                                             onClick={() => {
                                                 history.push(
-                                                    `${classLocations.editClassAssessment}?classAssessmentId=${props.item.classAssessmentId}&sessionClassSubjectId=${props.item.sessionClassSubjectId}&sessionClassId=${props.item.sessionClassId}&type=${typeQueryParam}`
+                                                    `${assessmentLocations.editClassAssessment}?classAssessmentId=${props.item.classAssessmentId}&sessionClassSubjectId=${props.item.sessionClassSubjectId}&sessionClassId=${props.item.sessionClassId}&type=${typeQueryParam}`
                                                 );
                                                 props.setShowMenuDropdown(false);
                                             }}

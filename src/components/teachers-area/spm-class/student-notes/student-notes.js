@@ -4,8 +4,6 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
-  approveNotes,
-  getNotesByStatus,
   getStudentNotesByTeacher,
 } from "../../../../store/actions/class-actions";
 import * as Yup from "yup";

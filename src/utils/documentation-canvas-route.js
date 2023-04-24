@@ -1,16 +1,17 @@
-import { adminAdmissionLocations, classLocations, gradeSetting, parentsLocations, permissionLocations, portalSetting, promotionLocations, resultManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations } from "../router/spm-path-locations"
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
+import { ServiceURLs } from "./other";
 
 export const documentationRoutes = (pathname, setUrl) => {
 
-  const url = 'http://localhost:3001/docs/smp-canvas?feature='
-  if(pathname.includes(sessionLocations.active)){
+  const url = ServiceURLs.SmpDocumentation();
+ if(pathname.includes(sessionLocations.active)){
       setUrl(url + ProductModuleFeatures.session_Setup)
   }
-   else if (sessionClassSetupLocations.sessionClassList){
+   else if (pathname.includes(sessionClassSetupLocations.active)){
       setUrl(url + ProductModuleFeatures.session_classSetup)
     }
-   else if (promotionLocations.promotionSetup) {
+   else if (pathname.includes(promotionLocations.active)) {
      setUrl(url + ProductModuleFeatures.session_promotion)
     }
     else if (pathname.includes(adminAdmissionLocations.active)) {
@@ -19,75 +20,78 @@ export const documentationRoutes = (pathname, setUrl) => {
     else if (pathname.includes(classLocations.active)){
       setUrl(url + ProductModuleFeatures.session_class)
     }
-    else if (classLocations.classAttendanceBoard){
+    else if (pathname.includes(attendanceLocations.active)){
      setUrl(url + ProductModuleFeatures.session_attendance)
     }
-    else if (classLocations.assessment){
+    else if (pathname.includes(assessmentLocations.active)){
      setUrl(url + ProductModuleFeatures.session_assessment)
     }
-    else if(classLocations.lessonNotes){
+    else if(pathname.includes(lessonNoteLocations.active)){
       setUrl(url + ProductModuleFeatures.session_lessonNote)
     }
-    else if (classLocations.classTimeTable){
+    else if (pathname.includes(timetableLocations.active)){
      setUrl(url + ProductModuleFeatures.session_timetable)
-    }
-    else if (resultManagement.scoreEntry) {
+      }
+    else if (pathname.includes(scoreEntryManagement.active)) {
       setUrl(url + ProductModuleFeatures.result_scoreEntry)
-  }
-  else if (resultManagement.publishResult){
+     }
+    else if (pathname.includes(publishResultManagement.active)){
       setUrl(url + ProductModuleFeatures.result_publishResult)
-}
-else if (resultManagement.printResult){
+      }
+    else if (pathname.includes(printResultManagement.active)){
        setUrl(url + ProductModuleFeatures.result_printResult)
     }
-    else if (resultManagement.masterList){
+    else if (pathname.includes(resultManagement.active)){
      setUrl(url + ProductModuleFeatures.result_masterlist)
-    }
-    else if (resultManagement.cumulativeMasterList) {
+     if ( pathname === resultManagement.cumulativeMasterList) {
       setUrl(url + ProductModuleFeatures.result_cumulativeMasterlist)
     }
+     else if (pathname === resultManagement.resultTemplate){
+      setUrl(url + ProductModuleFeatures.settings_resultTemplate)
+    }
+    }
+ 
     else if (pathname.includes(studentsLocations.active)){
       setUrl(url + ProductModuleFeatures.studentList)
+      if (pathname === studentsLocations.enrolledStudents){
+        setUrl(url + ProductModuleFeatures.enrolledStudents)
+      }
+     else if (pathname === studentsLocations.unenrolledStudents){
+        setUrl(url + ProductModuleFeatures.unenrolledStudents)
+      }
     }
-    // case studentsLocations.enrolledStudents:
-    //   setUrl(url + ProductModuleFeatures.enrolledStudents)
-    //   break;
-    // case studentsLocations.unenrolledStudents:
-    //   setUrl(url + ProductModuleFeatures.unenrolledStudents)
-    //   break;
-    // case staffLocations.staffList:
-    //   setUrl(url + ProductModuleFeatures.staff)
-    //   break;
-    // case parentsLocations.parentsList:
-    //   setUrl(url + ProductModuleFeatures.parent)
-    //   break;
-    // case portalSetting.setting:
-    //   setUrl(url + ProductModuleFeatures.settings_portal_schoolSetting)
-    //   break;
-    // case portalSetting.setting + '?settingsKey=second':
-    //   setUrl(url + ProductModuleFeatures.settings_portal_resultSetting)
-    //   break;
-    // case portalSetting.setting + '?settingsKey=third':
-    //   setUrl(url + ProductModuleFeatures.settings_portal_notification)
-    //   break;
-    // case portalSetting.setting + '?settingsKey=fourth':
-    //   setUrl(url + ProductModuleFeatures.settings_portal_admission)
-    //   break;
-    // case portalSetting.setting + '?settingsKey=fifth':
-    //   setUrl(url + ProductModuleFeatures.settings_portal_studentRegSetup)
-    //   break;
-    // case permissionLocations.roleList:
-    //   setUrl(url + ProductModuleFeatures.settings_permission)
-    //   break;
-    // case gradeSetting.setting:
-    //   setUrl(url + ProductModuleFeatures.setting_grade)
-    //   break;
-    // case resultManagement.resultTemplate:
-    //   setUrl(url + ProductModuleFeatures.settings_resultTemplate)
-    //   break;
-    // case portalSetting.theme:
-    //   setUrl(url + ProductModuleFeatures.settings_theme)
-    //   break;
+    else if (pathname.includes(staffLocations.active)){
+      setUrl(url + ProductModuleFeatures.staff)
+    }
+    else if (pathname.includes(parentsLocations.active)){
+      setUrl(url + ProductModuleFeatures.parent)
+    }
+    else if (pathname.includes(portalSetting.active)){
+      setUrl(url + ProductModuleFeatures.settings_portal_schoolSetting)
+      if (pathname === portalSetting.theme){
+      setUrl(url + ProductModuleFeatures.settings_theme)
+      }
+    else if (pathname ===  portalSetting.setting + '?settingsKey=second'){
+    setUrl(url + ProductModuleFeatures.settings_portal_resultSetting)
+    }
+    else if (pathname === portalSetting.setting + '?settingsKey=third'){
+       setUrl(url + ProductModuleFeatures.settings_portal_notification)
+    }
+    else if (pathname === portalSetting.setting + '?settingsKey=fourth'){
+      setUrl(url + ProductModuleFeatures.settings_portal_admission)
+    }
+    else if (pathname ===  portalSetting.setting + '?settingsKey=fifth'){
+      setUrl(url + ProductModuleFeatures.settings_portal_studentRegSetup)
+  }
+}
+  else if ( pathname.includes(permissionLocations.active)){
+      setUrl(url + ProductModuleFeatures.settings_permission)
+}
+    else if  (pathname.includes(gradeSetting.active)){
+     setUrl(url + ProductModuleFeatures.setting_grade)
+    }
+  
+  
 
 
    else {

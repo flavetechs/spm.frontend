@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { resultManagement } from "../../../../router/spm-path-locations";
+import { printResultManagement, publishResultManagement, scoreEntryManagement } from "../../../../router/spm-path-locations";
 
 import { getResultSetting } from "../../../../store/actions/portal-setting-action";
 import { setSessionClassIdAndTermId } from "../../../../store/actions/publish-actions";
@@ -50,7 +50,7 @@ const TemplateControl = () => {
                     onClick={() => {
                       resetPrintSuccessfulState()(dispatch);
                       history.push(
-                        `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`
+                        `${printResultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`
                       );
                     }}
                     style={{ cursor: "pointer" }}
@@ -95,8 +95,8 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      results?.isPrint ? history.push(resultManagement.printResult) : 
-                      history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`);
+                      results?.isPrint ? history.push(printResultManagement.printResult) : 
+                      history.push(`${publishResultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -134,7 +134,7 @@ const TemplateControl = () => {
                     onClick={() => {
                       resetPrintSuccessfulState()(dispatch);
                       history.push(
-                        `${resultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
+                        `${printResultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
                       );
                     }}
                     style={{ cursor: "pointer" }}
@@ -178,8 +178,8 @@ const TemplateControl = () => {
                 >
                   <svg
                     onClick={() => {
-                      results?.isPrint ? history.push(resultManagement.printResult) : 
-                       history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`);
+                      results?.isPrint ? history.push(printResultManagement.printResult) : 
+                       history.push(`${publishResultManagement.publishResultTable}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"

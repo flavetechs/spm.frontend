@@ -10,7 +10,7 @@ import { getTermClasses } from "../../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import { getSinglePrintResult } from "../../../store/actions/results-actions";
-import { resultManagement } from "../../../router/spm-path-locations";
+import { printResultManagement, resultManagement, scoreEntryManagement } from "../../../router/spm-path-locations";
 
 const PrintResult = () => {
   //VARIABLE DECLARATIONS
@@ -70,7 +70,7 @@ const PrintResult = () => {
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
-    history.push(`${resultManagement.printResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+    history.push(`${printResultManagement.printResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
   }, [activeSession]);
 
 
@@ -122,7 +122,7 @@ const PrintResult = () => {
                     )(dispatch);
                   } else if (batchPrint) {
                     history.push(
-                      `${resultManagement.batchPrintPreview}?sessionClassId=${values.sessionClassId}&sessionTermId=${values.sessionTermId}`
+                      `${printResultManagement.batchPrintPreview}?sessionClassId=${values.sessionClassId}&sessionTermId=${values.sessionTermId}`
                     );
                   }
                 }}
@@ -147,7 +147,7 @@ const PrintResult = () => {
                           values={values.sessionId}
                           onChange={(e) => {
                             setFieldValue("sessionId", e.target.value);
-                            history.push(`${resultManagement.printResult}?sessionId=${e.target.value}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
+                            history.push(`${printResultManagement.printResult}?sessionId=${e.target.value}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
                           }}
                         >
                           <option value="">Select Session</option>
@@ -181,7 +181,7 @@ const PrintResult = () => {
                           value={values.sessionTermId}
                           onChange={(e) => {
                             setFieldValue("sessionTermId", e.target.value);
-                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
+                            history.push(`${printResultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}&printOption=${printOptionQueryParam}&sessionClassId=${sessionClassIdQueryParam}`)
 
                           }}
                         >
@@ -222,7 +222,7 @@ const PrintResult = () => {
                           id="printOption"
                           onChange={(e) => {
                             setFieldValue("printOption", e.target.value);
-                            history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${e.target.value}&sessionClassId=${sessionClassIdQueryParam}`)
+                            history.push(`${printResultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${e.target.value}&sessionClassId=${sessionClassIdQueryParam}`)
                             if (e.target.value === "printSingle") {
                               setPrintSingle(true);
                               setBatchPrint(false);
@@ -300,7 +300,7 @@ const PrintResult = () => {
                               id="sessionClassId"
                               onChange={(e) => {
                                 setFieldValue("sessionClassId", e.target.value);
-                                history.push(`${resultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
+                                history.push(`${printResultManagement.printResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&printOption=${printOptionQueryParam}&sessionClassId=${e.target.value}`)
 
                               }}
                             >

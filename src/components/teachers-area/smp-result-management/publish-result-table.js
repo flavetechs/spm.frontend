@@ -9,7 +9,9 @@ import {
 } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import {
+  publishResultManagement,
   resultManagement,
+  scoreEntryManagement,
   studentsLocations,
 } from "../../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,7 +84,7 @@ const PublishResultTable = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.push(resultManagement.publishResult);
+                      history.push(publishResultManagement.publishResult);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -282,7 +284,7 @@ const PublishResultTable = () => {
                         data-placement="top"
                         title=""
                         data-original-title="Edit"
-                        to={`${resultManagement.publishResultEdit}?studentContactId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}`}
+                        to={`${publishResultManagement.publishResultEdit}?studentContactId=${list.studentContactId}&sessionClassId=${sessionClassId}&termId=${sessionTermId}`}
                       >
                         <span className="btn-inner">
                           <svg

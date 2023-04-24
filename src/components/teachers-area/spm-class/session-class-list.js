@@ -5,10 +5,9 @@ import Card from "../../Card";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  attendanceLocations,
   classLocations,
   sessionClassSetupLocations,
-  sessionLocations,
-  studentsLocations,
 } from "../../../router/spm-path-locations";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
 
@@ -47,7 +46,7 @@ const SessionClassList2 = () => {
                 {" "}
                 <div className="d-flex justify-content-end mb-3">
                   <Link
-                    to={classLocations.classAttendanceBoard}
+                    to={attendanceLocations.classAttendanceBoard}
                     className="d-flex justify-content-end mx-2"
                   >
                     <button

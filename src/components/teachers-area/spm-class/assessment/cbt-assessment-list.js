@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { assessmentLocations, classLocations } from "../../../../router/spm-path-locations";
 import {
   getCBTClassAssessment,
   getClassSubjects,
@@ -216,8 +216,8 @@ console.log("clientUrl",clientUrl);
                                   id="type"
                                   onChange={(e) => {
                                     setFieldValue("type", e.target.value);
-                                    e.target.value === "cbt" ? history.push( `${classLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
-                                      : history.push(`${classLocations.assessment}?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`);
+                                    e.target.value === "cbt" ? history.push( `${assessmentLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
+                                      : history.push(`${assessmentLocations.assessment}?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`);
                                   }}
                                 >
                                   <option value="">Select Type</option>
@@ -247,12 +247,12 @@ console.log("clientUrl",clientUrl);
 
                                     e.target.value === "cbt"
                                       ? history.push(
-                                        `${classLocations.cbtAssessmentList
+                                        `${assessmentLocations.cbtAssessmentList
                                         }?sessionClassId=${e.target.value
                                         }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
                                       )
                                       : history.push(
-                                        `${classLocations.cbtAssessmentList
+                                        `${assessmentLocations.cbtAssessmentList
                                         }?sessionClassId=${e.target.value
                                         }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
                                       );
@@ -292,12 +292,12 @@ console.log("clientUrl",clientUrl);
                                     );
                                     e.target.value === "cbt"
                                       ? history.push(
-                                        `${classLocations.cbtAssessmentList
+                                        `${assessmentLocations.cbtAssessmentList
                                         }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value
                                         }`
                                       )
                                       : history.push(
-                                        `${classLocations.cbtAssessmentList
+                                        `${assessmentLocations.cbtAssessmentList
                                         }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${e.target.value
                                         }&groupId=${""}&type=${typeQueryParam}`
                                       );

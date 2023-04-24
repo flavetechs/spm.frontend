@@ -91,13 +91,7 @@ const VerticalNav = () => {
 
                 <AdmissionLink minisidebar={minisidebar} />
 
-                {/* {hasAccess(NavPermissions.roleList) && (
-                    <PermissionLink
-                        minisidebar={minisidebar}
-                        CustomToggle={CustomToggle}
-                        setActiveMenu={setActiveMenu}
-                    />
-                )} */}
+                
 
                 {hasAccess2([
                     NavPermissions.sessionSetup,

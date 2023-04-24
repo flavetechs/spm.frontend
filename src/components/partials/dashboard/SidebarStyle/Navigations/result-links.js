@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { resultManagement } from '../../../../../router/spm-path-locations'
+import { printResultManagement, publishResultManagement, resultManagement, scoreEntryManagement } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function ResultLink(props){
     var location = useLocation()
@@ -23,7 +23,7 @@ export function ResultLink(props){
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === resultManagement.scoreEntry ? 'active' : ''} nav-link`} to={resultManagement.scoreEntry} onClick={props.minisidebar}>
+                                <Link className={`${location.pathname === scoreEntryManagement.scoreEntry ? 'active' : ''} nav-link`} to={scoreEntryManagement.scoreEntry} onClick={props.minisidebar}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -43,7 +43,7 @@ export function ResultLink(props){
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === resultManagement.publishResult ? 'active' : ''} nav-link`} to={resultManagement.publishResult}
+                                <Link className={`${location.pathname === publishResultManagement.publishResult ? 'active' : ''} nav-link`} to={publishResultManagement.publishResult}
                                 onClick={props.minisidebar}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
@@ -85,7 +85,7 @@ export function ResultLink(props){
                     <Accordion.Collapse eventKey="sidebar-result">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                                <Link className={`${location.pathname === resultManagement.printResult ? 'active' : ''} nav-link`} to={resultManagement.printResult}
+                                <Link className={`${location.pathname === printResultManagement.printResult ? 'active' : ''} nav-link`} to={printResultManagement.printResult}
                                 onClick={props.minisidebar}>
                                     <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">

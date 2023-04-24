@@ -431,7 +431,7 @@ const StudentNoteDetails = () => {
                           style={{ cursor: "pointer" }}
                           onClick={() => {
                             history.push(
-                              `${classLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`
+                              `${lessonNoteLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`
                             );
                             getSingleLessonNotes(notes.teacherClassNoteId)(dispatch);
                           }}

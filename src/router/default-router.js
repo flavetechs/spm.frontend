@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RoleList from '../components/teachers-area/spm-permissions/role-list';
 import RoleEdit from '../components/teachers-area/spm-permissions/role-edit';
 import RoleAdd from '../components/teachers-area/spm-permissions/role-add';
-import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, resultManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations, parentsLocations, sessionClassSetupLocations, promotionLocations } from './spm-path-locations';
+import { classLocations, dashboardLocations, permissionLocations, sessionLocations, studentsLocations, staffLocations, enrollment, gradeSetting, scoreEntryManagement, portalSetting, pinManagement, notificationManagement, authLocations, inprogress, pushedNotificationManagement, adminAdmissionLocations, parentsLocations, sessionClassSetupLocations, promotionLocations, attendanceLocations, assessmentLocations, lessonNoteLocations, timetableLocations, publishResultManagement, resultManagement, printResultManagement } from './spm-path-locations';
 import StudentList from '../components/teachers-area/smp-students/student-list';
 import StudentAdd from '../components/teachers-area/smp-students/student-add';
 import StudentEdit from '../components/teachers-area/smp-students/student-edit';
@@ -78,8 +78,6 @@ import TemplateControl from '../components/teachers-area/smp-result-management/r
 import PublishResultTable from '../components/teachers-area/smp-result-management/publish-result-table';
 import ClassTimeTable from '../components/teachers-area/spm-class/time-table/class-timetable';
 import InProgress from '../components/teachers-area/in-progress';
-import StudentNoteDetails from '../components/teachers-area/spm-class/student-notes/student-note-details';
-import StudentNotes from '../components/teachers-area/spm-class/student-notes/student-notes';
 import ClassAssessmentDetails from '../components/teachers-area/spm-class/assessment/class-assessment-details';
 import ScoreEntryTable from '../components/teachers-area/smp-result-management/score-entry-small-table';
 import AdminScoreEntryTable from '../components/teachers-area/smp-result-management/admin-score-entry-small-table';
@@ -102,11 +100,12 @@ import parentsList from '../components/teachers-area/smp-parents/parents-list';
 import ParentsDetails from '../components/teachers-area/smp-parents/parents-details';
 import ResetPassword from '../components/spm-auth/reset-password';
 import CreateAdmissionSetting from '../components/teachers-area/smp-portal-setting/create-admission-setting';
-import UpdateAdmissionSetting from '../components/teachers-area/smp-portal-setting/update-admission-setting';
 import AdmissionSettingsDetails from '../components/teachers-area/smp-portal-setting/admission-settings-details';
 import CumulativeTimeTable from '../components/teachers-area/spm-class/time-table/cumulative-timetable';
 import ExamTimeTable from '../components/teachers-area/spm-class/time-table/exam-timetable';
 import StudentListByClass from '../components/teachers-area/spm-class/students-by-session-class';
+import StudentNoteDetails from '../components/teachers-area/spm-class/student-notes/student-note-details';
+import StudentNotes from '../components/teachers-area/spm-class/student-notes/student-notes';
 
 const DashboardRouter = () => {
 
@@ -129,35 +128,40 @@ const DashboardRouter = () => {
 
                         {/* class */}
                         <Route path={classLocations.sessionClassList2} exact component={SessionClassList2} />
-                        <Route path={classLocations.updateClassAttendance} exact component={UpdateAttendance} />
-                        <Route path={classLocations.createClassAttendance} exact component={CreateAttendance} />
-                        <Route path={classLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
-                        <Route path={classLocations.attendancePresence} exact component={AttendancePresence} />
-                        <Route path={classLocations.assessment} exact component={AssessmentList} />
-                        <Route path={classLocations.createHomeAssessment} exact component={CreateHomeAssessment} />
-                        <Route path={classLocations.editHomeAssessment} exact component={EditHomeAssessment} />
-                        <Route path={classLocations.editClassAssessment} exact component={EditClassAssessment} />
-                        <Route path={classLocations.homeAssessmentDetails} exact component={HomeAssessmentDetails} />
-                        <Route path={classLocations.classAssessmentDetails} exact component={ClassAssessmentDetails} />
-                        <Route path={classLocations.viewStudentsHomeAssessment} exact component={ViewStudentsAssessment} />
-                        <Route path={classLocations.lessonNotes} exact component={LessonNotes} />
-                        <Route path={classLocations.createLessonNotes} exact component={CreateLessonNote} />
-                        <Route path={classLocations.editLessonNotes} exact component={EditLessonNote} />
-                        <Route path={classLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
-                        <Route path={classLocations.studentNotes} exact component={StudentNotes} />
-                        <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
-                        <Route path={classLocations.classTimeTable} exact component={ClassTimeTable} />
-                        <Route path={classLocations.examTimeTable} exact component={ExamTimeTable} />
-                        <Route path={classLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
-                        <Route path={classLocations.printTimeTable} exact component={PrintTimeTable} />
                         <Route path={classLocations.scoreRecord} exact component={ScoreRecord} />
                         <Route path={classLocations.scoreRecordDetails} exact component={ScoreRecordDetails} />
-                        <Route path={classLocations.cbtAssessmentList} exact component={CBTAssessmentList} />
-
                         <Route path={classLocations.classStudents} exact component={StudentListByClass} />
                         <Route path={classLocations.classGroup} exact component={ClassGroup} />
                         <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
-                        <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
+                         <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
+                        <Route path={classLocations.studentNotes} exact component={StudentNotes} />
+                        <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
+                        {/* attendance */}
+                        <Route path={attendanceLocations.updateClassAttendance} exact component={UpdateAttendance} />
+                        <Route path={attendanceLocations.createClassAttendance} exact component={CreateAttendance} />
+                        <Route path={attendanceLocations.classAttendanceBoard} exact component={AttendanceRegisterList} />
+                        <Route path={attendanceLocations.attendancePresence} exact component={AttendancePresence} />
+                        {/* assessment */}
+                        <Route path={assessmentLocations.assessment} exact component={AssessmentList} />
+                        <Route path={assessmentLocations.createHomeAssessment} exact component={CreateHomeAssessment} />
+                        <Route path={assessmentLocations.editHomeAssessment} exact component={EditHomeAssessment} />
+                        <Route path={assessmentLocations.editClassAssessment} exact component={EditClassAssessment} />
+                        <Route path={assessmentLocations.homeAssessmentDetails} exact component={HomeAssessmentDetails} />
+                        <Route path={assessmentLocations.classAssessmentDetails} exact component={ClassAssessmentDetails} />
+                        <Route path={assessmentLocations.viewStudentsHomeAssessment} exact component={ViewStudentsAssessment} />
+                        <Route path={assessmentLocations.cbtAssessmentList} exact component={CBTAssessmentList} />
+                        {/* lessonNotes */}
+                        <Route path={lessonNoteLocations.lessonNotes} exact component={LessonNotes} />
+                        <Route path={lessonNoteLocations.createLessonNotes} exact component={CreateLessonNote} />
+                        <Route path={lessonNoteLocations.editLessonNotes} exact component={EditLessonNote} />
+                        <Route path={lessonNoteLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
+                        
+                        {/* timetable */}
+                        <Route path={timetableLocations.classTimeTable} exact component={ClassTimeTable} />
+                        <Route path={timetableLocations.examTimeTable} exact component={ExamTimeTable} />
+                        <Route path={timetableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
+                        <Route path={timetableLocations.printTimeTable} exact component={PrintTimeTable} />
+                      
                         {/* session */}
                         <Route path={sessionLocations.sessionList} exact component={SessionList} />
                         <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
@@ -210,27 +214,32 @@ const DashboardRouter = () => {
                         {/* Grade Setting */}
                         <Route path={gradeSetting.setting} exact component={GradeSetting} />
 
+                        {/* scoreEntryManagement */}
+                        <Route path={scoreEntryManagement.scoreEntry} exact component={ScoreEntry} />
+                        <Route path={scoreEntryManagement.scoreEntryTable} exact component={ScoreEntryTable} />
+                        <Route path={scoreEntryManagement.adminScoreEntry} exact component={AdminScoreEntry} />
+                        <Route path={scoreEntryManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
+                      
+                        {/* publishResultManagement */}
+                        <Route path={publishResultManagement.publishResult} exact component={PublishResult} />
+                        <Route path={publishResultManagement.publishedClassList} exact component={PublishedClassList} />
+                        <Route path={publishResultManagement.publishResultEdit} exact component={PublishResultEdit} />
+                        <Route path={publishResultManagement.publishResultTable} exact component={PublishResultTable} />
+                       
                         {/* resultManagement */}
-                        <Route path={resultManagement.scoreEntry} exact component={ScoreEntry} />
-                        <Route path={resultManagement.scoreEntryTable} exact component={ScoreEntryTable} />
-                        <Route path={resultManagement.publishResult} exact component={PublishResult} />
-                        <Route path={resultManagement.publishedClassList} exact component={PublishedClassList} />
-                        <Route path={resultManagement.adminScoreEntry} exact component={AdminScoreEntry} />
-                        <Route path={resultManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
                         <Route path={resultManagement.masterList} exact component={MasterList} />
-                        <Route path={resultManagement.publishResultEdit} exact component={PublishResultEdit} />
-                        <Route path={resultManagement.publishResultTable} exact component={PublishResultTable} />
                         <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
-                        <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
-                        <Route path={resultManagement.printResult} exact component={PrintResult} />
-                        <Route path={resultManagement.batchPrintPreview} exact component={BatchPrintPreview} />
                         <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
-
+                        
+                         {/* printResultManagement */}
+                        <Route path={printResultManagement.printResult} exact component={PrintResult} />
+                        <Route path={printResultManagement.batchPrintPreview} exact component={BatchPrintPreview} />
+                       
                         {/* portal setting */}
                         <Route path={portalSetting.setting} exact component={Setting} />
                         <Route path={portalSetting.theme} exact component={settingoffcanvas} />
+                        <Route path={portalSetting.templateSetting} exact component={TemplateSetting} />
                         <Route path={portalSetting.createAdmissionSetting} exact component={CreateAdmissionSetting} />
-                        {/* <Route path={portalSetting.updateAdmissionSetting} exact component={UpdateAdmissionSetting} /> */}
                         <Route path={portalSetting.admissionSettingsDetails} exact component={AdmissionSettingsDetails} />
 
                         {/* notificationManagement */}

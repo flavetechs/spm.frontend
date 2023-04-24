@@ -15,7 +15,7 @@ import {
 import MasterListLargeTable from "./master-list-large-table";
 import { getAllSessionClasses1 } from "../../../store/actions/class-actions";
 import { useHistory, useLocation } from "react-router-dom";
-import { resultManagement } from "../../../router/spm-path-locations";
+import { resultManagement, scoreEntryManagement } from "../../../router/spm-path-locations";
 
 const MasterList = () => {
   //VARIABLE DECLARATIONS

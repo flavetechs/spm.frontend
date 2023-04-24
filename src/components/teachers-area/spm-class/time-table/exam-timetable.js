@@ -12,7 +12,7 @@ import {
 } from "../../../../store/actions/timetable-actions";
 import ExamTimeTableActivities from "./exam-timetableactivities";
 import { useHistory } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { classLocations, timetableLocations } from "../../../../router/spm-path-locations";
 
 function ExamTimeTable() {
   //VARIABLE DECLARATIONS
@@ -37,7 +37,7 @@ function ExamTimeTable() {
         <Card.Header>
           <Button
             className="bg-primary btn"
-            onClick={() => history.push(classLocations.cumulativeTimeTable)}
+            onClick={() => history.push(timetableLocations.cumulativeTimeTable)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

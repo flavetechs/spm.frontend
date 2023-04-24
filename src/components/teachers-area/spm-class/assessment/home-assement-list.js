@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { assessmentLocations, classLocations } from "../../../../router/spm-path-locations";
 import { closeHomeAssessment } from "../../../../store/actions/class-actions";
 import { showHideDialog } from "../../../../store/actions/toaster-actions";
 export function HomeAssessmentList(props) {
@@ -59,7 +59,7 @@ export function HomeAssessmentList(props) {
                     <div
                       onClick={() => {
                         history.push(
-                          `${classLocations.homeAssessmentDetails}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassId=${props.item.sessionClassId}&sessionClassSubjectId=${props.sessionClassSubjectIdQueryParam}&groupId=${props.groupIdQueryParam}&type=${props.typeQueryParam}`
+                          `${assessmentLocations.homeAssessmentDetails}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassId=${props.item.sessionClassId}&sessionClassSubjectId=${props.sessionClassSubjectIdQueryParam}&groupId=${props.groupIdQueryParam}&type=${props.typeQueryParam}`
                         );
                         props.setShowMenuDropdown(false);
                       }}
@@ -110,7 +110,7 @@ export function HomeAssessmentList(props) {
                     <div
                       onClick={() => {
                         history.push(
-                          `${classLocations.editHomeAssessment}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassSubjectId=${props.item.sessionClassSubjectId}&sessionClassId=${props.item.sessionClassId}&type=${props.typeQueryParam}`
+                          `${assessmentLocations.editHomeAssessment}?homeAssessmentId=${props.item.homeAssessmentId}&sessionClassSubjectId=${props.item.sessionClassSubjectId}&sessionClassId=${props.item.sessionClassId}&type=${props.typeQueryParam}`
                         );
                         props.setShowMenuDropdown(false);
                       }}

@@ -10,7 +10,7 @@ import {
 } from "../../../store/actions/results-actions";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
-import { resultManagement } from "../../../router/spm-path-locations";
+import { scoreEntryManagement } from "../../../router/spm-path-locations";
 
 const ScoreEntry = () => {
   //VARIABLE DECLARATIONS
@@ -62,7 +62,7 @@ const ScoreEntry = () => {
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    history.push(`${resultManagement.scoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`);
+                    history.push(`${scoreEntryManagement.scoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`);
                   }}
                 >
                   {({
@@ -76,7 +76,7 @@ const ScoreEntry = () => {
                       <Row className="d-flex justify-content-center">
                         <div className="d-flex justify-content-end">
                           {hasAccess(NavPermissions.previousTermsScores) && (
-                            <Link to={resultManagement.adminScoreEntry}>
+                            <Link to={scoreEntryManagement.adminScoreEntry}>
                               <button
                                 type="button"
                                 className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
@@ -130,7 +130,7 @@ const ScoreEntry = () => {
                             id="sessionClassId"
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
-                              history.push(`${resultManagement.scoreEntry}?sessionClassId=${e.target.value}`)
+                              history.push(`${scoreEntryManagement.scoreEntry}?sessionClassId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Class</option>
@@ -163,7 +163,7 @@ const ScoreEntry = () => {
                             id="subjectId"
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
-                              history.push(`${resultManagement.scoreEntry}?sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`)
+                              history.push(`${scoreEntryManagement.scoreEntry}?sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Subject</option>

@@ -20,7 +20,7 @@ import {
   getAllSession,
 } from "../../../store/actions/session-actions";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
-import { resultManagement } from "../../../router/spm-path-locations";
+import { scoreEntryManagement } from "../../../router/spm-path-locations";
 import { useHistory, useLocation } from "react-router-dom";
 
 const AdminScoreEntry = () => {
@@ -61,7 +61,7 @@ const AdminScoreEntry = () => {
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
-    history.push(`${resultManagement.adminScoreEntry}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+    history.push(`${scoreEntryManagement.adminScoreEntry}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
   }, [activeSession]);
 
  
@@ -79,7 +79,7 @@ const AdminScoreEntry = () => {
                 >
                   <svg
                     onClick={() => {
-                      history.push(resultManagement.scoreEntry);
+                      history.push(scoreEntryManagement.scoreEntry);
                     }}
                     style={{ cursor: "pointer" }}
                     className=" text-primary"
@@ -120,7 +120,7 @@ const AdminScoreEntry = () => {
                       1
                     )(dispatch);
                     history.push(
-                      `${resultManagement.adminScoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}&term=${values.terms}`
+                      `${scoreEntryManagement.adminScoreEntryTable}?sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}&term=${values.terms}`
                     );
                   }}
                 >
@@ -151,7 +151,7 @@ const AdminScoreEntry = () => {
                             onChange={(e) => {
                               setFieldValue("sessionId", e.target.value);
                               history.push(
-                                `${resultManagement.adminScoreEntry}?sessionId=${e.target.value}`
+                                `${scoreEntryManagement.adminScoreEntry}?sessionId=${e.target.value}`
                               );
                             }}
                           >
@@ -182,7 +182,7 @@ const AdminScoreEntry = () => {
                             onChange={(e) => {
                               setFieldValue("terms", e.target.value);
                               history.push(
-                                `${resultManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`
+                                `${scoreEntryManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`
                               );
                             }}
                           >
@@ -226,7 +226,7 @@ const AdminScoreEntry = () => {
                               e.target.value !== "" &&
                                 getStaffClassSubjects(e.target.value)(dispatch);
                               history.push(
-                                `${resultManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`
+                                `${scoreEntryManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`
                               );
                             }}
                           >
@@ -260,7 +260,7 @@ const AdminScoreEntry = () => {
                             onChange={(e) => {
                               setFieldValue("subjectId", e.target.value);
                               history.push(
-                                `${resultManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`
+                                `${scoreEntryManagement.adminScoreEntry}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}`
                               );
                             }}
                           >

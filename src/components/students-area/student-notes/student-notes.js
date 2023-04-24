@@ -17,9 +17,9 @@ import {
   getUserDetails,
 } from "../../../utils/permissions";
 import * as Yup from "yup";
-import { studentNoteLocations } from "../../../router/students-path-locations";
 import { PaginationFilter2 } from "../../partials/components/pagination-filter";
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
+import { classLocations } from "../../../router/spm-path-locations";
 
 const StudentNotes = () => {
   //VARIABLE DECLARATIONS
@@ -61,7 +61,7 @@ const StudentNotes = () => {
   useEffect(() => {
     if(!termIdQuery && activeSession){
       history.push(
-        `${studentNoteLocations.studentNotes}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.sessionTermId}`
+        `${classLocations.studentNotes}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.sessionTermId}`
       );
     }
   }, [activeSession])
@@ -167,7 +167,7 @@ const StudentNotes = () => {
                 onSubmit={(values) => {
                   !values.subjectId ? showErrorToast("Subject is required")(dispatch) :
                     history.push(
-                      `${studentNoteLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
+                      `${classLocations.createStudentNotes}?subjectId=${subjectIdQuery}`
                     );
                 }}
               >
@@ -196,7 +196,7 @@ const StudentNotes = () => {
                               id="sessionId"
                               onChange={(e) => {
                                 setFieldValue("sessionId", e.target.value);
-                                history.push(`${studentNoteLocations.studentNotes}?sessionId=${e.target.value}`)
+                                history.push(`${classLocations.studentNotes}?sessionId=${e.target.value}`)
                               }}
                             >
                               <option value="">Select Session</option>
@@ -228,7 +228,7 @@ const StudentNotes = () => {
                                 onChange={(e) => {
                                   setFieldValue("terms", e.target.value);
                                   history.push(
-                                    `${studentNoteLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${e.target.value}`
+                                    `${classLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${e.target.value}`
                                   );
                                 }}
                               >
@@ -271,10 +271,10 @@ const StudentNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   e.target.value === ""
                                     ? history.push(
-                                      studentNoteLocations.studentNotes
+                                      classLocations.studentNotes
                                     )
                                     : history.push(
-                                      `${studentNoteLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${termIdQuery}&subjectId=${e.target.value}`
+                                      `${classLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${termIdQuery}&subjectId=${e.target.value}`
                                     );
                                 }}
                               >
@@ -325,12 +325,12 @@ const StudentNotes = () => {
                                   );
                                   if (e.target.value !== "all") {
                                     history.push(
-                                      `${studentNoteLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${termIdQuery}&subjectId=${subjectIdQuery}&status=${e.target.value}`
+                                      `${classLocations.studentNotes}?sessionId=${sessionIdQuery}&termId=${termIdQuery}&subjectId=${subjectIdQuery}&status=${e.target.value}`
                                     );
                                   } else {
                                     getAllStudentNotes(subjectIdQuery, "2",1,termIdQuery)(dispatch);
                                     history.push(
-                                      `${studentNoteLocations.studentNotes}?subjectId=${subjectIdQuery}`
+                                      `${classLocations.studentNotes}?subjectId=${subjectIdQuery}`
                                     );
                                   }
                                 }}
@@ -407,7 +407,7 @@ const StudentNotes = () => {
                                       <div
                                         onClick={() => {
                                           history.push(
-                                            `${studentNoteLocations.studentNotesDetails}?studentNoteId=${item.studentNoteId}`
+                                            `${classLocations.studentNotesDetails}?studentNoteId=${item.studentNoteId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}
@@ -459,7 +459,7 @@ const StudentNotes = () => {
                                       <div
                                         onClick={() => {
                                           history.push(
-                                            `${studentNoteLocations.editStudentNotes}?studentNoteId=${item.studentNoteId}`
+                                            `${classLocations.editStudentNotes}?studentNoteId=${item.studentNoteId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}

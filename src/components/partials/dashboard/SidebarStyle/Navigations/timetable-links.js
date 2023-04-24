@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { classLocations } from '../../../../../router/spm-path-locations'
+import {  timetableLocations } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function TimeTableLink(props){
     var location = useLocation()
@@ -27,7 +27,7 @@ export function TimeTableLink(props){
                     <Accordion.Collapse eventKey="sidebar-timetable">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                            <Link className={`${location.pathname === classLocations.classTimeTable ? 'active' : ''} nav-link`} to={classLocations.classTimeTable}
+                            <Link className={`${location.pathname === timetableLocations.classTimeTable ? 'active' : ''} nav-link`} to={timetableLocations.classTimeTable}
                        onClick={ props.minisidebar}>
                             <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
@@ -49,7 +49,7 @@ export function TimeTableLink(props){
                     <Accordion.Collapse eventKey="sidebar-timetable">
                         <ul className="sub-nav">
                             <li className="nav-item">
-                            <Link className={`${location.pathname === classLocations.examTimeTable ? 'active' : ''} nav-link`} to={classLocations.examTimeTable}
+                            <Link className={`${location.pathname === timetableLocations.examTimeTable ? 'active' : ''} nav-link`} to={timetableLocations.examTimeTable}
                        onClick={ props.minisidebar}>
                             <i className="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">

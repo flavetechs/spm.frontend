@@ -31,7 +31,8 @@ import { connect } from "react-redux";
 import { documentationRoutes } from "../../../utils/documentation-canvas-route";
 import Index from "../../../views/dashboard";
 import { detailedDocumentationRoutes } from "../../../utils/detailed-documentation-route";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
+import { ProductModuleFeatures } from "../../../utils/features";
 
 const mapStateToProps = (state) => {
   return {
@@ -78,8 +79,7 @@ const DocumentationOffcanvas = (props) => {
   useEffect(() => {
     documentationRoutes(pathname, setUrl);
   }, [pathname]);
-
- ; 
+  console.log("anss",documentationUrl);
   return (
     <>
       <div
