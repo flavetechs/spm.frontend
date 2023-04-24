@@ -33,12 +33,12 @@ import RegistrationSignIn from '../components/spm-auth/parent-guardian-login'
 const IndexRouters = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userDetail, setUserDetail] = useState(null);
-    
+
     const dispatch = useDispatch();
 
     const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
     React.useEffect(() => {
-      getAppLayout(schoolUrl)(dispatch);
+        getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])
 
 
@@ -60,7 +60,7 @@ const IndexRouters = () => {
                         <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
                             component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
                         </Route>
-                        
+
 
                         <Route exact path={candidateAuthLocation.signUp} component={RegistrationSignUp}></Route>
                         <Route exact path={candidateAuthLocation.signIn} component={RegistrationSignIn}></Route>
