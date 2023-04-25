@@ -4,7 +4,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
-  classLocations,
+  assessmentLocations,
   inprogress,
 } from "../../../../router/spm-path-locations";
 import {
@@ -135,7 +135,7 @@ const AssessmentList = () => {
   useEffect(() => {
     createSuccessful && newClassAssessment?.classAssessmentId &&
       history.push(
-        `${classLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
+        `${assessmentLocations.editClassAssessment}?classAssessmentId=${newClassAssessment?.classAssessmentId}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&type=${typeQueryParam}`
       );
   }, [
     createSuccessful,
@@ -188,7 +188,7 @@ const AssessmentList = () => {
                 else {
                   if (typeQueryParam === "home-assessment") {
                     history.push(
-                      `${classLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&sessionClassGroupId=${groupIdQueryParam}&type=${typeQueryParam}`
+                      `${assessmentLocations.createHomeAssessment}?sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&sessionClassGroupId=${groupIdQueryParam}&type=${typeQueryParam}`
                     );
                   } else if (typeQueryParam === "class-assessment") {
                     addClassAssessment(sessionClassSubjectIdQueryParam)(
@@ -303,8 +303,8 @@ const AssessmentList = () => {
                                   onChange={(e) => {
                                     setFieldValue("type", e.target.value);
                                     e.target.value === "cbt"
-                                      ? history.push(`${classLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
-                                      : history.push(`${classLocations.assessment}?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`);
+                                      ? history.push(`${assessmentLocations.cbtAssessmentList}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`)
+                                      : history.push(`${assessmentLocations.assessment}?sessionClassId=${""}&sessionClassSubjectId=${""}&groupId=${""}&type=${e.target.value}`);
                                   }}
                                 >
                                   <option value="">Select Type</option>
@@ -336,7 +336,7 @@ const AssessmentList = () => {
                                       ? history.push(inprogress.unactivated)
                                       : history.push(
                                           `${
-                                            classLocations.assessment
+                                            assessmentLocations.assessment
                                           }?sessionClassId=${
                                             e.target.value
                                           }&sessionClassSubjectId=${""}&groupId=${""}&type=${typeQueryParam}`
@@ -379,7 +379,7 @@ const AssessmentList = () => {
                                           ? history.push(inprogress.unactivated)
                                           : history.push(
                                               `${
-                                                classLocations.assessment
+                                                assessmentLocations.assessment
                                               }?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${
                                                 e.target.value
                                               }&groupId=${""}&type=${typeQueryParam}`
@@ -426,7 +426,7 @@ const AssessmentList = () => {
                                     e.target.value === "cbt"
                                       ? history.push(inprogress.unactivated)
                                       : history.push(
-                                          `${classLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}&type=${typeQueryParam}`
+                                          `${assessmentLocations.assessment}?sessionClassId=${sessionClassIdQueryParam}&sessionClassSubjectId=${sessionClassSubjectIdQueryParam}&groupId=${e.target.value}&type=${typeQueryParam}`
                                         );
                                   }}
                                 >

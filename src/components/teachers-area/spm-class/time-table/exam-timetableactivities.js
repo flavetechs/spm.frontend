@@ -7,7 +7,7 @@ import Card from '../../../Card'
 import './timetable.scss';
 import { deleteExamClassTimetabledays, deleteExamClassTimetableTime, pushId, removeId } from '../../../../store/actions/timetable-actions'
 import { hasAccess, NavPermissions } from '../../../../utils/permissions'
-import { classLocations } from '../../../../router/spm-path-locations'
+import { classLocations, timetableLocations } from '../../../../router/spm-path-locations'
 import { ExamSubjectModal } from './exam-subject-modal'
 import { NewExamDayModal } from './new-exam-day-modal'
 import { NewExamTimeModal } from './new-exam-time-modal'
@@ -129,7 +129,7 @@ const ExamTimeTableActivities = ({ selectedExamTimetable, selectedClassId,sessio
 
                                     <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                                         onClick={() => {
-                                            history.push(`${classLocations.printTimeTable}?selectedClassId=${selectedClassId}&type=examTimeTable`);
+                                            history.push(`${timetableLocations.printTimeTable}?selectedClassId=${selectedClassId}&type=examTimeTable`);
                                         }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">

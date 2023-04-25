@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
-import { classLocations } from '../../../../../router/spm-path-locations'
+import { assessmentLocations, classLocations } from '../../../../../router/spm-path-locations'
 import { hasAccess, NavPermissions } from '../../../../../utils/permissions'
 export function AssessmentLink(props){
     var location = useLocation()
@@ -9,7 +9,7 @@ export function AssessmentLink(props){
        {
                     hasAccess(NavPermissions.sessionClass) &&
                     <li className="nav-item">
-                    <Link className={`${location.pathname === classLocations.assessment ? 'active' : ''} nav-link`} to={classLocations.assessment}
+                    <Link className={`${location.pathname === assessmentLocations.assessment ? 'active' : ''} nav-link`} to={assessmentLocations.assessment}
                     onClick={ props.minisidebar}>
                         <i className="icon">
                         <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

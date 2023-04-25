@@ -6,6 +6,12 @@ export class TestUrls{
 
 export class ServiceURLs{
     static SmpDocumentation(): string{
-        return 'http://fws.flavetechs.com/fws/documentation?feature=';
+        return 'http://fws.flavetechs.com/docs/smp-canvas?feature=';
+    }
+}
+
+export class ServiceURLs2{
+    static SmpDocumentation(): string{
+        return 'http://fws.flavetechs.com/docs/smp?feature=';
     }
 }

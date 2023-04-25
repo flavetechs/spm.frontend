@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { assessmentLocations, classLocations } from "../../../../router/spm-path-locations";
 import {
   getAllSingleHomeAssessment,
   submitHomeAssessmentFeedback,
@@ -72,7 +72,7 @@ const ViewStudentsAssessment = () => {
                         onClick={() => {
                           history.push(
                             `${
-                              classLocations.assessment
+                              assessmentLocations.assessment
                             }?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${"home-assessment"}`
                           );
                         }}
@@ -475,7 +475,7 @@ const ViewStudentsAssessment = () => {
                   onClick={() => {
                     history.push(
                       `${
-                        classLocations.assessment
+                        assessmentLocations.assessment
                       }?sessionClassId=${sessionClassIdQuery}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}&type=${"home-assessment"}`
                     );
                   }}
@@ -562,7 +562,7 @@ const ViewStudentsAssessment = () => {
                                   data-original-title="Details"
                                   onClick={() =>
                                     history.push(
-                                      `${classLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}`
+                                      `${assessmentLocations.viewStudentsHomeAssessment}?homeAssessmentFeedBackId=${item.homeAsessmentFeedbackId}&homeAssessmentId=${singleHomeAssessment?.homeAssessmentId}&sessionClassId=${singleHomeAssessment?.sessionClassId}&sessionClassSubjectId=${sessionClassSubjectIdQuery}&groupId=${groupIdQuery}`
                                     )
                                   }
                                 >

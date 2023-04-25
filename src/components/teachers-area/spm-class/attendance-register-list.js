@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../router/spm-path-locations";
+import { attendanceLocations } from "../../../router/spm-path-locations";
 import {
   continueClassRegister,
   createRegister,
@@ -80,7 +80,7 @@ const AttendanceRegisterList = () => {
   }, [sessionClassIdQuery, dispatch, termIdQuery]);
 
   React.useEffect(() => {
-    history.push(`${classLocations.classAttendanceBoard}?termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}&sessionClassId=${sessionClassIdQuery}`)
+    history.push(`${attendanceLocations.classAttendanceBoard}?termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}&sessionClassId=${sessionClassIdQuery}`)
   }, [activeSession, dispatch]);
 
   const filteredClassRegister = classRegister?.filter((register) => {
@@ -104,7 +104,7 @@ const AttendanceRegisterList = () => {
     if (createSuccessful) {
       resetCreateSuccessfulState()(dispatch);
       history.push(
-        `${classLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassIdQuery}&termId=${termIdQuery}`
+        `${attendanceLocations.createClassAttendance}?classRegisterId=${newClassRegister?.classRegisterId}&sessionClassId=${sessionClassIdQuery}&termId=${termIdQuery}`
       );
     }
   }, [createSuccessful, newClassRegister?.classRegisterId, dispatch, history]);
@@ -208,7 +208,7 @@ const AttendanceRegisterList = () => {
                                 id="terms"
                                 onChange={(e) => {
                                   setFieldValue("terms", e.target.value);
-                                  history.push(`${classLocations.classAttendanceBoard}?termId=${e.target.value}&sessionClassId=${""}`);
+                                  history.push(`${attendanceLocations.classAttendanceBoard}?termId=${e.target.value}&sessionClassId=${""}`);
                                 }}
 
                               >
@@ -242,10 +242,10 @@ const AttendanceRegisterList = () => {
 
                                   e.target.value === ""
                                     ? history.push(
-                                      `${classLocations.classAttendanceBoard}?termId=${""}&sessionClassId=${""}`
+                                      `${attendanceLocations.classAttendanceBoard}?termId=${""}&sessionClassId=${""}`
                                     )
                                     : history.push(
-                                      `${classLocations.classAttendanceBoard}?termId=${termIdQuery}&sessionClassId=${e.target.value}`
+                                      `${attendanceLocations.classAttendanceBoard}?termId=${termIdQuery}&sessionClassId=${e.target.value}`
                                     );
                                 }}
                               >
@@ -368,7 +368,7 @@ const AttendanceRegisterList = () => {
                                               register.classRegisterId
                                             )(dispatch);
                                             history.push(
-                                              `${classLocations.updateClassAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}&termId=${termIdQuery}`
+                                              `${attendanceLocations.updateClassAttendance}?classRegisterId=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}&termId=${termIdQuery}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}
@@ -562,7 +562,7 @@ const AttendanceRegisterList = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}`
+                                          `${attendanceLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}`
                                         );
                                         getAllStudentsPresent(
                                           register.classRegisterId
@@ -580,7 +580,7 @@ const AttendanceRegisterList = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}`
+                                          `${attendanceLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}&sessionClassId=${sessionClassIdQuery}`
                                         );
                                         getAllStudentsAbsent(
                                           register.classRegisterId

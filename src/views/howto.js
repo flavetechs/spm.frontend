@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { detailedDocumentationRoutes } from '../utils/detailed-documentation-route';
 import { Col } from 'react-bootstrap';
-import { adminAdmissionLocations, classLocations, portalSetting, resultManagement, sessionLocations } from '../router/spm-path-locations';
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, lessonNoteLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations } from '../router/spm-path-locations';
+import { timeTableLocations } from '../router/students-path-locations';
 
 const HowTo = () => {
     const [path, setPath] = useState("");
@@ -24,14 +25,14 @@ const HowTo = () => {
             </div>
             <div className="mb-2 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4"  onClick={()=>{ detailedDocumentationRoutes(sessionLocations.promotionSetup,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4"  onClick={()=>{ detailedDocumentationRoutes(promotionLocations.promotionSetup,setPath);}} style={{cursor:'pointer'}}>
                      <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer"> Promotion</a>
                     <span className="mb-0">guide to promoting students at session end</span>
-                </div>
+                </div>  
             </div>
             <div className="mb-2 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(sessionLocations.sessionClassList,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(sessionClassSetupLocations.sessionClassList,setPath);}} style={{cursor:'pointer'}}>
                      <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Class Setup</a>
                     <span className="mb-0">adding classes to school</span>
                 </div>
@@ -94,49 +95,49 @@ const HowTo = () => {
                 </div>
                    <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(classLocations.classAttendanceBoard,setPath);}} style={{cursor:'pointer'}} >
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(attendanceLocations.classAttendanceBoard,setPath);}} style={{cursor:'pointer'}} >
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Attendance</a>
                     <span className="mb-0">guide on how to use attendance</span>
                 </div>
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(classLocations.assessment,setPath);}} style={{cursor:'pointer'}} >
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(assessmentLocations.assessment,setPath);}} style={{cursor:'pointer'}} >
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Assessment</a>
                     <span className="mb-0">guide on how to use assessment features to create assessments</span>
                 </div>
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(classLocations.lessonNotes,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(lessonNoteLocations.lessonNotes,setPath);}} style={{cursor:'pointer'}}>
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Lesson note</a>
                     <span className="mb-0">guide on how to use lesson note to create notes</span>
                 </div>
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(classLocations.classTimeTable,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(timeTableLocations.classTimeTable,setPath);}} style={{cursor:'pointer'}}>
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Class time table</a>
                     <span className="mb-0">guide on how to use class time table</span>
                 </div>
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(classLocations.classTimeTable,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(timeTableLocations.classTimeTable,setPath);}} style={{cursor:'pointer'}}>
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Examination time table</a>
                     <span className="mb-0">guide on how to use examination time table</span>
                 </div>
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(resultManagement.scoreEntry,setPath);}} style={{cursor:'pointer'}} >
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(scoreEntryManagement.scoreEntry,setPath);}} style={{cursor:'pointer'}} >
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Score entry</a>
                     <span className="mb-0">guide on how to use score entry to enter scores</span>
                 </div>
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(resultManagement.publishResult,setPath);}} style={{cursor:'pointer'}}>
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(publishResultManagement.publishResult,setPath);}} style={{cursor:'pointer'}}>
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Publish results</a>
                     <span className="mb-0">guide on how to publish results</span>
                 </div>
@@ -150,7 +151,7 @@ const HowTo = () => {
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(resultManagement.printResult,setPath);}} style={{cursor:'pointer'}}> 
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(printResultManagement.printResult,setPath);}} style={{cursor:'pointer'}}> 
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Print results</a>
                     <span className="mb-0">guide on how to print results</span>
                 </div>

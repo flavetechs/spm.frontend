@@ -188,10 +188,10 @@ const AttendanceBoard = () => {
                                   setSessionClassId(e.target.value);
                                   e.target.value == ""
                                     ? history.push(
-                                        classLocations.classAttendanceBoard
+                                        attendanceLocations.classAttendanceBoard
                                       )
                                     : history.push(
-                                        `${classLocations.classAttendanceBoard}?sessionClassId=${e.target.value}`
+                                        `${attendanceLocations.classAttendanceBoard}?sessionClassId=${e.target.value}`
                                       );
                                 }}
                               >
@@ -497,7 +497,7 @@ const AttendanceBoard = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}sessionClassId=${sessionClassId}`
+                                          `${attendanceLocations.attendancePresence}?classRegisterIdForPresent=${register.classRegisterId}sessionClassId=${sessionClassId}`
                                         );
                                         getAllStudentsPresent(
                                           register.classRegisterId
@@ -515,7 +515,7 @@ const AttendanceBoard = () => {
                                       className="btn btn-icon btn-soft-light me-2 d-flex justify-content-center"
                                       onClick={() => {
                                         history.push(
-                                          `${classLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}sessionClassId=${sessionClassId}`
+                                          `${attendanceLocations.attendancePresence}?classRegisterIdForAbsent=${register.classRegisterId}sessionClassId=${sessionClassId}`
                                         );
                                         getAllStudentsAbsent(
                                           register.classRegisterId

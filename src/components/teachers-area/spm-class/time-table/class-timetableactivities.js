@@ -13,7 +13,7 @@ import { PeriodActivityModal } from './period-activity-modal'
 import { deleteClassTimetabledays, deleteClassTimetableTime, pushId, removeId } from '../../../../store/actions/timetable-actions'
 import { PrintCSV } from '../../../../utils/export-csv'
 import { hasAccess, NavPermissions } from '../../../../utils/permissions'
-import { classLocations } from '../../../../router/spm-path-locations'
+import { classLocations, timetableLocations } from '../../../../router/spm-path-locations'
 import PrintTimeTable from './printTimetable'
 
 
@@ -131,7 +131,7 @@ const ClassTimeTableActivities = ({ selectedTimetable, selectedClassId }) => {
 
                                     <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                                         onClick={() => {
-                                            history.push(`${classLocations.printTimeTable}?selectedClassId=${selectedClassId}&type=classTimeTable`);
+                                            history.push(`${timetableLocations.printTimeTable}?selectedClassId=${selectedClassId}&type=classTimeTable`);
                                         }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">

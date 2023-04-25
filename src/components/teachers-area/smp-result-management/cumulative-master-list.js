@@ -15,7 +15,7 @@ import {
 import { getAllSessionClasses1 } from "../../../store/actions/class-actions";
 import CumulativeMasterListLargeTable from "./cumulative-master-list-large-table";
 import { useHistory, useLocation } from "react-router-dom";
-import { resultManagement } from "../../../router/spm-path-locations";
+import { resultManagement, scoreEntryManagement } from "../../../router/spm-path-locations";
 
 const CumulativeMasterList = () => {
   //VARIABLE DECLARATIONS

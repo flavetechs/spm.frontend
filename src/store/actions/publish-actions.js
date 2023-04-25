@@ -1,6 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import {
-  resultManagement,
+  scoreEntryManagement,
   studentsLocations,
 } from "../../router/spm-path-locations";
 import { actions } from "../action-types/publish-result-action-types";

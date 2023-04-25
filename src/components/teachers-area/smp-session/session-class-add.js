@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 
@@ -71,7 +71,7 @@ const SessionClassAdd = () => {
   React.useEffect(() => {
     if (submitSuccessful && !save) {
       history.push(
-        `${sessionLocations.sessionClassTableAdd}?classId=${classId}&formTeacherId=${formTeacherId}&sessionClassId=${selectedItem?.sessionClassId}&exam=${examScore}&assessment=${assessmentScore}`
+        `${sessionClassSetupLocations.sessionClassTableAdd}?classId=${classId}&formTeacherId=${formTeacherId}&sessionClassId=${selectedItem?.sessionClassId}&exam=${examScore}&assessment=${assessmentScore}`
       );
     } 
     else if (submitSuccessful && save) {

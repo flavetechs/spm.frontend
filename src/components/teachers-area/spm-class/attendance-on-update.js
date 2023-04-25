@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Col, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../router/spm-path-locations";
+import { attendanceLocations, classLocations } from "../../../router/spm-path-locations";
 import {
   continueClassRegister,
   resetSingleClassRegisterState,
@@ -92,7 +92,7 @@ const UpdateAttendance = () => {
                       const queryParams = new URLSearchParams(locations.search);
                       const sessionClassId = queryParams.get("sessionClassId");
                       const termId = queryParams.get("termId");
-                      history.push(`${classLocations.classAttendanceBoard}?termId=${termId}&sessionClassId=${sessionClassId}`);
+                      history.push(`${attendanceLocations.classAttendanceBoard}?termId=${termId}&sessionClassId=${sessionClassId}`);
                     }}
                     className="btn btn-success mx-3"
                   >

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { classLocations, lessonNoteLocations } from "../../../../router/spm-path-locations";
 import {
   addComments,
   addReplies,
@@ -454,7 +454,7 @@ const LessonNoteDetails = () => {
                           className="iq-categories-name mb-0"
                           style={{ cursor: "pointer" }}
                           onClick={() => {
-                            history.push(`${classLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`);
+                            history.push(`${lessonNoteLocations.lessonNotesDetails}?teacherClassNoteId=${notes.teacherClassNoteId}`);
                             getSingleLessonNotes(notes.teacherClassNoteId)(dispatch);
                           }}
                         >

@@ -9,7 +9,9 @@ import {
 } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import {
+  printResultManagement,
   resultManagement,
+  scoreEntryManagement,
 } from "../../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -50,7 +52,7 @@ const BatchPrintPreview = () => {
             >
               <svg
                 onClick={() => {
-                  history.push(resultManagement.printResult)
+                  history.push(printResultManagement.printResult)
                   resetPublishPage()(dispatch);
                  
                 }}

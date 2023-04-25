@@ -13,7 +13,7 @@ import {
   getAllSession,
 } from "../../../store/actions/session-actions";
 import { useHistory, useLocation } from "react-router-dom";
-import { resultManagement } from "../../../router/spm-path-locations";
+import { publishResultManagement, scoreEntryManagement } from "../../../router/spm-path-locations";
 
 const PublishResult = () => {
   // ACCESSING STATE FROM REDUX STORE
@@ -54,7 +54,7 @@ const PublishResult = () => {
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
-    history.push(`${resultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+    history.push(`${publishResultManagement.publishResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
   }, [activeSession]);
 
   return (
@@ -73,7 +73,7 @@ const PublishResult = () => {
                     className="btn-sm"
                     variant="btn btn-primary"
                     onClick={() => {
-                      history.push(`${resultManagement.publishedClassList}`)
+                      history.push(`${publishResultManagement.publishedClassList}`)
                     }}
                   >
                     Published Classes
@@ -91,7 +91,7 @@ const PublishResult = () => {
                   validationSchema={validation}
                   enableReinitialize={true}
                   onSubmit={(values) => {
-                    history.push(`${resultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
+                    history.push(`${publishResultManagement.publishResultTable}?sessionClassId=${sessionClassIdQueryParam}&sessionTermId=${termIdQueryParam}&sessionId=${sessionIdQueryParam}`);
 
                   }}
                 >
@@ -123,7 +123,7 @@ const PublishResult = () => {
                             values={values.sessionId}
                             onChange={(e) => {
                               setFieldValue("sessionId", e.target.value);
-                              history.push(`${resultManagement.publishResult}?sessionId=${e.target.value}`)
+                              history.push(`${publishResultManagement.publishResult}?sessionId=${e.target.value}`)
                               // setSelectedSession(
                               //   sessionList.find(
                               //     (s) =>
@@ -163,7 +163,7 @@ const PublishResult = () => {
                             value={values.sessionTermId}
                             onChange={(e) => {
                               setFieldValue("sessionTermId", e.target.value);
-                              history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
+                              history.push(`${publishResultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${e.target.value}`)
                               // getTermClasses(
                               //   selectedSession?.sessionId,
                               //   e.target.value
@@ -208,7 +208,7 @@ const PublishResult = () => {
                             value={values.sessionClassId}
                             onChange={(e) => {
                               setFieldValue("sessionClassId", e.target.value);
-                              history.push(`${resultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
+                              history.push(`${publishResultManagement.publishResult}?sessionId=${sessionIdQueryParam}&termId=${termIdQueryParam}&sessionClassId=${e.target.value}`)
                             }}
                           >
                             <option value="">Select Class</option>

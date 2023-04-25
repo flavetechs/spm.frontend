@@ -11,7 +11,7 @@ import {
   fetchSingleItem,
 } from "../../../store/actions/class-actions";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
 import {
   respondToDeleteDialog,
   showErrorToast,
@@ -229,7 +229,7 @@ const SubjectSetupList = () => {
                                 >
                         <svg
                           onClick={() => {
-                            history.push(sessionLocations.sessionClassList);
+                            history.push(sessionClassSetupLocations.sessionClassList);
                           }}
                           style={{ cursor: "pointer" }}
                           className=" text-primary"

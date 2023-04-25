@@ -15,7 +15,7 @@ import {
   showHideDialog,
 } from "../../../store/actions/toaster-actions";
 import { getAllSessionClasses } from "../../../store/actions/class-actions";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { promotionLocations, sessionLocations } from "../../../router/spm-path-locations";
 import { getAllPromotionList, promoteStudent } from "../../../store/actions/promotion-actions";
 import { getActiveSession } from "../../../store/actions/session-actions";
 import { hasAccess, NavPermissions } from "../../../utils/permissions";
@@ -129,7 +129,7 @@ const PromotionSetup = () => {
                           <td className="h4 text-center">
                             {item.totalStudentsInClass}
                           </td>
-                          <td onClick={() => history.push(`${sessionLocations.promotionPassedList}?passedStudentIds=${item.passedStudentIds}`)}
+                          <td onClick={() => history.push(`${promotionLocations.promotionPassedList}?passedStudentIds=${item.passedStudentIds}`)}
                             className="h2 text-center" style={{ backgroundColor: '#98FB98', cursor: 'pointer' }}>
                             <OverlayTrigger
                               placement="top"
@@ -152,7 +152,7 @@ const PromotionSetup = () => {
                               </div>
                             </OverlayTrigger>
                           </td>
-                          <td onClick={() => history.push(`${sessionLocations.promotionFailedList}?failedStudentIds=${item.failedStudentIds}`)}
+                          <td onClick={() => history.push(`${promotionLocations.promotionFailedList}?failedStudentIds=${item.failedStudentIds}`)}
                             className="h2 text-center" style={{ backgroundColor: '#FF7C7C', cursor: 'pointer' }}>
                             <OverlayTrigger
                               placement="top"

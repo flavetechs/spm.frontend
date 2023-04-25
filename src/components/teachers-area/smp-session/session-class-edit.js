@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionLocations } from "../../../router/spm-path-locations";
+import { sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
 import { useLocation, useHistory } from "react-router-dom";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
@@ -83,7 +83,7 @@ const SessionClassEdit = () => {
   React.useEffect(() => {
     if (submitSuccessful && !save) {
       history.push(
-        `${sessionLocations.sessionClassTableEdit}?sessionClassId=${sessionClassId}&exam=${examScore}&assessment=${assessmentScore}`
+        `${sessionClassSetupLocations.sessionClassTableEdit}?sessionClassId=${sessionClassId}&exam=${examScore}&assessment=${assessmentScore}`
       );
     } else if (submitSuccessful && save) {
       history.goBack();

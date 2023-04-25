@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { classLocations, lessonNoteLocations } from "../../../../router/spm-path-locations";
 import {
   deleteLessonNotes,
   downloadLessonNote,
@@ -103,7 +103,7 @@ const LessonNotes = () => {
   useEffect(() => {
     if (!termIdQueryParam && activeSession) {
       history.push(
-        `${classLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`
+        `${lessonNoteLocations.lessonNotes}?termId=${activeSession?.sessionTermId}`
       );
     }
   }, [activeSession, dispatch]);
@@ -240,7 +240,7 @@ const LessonNotes = () => {
                 //validationSchema={validation}
                 onSubmit={(values) => {
                   history.push(
-                    `${classLocations.createLessonNotes}?classId=${values.classId}&sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`
+                    `${lessonNoteLocations.createLessonNotes}?classId=${values.classId}&sessionClassId=${values.sessionClassId}&subjectId=${values.subjectId}`
                   );
                 }}
               >
@@ -270,7 +270,7 @@ const LessonNotes = () => {
                                 onChange={(e) => {
                                   setFieldValue("terms", e.target.value);
                                   history.push(
-                                    `${classLocations.lessonNotes}?termId=${
+                                    `${lessonNoteLocations.lessonNotes}?termId=${
                                       e.target.value
                                     }&classId=${""}&sessionClassId=${""}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
                                   );
@@ -324,7 +324,7 @@ const LessonNotes = () => {
                                   }
                                   history.push(
                                     `${
-                                      classLocations.lessonNotes
+                                      lessonNoteLocations.lessonNotes
                                     }?termId=${termIdQueryParam}&classId=${
                                       e.target.value
                                     }&sessionClassId=${sessionClassId}&subjectId=${""}&approvalStatus=${approvalStatusQueryParam}`
@@ -358,7 +358,7 @@ const LessonNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   setSubjectId(e.target.value);
                                   history.push(
-                                    `${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}&approvalStatus=${approvalStatusQueryParam}`
+                                    `${lessonNoteLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${e.target.value}&approvalStatus=${approvalStatusQueryParam}`
                                   );
                                 }}
                               >
@@ -383,7 +383,7 @@ const LessonNotes = () => {
                                     e.target.value
                                   );
                                   history.push(
-                                    `${classLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${subjectIdQueryParam}&approvalStatus=${e.target.value}`
+                                    `${lessonNoteLocations.lessonNotes}?termId=${termIdQueryParam}&classId=${classIdQueryParam}&sessionClassId=${sessionClassIdQueryParam}&subjectId=${subjectIdQueryParam}&approvalStatus=${e.target.value}`
                                   );
                                 }}
                               >
@@ -501,7 +501,7 @@ const LessonNotes = () => {
                                       <div
                                         onClick={() => {
                                           history.push(
-                                            `${classLocations.lessonNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                            `${lessonNoteLocations.lessonNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}
@@ -555,7 +555,7 @@ const LessonNotes = () => {
                                         <div
                                           onClick={() => {
                                             history.push(
-                                              `${classLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                              `${lessonNoteLocations.editLessonNotes}?teacherClassNoteId=${item.teacherClassNoteId}`
                                             );
                                             setShowMenuDropdown(false);
                                           }}

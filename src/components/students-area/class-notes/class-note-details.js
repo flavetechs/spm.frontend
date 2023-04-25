@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { classLocations } from "../../../router/spm-path-locations";
+import { classLocations, lessonNoteLocations } from "../../../router/spm-path-locations";
 import {
   addClassNoteReplies,
   getLessonNoteDetails,
@@ -27,7 +27,7 @@ const ClassNoteDetails = () => {
   const [reply, setReply] = useState({});
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
-    createSuccessful && history.push(classLocations.lessonNotes);
+    createSuccessful && history.push(lessonNoteLocations.lessonNotes);
   }, [createSuccessful,history]);
 
   useEffect(() => {

@@ -3,7 +3,7 @@ export const currentTabRoute = (route) => {
 }
 
 export const permissionLocations = {
-  active: 'smp-permissions',
+  active: '/dashboard/smp-permissions/',
   roleList: "/dashboard/smp-permissions/role-list",
   roleEdit: "/dashboard/smp-permissions/role-edit",
   roleAdd: "/dashboard/smp-permissions/role-add",
@@ -20,53 +20,66 @@ export const inprogress = {
 };
 
 export const authLocations = {
-  active:'smp/auth/',
-  login: "/smp/sign-in",
-  firstTimeLogin: "/smp/change-password-on-login",
+  active:"/smp/auth/",
+  login: "/smp/auth/sign-in",
+  firstTimeLogin: "/smp/auth/change-password-on-login",
   staffProfilePage: "/dashboard/smp-user/staff-profile",
   staffProfileEdit: "/dashboard/smp-user/staff-profile-edit",
   resetPassword:"/dashboard/reset-password",
-  forgottenPassword: "/smp/forgotten-password",
-  PasswordReset: "/PasswordReset",
-  passwordResetSuccessful: "/smp/password-reset-successful",
-  pageNotFound:"/page-not-found"
+  forgottenPassword: "/smp/auth/forgotten-password",
+  PasswordReset: "/smp/auth/PasswordReset",
+  passwordResetSuccessful: "/smp/auth/password-reset-successful",
+  pageNotFound:"/smp/auth/page-not-found"
 };
 
 export const classLocations = {
   active: '/dashboard/smp-class/',
   sessionClassList2: "/dashboard/smp-class/session-class",
-  updateClassAttendance: "/dashboard/smp-class/update-class-attendance",
-  createClassAttendance: "/dashboard/smp-class/create-class-attendance",
-  classAttendanceBoard: "/dashboard/smp-class/class-attendance-board",
-  attendancePresence: "/dashboard/smp-class/attendance-presence",
-  assessment: "/dashboard/smp-class/assessment",
-  homeAssessmentDetails: "/dashboard/smp-class/home-assessment-details",
-  createHomeAssessment: "/dashboard/smp-class/create-home-assessment",
-  editClassAssessment: "/dashboard/smp-class/edit-class-assessment",
-  classAssessmentDetails: "/dashboard/smp-class/class-assessment-details",
-  cbtAssessmentList: "/dashboard/smp-class/cbt-assessment",
-  editHomeAssessment: "/dashboard/smp-class/edit-home-assessment",
-  viewStudentsHomeAssessment: "/dashboard/smp-class/view-student-home-assessment",
-  lessonNotes: "/dashboard/smp-class/lesson-notes",
-  createLessonNotes: "/dashboard/smp-class/create-lesson-notes",
-  editLessonNotes: "/dashboard/smp-class/edit-lesson-notes",
-  lessonNotesDetails: "/dashboard/smp-class/lesson-note-details",
-  studentNotes: "/dashboard/smp-class/student-notes",
-  studentNotesDetails: "/dashboard/smp-class/student-note-details",
   classGroup: "/dashboard/smp-class/class-group",
   classStudents: "/dashboard/smp-class/class-students",
   addClassGroup: "/dashboard/smp-class/add-class-group",
   editClassGroup: "/dashboard/smp-class/edit-class-group",
-  classTimeTable: "/dashboard/smp-class/class-time-table",
-  examTimeTable: "/dashboard/smp-class/exam-time-table",
-  cumulativeTimeTable: "/dashboard/smp-class/cumulative-time-table",
-  printTimeTable: "/dashboard/smp-class/print-time-table",
   scoreRecord: "/dashboard/smp-class/score-record",
   scoreRecordDetails: "/dashboard/smp-class/score-record-details",
+  studentNotes: "/dashboard/smp-lesson-note/student-notes",
+  studentNotesDetails: "/dashboard/smp-lesson-note/student-note-details",
+}
+export const attendanceLocations = {
+  active:"/dashboard/smp-attendance/",
+  updateClassAttendance: "/dashboard/smp-attendance/update-class-attendance",
+  createClassAttendance: "/dashboard/smp-attendance/create-class-attendance",
+  classAttendanceBoard: "/dashboard/smp-attendance/class-attendance-board",
+  attendancePresence: "/dashboard/smp-attendance/attendance-presence",
+}
+export const assessmentLocations = {
+  active:"/dashboard/smp-assessment/",
+  assessment: "/dashboard/smp-assessment/assessment",
+  homeAssessmentDetails: "/dashboard/smp-assessment/home-assessment-details",
+  createHomeAssessment: "/dashboard/smp-assessment/create-home-assessment",
+  editClassAssessment: "/dashboard/smp-assessment/edit-class-assessment",
+  classAssessmentDetails: "/dashboard/smp-assessment/class-assessment-details",
+  cbtAssessmentList: "/dashboard/smp-assessment/cbt-assessment",
+  editHomeAssessment: "/dashboard/smp-assessment/edit-home-assessment",
+  viewStudentsHomeAssessment: "/dashboard/smp-assessment/view-student-home-assessment",
+}
+  export const lessonNoteLocations = {
+  active:"/dashboard/smp-lesson-note/",
+  lessonNotes: "/dashboard/smp-lesson-note/lesson-notes",
+  createLessonNotes: "/dashboard/smp-lesson-note/create-lesson-notes",
+  editLessonNotes: "/dashboard/smp-lesson-note/edit-lesson-notes",
+  lessonNotesDetails: "/dashboard/smp-lesson-note/lesson-note-details",
+  
+  }
+  export const timetableLocations = {
+  active:"/dashboard/smp-timetable/",
+  classTimeTable: "/dashboard/smp-timetable/class-time-table",
+  examTimeTable: "/dashboard/smp-timetable/exam-time-table",
+  cumulativeTimeTable: "/dashboard/smp-timetable/cumulative-time-table",
+  printTimeTable: "/dashboard/smp-timetable/print-time-table",
 };
 
 export const sessionLocations = {
-  active: '/dashboard/smp-session',
+  active: '/dashboard/smp-session/',
   sessionList: "/dashboard/smp-session/setup",
   sessionEdit: "/dashboard/smp-session/edit-session",
   sessionDetails: "/dashboard/smp-session/details-setup",
@@ -77,19 +90,25 @@ export const sessionLocations = {
   subjectSetupList: "/dashboard/smp-session/subject-setup",
   editSubjectSetup: "/dashboard/smp-session/edit-subject",
   addSubjectSetup: "/dashboard/smp-session/add-subject",
-  sessionClassList: "/dashboard/smp-session/session-class",
-  sessionClassEdit: "/dashboard/smp-session/edit-session-class",
-  sessionClassTableEdit: "/dashboard/smp-session/edit-session-class-table",
-  sessionClassAdd: "/dashboard/smp-session/add-session-class",
-  sessionClassTableAdd: "/dashboard/smp-session/add-session-class-table",
+}
+export const sessionClassSetupLocations = {
+  active:"/dashboard/smp-session-class-setup/",
+  sessionClassList: "/dashboard/smp-session-class-setup/session-class",
+  sessionClassEdit: "/dashboard/smp-session-class-setup/edit-session-class",
+  sessionClassTableEdit: "/dashboard/smp-session-class-setup/edit-session-class-table",
+  sessionClassAdd: "/dashboard/smp-session-class-setup/add-session-class",
+  sessionClassTableAdd: "/dashboard/smp-session-class-setup/add-session-class-table",
   sessionClassDetail: "/dashboard/smp-session/class-detail",
-  promotionSetup: "/dashboard/smp-session/promotion-setup",
-  promotionPassedList: "/dashboard/smp-session/promotion-passed-list-setup",
-  promotionFailedList: "/dashboard/smp-session/promotion-failed-list-setup",
+}
+export const promotionLocations = {
+  active:"/dashboard/smp-promotion/",
+  promotionSetup: "/dashboard/smp-promotion/promotion-setup",
+  promotionPassedList: "/dashboard/smp-promotion/promotion-passed-list-setup",
+  promotionFailedList: "/dashboard/smp-promotion/promotion-failed-list-setup",
 };
 
 export const staffLocations = {
-  active: 'smp-staff',
+  active: '/dashboard/smp-staff/',
   staffList: '/dashboard/smp-staff/staff-list',
   staffAdd: '/dashboard/smp-staff/add-setup',
   staffEdit: '/dashboard/smp-staff/edit-setup',
@@ -97,7 +116,7 @@ export const staffLocations = {
 }
 
 export const studentsLocations = {
-  active: 'smp-student',
+  active: '/dashboard/smp-student/',
   studentList: "/dashboard/smp-student/student-list",
   studentAdd: "/dashboard/smp-student/add-student",
   studentEdit: "/dashboard/smp-student/edit-student",
@@ -107,36 +126,48 @@ export const studentsLocations = {
 };
 
 export const parentsLocations = {
+  active:'/dashboard/smp-parents/',
   parentsList: '/dashboard/smp-parents/parents-list',
   parentsDetails: '/dashboard/smp-parents/parents-details',
 }
 
 export const gradeSetting = {
-  active: 'smp-permigradessions',
+  active: '/dashboard/smp-grade/',
   setting: "/dashboard/smp-grade/setting"
 }
 
-export const resultManagement = {
-  active: 'smp-result',
-  adminScoreEntry: "/dashboard/smp-result/admin-score-entry",
-  adminScoreEntryTable: "/dashboard/smp-result/admin-score-entry-table",
-  scoreEntry: "/dashboard/smp-result/score-entry",
-  scoreEntryTable: "/dashboard/smp-result/score-entry-table",
-  publishResult: "/dashboard/smp-result/publish-result",
-  publishedClassList: "/dashboard/smp-result/published-class-list",
-  publishResultTable:"/dashboard/smp-result/publish-result-table",
-  publishResultEdit: "/dashboard/smp-result/edit-publish-result",
-  previewPublishedResult: "/dashboard/smp-result/preview-published-result",
-  masterList: "/dashboard/smp-result/master-list",
-  printResult: "/dashboard/smp-result/print-result",
-  batchPrintPreview: "/dashboard/smp-result/batch-print-preview",
-  resultTemplate: "/dashboard/smp-result/result-template",
-  cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list"
+export const scoreEntryManagement = {
+  active: '/dashboard/smp-score-entry/',
+  adminScoreEntry: "/dashboard/smp-score-entry/admin-score-entry",
+  adminScoreEntryTable: "/dashboard/smp-score-entry/admin-score-entry-table",
+  scoreEntry: "/dashboard/smp-score-entry/score-entry",
+  scoreEntryTable: "/dashboard/smp-score-entry/score-entry-table",
 }
+  export const publishResultManagement = {
+  active: '/dashboard/smp-publish-result/',
+  publishResult: "/dashboard/smp-publish-result/publish-result",
+  publishedClassList: "/dashboard/smp-publish-result/published-class-list",
+  publishResultTable:"/dashboard/smp-publish-result/publish-result-table",
+  publishResultEdit: "/dashboard/smp-publish-result/edit-publish-result",
+  previewPublishedResult: "/dashboard/smp-publish-result/preview-published-result",
+  }
+  export const resultManagement = {
+  active: '/dashboard/smp-result/',
+  masterList: "/dashboard/smp-result/master-list",
+  cumulativeMasterList: "/dashboard/smp-result/cumulative-master-list",
+  resultTemplate: "/dashboard/smp-result/result-template",
+  }
+  export const printResultManagement = {
+  active: '/dashboard/smp-print-result/',
+  printResult: "/dashboard/smp-print-result/print-result",
+  batchPrintPreview: "/dashboard/smp-print-result/batch-print-preview",
+  }
+  
+
 
 export const portalSetting = {
-  active: 'smp-setting',
-  setting: "/dashboard/smp-setting",
+  active: '/dashboard/smp-setting/',
+  setting: "/dashboard/smp-setting/setting",
   createAdmissionSetting: "/dashboard/smp-setting/create-addmission-setting",
   updateAdmissionSetting: "/dashboard/smp-setting/update-addmission-setting",
   admissionSettingsDetails: "/dashboard/smp-setting/admission-settings-details",
@@ -145,7 +176,7 @@ export const portalSetting = {
 };
 
 export const pinManagement = {
-  active: 'smp-pin',
+  active: '/dashboard/smp-pin/',
   pins: "/dashboard/smp-pin/pins",
   usedPins: "/dashboard/smp-pin/used-pins",
   pinDetails: "/dashboard/smp-pin/pin-details",
@@ -153,6 +184,7 @@ export const pinManagement = {
 }
 
 export const notificationManagement = {
+  active:'/dashboard/smp-notification/',
   announcement: "/dashboard/smp-notification/announcement",
   makeAnnouncement: "/dashboard/smp-notification/make-announcement",
   announcementDetails: "/dashboard/smp-notification/announcement-details",
@@ -164,11 +196,13 @@ export const pushedNotificationManagement = {
 }
 
 export const adminAdmissionLocations = {
+  active:'/dashboard/smp-admission/',
   adminAdmissionList: "/dashboard/smp-admission/admission-setup",
   adminAdmissionDetail: "/dashboard/smp-session/admission-detail",
   viewCandidateAnswers: "/dashboard/smp-session/view-candidate-answers",
 };
 export const admissionLocations = {
+  active:'/dashboard/smp-admission/',
   admissionRegistration: "/dashboard/smp-admission/admission-registration",
   admissionRegistrationInformation: "/dashboard/smp-admission/admission-registration-information",
   admissionBoard: "/dashboard/smp-admission/admission-board",

@@ -8,7 +8,7 @@ import {
   getCumulativeExamTimetable,
   getTimetableActiveClass,
 } from "../../../../store/actions/timetable-actions";
-import { classLocations } from "../../../../router/spm-path-locations";
+import { classLocations, timetableLocations } from "../../../../router/spm-path-locations";
 
 const CumulativeTimeTable = () => {
   // ACCESSING STATE FROM REDUX STORE
@@ -95,7 +95,7 @@ const CumulativeTimeTable = () => {
                     className="text-center btn-primary btn-icon  mb-md-0 mb-3 ms-0 ms-lg-5"
                     onClick={() => {
                       history.push(
-                        `${classLocations.printTimeTable}?type=cumulativeTimeTable`
+                        `${timetableLocations.printTimeTable}?type=cumulativeTimeTable`
                       );
                     }}
                   >
