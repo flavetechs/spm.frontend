@@ -79,7 +79,6 @@ const DocumentationOffcanvas = (props) => {
   useEffect(() => {
     documentationRoutes(pathname, setUrl);
   }, [pathname]);
-  console.log("anss",documentationUrl);
   return (
     <>
       <div
