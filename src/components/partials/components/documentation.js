@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Badge, Offcanvas, Row } from "react-bootstrap";
 import { bindActionCreators } from "redux";
 
@@ -29,10 +29,8 @@ import {
 } from "../../../store/setting/setting";
 import { connect } from "react-redux";
 import { documentationRoutes } from "../../../utils/documentation-canvas-route";
-import Index from "../../../views/dashboard";
 import { detailedDocumentationRoutes } from "../../../utils/detailed-documentation-route";
-import { sessionClassSetupLocations, sessionLocations } from "../../../router/spm-path-locations";
-import { ProductModuleFeatures } from "../../../utils/features";
+// import './offcanvas.js';
 
 const mapStateToProps = (state) => {
   return {
@@ -75,11 +73,29 @@ const DocumentationOffcanvas = (props) => {
   const [documentationUrl, setUrl] = useState("");
   const [path, setPath] = useState("");
 
+  // const refg = useRef(null)
 
-  useEffect(() => {
-    documentationRoutes(pathname, setUrl);
-  }, [pathname]);
-  console.log("anss",documentationUrl);
+  // console.log('refg', refg);
+  // useEffect(() => {
+  //   documentationRoutes(pathname, setUrl);
+  // }, [pathname]);
+  // const handleClick = () => {
+    
+  //   if(refg && refg.current){
+  //     console.log(refg.current);
+  //     refg.current.style.border = '1px solid blue';
+  
+  //     const grandchildren = refg.current.querySelectorAll('html');
+  //     console.log('grandchildren', grandchildren);
+  
+  //   }
+   
+  // }
+  // console.log(pathname);
+  // if (pathname == '/dashboard/smp-session/setup') {
+
+  //   handleClick();
+  // }
   return (
     <>
       <div
@@ -110,18 +126,18 @@ const DocumentationOffcanvas = (props) => {
             bg="success"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              detailedDocumentationRoutes(pathname,setPath);
+              detailedDocumentationRoutes(pathname, setPath);
             }}
           >
-            <a  className = 'text-white' href={path} target="_blank" rel="noopener noreferrer">
+            <a className='text-white' href={path} target="_blank" rel="noopener noreferrer">
               {" "}
               view detailed page
             </a>
           </Badge>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Row>
-            <iframe style={{ height: "100vh" }} src={documentationUrl}></iframe>
+          <Row >
+            <iframe id="docsIframe" style={{ height: "100vh", border: '1px solid red' }} src={documentationUrl}></iframe>
           </Row>
         </Offcanvas.Body>
       </Offcanvas>

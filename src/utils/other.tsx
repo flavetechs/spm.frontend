@@ -5,8 +5,8 @@ export class TestUrls{
 }
 
 export class ServiceURLs{
-    static SmpDocumentation(): string{
-        return 'http://fws.flavetechs.com/docs/smp-canvas?feature=';
+    static SmpDocumentation(): string{//http://fws.flavetechs.com
+        return 'http://localhost:3001/docs/smp-canvas?feature=';
     }
 }
 
