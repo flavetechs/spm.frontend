@@ -7,7 +7,6 @@ import { timeTableLocations } from '../router/students-path-locations';
 const HowTo = () => {
     const [path, setPath] = useState("");
   return (
-    <Col md="12">
     <div className="card" data-aos="fade-up" data-aos-delay="600">
         <div className="flex-wrap card-header d-flex justify-content-between">
             <div className="header-title">
@@ -160,7 +159,7 @@ const HowTo = () => {
             </div>
         </div>
    
-</Col>
+
   )
 }
 

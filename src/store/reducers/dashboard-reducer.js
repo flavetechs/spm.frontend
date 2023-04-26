@@ -48,6 +48,28 @@ export const dashboardReducer = (state = _state, { type, payload }) => {
                 message: payload
             };
 
+            case actions.FETCH_SETUP_STATUS_LOADING:
+                return {
+                    ...state,
+                    loading: true,
+                    message: '',
+                    isSuccessful: false
+                };
+            case actions.FETCH_SETUP_STATUS_SUCCESS:
+                return {
+                    ...state,
+                    loading: false,
+                    appSetupStatus: payload,
+                    isSuccessful: true,
+                };
+            case actions.FETCH_SETUP_STATUS_FAILED:
+                return {
+                    ...state,
+                    loading: false,
+                    isSuccessful: false,
+                    message: payload
+                };
+
         
         default:
             return state;

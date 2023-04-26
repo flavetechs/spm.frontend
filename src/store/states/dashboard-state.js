@@ -4,4 +4,5 @@ export const _state = {
     isSuccessful: false,
     dashboardCountItem: {},
     studentDashboardCountItem: {},
+    appSetupStatus:[],
   };

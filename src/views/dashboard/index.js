@@ -55,6 +55,7 @@ import { getUserDetails, hasAccess, NavPermissions } from '../../utils/permissio
 import { getAllDashboardCount } from '../../store/actions/dashboard-actions.js'
 import DocumentationOffcanvas from '../../components/partials/components/documentation.js'
 import HowTo from '../howto.js'
+import AppSetupProgress from '../app-setup-progress.js'
 
 
 // install Swiper modules
@@ -621,11 +622,21 @@ const Index = (props) => {
                                     </div>
                                 </div>
                             </div>
-                        
+                       
                         </Col>
-                        <HowTo />
+                        
+                     
                     </Row>
-                </Col>
+                </Col> 
+                <Row>
+                    <Col md="12" lg="8"> 
+                    <AppSetupProgress />
+                    </Col>
+                <Col md="12" lg="4">
+              <HowTo />
+               </Col> 
+                </Row>
+                 
             </Row>
         </>
     )

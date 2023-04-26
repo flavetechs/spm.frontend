@@ -24,10 +24,12 @@ axiosInstance.interceptors.response.use(async (response: any) => response, (erro
     if (!error.response) {
         return;
     }
+
     if (error?.response?.status === 500) {
         console.log('error.response', error.response)
         return error.response
     }
+    
     if (error?.response?.status === 404) {
         console.log('error.response', error.response)
         return error.response
