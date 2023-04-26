@@ -44,9 +44,7 @@ const AppSetupProgress = () => {
                 {appSetupStatus?.map((status, idx) => (
                   <tr key={idx}>
                     <td
-                      style={{
-                        cursor: status.completeionStatus < 75 && "pointer",
-                      }}
+                      style={{ cursor: status.completeionStatus < 75 && "pointer", }}
                       onClick={() =>
                         status.completeionStatus < 75 &&
                         history.push(appStatusRoute[status.setup])
@@ -59,14 +57,8 @@ const AppSetupProgress = () => {
                         <div>
                           <h6 className="text-uppercase">{status.setup}</h6>
                           <p
-                            style={{
-                              width: "120px",
-                              wordBreak: "break-all",
-                              whiteSpace: "pre-wrap",
-                            }}
-                            className={`${
-                              status.completeionStatus < 75 && "text-danger"
-                            }`}
+                            style={{  wordBreak: "break-all", whiteSpace: "pre-wrap", }}
+                            className={`${status.completeionStatus < 75 && "text-danger"}`}
                           >
                             {status.message}
                           </p>
@@ -97,15 +89,14 @@ const AppSetupProgress = () => {
                         style={{ height: "4px" }}
                       >
                         <div
-                          className={`progress-bar ${
-                            status.completeionStatus >= 75
-                              ? "bg-success"
-                              : status.completeionStatus >= 50
+                          className={`progress-bar ${status.completeionStatus >= 75
+                            ? "bg-success"
+                            : status.completeionStatus >= 50
                               ? "bg-primary"
                               : status.completeionStatus >= 25
-                              ? "bg-warning"
-                              : "bg-danger"
-                          }`}
+                                ? "bg-warning"
+                                : "bg-danger"
+                            }`}
                           data-toggle="progress-bar"
                           role="progressbar"
                           aria-valuenow="60"

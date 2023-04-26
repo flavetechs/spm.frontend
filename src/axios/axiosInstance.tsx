@@ -1,15 +1,14 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 
 const axiosInstance = axios.create({
     // baseURL: 'https://localhost:44349/',
-     baseURL: 'http://flavetechs.com/',
-    timeout: 5000,
+    baseURL: 'http://flavetechs.com/',
+    timeout: 1000000,
     headers: {
         Authorization: '',
     },
 })
-
 
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => {
     console.log('error.response', error);

@@ -144,85 +144,6 @@ const Index = (props) => {
 
     });
 
-    const chart1 = {
-        options: {
-            chart: {
-                fontFamily: '"Inter", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-                toolbar: {
-                    show: false
-                },
-                sparkline: {
-                    enabled: false,
-                }
-            },
-            colors: [props.colorprimarymode, props.cololrinfomode],
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 3,
-            },
-            yaxis: {
-                show: true,
-                labels: {
-                    show: true,
-                    minWidth: 19,
-                    maxWidth: 19,
-                    style: {
-                        colors: "#8A92A6",
-                    },
-                    offsetX: -5,
-                },
-            },
-            legend: {
-                show: false,
-            },
-            xaxis: {
-                labels: {
-                    minHeight: 22,
-                    maxHeight: 22,
-                    show: true,
-                    style: {
-                        colors: "#8A92A6",
-                    },
-                },
-                lines: {
-                    show: false  //or just here to disable only x axis grids
-                },
-                categories: ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug"]
-            },
-            grid: {
-                show: false,
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    type: "vertical",
-                    shadeIntensity: 0,
-                    gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
-                    inverseColors: true,
-                    opacityFrom: .4,
-                    opacityTo: .1,
-                    stops: [0, 50, 80],
-                    colors: [props.colorprimarymode, props.cololrinfomode]
-                }
-            },
-            tooltip: {
-                enabled: true,
-            },
-        },
-        series: [{
-            name: 'total',
-            data: [94, 80, 94, 80, 94, 80, 94]
-        }, {
-            name: 'pipline',
-            data: [72, 60, 84, 60, 74, 60, 78]
-        }]
-
-
-    }
 
     //chart2
     const chart2 = {
@@ -247,76 +168,6 @@ const Index = (props) => {
         },
         series: [55, 75],
     }
-    const chart3 = {
-        options: {
-            chart: {
-                stacked: true,
-                toolbar: {
-                    show: false
-                }
-            },
-            colors: [props.colorprimarymode, props.cololrinfomode],
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '28%',
-                    endingShape: 'rounded',
-                    borderRadius: 5,
-                },
-            },
-            legend: {
-                show: false
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'M', 'T', 'W'],
-                labels: {
-                    minHeight: 20,
-                    maxHeight: 20,
-                    style: {
-                        colors: "#8A92A6",
-                    },
-                }
-            },
-            yaxis: {
-                title: {
-                    text: ''
-                },
-                labels: {
-                    minWidth: 19,
-                    maxWidth: 19,
-                    style: {
-                        colors: "#8A92A6",
-                    },
-                }
-            },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return "$ " + val + " thousands"
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'Successful deals',
-            data: [30, 50, 35, 60, 40, 60, 60, 30, 50, 35,]
-        }, {
-            name: 'Failed deals',
-            data: [40, 50, 55, 50, 30, 80, 30, 40, 50, 55]
-        }]
-    }
-
 
     return (
         <>
@@ -421,7 +272,7 @@ const Index = (props) => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                             
+
                                 <div className="swiper-button swiper-button-next"></div>
                                 <div className="swiper-button swiper-button-prev"></div>
                             </Swiper>
@@ -430,9 +281,9 @@ const Index = (props) => {
                 </Col>
                 <Col md="12" lg="8">
                     <Row>
-                    <Col md="12" > 
-                    <AppSetupProgress />
-                    </Col>
+                        <Col md="12" >
+                            <AppSetupProgress />
+                        </Col>
                         <Col md="12" xl="6">
                             <div className="card" data-aos="fade-up" data-aos-delay="900">
                                 <div className="flex-wrap card-header d-flex justify-content-between">
@@ -485,15 +336,15 @@ const Index = (props) => {
                 </Col>
                 <Col md="12" lg="4">
                     <Row>
-                    <Col md="12">
-                  <HowTo />
-                  </Col> 
-                        
-                     
+                        <Col md="12">
+                            <HowTo />
+                        </Col>
+
+
                     </Row>
-                </Col> 
-               
-                 
+                </Col>
+
+
             </Row>
         </>
     )

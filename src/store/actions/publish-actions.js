@@ -58,8 +58,7 @@ export const getTermClasses = (sessionId) => (dispatch) => {
     payload: sessionId,
   });
   axiosInstance
-    .get(
-      `/session/api/v1/get/session-term/classes?sessionId=${sessionId}`
+    .get(`smp/server/session/api/v1/get/session-term/classes?sessionId=${sessionId}`
     )
     .then((res) => {
       dispatch({

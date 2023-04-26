@@ -58,13 +58,7 @@ const AdmissionList = () => {
     queryParams.get("admissionSettingId") || openAdmissionId;
 
   React.useEffect(() => {
-    fetchAllAdminAdmissionList(
-      admissionSettingsIdQuery,
-      admissionClassQuery,
-      examStatusQuery,
-      10,
-      1
-    )(dispatch);
+    fetchAllAdminAdmissionList(admissionSettingsIdQuery, admissionClassQuery, examStatusQuery, 10, 1)(dispatch);
   }, [admissionClassQuery, examStatusQuery, admissionSettingsIdQuery]);
 
   React.useEffect(() => {
@@ -129,7 +123,7 @@ const AdmissionList = () => {
                 exaamStatus: examStatusQuery,
               }}
               enableReinitialize={true}
-              onSubmit={() => {}}
+              onSubmit={() => { }}
             >
               {() => (
                 <Card>
@@ -345,8 +339,8 @@ const AdmissionList = () => {
                           </OverlayTrigger>
                         )}
                         {selectedIds.length < 1 ||
-                        examStatusQuery === "" ||
-                        admissionClassQuery === "" ? (
+                          examStatusQuery === "" ||
+                          admissionClassQuery === "" ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -395,8 +389,8 @@ const AdmissionList = () => {
                                     )?.admissionId === ids
                                 )
                                   ? errorModal(
-                                      "Approved candidates cannot be enrolled again"
-                                    )
+                                    "Approved candidates cannot be enrolled again"
+                                  )
                                   : showHideModal(true)(dispatch);
                                 setSelectModal("enroll-modal");
                               }}
@@ -567,15 +561,13 @@ const AdmissionList = () => {
                             }
                           >
                             <a
-                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${
-                                adminAdmissionList[
+                              href={`${clientUrl}login-option/login-from-smp?taxId=${cbtToken}&target=createExternalExam&candidateCategory=${adminAdmissionList[
                                   adminAdmissionList.length - 1
                                 ]?.candidateCategory
-                              }&candidateCategoryName=${
-                                adminAdmissionList[
+                                }&candidateCategoryName=${adminAdmissionList[
                                   adminAdmissionList.length - 1
                                 ]?.candidateCategoryName
-                              }`}
+                                }`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="d-flex justify-content-end"
@@ -831,11 +823,9 @@ const AdmissionList = () => {
                                         data-placement="top"
                                         title=""
                                         data-original-title="Details"
-                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${
-                                          item.examinationId
-                                        }&taxId=${cbtToken}&target=resultDetails&candidateEmail=${
-                                          item.email
-                                        }&candidateId=${""}`}
+                                        href={`${clientUrl}login-option/login-from-smp?examinationId=${item.examinationId
+                                          }&taxId=${cbtToken}&target=resultDetails&candidateEmail=${item.email
+                                          }&candidateId=${""}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >
