@@ -103,7 +103,7 @@ const LoginTemplate1 = ({ message, auth1, ...form }) => {
                       <path
                         d="M15.1049 12.6987C14.8729 13.9887 13.8569 15.0067 12.5679 15.2407"
                         stroke="black"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       ></path>
