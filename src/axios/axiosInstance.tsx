@@ -1,11 +1,15 @@
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+
+
 const axiosInstance = axios.create({
-    //    baseURL: 'https://localhost:44373/',
+    // baseURL: 'https://localhost:44349/',
      baseURL: 'http://flavetechs.com/',
+    timeout: 5000,
     headers: {
         Authorization: '',
     },
-});
+})
+
 
 axiosInstance.interceptors.response.use((response: any) => response, (error: any) => {
     console.log('error.response', error);
@@ -29,7 +33,7 @@ axiosInstance.interceptors.response.use(async (response: any) => response, (erro
         console.log('error.response', error.response)
         return error.response
     }
-    
+
     if (error?.response?.status === 404) {
         console.log('error.response', error.response)
         return error.response
@@ -41,7 +45,7 @@ axiosInstance.interceptors.request.use(
     async (config: any) => {
         const sessionToken = await localStorage.getItem('token');
 
-     
+
         if (sessionToken) {
             config.headers.Authorization = 'Bearer ' + sessionToken
             return config;
