@@ -75,27 +75,9 @@ const DocumentationOffcanvas = (props) => {
 
   // const refg = useRef(null)
 
-  // console.log('refg', refg);
-  // useEffect(() => {
-  //   documentationRoutes(pathname, setUrl);
-  // }, [pathname]);
-  // const handleClick = () => {
-    
-  //   if(refg && refg.current){
-  //     console.log(refg.current);
-  //     refg.current.style.border = '1px solid blue';
-  
-  //     const grandchildren = refg.current.querySelectorAll('html');
-  //     console.log('grandchildren', grandchildren);
-  
-  //   }
-   
-  // }
-  // console.log(pathname);
-  // if (pathname == '/dashboard/smp-session/setup') {
-
-  //   handleClick();
-  // }
+  useEffect(() => {
+    documentationRoutes(pathname, setUrl);
+  }, [pathname]);
   return (
     <>
       <div

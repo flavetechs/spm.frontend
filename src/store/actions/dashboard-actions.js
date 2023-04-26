@@ -1,4 +1,5 @@
 import axiosInstance from "../../axios/axiosInstance";
+import { actions } from "../action-types/dashboard-action-types";
 
 export async function getAllDashboardCount() {
    await axiosInstance.get(`/smp/server/dashboard/api/v1/get/dashboard-count`)
@@ -10,6 +11,24 @@ export async function getAllDashboardCount() {
       .catch((err) => {
          return err.response.data.result
       });
+};
+
+export const getAppSetupStatus = () => (dispatch) => {
+   dispatch({
+      type: actions.FETCH_SETUP_STATUS_LOADING
+  });
+   axiosInstance.get(`smp/server/dashboard/api/v1/get/portal-status`)
+   .then((res) => {
+      dispatch({
+          type: actions.FETCH_SETUP_STATUS_SUCCESS,
+          payload: res.data.result
+      });
+  }).catch(err => {
+      dispatch({
+          type: actions.FETCH_SETUP_STATUS_FAILED,
+          payload: err.response.data.result
+      })
+  });
 };
 
 export const getAllStudentDashboardCount = async () => {
