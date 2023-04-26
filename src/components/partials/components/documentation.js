@@ -119,7 +119,7 @@ const DocumentationOffcanvas = (props) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Row >
-            <iframe id="docsIframe" style={{ height: "100vh", border: '1px solid red' }} src={documentationUrl}></iframe>
+            <iframe id="docsIframe" style={{ height: "100vh"}} src={documentationUrl}></iframe>
           </Row>
         </Offcanvas.Body>
       </Offcanvas>
