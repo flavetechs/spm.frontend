@@ -18,7 +18,7 @@ import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout, getSchoolSetting } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 
 
 const SignIn = () => {
@@ -30,7 +30,7 @@ const SignIn = () => {
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])

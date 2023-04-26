@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
 import { forgotPasswordFunc } from '../../store/actions/auth-actions';
 import SmpLoader from '../loader/smp-loader';
-import { TestUrls } from '../../utils/other';
+import { ServiceURLs } from '../../utils/other';
 import { getAppLayout } from '../../store/actions/portal-setting-action';
 
 const ForgottenPassword = () => {
@@ -36,7 +36,7 @@ const ForgottenPassword = () => {
         }
     }, [forgotPasswordMessage]);
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
     useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
       }, [schoolUrl]);

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import SmpLoader from "../loader/smp-loader";
 import { userEmailLogin, userRegistration } from "../../store/actions/candidate-admission-actions";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 import { studentparentGuarndianRelationship } from "../../utils/tools";
 import { useHistory } from "react-router-dom";
 import { candidateAuthLocation } from "../../router/candidate-path-location";
@@ -41,7 +41,7 @@ const RegistrationSignUp = () => {
 
   const schoolUrl =
     process.env.NODE_ENV === "development"
-      ? TestUrls.Development()
+      ? ServiceURLs.Development()
       : window.location.origin;
 
   useEffect(() => {

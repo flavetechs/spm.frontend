@@ -9,7 +9,7 @@ import { authLocations } from "../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 
 const PasswordResetSuccessful = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const PasswordResetSuccessful = () => {
   };
   const schoolUrl =
     process.env.NODE_ENV === "development"
-      ? TestUrls.Development()
+      ? ServiceURLs.Development()
       : window.location.origin;
   useEffect(() => {
     getAppLayout(schoolUrl)(dispatch);

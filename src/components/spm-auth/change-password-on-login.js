@@ -11,13 +11,13 @@ import Logo from "../partials/components/logo";
 import { useDispatch, useSelector } from "react-redux";
 import { authLocations } from "../../router/spm-path-locations";
 import { changeMyPassword } from "../../store/actions/auth-actions";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 
 const FirstTimeLoginPassswordChange = () => {
   const schoolUrl =
     process.env.NODE_ENV === "development"
-      ? TestUrls.Development()
+      ? ServiceURLs.Development()
       : window.location.origin;
 
   const locations = useLocation();

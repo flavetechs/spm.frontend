@@ -8,7 +8,7 @@ import { Formik, Form, Field } from "formik";
 // img
 import { useDispatch, useSelector } from "react-redux";
 import { changeMyPassword } from "../../store/actions/auth-actions";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 
 const ResetPassword = () => {
   const locations = useLocation();
@@ -60,7 +60,7 @@ const ResetPassword = () => {
       }),
   });
 
-  const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
+  const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
   
 
   return (

@@ -13,7 +13,7 @@ import { authLocations } from "../../router/spm-path-locations";
 import { resetForgotPasswordFunc } from "../../store/actions/auth-actions";
 import SmpLoader from "../loader/smp-loader";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 
 const PasswordReset = () => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const PasswordReset = () => {
   }, [changedForgotPasswordSuccessful]);
   const schoolUrl =
     process.env.NODE_ENV === "development"
-      ? TestUrls.Development()
+      ? ServiceURLs.Development()
       : window.location.origin;
   useEffect(() => {
     getAppLayout(schoolUrl)(dispatch);

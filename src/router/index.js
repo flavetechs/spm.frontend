@@ -27,7 +27,7 @@ import PasswordResetSuccessful from '../components/spm-auth/password-reset-succe
 import PageNotFound from '../components/spm-auth/page-not-found'
 import { getAppLayout } from '../store/actions/portal-setting-action'
 import { useDispatch } from 'react-redux'
-import { TestUrls } from '../utils/other'
+import { ServiceURLs } from '../utils/other'
 import RegistrationSignIn from '../components/spm-auth/parent-guardian-login'
 
 const IndexRouters = () => {
@@ -36,7 +36,7 @@ const IndexRouters = () => {
 
     const dispatch = useDispatch();
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? TestUrls.Development() : window.location.origin;
+    const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
     React.useEffect(() => {
         getAppLayout(schoolUrl)(dispatch);
     }, [schoolUrl])

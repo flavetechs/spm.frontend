@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import SmpLoader from "../loader/smp-loader";
 import { userEmailLogin } from "../../store/actions/candidate-admission-actions";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
-import { TestUrls } from "../../utils/other";
+import { ServiceURLs } from "../../utils/other";
 import { loginOutUser, loginUser } from "../../store/actions/auth-actions";
 import { candidateAuthLocation } from "../../router/candidate-path-location";
 import { useHistory } from "react-router-dom";
@@ -49,7 +49,7 @@ const RegistrationSignIn = () => {
 
   const schoolUrl =
     process.env.NODE_ENV === "development"
-      ? TestUrls.Development()
+      ? ServiceURLs.Development()
       : window.location.origin;
     console.log("schoolUrl", schoolUrl);
 

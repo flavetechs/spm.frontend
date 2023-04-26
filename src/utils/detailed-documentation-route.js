@@ -1,11 +1,11 @@
 import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
-import { ServiceURLs2 } from "./other";
+import { ServiceURLs } from "./other";
 
 export const detailedDocumentationRoutes = (pathname, setPath) => {
 
 
-  const url = ServiceURLs2.SmpDocumentation();
+  const url = ServiceURLs.SmpDocumentation2();
  if(pathname.includes(sessionLocations.active)){
       setPath(url + ProductModuleFeatures.session_Setup)
   }

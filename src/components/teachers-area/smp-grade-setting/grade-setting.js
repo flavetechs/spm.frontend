@@ -321,7 +321,7 @@ const GradeSetting = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {gradeSetups.map((item, idx) => (
+                              {gradeSetups?.map((item, idx) => (
                                 <tr key={idx} className="text-center">
                                   <td className="text-uppercase">
                                     {item.gradeName}
