@@ -3,8 +3,11 @@ import { Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAppSetupStatus } from '../store/actions/dashboard-actions';
 import { iconsList } from '../utils/icons-list';
+import { useHistory } from 'react-router-dom';
+import { appStatusRoute } from '../utils/app-status-route';
 
 const AppSetupProgress = () => {
+   const history = useHistory();
    const dispatch = useDispatch();
    const state = useSelector((state) => state);
    const { appSetupStatus } = state.dashboard;
@@ -33,12 +36,15 @@ const AppSetupProgress = () => {
                         <tbody>
                        {appSetupStatus?.map((status,idx)=>(
                            <tr key={idx}>
-                              <td>
+                              <td style={{cursor:status.completeionStatus < 75 && 'pointer'}} onClick={()=>status.completeionStatus < 75  && history.push(appStatusRoute[status.setup])}>
                                  <div className="d-flex align-items-center">
                                     <div className='rounded bg-soft-primary img-fluid avatar-30 mx-2'>
                                    <span className=''>{iconsList[status.setup]}</span>
                                    </div>
+                                   <div >
                                     <h6 className='text-uppercase'>{status.setup}</h6>
+                                    <p style={{width:'120px', wordBreak: 'break-all',whiteSpace: 'pre-wrap'}} className={`${status.completeionStatus < 75 && "text-danger"}`}>{status.message}</p>
+                                    </div>
                                  </div>
                               </td>
                               <td>
@@ -53,7 +59,7 @@ const AppSetupProgress = () => {
                                     <h6>{status.completeionStatus}%</h6>
                                  </div>
                                  <div className="shadow-none progress bg-soft-primary w-100" style={{height: '4px'}}>
-                                    <div className={`progress-bar ${ status.completeionStatus > 59 ? 'bg-success': 'bg-danger'}`} data-toggle="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: `${status.completeionStatus}%`, transition: 'width 2s ease 0s'}}></div>
+                                    <div className={`progress-bar ${ status.completeionStatus >= 75 ? 'bg-success':status.completeionStatus >= 50 ? 'bg-primary':status.completeionStatus >= 25 ? 'bg-warning': 'bg-danger'}`} data-toggle="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: `${status.completeionStatus}%`, transition: 'width 2s ease 0s'}}></div>
                                  </div>
                               </td>
                            </tr>
