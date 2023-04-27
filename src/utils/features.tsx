@@ -27,4 +27,6 @@ export enum ProductModuleFeatures {
     setting_grade = 26,
     settings_resultTemplate = 27,
     settings_theme = 28,
+    result_password=29,
+    exam_timetable= 30,
 }

@@ -1,4 +1,4 @@
-import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, authLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
@@ -31,6 +31,9 @@ export const documentationRoutes = (pathname, setUrl) => {
   }
   else if (pathname.includes(timetableLocations.active)) {
     setUrl(url + ProductModuleFeatures.session_timetable)
+    if (pathname === timetableLocations.examTimeTable) {
+      setUrl(url + ProductModuleFeatures.exam_timetable)
+    }  
   }
   else if (pathname.includes(scoreEntryManagement.active)) {
     setUrl(url + ProductModuleFeatures.result_scoreEntry)
@@ -50,7 +53,6 @@ export const documentationRoutes = (pathname, setUrl) => {
       setUrl(url + ProductModuleFeatures.settings_resultTemplate)
     }
   }
-
   else if (pathname.includes(studentsLocations.active)) {
     setUrl(url + ProductModuleFeatures.studentList)
     if (pathname === studentsLocations.enrolledStudents) {
@@ -90,7 +92,9 @@ export const documentationRoutes = (pathname, setUrl) => {
   else if (pathname.includes(gradeSetting.active)) {
     setUrl(url + ProductModuleFeatures.setting_grade)
   }
-
+  else if (pathname.includes(authLocations.resetPassword)) {
+    setUrl(url + ProductModuleFeatures.result_password)
+  }
 
 
 

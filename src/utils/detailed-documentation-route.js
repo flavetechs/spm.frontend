@@ -1,4 +1,4 @@
-import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, authLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
@@ -32,6 +32,9 @@ export const detailedDocumentationRoutes = (pathname, setPath) => {
     }
     else if (pathname.includes(timetableLocations.active)){
      setPath(url + ProductModuleFeatures.session_timetable)
+     if (pathname === timetableLocations.examTimeTable) {
+      setPath(url + ProductModuleFeatures.exam_timetable)
+    }  
       }
     else if (pathname.includes(scoreEntryManagement.active)) {
       setPath(url + ProductModuleFeatures.result_scoreEntry)
@@ -91,7 +94,9 @@ export const detailedDocumentationRoutes = (pathname, setPath) => {
     else if  (pathname.includes(gradeSetting.active)){
      setPath(url + ProductModuleFeatures.setting_grade)
     }
-  
+    else if (pathname.includes(authLocations.resetPassword)) {
+      setPath(url + ProductModuleFeatures.result_password)
+    }
   
 
 

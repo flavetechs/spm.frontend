@@ -5,6 +5,7 @@ import { getAppSetupStatus } from "../store/actions/dashboard-actions";
 import { iconsList } from "../utils/icons-list";
 import { useHistory } from "react-router-dom";
 import { appStatusRoute } from "../utils/app-status-route";
+import { appStatusSetupName } from "../utils/app-status-setup-name";
 
 const AppSetupProgress = () => {
   const history = useHistory();
@@ -55,7 +56,7 @@ const AppSetupProgress = () => {
                           <span className="">{iconsList[status.setup]}</span>
                         </div>
                         <div>
-                          <h6 className="text-uppercase">{status.setup}</h6>
+                          <h6 className="text-uppercase">{appStatusSetupName[status.setup]}</h6>
                           <p
                             style={{  wordBreak: "break-all", whiteSpace: "pre-wrap", }}
                             className={`${status.completeionStatus < 75 && "text-danger"}`}
