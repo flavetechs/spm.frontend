@@ -2,7 +2,7 @@ import { adminAdmissionLocations, assessmentLocations, attendanceLocations, auth
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
-export const detailedDocumentationRoutes = (pathname, setPath) => {
+export const detailedDocumentationRoutes = (href,pathname, setPath) => {
 
 
   const url = ServiceURLs.SmpDocumentation2();
@@ -75,16 +75,16 @@ export const detailedDocumentationRoutes = (pathname, setPath) => {
       if (pathname === portalSetting.theme){
       setPath(url + ProductModuleFeatures.settings_theme)
       }
-    else if (pathname ===  portalSetting.setting + '?settingsKey=second'){
+    else if (href ===  window.origin +portalSetting.setting + '?settingsKey=second'){
     setPath(url + ProductModuleFeatures.settings_portal_resultSetting)
     }
-    else if (pathname === portalSetting.setting + '?settingsKey=third'){
+    else if (href === window.origin +portalSetting.setting + '?settingsKey=third'){
        setPath(url + ProductModuleFeatures.settings_portal_notification)
     }
-    else if (pathname === portalSetting.setting + '?settingsKey=fourth'){
+    else if (href === window.origin +portalSetting.setting + '?settingsKey=fourth'){
       setPath(url + ProductModuleFeatures.settings_portal_admission)
     }
-    else if (pathname ===  portalSetting.setting + '?settingsKey=fifth'){
+    else if (href ===  window.origin +portalSetting.setting + '?settingsKey=fifth'){
       setPath(url + ProductModuleFeatures.settings_portal_studentRegSetup)
   }
 }

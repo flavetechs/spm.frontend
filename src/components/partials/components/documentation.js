@@ -30,6 +30,7 @@ import {
 import { connect } from "react-redux";
 import { documentationRoutes } from "../../../utils/documentation-canvas-route";
 import { detailedDocumentationRoutes } from "../../../utils/detailed-documentation-route";
+import { portalSetting } from "../../../router/spm-path-locations";
 // import './offcanvas.js';
 
 const mapStateToProps = (state) => {
@@ -69,15 +70,15 @@ const DocumentationOffcanvas = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  const { pathname } = window.location;
+  const { pathname,href } = window.location;
   const [documentationUrl, setUrl] = useState("");
   const [path, setPath] = useState("");
 
   // const refg = useRef(null)
-
   useEffect(() => {
-    documentationRoutes(pathname, setUrl);
-  }, [pathname]);
+    documentationRoutes(href,pathname, setUrl);
+  }, [pathname,href]);
+
   return (
     <>
       <div
@@ -108,7 +109,7 @@ const DocumentationOffcanvas = (props) => {
             bg="success"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              detailedDocumentationRoutes(pathname, setPath);
+              detailedDocumentationRoutes(href,pathname, setPath);
             }}
           >
             <a className='text-white' href={path} target="_blank" rel="noopener noreferrer">
