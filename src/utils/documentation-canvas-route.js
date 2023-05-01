@@ -1,8 +1,8 @@
-import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, dashboardLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, authLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
-export const documentationRoutes = (pathname, setUrl) => {
+export const documentationRoutes = (href,pathname, setUrl) => {
 
   const url = ServiceURLs.SmpDocumentation();
   if (pathname.includes(dashboardLocations.dashboard)) {
@@ -34,6 +34,9 @@ export const documentationRoutes = (pathname, setUrl) => {
   }
   else if (pathname.includes(timetableLocations.active)) {
     setUrl(url + ProductModuleFeatures.session_timetable)
+    if (pathname === timetableLocations.examTimeTable) {
+      setUrl(url + ProductModuleFeatures.exam_timetable)
+    }  
   }
   else if (pathname.includes(scoreEntryManagement.active)) {
     setUrl(url + ProductModuleFeatures.result_scoreEntry)
@@ -53,7 +56,6 @@ export const documentationRoutes = (pathname, setUrl) => {
       setUrl(url + ProductModuleFeatures.settings_resultTemplate)
     }
   }
-
   else if (pathname.includes(studentsLocations.active)) {
     setUrl(url + ProductModuleFeatures.studentList)
     if (pathname === studentsLocations.enrolledStudents) {
@@ -74,16 +76,16 @@ export const documentationRoutes = (pathname, setUrl) => {
     if (pathname === portalSetting.theme) {
       setUrl(url + ProductModuleFeatures.settings_theme)
     }
-    else if (pathname === portalSetting.setting + '?settingsKey=second') {
+    else if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
       setUrl(url + ProductModuleFeatures.settings_portal_resultSetting)
     }
-    else if (pathname === portalSetting.setting + '?settingsKey=third') {
+    else if (href === window.origin +portalSetting.setting + '?settingsKey=third') {
       setUrl(url + ProductModuleFeatures.settings_portal_notification)
     }
-    else if (pathname === portalSetting.setting + '?settingsKey=fourth') {
+    else if (href === window.origin +portalSetting.setting + '?settingsKey=fourth') {
       setUrl(url + ProductModuleFeatures.settings_portal_admission)
     }
-    else if (pathname === portalSetting.setting + '?settingsKey=fifth') {
+    else if (href === window.origin +portalSetting.setting + '?settingsKey=fifth') {
       setUrl(url + ProductModuleFeatures.settings_portal_studentRegSetup)
     }
   }
@@ -93,7 +95,9 @@ export const documentationRoutes = (pathname, setUrl) => {
   else if (pathname.includes(gradeSetting.active)) {
     setUrl(url + ProductModuleFeatures.setting_grade)
   }
-
+  else if (pathname.includes(authLocations.resetPassword)) {
+    setUrl(url + ProductModuleFeatures.result_password)
+  }
 
 
 
