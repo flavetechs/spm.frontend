@@ -1,10 +1,13 @@
-import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, dashboardLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
 export const documentationRoutes = (pathname, setUrl) => {
 
   const url = ServiceURLs.SmpDocumentation();
+  if (pathname.includes(dashboardLocations.dashboard)) {
+    setUrl(url + ProductModuleFeatures.session_examTimetable)
+  }
   if (pathname.includes(sessionLocations.active)) {
     setUrl(url + ProductModuleFeatures.session_Setup)
   }
