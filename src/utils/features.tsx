@@ -29,4 +29,5 @@ export enum ProductModuleFeatures {
     settings_theme = 28,
     settings_resetPassword = 29,
     session_examTimetable = 30,
+    dashboard = 31
 }
