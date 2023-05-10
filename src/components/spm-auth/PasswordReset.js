@@ -8,22 +8,21 @@ import { Formik, Form, Field } from "formik";
 // img
 import auth1 from "../../assets/images/auth/04.png";
 import Logo from "../partials/components/logo";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { authLocations } from "../../router/spm-path-locations";
 import { resetForgotPasswordFunc } from "../../store/actions/auth-actions";
 import SmpLoader from "../loader/smp-loader";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import { ServiceURLs } from "../../utils/other";
 
-const PasswordReset = () => {
-  const dispatch = useDispatch();
+const PasswordReset = (props) => {
+  // const dispatch = useDispatch();
   const locations = useLocation();
   const history = useHistory();
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const state = useSelector((state) => state);
-  const { message, changedForgotPasswordSuccessful } = state.auth;
-  const { appSetting } = state.portal;
+  const { message, changedForgotPasswordSuccessful } = props.state.auth;
+  const { appSetting } = props.state.portal;
 
   const queryParams = new URLSearchParams(locations.search);
   const userIdQuery = queryParams.get("id") || "";
@@ -50,13 +49,13 @@ const PasswordReset = () => {
       history.push(authLocations.login);
     }
   }, [changedForgotPasswordSuccessful]);
-  const schoolUrl =
-    process.env.NODE_ENV === "development"
-      ? ServiceURLs.Development()
-      : window.location.origin;
-  useEffect(() => {
-    getAppLayout(schoolUrl)(dispatch);
-  }, [schoolUrl]);
+
+  const schoolUrl = ServiceURLs.GetAppUrl();
+  React.useEffect(() => {
+    props.getAppLayout(schoolUrl).then(res => {
+      return res;
+    })
+  }, [schoolUrl])
 
 
   return (
@@ -86,7 +85,7 @@ const PasswordReset = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
-                    resetForgotPasswordFunc(values,history)(dispatch);
+                    props.resetForgotPasswordFunc(values, history);
                   }}
                 >
                   {({
@@ -107,10 +106,10 @@ const PasswordReset = () => {
                           <div className="form-group">
                             {((touched.password && errors.password) ||
                               message) && (
-                              <div className="text-danger">
-                                {errors.password}
-                              </div>
-                            )}
+                                <div className="text-danger">
+                                  {errors.password}
+                                </div>
+                              )}
                             <label htmlFor="password" className="form-label">
                               Enter New Password
                             </label>
@@ -222,7 +221,7 @@ const PasswordReset = () => {
                           </div>
                         </Col>
                         <Col lg="12" className="d-flex justify-content-between">
-                         
+
                           <Link to={authLocations.forgottenPassword}>
                             Return to Forgot Password?
                           </Link>
@@ -310,4 +309,19 @@ const PasswordReset = () => {
   );
 };
 
-export default PasswordReset;
+
+
+function mapStateToProps(state) {
+  return {
+    state: state
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
+    resetForgotPasswordFunc: (values, history) => resetForgotPasswordFunc(values, history)(dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset);

@@ -118,7 +118,7 @@ export const getSingleWardDetails = (StudentAccountId ) => (dispatch) => {
         type: actions.FETCH_SINGLE_WARD_DETAILS_LOADING,
     });
                     ///smp/maywards/api/v1/get-single/3ee845d8-7506-4e3a-9cef-c5a29e54d83f
-    axiosInstance.get(`smp/maywards/api/v1/get-single/${StudentAccountId }`)
+    axiosInstance.get(`smp/server/smp/maywards/api/v1/get-single/${StudentAccountId }`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_WARD_DETAILS_SUCCESS,

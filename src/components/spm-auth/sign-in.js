@@ -7,7 +7,7 @@ import auth1 from "../../assets/images/auth/01.png";
 import {
     authLocations,
 } from "../../router/spm-path-locations";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/actions/auth-actions";
 import { useEffect, useState } from "react";
 import SmpLoader from "../loader/smp-loader";
@@ -21,7 +21,7 @@ import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
 
 
-const SignIn = () => {
+const SignIn = (props) => {
     let history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
@@ -30,17 +30,22 @@ const SignIn = () => {
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
+    const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
-        getAppLayout(schoolUrl)(dispatch);
+        props.getAppLayout(schoolUrl).then(res => {
+            return res;
+        })
     }, [schoolUrl])
+
 
     const layoutSetting = localStorage.getItem("appSetting")
     const appSetting2 = JSON.parse(layoutSetting) || "";
 
     useEffect(() => {
         if (!appSetting2.scheme) {
-            getAppLayout(schoolUrl)(dispatch)
+            props.getAppLayout(schoolUrl).then(res => {
+                return res;
+            })
         }
     }, [schoolUrl, appSetting2])
 
@@ -183,4 +188,17 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+function mapStateToProps(state) {
+    return {
+        state: state
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+

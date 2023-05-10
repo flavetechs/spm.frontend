@@ -34,7 +34,7 @@ export const getResultSetting = () => (dispatch) => {
             dispatch({
                 type: actions.FETCH_RESULT_SETTING_SUCCESS,
                 payload: res.data.result,
-            }); 
+            });
 
         })
         .catch((err) => {
@@ -203,7 +203,7 @@ export const createNotificationSetting = (notification) => (dispatch) => {
 }
 
 
-export const getAllAdmissionSettingFromAdmission = (pageSize,pageNumber) => (dispatch) => {
+export const getAllAdmissionSettingFromAdmission = (pageSize, pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_SETTING_LOADING,
     });
@@ -310,13 +310,33 @@ export const getAppLayout = (url) => (dispatch) => {
     dispatch({
         type: actions.PORTAL_SETTING_LOADING,
     });
+    return axiosInstance.get(`/smp/server/portalsetting/api/v1/get/applayout-setting?url=${url}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_APP_LAYOUT_SUCCESS,
+                payload: res.data.result,
+            });
+            return res.data.result;
+        })
+        .catch((err) => {
+            dispatch({
+                type: actions.PORTAL_SETTING_FAILED,
+                payload: err.response.data.result,
+            });
+            return;
+        });
+};
+
+export const getAppLayout2 = (url) => (dispatch) => {
+    dispatch({
+        type: actions.PORTAL_SETTING_LOADING,
+    });
     axiosInstance.get(`/smp/server/portalsetting/api/v1/get/applayout-setting?url=${url}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_APP_LAYOUT_SUCCESS,
                 payload: res.data.result,
             });
-            
         })
         .catch((err) => {
             dispatch({
@@ -358,7 +378,7 @@ export const getStudentRegNo = () => (dispatch) => {
                 type: actions.FETCH_STUDENT_REG_NO_SUCCESS,
                 payload: res.data.result,
             });
-            
+
         })
         .catch((err) => {
             dispatch({

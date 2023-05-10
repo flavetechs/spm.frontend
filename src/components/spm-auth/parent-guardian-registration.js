@@ -4,49 +4,45 @@ import Card from "../Card";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 // img
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { useEffect } from "react";
 import SmpLoader from "../loader/smp-loader";
-import { userEmailLogin, userRegistration } from "../../store/actions/candidate-admission-actions";
+import { userRegistration } from "../../store/actions/candidate-admission-actions";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import { ServiceURLs } from "../../utils/other";
 import { studentparentGuarndianRelationship } from "../../utils/tools";
 import { useHistory } from "react-router-dom";
 import { candidateAuthLocation } from "../../router/candidate-path-location";
 
-const RegistrationSignUp = () => {
-  const dispatch = useDispatch();
+const RegistrationSignUp = (props) => {
   const history = useHistory();
-  const state = useSelector((state) => state);
-  const { message } = state.candidate;
+  const { message } = props.state.candidate;
 
 
   const validation = Yup.object().shape({
     email: Yup.string()
       .email("Must be a valid email")
       .required("Email is required to login"),
-      firstname: Yup.string()
+    firstname: Yup.string()
       .min(2, "Name Too Short!")
       .required("First Name is required"),
-      lastname: Yup.string()
+    lastname: Yup.string()
       .min(2, "Name Too Short!")
       .required("Last Name is required"),
-       relationship: Yup.string().required(
+    relationship: Yup.string().required(
       " Relationship is required"
-  ),
-      phoneNumber: Yup.string()
+    ),
+    phoneNumber: Yup.string()
       .min(2, "Number Too Short!")
       .required("Phone number is required"),
   });
 
-  const schoolUrl =
-    process.env.NODE_ENV === "development"
-      ? ServiceURLs.Development()
-      : window.location.origin;
-
+  const schoolUrl = ServiceURLs.GetAppUrl();
   useEffect(() => {
-    getAppLayout(schoolUrl)(dispatch);
-  }, [schoolUrl]);
+    props.getAppLayout(schoolUrl).then(res => {
+      return res;
+    })
+  }, [schoolUrl])
 
   return (
     <>
@@ -69,16 +65,16 @@ const RegistrationSignUp = () => {
                         firstname: "",
                         lastname: "",
                         relationship: "",
-                        phoneNumber: "", 
+                        phoneNumber: "",
                         schoolUrl: schoolUrl,
                       }}
                       validationSchema={validation}
                       onSubmit={(values) => {
                         values.phoneNumber = values.phoneNumber.toString()
-                        userRegistration(values,history)(dispatch);
+                        props.userRegistration(values, history)
                       }}
                     >
-                      {({ handleSubmit, touched, errors,setFieldValue }) => (
+                      {({ handleSubmit, touched, errors, setFieldValue }) => (
                         <Form className="mt-4">
                           <Row>
                             {message && (
@@ -130,10 +126,10 @@ const RegistrationSignUp = () => {
                                 className="form-control"
                               />
                             </div>
-                            
-                           
+
+
                             <Row>
-                            <div className="col-md-6">
+                              <div className="col-md-6">
                                 {touched.email && errors.email && (
                                   <div className="text-danger">
                                     {errors.email}
@@ -147,9 +143,9 @@ const RegistrationSignUp = () => {
                                       {errors.relationship}
                                     </div>
                                   )}
-                           </div>
+                              </div>
                             </Row>
-                             <div className="col-md-6 form-group">
+                            <div className="col-md-6 form-group">
                               <label
                                 className="form-label"
                                 htmlFor="email"
@@ -194,7 +190,7 @@ const RegistrationSignUp = () => {
                               </Field>
                             </div>
                             <Row>
-                          
+
                               <div className="col-md-6">
                                 {touched.phoneNumber &&
                                   errors.phoneNumber && (
@@ -221,7 +217,7 @@ const RegistrationSignUp = () => {
                             </div>
                             <div className="text-center mb-3">Already have an account?<a href={candidateAuthLocation.signIn}> Login</a> </div>
                           </Row>
-                         
+
                           <div className="d-flex justify-content-center">
                             <button
                               onSubmit={() => {
@@ -233,7 +229,7 @@ const RegistrationSignUp = () => {
                             >
                               Sign Up
                             </button>
-                           
+
                           </div>
                         </Form>
                       )}
@@ -297,4 +293,17 @@ const RegistrationSignUp = () => {
   );
 };
 
-export default RegistrationSignUp;
+function mapStateToProps(state) {
+  return {
+    state: state
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
+    userRegistration: (values, history) => userRegistration(values, history)(dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationSignUp);

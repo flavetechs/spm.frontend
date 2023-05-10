@@ -7,24 +7,21 @@ import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 // img
 import auth1 from '../../assets/images/auth/04.png'
-import Logo from '../partials/components/logo'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
 import { forgotPasswordFunc } from '../../store/actions/auth-actions';
 import SmpLoader from '../loader/smp-loader';
 import { ServiceURLs } from '../../utils/other';
 import { getAppLayout } from '../../store/actions/portal-setting-action';
 
-const ForgottenPassword = () => {
+const ForgottenPassword = (props) => {
 
     let forgotPasswordMessage = sessionStorage.getItem("forgotPasswordMessage")
 
-    const dispatch = useDispatch();
     const history = useHistory();
-    const state = useSelector((state) => state);
-    const { message } = state.auth;
-    const { appSetting } = state.portal;
-    
+    const { message } = props.state.auth;
+    const { appSetting } = props.state.portal;
+
     const validation = Yup.object().shape({
         email: Yup.string().required("User Email is Required")
             .email("Must be a valid email"),
@@ -36,27 +33,29 @@ const ForgottenPassword = () => {
         }
     }, [forgotPasswordMessage]);
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
+    const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
-        getAppLayout(schoolUrl)(dispatch);
-      }, [schoolUrl]);
-    
+        props.getAppLayout(schoolUrl).then(res => {
+            return res;
+        })
+    }, [schoolUrl])
+
     return (
         <>
             <section className="login-content">
-            <SmpLoader />
+                <SmpLoader />
                 <Row className="m-0 align-items-center bg-white vh-100">
                     <Col md="6" className="p-0">
                         <Card className="card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
                             <Card.Body>
-                            <div className="text-center mb-3">
-                  <img
-                    src={appSetting?.schoolLogo}
-                    alt="school logo"
-                    height="120px"
-                  />
-                  <h4>{appSetting?.schoolName}</h4>
-                </div>
+                                <div className="text-center mb-3">
+                                    <img
+                                        src={appSetting?.schoolLogo}
+                                        alt="school logo"
+                                        height="120px"
+                                    />
+                                    <h4>{appSetting?.schoolName}</h4>
+                                </div>
                                 <p>Enter your current email to recover forgotten password</p>
                                 <Formik
                                     initialValues={{
@@ -65,7 +64,7 @@ const ForgottenPassword = () => {
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
-                                        forgotPasswordFunc(values)(dispatch);
+                                        props.forgotPasswordFunc(values);
                                     }}
                                 >
                                     {({
@@ -125,4 +124,17 @@ const ForgottenPassword = () => {
     )
 }
 
-export default ForgottenPassword;
+function mapStateToProps(state) {
+    return {
+        state: state
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
+        forgotPasswordFunc: (values) => forgotPasswordFunc(values)(dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgottenPassword);

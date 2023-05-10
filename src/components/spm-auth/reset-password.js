@@ -60,7 +60,7 @@ const ResetPassword = () => {
       }),
   });
 
-  const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
+  const schoolUrl = ServiceURLs.GetAppUrl();
   
 
   return (

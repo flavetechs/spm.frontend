@@ -57,7 +57,6 @@ import EditLessonNote from '../components/teachers-area/spm-class/lesson-notes/l
 import LessonNoteDetails from '../components/teachers-area/spm-class/lesson-notes/lesson-note-details';
 import StaffProfileEdit from '../components/teachers-area/smp-user-profile/staff-profile-edit';
 import SessionClassList2 from '../components/teachers-area/spm-class/session-class-list';
-import Attendance from '../components/teachers-area/spm-class/attendance-on-create';
 import AttendanceRegisterList from '../components/teachers-area/spm-class/attendance-register-list';
 import AttendancePresence from '../components/teachers-area/spm-class/attendance-presence';
 import ScoreEntry from '../components/teachers-area/smp-result-management/score-entry';
@@ -108,7 +107,6 @@ import StudentNoteDetails from '../components/teachers-area/spm-class/student-no
 import StudentNotes from '../components/teachers-area/spm-class/student-notes/student-notes';
 
 const DashboardRouter = () => {
-
     return (
         <Protected>
             <TransitionGroup>
@@ -133,7 +131,7 @@ const DashboardRouter = () => {
                         <Route path={classLocations.classStudents} exact component={StudentListByClass} />
                         <Route path={classLocations.classGroup} exact component={ClassGroup} />
                         <Route path={classLocations.addClassGroup} exact component={AddClassGroup} />
-                         <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
+                        <Route path={classLocations.editClassGroup} exact component={EditClassGroup} />
                         <Route path={classLocations.studentNotes} exact component={StudentNotes} />
                         <Route path={classLocations.studentNotesDetails} exact component={StudentNoteDetails} />
                         {/* attendance */}
@@ -155,13 +153,13 @@ const DashboardRouter = () => {
                         <Route path={lessonNoteLocations.createLessonNotes} exact component={CreateLessonNote} />
                         <Route path={lessonNoteLocations.editLessonNotes} exact component={EditLessonNote} />
                         <Route path={lessonNoteLocations.lessonNotesDetails} exact component={LessonNoteDetails} />
-                        
+
                         {/* timetable */}
                         <Route path={timetableLocations.classTimeTable} exact component={ClassTimeTable} />
                         <Route path={timetableLocations.examTimeTable} exact component={ExamTimeTable} />
                         <Route path={timetableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
                         <Route path={timetableLocations.printTimeTable} exact component={PrintTimeTable} />
-                      
+
                         {/* session */}
                         <Route path={sessionLocations.sessionList} exact component={SessionList} />
                         <Route path={sessionLocations.sessionAdd} exact component={SessionAdd} />
@@ -196,8 +194,8 @@ const DashboardRouter = () => {
                         <Route path={staffLocations.staffEdit} exact component={StaffEdit} />
                         <Route path={staffLocations.staffDetails} exact component={StaffDetails} />
 
-                         {/* parents */}
-                         <Route path={parentsLocations.parentsList} exact component={parentsList} />
+                        {/* parents */}
+                        <Route path={parentsLocations.parentsList} exact component={parentsList} />
                         <Route path={parentsLocations.parentsDetails} exact component={ParentsDetails} />
 
                         {/* enrollment */}
@@ -219,22 +217,22 @@ const DashboardRouter = () => {
                         <Route path={scoreEntryManagement.scoreEntryTable} exact component={ScoreEntryTable} />
                         <Route path={scoreEntryManagement.adminScoreEntry} exact component={AdminScoreEntry} />
                         <Route path={scoreEntryManagement.adminScoreEntryTable} exact component={AdminScoreEntryTable} />
-                      
+
                         {/* publishResultManagement */}
                         <Route path={publishResultManagement.publishResult} exact component={PublishResult} />
                         <Route path={publishResultManagement.publishedClassList} exact component={PublishedClassList} />
                         <Route path={publishResultManagement.publishResultEdit} exact component={PublishResultEdit} />
                         <Route path={publishResultManagement.publishResultTable} exact component={PublishResultTable} />
-                       
+
                         {/* resultManagement */}
                         <Route path={resultManagement.masterList} exact component={MasterList} />
                         <Route path={resultManagement.cumulativeMasterList} exact component={CumulativeMasterList} />
                         <Route path={resultManagement.resultTemplate} exact component={TemplateControl} />
-                        
-                         {/* printResultManagement */}
+
+                        {/* printResultManagement */}
                         <Route path={printResultManagement.printResult} exact component={PrintResult} />
                         <Route path={printResultManagement.batchPrintPreview} exact component={BatchPrintPreview} />
-                       
+
                         {/* portal setting */}
                         <Route path={portalSetting.setting} exact component={Setting} />
                         <Route path={portalSetting.theme} exact component={settingoffcanvas} />
@@ -274,5 +272,4 @@ const DashboardRouter = () => {
         </Protected>
     )
 }
-
 export default DashboardRouter;
