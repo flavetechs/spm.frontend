@@ -124,7 +124,7 @@ export const documentationRoutes = (href, pathname, setUrl) => {
     setUrl(url + ProductModuleFeatures.result_password)
   }
   else if (pathname.includes(onlineClassLocations.onlineClass)) {
-    setUrl(url + ProductModuleFeatures.online_class)
+    setUrl(url + ProductModuleFeatures.student_online_class)
   }
   else if (pathname.includes(studentAssessmentLocations.active)) {
     setUrl(url + ProductModuleFeatures.student_assessment)
