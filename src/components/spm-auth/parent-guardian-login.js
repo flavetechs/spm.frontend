@@ -167,7 +167,7 @@ const RegistrationSignIn = (props) => {
                               onSubmit={() => {
                                 handleSubmit();
                               }}
-                              type="submit"
+                              type="button"
                               variant="btn btn-primary"
                               className="btn btn-primary"
                             >

@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux"
 
 //herder
 import HeaderStyle4 from '../../components/partials/dashboard/HeaderStyle/header-style-4'
-
+import DocumentationOffcanvas from '../../components/partials/components/documentation'
 
 //footer
 import Footer from '../../components/partials/dashboard/FooterStyle/footer'
@@ -79,6 +79,7 @@ const ParentDefault = (props) => {
         </div>
         <Footer />
       </main>
+      <DocumentationOffcanvas />
     </>
   )
 }

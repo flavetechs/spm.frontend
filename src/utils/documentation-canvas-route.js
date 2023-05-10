@@ -22,7 +22,7 @@ import {
   studentsLocations,
   timetableLocations
 } from "../router/spm-path-locations"
-import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations } from "../router/students-path-locations";
+import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations, studentTimeTableLocations } from "../router/students-path-locations";
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
@@ -30,9 +30,8 @@ export const documentationRoutes = (href, pathname, setUrl) => {
 
   const url = ServiceURLs.SmpDocumentation();
   
-  if (pathname === dashboardLocations.dashboard) {
+  if (pathname.includes(dashboardLocations.dashboard)) {
     setUrl(url + ProductModuleFeatures.dashboard)
-  }
   if (pathname.includes(sessionLocations.active)) {
     setUrl(url + ProductModuleFeatures.session_Setup)
   }
@@ -121,9 +120,12 @@ export const documentationRoutes = (href, pathname, setUrl) => {
     setUrl(url + ProductModuleFeatures.setting_grade)
   }
   else if (pathname.includes(authLocations.resetPassword)) {
-    setUrl(url + ProductModuleFeatures.result_password)
+    setUrl(url + ProductModuleFeatures.settings_resetPassword)
   }
-  else if (pathname.includes(onlineClassLocations.onlineClass)) {
+}
+  else if (pathname.includes(studentDashboardLocations.dashboard)) {
+    setUrl(url + ProductModuleFeatures.student_dashboard)
+   if (pathname.includes(onlineClassLocations.onlineClass)) {
     setUrl(url + ProductModuleFeatures.student_online_class)
   }
   else if (pathname.includes(studentAssessmentLocations.active)) {
@@ -138,7 +140,19 @@ export const documentationRoutes = (href, pathname, setUrl) => {
   else if (pathname.includes(studentPrintResultLocations.active)) {
     setUrl(url + ProductModuleFeatures.student_print_result)
   }
-  else if (pathname.includes(myWardsLocations.active)) {
+  else if (pathname.includes(studentTimeTableLocations.active)) {
+    setUrl(url + ProductModuleFeatures.general_class_timetable)
+    if (pathname === studentTimeTableLocations.examTimeTable) {
+      setUrl(url + ProductModuleFeatures.general_exam_timetable)
+    }
+    else if (pathname === studentTimeTableLocations.cumulativeTimeTable) {
+      setUrl(url + ProductModuleFeatures.general_cumulative_exams_timetable)
+    }
+  }
+}
+else if (pathname.includes(parentDashboardLocations.dashboard)) {
+  setUrl(url + ProductModuleFeatures.parent_dashboard)
+  if (pathname.includes(myWardsLocations.active)) {
     setUrl(url + ProductModuleFeatures.parent_ward_list)
   }
   else if (pathname.includes(wardsNoteLocations.active)) {
@@ -162,12 +176,8 @@ export const documentationRoutes = (href, pathname, setUrl) => {
       setUrl(url + ProductModuleFeatures.general_cumulative_exams_timetable)
     }
   }
-  if (pathname === studentDashboardLocations.dashboard) {
-    setUrl(url + ProductModuleFeatures.student_dashboard)
-  }
-  if (pathname === parentDashboardLocations.dashboard) {
-    setUrl(url + ProductModuleFeatures.parent_dashboard)
-  }
+}
+
   else {
     setUrl(url)
   }

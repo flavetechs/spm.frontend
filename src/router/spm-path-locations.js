@@ -12,7 +12,7 @@ export const permissionLocations = {
 };
 
 export const dashboardLocations = {
-  dashboard: "/dashboard",
+  dashboard: "/dashboard/",
 };
 
 export const inprogress = {

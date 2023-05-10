@@ -1,5 +1,5 @@
 export const parentDashboardLocations  = {
-    dashboard: "/parent-dashboard",
+    dashboard: "/parent-dashboard/",
 };
 
 export const myWardsLocations = {

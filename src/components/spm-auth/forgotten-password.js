@@ -97,7 +97,7 @@ const ForgottenPassword = (props) => {
                                                 <button onSubmit={() => {
                                                     handleSubmit();
 
-                                                }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Reset</button>
+                                                }} type="button" variant="btn btn-primary" className='btn btn-primary'>Reset</button>
                                             </div>
                                         </Form>
                                     )}

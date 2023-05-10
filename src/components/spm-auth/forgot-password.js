@@ -76,7 +76,7 @@ const ForgotPassword = () => {
                                             <div className="d-flex justify-content-center">
                                                 <button onSubmit={() => {
                                                     handleSubmit()
-                                                }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
+                                                }} type="button" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
                                             </div>
                                             {/* <p className="mt-3 text-center">
                                                         Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>

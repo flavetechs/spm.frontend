@@ -1,5 +1,5 @@
 export const studentDashboardLocations = {
-    dashboard: "/stds-dashboard",
+    dashboard: "/stds-dashboard/",
   };
   
   export const onlineClassLocations = {
@@ -19,11 +19,11 @@ export const studentDashboardLocations = {
   };
 
   export const studentNoteLocations = {
-    active:"/stds-dashboard/smp-student-note/",
-    studentNotes: "/stds-dashboard/smp-student-note/student-note",
-    createStudentNotes:"/stds-dashboard/smp-student-note/create-student-notes",
-    editStudentNotes:"/stds-dashboard/smp-student-note/edit-student-notes",
-    studentNotesDetails:"/stds-dashboard/smp-student-note/student-note-details",
+    active:"/stds-dashboard/smp-student-studentnote/",
+    studentNotes: "/stds-dashboard/smp-student-studentnote/student-note",
+    createStudentNotes:"/stds-dashboard/smp-student-studentnote/create-student-notes",
+    editStudentNotes:"/stds-dashboard/smp-student-studentnote/edit-student-notes",
+    studentNotesDetails:"/stds-dashboard/smp-student-studentnote/student-note-details",
   };
 
   export const studentAnnouncementLocations = {

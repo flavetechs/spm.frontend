@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { bindActionCreators } from "redux"
 
 //header
@@ -6,15 +6,11 @@ import Header from '../../components/partials/dashboard/HeaderStyle/header'
 //subheader
 import SubHeader from '../../components/partials/dashboard/HeaderStyle/sub-header'
 //sidebar
-import Sidebar from '../../components/partials/dashboard/SidebarStyle/sidebar'
 //footer
 import Footer from '../../components/partials/dashboard/FooterStyle/footer'
 //default 
-import DashboardRouter from '../../router/default-router'
-
-import SettingOffcanvas from '../../components/partials/components/settingoffcanvas'
-import Loader from '../../components/Loader'
-import { useHistory } from 'react-router-dom';
+import DocumentationOffcanvas from '../../components/partials/components/documentation'
+import { useHistory } from 'react-router-dom'
 
 // store
 import { NavbarstyleAction, getDirMode, getcustomizerMode, getcustomizerprimaryMode, getcustomizerinfoMode, SchemeDirAction, ColorCustomizerAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../store/setting/setting'
@@ -24,7 +20,6 @@ import { DecisionDialog } from '../../components/partials/components/hoc-tools/d
 import { SingleDeleteDialog } from '../../components/partials/components/hoc-tools/delete-dialogs'
 import { ErrorToast, SuccessToast } from '../../components/partials/components/hoc-tools/alert'
 import SmpLoader from '../../components/loader/smp-loader'
-import { getUserDetails } from '../../utils/permissions'
 import StudentDashboardRouter from '../../router/student-router'
 import StudentSideBar from '../../components/partials/dashboard/SidebarStyle/student-side-bar'
 
@@ -115,7 +110,7 @@ const StudentDefault = (props) => {
                 </div>
                 <Footer />
             </main>
-            <SettingOffcanvas />
+            <DocumentationOffcanvas />
         </>
     )
 
