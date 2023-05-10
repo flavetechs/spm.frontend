@@ -7,7 +7,7 @@ import {
     fetchSingleStudent,
 } from "../../../store/actions/student-actions";
 import './profilePage.scss';
-import { profileLocations } from "../../../router/students-path-locations";
+import { studentProfileLocations } from "../../../router/students-path-locations";
 
 const StudentProfilePage = () => {
 
@@ -92,7 +92,7 @@ const StudentProfilePage = () => {
                                         type="button"
                                         variant="btn btn-primary"
                                         onClick={() => {
-                                            history.push(`${profileLocations.profileEdit}?studentAccountId=${selectedStudent.studentAccountId}`)
+                                            history.push(`${studentProfileLocations.profileEdit}?studentAccountId=${selectedStudent.studentAccountId}`)
                                         }}
                                     >Edit Profile</Button>
                                 </div>

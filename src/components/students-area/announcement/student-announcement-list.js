@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { announcementLocations } from "../../../router/students-path-locations";
+import { studentAnnouncementLocations } from "../../../router/students-path-locations";
 import { getAllAnnouncement, updateSeenAnnouncement } from "../../../store/actions/notification-actions";
 import { stripHtml } from "../../../utils/tools";
 import PaginationFilter from "../../partials/components/pagination-filter";
@@ -89,7 +89,7 @@ const StudentAnnouncement = () => {
                                                     <div
                                                         onClick={() => {
                                                             history.push(
-                                                                `${announcementLocations.studentAnnouncementDetails
+                                                                `${studentAnnouncementLocations.studentAnnouncementDetails
                                                                 }?announcementsId=${item.announcementsId}`
                                                             );
                                                             updateSeenAnnouncement(item.announcementsId)(dispatch)
@@ -198,7 +198,7 @@ const StudentAnnouncement = () => {
                                                     style={{ width: "20%" }}
                                                     onClick={() => {
                                                         history.push(
-                                                            `${announcementLocations.studentAnnouncementDetails
+                                                            `${studentAnnouncementLocations.studentAnnouncementDetails
                                                             }?announcementsId=${item.announcementsId}`
                                                         );
                                                         updateSeenAnnouncement(item.announcementsId)(dispatch)
@@ -210,7 +210,7 @@ const StudentAnnouncement = () => {
                                                     dangerouslySetInnerHTML={{ __html: stripHtml(truncateString(item.content)) }}
                                                     onClick={() => {
                                                         history.push(
-                                                            `${announcementLocations.studentAnnouncementDetails
+                                                            `${studentAnnouncementLocations.studentAnnouncementDetails
                                                             }?announcementsId=${item.announcementsId}`
                                                         );
                                                         updateSeenAnnouncement(item.announcementsId)(dispatch);
@@ -221,7 +221,7 @@ const StudentAnnouncement = () => {
                                                 <div className="w-25 py-2 item-table"
                                                     onClick={() => {
                                                         history.push(
-                                                            `${announcementLocations.studentAnnouncementDetails
+                                                            `${studentAnnouncementLocations.studentAnnouncementDetails
                                                             }?announcementsId=${item.announcementsId}`
                                                         );
                                                         updateSeenAnnouncement(item.announcementsId)(dispatch)

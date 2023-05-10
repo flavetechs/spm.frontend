@@ -22,7 +22,7 @@ import WardsNoteDetails from '../components/parent-area/wards-note/ward-note-det
 import WardsNoteView from '../components/parent-area/wards-note/wards-note-view';
 import Protected from '../components/spm-auth/protected';
 import parentIndex from '../views/dashboard/parent-index';
-import {parentAssessmentLocations,  announcementLocations, dashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, printResultLocations, wardsNoteLocations, parentAccountLocations } from './parents-path-locations';
+import {parentAssessmentLocations,  announcementLocations, parentDashboardLocations, myWardsLocations, parentTeachersNoteLocations, parentTimeTableLocations, parentPrintResultLocations, wardsNoteLocations, parentAccountLocations } from './parents-path-locations';
 import ParentExamTimeTableActivities from '../components/parent-area/timetable/parent-exam-timetable-activities';
 import CumulativeTimeTable from '../components/parent-area/timetable/parent-cumulative-timetable';
 import ParentsProfile from '../components/parent-area/profile/parents-profile';
@@ -38,7 +38,7 @@ const ParentDashboardRouter = () => {
                     <Switch>
                         {/* dashboard */}
                         <Route exact path="/" component={parentIndex}></Route>
-                        <Route path={dashboardLocations.dashboard} exact component={parentIndex} />
+                        <Route path={parentDashboardLocations.dashboard} exact component={parentIndex} />
 
                         {/* timetable */}
                         <Route path={parentTimeTableLocations.parentClassTimeTable} exact component={ParentClassTimeTable} />
@@ -53,8 +53,8 @@ const ParentDashboardRouter = () => {
                         <Route path={myWardsLocations.wardsDetails} exact component={WardsDetails} />
 
                         {/* printResult */}
-                        <Route path={printResultLocations.printResult} exact component={PrintParentResult} />
-                        <Route path={printResultLocations.resultTemplate} exact component={ParentTemplateControl} />
+                        <Route path={parentPrintResultLocations.printResult} exact component={PrintParentResult} />
+                        <Route path={parentPrintResultLocations.resultTemplate} exact component={ParentTemplateControl} />
 
                         {/* teachersnote */}
                         <Route path={parentTeachersNoteLocations.parentTeachersNote} exact component={TeachersNote} />

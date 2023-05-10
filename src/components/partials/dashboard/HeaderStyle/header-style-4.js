@@ -6,11 +6,11 @@ import { getUserDetails } from "../../../../utils/permissions";
 import {
   announcementLocations,
   parentAssessmentLocations,
-  dashboardLocations,
+  parentDashboardLocations,
   myWardsLocations,
   parentTeachersNoteLocations,
   parentTimeTableLocations,
-  printResultLocations,
+  parentPrintResultLocations,
   wardsNoteLocations,
   parentAccountLocations,
 } from "../../../../router/parents-path-locations";
@@ -72,7 +72,7 @@ const HeaderStyle4 = () => {
                 <Nav.Link
                   active
                   aria-current="page"
-                  href={dashboardLocations.dashboard}
+                  href={parentDashboardLocations.dashboard}
                 >
                   Dashboard
                 </Nav.Link>
@@ -133,7 +133,7 @@ const HeaderStyle4 = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as="li">
-                <Nav.Link href={printResultLocations.printResult}>
+                <Nav.Link href={parentPrintResultLocations.printResult}>
                   Print Result
                 </Nav.Link>
               </Nav.Item>

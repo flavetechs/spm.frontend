@@ -1,3 +1,4 @@
+import { myWardsLocations, parentAssessmentLocations, parentDashboardLocations, parentPrintResultLocations, parentTeachersNoteLocations, parentTimeTableLocations, wardsNoteLocations } from "../router/parents-path-locations";
 import {
   adminAdmissionLocations,
   assessmentLocations,
@@ -21,6 +22,7 @@ import {
   studentsLocations,
   timetableLocations
 } from "../router/spm-path-locations"
+import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations } from "../router/students-path-locations";
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
@@ -28,7 +30,7 @@ export const documentationRoutes = (href, pathname, setUrl) => {
 
   const url = ServiceURLs.SmpDocumentation();
   
-  if (pathname.includes(dashboardLocations.dashboard)) {
+  if (pathname === dashboardLocations.dashboard) {
     setUrl(url + ProductModuleFeatures.dashboard)
   }
   if (pathname.includes(sessionLocations.active)) {
@@ -120,6 +122,51 @@ export const documentationRoutes = (href, pathname, setUrl) => {
   }
   else if (pathname.includes(authLocations.resetPassword)) {
     setUrl(url + ProductModuleFeatures.result_password)
+  }
+  else if (pathname.includes(onlineClassLocations.onlineClass)) {
+    setUrl(url + ProductModuleFeatures.student_online_class)
+  }
+  else if (pathname.includes(studentAssessmentLocations.active)) {
+    setUrl(url + ProductModuleFeatures.student_assessment)
+  }
+  else if (pathname.includes(studentClassNoteLocations.active)) {
+    setUrl(url + ProductModuleFeatures.student_classnote)
+  }
+  else if (pathname.includes(studentNoteLocations.active)) {
+    setUrl(url + ProductModuleFeatures.student_note)
+  }
+  else if (pathname.includes(studentPrintResultLocations.active)) {
+    setUrl(url + ProductModuleFeatures.student_print_result)
+  }
+  else if (pathname.includes(myWardsLocations.active)) {
+    setUrl(url + ProductModuleFeatures.parent_ward_list)
+  }
+  else if (pathname.includes(wardsNoteLocations.active)) {
+    setUrl(url + ProductModuleFeatures.parent_ward_note)
+  }
+  else if (pathname.includes(parentTeachersNoteLocations.active)) {
+    setUrl(url + ProductModuleFeatures.parent_teachersnote)
+  }
+  else if (pathname.includes(parentAssessmentLocations.active)) {
+    setUrl(url + ProductModuleFeatures.parentward_assessment)
+  }
+  else if (pathname.includes(parentPrintResultLocations.active)) {
+    setUrl(url + ProductModuleFeatures.general_print_result)
+  }
+  else if (pathname.includes(parentTimeTableLocations.active)) {
+    setUrl(url + ProductModuleFeatures.general_class_timetable)
+    if (pathname.includes(parentTimeTableLocations.parentExamTimeTable)) {
+      setUrl(url + ProductModuleFeatures.general_exam_timetable)
+    }
+    else if (pathname === parentTimeTableLocations.cumulativeTimeTable) {
+      setUrl(url + ProductModuleFeatures.general_cumulative_exams_timetable)
+    }
+  }
+  if (pathname === studentDashboardLocations.dashboard) {
+    setUrl(url + ProductModuleFeatures.student_dashboard)
+  }
+  if (pathname === parentDashboardLocations.dashboard) {
+    setUrl(url + ProductModuleFeatures.parent_dashboard)
   }
   else {
     setUrl(url)

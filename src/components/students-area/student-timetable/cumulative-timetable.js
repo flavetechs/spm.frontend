@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Button, OverlayTrigger, Tooltip, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { timeTableLocations } from "../../../router/students-path-locations";
+import { studentTimeTableLocations } from "../../../router/students-path-locations";
 import { getCumulativeExamTimetable, getTimetableActiveClass } from "../../../store/actions/timetable-actions";
 
 const CumulativeTimeTable = () => {
@@ -90,7 +90,7 @@ const CumulativeTimeTable = () => {
                     className="text-center btn-primary btn-icon  mb-md-0 mb-3 ms-0 ms-lg-5"
                     onClick={() => {
                       history.push(
-                        `${timeTableLocations.printTimeTable}?timetableType=cumulativeTimeTable`
+                        `${studentTimeTableLocations.printTimeTable}?timetableType=cumulativeTimeTable`
                       );
                     }}
                   >

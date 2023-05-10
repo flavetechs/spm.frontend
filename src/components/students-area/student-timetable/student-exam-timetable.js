@@ -4,7 +4,7 @@ import Card from "../../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { PrintCSV } from "../../../utils/export-csv";
 import { getStudentClassTimeTable, getStudentExamTimeTable } from "../../../store/actions/timetable-actions";
-import { timeTableLocations } from "../../../router/students-path-locations";
+import { studentTimeTableLocations } from "../../../router/students-path-locations";
 import { useHistory } from "react-router-dom";
 
 
@@ -48,7 +48,7 @@ const StudentExamTimeTable = () => {
                   </Button> */}
                   <Button className="text-center btn-primary btn-icon mt-lg-0 mt-md-0 mt-3 ms-2"
                     onClick={() => {
-                      history.push(`${timeTableLocations.printTimeTable}?timetableType=examTimeTable`);
+                      history.push(`${studentTimeTableLocations.printTimeTable}?timetableType=examTimeTable`);
                     }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer" viewBox="0 0 16 16">

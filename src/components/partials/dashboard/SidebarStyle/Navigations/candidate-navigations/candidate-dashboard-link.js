@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { candidateLocations } from '../../../../../../router/candidate-path-location'
-import { dashboardLocations } from '../../../../../../router/students-path-locations'
+import { studentDashboardLocations } from '../../../../../../router/students-path-locations'
 export function CandidateDashboardLink(props){
     var location = useLocation()
     return(
