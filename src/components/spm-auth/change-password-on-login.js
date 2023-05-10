@@ -7,25 +7,24 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 // img
 import auth1 from "../../assets/images/auth/04.png";
-import Logo from "../partials/components/logo";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { authLocations } from "../../router/spm-path-locations";
 import { changeMyPassword } from "../../store/actions/auth-actions";
 import { ServiceURLs } from "../../utils/other";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 
-const FirstTimeLoginPassswordChange = () => {
-  const schoolUrl =
-    process.env.NODE_ENV === "development"
-      ? ServiceURLs.Development()
-      : window.location.origin;
+const FirstTimeLoginPassswordChange = (props) => {
+  const schoolUrl = ServiceURLs.GetAppUrl();
+  useEffect(() => {
+    props.getAppLayout(schoolUrl).then(res => {
+      return res;
+    })
+  }, [schoolUrl])
 
   const locations = useLocation();
-  const dispatch = useDispatch();
-  const state = useSelector((state) => state);
-  const { appSetting } = state.portal;
+  const { appSetting } = props.state.portal;
 
-  const { message } = state.auth;
+  const { message } = props.state.auth;
   var token = localStorage.getItem("token");
   var userDetail = localStorage.getItem("userDetail");
   const [userId, setId] = useState("");
@@ -71,9 +70,7 @@ const FirstTimeLoginPassswordChange = () => {
       }),
   });
 
-  useEffect(() => {
-    getAppLayout(schoolUrl)(dispatch);
-  }, [schoolUrl]);
+
 
   return (
     <>
@@ -101,12 +98,12 @@ const FirstTimeLoginPassswordChange = () => {
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {
-                    changeMyPassword({
+                    props.changeMyPassword({
                       userId: userId,
                       oldPassword: values.oldPassword,
                       newPassword: values.newPassword,
                       schoolUrl: schoolUrl,
-                    })(dispatch);
+                    });
                   }}
                 >
                   {({
@@ -127,23 +124,23 @@ const FirstTimeLoginPassswordChange = () => {
                           <div className="form-group">
                             {((touched.oldPassword && errors.oldPassword) ||
                               message) && (
-                              <div className="text-danger">
-                                {errors.oldPassword}
-                              </div>
-                            )}
+                                <div className="text-danger">
+                                  {errors.oldPassword}
+                                </div>
+                              )}
                             <label htmlFor="oldPassword" className="form-label">
                               Old Password
                             </label>
                             <div className="d-flex">
-                            <Field
-                              type={showOldPassword ? "text" : "password"}
-                              className="form-control"
-                              name="oldPassword"
-                              id="oldPassword"
-                              aria-describedby="oldPassword"
-                              required
-                              placeholder=" "
-                            />
+                              <Field
+                                type={showOldPassword ? "text" : "password"}
+                                className="form-control"
+                                name="oldPassword"
+                                id="oldPassword"
+                                aria-describedby="oldPassword"
+                                required
+                                placeholder=" "
+                              />
                               {showOldPassword ? (
                                 <svg
                                   onClick={() => setShowOldPassword(false)}
@@ -395,4 +392,18 @@ const FirstTimeLoginPassswordChange = () => {
   );
 };
 
-export default FirstTimeLoginPassswordChange;
+function mapStateToProps(state) {
+  return {
+    state: state
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
+    changeMyPassword: ({ userId, oldPassword, newPassword, schoolUrl }) =>
+      changeMyPassword({ userId, oldPassword, newPassword, schoolUrl })
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FirstTimeLoginPassswordChange);

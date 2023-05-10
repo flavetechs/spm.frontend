@@ -26,19 +26,21 @@ import PasswordReset from '../components/spm-auth/PasswordReset'
 import PasswordResetSuccessful from '../components/spm-auth/password-reset-successful'
 import PageNotFound from '../components/spm-auth/page-not-found'
 import { getAppLayout } from '../store/actions/portal-setting-action'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { ServiceURLs } from '../utils/other'
 import RegistrationSignIn from '../components/spm-auth/parent-guardian-login'
 
-const IndexRouters = () => {
+const IndexRouters = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userDetail, setUserDetail] = useState(null);
 
-    const dispatch = useDispatch();
 
-    const schoolUrl = process.env.NODE_ENV === "development" ? ServiceURLs.Development() : window.location.origin;
+    const schoolUrl = ServiceURLs.GetAppUrl();
     React.useEffect(() => {
-        getAppLayout(schoolUrl)(dispatch);
+        props.getAppLayout(schoolUrl).then(res => {
+            console.log('res', res);
+            return res;
+        })
     }, [schoolUrl])
 
 
@@ -85,5 +87,10 @@ const IndexRouters = () => {
         </>
     )
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch)
+    };
+}
 
-export default IndexRouters
+export default connect(null, mapDispatchToProps)(IndexRouters);

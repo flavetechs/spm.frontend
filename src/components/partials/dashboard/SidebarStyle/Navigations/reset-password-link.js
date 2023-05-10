@@ -9,7 +9,7 @@ export function ResetPasswordLink(props){
         <>
     
                        <li className="nav-item">
-                       <Link className={`${location.pathname === authLocations.resetPassword ? 'active' : ''} nav-link`} to={`${authLocations.resetPassword}?id=${JSON.parse(userDetail).userAccountId}`}
+                       <Link className={`${location.pathname === authLocations.resetPassword ? 'active' : ''} nav-link`} to={`${authLocations.resetPassword}?id=${JSON.parse(userDetail)?.userAccountId}`}
                        onClick={()=>{
                         props.minisidebar(); 
                        }}>

@@ -30,7 +30,7 @@ export enum ProductModuleFeatures {
     settings_resetPassword = 29,
     session_examTimetable = 30,
     dashboard = 31,
-    online_class = 32,
+    student_online_class = 32,
     student_assessment = 33,
     student_classnote = 34,
     student_note = 35,
