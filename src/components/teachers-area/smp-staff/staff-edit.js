@@ -9,12 +9,6 @@ import "./staff.scss";
 import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // img
-import avatars1 from "../../../assets/images/avatars/01.png";
-import avatars2 from "../../../assets/images/avatars/avtar_2.png";
-import avatars3 from "../../../assets/images/avatars/avtar_2.png";
-import avatars4 from "../../../assets/images/avatars/avtar_3.png";
-import avatars5 from "../../../assets/images/avatars/avtar_4.png";
-import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { staffLocations } from "../../../router/spm-path-locations";
 import {
   fetchSingleStaff,

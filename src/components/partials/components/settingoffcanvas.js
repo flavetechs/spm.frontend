@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+    import {useState, useEffect} from 'react'
 import { Offcanvas, Row, Col, Tooltip, OverlayTrigger} from 'react-bootstrap'
 import {bindActionCreators} from "redux"
 

@@ -100,7 +100,7 @@ const EditStudentNote = () => {
                   initialValues={{
                     noteTitle: singleStudentNotes?.noteTitle || "",
                     subjectId: singleStudentNotes?.subjectId || "",
-                    submitForReview: singleStudentNotes?.approvalStatus !==2 ? true :false,
+                    submitForReview: false,
                     teacherId:subjectTeacher,
                   }}
                   validationSchema={validation}
@@ -112,7 +112,7 @@ const EditStudentNote = () => {
                     }
                     values.noteContent = content;
                     values.studentNoteId = singleStudentNotes?.studentNoteId;
-                    sendForReview(singleStudentNotes?.studentNoteId)(dispatch);
+                    values.submitForReview && sendForReview(singleStudentNotes?.studentNoteId)(dispatch);
                     updateStudentNotes(values)(dispatch);
                   }}
                 >

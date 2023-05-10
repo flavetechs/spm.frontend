@@ -1101,7 +1101,7 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        studentNotes: payload,
+        studentNotes: payload.data,
         filterProps: payload,
       };
     }
@@ -1124,7 +1124,8 @@ export const classReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        studentNotesByTeacher: payload,
+        studentNotesByTeacher: payload.data,
+        filterProps:payload,
       };
     }
     case actions.FETCH_STUDENT_NOTES_BY_TEACHER_FAILED: {

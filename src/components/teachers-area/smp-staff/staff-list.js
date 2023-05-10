@@ -270,7 +270,7 @@ const StaffList = () => {
                             ></path>
                           </svg>
                         </i>
-                        <span>New Staff List</span>
+                        <span>Staff List</span>
                       </button>
                     </Link>
                   )}
