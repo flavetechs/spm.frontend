@@ -1,4 +1,4 @@
-export const dashboardLocations = {
+export const studentDashboardLocations = {
     dashboard: "/stds-dashboard",
   };
   
@@ -6,44 +6,51 @@ export const dashboardLocations = {
     onlineClass: "/stds-dashboard/student-online-class",
   };
 
-  export const assessmentLocations = {
-    assessment: "/stds-dashboard/student-assessment",
-    assessmentDetails: "/stds-dashboard/student-assessment-details",
+  export const studentAssessmentLocations = {
+    active:"/stds-dashboard/smp-student-assessment/",
+    assessment: "/stds-dashboard/smp-student-assessment/assessment",
+    assessmentDetails: "/stds-dashboard/smp-student-assessment/assessment-details",
   };
 
-  export const classNoteLocations = {
-    classNotes: "/stds-dashboard/student-class-note",
-    classNotesDetails:"/stds-dashboard/student-class-note/class-note-details",
+  export const studentClassNoteLocations = {
+    active:"/stds-dashboard/smp-student-classnote/",
+    classNotes: "/stds-dashboard/smp-student-classnote/class-note",
+    classNotesDetails:"/stds-dashboard/smp-student-classnote/class-note-details",
   };
 
   export const studentNoteLocations = {
-    studentNotes: "/stds-dashboard/student-student-note",
-    createStudentNotes:"/stds-dashboard/student-student-note/create-student-notes",
-    editStudentNotes:"/stds-dashboard/student-student-note/edit-student-notes",
-    studentNotesDetails:"/stds-dashboard/student-student-note/student-note-details",
+    active:"/stds-dashboard/smp-student-note/",
+    studentNotes: "/stds-dashboard/smp-student-note/student-note",
+    createStudentNotes:"/stds-dashboard/smp-student-note/create-student-notes",
+    editStudentNotes:"/stds-dashboard/smp-student-note/edit-student-notes",
+    studentNotesDetails:"/stds-dashboard/smp-student-note/student-note-details",
   };
 
-  export const announcementLocations = {
-    announcement: "/stds-dashboard/student-announcement",
-    studentAnnouncementDetails: "/stds-dashboard/student-announcement-details",
+  export const studentAnnouncementLocations = {
+    active:"/stds-dashboard/smp-student-announcement/",
+    announcement: "/stds-dashboard/smp-student-announcement/announcement",
+    studentAnnouncementDetails: "/stds-dashboard/smp-student-announcement/announcement-details",
   };
 
-  export const timeTableLocations = {
-    classTimeTable: "/stds-dashboard/student-class-time-table",
-    examTimeTable: "/stds-dashboard/student-exam-time-table",
-    printTimeTable: "/stds-dashboard/print-time-table",
-    cumulativeTimeTable: "/stds-dashboard/cumulative-time-table",
+  export const studentTimeTableLocations = {
+    active:"/stds-dashboard/smp-student-timetable/",
+    classTimeTable: "/stds-dashboard/smp-student-timetable/class-time-table",
+    examTimeTable: "/stds-dashboard/smp-student-timetable/exam-time-table",
+    printTimeTable: "/stds-dashboard/smp-student-timetable/print-time-table",
+    cumulativeTimeTable: "/stds-dashboard/smp-student-timetable/cumulative-time-table",
   };
 
-  export const printResultLocations = {
-    printResult: "/stds-dashboard/student-print-result",
-    resultTemplate:"/stds-dashboard/student-result-template",
+  export const studentPrintResultLocations = {
+    active:"/stds-dashboard/smp-student-print-result/",
+    printResult: "/stds-dashboard/smp-student-print-result/print-result",
+    resultTemplate:"/stds-dashboard/smp-student-print-result/result-template",
   };
 
-  export const profileLocations = {
-    profile: "/stds-dashboard/student-profile",
-    profileEdit: "/stds-dashboard/smp-user/edit-student-profile",
+  export const studentProfileLocations = {
+    active:"/stds-dashboard/smp-student-profile/",
+    profile: "/stds-dashboard/smp-student-profile/student-profile",
+    profileEdit: "/stds-dashboard/smp-student-profile/edit-student-profile",
   };
-  export const resetPasswordLocations = {
+  export const studentResetPasswordLocations = {
     resetPassword:"/stds-dashboard/reset-password",
   }

@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
-import { printResultLocations } from "../../../router/parents-path-locations";
+import { parentPrintResultLocations } from "../../../router/parents-path-locations";
 import { getSinglePrintResult } from "../../../store/actions/results-actions";
 import { getTermClasses } from "../../../store/actions/publish-actions";
 
@@ -55,7 +55,7 @@ const PrintParentResult = () => {
 
   React.useEffect(() => {
     showSuccessToast&&
-    history.push(printResultLocations.resultTemplate);
+    history.push(parentPrintResultLocations.resultTemplate);
    
   }, [showSuccessToast, history]);
 

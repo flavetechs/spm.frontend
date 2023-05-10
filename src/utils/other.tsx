@@ -1,6 +1,6 @@
 export class ServiceURLs{
     static Development(): string{
-        return 'http://flave.flavetechs.com'
+        return 'http://queencollege.flavetechs.com'
     }
     static SmpDocumentation(): string{//
         return 'http://fws.flavetechs.com/docs/smp-canvas?feature=';

@@ -1,51 +1,59 @@
-export const dashboardLocations = {
+export const parentDashboardLocations  = {
     dashboard: "/parent-dashboard",
 };
 
 export const myWardsLocations = {
-    myWards: "/parent-dashboard/my-wards",
-    wardsDetails: "/parent-dashboard/wards-details",
+    active:"/parent-dashboard/smp-my-wards/",
+    myWards: "/parent-dashboard/smp-my-wards/my-wards",
+    wardsDetails: "/parent-dashboard/smp-my-wards/wards-details",
 };
 
 export const parentTeachersNoteLocations = {
-    parentTeachersNote: "/parent-dashboard/teachers-note",
-    parentTeachersNotesDetails: "/parent-dashboard/parent-teachers-note/parent-teachers-note-details",
-    parentTteachersNotesView: "/parent-dashboard/parent-teachers-note/parent-teachers-note-view",
+    active:"/parent-dashboard/smp-parent-teachers-note/",
+    parentTeachersNote: "/parent-dashboard/smp-parent-teachers-note/teachers-note",
+    parentTeachersNotesDetails: "/parent-dashboard/smp-parent-teachers-note/teachers-note-details",
+    parentTteachersNotesView: "/parent-dashboard/smp-parent-teachers-note/teachers-note-view",
 };
 
 export const wardsNoteLocations = {
-    wardsNote: "/parent-dashboard/wards-note",
-    wardsNotesDetails: "/parent-dashboard/wards-note/wards-note-details",
-    wardsNotesView: "/parent-dashboard/wards-note/waards-note-view",
+    active:"/parent-dashboard/smp-wards-note/",
+    wardsNote: "/parent-dashboard/smp-wards-note/wards-note",
+    wardsNotesDetails: "/parent-dashboard/smp-wards-note/wards-note-details",
+    wardsNotesView: "/parent-dashboard/smp-wards-note/waards-note-view",
 };
 
 export const parentAssessmentLocations = {
-    parentAssessment: "/parent-dashboard/parent-assessment",
-    parentAssessmentView: "/parent-dashboard/parent-assessment-view",
-    parentAssessmentDetails: "/parent-dashboard/parent-assessment-details",
+    active:"/parent-dashboard/smp-parent-assessment/",
+    parentAssessment: "/parent-dashboard/smp-parent-assessment/assessment",
+    parentAssessmentView: "/parent-dashboard/smp-parent-assessment/assessment-view",
+    parentAssessmentDetails: "/parent-dashboard/smp-parent-assessment/assessment-details",
 };
 
 
-export const printResultLocations = {
-    printResult: "/parent-dashboard/parent-print-result",
-    resultTemplate: "/parent-dashboard/parent-result-template",
+export const parentPrintResultLocations = {
+    active:"/parent-dashboard/smp-parent-print-result/",
+    printResult: "/parent-dashboard/smp-parent-print-result/print-result",
+    resultTemplate: "/parent-dashboard/smp-parent-print-result/result-template",
 };
 
 export const parentTimeTableLocations = {
-    parentClassTimeTable: "/parent-dashboard/parent-class-timetable",
-    parentExamTimeTable: "/parent-dashboard/parent-exam-timetable",
-    parentClassTimetableActivities: "/parent-dashboard/parent-class-timetable-activities",
-    parentExamTimetableActivities: "/parent-dashboard/parent-exam-timetable-activities",
-    printTimeTable: "/parent-dashboard/print-timetable",
-    cumulativeTimeTable: "/parent-dashboard/cumulative-timetable",
+    active:"/parent-dashboard/smp-parent-timetable/",
+    parentClassTimeTable: "/parent-dashboard/smp-parent-timetable/class-timetable",
+    parentExamTimeTable: "/parent-dashboard/smp-parent-timetable/exam-timetable/",
+    parentClassTimetableActivities: "/parent-dashboard/smp-parent-timetable/class-timetable-activities",
+    parentExamTimetableActivities: "/parent-dashboard/smp-parent-timetable/exam-timetable/exam-timetable-activities",
+    printTimeTable: "/parent-dashboard/smp-parent-timetable/print-timetable",
+    cumulativeTimeTable: "/parent-dashboard/smp-parent-timetable/cumulative-timetable",
 };
 
 export const announcementLocations = {
-    announcement: "/parent-dashboard/announcement",
-    parentannouncementDetails: "/parent-dashboard/parent-announcement-details",
+    active:"/parent-dashboard/smp-parent-announcement/",
+    announcement: "/parent-dashboard/smp-parent-announcement/announcement",
+    parentannouncementDetails: "/parent-dashboard/smp-parent-announcement/announcement-details",
 };
 
 export const parentAccountLocations = {
-    profile: "/parent-dashboard/profile",
-    resetPassword: "/parent-dashboard/reset-password",
+    active:"/parent-dashboard/smp-parent-profile/",
+    profile: "/parent-dashboard/smp-parent-profile/profile",
+    resetPassword: "/parent-dashboard/smp-parent-profile/reset-password",
 };

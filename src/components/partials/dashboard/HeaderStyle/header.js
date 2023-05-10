@@ -30,7 +30,7 @@ import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, get
 import { connect, useDispatch } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
-import { profileLocations } from '../../../../router/students-path-locations'
+import { studentProfileLocations } from '../../../../router/students-path-locations'
 import PushedNotifications from './pushed-notifications'
 
 const mapStateToProps = (state) => {
@@ -229,7 +229,7 @@ const Header = (props) => {
                                                     <span>  Profile</span>
                                                 </Dropdown.Item>)
                                             :  userDetail?.userType === "Student" && <Dropdown.Item onClick={() => {
-                                                history.push(`${profileLocations.profile}?studentAccountId=${userDetail?.id}`)
+                                                history.push(`${studentProfileLocations.profile}?studentAccountId=${userDetail?.id}`)
                                             }}>
                                                 <span> Profile</span>
                                             </Dropdown.Item>

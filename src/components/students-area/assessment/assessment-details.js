@@ -20,7 +20,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Field, Formik } from "formik";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
-import { assessmentLocations } from "../../../router/students-path-locations";
+import { studentAssessmentLocations } from "../../../router/students-path-locations";
 import { TextEditorToolBar } from "../../../utils/tools";
 
 const StudentAssessmentDetails = () => {
@@ -60,7 +60,7 @@ const StudentAssessmentDetails = () => {
 
   React.useEffect(() => {
     createSuccessful &&
-      history.push(`${assessmentLocations.assessment}?status=${1}`);
+      history.push(`${studentAssessmentLocations.assessment}?status=${1}`);
     setFilesArray([]);
   }, [createSuccessful, history, studentSingleHomeAssessment?.status]);
 

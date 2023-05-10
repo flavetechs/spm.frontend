@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom'
 //TransitionGroup
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import studentIndex from '../views/dashboard/student-index';
-import { announcementLocations, assessmentLocations, classNoteLocations, dashboardLocations, onlineClassLocations, printResultLocations, profileLocations, resetPasswordLocations, studentNoteLocations, timeTableLocations } from './students-path-locations';
+import { studentAnnouncementLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, onlineClassLocations, studentPrintResultLocations, studentProfileLocations, studentResetPasswordLocations, studentNoteLocations, studentTimeTableLocations } from './students-path-locations';
 import OnlineClass from '../components/students-area/class/online-class';
 import StudentProfileEdit from '../components/students-area/user-profile/student-profile-edit';
 import StudentAssessmentList from '../components/students-area/assessment/assessment-list';
@@ -37,17 +37,17 @@ const StudentDashboardRouter = () => {
                     <Switch>
                         {/* dashboard */}
                         <Route exact path="/" component={studentIndex}></Route>
-                        <Route path={dashboardLocations.dashboard} exact component={studentIndex} />
+                        <Route path={studentDashboardLocations.dashboard} exact component={studentIndex} />
 
                         {/* onlineClass */}
                         <Route path={onlineClassLocations.onlineClass} exact component={OnlineClass} />
 
                         {/* assessment */}
-                        <Route path={assessmentLocations.assessment} exact component={StudentAssessmentList} />
-                        <Route path={assessmentLocations.assessmentDetails} exact component={StudentAssessmentDetails} />
+                        <Route path={studentAssessmentLocations.assessment} exact component={StudentAssessmentList} />
+                        <Route path={studentAssessmentLocations.assessmentDetails} exact component={StudentAssessmentDetails} />
                         {/* classNote */}
-                        <Route path={classNoteLocations.classNotes} exact component={ClassNotes} />
-                        <Route path={classNoteLocations.classNotesDetails} exact component={ClassNoteDetails} />
+                        <Route path={studentClassNoteLocations.classNotes} exact component={ClassNotes} />
+                        <Route path={studentClassNoteLocations.classNotesDetails} exact component={ClassNoteDetails} />
 
                         {/* studentNote */}
                         <Route path={studentNoteLocations.studentNotes} exact component={StudentNotes} />
@@ -57,24 +57,24 @@ const StudentDashboardRouter = () => {
 
                         {/* announcement */}
                         {/* <Route path={announcementLocations.announcement} exact component={studentIndex} /> */}
-                        <Route path={announcementLocations.announcement} exact component={StudentAnnouncement} />
-                        <Route path={announcementLocations.studentAnnouncementDetails} exact component={StudentAnnouncementDetails} />
+                        <Route path={studentAnnouncementLocations.announcement} exact component={StudentAnnouncement} />
+                        <Route path={studentAnnouncementLocations.studentAnnouncementDetails} exact component={StudentAnnouncementDetails} />
 
                         {/* timeTable */}
                         {/*         <Route path={timeTableLocations.timeTable} exact component={studentIndex} />*/}
-                        <Route path={timeTableLocations.classTimeTable} exact component={StudentClassTimeTable} />
-                        <Route path={timeTableLocations.examTimeTable} exact component={StudentExamTimeTable} />
-                        <Route path={timeTableLocations.printTimeTable} exact component={PrintTimeTable} />
-                        <Route path={timeTableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
+                        <Route path={studentTimeTableLocations.classTimeTable} exact component={StudentClassTimeTable} />
+                        <Route path={studentTimeTableLocations.examTimeTable} exact component={StudentExamTimeTable} />
+                        <Route path={studentTimeTableLocations.printTimeTable} exact component={PrintTimeTable} />
+                        <Route path={studentTimeTableLocations.cumulativeTimeTable} exact component={CumulativeTimeTable} />
 
                         {/* printResult */}
-                        <Route path={printResultLocations.printResult} exact component={PrintStudentResult} />
-                        <Route path={printResultLocations.resultTemplate} exact component={StudentTemplateControl} />
+                        <Route path={studentPrintResultLocations.printResult} exact component={PrintStudentResult} />
+                        <Route path={studentPrintResultLocations.resultTemplate} exact component={StudentTemplateControl} />
                         {/* profile */}
-                        <Route path={profileLocations.profile} exact component={StudentProfilePage} />
-                        <Route path={profileLocations.profileEdit} exact component={StudentProfileEdit} />
+                        <Route path={studentProfileLocations.profile} exact component={StudentProfilePage} />
+                        <Route path={studentProfileLocations.profileEdit} exact component={StudentProfileEdit} />
                       {/* resetPassword */}
-                        <Route path={resetPasswordLocations.resetPassword} exact component={ResetPassword} />
+                        <Route path={studentResetPasswordLocations.resetPassword} exact component={ResetPassword} />
                         
                     </Switch>
                 </CSSTransition>

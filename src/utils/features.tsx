@@ -29,5 +29,21 @@ export enum ProductModuleFeatures {
     settings_theme = 28,
     settings_resetPassword = 29,
     session_examTimetable = 30,
-    dashboard = 31
+    dashboard = 31,
+    online_class = 32,
+    student_assessment = 33,
+    student_classnote = 34,
+    student_note = 35,
+    student_print_result = 36,
+    parent_ward_list = 37,
+    parent_ward_note = 38,
+    parent_teachersnote = 39,
+    parentward_assessment = 40,
+    general_print_result = 41,
+    general_class_timetable = 42,
+    general_exam_timetable = 43,
+    general_cumulative_exams_timetable = 44,
+    student_dashboard = 45,
+    parent_dashboard = 46,
+
 }

@@ -10,7 +10,7 @@ import { getTermClasses } from "../../../store/actions/publish-actions";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { getSinglePrintResult } from "../../../store/actions/results-actions";
-import { printResultLocations } from "../../../router/students-path-locations";
+import { studentPrintResultLocations } from "../../../router/students-path-locations";
 
 const PrintStudentResult = () => {
   //VARIABLE DECLARATIONS
@@ -57,7 +57,7 @@ const PrintStudentResult = () => {
 
   React.useEffect(() => {
     showSuccessToast&&
-    history.push(printResultLocations.resultTemplate);
+    history.push(studentPrintResultLocations.resultTemplate);
    
   }, [showSuccessToast, history]);
 

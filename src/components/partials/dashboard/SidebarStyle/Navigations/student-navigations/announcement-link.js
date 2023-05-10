@@ -1,11 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
-import { announcementLocations } from '../../../../../../router/students-path-locations'
+import { studentAnnouncementLocations } from '../../../../../../router/students-path-locations'
 export function AnnouncementLink(props){
     var location = useLocation()
     return(
         <>
          <li className="nav-item">
-                    <Link className={`${location.pathname === announcementLocations.announcement ? 'active' : ''} nav-link `} aria-current="page" to={announcementLocations.announcement} onClick={props.minisidebar}>
+                    <Link className={`${location.pathname === studentAnnouncementLocations.announcement ? 'active' : ''} nav-link `} aria-current="page" to={studentAnnouncementLocations.announcement} onClick={props.minisidebar}>
                         <i className="icon">
                         <svg
                         width="20"

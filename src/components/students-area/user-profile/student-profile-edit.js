@@ -13,7 +13,7 @@ import avatars4 from "../../../assets/images/avatars/avtar_3.png";
 import avatars5 from "../../../assets/images/avatars/avtar_4.png";
 import avatars6 from "../../../assets/images/avatars/avtar_5.png";
 import { getAllActiveSubjects } from "../../../store/actions/class-actions";
-import { profileLocations } from "../../../router/students-path-locations";
+import { studentProfileLocations } from "../../../router/students-path-locations";
 import AvatarImage from "../../../assets/avatar-image";
 import { ImageValidation } from "../../../utils/file-size-validation";
 
@@ -61,7 +61,7 @@ const StudentProfileEdit = () => {
     //HANDLING ENTER KEY FUNCTION
 
     React.useEffect(() => {
-        submitSuccessful && history.push(`${profileLocations.profile}?studentAccountId=${selectedStudent?.studentAccountId}`);;
+        submitSuccessful && history.push(`${studentProfileLocations.profile}?studentAccountId=${selectedStudent?.studentAccountId}`);;
     }, [submitSuccessful]);
 
     //CLOSING ICON ON INPUT TAG REMOVE FUNCTION

@@ -8,7 +8,7 @@ import {
   getAllStudentSubjects,
 } from "../../../store/actions/class-actions";
 import { getUserDetails } from "../../../utils/permissions";
-import { classNoteLocations } from "../../../router/students-path-locations";
+import { studentClassNoteLocations } from "../../../router/students-path-locations";
 import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 import { getActiveSession, getAllSession } from "../../../store/actions/session-actions";
 
@@ -46,7 +46,7 @@ const ClassNotes = () => {
   useEffect(() => {
     if(!termIdQueryParam && activeSession){
       history.push(
-        `${classNoteLocations.classNotes}?termId=${activeSession?.sessionTermId}`
+        `${studentClassNoteLocations.classNotes}?termId=${activeSession?.sessionTermId}`
       );
     }
   }, [activeSession])
@@ -141,7 +141,7 @@ const ClassNotes = () => {
                 enableReinitialize={true}
                 onSubmit={(values) => {
                   history.push(
-                    `${classNoteLocations.createClassNotes}?subjectId=${values.subjectId}`
+                    `${studentClassNoteLocations.createClassNotes}?subjectId=${values.subjectId}`
                   );
                 }}
               >
@@ -171,7 +171,7 @@ const ClassNotes = () => {
                                 onChange={(e) => {
                                   setFieldValue("terms", e.target.value);
                                   history.push(
-                                    `${classNoteLocations.classNotes}?termId=${e.target.value}`
+                                    `${studentClassNoteLocations.classNotes}?termId=${e.target.value}`
                                   );
                                 }}
                               >
@@ -207,10 +207,10 @@ const ClassNotes = () => {
                                   setFieldValue("subjectId", e.target.value);
                                   e.target.value === ""
                                     ? history.push(
-                                        classNoteLocations.classNotes
+                                        studentClassNoteLocations.classNotes
                                       )
                                     : history.push(
-                                        `${classNoteLocations.classNotes}?termId=${termIdQueryParam}&subjectId=${e.target.value}`
+                                        `${studentClassNoteLocations.classNotes}?termId=${termIdQueryParam}&subjectId=${e.target.value}`
                                       );
                                 }}
                               >
@@ -286,7 +286,7 @@ const ClassNotes = () => {
                                       <div
                                         onClick={() => {
                                           history.push(
-                                            `${classNoteLocations.classNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
+                                            `${studentClassNoteLocations.classNotesDetails}?teacherClassNoteId=${item.teacherClassNoteId}`
                                           );
                                           setShowMenuDropdown(false);
                                         }}

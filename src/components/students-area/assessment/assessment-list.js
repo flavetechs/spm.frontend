@@ -5,7 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import {
   getStatusFilterForStudentAssessment,
 } from "../../../store/actions/class-actions";
-import { assessmentLocations } from "../../../router/students-path-locations";
+import { studentAssessmentLocations } from "../../../router/students-path-locations";
 import { PaginationFilter1 } from "../../partials/components/pagination-filter";
 
 const StudentAssessmentList = () => {
@@ -67,7 +67,7 @@ const StudentAssessmentList = () => {
                             value={statusQuery}
                             onChange={(e) => {
                               history.push(
-                                `${assessmentLocations.assessment}?status=${e.target.value}`
+                                `${studentAssessmentLocations.assessment}?status=${e.target.value}`
                               );
                             }}
                           >
@@ -143,7 +143,7 @@ const StudentAssessmentList = () => {
                                   <div
                                     onClick={() => {
                                       history.push(
-                                        `${assessmentLocations.assessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}`
+                                        `${studentAssessmentLocations.assessmentDetails}?homeAssessmentFeedBackId=${item.homeAssessmentFeedBackId}&homeAssessmentId=${item.homeAssessmentId}`
                                       );
                                     }}
                                     className="dropdown-item"
