@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { detailedDocumentationRoutes } from '../utils/detailed-documentation-route';
-import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, lessonNoteLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations } from '../router/spm-path-locations';
+import { adminAdmissionLocations, assessmentLocations, attendanceLocations, classLocations, gradeSetting, lessonNoteLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations } from '../router/spm-path-locations';
 import { studentTimeTableLocations } from '../router/students-path-locations';
 
 const HowTo = () => {
@@ -66,7 +66,7 @@ const HowTo = () => {
                 </div>
                 <div className="mb-1 d-flex profile-media align-items-top">
                 <div className="mt-1 profile-dots-pills border-primary"></div>
-                <div className="ms-4">
+                <div className="ms-4" onClick={()=>{ detailedDocumentationRoutes(href,gradeSetting.setting,setPath);}}>
                     <a className="mb-1 h6 d-block"href={path} target="_blank" rel="noopener noreferrer">Grades</a>
                     <span className="mb-0">setting grading system for assessments</span>
                 </div>

@@ -31,6 +31,7 @@ import { connect } from "react-redux";
 import { documentationRoutes } from "../../../utils/documentation-canvas-route";
 import { detailedDocumentationRoutes } from "../../../utils/detailed-documentation-route";
 import { portalSetting } from "../../../router/spm-path-locations";
+import { onlineClassLocations, studentDashboardLocations } from "../../../router/students-path-locations";
 // import './offcanvas.js';
 
 const mapStateToProps = (state) => {
@@ -66,7 +67,7 @@ const mapDispatchToProps = (dispatch) => ({
   ),
 });
 
-const DocumentationOffcanvas = (props) => {
+const DocumentationOffcanvas = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -97,6 +98,8 @@ const DocumentationOffcanvas = (props) => {
         show={show}
         onHide={() => {
           handleClose();
+          setUrl("");
+          setPath("");
         }}
         placement={"end"}
       >
