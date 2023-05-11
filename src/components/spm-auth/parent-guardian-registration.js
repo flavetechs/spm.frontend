@@ -220,10 +220,7 @@ const RegistrationSignUp = (props) => {
 
                           <div className="d-flex justify-content-center">
                             <button
-                              onSubmit={() => {
-                                handleSubmit();
-                              }}
-                              type="button"
+                              onSubmit={handleSubmit}
                               variant="btn btn-primary"
                               className="btn btn-primary mt-2"
                             >
@@ -302,7 +299,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
-    userRegistration: (values, history) => userRegistration(values, history)(dispatch)
+    userRegistration: (values, history) => userRegistration(values, history)(dispatch),
   };
 }
 
