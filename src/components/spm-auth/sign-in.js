@@ -47,7 +47,7 @@ const SignIn = (props) => {
                 return res;
             })
         }
-    }, [schoolUrl, appSetting2])
+    }, [schoolUrl])
 
     useEffect(() => {
         if (userDetail) {
