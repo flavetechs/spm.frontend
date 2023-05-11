@@ -12,6 +12,7 @@ import { authLocations } from "../../router/spm-path-locations";
 import { changeMyPassword } from "../../store/actions/auth-actions";
 import { ServiceURLs } from "../../utils/other";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
+import SmpLoader from "../loader/smp-loader";
 
 const FirstTimeLoginPassswordChange = (props) => {
   const schoolUrl = ServiceURLs.GetAppUrl();
@@ -75,6 +76,7 @@ const FirstTimeLoginPassswordChange = (props) => {
   return (
     <>
       <section className="login-content">
+      <SmpLoader />
         <Row className="m-0 align-items-center bg-white vh-100">
           <Col md="6" className="p-0">
             <Card className="card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
@@ -315,7 +317,6 @@ const FirstTimeLoginPassswordChange = (props) => {
                       <div className="d-flex justify-content-center">
                         <button
                           onClick={handleSubmit}
-                          type="button"
                           variant="btn btn-primary"
                           className="btn btn-primary"
                         >
@@ -402,7 +403,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
     changeMyPassword: ({ userId, oldPassword, newPassword, schoolUrl }) =>
-      changeMyPassword({ userId, oldPassword, newPassword, schoolUrl })
+      changeMyPassword({ userId, oldPassword, newPassword, schoolUrl })(dispatch)
   };
 }
 
