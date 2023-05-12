@@ -47,7 +47,12 @@ const PushedNotifications = () => {
     //     }, [date]);
 
     useEffect(() => {
-        // const socket = io("http://localhost:300");
+        const socket = io("http://localhost:3000");
+        socket.on("WelcomeEvent", (m) => {
+            notifications.push(m)
+            console.log('notifications', notifications);
+            setNotifications(notifications)
+        })
     }, [])
 
 
