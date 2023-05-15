@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import CustomToggle from '../../../dropdowns'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { io } from "socket.io-client";
 
 
 import shapes1 from '../../../../assets/images/shapes/01.png'
@@ -31,19 +32,28 @@ const PushedNotifications = () => {
         // }
     }, [date]);
 
+    //     useEffect(() => {
+
+    //         function fetchNotifications() {
+    //             axiosInstance.get(`smp/server/notification/api/v1/get-notifications?pageNumber=1`)
+    //                 .then((res) => {
+    // //                    setNotifications([...res.data.result.data])
+
+
+    //                 })
+    //         }
+
+    //         fetchNotifications();
+    //     }, [date]);
+
     useEffect(() => {
-
-        function fetchNotifications() {
-            axiosInstance.get(`smp/server/notification/api/v1/get-notifications?pageNumber=1`)
-                .then((res) => {
-//                    setNotifications([...res.data.result.data])
-
-                
-                })
-        }
-
-        fetchNotifications();
-    }, [date]);
+        const socket = io("http://localhost:3000");
+        socket.on("WelcomeEvent", (m) => {
+            notifications.push(m)
+            console.log('notifications', notifications);
+            setNotifications(notifications)
+        })
+    }, [])
 
 
     return (
