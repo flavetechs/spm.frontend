@@ -59,7 +59,7 @@ const IndexRouters = (props) => {
                             component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : Default}>
                         </Route>
 
-                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard' : userDetail?.userType == "Parent" ? "/parent-dashboard" : "/dashboard"}
+                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard/' : userDetail?.userType == "Parent" ? "/parent-dashboard/" : "/dashboard/"}
                             component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
                         </Route>
 
