@@ -1,6 +1,6 @@
-import { myWardsLocations, parentAssessmentLocations, parentDashboardLocations, parentPrintResultLocations, parentTeachersNoteLocations, parentTimeTableLocations, wardsNoteLocations } from "../router/parents-path-locations";
+import { myWardsLocations, parentAccountLocations, parentAssessmentLocations, parentDashboardLocations, parentPrintResultLocations, parentTeachersNoteLocations, parentTimeTableLocations, wardsNoteLocations } from "../router/parents-path-locations";
 import { adminAdmissionLocations, assessmentLocations, attendanceLocations, authLocations, classLocations, dashboardLocations, gradeSetting, lessonNoteLocations, parentsLocations, permissionLocations, portalSetting, printResultManagement, promotionLocations, publishResultManagement, resultManagement, scoreEntryManagement, sessionClassSetupLocations, sessionLocations, staffLocations, studentsLocations, timetableLocations } from "../router/spm-path-locations"
-import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations, studentTimeTableLocations } from "../router/students-path-locations";
+import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations, studentResetPasswordLocations, studentTimeTableLocations } from "../router/students-path-locations";
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
@@ -126,6 +126,9 @@ export const detailedDocumentationRoutes = (href,pathname, setPath) => {
     else if (pathname === studentTimeTableLocations.cumulativeTimeTable) {
       setPath(url + ProductModuleFeatures.general_cumulative_exams_timetable)
     }
+    else if (pathname.includes(studentResetPasswordLocations.resetPassword)) {
+      setPath(url + ProductModuleFeatures.settings_resetPassword)
+    }
   }
 }
 else if (pathname.includes(parentDashboardLocations.dashboard)) {
@@ -152,6 +155,9 @@ else if (pathname.includes(parentDashboardLocations.dashboard)) {
     }
     else if (pathname === parentTimeTableLocations.cumulativeTimeTable) {
       setPath(url + ProductModuleFeatures.general_cumulative_exams_timetable)
+    }
+    else if (pathname.includes(parentAccountLocations.resetPassword)) {
+      setPath(url + ProductModuleFeatures.settings_resetPassword)
     }
   }
 }
