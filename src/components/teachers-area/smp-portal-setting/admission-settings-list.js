@@ -82,7 +82,6 @@ const AdmissionSettingsList = () => {
                                         <thead className="text-dark">
                                             <tr className="ligth">
                                                 <th>{"S/No"}</th>
-                                                <th className="text-center">Admission Id</th>
                                                 <th className="text-center">Admission Name</th>
                                                 <th className="text-center">
                                                     Admission Status
@@ -97,9 +96,6 @@ const AdmissionSettingsList = () => {
                                             {admissionSettingList?.map((item, idx) => (
                                                 <tr key={idx}>
                                                     <td className="">{idx + 1}</td>
-                                                    <td className="text-center">
-                                                        {item.admissionSettingId}
-                                                    </td>
                                                     <td className="text-center">
                                                         {item.admissionSettingName}
                                                     </td>

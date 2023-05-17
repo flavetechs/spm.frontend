@@ -116,7 +116,6 @@ const PrintResult = () => {
                 onSubmit={(values) => {
                   if (printSingle) {
                     getSinglePrintResult(
-                      values.ePin,
                       values.sessionTermId,
                       values.studentRegNo
                     )(dispatch);

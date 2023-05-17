@@ -15,46 +15,8 @@ import { pushedNotificationManagement } from '../../../../router/spm-path-locati
 const PushedNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [date, setDate] = useState("");
-    useEffect(() => {
-        // try {
-        //     hubInstance().then(x => {
-        //         x.on("NotificationArea", (user, message) => {
-        //             setDate(message);
-        //             console.log("message", message);
-        //         });
-        //         // sessionStorage.setItem('hubConnection', JSON.stringify(x));
-        //     }).catch(error => {
-        //         return error
-        //     })
 
-        // } catch (error) {
-        //     console.log("error", error);
-        // }
-    }, [date]);
-
-    //     useEffect(() => {
-
-    //         function fetchNotifications() {
-    //             axiosInstance.get(`smp/server/notification/api/v1/get-notifications?pageNumber=1`)
-    //                 .then((res) => {
-    // //                    setNotifications([...res.data.result.data])
-
-
-    //                 })
-    //         }
-
-    //         fetchNotifications();
-    //     }, [date]);
-
-    useEffect(() => {
-        const socket = io("http://localhost:3000");
-        socket.on("WelcomeEvent", (m) => {
-            notifications.push(m)
-            console.log('notifications', notifications);
-            setNotifications(notifications)
-        })
-    }, [])
-
+   
 
     return (
         <>

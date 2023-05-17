@@ -2,7 +2,7 @@
   "name": "smp",
   "version": "1.2.0",
   "private": true,
-  "proxy": "http://sub.vendtechsl.com/",
+  "proxy": "http://smpapi.flavetechs.com/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@fullcalendar/bootstrap": "^5.9.0",

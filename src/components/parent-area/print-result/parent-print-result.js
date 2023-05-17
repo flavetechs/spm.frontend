@@ -75,10 +75,7 @@ const PrintParentResult = () => {
                 validationSchema={validation}
                 enableReinitialize={true}
                 onSubmit={(values) => {
-                    getSinglePrintResult(
-                      values.sessionTermId,
-                      values.studentRegNo
-                    )(dispatch);
+                    getSinglePrintResult(values.sessionTermId, values.studentRegNo)(dispatch);
                    
                 }}
               >
