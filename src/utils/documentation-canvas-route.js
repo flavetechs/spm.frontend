@@ -97,10 +97,7 @@ export const documentationRoutes = (href, pathname, setUrl) => {
   }
   else if (pathname.includes(portalSetting.active)) {
     setUrl(url + ProductModuleFeatures.settings_portal_schoolSetting)
-    if (pathname === portalSetting.theme) {
-      setUrl(url + ProductModuleFeatures.settings_theme)
-    }
-    else if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
+    if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
       setUrl(url + ProductModuleFeatures.settings_portal_resultSetting)
     }
     else if (href === window.origin + portalSetting.setting + '?settingsKey=third') {

@@ -75,10 +75,7 @@ export const detailedDocumentationRoutes = (href,pathname, setPath) => {
   }
   else if (pathname.includes(portalSetting.active)) {
     setPath(url + ProductModuleFeatures.settings_portal_schoolSetting)
-    if (pathname === portalSetting.theme) {
-      setPath(url + ProductModuleFeatures.settings_theme)
-    }
-    else if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
+    if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
       setPath(url + ProductModuleFeatures.settings_portal_resultSetting)
     }
     else if (href === window.origin + portalSetting.setting + '?settingsKey=third') {
@@ -160,6 +157,9 @@ else if (pathname.includes(parentDashboardLocations.dashboard)) {
       setPath(url + ProductModuleFeatures.settings_resetPassword)
     }
   }
+}
+else if (pathname === "/smp-theme/theme") {
+  setPath(url + ProductModuleFeatures.settings_theme)
 }
    
   
