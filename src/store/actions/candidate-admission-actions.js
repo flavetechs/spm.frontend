@@ -29,7 +29,7 @@ export const removeId = (itemId) => {
 //                 type: actions.LOGIN_CANDIDATE_SUCCESS,
 //                 payload: res.data.result,
 //             });
-        
+
 //         }).catch(err => {
 //             dispatch({
 //                 type: actions.LOGIN_CANDIDATE_FAILED,
@@ -37,7 +37,7 @@ export const removeId = (itemId) => {
 //             })
 //         })
 // }
-export const userRegistration = (values,history) => (dispatch) => {
+export const userRegistration = (values, history) => (dispatch) => {
 
     dispatch({
         type: actions.REGISTER_CANDIDATE_LOADING
@@ -45,18 +45,18 @@ export const userRegistration = (values,history) => (dispatch) => {
 
     axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/register-parent', values)
         .then((res) => {
-             history.push(candidateLocations.registrationEmailReceived)
+            history.push(candidateLocations.registrationEmailReceived)
             dispatch({
                 type: actions.REGISTER_CANDIDATE_SUCCESS,
                 payload: res?.data.result,
             });
-           
+
         }).catch(err => {
             dispatch({
                 type: actions.REGISTER_CANDIDATE_FAILED,
                 payload: err?.response?.data.message.friendlyMessage
             })
-           
+
         })
 }
 
@@ -90,7 +90,7 @@ export const logOutUserEmail = () => {
     }
 }
 
-export const getCandidatesAdmissionList = (admissionSettingsId,pageSize,PageNumber) => (dispatch) => {
+export const getCandidatesAdmissionList = (admissionSettingsId, pageSize, PageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSIONS_LIST_LOADING,
     });
@@ -147,7 +147,7 @@ export const getAdmissionClasses = () => (dispatch) => {
         });
 };
 
-export const createCandidateAdmission = (values,admissionSettingsId) => (dispatch) => {
+export const createCandidateAdmission = (values, admissionSettingsId) => (dispatch) => {
     dispatch({
         type: actions.CREATE_CANDIDATE_ADMISSION_LOADING
     });
@@ -158,7 +158,7 @@ export const createCandidateAdmission = (values,admissionSettingsId) => (dispatc
                 payload: res.data.message.friendlyMessage
             });
             successModal(res.data.message.friendlyMessage)
-            getCandidatesAdmissionList(admissionSettingsId,10,1)(dispatch)
+            getCandidatesAdmissionList(admissionSettingsId, 10, 1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.CREATE_CANDIDATE_ADMISSION_FAILED,
@@ -168,7 +168,7 @@ export const createCandidateAdmission = (values,admissionSettingsId) => (dispatc
         });
 }
 
-export const updateCandidateAdmission = (values,admissionSettingsId) => (dispatch) => {
+export const updateCandidateAdmission = (values, admissionSettingsId) => (dispatch) => {
     dispatch({
         type: actions.UPDATE_CANDIDATE_ADMISSION_LOADING
     });
@@ -179,7 +179,7 @@ export const updateCandidateAdmission = (values,admissionSettingsId) => (dispatc
                 payload: res.data.message.friendlyMessage
             });
             successModal(res.data.message.friendlyMessage)
-            getCandidatesAdmissionList(admissionSettingsId,10,1)(dispatch)
+            getCandidatesAdmissionList(admissionSettingsId, 10, 1)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.UPDATE_CANDIDATE_ADMISSION_FAILED,
@@ -189,7 +189,7 @@ export const updateCandidateAdmission = (values,admissionSettingsId) => (dispatc
         });
 }
 
-export const deleteCandidateAdmission = (item,admissionSettingsId) => (dispatch) => {
+export const deleteCandidateAdmission = (item, admissionSettingsId) => (dispatch) => {
     dispatch({
         type: actions.DELETE_CANDIDATE_ADMISSION_LOADING
     });
@@ -202,7 +202,7 @@ export const deleteCandidateAdmission = (item,admissionSettingsId) => (dispatch)
                 type: actions.DELETE_CANDIDATE_ADMISSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getCandidatesAdmissionList(admissionSettingsId,10,1)(dispatch)
+            getCandidatesAdmissionList(admissionSettingsId, 10, 1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -213,44 +213,48 @@ export const deleteCandidateAdmission = (item,admissionSettingsId) => (dispatch)
         });
 }
 
-export const successModal= (message) => {swal("Successful",message, "success")} 
+export const successModal = (message) => { swal("Successful", message, "success") }
 
-export const errorModal= (message ) => {swal("Error",message, "error")} 
+export const errorModal = (message) => { swal("Error", message, "error") }
 
-export const deleteDialogModal= (id) =>(dispatch) => {swal({
-    title: "Are you sure you want to delete this?",
-    text: "Once deleted, you will not be able to recover this",
-    icon: "warning",
-    buttons: ["cancel",true],
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-    if (willDelete) {
-      // swal(message, {
-      //   icon: "success",
-      // });
-      respondToDeleteDialog('continue')(dispatch)
-    } else {
-      swal("Your item is safe!");
-      respondToDeleteDialog('cancel')(dispatch)
-    }
-  });} 
+export const deleteDialogModal = (id) => (dispatch) => {
+    swal({
+        title: "Are you sure you want to delete this?",
+        text: "Once deleted, you will not be able to recover this",
+        icon: "warning",
+        buttons: ["cancel", true],
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            // swal(message, {
+            //   icon: "success",
+            // });
+            respondToDeleteDialog('continue')(dispatch)
+        } else {
+            swal("Your item is safe!");
+            respondToDeleteDialog('cancel')(dispatch)
+        }
+    });
+}
 
-export const respondToDeleteDialog = (value) =>(dispatch) => {
+export const respondToDeleteDialog = (value) => (dispatch) => {
     dispatch({
         type: actions.DELETE_DIALOG_RESPPONSE,
         payload: value
     })
 }
 
-export const admissionOpenAndCloseModal= () =>(dispatch) => {swal({
-    title: "Sorry! Admission is closed for this session",
-    text: "Please check back for future intake opportunities",
-    icon: "warning",
-    dangerMode: true,
-  })} 
+export const admissionOpenAndCloseModal = () => (dispatch) => {
+    swal({
+        title: "Sorry! Admission is closed for this session",
+        text: "Please check back for future intake opportunities",
+        icon: "warning",
+        dangerMode: true,
+    })
+}
 
-  export const getAdmissionStatus = () => (dispatch) => {
+export const getAdmissionStatus = () => (dispatch) => {
     dispatch({
         type: actions.FETCH_ADMISSION_STATUS_LOADING,
     });

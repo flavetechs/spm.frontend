@@ -19,6 +19,8 @@ import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout, getSchoolSetting } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
+import { io } from "socket.io-client";
+import { UserEvents } from "../../utils/enums";
 
 
 const SignIn = (props) => {
@@ -47,7 +49,7 @@ const SignIn = (props) => {
                 return res;
             })
         }
-    }, [schoolUrl, appSetting2])
+    }, [schoolUrl])
 
     useEffect(() => {
         if (userDetail) {
@@ -96,6 +98,13 @@ const SignIn = (props) => {
             loginUser(values)(dispatch)
         }
     });
+
+    useEffect(() => {
+        const socket = io("http://jobserver.flavetechs.com:80");
+        console.log('socket', socket);
+        // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
+    }, [])
+
 
 
 

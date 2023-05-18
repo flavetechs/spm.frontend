@@ -482,16 +482,14 @@ export const getAllStudentResult = (sessionClassId, termId, studentContactId) =>
         });
 }
 
-export const getSinglePrintResult = (pin, termId, registrationNumber) => (dispatch) => {
+export const getSinglePrintResult = (termId, registrationNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_SINGLE_PRINT_RESULT_LOADING,
 
     });
     const payload = {
-        pin,
         registractionNumber: registrationNumber,
         termId,
-
     }
     axiosInstance.post('/smp/server/api/v1/result/print/result', payload)
         .then((res) => {

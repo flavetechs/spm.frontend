@@ -472,7 +472,7 @@ const CandidateRegistration = () => {
                             <p className="card-title fw-bold">Choose Photo</p>
                           </div>
                           <div className="profile-img-edit position-relative">
-                          <AvatarImage />
+                            <AvatarImage />
                             <div className="upload-icone bg-primary">
                               <label htmlFor="Photo">
                                 <svg
@@ -499,7 +499,7 @@ const CandidateRegistration = () => {
                                       event.target.files[0]
                                     );
                                     ImageDisplay(event);
-                                    ImageValidation(event,setFieldValue,"Photo",setImages)
+                                    ImageValidation(event, setFieldValue, "Photo", setImages)
                                   }}
                                 />
                               </label>
@@ -542,7 +542,7 @@ const CandidateRegistration = () => {
                                   "Credentials",
                                   event.target.files[0]
                                 );
-                               
+
                               }}
                             />
                           </div>

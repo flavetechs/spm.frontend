@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import CustomToggle from '../../../dropdowns'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { io } from "socket.io-client";
 
 
 import shapes1 from '../../../../assets/images/shapes/01.png'
@@ -14,37 +15,8 @@ import { pushedNotificationManagement } from '../../../../router/spm-path-locati
 const PushedNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [date, setDate] = useState("");
-    useEffect(() => {
-        // try {
-        //     hubInstance().then(x => {
-        //         x.on("NotificationArea", (user, message) => {
-        //             setDate(message);
-        //             console.log("message", message);
-        //         });
-        //         // sessionStorage.setItem('hubConnection', JSON.stringify(x));
-        //     }).catch(error => {
-        //         return error
-        //     })
 
-        // } catch (error) {
-        //     console.log("error", error);
-        // }
-    }, [date]);
-
-    useEffect(() => {
-
-        function fetchNotifications() {
-            axiosInstance.get(`smp/server/notification/api/v1/get-notifications?pageNumber=1`)
-                .then((res) => {
-//                    setNotifications([...res.data.result.data])
-
-                
-                })
-        }
-
-        fetchNotifications();
-    }, [date]);
-
+   
 
     return (
         <>
