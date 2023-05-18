@@ -1,4 +1,4 @@
-import { myWardsLocations, parentAssessmentLocations, parentDashboardLocations, parentPrintResultLocations, parentTeachersNoteLocations, parentTimeTableLocations, wardsNoteLocations } from "../router/parents-path-locations";
+import { myWardsLocations, parentAccountLocations, parentAssessmentLocations, parentDashboardLocations, parentPrintResultLocations, parentTeachersNoteLocations, parentTimeTableLocations, wardsNoteLocations } from "../router/parents-path-locations";
 import {
   adminAdmissionLocations,
   assessmentLocations,
@@ -22,7 +22,7 @@ import {
   studentsLocations,
   timetableLocations
 } from "../router/spm-path-locations"
-import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations, studentTimeTableLocations } from "../router/students-path-locations";
+import { onlineClassLocations, studentAssessmentLocations, studentClassNoteLocations, studentDashboardLocations, studentNoteLocations, studentPrintResultLocations, studentResetPasswordLocations, studentTimeTableLocations } from "../router/students-path-locations";
 import { ProductModuleFeatures } from "./features";
 import { ServiceURLs } from "./other";
 
@@ -97,10 +97,7 @@ export const documentationRoutes = (href, pathname, setUrl) => {
   }
   else if (pathname.includes(portalSetting.active)) {
     setUrl(url + ProductModuleFeatures.settings_portal_schoolSetting)
-    if (pathname === portalSetting.theme) {
-      setUrl(url + ProductModuleFeatures.settings_theme)
-    }
-    else if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
+    if (href === window.origin + portalSetting.setting + '?settingsKey=second') {
       setUrl(url + ProductModuleFeatures.settings_portal_resultSetting)
     }
     else if (href === window.origin + portalSetting.setting + '?settingsKey=third') {
@@ -148,6 +145,9 @@ export const documentationRoutes = (href, pathname, setUrl) => {
     else if (pathname === studentTimeTableLocations.cumulativeTimeTable) {
       setUrl(url + ProductModuleFeatures.general_cumulative_exams_timetable)
     }
+    else if (pathname.includes(studentResetPasswordLocations.resetPassword)) {
+      setUrl(url + ProductModuleFeatures.settings_resetPassword)
+    }
   }
 }
 else if (pathname.includes(parentDashboardLocations.dashboard)) {
@@ -175,6 +175,9 @@ else if (pathname.includes(parentDashboardLocations.dashboard)) {
     else if (pathname === parentTimeTableLocations.cumulativeTimeTable) {
       setUrl(url + ProductModuleFeatures.general_cumulative_exams_timetable)
     }
+  }
+  else if (pathname.includes(parentAccountLocations.resetPassword)) {
+    setUrl(url + ProductModuleFeatures.settings_resetPassword)
   }
 }
 

@@ -1,1 +1,1 @@
-export const defaultTemplate = 'http://flavetech-001-site3.etempurl.com/ProfileImage/61b1d351-3a3c-4ba0-b077-b9983f2059e0.JPG';
+export const defaultTemplate = 'http://fwsapi.flavetechs.com/ApplicationFiles/bdf6112f-45b4-4467-ba2b-35d8dd0379d7.png';

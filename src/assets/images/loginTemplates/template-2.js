@@ -1,2 +1,2 @@
-export const template2 = 'http://flavetech-001-site3.etempurl.com/ProfileImage/ec230e10-1562-4ed1-bc33-36d1afd7045d.JPG';
+export const template2 = 'http://fwsapi.flavetechs.com/ApplicationFiles/4d81ffed-264e-4bfb-8fc9-6de84c0e4699.PNG';
     

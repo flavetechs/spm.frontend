@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Offcanvas, Row } from "react-bootstrap";
 import { bindActionCreators } from "redux";
 
@@ -30,9 +30,7 @@ import {
 import { connect } from "react-redux";
 import { documentationRoutes } from "../../../utils/documentation-canvas-route";
 import { detailedDocumentationRoutes } from "../../../utils/detailed-documentation-route";
-import { portalSetting } from "../../../router/spm-path-locations";
-import { onlineClassLocations, studentDashboardLocations } from "../../../router/students-path-locations";
-// import './offcanvas.js';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -77,8 +75,8 @@ const DocumentationOffcanvas = () => {
 
   // const refg = useRef(null)
   useEffect(() => {
-    documentationRoutes(href,pathname, setUrl);
-  }, [pathname,href]);
+   show && documentationRoutes(href,pathname, setUrl);
+  }, [pathname,href,show]);
 
   return (
     <>

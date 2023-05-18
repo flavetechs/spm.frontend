@@ -10,7 +10,7 @@ import auth1 from '../../assets/images/auth/04.png'
 import Logo from '../partials/components/logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { authLocations } from '../../router/spm-path-locations';
-import { forgotPassword } from '../../store/actions/auth-actions';
+import { forgotPasswordFunc } from '../../store/actions/auth-actions';
 import SmpLoader from '../loader/smp-loader';
 
 const ForgotPassword = () => {
@@ -45,7 +45,7 @@ const ForgotPassword = () => {
                                     }}
                                     validationSchema={validation}
                                     onSubmit={values => {
-                                        forgotPassword(values)(dispatch)
+                                        forgotPasswordFunc(values)(dispatch)
                                     }}
                                 >
                                     {({
