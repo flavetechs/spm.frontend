@@ -123,6 +123,7 @@ const SignIn = (props) => {
             schoolName={appSetting?.schoolName}
             schoolLogo={appSetting?.schoolLogo}
             setUserType={setUserType}
+            selectedUserType={selectedUserType}
         />
 
     const templateOne =

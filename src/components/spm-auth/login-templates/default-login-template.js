@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   authLocations,
-  dashboardLocations,
 } from "../../../router/spm-path-locations";
-import Logo from "../../partials/components/logo";
 import Card from "../../Card";
+import { UserType } from "./UserTypesBoxes";
 
-export default function DefaultLoginTemplate({ message, auth1, ...form }) {
+export default function DefaultLoginTemplate({ setUserType, selectedUserType, message, auth1, ...form }) {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <Row className="m-0 align-items-center bg-white vh-100" >
@@ -21,12 +20,12 @@ export default function DefaultLoginTemplate({ message, auth1, ...form }) {
                   to={dashboardLocations.dashboard}
                   className="navbar-brand d-flex align-items-center mb-3" 
                 >*/}
-                  {/* <Logo color={true} /> */}
-                  <div className="text-center mb-3">
-                    <img src={form.schoolLogo} alt='school logo'height="120px"/>
+                {/* <Logo color={true} /> */}
+                <div className="text-center mb-3">
+                  <img src={form.schoolLogo} alt='school logo' height="120px" />
                   <h4 >{form.schoolName}</h4>
-                  </div>
-                  {/* <h4 className="logo-title ms-3">FLAVTECH</h4> 
+                </div>
+                {/* <h4 className="logo-title ms-3">FLAVTECH</h4> 
                 </Link>*/}
                 <p className="text-center">Sign in to stay connected.</p>
 
@@ -37,10 +36,10 @@ export default function DefaultLoginTemplate({ message, auth1, ...form }) {
                       <div className="form-group">
                         {((form.touched.userName && form.errors.userName) ||
                           message) && (
-                          <div className="text-danger">
-                            {form.errors.userName}
-                          </div>
-                        )}
+                            <div className="text-danger">
+                              {form.errors.userName}
+                            </div>
+                          )}
                         <label htmlFor="userName" className="form-label">
                           User Name
                         </label>
@@ -124,16 +123,8 @@ export default function DefaultLoginTemplate({ message, auth1, ...form }) {
                       </div>
                     </Col>
                     <Col lg="12" className="d-flex justify-content-between">
-                      <div className="form-check mb-3 form-Check">
-                        <input
-                          type="checkbox"
-                          id="customCheck1"
-                          className="form-check-input"
-                        />
-                        <label htmlFor="customCheck1" className="check-label">
-                          Remember Me{" "}
-                        </label>
-                      </div>
+
+                      <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
                       <Link to={authLocations.forgottenPassword}>
                         Forgot Password?
                       </Link>
@@ -151,7 +142,7 @@ export default function DefaultLoginTemplate({ message, auth1, ...form }) {
                       Sign In
                     </button>
                   </div>
-               
+
                 </Form>
               </Card.Body>
             </Card>
