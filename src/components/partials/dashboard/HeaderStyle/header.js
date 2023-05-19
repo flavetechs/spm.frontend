@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import CustomToggle from '../../../dropdowns'
@@ -77,7 +77,13 @@ const Header = (props) => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
 
-    var userDetail = getUserDetails();
+    const [userDetail, setGetUserDetail] = useState({});
+
+    useEffect(() => {
+        getUserDetails().then((result) => {
+            setGetUserDetail(result);
+        })
+    }, []);
     return (
         <>
             <Navbar expand="lg" variant="light" className="nav iq-navbar">

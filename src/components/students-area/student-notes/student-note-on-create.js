@@ -49,7 +49,13 @@ const CreateStudentNote = () => {
   const { dialogResponse } = state.alert;
   const queryParams = new URLSearchParams(location.search);
   const subjectId = queryParams.get("subjectId");
-  var userDetail = getUserDetails();
+  const [userDetail, setGetUserDetail] = useState({});
+
+  React.useEffect(() => {
+      getUserDetails().then((result) => {
+          setGetUserDetail(result);
+      })
+  }, []);
   //VALIDATION
   const validation = Yup.object().shape({
     noteTitle: Yup.string().required("Title is required"),

@@ -10,7 +10,13 @@ const HorizontalNav = () => {
 //   const handleClose = () => setShow(false);
 //location
 let location = useLocation();
-var userDetail = getUserDetails();
+const [userDetail, setGetUserDetail] = useState({});
+
+React.useEffect(() => {
+    getUserDetails().then((result) => {
+        setGetUserDetail(result);
+    })
+}, []);
 
     return (
         <>

@@ -1,6 +1,8 @@
 
+import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 export function UserType({ setUserType, selectedUserType }) {
+
     return (
         <Row>
             <Col md={3} lg={3} sm={3} style={{ marginRight: 3 }}>
@@ -10,7 +12,7 @@ export function UserType({ setUserType, selectedUserType }) {
                         id="teacherId"
                         name="UserType"
                         checked={selectedUserType === 1}
-                        onChange={() => setUserType()}
+                        onChange={() => setUserType(1)}
                         className="form-check-input"
                     />
                     <label htmlFor="teacherId" className="check-label">

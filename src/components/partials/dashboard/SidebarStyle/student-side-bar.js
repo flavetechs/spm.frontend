@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Scrollbar from 'smooth-scrollbar'
 import { bindActionCreators } from "redux"
@@ -88,7 +88,13 @@ const StudentsSidebar = (props) => {
         }, 1000)
 
     });
-    var userDetail = getUserDetails();
+    const [userDetail, setGetUserDetail] = useState({});
+
+    React.useEffect(() => {
+        getUserDetails().then((result) => {
+            setGetUserDetail(result);
+        })
+    }, []);
     const schoolLogo= localStorage.getItem('schoolLogo');
     const schoolAbrev = localStorage.getItem(("schoolAbrev"))
 

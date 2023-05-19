@@ -91,7 +91,9 @@ const CandidateRegistration = () => {
   }, [submitSuccessful, history]);
 
   React.useEffect(() => {
-    setGetUserDetail(getUserDetails());
+    getUserDetails().then((result) => {
+      setGetUserDetail(result);
+    })
   }, []);
 
   useEffect(() => {

@@ -92,13 +92,15 @@ const mapDispatchToProps = dispatch => (
 
 
 const Index = (props) => {
-    var userDetail = getUserDetails();
-
-    console.log('props', props.feature);
-
     const location = useLocation();
-
     const [dashboardCount, setDashboardCount] = useState({});
+
+    const [userDetail, setGetUserDetail] = useState({});
+    React.useEffect(() => {
+        getUserDetails().then((result) => {
+            setGetUserDetail(result);
+        })
+    }, []);
 
     useEffect(async () => {
         await getAllDashboardCount().then(res => {

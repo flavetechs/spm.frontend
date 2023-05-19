@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Container, Nav, NavDropdown, Dropdown } from "react-bootstrap";
 // logo
 import Logo from "../../components/logo";
@@ -23,7 +23,13 @@ import { authLocations } from "../../../../router/spm-path-locations";
 import SmpLoader from "../../../loader/smp-loader";
 
 const HeaderStyle4 = () => {
-  var userDetail = getUserDetails();
+  const [userDetail, setGetUserDetail] = useState({});
+
+  React.useEffect(() => {
+    getUserDetails().then((result) => {
+      setGetUserDetail(result);
+    })
+  }, []);
 
   //VARIABLE DECLARATIONS
   let history = useHistory();
@@ -35,18 +41,17 @@ const HeaderStyle4 = () => {
 
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
-  const { myWardList, filterProps } = state.parent;
+  const { myWardList } = state.parent;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getMyWardsList(1)(dispatch);
   }, [dispatch]);
-  var userDetail = localStorage.getItem('userDetail')
-  
+
 
   return (
     <>
-     <SmpLoader />
+      <SmpLoader />
       <div className="mt-n5 mx-3 mb-2 text-center d-flex d-block d-md-none  justify-content-end align-items-center">
         <img src={schoolLogo} alt="school logo" height="40px" />
         <h4 className="logo-title mx-2 h6">{schoolAbrev} </h4>
@@ -60,10 +65,10 @@ const HeaderStyle4 = () => {
         aria-label="Main navigation"
       >
         <Container fluid>
-        <div className="text-center d-flex align-items-center">
-        <img src={schoolLogo} alt="school logo" height="40px" />
-        <h4 className="logo-title mx-2 text-light">{schoolAbrev} </h4>
-      </div>
+          <div className="text-center d-flex align-items-center">
+            <img src={schoolLogo} alt="school logo" height="40px" />
+            <h4 className="logo-title mx-2 text-light">{schoolAbrev} </h4>
+          </div>
           <Navbar.Brand></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav justify-content-between me-0">

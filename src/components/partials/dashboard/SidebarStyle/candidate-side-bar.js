@@ -89,7 +89,13 @@ const CandidatesSidebar = (props) => {
         }, 1000)
 
     });
-    var userDetail = getUserDetails();
+    const [userDetail, setGetUserDetail] = useState({});
+
+    React.useEffect(() => {
+        getUserDetails().then((result) => {
+            setGetUserDetail(result);
+        })
+    }, []);
 
     return (
         <>

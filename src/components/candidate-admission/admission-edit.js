@@ -93,9 +93,10 @@ const CandidateEdit = () => {
   }, [dispatch, selectedState]);
 
   React.useEffect(() => {
-    setGetUserDetail(getUserDetails());
-  }, []);
-
+    getUserDetails().then((result) => {
+        setGetUserDetail(result);
+    });
+}, []);
   const studentparentGuarndianRelationship = [
     "father",
     "mother",

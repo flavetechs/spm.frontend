@@ -19,7 +19,7 @@ import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 
 const SignIn = (props) => {
@@ -30,8 +30,9 @@ const SignIn = (props) => {
     const { appSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
-    const [selectedUserType, setUserType] = useState(1);
+    const [selectedUserType, setUserType] = useState();
 
+    console.log('selectedUserType', selectedUserType);
     const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
         props.getAppLayout(schoolUrl).then(res => {
@@ -40,40 +41,26 @@ const SignIn = (props) => {
     }, [schoolUrl])
 
     useEffect(() => {
-        if (userDetail) {
-                if (JSON.parse(userDetail).userType === "Student") {
-                    localStorage.setItem("userType",2);
-                } else if (JSON.parse(userDetail).userType === "Parent") {
-                    localStorage.setItem("userType",3);
-                } else {
-                    localStorage.setItem("userType",1);
-                }
-        }
-    }, [userDetail]);
+        localStorage.setItem("userType", selectedUserType);
+    }, [selectedUserType]);
 
-   const storedUserType = localStorage.getItem("userType")||1
+    // const layoutSetting = localStorage.getItem("appSetting")
+    // const appSetting2 = JSON.parse(layoutSetting) || "";
 
-    useEffect(() => {
-      setUserType(Number(storedUserType));
-    }, [storedUserType]);
-
-    const layoutSetting = localStorage.getItem("appSetting")
-    const appSetting2 = JSON.parse(layoutSetting) || "";
-
-    useEffect(() => {
-        if (!appSetting2.scheme) {
-            props.getAppLayout(schoolUrl).then(res => {
-                return res;
-            })
-        }
-    }, [schoolUrl])
+    // useEffect(() => {
+    //     if (!appSetting2.scheme) {
+    //         props.getAppLayout(schoolUrl).then(res => {
+    //             return res;
+    //         })
+    //     }
+    // }, [schoolUrl])
 
     useEffect(() => {
         if (userDetail) {
             if (JSON.parse(userDetail).isFirstTimeLogin === false) {
-                if (JSON.parse(userDetail).userType === "Student") {
+                if (selectedUserType === 0) {
                     window.location.href = "/stds-dashboard/";
-                } else if (JSON.parse(userDetail).userType === "Parent") {
+                } else if (selectedUserType === 2) {
                     window.location.href = "/parent-dashboard/";
                 } else {
                     window.location.href = "/dashboard/";
@@ -82,14 +69,10 @@ const SignIn = (props) => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userDetail");
                 localStorage.removeItem("permissions");
-                history.push(
-                    authLocations.firstTimeLogin +
-                    "?id=" +
-                    JSON.parse(userDetail).userAccountId
-                );
+                history.push(authLocations.firstTimeLogin + "?id=" + JSON.parse(userDetail).userAccountId);
             }
         }
-    }, [token, history, userDetail]);
+    }, [token, history, userDetail, selectedUserType]);
 
     const validation = Yup.object().shape({
         userName: Yup.string()
@@ -117,11 +100,11 @@ const SignIn = (props) => {
         }
     });
 
-    useEffect(() => {
-        const socket = io("http://jobserver.flavetechs.com:80");
-        console.log('socket', socket);
-        // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
-    }, [])
+    // useEffect(() => {
+    //     const socket = io("http://jobserver.flavetechs.com:80");
+    //     console.log('socket', socket);
+    //     // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
+    // }, [])
 
 
 
