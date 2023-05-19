@@ -16,11 +16,10 @@ import LoginTemplate1 from "./login-templates/login-template-1";
 import LoginTemplate2 from "./login-templates/login-template-2";
 import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
-import { getAppLayout, getSchoolSetting } from "../../store/actions/portal-setting-action";
+import { getAppLayout } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
 import { io } from "socket.io-client";
-import { UserEvents } from "../../utils/enums";
 
 
 const SignIn = (props) => {
@@ -31,6 +30,7 @@ const SignIn = (props) => {
     const { appSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
+    const [selectedUserType, setUserType] = useState(1);
 
     const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
@@ -38,7 +38,6 @@ const SignIn = (props) => {
             return res;
         })
     }, [schoolUrl])
-
 
     const layoutSetting = localStorage.getItem("appSetting")
     const appSetting2 = JSON.parse(layoutSetting) || "";
@@ -90,7 +89,8 @@ const SignIn = (props) => {
         initialValues: {
             userName: "",
             password: "",
-            schoolUrl
+            schoolUrl,
+            userType: selectedUserType
         },
         enableReinitialize: true,
         validationSchema: validation,
@@ -108,6 +108,7 @@ const SignIn = (props) => {
 
 
 
+
     const defaultTemplate =
         <DefaultLoginTemplate
             message={message}
@@ -120,7 +121,9 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+        />
 
     const templateOne =
         <LoginTemplate1
@@ -134,7 +137,9 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+        />
 
     const templateTwo =
         <LoginTemplate2
@@ -148,7 +153,9 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+        />
 
     const templateThree =
         <LoginTemplate3
@@ -162,7 +169,9 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+        />
 
     const templateFour =
         <LoginTemplate4
@@ -176,7 +185,10 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
 
     const pageNotFound =
         <PageNotFound />
@@ -210,4 +222,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+
+
 
