@@ -90,28 +90,23 @@ export const ResetPassword = ({ userId, password, resetToken }) => (dispatch) =>
         })
 }
 
-export const changeMyPassword = ({ userId, oldPassword, newPassword, schoolUrl }) => (dispatch) => {
+export const changeMyPassword = (values,history) => (dispatch) => {
     dispatch({
-        type: actions.LOGIN_USER_LOADING
+        type: actions.CHANGE_PASSWORD_LOADING
     });
 
-    const payload = {
-        userId,
-        oldPassword,
-        newPassword,
-        schoolUrl
-    }
 
-    axiosInstance.post('/smp/server/user/api/v1/first-time/change-password', payload)
+    axiosInstance.post('/smp/server/user/api/v1/first-time/change-password', values)
     
         .then((res) => {
             dispatch({
-                type: actions.LOGIN_USER_SUCCESS,
+                type: actions.CHANGE_PASSWORD_SUCCESS,
                 payload: res.data.result
             });
+            history.push(authLocations.login)
         }).catch(err => {
             dispatch({
-                type: actions.LOGIN_USER_FAILED,
+                type: actions.CHANGE_PASSWORD_FAILED,
                 payload: err.response.data.message.friendlyMessage
             })
         })
@@ -142,7 +137,7 @@ export const forgotPasswordFunc = (values) => (dispatch) => {
     dispatch({
         type: actions.FORGOT_PASSWORD_LOADING
     });
-
+console.log("status",'outer');
     axiosInstance.post('/smp/server/user/api/v1/forgot-password', values)
         .then((res) => {
             dispatch({

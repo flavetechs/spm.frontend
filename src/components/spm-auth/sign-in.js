@@ -39,6 +39,24 @@ const SignIn = (props) => {
         })
     }, [schoolUrl])
 
+    useEffect(() => {
+        if (userDetail) {
+                if (JSON.parse(userDetail).userType === "Student") {
+                    localStorage.setItem("userType",2);
+                } else if (JSON.parse(userDetail).userType === "Parent") {
+                    localStorage.setItem("userType",3);
+                } else {
+                    localStorage.setItem("userType",1);
+                }
+        }
+    }, [userDetail]);
+
+   const storedUserType = localStorage.getItem("userType")||1
+
+    useEffect(() => {
+      setUserType(Number(storedUserType));
+    }, [storedUserType]);
+
     const layoutSetting = localStorage.getItem("appSetting")
     const appSetting2 = JSON.parse(layoutSetting) || "";
 
@@ -140,6 +158,7 @@ const SignIn = (props) => {
             schoolName={appSetting?.schoolName}
             schoolLogo={appSetting?.schoolLogo}
             setUserType={setUserType}
+            selectedUserType={selectedUserType}
         />
 
     const templateTwo =
@@ -156,6 +175,7 @@ const SignIn = (props) => {
             schoolName={appSetting?.schoolName}
             schoolLogo={appSetting?.schoolLogo}
             setUserType={setUserType}
+            selectedUserType={selectedUserType}
         />
 
     const templateThree =
@@ -172,6 +192,7 @@ const SignIn = (props) => {
             schoolName={appSetting?.schoolName}
             schoolLogo={appSetting?.schoolLogo}
             setUserType={setUserType}
+            selectedUserType={selectedUserType}
         />
 
     const templateFour =
