@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { authLocations } from "../../../router/spm-path-locations";
 import SmpLoader from "../../loader/smp-loader";
 import "./login-template-3.css";
+import { UserType } from "./UserTypesBoxes";
 
-const LoginTemplate3 = ({ message, auth1, ...form }) => {
+const LoginTemplate3 = ({setUserType, selectedUserType, message, auth1, ...form }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <section className="login-content">
@@ -102,6 +103,7 @@ const LoginTemplate3 = ({ message, auth1, ...form }) => {
                       )}
                     </span>
                   </div>
+                  <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
                   <div className="form-group">
                     <button
                       onClick={(e) => {

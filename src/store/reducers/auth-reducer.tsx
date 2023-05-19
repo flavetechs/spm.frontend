@@ -168,6 +168,28 @@ export const authReducer = (state = _state, { type, payload }: any) => {
                 changedForgotPasswordSuccessful: false,
             }
 
+          
+            case actions.CHANGE_PASSWORD_LOADING:
+                return {
+                    ...state,
+                    loading: true,
+                    message: '',
+                    isSuccessful: false,
+                    
+                }
+            case actions.CHANGE_PASSWORD_SUCCESS:
+                return {
+                    ...state,
+                    loading: false,
+                    isSuccessful: true,
+                }
+            case actions.CHANGE_PASSWORD_FAILED:
+                return {
+                    ...state,
+                    loading: false,
+                    message: payload,
+                    isSuccessful: false,
+                }
 
             case actions.RESET_FORGOT_PASSWORD_LOADING:
                 return {

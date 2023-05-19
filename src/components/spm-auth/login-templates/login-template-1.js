@@ -3,8 +3,9 @@ import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { authLocations } from "../../../router/spm-path-locations";
 import "./login-template-1.css";
+import { UserType } from "./UserTypesBoxes";
 
-const LoginTemplate1 = ({ message, auth1, ...form }) => {
+const LoginTemplate1 = ({setUserType, selectedUserType, message, auth1, ...form }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <Row className="m-0 align-items-center container1 vh-100">
@@ -133,6 +134,7 @@ const LoginTemplate1 = ({ message, auth1, ...form }) => {
                 </div>
               </div>
               <Col lg="12" className="d-flex justify-content-between">
+              <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
                 <div className="form-check mb-3 form-Check">
                   <input
                     type="checkbox"

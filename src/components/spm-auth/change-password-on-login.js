@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Image } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card";
 import * as Yup from "yup";
 
@@ -26,8 +26,7 @@ const FirstTimeLoginPassswordChange = (props) => {
   const { appSetting } = props.state.portal;
 
   const { message } = props.state.auth;
-  var token = localStorage.getItem("token");
-  var userDetail = localStorage.getItem("userDetail");
+  const history = useHistory();
   const [userId, setId] = useState("");
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
@@ -40,17 +39,6 @@ const FirstTimeLoginPassswordChange = (props) => {
     setId(id);
   }, [userId]);
 
-  React.useEffect(() => {
-    if (userDetail) {
-      if (JSON.parse(userDetail).userType === "Student") {
-        window.location.href = "/stds-dashboard/";
-      } else if (JSON.parse(userDetail).userType === "Parent") {
-        window.location.href = "/parent-dashboard/";
-      } else {
-        window.location.href = "/dashboard/";
-      }
-    }
-  }, [token, userDetail]);
 
   const validation = Yup.object().shape({
     oldPassword: Yup.string()
@@ -94,8 +82,10 @@ const FirstTimeLoginPassswordChange = (props) => {
 
                 <Formik
                   initialValues={{
+                    userId: userId,
                     oldPassword: "",
                     newPassword: "",
+                    schoolUrl: schoolUrl,
                     confirmNewPassword: "",
                   }}
                   validationSchema={validation}
@@ -105,7 +95,7 @@ const FirstTimeLoginPassswordChange = (props) => {
                       oldPassword: values.oldPassword,
                       newPassword: values.newPassword,
                       schoolUrl: schoolUrl,
-                    });
+                    },history);
                   }}
                 >
                   {({
@@ -320,7 +310,7 @@ const FirstTimeLoginPassswordChange = (props) => {
                           variant="btn btn-primary"
                           className="btn btn-primary"
                         >
-                          Sign In
+                          Change Password
                         </button>
                       </div>
                     </Form>
@@ -402,8 +392,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
-    changeMyPassword: ({ userId, oldPassword, newPassword, schoolUrl }) =>
-      changeMyPassword({ userId, oldPassword, newPassword, schoolUrl })(dispatch)
+    changeMyPassword: (values,history) =>
+      changeMyPassword(values,history)(dispatch)
   };
 }
 
