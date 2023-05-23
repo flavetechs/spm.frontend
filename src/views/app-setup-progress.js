@@ -14,7 +14,7 @@ const AppSetupProgress = () => {
   const { appSetupStatus } = state.dashboard;
   useEffect(() => {
     getAppSetupStatus()(dispatch);
-  }, []);
+  }, ['123']);
   return (
     <>
       <div

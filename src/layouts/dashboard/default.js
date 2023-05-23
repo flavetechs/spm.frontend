@@ -52,6 +52,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const Default = (props) => {
+    console.log('here');
     useEffect(() => {
         //   darkmode
         const colorMode = sessionStorage.getItem('color-mode');
@@ -85,12 +86,14 @@ const Default = (props) => {
         }
     })
 
-    var token = localStorage.getItem('token');
-    let history = useHistory();
 
-    if (!token) {
-        history.push(authLocations.login);
-    }
+    let history = useHistory();
+    var token = localStorage.getItem('token');
+    useEffect(() => {
+        if (!token) {
+            history.push(authLocations.login);
+        }
+    }, [history, token])
 
     return (
         <>
@@ -108,7 +111,7 @@ const Default = (props) => {
                     <SuccessToast />
                     <SingleDeleteDialog />
                     <ErrorToast />
-                    <DashboardRouter />
+                    {/* <DashboardRouter /> */}
                 </div>
                 <Footer />
             </main>

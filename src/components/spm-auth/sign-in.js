@@ -7,7 +7,7 @@ import auth1 from "../../assets/images/auth/01.png";
 import {
     authLocations,
 } from "../../router/spm-path-locations";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { loginUser } from "../../store/actions/auth-actions";
 import { useEffect, useState } from "react";
 import SmpLoader from "../loader/smp-loader";
@@ -19,20 +19,18 @@ import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
+import { getUserDetails } from "../../utils/permissions";
 // import { io } from "socket.io-client";
 
 
 const SignIn = (props) => {
     let history = useHistory();
-    const dispatch = useDispatch();
-    const state = useSelector((state) => state);
-    const { message } = state.auth;
-    const { appSetting } = state.portal;
+    const { message } = props.state.auth;
+    const { appSetting } = props.state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
     const [selectedUserType, setUserType] = useState();
 
-    console.log('selectedUserType', selectedUserType);
     const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
         props.getAppLayout(schoolUrl).then(res => {
@@ -40,24 +38,36 @@ const SignIn = (props) => {
         })
     }, [schoolUrl])
 
+    const uType = Number(localStorage.getItem("userType") || 1);
+
+    useEffect(() => {
+        if (uType === NaN) {
+            setUserType(uType);
+        } else {
+            setUserType(1);
+        }
+    }, []);
+
     useEffect(() => {
         localStorage.setItem("userType", selectedUserType);
     }, [selectedUserType]);
 
-    // const layoutSetting = localStorage.getItem("appSetting")
-    // const appSetting2 = JSON.parse(layoutSetting) || "";
 
-    // useEffect(() => {
-    //     if (!appSetting2.scheme) {
-    //         props.getAppLayout(schoolUrl).then(res => {
-    //             return res;
-    //         })
-    //     }
-    // }, [schoolUrl])
+    const layoutSetting = localStorage.getItem("appSetting")
+    const appSetting2 = JSON.parse(layoutSetting) || "";
 
     useEffect(() => {
-        if (userDetail) {
-            if (JSON.parse(userDetail).isFirstTimeLogin === false) {
+        if (!appSetting2.scheme) {
+            props.getAppLayout(schoolUrl).then(res => {
+                return res;
+            })
+        }
+    }, [schoolUrl])
+
+    getUserDetails().then(res => {
+        console.log('userDetail', res);
+        if (res) {
+            if (res.isFirstTimeLogin === false) {
                 if (selectedUserType === 0) {
                     window.location.href = "/stds-dashboard/";
                 } else if (selectedUserType === 2) {
@@ -69,10 +79,29 @@ const SignIn = (props) => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userDetail");
                 localStorage.removeItem("permissions");
-                history.push(authLocations.firstTimeLogin + "?id=" + JSON.parse(userDetail).userAccountId);
+                history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId);
             }
         }
-    }, [token, history, userDetail, selectedUserType]);
+    })
+
+    // useEffect(() => {
+    //     if (userDetail) {
+    //         if (JSON.parse(userDetail).isFirstTimeLogin === false) {
+    //             if (selectedUserType === 0) {
+    //                 window.location.href = "/stds-dashboard/";
+    //             } else if (selectedUserType === 2) {
+    //                 window.location.href = "/parent-dashboard/";
+    //             } else {
+    //                 window.location.href = "/dashboard/";
+    //             }
+    //         } else {
+    //             localStorage.removeItem("token");
+    //             localStorage.removeItem("userDetail");
+    //             localStorage.removeItem("permissions");
+    //             history.push(authLocations.firstTimeLogin + "?id=" + JSON.parse(userDetail).userAccountId);
+    //         }
+    //     }
+    // }, [token, history, userDetail]);
 
     const validation = Yup.object().shape({
         userName: Yup.string()
@@ -96,18 +125,16 @@ const SignIn = (props) => {
         enableReinitialize: true,
         validationSchema: validation,
         onSubmit: (values) => {
-            loginUser(values)(dispatch)
+            props.loginUser(values)
         }
     });
+
 
     // useEffect(() => {
     //     const socket = io("http://jobserver.flavetechs.com:80");
     //     console.log('socket', socket);
     //     // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
     // }, [])
-
-
-
 
 
     const defaultTemplate =
@@ -222,7 +249,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch)
+        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
+        loginUser: (values) => loginUser(values)(dispatch)
     };
 }
 

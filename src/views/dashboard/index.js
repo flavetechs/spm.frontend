@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { bindActionCreators } from "redux"
 //circular
-import Circularprogressbar from '../../components/circularprogressbar.js'
 
 // AOS
 import AOS from 'aos'
@@ -22,13 +21,7 @@ import 'swiper/swiper-bundle.min.css'
 import 'swiper/components/navigation/navigation.scss';
 
 //progressbar
-import Progress from '../../components/progress.js'
 //img
-import shapes1 from '../../assets/images/shapes/01.png'
-import shapes2 from '../../assets/images/shapes/02.png'
-import shapes3 from '../../assets/images/shapes/03.png'
-import shapes4 from '../../assets/images/shapes/04.png'
-import shapes5 from '../../assets/images/shapes/05.png'
 
 //Count-up
 import CountUp from 'react-countup';
@@ -94,13 +87,13 @@ const mapDispatchToProps = dispatch => (
 const Index = (props) => {
     const location = useLocation();
     const [dashboardCount, setDashboardCount] = useState({});
-
-    const [userDetail, setGetUserDetail] = useState({});
-    React.useEffect(() => {
-        getUserDetails().then((result) => {
-            setGetUserDetail(result);
-        })
-    }, []);
+ 
+    // const [userDetail, setGetUserDetail] = useState({});
+    // React.useEffect(() => {
+    //     getUserDetails().then((result) => {
+    //         setGetUserDetail(result);
+    //     })
+    // }, []);
 
     useEffect(async () => {
         await getAllDashboardCount().then(res => {

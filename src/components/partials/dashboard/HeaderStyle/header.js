@@ -27,7 +27,7 @@ import avatars6 from '../../../../assets/images/avatars/avtar_5.png'
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch } from "react-redux"
+import { connect } from "react-redux"
 import { authLocations } from '../../../../router/spm-path-locations'
 import { getUserDetails } from '../../../../utils/permissions'
 import { studentProfileLocations } from '../../../../router/students-path-locations'
@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
 const Header = (props) => {
 
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const history = useHistory();
 
     useEffect(() => {
@@ -80,9 +80,9 @@ const Header = (props) => {
     const [userDetail, setGetUserDetail] = useState({});
 
     useEffect(() => {
-        getUserDetails().then((result) => {
-            setGetUserDetail(result);
-        })
+        // getUserDetails().then((result) => {
+        //     setGetUserDetail(result);
+        // })
     }, []);
     return (
         <>
@@ -227,14 +227,14 @@ const Header = (props) => {
                                             </Dropdown.Item>
                                     } */}
                                     {
-                                        userDetail?.userType === "Teacher"|| userDetail?.userType === "Admin"
+                                        userDetail?.userType === "Teacher" || userDetail?.userType === "Admin"
                                             ? (
                                                 <Dropdown.Item onClick={() => {
                                                     history.push(`${authLocations.staffProfilePage}?teacherAccountId=${userDetail?.id}`)
                                                 }}>
                                                     <span>  Profile</span>
                                                 </Dropdown.Item>)
-                                            :  userDetail?.userType === "Student" && <Dropdown.Item onClick={() => {
+                                            : userDetail?.userType === "Student" && <Dropdown.Item onClick={() => {
                                                 history.push(`${studentProfileLocations.profile}?studentAccountId=${userDetail?.id}`)
                                             }}>
                                                 <span> Profile</span>
@@ -243,7 +243,7 @@ const Header = (props) => {
 
                                     <Dropdown.Divider />
                                     <Dropdown.Item onClick={() => {
-                                        dispatch(loginOutUser());
+                                        // dispatch(loginOutUser());
                                         history.push(authLocations.login)
                                     }}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>

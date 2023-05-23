@@ -11,7 +11,7 @@ import { bindActionCreators } from "redux"
 
 // store
 import { NavbarstyleAction, getDirMode, SchemeDirAction, getNavbarStyleMode, getSidebarActiveMode, SidebarActiveStyleAction, getDarkMode, ModeAction, SidebarColorAction, getSidebarColorMode, getSidebarTypeMode } from '../../../../store/setting/setting'
-import { connect, useDispatch } from "react-redux"
+import { connect } from "react-redux"
 
 const mapStateToProps = (state) => {
     return {
@@ -38,36 +38,30 @@ const mapDispatchToProps = dispatch => ({
 
 
 const Sidebar = (props) => {
- const dispatch = useDispatch();
- const schoolLogo= localStorage.getItem('schoolLogo');
-const schoolAbrev = localStorage.getItem(("schoolAbrev"))
+    const schoolLogo = localStorage.getItem('schoolLogo');
+    const schoolAbrev = localStorage.getItem(("schoolAbrev"))
 
-    useEffect(
-        () => {
-            
-            // sidebarcolormode
-            const sidebarcolorMode1 = sessionStorage.getItem('sidebarcolor-mode');
-            if (sidebarcolorMode1 === null) {
-                props.SidebarColorAction(props.sidebarcolorMode);
-            }
-            else {
-                props.SidebarColorAction(sidebarcolorMode1);
-            }
+    useEffect(() => {
 
-            // sidebarstylemode
-            const sidebarstyleMode = sessionStorage.getItem('sidebarstyle-mode');
-            if (sidebarstyleMode === null) {
-                props.SidebarActiveStyleAction(props.sidebaractivestyleMode);
-            }
-            else {
-                props.SidebarActiveStyleAction(sidebarstyleMode);
-            }
-            Scrollbar.init(document.querySelector('#my-scrollbar'))
+        // sidebarcolormode
+        const sidebarcolorMode1 = sessionStorage.getItem('sidebarcolor-mode');
+        if (sidebarcolorMode1 === null) {
+            props.SidebarColorAction(props.sidebarcolorMode);
+        }
+        else {
+            props.SidebarColorAction(sidebarcolorMode1);
         }
 
-
-
-    )
+        // sidebarstylemode
+        const sidebarstyleMode = sessionStorage.getItem('sidebarstyle-mode');
+        if (sidebarstyleMode === null) {
+            props.SidebarActiveStyleAction(props.sidebaractivestyleMode);
+        }
+        else {
+            props.SidebarActiveStyleAction(sidebarstyleMode);
+        }
+        Scrollbar.init(document.querySelector('#my-scrollbar'))
+    })
     const minisidebar = () => {
         document.getElementsByTagName('ASIDE')[0].classList.toggle('sidebar-mini')
     }
@@ -94,8 +88,8 @@ const schoolAbrev = localStorage.getItem(("schoolAbrev"))
         }, 1000)
 
     });
-   
-    
+
+
 
     return (
         <>
@@ -109,10 +103,10 @@ const schoolAbrev = localStorage.getItem(("schoolAbrev"))
                             <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                         </svg> */}
                         {/* <Icon color={true} /> */}
-                            <div className="text-center d-flex align-items-center">
-                        <img src={schoolLogo} alt='school logo'height="40px"/>
-                            <h4 className="logo-title">{schoolAbrev} </h4> 
-                        </div>   
+                        <div className="text-center d-flex align-items-center">
+                            <img src={schoolLogo} alt='school logo' height="40px" />
+                            <h4 className="logo-title">{schoolAbrev} </h4>
+                        </div>
                     </Link>
                     <div className="sidebar-toggle" data-toggle="sidebar" data-active="true" onClick={minisidebar} >
                         <i className="icon">
