@@ -7,7 +7,7 @@ import auth1 from "../../assets/images/auth/01.png";
 import {
     authLocations,
 } from "../../router/spm-path-locations";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { loginUser } from "../../store/actions/auth-actions";
 import { useEffect, useState } from "react";
 import SmpLoader from "../loader/smp-loader";
@@ -19,18 +19,17 @@ import LoginTemplate4 from "./login-templates/login-template-4";
 import { getAppLayout } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
-import { io } from "socket.io-client";
+import { getUserDetails } from "../../utils/permissions";
+// import { io } from "socket.io-client";
 
 
 const SignIn = (props) => {
     let history = useHistory();
-    const dispatch = useDispatch();
-    const state = useSelector((state) => state);
-    const { message } = state.auth;
-    const { appSetting } = state.portal;
+    const { message } = props.state.auth;
+    const { appSetting } = props.state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
-    const [selectedUserType, setUserType] = useState(1);
+    const [selectedUserType, setUserType] = useState();
 
     const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
@@ -39,23 +38,20 @@ const SignIn = (props) => {
         })
     }, [schoolUrl])
 
+    const uType = Number(localStorage.getItem("userType") || 1);
+
     useEffect(() => {
-        if (userDetail) {
-                if (JSON.parse(userDetail).userType === "Student") {
-                    localStorage.setItem("userType",2);
-                } else if (JSON.parse(userDetail).userType === "Parent") {
-                    localStorage.setItem("userType",3);
-                } else {
-                    localStorage.setItem("userType",1);
-                }
+        if (uType === NaN) {
+            setUserType(uType);
+        } else {
+            setUserType(1);
         }
-    }, [userDetail]);
-
-   const storedUserType = localStorage.getItem("userType")||1
+    }, []);
 
     useEffect(() => {
-      setUserType(Number(storedUserType));
-    }, [storedUserType]);
+        localStorage.setItem("userType", selectedUserType);
+    }, [selectedUserType]);
+
 
     const layoutSetting = localStorage.getItem("appSetting")
     const appSetting2 = JSON.parse(layoutSetting) || "";
@@ -68,12 +64,13 @@ const SignIn = (props) => {
         }
     }, [schoolUrl])
 
-    useEffect(() => {
-        if (userDetail) {
-            if (JSON.parse(userDetail).isFirstTimeLogin === false) {
-                if (JSON.parse(userDetail).userType === "Student") {
+    getUserDetails().then(res => {
+        console.log('userDetail', res);
+        if (res) {
+            if (res.isFirstTimeLogin === false) {
+                if (selectedUserType === 0) {
                     window.location.href = "/stds-dashboard/";
-                } else if (JSON.parse(userDetail).userType === "Parent") {
+                } else if (selectedUserType === 2) {
                     window.location.href = "/parent-dashboard/";
                 } else {
                     window.location.href = "/dashboard/";
@@ -82,14 +79,29 @@ const SignIn = (props) => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userDetail");
                 localStorage.removeItem("permissions");
-                history.push(
-                    authLocations.firstTimeLogin +
-                    "?id=" +
-                    JSON.parse(userDetail).userAccountId
-                );
+                history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId);
             }
         }
-    }, [token, history, userDetail]);
+    })
+
+    // useEffect(() => {
+    //     if (userDetail) {
+    //         if (JSON.parse(userDetail).isFirstTimeLogin === false) {
+    //             if (selectedUserType === 0) {
+    //                 window.location.href = "/stds-dashboard/";
+    //             } else if (selectedUserType === 2) {
+    //                 window.location.href = "/parent-dashboard/";
+    //             } else {
+    //                 window.location.href = "/dashboard/";
+    //             }
+    //         } else {
+    //             localStorage.removeItem("token");
+    //             localStorage.removeItem("userDetail");
+    //             localStorage.removeItem("permissions");
+    //             history.push(authLocations.firstTimeLogin + "?id=" + JSON.parse(userDetail).userAccountId);
+    //         }
+    //     }
+    // }, [token, history, userDetail]);
 
     const validation = Yup.object().shape({
         userName: Yup.string()
@@ -113,18 +125,16 @@ const SignIn = (props) => {
         enableReinitialize: true,
         validationSchema: validation,
         onSubmit: (values) => {
-            loginUser(values)(dispatch)
+            props.loginUser(values)
         }
     });
 
-    useEffect(() => {
-        const socket = io("http://jobserver.flavetechs.com:80");
-        console.log('socket', socket);
-        // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
-    }, [])
 
-
-
+    // useEffect(() => {
+    //     const socket = io("http://jobserver.flavetechs.com:80");
+    //     console.log('socket', socket);
+    //     // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
+    // }, [])
 
 
     const defaultTemplate =
@@ -239,7 +249,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch)
+        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch),
+        loginUser: (values) => loginUser(values)(dispatch)
     };
 }
 

@@ -3,7 +3,7 @@ import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../Card";
-import { candidateAuthLocation,  candidateLocations} from "../../router/candidate-path-location";
+import { candidateAuthLocation, candidateLocations } from "../../router/candidate-path-location";
 import {
   admissionOpenAndCloseModal,
   deleteCandidateAdmission,
@@ -87,8 +87,11 @@ const CandidateList = () => {
   //DELETE HANDLER
 
   React.useEffect(() => {
-    setGetUserDetail(getUserDetails());
+    getUserDetails().then((result) => {
+      setGetUserDetail(result);
+    })
   }, []);
+
   function handleAdmissionStatus() {
     const currentAdmissionStatus = admissionSettingList?.find(
       (a) => a.admissionSettingId === admissionSettingsId

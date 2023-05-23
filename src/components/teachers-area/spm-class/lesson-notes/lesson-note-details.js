@@ -43,7 +43,6 @@ const LessonNoteDetails = () => {
   }, [createSuccessful]);
 
   useEffect(() => {
-    // setUser(getUserDetails().userName);
     const queryParams = new URLSearchParams(location.search);
     const teacherClassNoteId = queryParams.get("teacherClassNoteId");
     getSingleLessonNotes(teacherClassNoteId)(dispatch);

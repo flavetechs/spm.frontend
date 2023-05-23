@@ -7,10 +7,16 @@ const MobildeOffcanvas =()=> {
     //location
     let location = useLocation();
     
+  const [userDetail, setGetUserDetail] = useState({});
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    var userDetail = getUserDetails()
+
+    React.useEffect(() => {
+        getUserDetails().then((result) => {
+          setGetUserDetail(result);
+        })
+      }, []);
     return(
         <>
             <button data-trigger="navbar_main" className="d-xl-none btn btn-primary rounded-pill p-1 pt-0" type="button" onClick={handleShow}>

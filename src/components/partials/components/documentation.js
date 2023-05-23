@@ -69,14 +69,14 @@ const DocumentationOffcanvas = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  const { pathname,href } = window.location;
+  const { pathname, href } = window.location;
   const [documentationUrl, setUrl] = useState("");
   const [path, setPath] = useState("");
 
   // const refg = useRef(null)
   useEffect(() => {
-   show && documentationRoutes(href,pathname, setUrl);
-  }, [pathname,href,show]);
+    show && documentationRoutes(href, pathname, setUrl);
+  }, [pathname, href, show]);
 
   return (
     <>
@@ -110,7 +110,7 @@ const DocumentationOffcanvas = () => {
             bg="success"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              detailedDocumentationRoutes(href,pathname, setPath);
+              detailedDocumentationRoutes(href, pathname, setPath);
             }}
           >
             <a className='text-white' href={path} target="_blank" rel="noopener noreferrer">
@@ -121,7 +121,7 @@ const DocumentationOffcanvas = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Row >
-            <iframe id="docsIframe" style={{ height: "100vh"}} src={documentationUrl}></iframe>
+            <iframe id="docsIframe" style={{ height: "100vh" }} src={documentationUrl}></iframe>
           </Row>
         </Offcanvas.Body>
       </Offcanvas>

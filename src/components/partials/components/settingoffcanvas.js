@@ -373,31 +373,31 @@ const SettingOffcanvas = (props) => {
         placement={`${props.schemeDirMode === "rtl" ? "start" : "end"}`}
       >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Settings 
+          <Offcanvas.Title>Settings
             <Badge
-            bg="light"
-            className="ms-4"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              detailedDocumentationRoutes(null, "/smp-theme/theme", setPath);
-            }}
-          >
-            <a
-              className="text-white"
-              href={path}
-              target="_blank"
-              rel="noopener noreferrer"
+              bg="light"
+              className="ms-4"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                detailedDocumentationRoutes(null, "/smp-theme/theme", setPath);
+              }}
             >
-              {" "}
-              <img
-          className="img-fluid"
-          width="40px"
-          height="40px"
-          src="http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png"
-        />
-            </a>
-          </Badge></Offcanvas.Title>
-          
+              <a
+                className="text-white"
+                href={path}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                <img
+                  className="img-fluid"
+                  width="40px"
+                  height="40px"
+                  src="http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png"
+                />
+              </a>
+            </Badge></Offcanvas.Title>
+
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Row>
@@ -405,9 +405,8 @@ const SettingOffcanvas = (props) => {
               <h5 className="mb-3">Scheme</h5>
               <div className="grid-cols-3 mb-4 d-grid gap-x-3">
                 <div
-                  className={`${
-                    props.darkMode === "auto" ? "active" : ""
-                  }  btn-border`}
+                  className={`${props.darkMode === "auto" ? "active" : ""
+                    }  btn-border`}
                   onClick={() => {
                     props.ModeAction("auto");
                   }}
@@ -429,9 +428,8 @@ const SettingOffcanvas = (props) => {
                   <span className="ms-2 "> Auto </span>
                 </div>
                 <div
-                  className={`${
-                    props.darkMode === "dark" ? "active" : ""
-                  }  btn-border`}
+                  className={`${props.darkMode === "dark" ? "active" : ""
+                    }  btn-border`}
                   onClick={() => {
                     props.ModeAction("dark");
                   }}
@@ -453,9 +451,8 @@ const SettingOffcanvas = (props) => {
                   <span className="ms-2 "> Dark </span>
                 </div>
                 <div
-                  className={`${
-                    props.darkMode === "light" ? "active" : ""
-                  }  btn-border`}
+                  className={`${props.darkMode === "light" ? "active" : ""
+                    }  btn-border`}
                   onClick={() => {
                     props.ModeAction("light");
                   }}
@@ -526,11 +523,10 @@ const SettingOffcanvas = (props) => {
                   overlay={<Tooltip>Theme-1</Tooltip>}
                 >
                   <div
-                    className={`${
-                      props.customizerMode === "theme-color-blue"
+                    className={`${props.customizerMode === "theme-color-blue"
                         ? "active"
                         : ""
-                    }  btn-border`}
+                      }  btn-border`}
                     onClick={() => {
                       props.ColorCustomizerAction(
                         "theme-color-blue",
@@ -561,11 +557,10 @@ const SettingOffcanvas = (props) => {
                   overlay={<Tooltip>Theme-2</Tooltip>}
                 >
                   <div
-                    className={`${
-                      props.customizerMode === "theme-color-gray"
+                    className={`${props.customizerMode === "theme-color-gray"
                         ? "active"
                         : ""
-                    }  btn-border`}
+                      }  btn-border`}
                     onClick={() => {
                       props.ColorCustomizerAction(
                         "theme-color-gray",
@@ -596,9 +591,8 @@ const SettingOffcanvas = (props) => {
                   overlay={<Tooltip>Theme-3</Tooltip>}
                 >
                   <div
-                    className={`${
-                      props.customizerMode === "theme-color-red" ? "active" : ""
-                    }  btn-border`}
+                    className={`${props.customizerMode === "theme-color-red" ? "active" : ""
+                      }  btn-border`}
                     onClick={() => {
                       props.ColorCustomizerAction(
                         "theme-color-red",
@@ -633,11 +627,10 @@ const SettingOffcanvas = (props) => {
                   overlay={<Tooltip>Theme-4</Tooltip>}
                 >
                   <div
-                    className={`${
-                      props.customizerMode === "theme-color-yellow"
+                    className={`${props.customizerMode === "theme-color-yellow"
                         ? "active"
                         : ""
-                    }  btn-border`}
+                      }  btn-border`}
                     onClick={() => {
                       props.ColorCustomizerAction(
                         "theme-color-yellow",
@@ -672,11 +665,10 @@ const SettingOffcanvas = (props) => {
                   overlay={<Tooltip>Theme-5</Tooltip>}
                 >
                   <div
-                    className={`${
-                      props.customizerMode === "theme-color-pink"
+                    className={`${props.customizerMode === "theme-color-pink"
                         ? "active"
                         : ""
-                    }  btn-border`}
+                      }  btn-border`}
                     onClick={() => {
                       props.ColorCustomizerAction(
                         "theme-color-pink",
@@ -714,9 +706,8 @@ const SettingOffcanvas = (props) => {
                   <img
                     src={image1}
                     alt="ltr"
-                    className={`${
-                      props.schemeDirMode === "ltr" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column `}
+                    className={`${props.schemeDirMode === "ltr" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column `}
                     onClick={() => {
                       props.SchemeDirAction("ltr");
                     }}
@@ -727,9 +718,8 @@ const SettingOffcanvas = (props) => {
                   <img
                     src={image2}
                     alt="ltr"
-                    className={`${
-                      props.schemeDirMode === "ltr" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column `}
+                    className={`${props.schemeDirMode === "ltr" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column `}
                     onClick={() => {
                       props.SchemeDirAction("ltr");
                     }}
@@ -743,9 +733,8 @@ const SettingOffcanvas = (props) => {
                   <img
                     src={image3}
                     alt=""
-                    className={`${
-                      props.schemeDirMode === "rtl" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.schemeDirMode === "rtl" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     onClick={() => {
                       props.SchemeDirAction("rtl");
                     }}
@@ -756,9 +745,8 @@ const SettingOffcanvas = (props) => {
                   <img
                     src={image4}
                     alt=""
-                    className={`${
-                      props.schemeDirMode === "rtl" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.schemeDirMode === "rtl" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     onClick={() => {
                       props.SchemeDirAction("rtl");
                     }}
@@ -773,9 +761,8 @@ const SettingOffcanvas = (props) => {
               <h5 className="mt-4 mb-3">Sidebar Color</h5>
               <div className="grid-cols-2 mb-4 d-grid gap-x-3">
                 <div
-                  className={`${
-                    props.sidebarcolorMode === "dark" ? "active" : ""
-                  } btn btn-border mb-4 `}
+                  className={`${props.sidebarcolorMode === "dark" ? "active" : ""
+                    } btn btn-border mb-4 `}
                   onClick={() => {
                     props.SidebarColorAction("dark");
                   }}
@@ -803,9 +790,8 @@ const SettingOffcanvas = (props) => {
                   <span className="ms-2 "> Dark </span>
                 </div>
                 <div
-                  className={`${
-                    props.sidebarcolorMode === "color" ? "active" : ""
-                  } btn btn-border mb-4 `}
+                  className={`${props.sidebarcolorMode === "color" ? "active" : ""
+                    } btn btn-border mb-4 `}
                   onClick={() => {
                     props.SidebarColorAction("color");
                   }}
@@ -833,9 +819,8 @@ const SettingOffcanvas = (props) => {
                   <span className="ms-2 "> Color </span>
                 </div>
                 <div
-                  className={`${
-                    props.sidebarcolorMode === "white" ? "active" : ""
-                  } btn btn-border mb-4 `}
+                  className={`${props.sidebarcolorMode === "white" ? "active" : ""
+                    } btn btn-border mb-4 `}
                   onClick={() => {
                     props.SidebarColorAction("white");
                   }}
@@ -863,9 +848,8 @@ const SettingOffcanvas = (props) => {
                   <span className="ms-2 "> White </span>
                 </div>
                 <div
-                  className={`${
-                    props.sidebarcolorMode === "transparent" ? "active" : ""
-                  } btn btn-border mb-4 `}
+                  className={`${props.sidebarcolorMode === "transparent" ? "active" : ""
+                    } btn btn-border mb-4 `}
                   onClick={() => {
                     props.SidebarColorAction("");
                   }}
@@ -985,11 +969,10 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("roundedOneSide");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "roundedOneSide"
+                    className={`${props.sidebaractivestyleMode === "roundedOneSide"
                         ? "active"
                         : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-rounded"
@@ -1000,11 +983,10 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("roundedOneSide");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "roundedOneSide"
+                    className={`${props.sidebaractivestyleMode === "roundedOneSide"
                         ? "active"
                         : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-rounded"
@@ -1018,11 +1000,10 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("roundedAllSide");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "roundedAllSide"
+                    className={`${props.sidebaractivestyleMode === "roundedAllSide"
                         ? "active"
                         : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column `}
+                      } mode dark-img img-fluid btn-border p-0 flex-column `}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-rounded-all"
@@ -1033,11 +1014,10 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("roundedAllSide");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "roundedAllSide"
+                    className={`${props.sidebaractivestyleMode === "roundedAllSide"
                         ? "active"
                         : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column `}
+                      } mode light-img img-fluid btn-border p-0 flex-column `}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-rounded-all"
@@ -1051,9 +1031,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("pill");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "pill" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.sidebaractivestyleMode === "pill" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-pill"
@@ -1064,9 +1043,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("pill");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "pill" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.sidebaractivestyleMode === "pill" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-pill"
@@ -1080,9 +1058,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("pillAll");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "pillAll" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.sidebaractivestyleMode === "pillAll" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-pill-all"
@@ -1093,9 +1070,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.SidebarActiveStyleAction("pillAll");
                     }}
-                    className={`${
-                      props.sidebaractivestyleMode === "pillAll" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.sidebaractivestyleMode === "pillAll" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="sidebar"
                     data-name="sidebar-item"
                     data-value="navs-pill-all"
@@ -1113,9 +1089,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("glass");
                     }}
-                    className={`${
-                      props.navbarstylemode === "glass" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "glass" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar"
                     data-name="navbar-type"
@@ -1127,9 +1102,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("glass");
                     }}
-                    className={`${
-                      props.navbarstylemode === "glass" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "glass" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar"
                     data-name="navbar-type"
@@ -1144,9 +1118,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("color");
                     }}
-                    className={`${
-                      props.navbarstylemode === "color" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "color" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar-header"
                     data-name="navbar-type"
@@ -1158,9 +1131,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("color");
                     }}
-                    className={`${
-                      props.navbarstylemode === "color" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "color" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar-header"
                     data-name="navbar-type"
@@ -1175,9 +1147,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("sticky");
                     }}
-                    className={`${
-                      props.navbarstylemode === "sticky" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "sticky" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar"
                     data-name="navbar-type"
@@ -1189,9 +1160,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("sticky");
                     }}
-                    className={`${
-                      props.navbarstylemode === "sticky" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "sticky" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar"
                     data-name="navbar-type"
@@ -1206,9 +1176,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("transparent");
                     }}
-                    className={`${
-                      props.navbarstylemode === "transparent" ? "active" : ""
-                    } mode dark-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "transparent" ? "active" : ""
+                      } mode dark-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar"
                     data-name="navbar-type"
@@ -1220,9 +1189,8 @@ const SettingOffcanvas = (props) => {
                     onClick={() => {
                       props.NavbarstyleAction("transparent");
                     }}
-                    className={`${
-                      props.navbarstylemode === "transparent" ? "active" : ""
-                    } mode light-img img-fluid btn-border p-0 flex-column`}
+                    className={`${props.navbarstylemode === "transparent" ? "active" : ""
+                      } mode light-img img-fluid btn-border p-0 flex-column`}
                     data-setting="navbar"
                     data-target=".iq-navbar"
                     data-name="navbar-type"
@@ -1261,9 +1229,8 @@ const SettingOffcanvas = (props) => {
               <div className="grid-cols-2 mb-4 d-grid gap-x-3">
                 <div className="d-flex">
                   <div
-                    className={`${
-                      props.loginTemplateMode === "template-1" ? "active" : ""
-                    } btn btn-border mb-4 `}
+                    className={`${props.loginTemplateMode === "template-1" ? "active" : ""
+                      } btn btn-border mb-4 `}
                     onClick={() => {
                       showHideLoginLayoutModal(true)(dispatch);
                       setImageDisplay(template1);
@@ -1284,9 +1251,8 @@ const SettingOffcanvas = (props) => {
 
                 <div className="d-flex">
                   <div
-                    className={`${
-                      props.loginTemplateMode === "template-2" ? "active" : ""
-                    } btn btn-border mb-4 `}
+                    className={`${props.loginTemplateMode === "template-2" ? "active" : ""
+                      } btn btn-border mb-4 `}
                     onClick={() => {
                       showHideLoginLayoutModal(true)(dispatch);
                       setImageDisplay(template2);
@@ -1307,9 +1273,8 @@ const SettingOffcanvas = (props) => {
 
                 <div className="d-flex">
                   <div
-                    className={`${
-                      props.loginTemplateMode === "template-3" ? "active" : ""
-                    } btn btn-border mb-4 `}
+                    className={`${props.loginTemplateMode === "template-3" ? "active" : ""
+                      } btn btn-border mb-4 `}
                     onClick={() => {
                       showHideLoginLayoutModal(true)(dispatch);
                       setImageDisplay(template3);
@@ -1330,9 +1295,8 @@ const SettingOffcanvas = (props) => {
 
                 <div className="d-flex">
                   <div
-                    className={`${
-                      props.loginTemplateMode === "template-4" ? "active" : ""
-                    } btn btn-border mb-4 `}
+                    className={`${props.loginTemplateMode === "template-4" ? "active" : ""
+                      } btn btn-border mb-4 `}
                     onClick={() => {
                       showHideLoginLayoutModal(true)(dispatch);
                       setImageDisplay(template4);
@@ -1353,11 +1317,10 @@ const SettingOffcanvas = (props) => {
 
                 <div className="d-flex">
                   <div
-                    className={`${
-                      props.loginTemplateMode === "default-login-template"
+                    className={`${props.loginTemplateMode === "default-login-template"
                         ? "active"
                         : ""
-                    } btn btn-border mb-4 `}
+                      } btn btn-border mb-4 `}
                     onClick={() => {
                       showHideLoginLayoutModal(true)(dispatch);
                       setImageDisplay(defaultTemplate);

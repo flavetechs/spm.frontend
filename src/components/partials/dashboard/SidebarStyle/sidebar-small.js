@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom'
 import { getUserDetails } from '../../../../utils/permissions';
 
 const SidebarSmall = () => {
-    var userDetail = getUserDetails();
+    const [userDetail, setGetUserDetail] = useState({});
+
+    React.useEffect(() => {
+        getUserDetails().then((result) => {
+            setGetUserDetail(result);
+        })
+    }, []);
    
     return (
         <>

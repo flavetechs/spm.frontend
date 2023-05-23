@@ -26,7 +26,13 @@ const ClassNotes = () => {
   const state = useSelector((state) => state);
   const { activeSession, sessionList } = state.session;
   const { classNotes, studentSubjectList, filterProps } = state.class;
-  var userDetail = getUserDetails();
+  const [userDetail, setGetUserDetail] = useState({});
+
+  React.useEffect(() => {
+      getUserDetails().then((result) => {
+          setGetUserDetail(result);
+      })
+  }, []);
   // ACCESSING STATE FROM REDUX STORE
 
   useEffect(() => {

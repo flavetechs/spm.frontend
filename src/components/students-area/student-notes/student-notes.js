@@ -36,7 +36,13 @@ const StudentNotes = () => {
   const { studentNotes, studentSubjectList,filterProps } = state.class;
   const { dialogResponse } = state.alert;
   const { sessionList,activeSession } = state.session;
-  var userDetail = getUserDetails();
+  const [userDetail, setGetUserDetail] = useState({});
+
+  React.useEffect(() => {
+      getUserDetails().then((result) => {
+          setGetUserDetail(result);
+      })
+  }, []);
   // ACCESSING STATE FROM REDUX STORE
 
   // //VALIDATION

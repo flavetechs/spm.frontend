@@ -45,10 +45,15 @@ const IndexRouters = (props) => {
 
 
     React.useEffect(() => {
-        setUserDetail(getUserDetails());
+        
+        getUserDetails().then((result) => {
+            setUserDetail(result);
+        });
         if (userDetail)
             setIsLoggedIn(true)
-    }, [isLoggedIn]);
+    }, [isLoggedIn, userDetail]);
+
+
 
     return (
         <>

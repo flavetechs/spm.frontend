@@ -31,7 +31,13 @@ import Logo from '../../components/logo'
 import MobildeOffcanvas from '../../components/mobile-offcanvas'
 import { getUserDetails } from '../../../../utils/permissions'
 const HeaderStyle2 = () => {
-var userDetail = getUserDetails();
+    const [userDetail, setGetUserDetail] = useState({});
+
+    React.useEffect(() => {
+        getUserDetails().then((result) => {
+            setGetUserDetail(result);
+        })
+    }, []);
     return (
         <>
             <Navbar expand="lg" className="nav  iq-navbar">

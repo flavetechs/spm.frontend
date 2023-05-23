@@ -80,7 +80,7 @@ export const hasAccess2 = (navs = [] ) => {
 };
 
 
-export const getUserDetails = () => {
+export const getUserDetails  = async () => {
     var userDetail = localStorage.getItem('userDetail');
     if(userDetail !== 'undefined')
         return JSON.parse(userDetail);
@@ -88,5 +88,6 @@ export const getUserDetails = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('permissions');
         localStorage.removeItem('userDetail');
+        return 'undefined';
     }
 }
