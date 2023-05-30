@@ -11,6 +11,12 @@ export const permissionLocations = {
   removeUser: "/dashboard/smp-permissions/remove-user"
 };
 
+export const generalOnlineClassLocations = {
+  active:"/online-class/smp-online-class/",
+  lobby: "/online-class/smp-online-class/lobby",
+  room: "/online-class/smp-online-class/room",
+};
+
 export const dashboardLocations = {
   dashboard: "/dashboard/",
 };

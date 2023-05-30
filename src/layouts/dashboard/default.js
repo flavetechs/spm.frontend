@@ -89,13 +89,13 @@ const Default = (props) => {
     let history = useHistory();
 
     if (!token) {
-        history.push(authLocations.login);
+       // history.push(authLocations.login);
     }
 
     return (
         <>
             {/* <Loader /> */}
-            <SmpLoader />
+            {/* <SmpLoader /> */}
             <Sidebar />
             <main className="main-content">
                 <div className="position-relative">

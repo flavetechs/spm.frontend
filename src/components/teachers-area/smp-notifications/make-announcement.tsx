@@ -4,7 +4,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import { notificationManagement } from "../../../router/spm-path-locations";
+//import { notificationManagement } from "../../../router/spm-path-locations";
 import {
   createAnnouncement,
 } from "../../../store/actions/notification-actions";
@@ -15,6 +15,7 @@ import hubInstance from "../../../HubConnection/hub-instance";
 import { getUserDetails } from "../../../utils/permissions";
 import getHubInstance from "../../../HubConnection/hubService";
 import { HubConnection } from "@microsoft/signalr";
+import { notificationManagement } from "../../../router/spm-path-locations";
 
 const MakeAnnouncement = () => {
   const history = useHistory();
