@@ -14,6 +14,14 @@ import { gradeReducer } from './reducers/grade-setting-reducer'
 import Mode from './setting/setting'
 import { resultsReducer } from './reducers/results-reducers'
 import { publishresultsReducer } from './reducers/publish-result-reducer'
+import { portalSettingReducer } from './reducers/portal-setting-reducer'
+import { notificationReducer } from './reducers/notification-reducer'
+import { pinReducer } from './reducers/pin-management-reducer'
+import { timetableReducer } from './reducers/timetable-reducer'
+import { dashboardReducer } from './reducers/dashboard-reducer'
+import { parentReducer } from './reducers/parent-reducer'
+import { adminAdmissionReducer } from './reducers/admin-admission-reducer'
+import { candidateAdmissionReducer } from './reducers/candidate-admission-reducer'
 export default createStore(
     combineReducers({
         mode: Mode,
@@ -31,5 +39,13 @@ export default createStore(
         grade: gradeReducer,
         results: resultsReducer,
         publish: publishresultsReducer,
+        portal: portalSettingReducer,
+        notification: notificationReducer,
+        pin: pinReducer,
+        timetable: timetableReducer,
+        dashboard: dashboardReducer,
+        parent: parentReducer,
+        adminAdmission: adminAdmissionReducer,
+        candidate: candidateAdmissionReducer,
     })
 )

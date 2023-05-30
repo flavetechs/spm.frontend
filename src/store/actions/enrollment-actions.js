@@ -1,5 +1,6 @@
 import axiosInstance from "../../axios/axiosInstance";
 import { actions } from "../action-types/enrollment-action-types"
+import { getAllStudents } from "./student-actions";
 import { respondModal, showErrorToast, showHideModal, showSuccessToast } from "./toaster-actions";
 
 export const pushId = (studentId) => {
@@ -27,13 +28,18 @@ export const returnListEnrolled = (students) => (dispatch) => {
     })
 }
 
+export const resetEnrolledStudentsState = () => (dispatch) => {
+    dispatch({
+        type: actions.RESET_ENROLLED_STUDENTS_STATE,
+        payload: []
+    })
+}
 
-export const getAllUnenrolledStudents = () => (dispatch) => {
+export const getAllUnenrolledStudents = (pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_UNENROLLED_STUDENTS_LOADING
     });
-
-    axiosInstance.get('/errollment/api/v1/getall/unenrolled')
+    axiosInstance.get(`/smp/server/errollment/api/v1/getall/unenrolled?PageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_UNENROLLED_STUDENTS_SUCCESS,
@@ -50,13 +56,14 @@ export const enrollStudent = (values) => (dispatch) => {
     dispatch({
         type: actions.ENROLL_STUDENT_LOADING
     });
-    axiosInstance.post('/errollment/api/v1/enroll/students', values)
+    axiosInstance.post('/smp/server/errollment/api/v1/enroll/students', values)
         .then((res) => {
             dispatch({
                 type: actions.ENROLL_STUDENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllUnenrolledStudents()(dispatch);
+            getAllStudents(1)(dispatch);
+            getAllUnenrolledStudents(1)(dispatch);
             showHideModal(false)(dispatch)
             respondModal('cancel')(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
@@ -69,12 +76,12 @@ export const enrollStudent = (values) => (dispatch) => {
         });
 }
 
-export const getAllenrolledStudents = () => (dispatch) => {
+export const  getAllEnrolledStudents = (sessionClassId,pageNumber) => (dispatch) => {
     dispatch({
         type: actions.FETCH_ENROLLED_STUDENTS_LOADING
     });
 
-    axiosInstance.get('/errollment/api/v1/getall/enrolled')
+    axiosInstance.get(`/smp/server/errollment/api/v1/getall/enrolled?sessionClassId=${sessionClassId}&pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ENROLLED_STUDENTS_SUCCESS,
@@ -88,21 +95,20 @@ export const getAllenrolledStudents = () => (dispatch) => {
         });
 }
 
-export const unEnrollStudent = (studentContactId) => (dispatch) => {
+export const unEnrollStudent = (studentContactId, sessionClassId) => (dispatch) => {
     dispatch({
         type: actions.UNENROLL_STUDENTS_LOADING
     });
     const payload = {
         studentContactIds: studentContactId
     }
-    axiosInstance.post('/errollment/api/v1/unenroll/students', payload)
+    axiosInstance.post('/smp/server/errollment/api/v1/unenroll/students', payload)
         .then((res) => {
-            console.log('unenrolled res', res);
             dispatch({
                 type: actions.UNENROLL_STUDENTS_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllenrolledStudents()(dispatch);
+            getAllEnrolledStudents(sessionClassId,1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

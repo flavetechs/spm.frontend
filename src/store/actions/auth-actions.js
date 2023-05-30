@@ -1,29 +1,30 @@
 import axiosInstance from "../../axios/axiosInstance";
+import { authLocations } from "../../router/spm-path-locations";
 import { actions } from "../action-types/auth-action-types"
+import { getActiveSession } from "./session-actions";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
-export const loginUser = ({ userName, password }) => (dispatch) => {
-
+export const loginUser = (values) => (dispatch) => {
     dispatch({
         type: actions.LOGIN_USER_LOADING
     });
 
-    const payload = {
-        userName,
-        password
-    }
 
-    axiosInstance.post('user/api/v1/login', payload)
+
+    axiosInstance.post('/smp/server/user/api/v1/login', values)
         .then((res) => {
             dispatch({
                 type: actions.LOGIN_USER_SUCCESS,
                 payload: res.data.result
             });
+
+            getActiveSession()(dispatch);
         }).catch(err => {
-            console.log('err', err.response.data.result);
             dispatch({
                 type: actions.LOGIN_USER_FAILED,
-                payload: err.response.data.result
+                payload: err.response.data.message.friendlyMessage
             })
+
         })
 }
 
@@ -36,7 +37,7 @@ export const loginOutUser = () => {
 
 
 
-export const generatePasswordResetLink = ({ resetOption, resetOptionValue, userType }) => (dispatch) => {
+export const generatePasswordResetLink = ({ resetOption, resetOptionValue, userType, schoolUrl }) => (dispatch) => {
 
     dispatch({
         type: actions.GENERATE_PASSWORD_RESET_LINK_LOADING
@@ -45,10 +46,11 @@ export const generatePasswordResetLink = ({ resetOption, resetOptionValue, userT
     const payload = {
         resetOption,
         resetOptionValue,
-        userType
+        userType,
+        schoolUrl
     }
 
-    axiosInstance.post('/user/api/v1/generate/reset-link', payload)
+    axiosInstance.post('/smp/server/user/api/v1/generate/reset-link', payload)
         .then((res) => {
             dispatch({
                 type: actions.GENERATE_PASSWORD_RESET_LINK_SUCCESS,
@@ -74,7 +76,7 @@ export const ResetPassword = ({ userId, password, resetToken }) => (dispatch) =>
         resetToken
     }
 
-    axiosInstance.post('/user/api/v1/reset/password', payload)
+    axiosInstance.post('/smp/server/user/api/v1/reset/password', payload)
         .then((res) => {
             dispatch({
                 type: actions.RESET_PASSWORD_LOADING,
@@ -84,6 +86,98 @@ export const ResetPassword = ({ userId, password, resetToken }) => (dispatch) =>
             dispatch({
                 type: actions.RESET_PASSWORD_FAILED,
                 payload: err.response.data.result
+            })
+        })
+}
+
+export const changeMyPassword = (values,history) => (dispatch) => {
+    dispatch({
+        type: actions.CHANGE_PASSWORD_LOADING
+    });
+
+
+    axiosInstance.post('/smp/server/user/api/v1/first-time/change-password', values)
+    
+        .then((res) => {
+            dispatch({
+                type: actions.CHANGE_PASSWORD_SUCCESS,
+                payload: res.data.result
+            });
+            history.push(authLocations.login)
+        }).catch(err => {
+            dispatch({
+                type: actions.CHANGE_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}
+
+export const loginCBT = () => (dispatch) => {
+
+    dispatch({
+        type: actions.CBT_LOGIN_LOADING
+    });
+
+    axiosInstance.post('/smp/server/user/api/v1/get/cbt-token')
+        .then((res) => {
+            dispatch({
+                type: actions.CBT_LOGIN_SUCCESS,
+                payload: res.data.result
+            });
+            getActiveSession()(dispatch);
+        }).catch(err => {
+            dispatch({
+                type: actions.CBT_LOGIN_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}
+
+export const forgotPasswordFunc = (values) => (dispatch) => {
+    dispatch({
+        type: actions.FORGOT_PASSWORD_LOADING
+    });
+console.log("status",'outer');
+    axiosInstance.post('/smp/server/user/api/v1/forgot-password', values)
+        .then((res) => {
+            dispatch({
+                type: actions.FORGOT_PASSWORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+        }).catch(err => {
+            dispatch({
+                type: actions.FORGOT_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            })
+        })
+}
+
+
+export const resetForgotPasswordFunc = ({ userId, password, resetToken, schoolUrl },history) => (dispatch) => {
+    dispatch({
+        type: actions.RESET_FORGOT_PASSWORD_LOADING
+    });
+
+    const payload = {
+        userId,
+        password,
+        resetToken,
+        schoolUrl
+    }
+
+    axiosInstance.post('/smp/server/user/api/v1/reset-password', payload)
+        .then((res) => {
+        dispatch(loginOutUser());
+         history.push(authLocations.login);
+            dispatch({
+                type: actions.RESET_FORGOT_PASSWORD_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+        showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        }).catch(err => {
+            dispatch({
+                type: actions.RESET_FORGOT_PASSWORD_FAILED,
+                payload: err.response.data.message.friendlyMessage
             })
         })
 }

@@ -29,16 +29,17 @@ import shapes5 from '../../../../assets/images/shapes/05.png'
 import Logo from '../../components/logo'
 // mobile-offcanvas
 import MobildeOffcanvas from '../../components/mobile-offcanvas'
-
+import { getUserDetails } from '../../../../utils/permissions'
 const HeaderStyle2 = () => {
+var userDetail = getUserDetails();
     return (
         <>
             <Navbar expand="lg" className="nav  iq-navbar">
                 <div className="container-fluid navbar-inner">
                    <MobildeOffcanvas/>
                     <Link to="/dashboard" className="logo-center navbar-brand col-md-3 col-lg-3">
-                        <Logo color={true} />
-                        <h4 className="logo-title">Hope UI</h4>
+                        {/* <Logo color={true} /> */}
+                        <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                     </Link>
                     <HorizontalNav />
                     <Navbar.Toggle aria-controls="navbarSupportedContent">

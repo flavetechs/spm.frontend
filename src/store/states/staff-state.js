@@ -6,5 +6,8 @@ export const _state = {
     teacherUserAccountId: '',
     name: '',
     selectedIds: [],
-    selectedItem: null
+    selectedItem: {},
+    teacherClassesAndSubjects : null,
+    submitSuccessful: false,
+    filterProps: {},
 }

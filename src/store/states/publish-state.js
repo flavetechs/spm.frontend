@@ -9,4 +9,6 @@ export const _state = {
     publishSingleStudent: null,
     fetchPreviewSuccessful: false,
     idsObj:null,
+    publishedList: [],
+    filterProps: {},
 }

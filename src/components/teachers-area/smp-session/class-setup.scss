@@ -1,0 +1,36 @@
+// .form-control { 
+//     text-transform: uppercase;
+// }
+::-webkit-input-placeholder { 
+    text-transform: none;
+}
+:-moz-placeholder { 
+    text-transform: none;
+}
+::-moz-placeholder { 
+    text-transform: none;
+}
+:-ms-input-placeholder {
+    text-transform: none;
+}
+::placeholder { 
+    text-transform: none;
+}
+
+@media screen and(max-width: 375px) {
+    .pagination-on-mobile{
+        display: flex !important;
+        width: 100% !important;
+        margin-right: 30px;
+        margin-top: 3px;
+    }
+}
+
+@media (min-width: 376px) and (max-width: 400px) {
+    .pagination-on-mobile{
+        display: flex !important;
+        width: 100% !important;
+        margin-right: 20px;
+        margin-top: 3px;
+    }
+}

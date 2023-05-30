@@ -92,7 +92,8 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        publishResults: payload,
+        publishResults: payload.data,
+        filterProps: payload,
       };
     }
     case actions.FETCH_RESULT_LIST_FAILED: {
@@ -126,6 +127,29 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
       };
     }
 
+    case actions.UPDATE_PUBLISH_RESULT_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        message: "",
+      };
+    case actions.UPDATE_PUBLISH_RESULT_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_PUBLISH_RESULT_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        loading: false,
+        message: payload,
+      };
+
+
 
     case actions.RESET_RESULT_PUBLISH_LIST: {
       return {
@@ -140,6 +164,29 @@ export const publishresultsReducer = (state = _state, { type, payload }) => {
         idsObj: payload,
       };
     }
+
+    case actions.FETCH_PUBLISH_LIST_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: '',
+        isSuccessful: false
+      };
+
+    case actions.FETCH_PUBLISH_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        publishedList: payload,
+      };
+
+    case actions.FETCH_PUBLISH_LIST_FAILED:
+      return {
+        ...state,
+        loading: false,
+        isSuccessful: false,
+        message: payload
+      };
 
     default:
       return state

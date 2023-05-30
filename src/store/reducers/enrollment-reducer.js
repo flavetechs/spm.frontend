@@ -3,9 +3,10 @@ import { actions } from "../action-types/enrollment-action-types";
 export const enrollmentReducer = (state = _state, { type, payload }) => {
   switch (type) {
     case actions.PUSH_STUDENT_ID:
+      var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload],
+        selectedIds: [...new Set(arrayToFilter)],
       };
     case actions.REMOVE_STUDENT_ID:
       var filteredIds = filterSelectedIds(state.selectedIds, payload);
@@ -16,13 +17,19 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
     case actions.RETURN_UNENROLLED_STUDENT_LIST:
       return {
         ...state,
-        unenrolledStudents: payload,
+        unenrolledStudents: payload.data
       };
     case actions.RETURN_ENROLLED_STUDENT_LIST:
       return {
         ...state,
         enrolledStudents: payload,
       };
+
+      case actions.RESET_ENROLLED_STUDENTS_STATE:
+        return {
+          ...state,
+          enrolledStudents: payload,
+        };
 
     case actions.FETCH_UNENROLLED_STUDENTS_LOADING:
       return {
@@ -35,7 +42,8 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        unenrolledStudents: payload,
+        unenrolledStudents: payload.data,
+        filterProps: payload,
       };
     case actions.FETCH_UNENROLLED_STUDENTS_FAILED:
       return {
@@ -78,7 +86,8 @@ export const enrollmentReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        enrolledStudents: payload,
+        enrolledStudents: payload.data,
+        filterProps: payload,
       };
     case actions.FETCH_ENROLLED_STUDENTS_FAILED:
       return {

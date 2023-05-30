@@ -6,10 +6,11 @@ export const sessionReducer = (state = _state, { type, payload }) => {
 
 
     case actions.PUSH_ITEM_ID:
+     var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
-      }
+        selectedIds: [...new Set(arrayToFilter)],
+      };
     case actions.REMOVE_ITEM_ID:
       var filteredIds = filterSelectedIds(state.selectedIds, payload)
       return {
@@ -38,7 +39,8 @@ export const sessionReducer = (state = _state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        sessionList: payload,
+        sessionList: payload.data,
+        filterProps:payload,
       };
 
     case actions.FETCH_SESSION_FAILED:
@@ -123,12 +125,15 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         isSuccessful: false
       };
 
-    case actions.FETCH_ACTIVE_SESSION_SUCCESS:
+    case actions.FETCH_ACTIVE_SESSION_SUCCESS:{
+      localStorage.setItem('currentSession', payload?.sessionTerm + " term " + payload?.session)
       return {
         ...state,
         loading: false,
         activeSession: payload,
       };
+    }
+      
 
     case actions.FETCH_ACTIVE_SESSION_FAILED:
       return {
@@ -155,6 +160,23 @@ export const sessionReducer = (state = _state, { type, payload }) => {
         loading: false,
         selectedItem: null,
       };
+
+      case actions.SWITCH_SESSION_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actions.SWITCH_SESSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actions.SWITCH_SESSION_FAILED:
+      return {
+        ...state,
+        loading: false,
+      };
+
 
     //SESSION ACTION REDUCERS
 

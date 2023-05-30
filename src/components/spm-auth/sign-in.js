@@ -1,139 +1,249 @@
-import { Row, Col, Image, ListGroup, } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
-import Card from '../Card'
+import { useHistory } from "react-router-dom";
 
-
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 // img
-import auth1 from '../../assets/images/auth/01.png'
-import { dashboardLocations } from '../../router/spm-path-locations';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../store/actions/auth-actions';
-import { useEffect } from 'react';
+import auth1 from "../../assets/images/auth/01.png";
+import {
+    authLocations,
+} from "../../router/spm-path-locations";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/actions/auth-actions";
+import { useEffect, useState } from "react";
+import SmpLoader from "../loader/smp-loader";
+import DefaultLoginTemplate from "./login-templates/default-login-template";
+import LoginTemplate1 from "./login-templates/login-template-1";
+import LoginTemplate2 from "./login-templates/login-template-2";
+import LoginTemplate3 from "./login-templates/login-template-3";
+import LoginTemplate4 from "./login-templates/login-template-4";
+import { getAppLayout } from "../../store/actions/portal-setting-action";
+import PageNotFound from "./page-not-found";
+import { ServiceURLs } from "../../utils/other";
+import { io } from "socket.io-client";
 
-const SignIn = () => {
+
+const SignIn = (props) => {
     let history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const { message } = state.auth;
-    var token = localStorage.getItem('token');
+    const { appSetting } = state.portal;
+    var token = localStorage.getItem("token");
+    var userDetail = localStorage.getItem("userDetail");
+    const [selectedUserType, setUserType] = useState(1);
+
+    const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
-        if(token){
-            history.push('/dashboard')
+        props.getAppLayout(schoolUrl).then(res => {
+            return res;
+        })
+    }, [schoolUrl])
+
+    useEffect(() => {
+        if (userDetail) {
+                if (JSON.parse(userDetail).userType === "Student") {
+                    localStorage.setItem("userType",2);
+                } else if (JSON.parse(userDetail).userType === "Parent") {
+                    localStorage.setItem("userType",3);
+                } else {
+                    localStorage.setItem("userType",1);
+                }
         }
-    }, [token])
+    }, [userDetail]);
+
+   const storedUserType = localStorage.getItem("userType")||1
+
+    useEffect(() => {
+      setUserType(Number(storedUserType));
+    }, [storedUserType]);
+
+    const layoutSetting = localStorage.getItem("appSetting")
+    const appSetting2 = JSON.parse(layoutSetting) || "";
+
+    useEffect(() => {
+        if (!appSetting2.scheme) {
+            props.getAppLayout(schoolUrl).then(res => {
+                return res;
+            })
+        }
+    }, [schoolUrl])
+
+    useEffect(() => {
+        if (userDetail) {
+            if (JSON.parse(userDetail).isFirstTimeLogin === false) {
+                if (JSON.parse(userDetail).userType === "Student") {
+                    window.location.href = "/stds-dashboard/";
+                } else if (JSON.parse(userDetail).userType === "Parent") {
+                    window.location.href = "/parent-dashboard/";
+                } else {
+                    window.location.href = "/dashboard/";
+                }
+            } else {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userDetail");
+                localStorage.removeItem("permissions");
+                history.push(
+                    authLocations.firstTimeLogin +
+                    "?id=" +
+                    JSON.parse(userDetail).userAccountId
+                );
+            }
+        }
+    }, [token, history, userDetail]);
 
     const validation = Yup.object().shape({
         userName: Yup.string()
-            .min(2, 'Username Too Short!')
-            .max(50, 'Username Too Long!')
-            .required('Username is required to login'),
-        password: Yup.string().required("Password Required")
-            .min(8, 'Password must be a minimum of 8 characters'),
+            .min(2, "Username Too Short!")
+            .max(50, "Username Too Long!")
+            .required("Username is required to login"),
+        password: Yup.string()
+            .required("Password Required")
+            .min(4, "Password must be a minimum of 4 characters"),
     });
 
+
+
+    const { handleChange, handleSubmit, values, setFieldValue, handleBlur, errors, touched } = useFormik({
+        initialValues: {
+            userName: "",
+            password: "",
+            schoolUrl,
+            userType: selectedUserType
+        },
+        enableReinitialize: true,
+        validationSchema: validation,
+        onSubmit: (values) => {
+            loginUser(values)(dispatch)
+        }
+    });
+
+    useEffect(() => {
+        const socket = io("http://jobserver.flavetechs.com:80");
+        console.log('socket', socket);
+        // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
+    }, [])
+
+
+
+
+
+    const defaultTemplate =
+        <DefaultLoginTemplate
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
+
+    const templateOne =
+        <LoginTemplate1
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
+
+    const templateTwo =
+        <LoginTemplate2
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
+
+    const templateThree =
+        <LoginTemplate3
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
+
+    const templateFour =
+        <LoginTemplate4
+            message={message}
+            auth1={auth1}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            values={values}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            schoolName={appSetting?.schoolName}
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
+
+    const pageNotFound =
+        <PageNotFound />
 
     return (
         <>
             <section className="login-content">
-                <Row className="m-0 align-items-center bg-white vh-100">
-                    <Col md="6">
-                        <Row className="justify-content-center">
-                            <Col md="10">
-                                <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
-                                    <Card.Body>
-                                        <Link to={dashboardLocations.dashboard} className="navbar-brand d-flex align-items-center mb-3">
-                                            <svg width="30" className="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
-                                                <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
-                                                <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
-                                                <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-                                            </svg>
-                                            <h4 className="logo-title ms-3">Hope UI</h4>
-                                        </Link>
-                                        <h2 className="mb-2 text-center">Sign In</h2>
-                                        <p className="text-center">Login to stay connected.</p>
-
-                                        <Formik
-                                            initialValues={{
-                                                userName: '',
-                                                password: '',
-                                            }}
-                                            validationSchema={validation}
-                                            onSubmit={values => {
-                                                console.log(values);
-                                                loginUser(values)(dispatch)
-                                            }}
-                                        >
-                                            {({
-                                                handleChange,
-                                                handleBlur,
-                                                handleSubmit,
-                                                values,
-                                                touched,
-                                                errors,
-                                                isValid }) => (
-
-                                                <Form >
-                                                    <Row>
-                                                        {message && <div className='text-danger'>{message}</div>}
-                                                        <Col lg="12">
-                                                            <div className="form-group">
-                                                                {((touched.userName && errors.userName) || message) && <div className='text-danger'>{errors.userName}</div>}
-                                                                <label htmlFor="userName" className="form-label">User Name</label>
-                                                                <Field type="userName" className="form-control" name="userName" id="userName" aria-describedby="userName" required placeholder=" " />
-                                                            </div>
-                                                        </Col>
-                                                        <Col lg="12" className="">
-                                                            <div className="form-group">
-                                                                {(touched.password && errors.password) && <div className='text-danger'>{errors.password}</div>}
-                                                                <label htmlFor="password" className="form-label">Password</label>
-                                                                <Field type="password" required className="form-control" name="password" id="password" aria-describedby="password" placeholder=" " />
-                                                            </div>
-                                                        </Col>
-                                                        <Col lg="12" className="d-flex justify-content-between">
-                                                            <div className="form-check mb-3 form-Check">
-                                                                <Field type="checkbox" id="customCheck1" className="form-check-input" />
-                                                                <label htmlFor="customCheck1" className='check-label'>Remember Me </label>
-                                                            </div>
-                                                            <Link to="/auth/recoverpw">Forgot Password?</Link>
-                                                        </Col>
-                                                    </Row>
-                                                    <div className="d-flex justify-content-center">
-                                                        <button onSubmit={() => {
-                                                            handleSubmit()
-                                                        }} type="submit" variant="btn btn-primary" className='btn btn-primary'>Sign In</button>
-                                                    </div>
-                                                    <p className="mt-3 text-center">
-                                                        Don’t have an account? <Link to="/auth/sign-up" className="text-underline">Click here to sign up.</Link>
-                                                    </p>
-                                                </Form>
-                                            )}
-                                        </Formik>
-
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                        <div className="sign-bg">
-                            <svg width="280" height="230" viewBox="0 0 431 398" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g opacity="0.05">
-                                    <rect x="-157.085" y="193.773" width="543" height="77.5714" rx="38.7857" transform="rotate(-45 -157.085 193.773)" fill="#3B8AFF" />
-                                    <rect x="7.46875" y="358.327" width="543" height="77.5714" rx="38.7857" transform="rotate(-45 7.46875 358.327)" fill="#3B8AFF" />
-                                    <rect x="61.9355" y="138.545" width="310.286" height="77.5714" rx="38.7857" transform="rotate(45 61.9355 138.545)" fill="#3B8AFF" />
-                                    <rect x="62.3154" y="-190.173" width="543" height="77.5714" rx="38.7857" transform="rotate(45 62.3154 -190.173)" fill="#3B8AFF" />
-                                </g>
-                            </svg>
-                        </div>
-                    </Col>
-                    <Col md="6" className="d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
-                        <Image src={auth1} className="Image-fluid gradient-main animated-scaleX" alt="images" />
-                    </Col>
-                </Row>
+                <SmpLoader />
+                {appSetting.loginTemplate === "default-login-template" && defaultTemplate}
+                {appSetting.loginTemplate === "template-1" && templateOne}
+                {appSetting.loginTemplate === "template-2" && templateTwo}
+                {appSetting.loginTemplate === "template-3" && templateThree}
+                {appSetting.loginTemplate === "template-4" && templateFour}
+                {appSetting.schoolUrl === undefined && <div className="bg-dark"></div>}
+                {appSetting.schoolUrl === null && pageNotFound}
             </section>
         </>
-    )
+    );
+};
+
+function mapStateToProps(state) {
+    return {
+        state: state
+    };
 }
 
-export default SignIn
+function mapDispatchToProps(dispatch) {
+    return {
+        getAppLayout: (schoolUrl) => getAppLayout(schoolUrl)(dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+
+
+

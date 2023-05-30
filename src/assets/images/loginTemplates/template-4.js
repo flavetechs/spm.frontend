@@ -1,0 +1,1 @@
+export const template4 = 'http://fwsapi.flavetechs.com/ApplicationFiles/be06a9a9-2e4c-4d34-9a4d-60666cc20fd0.PNG';

@@ -11,7 +11,7 @@ export const getPreviousGrades = () => (dispatch) => {
   });
 
   axiosInstance
-    .get("/grade/api/v1/get/get-settings")
+    .get("/smp/server/grade/api/v1/get/get-settings")
     .then((res) => {
       dispatch({
         type: actions.FETCH_PREVIOUS_GRADES_SUCCESS,
@@ -31,7 +31,7 @@ export const createGradeSetting = (values) => (dispatch) => {
     type: actions.CREATE_GRADE_LOADING,
   });
   axiosInstance
-    .post("/grade/api/v1/create", values)
+    .post("/smp/server/grade/api/v1/create", values)
     .then((res) => {
       dispatch({
         type: actions.CREATE_GRADE_SUCCESS,
@@ -54,7 +54,33 @@ export const updateGradeSetting = (values) => (dispatch) => {
       type: actions.UPDATE_GRADE_LOADING,
     });
     axiosInstance
-      .post("/grade/api/v1/update", values)
+      .post("/smp/server/grade/api/v1/update", values)
+      .then((res) => {
+        dispatch({
+          type: actions.UPDATE_GRADE_SUCCESS,
+          payload: res.data.message.friendlyMessage,
+        });
+        showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+        getPreviousGrades()(dispatch);
+      })
+      .catch((err) => {
+        dispatch({
+          type: actions.UPDATE_GRADE_FAILED,
+          payload: err.response.data.message.friendlyMessage,
+        });
+        showErrorToast(err.response.data.message.friendlyMessage)(dispatch);
+      });
+  };
+
+  export const deleteGradeSetting = (value) => (dispatch) => {
+    dispatch({
+      type: actions.UPDATE_GRADE_LOADING,
+    });
+    const payload = {
+      item: value
+    }
+    axiosInstance
+      .post("/smp/server/grade/api/v1/delete", payload)
       .then((res) => {
         dispatch({
           type: actions.UPDATE_GRADE_SUCCESS,

@@ -28,7 +28,7 @@ export const fetchSingleSession = (sessionId) => dispatch => {
     dispatch({
         type: actions.FETCH_SINGLE_SESSION_LOADING,
     });
-    axiosInstance.get(`/session/api/v1/getall-single-session${sessionId}`)
+    axiosInstance.get(`/smp/server/session/api/v1/getall-single-session${sessionId}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SINGLE_SESSION_SUCCESS,
@@ -44,13 +44,13 @@ export const fetchSingleSession = (sessionId) => dispatch => {
 
 
 //SESSION FETCH
-export const getAllSession = () => (dispatch) => {
+export const getAllSession = (pageNumber) => (dispatch) => {
 
     dispatch({
         type: actions.FETCH_SESSION_LOADING
     });
 
-    axiosInstance.get('session/api/v1/getall')
+    axiosInstance.get(`smp/server/session/api/v1/getall?pageNumber=${pageNumber}`)
         .then((res) => {
             dispatch({
                 type: actions.FETCH_SESSION_SUCCESS,
@@ -59,7 +59,7 @@ export const getAllSession = () => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_SESSION_FAILED,
-                payload: err.data.result
+                payload: err?.response?.data?.message?.friendlyMessage
             })
         });
 }
@@ -68,7 +68,7 @@ export const createSession = (form) => (dispatch) => {
     dispatch({
         type: actions.CREATE_SESSION_LOADING
     });
-    axiosInstance.post('/session/api/v1/create', form)
+    axiosInstance.post('/smp/server/session/api/v1/create', form)
         .then((res) => {
             dispatch({
                 type: actions.CREATE_SESSION_SUCCESS,
@@ -92,13 +92,13 @@ export const deleteSession = (session) => (dispatch) => {
         item: session[0]
     }
 
-    axiosInstance.post('/session/api/v1/delete', payload)
+    axiosInstance.post('/smp/server/session/api/v1/delete', payload)
         .then((res) => {
             dispatch({
                 type: actions.DELETE_SESSION_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllSession()(dispatch);
+            getAllSession(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
@@ -137,7 +137,7 @@ export const getActiveSession = () => (dispatch) => {
         type: actions.FETCH_ACTIVE_SESSION_LOADING
     });
 
-    axiosInstance.get('/session/api/v1/get-active')
+    axiosInstance.get('/smp/server/session/api/v1/get-active')
         .then((res) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_SUCCESS,
@@ -146,7 +146,7 @@ export const getActiveSession = () => (dispatch) => {
         }).catch((err) => {
             dispatch({
                 type: actions.FETCH_ACTIVE_SESSION_FAILED,
-                payload: err.data.result
+                payload: err?.data?.result
             })
         });
 }
@@ -155,7 +155,7 @@ export const getActiveSession = () => (dispatch) => {
 
 export const switchTerm = (term) => (dispatch) => {
     if(term === undefined || term === null){
-        showErrorToast('Error occurred!! reload page if error persists')(dispatch);
+        showErrorToast('Ensure session term is availablle or reload page if error persists')(dispatch);
         return
     }
 
@@ -163,7 +163,7 @@ export const switchTerm = (term) => (dispatch) => {
         type: actions.SWITCH_TERM_LOADING
     });
 
-    axiosInstance.post('/session/api/v1/activate-term', { sessionTermId: term.sessionTermId })
+    axiosInstance.post('/smp/server/session/api/v1/activate-term', { sessionTermId: term.sessionTermId })
         .then((res) => {
             dispatch({
                 type: actions.SWITCH_TERM_SUCCESS,
@@ -171,11 +171,38 @@ export const switchTerm = (term) => (dispatch) => {
             });
             getActiveSession()(dispatch);
             getGeneralActiveSession()(dispatch)
-            getAllSession()(dispatch)
+            getAllSession(1)(dispatch)
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({
                 type: actions.SWITCH_TERM_FAILED,
+                payload: err.response.data.message.friendlyMessage
+            });
+            showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+        });
+}
+
+
+export const activateSession = (sessionid) => (dispatch) => {
+    dispatch({
+        type: actions.SWITCH_SESSION_LOADING
+    });
+    const payload = {
+        sessionId: sessionid
+    }
+
+    axiosInstance.post('/smp/server/session/api/v1/switch-session', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.SWITCH_SESSION_SUCCESS,
+                payload: res.data.message.friendlyMessage
+            });
+            getAllSession(1)(dispatch);
+            getActiveSession()(dispatch)
+            showSuccessToast(res.data.message.friendlyMessage)(dispatch)
+        }).catch((err) => {
+            dispatch({
+                type: actions.SWITCH_SESSION_FAILED,
                 payload: err.response.data.message.friendlyMessage
             });
             showErrorToast(err.response.data.message.friendlyMessage)(dispatch)

@@ -28,7 +28,9 @@ import shapes4 from '../../../../assets/images/shapes/04.png'
 import shapes5 from '../../../../assets/images/shapes/05.png'
 // logo
 import Logo from '../../components/logo'
+import { getUserDetails } from '../../../../utils/permissions'
 const HeaderStyle1 = () => {
+    var userDetail = getUserDetails();
     return (
         <>   
             <Navbar expand="xl" className="nav  iq-navbar">
@@ -36,8 +38,8 @@ const HeaderStyle1 = () => {
                     <MobildeOffcanvas/>
                         <Navbar.Brand as="div" className="col-lg-2 col-lg-3 ">
                             <Link to="/dashboard" className="d-flex">
-                                <Logo color={true} />
-                                <h4 className="logo-title">Hope UI</h4>
+                                {/* <Logo color={true} /> */}
+                                <h4 className="logo-title">{userDetail?.schoolAbbreviation ?? ''}</h4>
                             </Link>
                         </Navbar.Brand>
                         <HorizontalNav />

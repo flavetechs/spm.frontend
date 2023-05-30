@@ -1,10 +1,10 @@
 import axiosInstance from "../../axios/axiosInstance";
 import {
-  resultManagement,
+  scoreEntryManagement,
   studentsLocations,
 } from "../../router/spm-path-locations";
 import { actions } from "../action-types/publish-result-action-types";
-import { showErrorToast } from "./toaster-actions";
+import { showErrorToast, showSuccessToast } from "./toaster-actions";
 
 export const getAllSchoolSessions = () => (dispatch) => {
   dispatch({
@@ -12,7 +12,7 @@ export const getAllSchoolSessions = () => (dispatch) => {
   });
 
   axiosInstance
-    .get("/session/api/v1/getall")
+    .get("/smp/server/session/api/v1/getall")
     .then((res) => {
       dispatch({
         type: actions.FETCH_SESSIONS_SUCCESS,
@@ -49,8 +49,8 @@ export const getAllTerms = (sessionId) => (dispatch) => {
     });
 };
 
-export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
-  if(!sessionId || !sessionTermId){
+export const getTermClasses = (sessionId) => (dispatch) => {
+  if (!sessionId) {
     return
   }
   dispatch({
@@ -58,8 +58,7 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
     payload: sessionId,
   });
   axiosInstance
-    .get(
-      `/session/api/v1/get/session-term/classes?sessionId=${sessionId}&termId=${sessionTermId}`
+    .get(`smp/server/session/api/v1/get/session-term/classes?sessionId=${sessionId}`
     )
     .then((res) => {
       dispatch({
@@ -75,15 +74,12 @@ export const getTermClasses = (sessionId, sessionTermId) => (dispatch) => {
     });
 };
 
-export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
+export const getAllResultList = (sessionClassId, termId, pageNumber) => (dispatch) => {
   dispatch({
     type: actions.FETCH_RESULT_LIST_LOADING,
-    payload: sessionClassId,
-  });
-  axiosInstance
-    .get(
-      `/api/v1/result/get/result-list?sessionClassid=${sessionClassId}&termId=${termId}`
-    )
+
+  }); 
+  axiosInstance.get(`/smp/server/api/v1/result/get/result-list?sessionClassid=${sessionClassId}&termId=${termId}&pageNumber=${pageNumber}`)
     .then((res) => {
       dispatch({
         type: actions.FETCH_RESULT_LIST_SUCCESS,
@@ -91,6 +87,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
       });
     })
     .catch((err) => {
+      showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
       dispatch({
         type: actions.FETCH_RESULT_LIST_FAILED,
         payload: err.response.data.result,
@@ -99,7 +96,7 @@ export const getAllResultList = (sessionClassId, termId) => (dispatch) => {
 };
 
 export const setExamScore =
-  (subjectId, examScore, publishSingleStudent) => (dispatch) => {
+  (subjectId, examScore, publishSingleStudent, termId) => (dispatch) => {
     if (!examScore) {
       examScore = 0;
     }
@@ -135,13 +132,11 @@ export const setExamScore =
           score: examScore,
           subjectId: entries.subjectId,
           classScoreEntryId: entries.classScoreEntryId,
+          termId
         })
         .then((res) => {
           entries.isSaving = false;
           entries.isOffered = true;
-          // console.log("hi", res.data.result)
-          //entries.grade = res.data.result.grade;
-          //entries.remark = res.data.result.remark;
           publishSingleStudent.studentSubjectEntries[entryIndex] = entries;
           dispatch({
             type: actions.UPDATE_PUBLISH_RESULT,
@@ -157,7 +152,7 @@ export const setExamScore =
   };
 
 export const setAssessmentScore =
-  (subjectId, assessmentScore, publishSingleStudent) => (dispatch) => {
+  (subjectId, assessmentScore, publishSingleStudent, termId) => (dispatch) => {
     if (!assessmentScore) {
       assessmentScore = 0;
     }
@@ -193,6 +188,7 @@ export const setAssessmentScore =
           score: assessmentScore,
           subjectId: entries.subjectId,
           classScoreEntryId: entries.classScoreEntryId,
+          termId
         })
         .then((res) => {
           entries.isSaving = false;
@@ -214,31 +210,31 @@ export const setAssessmentScore =
   };
 
 export const fetchSingleStudentResultEntries = (sessionClassId, termId, studentContactId) => (dispatch) => {
-    dispatch({
-      type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING,
-      payload: sessionClassId,
-    });
-    axiosInstance.get(`/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
-      .then((res) => {
-        dispatch({
-          type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS,
-          payload: res.data.result,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_FAILED,
-          payload: err.response.data.result,
-        });
+  dispatch({
+    type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_LOADING,
+    payload: sessionClassId,
+  });
+  axiosInstance.get(`/smp/server/api/v1/result/get/single-student/result-entries?sessionClassid=${sessionClassId}&termId=${termId}&studentContactId=${studentContactId}`)
+    .then((res) => {
+      dispatch({
+        type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_SUCCESS,
+        payload: res.data.result,
       });
-  };
+    })
+    .catch((err) => {
+      dispatch({
+        type: actions.FETCH_SINGLE_STUDENT_RESULT_ENTRIES_FAILED,
+        payload: err.response.data.result,
+      });
+    });
+};
 
 export const setSessionClassIdAndTermId = (sessionClassId, termId) => (dispatch) => {
   const idsToSet = {
     sessionClassId,
     termId,
   };
- 
+
   dispatch({
     type: actions.SET_PREVIEW_IDS,
     payload: idsToSet,
@@ -251,3 +247,42 @@ export const resetPublishPage = () => (dispatch) => {
     payload: null,
   });
 };
+
+export const updatePublishedResult = (sessionClassId, sessionTermId, publish) => (dispatch) => {
+  dispatch({
+    type: actions.UPDATE_PUBLISH_RESULT_LOADING
+  });
+  axiosInstance.post(`/smp/server/api/v1/result/update/publish-result`, { sessionClassId, sessionTermId, publish })
+    .then((res) => {
+      dispatch({
+        type: actions.UPDATE_PUBLISH_RESULT_SUCCESS,
+        payload: res.data.result
+      });
+      showSuccessToast(res.data.message.friendlyMessage)(dispatch);
+      getAllResultList(sessionClassId, sessionTermId,1)(dispatch);
+    }).catch((err) => {
+      dispatch({
+        type: actions.UPDATE_PUBLISH_RESULT_FAILED,
+        payload: err.response.data.message.friendlyMessage
+      });
+      showErrorToast(err.response.data.message.friendlyMessage)(dispatch)
+    });
+}
+
+export const getPublishedList = () => (dispatch) => {
+  dispatch({
+    type: actions.FETCH_PUBLISH_LIST_LOADING
+  });
+  axiosInstance.get('/smp/server/api/v1/result/get/publish-list')
+    .then((res) => {
+      dispatch({
+        type: actions.FETCH_PUBLISH_LIST_SUCCESS,
+        payload: res.data.result
+      });
+    }).catch(err => {
+      dispatch({
+        type: actions.FETCH_PUBLISH_LIST_FAILED,
+        payload: err.response.data.result
+      })
+    });
+}

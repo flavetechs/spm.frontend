@@ -48,10 +48,11 @@ export const rolesReducer = (state = _state, { type, payload }) => {
     }
 
     case actions.PUSH_ROLE_ID: {
+    var arrayToFilter = [...state.selectedIds, payload]
       return {
         ...state,
-        selectedIds: [...state.selectedIds, payload]
-    }
+        selectedIds: [...new Set(arrayToFilter)],
+      };
     }
 
     case actions.DELETE_SUCCESS: {
@@ -68,6 +69,28 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         roles: payload,
       };
     }
+
+    case actions.FETCH_PARENT_ROLE_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_PARENT_ROLE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+      parentActivity: payload,
+      };
+    }
+    case actions.FETCH_PARENT_ROLE_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        parentActivity: null,
+      };
+    }
+
     case actions.FETCH_SINGLE_ROLE_LOADING: {
       return {
         ...state,
@@ -88,6 +111,150 @@ export const rolesReducer = (state = _state, { type, payload }) => {
         selectedRole: null,
       };
     }
+
+    case actions.ADD_USER_TO_ROLE_LOADING:
+            return {
+              ...state,
+              loading: true,
+              submitSuccessful: false,
+            };
+    case actions.ADD_USER_TO_ROLE_SUCCESS:
+            return {
+              ...state,
+              submitSuccessful: true,
+              loading: false,
+              message: payload
+            };
+    case actions.ADD_USER_TO_ROLE_FAILED:
+            return {
+              ...state,
+              submitSuccessful: false,
+              loading: false,
+              message: payload
+            };
+      
+
+    case actions.REMOVE_USER_FROM_ROLE_LOADING:
+      return {
+                ...state,
+                loading: true,
+                submitSuccessful: false,
+              };
+    case actions.REMOVE_USER_FROM_ROLE_SUCCESS:
+        return {
+                ...state,
+                submitSuccessful: true,
+                loading: false,
+                message: payload
+              };
+    case actions.REMOVE_USER_FROM_ROLE_FAILED:
+        return {
+                ...state,
+                submitSuccessful: false,
+                loading: false,
+                message: payload
+              };
+  
+    case actions.FETCH_NON_ADDED_USERS_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_NON_ADDED_USERS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        nonAddedUsers: payload,
+      };
+    }
+    case actions.FETCH_NON_ADDED_USERS_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        nonAddedUsers: null,
+      };
+    }
+
+    case actions.FETCH_ADDED_USERS_LOADING: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case actions.FETCH_ADDED_USERS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        addedUsers: payload,
+      };
+    }
+    case actions.FETCH_ADDED_USERS_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        addedUsers: null,
+      };
+    }
+
+    case actions.RESET_ACTIVITIES:
+      return {
+        ...state,
+        selectedRole:payload,
+        submitSuccessful:false,
+      };
+
+    case actions.CREATE_ROLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        submitSuccessful:false,
+        message: "",
+      };
+    case actions.CREATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        submitSuccessful:true,
+        loading: false,
+        message: payload,
+      };
+    case actions.CREATE_ROLE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        submitSuccessful:false,
+        loading: false,
+        message: payload,
+      };
+
+      
+    case actions.UPDATE_ROLE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        isSuccessful: false,
+        submitSuccessful:false,
+        message: "",
+      };
+    case actions.UPDATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        isSuccessful: true,
+        submitSuccessful:true,
+        loading: false,
+        message: payload,
+      };
+    case actions.UPDATE_ROLE_FAILED:
+      return {
+        ...state,
+        isSuccessful: false,
+        submitSuccessful:false,
+        loading: false,
+        message: payload,
+      };
+
     case actions.UPDATE_ROLE_ACTIVITY_STATE:
       return {
         ...state,

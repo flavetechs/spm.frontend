@@ -5,4 +5,10 @@ export const _state = {
     message: "",
     isSuccessful: false,
     selectedIds: [],
+    submitSuccessful: false,
+    countries:[],
+    states:[],
+    cities:[],
+    filterProps: {},
+    studentTemplateFile: "",
   };

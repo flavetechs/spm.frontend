@@ -1,7 +1,7 @@
 import { actions } from "../action-types/results-action-types"
 import { _state } from "../states/results-state"
 
-export const resultsReducer = (state = _state, { type, payload }: any) => {
+export const resultsReducer = (state = _state, { type, payload}: any) => {
   switch (type) {
     case actions.FETCH_STAFF_CLASSES_LOADING:
       return {
@@ -60,7 +60,8 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         loading: false,
-        scoreEntry: payload,
+        scoreEntry: payload.data,
+        filterProps: payload,
       };
     }
     case actions.FETCH_CLASS_SCORE_ENTRIES_FAILED: {
@@ -83,7 +84,8 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         loading: false,
-        scoreEntryPreview: payload,
+        scoreEntryPreview: payload.data,
+        filterProps: payload,
         fetchPreviewSuccessful: true,
       };
     }
@@ -107,7 +109,8 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         loading: false,
-        previousScoreEntry: payload,
+        previousScoreEntry: payload.data,
+        filterProps: payload,
       };
     }
     case actions.FETCH_PREVIOUS_CLASS_SCORE_ENTRIES_FAILED: {
@@ -130,7 +133,8 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       return {
         ...state,
         loading: false,
-        previousScoreEntryPreview: payload,
+        previousScoreEntryPreview: payload.data,
+        filterProps: payload,
         fetchPreviewSuccessful: true,
       };
     }
@@ -186,6 +190,99 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
+    case actions.FETCH_STUDENT_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentResult: null,
+      };
+    }
+    case actions.FETCH_STUDENT_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: payload,
+      };
+    }
+    case actions.FETCH_STUDENT_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: null,
+      };
+    }
+
+    case actions.FETCH_BATCH_RESULT_PREVIEW_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        batchResultPreview: null,
+        printSuccessful:"loading",
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_PREVIEW_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        batchResultPreview: payload,
+        printSuccessful:"loading",
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_PREVIEW_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        batchResultPreview: null,
+      };
+    }
+
+    case actions.FETCH_BATCH_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        batchResult: null,
+        printSuccessful:"loading"
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        batchResult: payload,
+        printSuccessful:"successful"
+      };
+    }
+    case actions.FETCH_BATCH_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        batchResult: null,
+        printSuccessful:"unsuccessful"
+      };
+    }
+
+    case actions.FETCH_SINGLE_PRINT_RESULT_LOADING: {
+      return {
+        ...state,
+        loading: true,
+        studentResult: null,
+      };
+    }
+    case actions.FETCH_SINGLE_PRINT_RESULT_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: payload,
+      };
+    }
+    case actions.FETCH_SINGLE_PRINT_RESULT_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        studentResult: null,
+      };
+    }
+
     case actions.UPDATE_SCORE_ENTRY: {
       return {
         ...state,
@@ -235,7 +332,37 @@ export const resultsReducer = (state = _state, { type, payload }: any) => {
       };
     }
 
-
+    case actions.RESET_PRINT_SUCCESSFUL_STATE: {
+      return {
+        ...state,
+        printSuccessful: payload,
+      };
+    }
+//template setting reducer
+case actions.SET_TEMPLATE_SETTING_STATE_LOADING: {
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: true,
+  };
+}
+case actions.SET_TEMPLATE_SETTING_STATE_SUCCESS: {
+  return {
+    ...state,
+    isSuccessful: true,
+    loading: false,
+    message: payload,
+    
+  };
+}
+case actions.SET_TEMPLATE_SETTING_STATE_FAILED: {
+  return {
+    ...state,
+    isSuccessful: false,
+    loading: false,
+    message: payload
+  };
+}
     default:
       return state
   }
