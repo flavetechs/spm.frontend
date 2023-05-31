@@ -1,4 +1,6 @@
-
+.main-background{
+  background-color: #000;
+}
 .general__container {
     margin-top: 74px;
     height: clac(100vh - 74px);
@@ -80,7 +82,7 @@
     right: 0;
     position: absolute;
     width: 100%;
-    max-width: 20rem;
+    max-width: 24rem;
     overflow-y: auto;
     border-left: 1px solid #111;
   }
@@ -138,7 +140,7 @@
   }
   
   #message__form {
-    width: 20.4rem;
+    width: 24rem;
     position: fixed;
     bottom: 0;
     display: block;
@@ -166,8 +168,9 @@
   }
   
   #stream__container {
+    background-color: #1A1A1A;
     justify-self: center;
-    width: calc(100% - 40.7rem);
+    width: calc(100% - 30.7rem);
     position: fixed;
     left: 15.7rem;
     top: clac(100vh - 72px);
@@ -235,36 +238,29 @@
     }
   }
   @media (max-width: 1200px) {
-    #members__container {
-      display: none;
-    }
+    
   
     #members__button {
       display: block;
     }
   
     #stream__container {
-      width: calc(100% - 25rem);
+      width: calc(100% - 15rem);
       left: 0;
     }
-  }
 
-  
-  @media (max-width: 980px) {
-    #stream__container {
-      width: calc(100% - 20rem);
-      left: 0;
-    }
     #messages__container {
       max-width: 15rem;
     }
   
     #message__form {
-      width: 15.2rem;
+      width: 15rem;
     }
   }
+
+ 
   
-  @media (max-width: 840px) {
+  @media (max-width: 860px) {
     #stream__container {
       width: 100%;
     }
@@ -335,4 +331,22 @@
   .stream__actions a:hover,
   .stream__actions button:hover {
     background-color: #2a62ca;
+  }
+
+  .hw100{
+    height: 100;
+    width:100;
+  }
+
+  .hw300{
+    height: 300;
+    width:300;
+  }
+
+  .addDisplay{
+    display: block;
+  }
+
+  .removeDisplay{
+    display: none;
   }
