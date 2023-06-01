@@ -2,24 +2,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import { generalOnlineClassLocations } from '../../router/spm-path-locations';
 import "./css/room.css";
 import "./css/main.css";
-import StreamContainer from './stream-container';
-import { displayName, joinRoomInit, roomID, toggleCamera, toggleMic, toggleScreen } from './agora-functions';
+import { displayName,joinRoomInit, roomID, toggleCamera, toggleMic, toggleScreen } from './agora-functions';
 import { useHistory } from 'react-router';
 import { sendMessage } from './agora-rtm';
 
 const OnlineClassRoom = () => {
-    const displayFrameRef = useRef(null);
     const history = useHistory();
     const [textValue, setTextValue] = useState('');
-
-    const [activeMemberContainer, setActiveMemberContainer] = useState(true);
-    const [activeChatContainer, setActiveChatContainer] = useState(true);
     const messagesContainerRef = useRef(null);
+    const [toggleChatDisplay, setToggleChatDisplay] = useState(true);
+    const [toggleMemberDisplay, setToggleMemberDisplay] = useState(true);
 
-    useEffect(() => {
-      const messagesContainer = messagesContainerRef.current;
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }, []);
    
     if(!roomID){
         history.push(generalOnlineClassLocations.lobby)
@@ -32,13 +25,16 @@ const OnlineClassRoom = () => {
     useEffect(() => {
         joinRoomInit();
     }, [])
+
+   
+    
     
     
   return (
     <>
     <header id="nav">
     <div className="nav--list">
-         <button id="members__button" onClick={()=>setActiveMemberContainer(!activeMemberContainer)} >
+         <button id="members__button" onClick={()=>setToggleMemberDisplay(!toggleMemberDisplay)}>
             <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"  fill="white"><path d="M24 18v1h-24v-1h24zm0-6v1h-24v-1h24zm0-6v1h-24v-1h24z"/><path d="M24 19h-24v-1h24v1zm0-6h-24v-1h24v1zm0-6h-24v-1h24v1z"/></svg>
          </button>
          <a href={generalOnlineClassLocations.lobby}>
@@ -50,7 +46,7 @@ const OnlineClassRoom = () => {
     </div>
 
      <div id="nav__links">
-         <button id="chat__button" onClick={()=>setActiveChatContainer(!activeChatContainer)}><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" fill="#ede0e0" clipRule="evenodd"><path d="M24 20h-3v4l-5.333-4h-7.667v-4h2v2h6.333l2.667 2v-2h3v-8.001h-2v-2h4v12.001zm-15.667-6l-5.333 4v-4h-3v-14.001l18 .001v14h-9.667zm-6.333-2h3v2l2.667-2h8.333v-10l-14-.001v10.001z"/></svg></button>
+         <button id="chat__button"onClick={()=>setToggleChatDisplay(!toggleChatDisplay)} ><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" fill="#2a62ca" clipRule="evenodd"><path d="M24 20h-3v4l-5.333-4h-7.667v-4h2v2h6.333l2.667 2v-2h3v-8.001h-2v-2h4v12.001zm-15.667-6l-5.333 4v-4h-3v-14.001l18 .001v14h-9.667zm-6.333-2h3v2l2.667-2h8.333v-10l-14-.001v10.001z"/></svg></button>
        
          <a className="nav__link" id="create__room__btn" href="lobby.html">
              Create Room
@@ -62,24 +58,24 @@ const OnlineClassRoom = () => {
  <main className="general__container">
      <div id="room__container">
 
-         <section id="members__container" style={{display: activeMemberContainer ? 'block' : 'none'}}>
+         <section id="members__container" style={{display: toggleMemberDisplay ? 'block':'none' }}>
 
          <div id="members__header">
-             <p>Participants</p>
+             <p className='mt-3 me-3'>Participants</p>
              <strong id="members__count">0</strong>
          </div>
-
          <div id="member__list">
-         
-            
-         </div>
+                         
+                        </div>
+
 
          </section>
-         <section id="stream__container">
-<div id="stream__box" ref={displayFrameRef}></div>
+         <section id="stream__container" >
+
+<div id="stream__box" ></div>
 
 
-<StreamContainer/>
+<div id="streams__container" ></div>
 
 
 
@@ -104,7 +100,7 @@ const OnlineClassRoom = () => {
              </div>
          </section>
 
-         <section id="messages__container" style={{display: activeChatContainer ? 'block' : 'none'}}>
+         <section id="messages__container" style={{display: toggleChatDisplay ? 'block':'none' }}>
 
              <div id="messages" ref={messagesContainerRef}>
                 

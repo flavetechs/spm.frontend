@@ -1,4 +1,5 @@
 import { channel, client, displayName, rtmClient } from "./agora-functions";
+let fromSelf = false;
 
 export let handleUserJoined = async (MemberId) => {
     console.log("A new user joined channel", MemberId);
@@ -13,7 +14,8 @@ export let addMemberToDom = async (MemberId) =>{
     let {name} = await rtmClient.getUserAttributesByKeys(MemberId,['name'])
     let memberWrapper = document.getElementById('member__list')
     let memberItem = ` <div class="member__wrapper" id="member__${name}__wrapper">
-        <span class="green__icon"></span>
+    <img src="https://templates.iqonic.design/hope-ui/pro/html/chat/assets/images/avatar/03.png" alt="profile" class="avatar-50 rounded-pill" loading="lazy"/>
+    <span class="green__icon"></span>
         <p class="member_name">${name}</p>
     </div>`
    
@@ -45,7 +47,7 @@ let {name} = await rtmClient.getUserAttributesByKeys(MemberId,['name'])
         let data = JSON.parse(messageData.text)
         console.log("A new message recieved");
         if (data.type === 'chat') {
-            addMessageToDom(data.displayName,data.message)
+            addMessageToDom(data.displayName,data.message,fromSelf)
         }
      }
   export  let getMembers = async () => {
@@ -61,18 +63,31 @@ let {name} = await rtmClient.getUserAttributesByKeys(MemberId,['name'])
         e.preventDefault()
        let message = value
        channel.sendMessage({text:JSON.stringify({type:'chat',message:message,displayName:displayName})})
-       addMessageToDom(displayName,message)
+       fromSelf = true;
+       addMessageToDom(displayName,message,fromSelf)
        setTextValue('')
      }
 
- export let addMessageToDom= async(name,message) => {
+ export let addMessageToDom= async(name,message,fromSelf) => {
 let messageWrapper = document.getElementById('messages')
-let newMessage = ` <div class="message__wrapper">
+let newMessage;
+if (fromSelf){
+newMessage = ` <div class="message__wrapper">  
+<strong class="message__author">${name}</strong>
 <div class="message__body">
-    <strong class="message__author">${name}</strong>
     <p class="message__text">${message}</p>
 </div>
 </div>`
+}else{
+newMessage = ` <div class="messageFromPeer">  
+<div class="message__wrapper">
+<strong class="message__author">${name}</strong>
+<div class="message__body">
+    <p class="message__text">${message}</p>
+</div>
+</div>
+</div>`
+}
 messageWrapper.insertAdjacentHTML("beforeend",newMessage)
 
 let lastMessage = document.querySelector('#messages ,message__wrapper:last-child')

@@ -1,9 +1,7 @@
-.main-background{
-  background-color: #000;
-}
+
 .general__container {
     margin-top: 74px;
-    height: clac(100vh - 74px);
+    height: 100vh;
     width: 100%;
     position: relative;
   }
@@ -15,22 +13,22 @@
   }
   
   #members__container {
-    background-color: #262625;
+    background-color: #fbfdfb;
     border-right: 1px solid #797a79;
     overflow-y: auto;
-    width: 90%;
+    width: 100%;
     max-width: 250px;
     position: fixed;
     height: 100%;
-    z-index: 999;
+    z-index: 2;
   }
   
   #members__count {
-    background-color: #1d1d1c;
+    background-color: #2a62ca;
+    border-radius: 50%;
     padding: 7px 15px;
     font-size: 14px;
     font-weight: 600;
-    border-radius: 5px;
   }
   
   #members__header {
@@ -40,8 +38,7 @@
     padding: 0 1rem;
     position: fixed;
     font-size: 18px;
-    background-color: #323143;
-    width: 218px;
+    color: #000;
   }
   
   #member__list {
@@ -50,7 +47,10 @@
     gap: 1rem;
     padding-top: 5rem;
     padding-bottom: 6.5rem;
+    color: #000;
   }
+
+  
   
   .members__list::-webkit-scrollbar {
     height: 14px;
@@ -64,27 +64,31 @@
   }
   
   .green__icon {
+    position: relative;
     display: block;
-    height: 8px;
-    width: 8px;
+    bottom: -18px;
+    right: 20px;
+    height: 12px;
+    width: 12px;
+    border: 1px solid white;
     border-radius: 50%;
     background-color: #2aca3e;
   }
   
   .member_name{
     font-size: 14px;
-    line-height: 0;
   }
   
   #messages__container {
+    background-color: #fbfdfb;
+     position: absolute;
     height: 100vh;
-    background-color: #262625;
     right: 0;
-    position: absolute;
     width: 100%;
-    max-width: 24rem;
+    max-width: 23rem;
     overflow-y: auto;
     border-left: 1px solid #111;
+    z-index: 2;
   }
   
   #messages {
@@ -98,34 +102,36 @@
   }
   
   .message__wrapper {
-    display: flex;
     gap: 10px;
     margin: 1em;
   }
   
   .message__body {
-    background-color: #363739;
     border-radius: 10px;
     padding: 10px 15px;
     width: fit-content;
     max-width: 900px;
+    background-color: rgb(197, 197, 197);
   }
   
-  .message__body strong {
-    font-weight: 600;
-    color: #ede0e0;
+  .messageFromPeer{
+    display:flex;
+    justify-content: end;
+    height:100px;
+    text-align: end;
   }
   
   .message__body__bot{
     padding: 0 20px;
     max-width: 900px;
-    color: #bdbdbd;
+    color: #0c0c0c;
   }
   
   
   .message__author {
+    display: block;
     margin-right: 10px;
-    color: #2aca3e!important;
+    color: #2a62ca!important;
   
   }
   
@@ -137,14 +143,14 @@
   
   .message__text {
     margin: 0;
+    color: #0c0c0c;
   }
   
   #message__form {
-    width: 24rem;
+    width: 23rem;
     position: fixed;
     bottom: 0;
     display: block;
-    background-color: #1a1a1a;
     padding: 1em;
   }
   
@@ -156,7 +162,7 @@
     padding: 18px;
     font-size: 14px;
     box-sizing: border-box;
-    background-color: #3f434a;
+    background-color: #2a62ca;
   }
   
   #message__form input:focus {
@@ -164,18 +170,18 @@
   }
   
   #message__form input::placeholder {
-    color: #707575;
+    color: #dae2e2;
   }
   
   #stream__container {
     background-color: #1A1A1A;
-    justify-self: center;
-    width: calc(100% - 30.7rem);
-    position: fixed;
+    justify-content: center;
+    width: 100%;
     left: 15.7rem;
     top: clac(100vh - 72px);
     overflow-y: auto;
     height: 100%;
+    z-index: 1;
   }
 
   #stream__box{
@@ -230,6 +236,13 @@
   #leave-btn{
     background-color: rgb(238, 52, 52);
   }
+  #chat__button {
+    display: block;
+  }
+
+  #members__button {
+    display: block;
+  }
   
   @media (max-width: 1400px) {
     .video__container{
@@ -238,23 +251,13 @@
     }
   }
   @media (max-width: 1200px) {
-    
-  
-    #members__button {
-      display: block;
-    }
-  
-    #stream__container {
-      width: calc(100% - 15rem);
-      left: 0;
-    }
 
     #messages__container {
-      max-width: 15rem;
+      max-width: 22rem;
     }
   
     #message__form {
-      width: 15rem;
+      width: 22rem;
     }
   }
 
@@ -265,18 +268,13 @@
       width: 100%;
     }
 
-    .video__container{
-      height: 100px;
-      width:100px ;
-    }
   
     #messages__container {
       display: none;
+      z-index: 3;
     }
   
-    #chat__button {
-      display: block;
-    }
+    
   }
   
   #stream__box {
@@ -333,20 +331,4 @@
     background-color: #2a62ca;
   }
 
-  .hw100{
-    height: 100;
-    width:100;
-  }
-
-  .hw300{
-    height: 300;
-    width:300;
-  }
-
-  .addDisplay{
-    display: block;
-  }
-
-  .removeDisplay{
-    display: none;
-  }
+  

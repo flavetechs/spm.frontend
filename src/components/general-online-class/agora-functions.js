@@ -32,40 +32,44 @@ export let constraints = {
     }
 }
 export let displayName = sessionStorage.getItem('display_name')
-const displayFrame = document.getElementById('stream__box')
-const videoFrames =  document.getElementsByClassName('video__container')
   let userIdInDisplayFrame = null;
 
-export const expandVideoFrame = (e) => {
+export const expandVideoFrame = (e) => { 
+    const streamsContainer = document.getElementById('stream__container'); 
+    const displayFrame = document.getElementById('stream__box');
+    const videoFrames =  document.getElementsByClassName('video__container')
     
-    const streamsContainer = document.getElementById('streams__container');
      const child = displayFrame?.children[0];
 
     if (child) {
       streamsContainer.appendChild(child);
    }
-
-    displayFrame.style.display = 'block';
+   displayFrame.style.display = 'block';
     displayFrame?.appendChild(e.currentTarget);
     userIdInDisplayFrame = e.currentTarget.id;
-
+    displayFrame && displayFrame.addEventListener('click', hideDisplayFrame)
     for (let i = 0; i < videoFrames.length; i++) {
       if (videoFrames[i] !== userIdInDisplayFrame) {
         videoFrames[i].style.height = '100px';
         videoFrames[i].style.width = '100px';
       }
     }
+    for(let i = 0; videoFrames.length > i; i++){
+        videoFrames[i].addEventListener('click', expandVideoFrame)
+    }
   };
 
  export let hideDisplayFrame = () =>{
+    const videoFrames =  document.getElementsByClassName('video__container')
+    const displayFrame = document.getElementById('stream__box')
     userIdInDisplayFrame = null
     displayFrame.style.display = 'none'
     let child = displayFrame?.children[0]
     document.getElementById('streams__container').appendChild(child)
   
     for(let i = 0; videoFrames.length > i; i++){
-      videoFrames[i].style.height = '300px'
-      videoFrames[i].style.width = '300px'
+      videoFrames[i].style.height = '200px'
+      videoFrames[i].style.width = '200px'
     }
   }
 
@@ -85,7 +89,6 @@ export let joinRoomInit = async () => {
       channel.on("MemberJoined", handleUserJoined);
       channel.on("ChannelMessage", handleChannelMessage);
       channel.on("MemberLeft", handleMemberLeft);
-     
   
        getMembers()
       addBotMessageToDom(`welcome to the room ${displayName}! 👋 `)
@@ -96,7 +99,7 @@ export let joinRoomInit = async () => {
    let joinStream = async () => {
     localTracks = await AgoraRTC.createMicrophoneAndCameraTracks({},constraints)
 
-    let player = `<div class="video__container" id="user-container-${uid}">
+    let player = `<div class="video__container"  id="user-container-${uid}">
  <div class="video-player" id="user-${uid}"></div>
 </div>
 `
@@ -107,6 +110,7 @@ await client.publish([localTracks[0],localTracks[1]])
 }
 //other users
 let handleUserPublished = async (user, mediaType) => {
+const displayFrame = document.getElementById('stream__box')
   remoteUsers[user.uid] = user
   await client.subscribe(user,mediaType)
 
@@ -136,8 +140,9 @@ let handleUserPublished = async (user, mediaType) => {
 };
   
 let handleUserLeft = (user) => {
+    const displayFrame = document.getElementById('stream__box')
     delete remoteUsers[user.uid]
-  document.getElementById(`user-container-${user.uid}`).remove();
+  document.getElementById(`user-container-${user.uid}`)?.remove();
   if (userIdInDisplayFrame === `user-container-${user.uid}`) {
     displayFrame.style.display = 'none'
     let videoFrames =  document.getElementsByClassName('video__container')
@@ -178,6 +183,7 @@ export let toggleMic = async (e) =>{
 }
 
 let switchToCamera = async(localScreenTracks) => {
+    const displayFrame = document.getElementById('stream__box')
     let player = `<div class="video__container" id="user-container-${uid}">
      <div class="video-player" id="user-${uid}"></div>
     </div>`
@@ -194,6 +200,7 @@ let switchToCamera = async(localScreenTracks) => {
    }
 
 export let toggleScreen = async (e) =>{
+    const displayFrame = document.getElementById('stream__box')
 let screenBtn = e.currentTarget;
 let cameraBtn = document.getElementById('camera-btn')
 if (!sharingScreen) {
