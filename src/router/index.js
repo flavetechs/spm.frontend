@@ -58,11 +58,11 @@ const IndexRouters = (props) => {
                 {
                     <>
                         <Route exact path="/"
-                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : Default}>
+                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : studentDefault}>
                         </Route>
 
-                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard/' : userDetail?.userType == "Parent" ? "/parent-dashboard/" : "/dashboard/"}
-                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
+                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard/' : userDetail?.userType == "Parent" ? "/parent-dashboard/" : "/stds-dashboard/"}
+                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : studentDefault}>
                         </Route>
 
 
