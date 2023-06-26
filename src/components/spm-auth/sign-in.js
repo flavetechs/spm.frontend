@@ -77,7 +77,7 @@ const SignIn = (props) => {
                     window.location.href = "/parent-dashboard/";
                 } else {
                     window.location.href = "/dashboard/";
-                }
+              }
             } else {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userDetail");
