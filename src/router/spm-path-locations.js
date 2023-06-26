@@ -13,7 +13,6 @@ export const permissionLocations = {
 
 export const generalOnlineClassLocations = {
   active:"/online-class/smp-online-class/",
-  lobby: "/online-class/smp-online-class/lobby",
   room: "/online-class/smp-online-class/room",
 };
 

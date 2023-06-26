@@ -29,7 +29,6 @@ import { getAppLayout } from '../store/actions/portal-setting-action'
 import { connect } from 'react-redux'
 import { ServiceURLs } from '../utils/other'
 import RegistrationSignIn from '../components/spm-auth/parent-guardian-login'
-import Lobby from '../components/general-online-class/lobby'
 import OnlineClassRoom from '../components/general-online-class/online-class-room'
 
 const IndexRouters = (props) => {
@@ -58,11 +57,11 @@ const IndexRouters = (props) => {
                 {
                     <>
                         <Route exact path="/"
-                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : studentDefault}>
+                            component={userDetail?.userType === 'Student' ? studentDefault : userDetail?.userType === "Parent" ? parentDefault : Default}>
                         </Route>
 
-                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard/' : userDetail?.userType == "Parent" ? "/parent-dashboard/" : "/stds-dashboard/"}
-                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : studentDefault}>
+                        <Route path={userDetail?.userType == 'Student' ? '/stds-dashboard/' : userDetail?.userType == "Parent" ? "/parent-dashboard/" : "/dashboard/"}
+                            component={userDetail?.userType == 'Student' ? studentDefault : userDetail?.userType == "Parent" ? parentDefault : Default}>
                         </Route>
 
 
@@ -82,7 +81,6 @@ const IndexRouters = (props) => {
                         <Route path={authLocations.pageNotFound} component={PageNotFound}></Route>
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
                         {/* online class */}
-                        <Route path={generalOnlineClassLocations.lobby} component={Lobby}></Route>
                         <Route path={generalOnlineClassLocations.room} component={OnlineClassRoom}></Route>
 
                         <Route path="/errors" component={Simple}></Route>

@@ -15,7 +15,8 @@ const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
         setCounter((counter) => count - 1);
         count--;
         if (count === 0) {
-          history.push(`${generalOnlineClassLocations.room}?roomId=${roomId}`);
+         window.open(`${generalOnlineClassLocations.room}?roomId=${roomId}`, '_blank');
+         setShowModal(false)
         }
       }, 1000);
 

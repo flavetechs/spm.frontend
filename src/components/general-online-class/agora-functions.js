@@ -2,17 +2,13 @@ import AgoraRTC from 'agora-rtc-sdk-ng';
 import AgoraRTM from 'agora-rtm-sdk'
 import { useRef } from 'react';
 import { addBotMessageToDom, getMembers, handleChannelMessage, handleMemberLeft, handleUserJoined } from './agora-rtm';
+import { getUserDetails } from '../../utils/permissions';
 
 export const APP_ID = "63694ae5c5e84029964c8df8798434ee";
 export let uid = String(Math.floor(Math.random() * 10000));
 export let token = null;
 
 export let client;
-
-
-export let queryString = window.location.search
-export let urlParams = new URLSearchParams(queryString)
-export let roomID = urlParams.get('roomId');
 
 export let localTracks = [];
 export let remoteUsers = {};
@@ -31,6 +27,8 @@ export let constraints = {
         height:{min:480,ideal:1080,max:1080},
     }
 }
+let getUserDetail = getUserDetails();
+sessionStorage.setItem("display_name", getUserDetail?.userName)
 export let displayName = sessionStorage.getItem('display_name')
   let userIdInDisplayFrame = null;
 
@@ -74,6 +72,9 @@ export const expandVideoFrame = (e) => {
   }
 
 export let joinRoomInit = async () => {   
+  let queryString = window.location.search
+let urlParams = new URLSearchParams(queryString)
+let roomID = urlParams.get('roomId');
     rtmClient =  client = await AgoraRTM.createInstance(APP_ID);
     await rtmClient.login({ uid, token });
      await rtmClient.addOrUpdateLocalUserAttributes({name:displayName})

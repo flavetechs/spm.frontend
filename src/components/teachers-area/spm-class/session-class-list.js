@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../Card";
@@ -11,6 +11,7 @@ import {
   sessionClassSetupLocations,
 } from "../../../router/spm-path-locations";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
+import { getUserDetails } from "../../../utils/permissions";
 
 const SessionClassList2 = () => {
   //VARIABLE DECLARATIONS
@@ -26,6 +27,7 @@ const SessionClassList2 = () => {
   React.useEffect(() => {
     getGeneralActiveSession()(dispatch);
   }, []);
+
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
@@ -46,33 +48,6 @@ const SessionClassList2 = () => {
               <Card.Body className="px-0 mt-n3">
                 {" "}
                 <div className="d-flex justify-content-end mb-3">
-                <Link
-                    to={generalOnlineClassLocations.lobby}
-                    className="d-flex justify-content-end"
-                  >
-                    <button
-                      type="button"
-                      className="text-center btn-primary btn-icon me-2 mt-lg-0 mt-md-0 mt-3 btn btn-primary"
-                    >
-                      <i className="btn-inner">
-                      <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                ></path>
-                              </svg>
-                      </i>
-                      <span> Create Online Class </span>
-                    </button>
-                  </Link>
                   <Link
                     to={attendanceLocations.classAttendanceBoard}
                     className="d-flex justify-content-end mx-2"
@@ -327,6 +302,36 @@ const SessionClassList2 = () => {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                       ></path>
+                                    </svg>
+                                  </span>
+                                </Link>
+                              </OverlayTrigger>{" "}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    Join Online Class
+                                  </Tooltip>
+                                }
+                              >
+                                <Link
+                                  className="btn btn-sm btn-icon btn-primary"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="classroom"
+                                  to={`${generalOnlineClassLocations.room}?roomId=${item.sessionClassId}`}
+                                  target="_blank"
+                                >
+                                  <span className="btn-inner">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill='white'
+                                    >
+                                      <path d="M0 1v17h24v-17h-24zm22 15h-20v-13h20v13zm-6.599 4l2.599 3h-12l2.599-3h6.802z" />
                                     </svg>
                                   </span>
                                 </Link>
