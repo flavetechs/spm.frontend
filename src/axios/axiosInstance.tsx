@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import SweatAlert from '../utils/alert';
 
 
 const axiosInstance = axios.create({
@@ -10,10 +11,13 @@ const axiosInstance = axios.create({
     },
 })
 
-axiosInstance.interceptors.response.use((response: any) => response, (error: any) => {
-    console.log('error.response', error);
+axiosInstance.interceptors.response.use((response: any) => response, (error: AxiosError) => {
     if (!error.response) {
         return;
+    }
+    if (error.response?.status === 500) {
+        console.log("Unexpected error occurred");
+        SweatAlert.showError(error!.response!.data['message'], "Unexpected error occurred")
     }
     if (error.response?.status === 401) {
         localStorage.removeItem('token');
