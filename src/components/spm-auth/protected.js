@@ -17,7 +17,7 @@ const Protected = (props) => {
       localStorage.removeItem('token');
       localStorage.removeItem('permissions');
       localStorage.removeItem('userDetail');
-      history.push(authLocations.login);
+      //history.push(authLocations.login);
     }
   }, [isLoggedIn, token])
 
