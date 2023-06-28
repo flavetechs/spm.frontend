@@ -34,7 +34,7 @@ const ResultTemplateOne = (props) => {
     if (termId) {
       getAllStudentResult(sessionClassId, termId, studentContactId)(dispatch);
     }
-  }, [dispatch]);
+  }, [locations.search,dispatch]);
   useEffect(() => {
     getSchoolSetting()(dispatch);
     getResultSetting()(dispatch);

@@ -63,14 +63,14 @@ const PrintResult = () => {
   React.useEffect(() => {
     getActiveSession()(dispatch);
     getAllSession(1)(dispatch);
-  }, [dispatch]);
+  }, []);
 
   React.useEffect(() => {
     sessionIdQueryParam && getTermClasses(sessionIdQueryParam)(dispatch);
   }, [sessionIdQueryParam, dispatch]);
 
   React.useEffect(() => {
-    history.push(`${printResultManagement.printResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
+    activeSession && history.push(`${printResultManagement.printResult}?sessionId=${activeSession?.sessionId}&termId=${activeSession?.terms.find((term) => term.isActive === true)?.sessionTermId}`)
   }, [activeSession]);
 
 
@@ -89,7 +89,7 @@ const PrintResult = () => {
     if (printSingle && studentResult) {
       history.push(resultManagement.resultTemplate);
     }
-  }, [studentResult, history]);
+  }, [studentResult]);
 
   return (
     <>

@@ -6,7 +6,7 @@ import { printResultManagement, publishResultManagement, scoreEntryManagement } 
 
 import { getResultSetting } from "../../../../store/actions/portal-setting-action";
 import { setSessionClassIdAndTermId } from "../../../../store/actions/publish-actions";
-import { resetPrintSuccessfulState } from "../../../../store/actions/results-actions";
+import { getAllBatchPrintingResultPreview, getAllBatchPrintingResults, resetPrintSuccessfulState } from "../../../../store/actions/results-actions";
 
 import { PrintCSV } from "../../../../utils/export-csv";
 import ResultTemplateOne from "./template-one";
@@ -20,8 +20,7 @@ const TemplateControl = () => {
   const { studentResult } = state.results;
   const { selectedTemplate } = state.portal;
   const { dialogResponse } = state.alert;
-
-  const { batchResult } = state.results;
+  const { batchResult,batchResultPreview } = state.results;
   const queryParams = new URLSearchParams(locations.search);
   const batchPrinting = queryParams.get("batchPrinting");
    const sessionClassId = queryParams.get("sessionClassId");
@@ -33,7 +32,15 @@ const TemplateControl = () => {
   useEffect(() => {
     getResultSetting()(dispatch);
     window.onbeforeunload = () => "Results will be lost on reload";
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    sessionClassId && sessionTermId && getAllBatchPrintingResultPreview(sessionClassId,sessionTermId)(dispatch);
+  }, [sessionClassId,sessionTermId]);
+
+  useEffect(() => {
+    batchResultPreview && getAllBatchPrintingResults(sessionClassId,sessionTermId,batchResultPreview?.numberOfStudents)(dispatch);
+  }, [batchResultPreview]);
 
   switch (selectedTemplate) {
     case "template-one":
@@ -50,7 +57,7 @@ const TemplateControl = () => {
                     onClick={() => {
                       resetPrintSuccessfulState()(dispatch);
                       history.push(
-                        `${printResultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${termId}&sessionId=${sessionId}`
+                        `${printResultManagement.batchPrintPreview}?sessionClassId=${sessionClassId}&sessionTermId=${sessionTermId}`
                       );
                     }}
                     style={{ cursor: "pointer" }}
