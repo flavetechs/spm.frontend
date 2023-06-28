@@ -12,6 +12,7 @@ import {
 } from "../../../router/spm-path-locations";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
 import { getUserDetails } from "../../../utils/permissions";
+import { displayName } from "react-quill";
 
 const SessionClassList2 = () => {
   //VARIABLE DECLARATIONS
@@ -22,10 +23,13 @@ const SessionClassList2 = () => {
   const state = useSelector((state) => state);
   const { itemList } = state.class;
   const { activeSession } = state.appState;
+  const [userDisplayName, setUserDisplayName] = useState('')
   // ACCESSING STATE FROM REDUX STORE
 
-  React.useEffect(() => {
-    getGeneralActiveSession()(dispatch);
+  React.useEffect(() => { 
+    getGeneralActiveSession()(dispatch); 
+    let getUserDetail = getUserDetails();
+     setUserDisplayName(getUserDetail?.userName)
   }, []);
 
 
@@ -321,7 +325,7 @@ const SessionClassList2 = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="classroom"
-                                  to={`${generalOnlineClassLocations.room}?roomId=${item.sessionClassId}`}
+                                  to={`${generalOnlineClassLocations.room}?roomId=${item.sessionClassId}&userDisplayName=${userDisplayName}`}
                                   target="_blank"
                                 >
                                   <span className="btn-inner">

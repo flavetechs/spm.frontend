@@ -80,8 +80,6 @@ const IndexRouters = (props) => {
                         <Route path={authLocations.passwordResetSuccessful} component={PasswordResetSuccessful}></Route>
                         <Route path={authLocations.pageNotFound} component={PageNotFound}></Route>
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
-                        {/* online class */}
-                        <Route path={generalOnlineClassLocations.room} component={OnlineClassRoom}></Route>
 
                         <Route path="/errors" component={Simple}></Route>
                     </>
