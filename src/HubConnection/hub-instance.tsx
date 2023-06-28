@@ -1,6 +1,6 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { getUserDetails } from "../utils/permissions";
 import { IUser } from "./Models/User";
+import { getUserDetails } from "../utils/permissions";
 
 const hubInstance = async () => {
     try {

@@ -16,11 +16,11 @@ import LoginTemplate1 from "./login-templates/login-template-1";
 import LoginTemplate2 from "./login-templates/login-template-2";
 import LoginTemplate3 from "./login-templates/login-template-3";
 import LoginTemplate4 from "./login-templates/login-template-4";
-import { getAppLayout, getSchoolSetting } from "../../store/actions/portal-setting-action";
+import { getAppLayout } from "../../store/actions/portal-setting-action";
 import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
-import { io } from "socket.io-client";
-import { UserEvents } from "../../utils/enums";
+// import { io } from "socket.io-client";
+import { getUserDetails2 } from "../../utils/permissions";
 
 
 const SignIn = (props) => {
@@ -31,6 +31,8 @@ const SignIn = (props) => {
     const { appSetting } = state.portal;
     var token = localStorage.getItem("token");
     var userDetail = localStorage.getItem("userDetail");
+    const [selectedUserType, setUserType] = useState();
+    const uType = Number(localStorage.getItem("userType") || 1);
 
     const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
@@ -38,8 +40,41 @@ const SignIn = (props) => {
             return res;
         })
     }, [schoolUrl])
+    useEffect(() => {
+        if (uType === NaN) {
+            setUserType(uType);
+        } else {
+            setUserType(1);
+        }
+    }, [])
 
+    useEffect(() => {
+        localStorage.setItem("userType", selectedUserType);
+    }, [selectedUserType]);
 
+    useEffect(() => {
+        getUserDetails2().then(res => {
+            console.log('userdetail', res);
+            if (res) {
+                if (res.isFirstTimeLogin === false) {
+                    if (selectedUserType === 0) {
+                        window.location.href = "/stds-dashboard/";
+                    } else if (selectedUserType === 2) {
+                        window.location.href = "/parent-dashboard/";
+                    } else {
+                        window.location.href = "/dashboard/";
+                    }
+                } else {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userDetail");
+                    localStorage.removeItem("permissions");
+                    history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId);
+                }
+            }
+        })
+    }, [token, history, userDetail]);
+
+  
     const layoutSetting = localStorage.getItem("appSetting")
     const appSetting2 = JSON.parse(layoutSetting) || "";
 
@@ -51,28 +86,7 @@ const SignIn = (props) => {
         }
     }, [schoolUrl])
 
-    useEffect(() => {
-        if (userDetail) {
-            if (JSON.parse(userDetail).isFirstTimeLogin === false) {
-                if (JSON.parse(userDetail).userType === "Student") {
-                    window.location.href = "/stds-dashboard/";
-                } else if (JSON.parse(userDetail).userType === "Parent") {
-                    window.location.href = "/parent-dashboard/";
-                } else {
-                    window.location.href = "/dashboard/";
-                }
-            } else {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userDetail");
-                localStorage.removeItem("permissions");
-                history.push(
-                    authLocations.firstTimeLogin +
-                    "?id=" +
-                    JSON.parse(userDetail).userAccountId
-                );
-            }
-        }
-    }, [token, history, userDetail]);
+    
 
     const validation = Yup.object().shape({
         userName: Yup.string()
@@ -90,7 +104,8 @@ const SignIn = (props) => {
         initialValues: {
             userName: "",
             password: "",
-            schoolUrl
+            schoolUrl,
+            userType: selectedUserType
         },
         enableReinitialize: true,
         validationSchema: validation,
@@ -99,14 +114,11 @@ const SignIn = (props) => {
         }
     });
 
-    useEffect(() => {
-        const socket = io("http://jobserver.flavetechs.com:80");
-        console.log('socket', socket);
-        // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
-    }, [])
-
-
-
+    // useEffect(() => {
+    //     const socket = io("http://jobserver.flavetechs.com:80");
+    //     console.log('socket', socket);
+    //     // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
+    // }, [])
 
     const defaultTemplate =
         <DefaultLoginTemplate
@@ -120,7 +132,10 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
 
     const templateOne =
         <LoginTemplate1
@@ -134,7 +149,10 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
 
     const templateTwo =
         <LoginTemplate2
@@ -148,7 +166,10 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
 
     const templateThree =
         <LoginTemplate3
@@ -162,7 +183,10 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
 
     const templateFour =
         <LoginTemplate4
@@ -176,7 +200,10 @@ const SignIn = (props) => {
             errors={errors}
             touched={touched}
             schoolName={appSetting?.schoolName}
-            schoolLogo={appSetting?.schoolLogo} />
+            schoolLogo={appSetting?.schoolLogo}
+            setUserType={setUserType}
+            selectedUserType={selectedUserType}
+        />
 
     const pageNotFound =
         <PageNotFound />
@@ -210,4 +237,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+
+
 

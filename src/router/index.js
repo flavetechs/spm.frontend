@@ -8,7 +8,7 @@ import { Switch, Route } from 'react-router'
 import Default from '../layouts/dashboard/default'
 import Simple from '../layouts/dashboard/simple'
 import SignIn from '../components/spm-auth/sign-in'
-import { authLocations } from './spm-path-locations'
+import { authLocations, generalOnlineClassLocations } from './spm-path-locations'
 import { getUserDetails } from '../utils/permissions'
 import studentDefault from '../layouts/dashboard/student-default'
 import FirstTimeLoginPassswordChange from '../components/spm-auth/change-password-on-login'
@@ -29,6 +29,7 @@ import { getAppLayout } from '../store/actions/portal-setting-action'
 import { connect } from 'react-redux'
 import { ServiceURLs } from '../utils/other'
 import RegistrationSignIn from '../components/spm-auth/parent-guardian-login'
+import OnlineClassRoom from '../components/general-online-class/online-class-room'
 
 const IndexRouters = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -78,8 +79,8 @@ const IndexRouters = (props) => {
                         <Route path={authLocations.PasswordReset} component={PasswordReset}></Route>
                         <Route path={authLocations.passwordResetSuccessful} component={PasswordResetSuccessful}></Route>
                         <Route path={authLocations.pageNotFound} component={PageNotFound}></Route>
-
                         <Route path={authLocations.firstTimeLogin} component={FirstTimeLoginPassswordChange}></Route>
+
                         <Route path="/errors" component={Simple}></Route>
                     </>
                 }

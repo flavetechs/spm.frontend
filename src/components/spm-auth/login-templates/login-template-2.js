@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { authLocations } from "../../../router/spm-path-locations";
 import SmpLoader from "../../loader/smp-loader";
 import "./login-template-2.css";
+import { UserType } from "./UserTypesBoxes";
 
-const LoginTemplate2 = ({ message, auth1, ...form }) => {
+const LoginTemplate2 = ({setUserType, selectedUserType, message, auth1, ...form }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <section className="login-content">
@@ -109,7 +110,7 @@ const LoginTemplate2 = ({ message, auth1, ...form }) => {
                   data-placeholder="Password"
                 ></span>
               </div>
-
+              <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
               <div className="container-login100-form-btn">
                 <div className="wrap-login100-form-btn">
                   <div className="login100-form-bgbtn"></div>

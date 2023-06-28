@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../Card";
@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   attendanceLocations,
   classLocations,
+  generalOnlineClassLocations,
   sessionClassSetupLocations,
 } from "../../../router/spm-path-locations";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
+import { getUserDetails } from "../../../utils/permissions";
+import { displayName } from "react-quill";
 
 const SessionClassList2 = () => {
   //VARIABLE DECLARATIONS
@@ -20,11 +23,15 @@ const SessionClassList2 = () => {
   const state = useSelector((state) => state);
   const { itemList } = state.class;
   const { activeSession } = state.appState;
+  const [userDisplayName, setUserDisplayName] = useState('')
   // ACCESSING STATE FROM REDUX STORE
 
-  React.useEffect(() => {
-    getGeneralActiveSession()(dispatch);
+  React.useEffect(() => { 
+    getGeneralActiveSession()(dispatch); 
+    let getUserDetail = getUserDetails();
+     setUserDisplayName(getUserDetail?.userName)
   }, []);
+
 
   React.useEffect(() => {
     getAllSessionClasses(activeSession?.sessionId)(dispatch);
@@ -299,6 +306,36 @@ const SessionClassList2 = () => {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                       ></path>
+                                    </svg>
+                                  </span>
+                                </Link>
+                              </OverlayTrigger>{" "}
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id="button-tooltip-2">
+                                    {" "}
+                                    Join Online Class
+                                  </Tooltip>
+                                }
+                              >
+                                <Link
+                                  className="btn btn-sm btn-icon btn-primary"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="classroom"
+                                  to={`${generalOnlineClassLocations.room}?roomId=${item.sessionClassId}&userDisplayName=${userDisplayName}`}
+                                  target="_blank"
+                                >
+                                  <span className="btn-inner">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="32"
+                                      viewBox="0 0 24 24"
+                                      fill='white'
+                                    >
+                                      <path d="M0 1v17h24v-17h-24zm22 15h-20v-13h20v13zm-6.599 4l2.599 3h-12l2.599-3h6.802z" />
                                     </svg>
                                   </span>
                                 </Link>

@@ -3,7 +3,8 @@ export const studentDashboardLocations = {
   };
   
   export const onlineClassLocations = {
-    onlineClass: "/stds-dashboard/student-online-class",
+    active:"/stds-dashboard/student-online-class/",
+    onlineClass: "/stds-dashboard/student-online-class/class",
   };
 
   export const studentAssessmentLocations = {

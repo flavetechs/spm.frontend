@@ -43,7 +43,7 @@ const StaffProfileEdit = () => {
         Email: Yup.string().email("Invalid email format")
             .required("Email is required"),
         DOB: Yup.string()
-            .required(2, "Date of birth is required!"),
+            .required("Date of birth is required!"),
         Phone: Yup.string().required("Phone Number is required"),
     });
     //VALIDATIONS SCHEMA

@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { authLocations } from "../../../router/spm-path-locations";
 import SmpLoader from "../../loader/smp-loader";
 import "./login-template-4.css";
+import { UserType } from "./UserTypesBoxes";
 
-const LoginTemplate4 = ({ message, auth1, ...form }) => {
+const LoginTemplate4 = ({setUserType, selectedUserType, message, auth1, ...form }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <section className="login-content">
@@ -96,16 +97,7 @@ const LoginTemplate4 = ({ message, auth1, ...form }) => {
                   </div>
 
                   <Col lg="12" className="d-flex justify-content-between">
-                    <div className="form-check mb-3 form-Check">
-                      <input
-                        type="checkbox"
-                        id="customCheck1"
-                        className="form-check-input inputBackgd"
-                      />
-                      <label htmlFor="customCheck1" className="check-label">
-                        Remember Me{" "}
-                      </label>
-                    </div>
+                    <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
                     <Link to={authLocations.forgottenPassword}>
                       Forgot Password?
                     </Link>
