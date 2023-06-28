@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { generalOnlineClassLocations } from "../../../router/spm-path-locations";
+import { getUserDetails } from "../../../utils/permissions";
 
 const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
+  const [userDisplayName, setUserDisplayName] = useState('')
   const history = useHistory();
-  const [counter, setCounter] = useState(5);
+  const [counter, setCounter] = useState(5); 
+   let count;
 
-  let count;
+  useEffect(() => {
+    let getUserDetail = getUserDetails();
+     setUserDisplayName(getUserDetail?.userName)
+  }, []);
+
+
   useEffect(() => {
     if (showModal) {
       let count = 5;
@@ -15,7 +23,7 @@ const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
         setCounter((counter) => count - 1);
         count--;
         if (count === 0) {
-         window.open(`${generalOnlineClassLocations.room}?roomId=${roomId}`, '_blank');
+         window.open(`${generalOnlineClassLocations.room}?roomId=${roomId}&userDisplayName=${userDisplayName}`, '_blank');
          setShowModal(false)
         }
       }, 1000);
