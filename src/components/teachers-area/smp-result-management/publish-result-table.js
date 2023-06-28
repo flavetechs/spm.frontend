@@ -141,18 +141,18 @@ const PublishResultTable = () => {
             >
               <tbody>
                 <tr>
-                  <th className="h6">Session Name</th>
-                  <th className="fw-bold h6">{selectedSession?.startDate}/{selectedSession?.endDate}</th>
+                  <th className="h6 text-dark">Session Name</th>
+                  <th className="fw-bold h6 text-dark">{selectedSession?.startDate}/{selectedSession?.endDate}</th>
                 </tr>
                 <tr>
-                  <th className="h6 ">Term Name</th>
-                  <th className="fw-bold text-capitalize h6">
+                  <th className="h6 text-dark">Term Name</th>
+                  <th className="fw-bold text-capitalize h6 text-dark">
                     {selectedTermName?.termName}
                   </th>
                 </tr>
                 <tr>
-                  <th className="h6 ">Class Name</th>
-                  <th className="fw-bold text-capitalize h6">
+                  <th className="h6 text-dark">Class Name</th>
+                  <th className="fw-bold text-capitalize h6 text-dark">
                     {selectedTermClasses?.sessionClass}
                   </th>
                 </tr>
@@ -162,7 +162,7 @@ const PublishResultTable = () => {
         </div>
         <Table size="md" hover bordered responsive className="mt-2">
           <thead>
-            <tr className="text-center" style={{ background: "#d8efd1" }}>
+            <tr className="text-center" >
               <th className="text-uppercase h6">S/No</th>
               <th className="text-uppercase h6 text-start">
                 Students Full Name

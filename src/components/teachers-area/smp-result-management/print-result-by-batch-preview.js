@@ -11,7 +11,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import {
   printResultManagement,
   resultManagement,
-  scoreEntryManagement,
 } from "../../../router/spm-path-locations";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -75,28 +74,21 @@ const BatchPrintPreview = () => {
           <Table size="sm" responsive bordered className="w-50 border-secondary" style={{ background: '#d8efd1'}}>
             <tbody>
               <tr>
-                <th className="h6">Session</th>
-                <th className="fw-bold h6">{batchResultPreview?.session}</th>
+                <th className="h6 text-dark">Session</th>
+                <th className="fw-bold h6 text-dark">{batchResultPreview?.session}</th>
               </tr>
               <tr>
-                <th className="h6">Term</th>
-                <th className="fw-bold text-capitalize h6">{batchResultPreview?.term}</th>
+                <th className="h6 text-dark">Term</th>
+                <th className="fw-bold text-capitalize h6 text-dark">{batchResultPreview?.term}</th>
               </tr>
               <tr>
-                <th className="h6">Class</th>
-                <th className="fw-bold text-capitalize h6">{batchResultPreview?.class}</th>
+                <th className="h6 text-dark">Class</th>
+                <th className="fw-bold text-capitalize h6 text-dark">{batchResultPreview?.class}</th>
               </tr>
-              {/* <tr>
-                <th className="h6">No of pins to be used</th>
-                <th className="fw-bold text-capitalize h6">{batchResultPreview?.numberOfPins}</th>
-              </tr> */}
-              {/* <tr>
-                <th className="h6">Pin status</th>
-                <th><div className={`fw-bold h6 text-uppercase ${batchResultPreview?.pinStatus !== "sufficient" ? "badge bg-danger" :"badge bg-success" }`}>{batchResultPreview?.pinStatus}</div></th>
-              </tr> */}
+           
               <tr>
-                <th className="h6">No of students</th>
-                <th className="fw-bold text-capitalize h6">{batchResultPreview?.numberOfStudents}</th>
+                <th className="h6 text-dark">No of students</th>
+                <th className="fw-bold text-capitalize h6 text-dark">{batchResultPreview?.numberOfStudents}</th>
               </tr>
             </tbody>
           </Table>

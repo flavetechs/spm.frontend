@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { generalOnlineClassLocations } from "../../../router/spm-path-locations";
 import { getUserDetails } from "../../../utils/permissions";
 
 const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
@@ -23,7 +22,7 @@ const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
         setCounter((counter) => count - 1);
         count--;
         if (count === 0) {
-         window.open(`${generalOnlineClassLocations.room}?roomId=${roomId}&userDisplayName=${userDisplayName}`, '_blank');
+         window.open(`${'http://flave.flavetechs.com'}?roomId=${roomId}&userDisplayName=${userDisplayName}`, '_blank');
          setShowModal(false)
         }
       }, 1000);

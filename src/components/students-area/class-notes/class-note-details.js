@@ -15,7 +15,6 @@ const ClassNoteDetails = () => {
   const {
     singleLessonNotes,
     createSuccessful,
-    relatedNotes,
   } = state.class;
   //VARIABLE DECLARATIONS
   const history = useHistory();
@@ -23,8 +22,6 @@ const ClassNoteDetails = () => {
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const [fullScreen, setFullScreen] = useState(false);
-  const [row, setRow] = useState({});
-  const [reply, setReply] = useState({});
   //VARIABLE DECLARATIONS
   React.useEffect(() => {
     createSuccessful && history.push(lessonNoteLocations.lessonNotes);
@@ -37,8 +34,8 @@ const ClassNoteDetails = () => {
   }, [dispatch,location.search]);
 
   useEffect(() => {
-      getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
-  }, [singleLessonNotes,dispatch]);
+    singleLessonNotes && getLessonNoteDetails(singleLessonNotes?.classNoteId)(dispatch);
+  }, [singleLessonNotes]);
 
   return (
     <>
