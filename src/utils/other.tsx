@@ -8,7 +8,7 @@ export class ServiceURLs {
     static SmpDocumentation(): string {
         return 'http://fws.flavetechs.com/docs/smp-canvas?feature=';
     }
-    static SmpDocumentation2(): string {
+    static SmpDocumentation2(): string {    
         return 'http://fws.flavetechs.com/docs/smp?feature=';
     }
 }

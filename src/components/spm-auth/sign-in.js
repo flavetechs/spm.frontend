@@ -68,7 +68,7 @@ const SignIn = (props) => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("userDetail");
                     localStorage.removeItem("permissions");
-                    history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId);
+                    history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId+'&userType='+selectedUserType);
                 }
             }
         })

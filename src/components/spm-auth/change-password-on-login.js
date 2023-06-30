@@ -31,12 +31,15 @@ const FirstTimeLoginPassswordChange = (props) => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [userType, setUserType] = useState(0);
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(locations.search);
     const id = queryParams.get("id");
+    const userType = queryParams.get("userType");
     if (!id) return;
     setId(id);
+    setUserType(userType);
   }, [userId]);
 
 
@@ -87,6 +90,7 @@ const FirstTimeLoginPassswordChange = (props) => {
                     newPassword: "",
                     schoolUrl: schoolUrl,
                     confirmNewPassword: "",
+                    userType
                   }}
                   validationSchema={validation}
                   onSubmit={(values) => {

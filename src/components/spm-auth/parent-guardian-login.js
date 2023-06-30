@@ -70,6 +70,7 @@ const RegistrationSignIn = (props) => {
                         userName: "",
                         password: "",
                         schoolUrl: schoolUrl,
+                        userType: 2
                       }}
                       validationSchema={validation}
                       onSubmit={(values) => {
