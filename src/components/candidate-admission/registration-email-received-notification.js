@@ -3,10 +3,13 @@ import {  useHistory } from 'react-router-dom';
 import SmpLoader from '../loader/smp-loader';
 import { candidateAuthLocation } from '../../router/candidate-path-location';
 import Card from '../Card';
+import { resendEmail } from '../../store/actions/candidate-admission-actions';
+import { useDispatch } from 'react-redux';
 
 const RegistrationEmailReceived = () => {
 
     let history = useHistory();
+    let dispatch = useDispatch();
 
     return (
         <>
@@ -16,19 +19,37 @@ const RegistrationEmailReceived = () => {
                     <Col md="12">
                         <Row className="justify-content-center">
                             <Col md="6">
-                                <Card className="card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
+                                <Card className="card d-flex bg-light p-4 justify-content-center mb-0 auth-card">
                                     <Card.Body>
-                                        <h5 className="mb-2 text-center">Successfully registered. <br/> A confirmation mail and login password has been sent to your email</h5>
+                                        <div className='d-flex justify-content-center'>
+                                        <div className='bg-white  mb-3 p-3'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="104"  viewBox="0 0 24 24" fill='orange'>
+                                            <path d="M.026 24l11.974-11.607 11.974 11.607h-23.948zm11.964-23.961l-11.99 8.725v12.476l7.352-7.127-5.653-4.113 10.291-7.488 10.309 7.488-5.655 4.108 7.356 7.132v-12.476l-12.01-8.725z"/>
+                                        </svg>
+                                        </div>
+                                        </div>
+                                        <h5 className="mb-2 text-center">
+                                            <div className='fw-bold text-success'>You have successfully registered!</div>
+                                             <div>Please check your mail for <br />confirmation and login details</div></h5>
                                         {/* <p className='text-center'>Thank you for choosing our services</p> */}
-                                        <div className='text-center'>
+                                        <div className='d-flex justify-content-between mt-4'>
                                             <Button
                                                 type="button"
-                                                variant="btn btn-primary mx-2 text-center mx-auto"
+                                                variant="btn btn-danger mx-2 text-center btn-sm mx-auto"
                                                 onClick={() => {
                                                     history.push(candidateAuthLocation.signUp);
                                                 }}
                                             >
                                                 Go Back
+                                            </Button>{" "}
+                                            <Button
+                                                type="button"
+                                                variant="btn btn-primary btn-sm mx-2 text-center mx-auto"
+                                                onClick={() => {
+                                                    resendEmail()(dispatch)
+                                                }}
+                                            >
+                                                Resend mail
                                             </Button>{" "}
                                         </div>
                                     </Card.Body>

@@ -272,3 +272,24 @@ export const getAdmissionStatus = () => (dispatch) => {
             });
         });
 };
+export const resendEmail = (values) => (dispatch) => {
+
+    dispatch({
+        type: actions.REGISTER_CANDIDATE_LOADING
+    });
+
+    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/register-parent', values)
+        .then((res) => {
+            dispatch({
+                type: actions.REGISTER_CANDIDATE_SUCCESS,
+                payload: res?.data.result,
+            });
+
+        }).catch(err => {
+            dispatch({
+                type: actions.REGISTER_CANDIDATE_FAILED,
+                payload: err?.response?.data.message.friendlyMessage
+            })
+
+        })
+}
