@@ -275,19 +275,19 @@ export const getAdmissionStatus = () => (dispatch) => {
 export const resendEmail = (values) => (dispatch) => {
 
     dispatch({
-        type: actions.REGISTER_CANDIDATE_LOADING
+        type: actions.CONFIRM_USER_EMAIL_LOADING
     });
 
-    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/register-parent', values)
+    axiosInstance.post('/smp/server/smp/api/v1/candidate-admission/resend-email-to/registered-parent', values)
         .then((res) => {
             dispatch({
-                type: actions.REGISTER_CANDIDATE_SUCCESS,
-                payload: res?.data.result,
+                type: actions.RESEND_MESSAGE_SUCCESS,
+                payload: res?.data.message.friendlyMessage,
             });
 
         }).catch(err => {
             dispatch({
-                type: actions.REGISTER_CANDIDATE_FAILED,
+                type: actions.CONFIRM_USER_EMAIL_FAILED,
                 payload: err?.response?.data.message.friendlyMessage
             })
 

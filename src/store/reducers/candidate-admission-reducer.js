@@ -172,6 +172,14 @@ export const candidateAdmissionReducer = (state = _state, { type, payload }) => 
                 submitSuccessful: false,
             };
 
+            case actions.RESEND_MESSAGE_SUCCESS:
+                return {
+                    ...state,
+                    isSuccessful: true,
+                    loading: false,
+                    message: payload,
+                };
+
         case actions.CONFIRM_USER_EMAIL_LOADING:
             return {
                 ...state,
