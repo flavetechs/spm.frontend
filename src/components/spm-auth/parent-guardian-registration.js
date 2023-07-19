@@ -70,6 +70,8 @@ const RegistrationSignUp = (props) => {
                       }}
                       validationSchema={validation}
                       onSubmit={(values) => {
+                        sessionStorage.setItem('parentEmail',values.email);
+                        sessionStorage.setItem('parentFirstName',values.firstname);
                         values.phoneNumber = values.phoneNumber.toString()
                         props.userRegistration(values, history)
                       }}
@@ -116,7 +118,7 @@ const RegistrationSignUp = (props) => {
                                 className="form-label"
                                 htmlFor="lastname"
                               >
-                                <b> First Name:</b>
+                                <b> Last Name:</b>
                               </label>
                               <Field
                                 placeholder="Last Name"
