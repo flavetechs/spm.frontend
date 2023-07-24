@@ -4,7 +4,7 @@ import SweatAlert from '../utils/alert';
 
 const axiosInstance = axios.create({
     baseURL: 'https://localhost:44349/',
-    // baseURL: 'http://gateway.flaveconsole.com/',
+    //baseURL: 'http://gateway.flaveconsole.com/',
     timeout: 1000000,
     headers: {
         Authorization: '',
