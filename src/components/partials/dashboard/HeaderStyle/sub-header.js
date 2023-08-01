@@ -94,12 +94,15 @@ const SubHeader = (props) => {
 
   var userDetails = JSON.parse(localStorage.getItem("userDetail"));
 
-  socket.on(
-    userDetails.userType.toLowerCase() + "-announcement",
-    function (message) {
-      setAnnouncementData(message?.announcementData);
-    }
-  );
+  if(userDetails)
+  {
+    socket.on(
+        userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() + "_announcement",
+        function (message) {
+          setAnnouncementData(message?.announcementData);
+        }
+      );
+  }
 
   return (
     <>

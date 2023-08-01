@@ -41,12 +41,15 @@ const PushedNotifications = () => {
 
   var userDetails = JSON.parse(localStorage.getItem("userDetail"));
 
-  socket.on(
-    userDetails?.userType.toLowerCase() + "-announcement",
-    function (message) {
-      setAnnouncementData(message?.announcementData);
-    }
-  );
+  if(userDetails)
+  {    
+    socket.on(
+        userDetails.clientId.toLowerCase()+"_"+userDetails?.userType.toLowerCase() + "_announcement",
+        function (message) {
+        setAnnouncementData(message?.announcementData);
+        }
+    );
+  }
 
   return (
     <>
@@ -74,7 +77,8 @@ const PushedNotifications = () => {
               fill="currentColor"
             ></path>
           </svg>
-          <span className="bg-danger dots"></span>
+          {/* <span className="bg-danger dots"></span> */}
+          <span style={{padding: '0.125rem 0.3rem'}} className="badge bg-danger rounded-pill">{pushedNotificationdetails?.data.length}</span>
         </Dropdown.Toggle>
         <Dropdown.Menu
           className="p-0 sub-drop dropdown-menu-end"
@@ -97,7 +101,7 @@ const PushedNotifications = () => {
                 return (
                   // <Link to={`${pushedNotificationManagement.pushedNotificationDetails}?notififcationId=${x?.announcementId}`} className="iq-sub-card" key={i}>
                   <Link
-                    to={`${x.notificationPageLink}`}
+                    to={`${x?.notificationPageLink}`}
                     className="iq-sub-card"
                     key={i}
                   >
