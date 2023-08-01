@@ -58,6 +58,10 @@ const mapDispatchToProps = (dispatch) => ({
   ),
 });
 
+
+
+var userDetails = JSON.parse(localStorage.getItem("userDetail"));
+
 const SubHeader = (props) => {
   const [session, setSessionDisplay] = useState(
     localStorage.getItem("currentSession")
@@ -81,18 +85,16 @@ const SubHeader = (props) => {
   const [announcementData, setAnnouncementData] = useState({});
 
   useEffect(() => {
-    const announcementData = window.localStorage.getItem("announcement");
+    const announcementData = window.localStorage.getItem(userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() +"_announcement");
     setAnnouncementData(JSON.parse(announcementData));
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem(
-      "announcement",
+        userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() +"_announcement",
       JSON.stringify(announcementData)
     );
   });
-
-  var userDetails = JSON.parse(localStorage.getItem("userDetail"));
 
   if(userDetails)
   {
