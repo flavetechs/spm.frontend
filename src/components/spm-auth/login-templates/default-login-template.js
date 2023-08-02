@@ -122,13 +122,12 @@ export default function DefaultLoginTemplate({ setUserType, selectedUserType, me
                         </div>
                       </div>
                     </Col>
-                    <Col lg="12" className="d-flex justify-content-between">
+                    <Col lg="12" className="d-flex justify-content-center">
 
-                      <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
-                      <Link to={authLocations.forgottenPassword}>
-                        Forgot Password?
-                      </Link>
+                    <UserType setUserType={setUserType} selectedUserType={selectedUserType} />
+
                     </Col>
+                    
                   </Row>
                   <div className="d-flex justify-content-center">
                     <button
@@ -141,6 +140,9 @@ export default function DefaultLoginTemplate({ setUserType, selectedUserType, me
                     >
                       Sign In
                     </button>
+                    <Link style={{margin:'auto', border:'1px solid red;'}} to={authLocations.forgottenPassword}>
+                      <small  >Forgot Password?</small>
+                    </Link>
                   </div>
 
                 </Form>

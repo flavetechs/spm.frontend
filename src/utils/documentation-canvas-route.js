@@ -59,7 +59,7 @@ export const documentationRoutes = (href, pathname, setUrl) => {
   else if (pathname.includes(timetableLocations.active)) {
     setUrl(url + ProductModuleFeatures.session_timetable)
     if (pathname === timetableLocations.examTimeTable) {
-      setUrl(url + ProductModuleFeatures.exam_timetable)
+      setUrl(url + ProductModuleFeatures.session_examTimetable)
     }
   }
   else if (pathname.includes(scoreEntryManagement.active)) {

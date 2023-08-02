@@ -1,1 +1,1 @@
-export const defaultTemplate = 'http://fwsapi.flavetechs.com/ApplicationFiles/bdf6112f-45b4-4467-ba2b-35d8dd0379d7.png';
+export const defaultTemplate = 'http://fwsapi.flaveconsole.com/ApplicationFiles/bdf6112f-45b4-4467-ba2b-35d8dd0379d7.png';

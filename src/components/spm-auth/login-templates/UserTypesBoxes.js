@@ -2,7 +2,7 @@
 import { Col, Row } from "react-bootstrap";
 export function UserType({ setUserType, selectedUserType }) {
     return (
-        <Row>
+        <Row md={12} lg={12} sm={12}>
             <Col md={3} lg={3} sm={3} style={{ marginRight: 3 }}>
                 <div className="form-check mb-3 form-Check">
                     <input

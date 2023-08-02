@@ -113,7 +113,7 @@ const StaffList = () => {
               <Card.Header className="d-flex justify-content-between">
                 <div className="header-title">
                   <h4 className="card-title mb-3">
-                    <b>Staff List</b>
+                    <b>New Staff</b>
                   </h4>
                 </div>
               </Card.Header>

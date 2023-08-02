@@ -376,7 +376,7 @@ const SessionClassEdit = () => {
                             setSave(false);
                           }}
                         >
-                          Set up subjects
+                          Class Subjects
                         </Button>
                       </div>
                     </Form>

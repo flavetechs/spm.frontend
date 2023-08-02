@@ -6,7 +6,7 @@ const hubInstance = async () => {
     try {
         var user: IUser = getUserDetails();
         const connection = new HubConnectionBuilder()
-            .withUrl("http://flavetechs.com/smp/development/hubs/pushnotification")
+            .withUrl("http://flaveconsole.com/smp/development/hubs/pushnotification")
             .configureLogging(LogLevel.Information)
             .build();
 

@@ -30,6 +30,7 @@ import {
 import { connect } from "react-redux";
 import { documentationRoutes } from "../../../utils/documentation-canvas-route";
 import { detailedDocumentationRoutes } from "../../../utils/detailed-documentation-route";
+import { ServiceURLs } from "../../../utils/other";
 
 
 const mapStateToProps = (state) => {
@@ -69,14 +70,14 @@ const DocumentationOffcanvas = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  const { pathname,href } = window.location;
+  const { pathname, href } = window.location;
   const [documentationUrl, setUrl] = useState("");
   const [path, setPath] = useState("");
 
   // const refg = useRef(null)
   useEffect(() => {
-   show && documentationRoutes(href,pathname, setUrl);
-  }, [pathname,href,show]);
+    show && documentationRoutes(href, pathname, setUrl);
+  }, [pathname, href, show]);
 
   return (
     <>
@@ -88,11 +89,13 @@ const DocumentationOffcanvas = () => {
           className="img-fluid"
           width="50px"
           height="50px"
-          src="http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1XrF3z2XWVE5iDpStKwS1L3R_ITQlthwoNQ&usqp=CAU"
+        // src={"http://fwsapi.flaveconsole.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png"}
         />
       </div>
 
       <Offcanvas
+      style={{width: '45%'}}
         show={show}
         onHide={() => {
           handleClose();
@@ -108,9 +111,9 @@ const DocumentationOffcanvas = () => {
         >
           <Badge
             bg="success"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", zIndex:5 }}
             onClick={() => {
-              detailedDocumentationRoutes(href,pathname, setPath);
+              detailedDocumentationRoutes(href, pathname, setPath);
             }}
           >
             <a className='text-white' href={path} target="_blank" rel="noopener noreferrer">
@@ -121,7 +124,7 @@ const DocumentationOffcanvas = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Row >
-            <iframe id="docsIframe" style={{ height: "100vh"}} src={documentationUrl}></iframe>
+            <iframe id="docsIframe" style={{ height: "100vh" }} src={documentationUrl}></iframe>
           </Row>
         </Offcanvas.Body>
       </Offcanvas>

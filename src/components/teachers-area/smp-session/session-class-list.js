@@ -114,7 +114,7 @@ const SessionClassList = () => {
                           ></circle>
                         </svg>
                       </i>
-                      <span>Class Setup</span>
+                      <span>Class Lookup</span>
                     </button>
                   </Link>
                 )}
@@ -155,7 +155,7 @@ const SessionClassList = () => {
                           ></circle>
                         </svg>
                       </i>
-                      <span>Subject Setup</span>
+                      <span>Subject Lookup</span>
                     </button>
                   </Link>
                 )}
