@@ -21,7 +21,7 @@ import PageNotFound from "./page-not-found";
 import { ServiceURLs } from "../../utils/other";
 // import { io } from "socket.io-client";
 import { getUserDetails2 } from "../../utils/permissions";
-
+import {socket} from '../../App'
 
 const SignIn = (props) => {
     let history = useHistory();
@@ -33,6 +33,7 @@ const SignIn = (props) => {
     var userDetail = localStorage.getItem("userDetail");
     const [selectedUserType, setUserType] = useState();
     const uType = Number(localStorage.getItem("userType") || 1);
+    const [socketId, setSocketId] = useState();
 
     const schoolUrl = ServiceURLs.GetAppUrl();
     useEffect(() => {
@@ -104,7 +105,8 @@ const SignIn = (props) => {
             userName: "",
             password: "",
             schoolUrl,
-            userType: selectedUserType
+            userType: selectedUserType,
+            socketId: socketId
         },
         enableReinitialize: true,
         validationSchema: validation,
@@ -118,6 +120,13 @@ const SignIn = (props) => {
     //     console.log('socket', socket);
     //     // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
     // }, [])
+
+    useEffect(() => {
+      socket.on("connect", () => {
+        setSocketId(socket.id)
+        console.log(socket.id);
+      });
+    }, [socketId])
 
     const defaultTemplate =
         <DefaultLoginTemplate

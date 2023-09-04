@@ -171,3 +171,21 @@ export const getSinglePushedNotificationDetail = (notififcationId) => (dispatch)
             })
         });
 }
+
+export const getAllNotifications = (pageNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PUSHED_NOTIFICATION_LOADING
+    });
+    axiosInstance.get(`/smp/server/notification/api/v1/get-notifications?PageNumber=${pageNumber}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PUSHED_NOTIFICATION_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_PUSHED_NOTIFICATION_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}

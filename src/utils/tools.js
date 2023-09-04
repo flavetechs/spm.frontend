@@ -29,6 +29,20 @@ export function stripHtml(html) {
     return result;
 }
 
+export function truncateContent(str) {
+    str = str.replace("<br>", "<div></div>");
+    if (window.innerWidth >= 1400) {
+      return str?.length > 60 ? str.slice(0, 60) + "..." : str;
+    } else if (window.innerWidth >= 1200) {
+      return str?.length > 45 ? str.slice(0, 45) + "..." : str;
+    } else if (window.innerWidth >= 992) {
+      return str?.length > 35 ? str.slice(0, 35) + "..." : str;
+    } else if (window.innerWidth >= 768) {
+      return str?.length > 25 ? str.slice(0, 25) + "..." : str;
+    } else if (window.innerWidth < 768) {
+      return str?.length > 25 ? str.slice(0, 25) + "..." : str;
+    }
+  }
 
 export const HandleMultipleCheckbox = (event, selectedArray) => {
     const checkBoxValue = event.target.checked;

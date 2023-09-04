@@ -176,6 +176,28 @@ export const notificationReducer = (state = _state, { type, payload }) => {
         isSuccessful: false,
       };
 
+      case actions.FETCH_PUSHED_NOTIFICATION_LOADING:
+      return {
+        ...state,
+        loading: true,
+        message: "",
+        isSuccessful: false,
+      };
+    case actions.FETCH_PUSHED_NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        pushedNotificationdetails: payload,
+        isSuccessful: true,
+      };
+    case actions.FETCH_PUSHED_NOTIFICATION_FAILED:
+      return {
+        ...state,
+        loading: false,
+        message: payload,
+        isSuccessful: false,
+      };
+
 
     default:
       return state;
