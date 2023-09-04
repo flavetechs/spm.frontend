@@ -11,6 +11,7 @@ import {
 } from "../../../router/spm-path-locations";
 import { getGeneralActiveSession } from "../../../store/actions/general-actions";
 import { getUserDetails } from "../../../utils/permissions";
+import { ServiceURLs } from "../../../utils/other";
 
 
 const SessionClassList2 = () => {
@@ -324,7 +325,7 @@ const SessionClassList2 = () => {
                                   data-placement="top"
                                   title=""
                                   data-original-title="classroom"
-                                  to={`${'http://flave.flavetechs.com'}?roomId=${item.sessionClassId}&userDisplayName=${userDisplayName}`}
+                                  to={`${ServiceURLs.GetAppUrl()}?roomId=${item.sessionClassId}&userDisplayName=${userDisplayName}`}
                                   target="_blank"
                                 >
                                   <span className="btn-inner">

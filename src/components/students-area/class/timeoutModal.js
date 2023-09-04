@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { getUserDetails } from "../../../utils/permissions";
+import { ServiceURLs } from "../../../utils/other";
 
 const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
   const [userDisplayName, setUserDisplayName] = useState('')
@@ -22,7 +23,7 @@ const TimeoutModal = ({ showModal, roomId,setShowModal }) => {
         setCounter((counter) => count - 1);
         count--;
         if (count === 0) {
-         window.open(`${'http://flave.flavetechs.com'}?roomId=${roomId}&userDisplayName=${userDisplayName}`, '_blank');
+         window.open(`${ServiceURLs.GetAppUrl()}?roomId=${roomId}&userDisplayName=${userDisplayName}`, '_blank');
          setShowModal(false)
         }
       }, 1000);

@@ -234,6 +234,18 @@ const VerticalNav = () => {
                     <ResetPasswordLink
                         minisidebar={minisidebar}
                     />
+                     <li>
+                        <hr className="hr-horizontal" />
+                    </li>
+                    <li>
+                        <hr className="hr-horizontal" />
+                    </li>
+                    <li>
+                        <hr className="hr-horizontal" />
+                    </li>
+                    <li>
+                        <hr className="hr-horizontal" />
+                    </li>
                 </>
             </Accordion>
         </>

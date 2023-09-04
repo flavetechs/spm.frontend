@@ -393,7 +393,7 @@ const SettingOffcanvas = (props) => {
           className="img-fluid"
           width="40px"
           height="40px"
-          src="http://fwsapi.flavetechs.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png"
+          src="http://fwsapi.flaveconsole.com/ApplicationFiles/d6a97dee-2e2a-48c1-ac72-a858ad3f82a5.png"
         />
             </a>
           </Badge></Offcanvas.Title>

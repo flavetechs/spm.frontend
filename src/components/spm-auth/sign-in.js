@@ -69,25 +69,24 @@ const SignIn = (props) => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("userDetail");
                     localStorage.removeItem("permissions");
-                    history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId+'&userType='+selectedUserType);
+                    history.push(authLocations.firstTimeLogin + "?id=" + res.userAccountId + '&userType=' + selectedUserType);
                 }
             }
         })
     }, [token, history, userDetail]);
 
-  
-    const layoutSetting = localStorage.getItem("appSetting")
-    const appSetting2 = JSON.parse(layoutSetting) || "";
+
+
 
     useEffect(() => {
-        if (!appSetting2.scheme) {
-            props.getAppLayout(schoolUrl).then(res => {
-                return res;
-            })
-        }
+        const layoutSetting = localStorage.getItem("appSetting")
+        props.getAppLayout(schoolUrl).then(res => {
+            const appSetting2 = JSON.parse(layoutSetting) || "";
+            return res;
+        })
     }, [schoolUrl])
 
-    
+
 
     const validation = Yup.object().shape({
         userName: Yup.string()
@@ -117,7 +116,7 @@ const SignIn = (props) => {
     });
 
     // useEffect(() => {
-    //     const socket = io("http://jobserver.flavetechs.com:80");
+    //     const socket = io("http://jobserver.flaveconsole.com:80");
     //     console.log('socket', socket);
     //     // socket.emit(UserEvents.createSmpUser, { socketId: socket.id, clientId: 'ddfdbefd-b901-452f-f3bf-08db1b649886' })
     // }, [])

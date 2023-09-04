@@ -17,13 +17,13 @@ const TemplateSetting = () => {
   const imageData = [
     {
       image:
-        "http://fwsapi.flavetechs.com/ApplicationFiles/cba44e23-2f01-4ac9-bd1a-cfe7c8eefdbf.PNG",
+        "http://fwsapi.flaveconsole.com/ApplicationFiles/cba44e23-2f01-4ac9-bd1a-cfe7c8eefdbf.PNG",
       isChecked: selectedTemplate === "template-one" ? true : false,
       templateName:"template-one",
     },
     {
       image:
-        "http://fwsapi.flavetechs.com/ApplicationFiles/e6615cd3-cba2-46cf-98b6-bef9bc243244.PNG",
+        "http://fwsapi.flaveconsole.com/ApplicationFiles/e6615cd3-cba2-46cf-98b6-bef9bc243244.PNG",
       isChecked: selectedTemplate === "template-two" ? true : false,
       templateName:"template-two",
     },

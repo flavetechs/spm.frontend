@@ -312,6 +312,7 @@ export const getAppLayout = (url) => (dispatch) => {
     });
     return axiosInstance.get(`/smp/server/portalsetting/api/v1/get/applayout-setting?url=${url}`)
         .then((res) => {
+            console.log('res', res.data);
             dispatch({
                 type: actions.FETCH_APP_LAYOUT_SUCCESS,
                 payload: res.data.result,
