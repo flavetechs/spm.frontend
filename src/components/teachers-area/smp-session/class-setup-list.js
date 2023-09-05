@@ -280,7 +280,7 @@ const ClassSetupList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {itemList.map((item, idx) => (
+                      {itemList?.map((item, idx) => (
                         <tr key={idx}>
                           <td className="">
                             {showCheckBoxes ? (

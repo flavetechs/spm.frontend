@@ -85,7 +85,7 @@ const SubHeader = (props) => {
   const [announcementData, setAnnouncementData] = useState({});
 
   useEffect(() => {
-    const announcementData = window.localStorage.getItem(userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() +"_announcement");
+    const announcementData = window.localStorage.getItem(userDetails?.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() +"_announcement");
     setAnnouncementData(JSON.parse(announcementData));
   }, []);
 
