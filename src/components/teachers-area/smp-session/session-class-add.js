@@ -320,7 +320,7 @@ const SessionClassAdd = () => {
                               }}
                             >
                               <option value={""}>Select Form Teacher</option>
-                              {activeTeachers.map((teacher, idx) => (
+                              {activeTeachers?.map((teacher, idx) => (
                                 <option
                                   selected={
                                     selectedItem?.formTeacherId ===
