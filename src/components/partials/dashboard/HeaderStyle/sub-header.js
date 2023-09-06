@@ -85,21 +85,22 @@ const SubHeader = (props) => {
   const [announcementData, setAnnouncementData] = useState({});
 
   useEffect(() => {
-    const announcementData = window.localStorage.getItem(userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() +"_announcement");
+    const announcementData = window.localStorage.getItem(userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() +"_announcement");
     setAnnouncementData(JSON.parse(announcementData));
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem(
-        userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() +"_announcement",
+        userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() +"_announcement",
       JSON.stringify(announcementData)
     );
   });
 
   if(userDetails)
   {
+    console.log(userDetails);
     socket.on(
-        userDetails.clientId.toLowerCase()+"_"+userDetails.userType.toLowerCase() + "_announcement",
+        userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() + "_announcement",
         function (message) {
           setAnnouncementData(message?.announcementData);
         }
