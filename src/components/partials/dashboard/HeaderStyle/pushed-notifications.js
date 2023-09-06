@@ -44,7 +44,7 @@ const PushedNotifications = () => {
   if(userDetails)
   {    
     socket.on(
-        userDetails.clientId.toLowerCase()+"_"+userDetails?.userType.toLowerCase() + "_announcement",
+        userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() + "_announcement",
         function (message) {
         setAnnouncementData(message?.announcementData);
         }

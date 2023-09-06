@@ -10,7 +10,7 @@ import "./assets/scss/customizer.scss"
 import io from 'socket.io-client';
 
 
-export const socket = io("http://localhost:3200")
+export const socket = io("https://jobserver.flaveconsole.com")
 function App() {
   socket.on('connect', () => {
     console.log('Connected to the server');
