@@ -115,7 +115,7 @@ export const deleteAnnouncement = (announcement) => (dispatch) => {
                 type: actions.DELETE_ANNOUNCEMENT_SUCCESS,
                 payload: res.data.message.friendlyMessage
             });
-            getAllAnnouncement()(dispatch);
+            getAllAnnouncement(1)(dispatch);
             showSuccessToast(res.data.message.friendlyMessage)(dispatch)
         }).catch((err) => {
             dispatch({

@@ -68,10 +68,7 @@ const SubHeader = (props) => {
   );
   const location = useLocation();
   useEffect(() => {
-    if (
-      location.pathname === sessionLocations.sessionAdd ||
-      location.pathname === sessionLocations.sessionList
-    ) {
+    if (location.pathname === sessionLocations.sessionAdd || location.pathname === sessionLocations.sessionList) {
       setSessionDisplay(localStorage.getItem("currentSession"));
     }
   }, [session, location.pathname]);
@@ -85,26 +82,25 @@ const SubHeader = (props) => {
   const [announcementData, setAnnouncementData] = useState({});
 
   useEffect(() => {
-    const announcementData = window.localStorage.getItem(userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() +"_announcement");
+    const announcementData = window.localStorage.getItem(userDetails?.clientId?.toLowerCase() + "_" + userDetails?.userType?.toLowerCase() + "_announcement");
     setAnnouncementData(JSON.parse(announcementData));
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem(
-        userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() +"_announcement",
+      userDetails?.clientId?.toLowerCase() + "_" + userDetails?.userType?.toLowerCase() + "_announcement",
       JSON.stringify(announcementData)
     );
   });
 
-  if(userDetails)
-  {
+  if (userDetails) {
     console.log(userDetails);
     socket.on(
-        userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() + "_announcement",
-        function (message) {
-          setAnnouncementData(message?.announcementData);
-        }
-      );
+      userDetails?.clientId?.toLowerCase() + "_" + userDetails?.userType?.toLowerCase() + "_announcement",
+      function (message) {
+        setAnnouncementData(message?.announcementData);
+      }
+    );
   }
 
   return (
@@ -117,27 +113,9 @@ const SubHeader = (props) => {
                 <div>
                   <small>{session}</small>
                   <h1>{announcementData?.subject}</h1>
-                  {/* <p>{announcementData?.content}</p> */}
-                  {/* <p><div
-                                        dangerouslySetInnerHTML={{ __html: stripHtml(announcementData?.content) }}
-                                     style={{overflow: 'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', width: '1000px'}}></div></p> */}
-
-                  <p>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: announcementData?.content,
-                      }}
-                      style={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        width: "1000px",
-                      }}
-                    ></div>
-                  </p>
-
-                  {/* <h1>Closing date </h1>
-                                    <p>Be informed that the term will be closing on the 12-12-2022. Please inform others.</p> */}
+                  <p><div
+                    dangerouslySetInnerHTML={{ __html: stripHtml(announcementData?.content) }}
+                    style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '700px' }}></div></p>
                 </div>
                 <div className="d-flex align-items-center">
                   {hasAccess(NavPermissions.announcementList) && (

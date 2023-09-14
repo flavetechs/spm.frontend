@@ -93,7 +93,7 @@ const AnnouncementList = () => {
                 <div className=" mx-3">
                   <svg
                     onClick={() => {
-                      getAllAnnouncement()(dispatch);
+                      getAllAnnouncement(1)(dispatch);
                     }}
                     style={{ cursor: "pointer" }}
                     width="23"

@@ -2,20 +2,11 @@ import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import CustomToggle from "../../../dropdowns";
 import { Link } from "react-router-dom";
-import { io } from "socket.io-client";
 import React from "react";
 
-import shapes1 from "../../../../assets/images/shapes/01.png";
-import shapes2 from "../../../../assets/images/shapes/02.png";
-import shapes3 from "../../../../assets/images/shapes/03.png";
-import shapes4 from "../../../../assets/images/shapes/04.png";
-import hubInstance from "../../../../HubConnection/hub-instance";
-import axiosInstance from "../../../../axios/axiosInstance";
-import { pushedNotificationManagement } from "../../../../router/spm-path-locations";
 import { socket } from "../../../../App";
 import {
   getAllNotifications,
-  getAllAnnouncement,
 } from "../../../../store/actions/notification-actions";
 import { useDispatch, useSelector } from "react-redux";
 
