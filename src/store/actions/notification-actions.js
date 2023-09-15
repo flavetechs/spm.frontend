@@ -189,3 +189,13 @@ export const getAllNotifications = (pageNumber) => (dispatch) => {
             })
         });
 }
+
+export const getAllNotifications2 = async (pageNumber) => {
+    try {
+        const apiResponse = await axiosInstance.get(`/smp/server/notification/api/v1/get-notifications?PageNumber=${pageNumber}`);
+        console.log('apiResponse.data.result', apiResponse.data.result);
+        return apiResponse.data.result
+    } catch (error) {
+        console.log('fetch notification error');
+    }
+}

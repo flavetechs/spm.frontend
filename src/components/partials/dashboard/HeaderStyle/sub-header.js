@@ -34,6 +34,7 @@ import { hasAccess, NavPermissions } from "../../../../utils/permissions";
 import { socket } from "../../../../App";
 import { UserType } from "../../../spm-auth/login-templates/UserTypesBoxes";
 import { stripHtml, truncateContent } from "../../../../utils/tools";
+import { getAllNotifications2 } from "../../../../store/actions/notification-actions";
 
 const mapStateToProps = (state) => {
   return {
@@ -72,6 +73,17 @@ const SubHeader = (props) => {
       setSessionDisplay(localStorage.getItem("currentSession"));
     }
   }, [session, location.pathname]);
+
+  const [notification, setNotification]= useState()
+  useEffect(() => {
+   async function fetchNotification(){
+    const noti =  await getAllNotifications2(1);
+    setNotification(noti);
+   } 
+   fetchNotification();
+  }, [])
+
+  console.log('notification', notification);
 
   useEffect(() => {
     // navbarstylemode
