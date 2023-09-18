@@ -190,12 +190,63 @@ export const getAllNotifications = (pageNumber) => (dispatch) => {
         });
 }
 
-export const getAllNotifications2 = async (pageNumber) => {
+export const getAllNotifications2 = async () => {
     try {
-        const apiResponse = await axiosInstance.get(`/smp/server/notification/api/v1/get-notifications?PageNumber=${pageNumber}`);
-        console.log('apiResponse.data.result', apiResponse.data.result);
+        const apiResponse = await axiosInstance.get(`/smp/server/notification/api/v1/get-notification`);
         return apiResponse.data.result
     } catch (error) {
         console.log('fetch notification error');
     }
+}
+
+export const getAllUnreadNotifications = (pageNumber) => (dispatch) => {
+    dispatch({
+        type: actions.FETCH_PUSHED_NOTIFICATION_LOADING
+    });
+    axiosInstance.get(`/smp/server/notification/api/v1/get-unread-notifications?PageNumber=${pageNumber}`)
+        .then((res) => {
+            dispatch({
+                type: actions.FETCH_PUSHED_NOTIFICATION_SUCCESS,
+                payload: res.data.result
+            });
+        }).catch((err) => {
+            dispatch({
+                type: actions.FETCH_PUSHED_NOTIFICATION_FAILED,
+                payload: err.response.data.result
+            })
+        });
+}
+export const getAllUnreadNotificationsCount = async () => {
+    try {
+        const apiResponse = await axiosInstance.get(`/smp/server/notification/api/v1/get-unread-notification-count`);
+        return apiResponse.data.result
+    } catch (error) {
+        console.log('fetch notification error');
+    }
+}
+
+export const updateSeenNotification = (notificationId) => (dispatch) => {
+    dispatch({
+        type: actions.UPDATE_PUSHED_NOTIFICATION_LOADING,
+
+    });
+
+    const payload = {
+        notificationId
+    }
+
+    axiosInstance.post('/smp/server/notification/api/v1/update/notifications', payload)
+        .then((res) => {
+            dispatch({
+                type: actions.UPDATE_PUSHED_NOTIFICATION_SUCCESS,
+                payload: res.data.result
+            });
+
+        }).catch((err) => {
+            dispatch({
+                type: actions.UPDATE_PUSHED_NOTIFICATION_FAILED,
+                payload: err.response.data.result
+            })
+
+        });
 }
