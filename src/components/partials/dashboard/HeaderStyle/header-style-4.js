@@ -21,6 +21,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginOutUser } from "../../../../store/actions/auth-actions";
 import { authLocations } from "../../../../router/spm-path-locations";
 import SmpLoader from "../../../loader/smp-loader";
+import {
+  getAllNotifications,
+} from "../../../../store/actions/notification-actions";
 
 const HeaderStyle4 = () => {
   var userDetail = getUserDetails();
@@ -36,10 +39,12 @@ const HeaderStyle4 = () => {
   // ACCESSING STATE FROM REDUX STORE
   const state = useSelector((state) => state);
   const { myWardList, filterProps } = state.parent;
+  const { pushedNotificationdetails } = state.notification;
   // ACCESSING STATE FROM REDUX STORE
 
   React.useEffect(() => {
     getMyWardsList(1)(dispatch);
+    getAllNotifications(1)(dispatch);
   }, [dispatch]);
   var userDetail = localStorage.getItem('userDetail')
   
@@ -164,7 +169,10 @@ const HeaderStyle4 = () => {
               </NavDropdown>
               <Nav.Item as="li">
                 <Nav.Link href={announcementLocations.announcement}>
-                  Announcement
+                  Announcement{" "}
+                  <span className="badge bg-light text-dark rounded-pill align-text-bottom">
+                    {pushedNotificationdetails?.data.length}
+                  </span>
                 </Nav.Link>
               </Nav.Item>
               <NavDropdown
