@@ -6,18 +6,19 @@ import React from "react";
 
 import { socket } from "../../../../App";
 import {
-  getAllNotifications,
+  getAllNotifications, getAllUnreadNotificationsCount, updateSeenNotification,
 } from "../../../../store/actions/notification-actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
 const PushedNotifications = () => {
-  const [notifications, setNotifications] = useState([]);
   const [date, setDate] = useState("");
   const [announcement, setAnnouncementData] = useState(null);
   const state = useSelector((state) => state);
   const { pushedNotificationdetails } = state.notification;
 
   const dispatch = useDispatch();
+  const history = useHistory();
   React.useEffect(() => {
     getAllNotifications(1)(dispatch);
   }, [dispatch]);
@@ -41,6 +42,15 @@ const PushedNotifications = () => {
         }
     );
   }
+
+  const [notificationCount, setNotificationCount]= useState()
+  useEffect(() => {
+   async function fetchNotificationCount(){
+    const notif =  await getAllUnreadNotificationsCount();
+    setNotificationCount(notif);
+   } 
+   fetchNotificationCount();
+  }, [])
 
   return (
     <>
@@ -69,7 +79,7 @@ const PushedNotifications = () => {
             ></path>
           </svg>
           {/* <span className="bg-danger dots"></span> */}
-          <span style={{padding: '0.125rem 0.3rem'}} className="badge bg-danger rounded-pill">{pushedNotificationdetails?.data.length}</span>
+          <span style={{padding: '0.125rem 0.3rem'}} className="badge bg-danger rounded-pill">{notificationCount}</span>
         </Dropdown.Toggle>
         <Dropdown.Menu
           className="p-0 sub-drop dropdown-menu-end"
@@ -79,9 +89,9 @@ const PushedNotifications = () => {
             <div className="py-3 card-header d-flex justify-content-between bg-primary">
               <div className="header-title">
                 <h5 className="mb-0 text-white">
-                  All Notifications
+                  Notifications
                   <span className="badge bg-light text-dark rounded-pill align-text-bottom">
-                    {pushedNotificationdetails?.data.length}
+                    {notificationCount}
                   </span>
                   {/* <span className="badge bg-light text-dark rounded-pill align-text-bottom">{notifications.length}</span> */}
                 </h5>
@@ -91,10 +101,17 @@ const PushedNotifications = () => {
               {pushedNotificationdetails?.data.map((x, i) => {
                 return (
                   // <Link to={`${pushedNotificationManagement.pushedNotificationDetails}?notififcationId=${x?.announcementId}`} className="iq-sub-card" key={i}>
-                  <Link
-                    to={`${x?.notificationPageLink}`}
-                    className="iq-sub-card"
-                    key={i}
+                  // <Link
+                  //   to={`${x?.notificationPageLink}`}
+                  //   className="iq-sub-card"
+                  //   key={i}
+                  // >
+                  <div className="iq-sub-card" key={i} onClick={() => {
+                    history.push(
+                      `${x?.notificationPageLink}`
+                    );
+                    updateSeenNotification(x?.notificationId)(dispatch)
+                }} 
                   >
                     <div className="d-flex align-items-center">
                       <span>
@@ -130,7 +147,8 @@ const PushedNotifications = () => {
                         </small>
                       </div>
                     </div>
-                  </Link>
+                  {/* </Link> */}
+                  </div>
                 );
               })}
             </div>

@@ -77,13 +77,11 @@ const SubHeader = (props) => {
   const [notification, setNotification]= useState()
   useEffect(() => {
    async function fetchNotification(){
-    const noti =  await getAllNotifications2(1);
-    setNotification(noti);
+    const notif =  await getAllNotifications2();
+    setNotification(notif);
    } 
    fetchNotification();
   }, [])
-
-  console.log('notification', notification);
 
   useEffect(() => {
     // navbarstylemode
@@ -114,7 +112,7 @@ const SubHeader = (props) => {
       }
     );
   }
-
+ 
   return (
     <>
       <div className="iq-navbar-header" style={{ height: "215px" }}>
@@ -124,10 +122,21 @@ const SubHeader = (props) => {
               <div className="d-flex justify-content-between flex-wrap">
                 <div>
                   <small>{session}</small>
-                  <h1>{announcementData?.subject}</h1>
-                  <p><div
-                    dangerouslySetInnerHTML={{ __html: stripHtml(announcementData?.content) }}
-                    style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '700px' }}></div></p>
+                  {announcementData?.subject !== undefined || announcementData?.content !== undefined ? (
+                    <>
+                        <h1>{announcementData?.subject}</h1>
+                        <p><div
+                      dangerouslySetInnerHTML={{ __html: stripHtml(announcementData?.content) }}
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '700px' }}></div></p>
+                    </>  
+                  ) : (
+                    <>
+                      <h1>{notification?.subject}</h1>
+                      <p><div
+                      dangerouslySetInnerHTML={{ __html: stripHtml(notification?.content) }}
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '700px' }}></div></p>
+                    </>
+                  )}
                 </div>
                 <div className="d-flex align-items-center">
                   {hasAccess(NavPermissions.announcementList) && (
