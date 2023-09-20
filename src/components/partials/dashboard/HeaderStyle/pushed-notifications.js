@@ -52,6 +52,16 @@ const PushedNotifications = () => {
    fetchNotificationCount();
   }, [])
 
+  var baseUrl
+  if(userDetails?.userType.toLowerCase() === "admin" || userDetails?.userType.toLowerCase() === "teacher")
+  {
+      baseUrl = "/dashboard/"
+  }
+  else if(userDetails?.userType.toLowerCase() === "student")
+  {
+      baseUrl = "/stds-dashboard/"
+  }
+
   return (
     <>
       <Dropdown as="li" className="nav-item">
@@ -82,7 +92,7 @@ const PushedNotifications = () => {
           <span style={{padding: '0.125rem 0.3rem'}} className="badge bg-danger rounded-pill">{notificationCount}</span>
         </Dropdown.Toggle>
         <Dropdown.Menu
-          className="p-0 sub-drop dropdown-menu-end"
+          className={"p-0 sub-drop dropdown-menu-end"}
           aria-labelledby="notification-drop"
         >
           <div className="m-0 shadow-none card">
@@ -106,9 +116,9 @@ const PushedNotifications = () => {
                   //   className="iq-sub-card"
                   //   key={i}
                   // >
-                  <div className="iq-sub-card" key={i} onClick={() => {
+                  <div className="iq-sub-card" key={i} data-bs-toggle="dropdown" onClick={() => {
                     history.push(
-                      `${x?.notificationPageLink}`
+                      `${baseUrl + x?.notificationPageLink}`
                     );
                     updateSeenNotification(x?.notificationId)(dispatch)
                 }} 
