@@ -38,7 +38,6 @@ const IndexRouters = (props) => {
     const schoolUrl = ServiceURLs.GetAppUrl();
     React.useEffect(() => {
         props.getAppLayout(schoolUrl).then(res => {
-            console.log('res', res);
             return res;
         })
     }, [schoolUrl])

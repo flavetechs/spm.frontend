@@ -3,7 +3,7 @@ import SweatAlert from '../utils/alert';
 
 
 const axiosInstance = axios.create({
-    //baseURL: 'https://localhost:44349/',
+    // baseURL: 'https://localhost:44349/',
     baseURL: 'https://gateway.flaveconsole.com/',
     timeout: 1000000,
     headers: {
@@ -17,6 +17,7 @@ axiosInstance.interceptors.response.use((response: any) => response, (error: Axi
     }
     if (error.response?.status === 500) {
         console.log("Unexpected error occurred");
+        // log here 
         SweatAlert.showError(error!.response!.data['message'], "Unexpected error occurred")
     }
     if (error.response?.status === 401) {

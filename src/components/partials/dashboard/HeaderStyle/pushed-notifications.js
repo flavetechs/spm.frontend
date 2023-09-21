@@ -33,38 +33,47 @@ const PushedNotifications = () => {
 
   var userDetails = JSON.parse(localStorage.getItem("userDetail"));
 
-  if(userDetails)
-  {    
+  if (userDetails) {
     socket.on(
-        userDetails?.clientId?.toLowerCase()+"_"+userDetails?.userType?.toLowerCase() + "_announcement",
-        function (message) {
+      userDetails?.clientId?.toLowerCase() + "_" + userDetails?.userType?.toLowerCase() + "_announcement",
+      function (message) {
         setAnnouncementData(message?.announcementData);
-        }
+      }
     );
   }
 
-  const [notificationCount, setNotificationCount]= useState()
+  const [notificationCount, setNotificationCount] = useState()
   useEffect(() => {
-   async function fetchNotificationCount(){
-    const notif =  await getAllUnreadNotificationsCount();
-    setNotificationCount(notif);
-   } 
-   fetchNotificationCount();
+    async function fetchNotificationCount() {
+      const notif = await getAllUnreadNotificationsCount();
+      setNotificationCount(notif);
+    }
+    fetchNotificationCount();
   }, [])
 
   var baseUrl
-  if(userDetails?.userType.toLowerCase() === "admin" || userDetails?.userType.toLowerCase() === "teacher")
-  {
-      baseUrl = "/dashboard/"
+  if (userDetails?.userType.toLowerCase() === "admin" || userDetails?.userType.toLowerCase() === "teacher") {
+    baseUrl = "/dashboard/"
   }
-  else if(userDetails?.userType.toLowerCase() === "student")
-  {
-      baseUrl = "/stds-dashboard/"
+  else if (userDetails?.userType.toLowerCase() === "student") {
+    baseUrl = "/stds-dashboard/"
+  }
+
+  const hideDropdown = () => {
+    const nav_item = document.getElementById('nav-item');
+    const sub_drop = document.getElementById('sub-drop');
+
+    if (nav_item.classList.contains('show')) {
+      nav_item.classList.remove('show')
+    } 
+    if (sub_drop.classList.contains('show')) {
+      sub_drop.classList.remove('show')
+    } 
   }
 
   return (
     <>
-      <Dropdown as="li" className="nav-item">
+      <Dropdown as="li" className="nav-item " id="nav-item">
         <Dropdown.Toggle
           as={CustomToggle}
           href="#"
@@ -89,11 +98,12 @@ const PushedNotifications = () => {
             ></path>
           </svg>
           {/* <span className="bg-danger dots"></span> */}
-          <span style={{padding: '0.125rem 0.3rem'}} className="badge bg-danger rounded-pill">{notificationCount}</span>
+          <span style={{ padding: '0.125rem 0.3rem' }} className="badge bg-danger rounded-pill">{notificationCount}</span>
         </Dropdown.Toggle>
         <Dropdown.Menu
-          className={"p-0 sub-drop dropdown-menu-end"}
+          className={"p-0 sub-drop dropdown-menu-end "}
           aria-labelledby="notification-drop"
+          id="sub-drop"
         >
           <div className="m-0 shadow-none card">
             <div className="py-3 card-header d-flex justify-content-between bg-primary">
@@ -116,12 +126,14 @@ const PushedNotifications = () => {
                   //   className="iq-sub-card"
                   //   key={i}
                   // >
-                  <div className="iq-sub-card" key={i} data-bs-toggle="dropdown" onClick={() => {
-                    history.push(
-                      `${baseUrl + x?.notificationPageLink}`
-                    );
-                    updateSeenNotification(x?.notificationId)(dispatch)
-                }} 
+                  <div className="iq-sub-card" key={i} data-bs-toggle="dropdown"
+                    onClick={() => {
+                      hideDropdown()
+                      history.push(
+                        `${baseUrl + x?.notificationPageLink}`
+                      );
+                      updateSeenNotification(x?.notificationId)(dispatch)
+                    }}
                   >
                     <div className="d-flex align-items-center">
                       <span>
@@ -157,7 +169,7 @@ const PushedNotifications = () => {
                         </small>
                       </div>
                     </div>
-                  {/* </Link> */}
+                    {/* </Link> */}
                   </div>
                 );
               })}

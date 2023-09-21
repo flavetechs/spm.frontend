@@ -17,7 +17,8 @@ import { getActiveSession } from "../../../store/actions/session-actions";
 import { showErrorToast } from "../../../store/actions/toaster-actions";
 
 const SessionClassEdit = () => {
-  //VALIDATIONS SCHEMA
+
+    //VALIDATIONS SCHEMA
   const validation = Yup.object().shape({
     // classId: Yup.string().required("Class is required"),
     formTeacherId: Yup.string().required("Form teacher is required"),
@@ -389,6 +390,7 @@ const SessionClassEdit = () => {
       </div>
     </>
   );
+  
 };
 
 export default SessionClassEdit;
